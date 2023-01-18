@@ -7,9 +7,8 @@ import Footer from './Footer/Footer';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 
-
-const drawerWidth: number = 225;
 const theme = null;
+const drawerWidth: number = 225;
 
 const Navigation = (props: any) => {
 
@@ -18,7 +17,7 @@ const Navigation = (props: any) => {
         setOpen(!open);
     };
 
-    const drawerWidth: number = 225;
+
     return (
         <React.Fragment>
             <Box sx={{ display: 'flex' }}>
