@@ -1,23 +1,13 @@
 import Typography from '@mui/material/Typography';
 
-function Copyright() {
+const Footer = () => {
     return (
         <Typography variant="body2" color="text.secondary" align="center">
             {'Copyright © '}
-            BRYX APP
+            BRYX
+            {' '}
             {new Date().getFullYear()}
-            {'.'}
         </Typography>
-    );
-}
-
-
-const Footer = () => {
-    return (
-        <div>
-            <Copyright />
-        </div>
     )
 }
-
 export default Footer

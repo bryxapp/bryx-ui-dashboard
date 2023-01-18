@@ -3,11 +3,9 @@ import { Typography } from "@mui/material";
 
 const CreateEstimate = () => {
     return (
-        <div>
-            <Typography>
-                Create a New Estimate
-            </Typography>
-        </div>
+        <Typography variant="h3" color="dark">
+            Create Estimate
+        </Typography>
     );
 }
 

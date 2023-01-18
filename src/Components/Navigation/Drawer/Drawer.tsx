@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import MuiDrawer from '@mui/material/Drawer';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
@@ -6,8 +5,7 @@ import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { styled } from '@mui/material/styles';
-import { Menu as MenuIcon } from '@mui/icons-material';
-import { mainListItems } from "../MenuItems/MenuItems";
+import MenuItems from "../MenuItems/MenuItems";
 
 interface DrawerProps {
     open: boolean;
@@ -60,7 +58,7 @@ const Drawer = ({ open, toggleDrawer, drawerWidth, theme }: DrawerProps) => {
             </Toolbar>
             <Divider />
             <List component="nav">
-                {mainListItems}
+                {MenuItems}
             </List>
         </StyledDrawer>
     )
