@@ -1,12 +1,4 @@
-import { Button, Typography, List, ListItem, IconButton } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Create';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import { styled } from '@mui/material/styles';
-import { useState } from "react";
+import { Button, Typography} from "@mui/material";
 import React from "react";
 import TemplatesList from "./TemplatesList/TemplateList";
 
