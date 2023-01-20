@@ -6,6 +6,7 @@ import Toolbar from '@mui/material/Toolbar';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { styled } from '@mui/material/styles';
 import MenuItems from "../MenuItems/MenuItems";
+import { Typography } from '@mui/material';
 
 interface DrawerProps {
     open: boolean;
@@ -15,7 +16,7 @@ interface DrawerProps {
 }
 
 const StyledDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open, drawerWidth }:DrawerProps) => ({
+    ({ theme, open, drawerWidth }: DrawerProps) => ({
         '& .MuiDrawer-paper': {
             position: 'relative',
             whiteSpace: 'nowrap',
@@ -43,7 +44,7 @@ const StyledDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== '
 
 const Drawer = ({ open, toggleDrawer, drawerWidth, theme }: DrawerProps) => {
     return (
-        <StyledDrawer variant="permanent" open={open} toggleDrawer ={toggleDrawer} drawerWidth ={drawerWidth} theme={theme}>
+        <StyledDrawer variant="permanent" open={open} toggleDrawer={toggleDrawer} drawerWidth={drawerWidth} theme={theme}>
             <Toolbar
                 sx={{
                     display: 'flex',
@@ -52,7 +53,13 @@ const Drawer = ({ open, toggleDrawer, drawerWidth, theme }: DrawerProps) => {
                     px: [1],
                 }}
             >
+                <Typography variant="h6" noWrap component="div">
+                    Menu
+                </Typography>
+
+                <div style={{ flexGrow: 1 }}></div>
                 <IconButton onClick={toggleDrawer}>
+
                     <ChevronLeftIcon />
                 </IconButton>
             </Toolbar>
