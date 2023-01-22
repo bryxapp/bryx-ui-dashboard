@@ -1,7 +1,6 @@
-import { Button, Typography} from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import React from "react";
 import TemplatesList from "./TemplatesList/TemplateList";
-
 
 const Templates = () => {
     return (
@@ -10,7 +9,7 @@ const Templates = () => {
                 Templates
             </Typography>
             <br />
-            <Button variant="contained" color="primary" size="large" sx={{ borderRadius: 2 }}>
+            <Button variant="contained" color="primary" size="large" sx={{ borderRadius: 2 }} href="/create-template">
                 + New Template
             </Button>
             {/*//List of templates */}
