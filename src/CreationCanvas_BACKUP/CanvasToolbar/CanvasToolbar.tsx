@@ -1,9 +1,11 @@
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { styled } from '@mui/material/styles';
+import TextFields from '@mui/icons-material/TextFields';
+import CircleOutlined from '@mui/icons-material/CircleOutlined';
+import RectangleOutlined from '@mui/icons-material/RectangleOutlined';
+
 
 const StyledDiv = styled('div')({
   flexGrow: 1
@@ -20,10 +22,13 @@ const CanvasToolbar = () => {
       <AppBar position="static">
         <Toolbar variant="dense">
           <MenuButton edge="start" color="inherit" aria-label="menu">
-            <AddCircleOutlineIcon />
+            <TextFields />
           </MenuButton>
           <MenuButton edge="start" color="inherit" aria-label="menu">
-            <DeleteOutlineIcon />
+            <CircleOutlined />
+          </MenuButton>
+          <MenuButton edge="start" color="inherit" aria-label="menu">
+            <RectangleOutlined />
           </MenuButton>
         </Toolbar>
       </AppBar>
