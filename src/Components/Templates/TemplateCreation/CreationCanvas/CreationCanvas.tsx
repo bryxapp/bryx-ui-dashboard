@@ -1,8 +1,6 @@
-import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from 'polotno';
-import { Toolbar } from 'polotno/toolbar/toolbar';
-import { ZoomButtons } from 'polotno/toolbar/zoom-buttons';
-import { SidePanel } from 'polotno/side-panel';
-import { Workspace } from 'polotno/canvas/workspace';
+import { PolotnoContainer } from 'polotno';
+import CanvasSidePanel from './CanvasSidePanel/CanvasSidePanel';
+import CanvasWorkspace from './CanvasWorkspace/CanvasWorkspace';
 import { createDemoApp } from 'polotno/polotno-app';
 import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 import '@blueprintjs/core/lib/css/blueprint.css';
@@ -18,14 +16,8 @@ const { store } = createDemoApp({
 const CreationCanvas = () => {
     return (
         <PolotnoContainer style={{ width: '40vw', height: '80vh' }}>
-            <SidePanelWrap>
-                <SidePanel store={store} />
-            </SidePanelWrap>
-            <WorkspaceWrap>
-                <Toolbar store={store} />
-                <Workspace store={store} />
-                <ZoomButtons store={store} />
-            </WorkspaceWrap>
+            <CanvasSidePanel store={store} />
+            <CanvasWorkspace store={store} />
         </PolotnoContainer>
     );
 };
