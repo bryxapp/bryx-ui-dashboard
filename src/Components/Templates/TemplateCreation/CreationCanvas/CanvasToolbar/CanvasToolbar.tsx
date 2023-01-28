@@ -1,8 +1,8 @@
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddTextIcon from '@mui/icons-material/TextFields';
+import AddRectangleeOutlineIcon from '@mui/icons-material/RectangleOutlined';
 import { styled } from '@mui/material/styles';
 
 const StyledDiv = styled('div')({
@@ -20,10 +20,10 @@ const CanvasToolbar = () => {
             <AppBar position="static">
                 <Toolbar variant="dense">
                     <MenuButton edge="start" color="inherit" aria-label="menu">
-                        <AddCircleOutlineIcon />
+                        <AddRectangleeOutlineIcon />
                     </MenuButton>
                     <MenuButton edge="start" color="inherit" aria-label="menu">
-                        <DeleteOutlineIcon />
+                        <AddTextIcon />
                     </MenuButton>
                 </Toolbar>
             </AppBar>

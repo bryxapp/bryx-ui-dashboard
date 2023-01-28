@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { Stage, Layer, Star, Text } from 'react-konva';
+import { Stage, Layer, Star, Text, Rect } from 'react-konva';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = 8.5 * 96;
@@ -85,6 +85,14 @@ const CanvasStage = () => {
                             onDragEnd={handleDragEnd}
                         />
                     ))}
+                    <Rect
+                        x={20}
+                        y={50}
+                        width={100}
+                        height={100}
+                        fill="blue"
+                        shadowBlur={10}
+                    />
                 </Layer>
             </Stage>
         </PiecePaper>
