@@ -13,16 +13,49 @@ const MenuButton = styled(IconButton)({
     marginRight: '36px',
 });
 
-const CanvasToolbar = () => {
+const CanvasToolbar = ({ shapes, setShapes }: any) => {
+    const handleAddRectangle = () => {
+        setShapes({
+            ...shapes,
+            Rectangles: [
+                ...shapes.Rectangles,
+                {
+                    id: 'rect-' + shapes.Rectangles.length,
+                    x: 20,
+                    y: 20,
+                    width: 100,
+                    height: 100,
+                    isDragging: false,
+                }
+            ]
+        });
+    }
+
+    const handleAddTextInput = () => {
+        setShapes({
+            ...shapes,
+            TextInputs: [
+                ...shapes.TextInputs,
+                {
+                    id: 'text-' + shapes.TextInputs.length,
+                    x: 0,
+                    y: 0,
+                    width: 100,
+                    height: 100,
+                    isDragging: false,
+                }
+            ]
+        });
+    }
 
     return (
         <StyledDiv>
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    <MenuButton edge="start" color="inherit" aria-label="menu">
+                    <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddRectangle}>
                         <AddRectangleeOutlineIcon />
                     </MenuButton>
-                    <MenuButton edge="start" color="inherit" aria-label="menu">
+                    <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddTextInput}>
                         <AddTextIcon />
                     </MenuButton>
                 </Toolbar>
