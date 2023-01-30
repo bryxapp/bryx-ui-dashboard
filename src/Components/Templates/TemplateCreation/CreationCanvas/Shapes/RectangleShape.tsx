@@ -8,7 +8,7 @@ const RectangleShape = ({ shape, handleDragStart, handleDragEnd }: any) => {
             y={shape.y}
             width={200}
             height={50}
-            fill="lightgray"
+            fill="blue"
             opacity={0.8}
             draggable
             shadowColor="black"

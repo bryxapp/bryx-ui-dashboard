@@ -4,6 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import AddRectangleeOutlineIcon from '@mui/icons-material/RectangleOutlined';
 import { styled } from '@mui/material/styles';
+import { getPageHeight, getPageWidth } from '../../../../../utils/page-util';
 
 const StyledDiv = styled('div')({
     flexGrow: 1
@@ -13,7 +14,12 @@ const MenuButton = styled(IconButton)({
     marginRight: '36px',
 });
 
+const SaveButton = styled(IconButton)({
+    marginLeft: 'auto'
+});
+
 const CanvasToolbar = ({ shapes, setShapes }: any) => {
+    //adds rectangle to center of page
     const handleAddRectangle = () => {
         setShapes({
             ...shapes,
@@ -21,10 +27,8 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
                 ...shapes.Rectangles,
                 {
                     id: 'rect-' + shapes.Rectangles.length,
-                    x: 20,
-                    y: 20,
-                    width: 100,
-                    height: 100,
+                    x: getPageHeight() / 2, //center of page
+                    y: getPageWidth() / 2, //center of page
                     isDragging: false,
                 }
             ]
@@ -38,14 +42,16 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
                 ...shapes.TextInputs,
                 {
                     id: 'text-' + shapes.TextInputs.length,
-                    x: 0,
-                    y: 0,
-                    width: 100,
-                    height: 100,
+                    x: getPageHeight() / 2, //center of page
+                    y: getPageWidth() / 2, //center of page
                     isDragging: false,
                 }
             ]
         });
+    }
+
+    const handleSave = () => {
+        console.log("SAVED")
     }
 
     return (
@@ -58,6 +64,9 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
                     <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddTextInput}>
                         <AddTextIcon />
                     </MenuButton>
+                    <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
+                        Done
+                    </SaveButton>
                 </Toolbar>
             </AppBar>
         </StyledDiv>

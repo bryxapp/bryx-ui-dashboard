@@ -2,10 +2,12 @@ import styled from '@emotion/styled';
 import { Stage, Layer, Text } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import { shapeObj } from '../../../../../Interfaces/TemplateCreationInterfaces';
+import TextInput from '../Shapes/TextInputShape';
+import { getPageHeight, getPageWidth } from '../../../../../utils/page-util';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
-const pageWidth = 8.5 * 96;
-const pageHeight = 11 * 96;
+const pageWidth = getPageHeight();
+const pageHeight = getPageWidth();
 
 
 //Create a styled div to mimic the look of paper. White drop shadow and rounded corners.
@@ -63,9 +65,15 @@ const CanvasStage = ({ shapes, setShapes }: any) => {
         <PiecePaper>
             <Stage width={pageWidth} height={pageHeight}>
                 <Layer>
+                    {/* Estimatte Header */}
                     <Text text="My New Estimate" x={(pageWidth / 2) - 100} y={20} fontSize={30} fontFamily="Calibri" fill="black" align="center" />
+                    {/* Place all rectangle shapes on the canvas */}
                     {shapes.Rectangles.map((shape: shapeObj) => (
                         <RectangleShape key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                    ))}
+                    {/* Place all text input shapes on the canvas */}
+                    {shapes.TextInputs.map((shape: shapeObj) => (
+                        <TextInput key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                 </Layer>
             </Stage>

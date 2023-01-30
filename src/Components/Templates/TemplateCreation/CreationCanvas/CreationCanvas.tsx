@@ -2,6 +2,8 @@ import { useState } from "react";
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
 import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationInterfaces";
+import { styled } from "@mui/material/styles";
+import { padding } from "@mui/system";
 
 
 const CreationCanvas = () => {
@@ -11,10 +13,10 @@ const CreationCanvas = () => {
         TextInputs: [],
     });
 
-
     return (
         <div>
             <CanvasToolbar shapes={shapes} setShapes={setShapes} />
+            <div style={{ padding: '1vh' }} />
             <CanvasStage shapes={shapes} setShapes={setShapes} />
         </div>
     );
