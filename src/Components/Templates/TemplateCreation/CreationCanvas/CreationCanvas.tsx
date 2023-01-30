@@ -2,8 +2,6 @@ import { useState } from "react";
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
 import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationInterfaces";
-import { styled } from "@mui/material/styles";
-import { padding } from "@mui/system";
 
 
 const CreationCanvas = () => {
