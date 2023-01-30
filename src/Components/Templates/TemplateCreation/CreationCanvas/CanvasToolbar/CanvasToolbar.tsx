@@ -5,6 +5,8 @@ import AddTextIcon from '@mui/icons-material/TextFields';
 import AddRectangleeOutlineIcon from '@mui/icons-material/RectangleOutlined';
 import { styled } from '@mui/material/styles';
 import { getPageHeight, getPageWidth } from '../../../../../utils/page-util';
+import { postNewTemplate } from '../../../../../utils/templates-api';
+import { useState } from 'react';
 
 const StyledDiv = styled('div')({
     flexGrow: 1
@@ -19,6 +21,8 @@ const SaveButton = styled(IconButton)({
 });
 
 const CanvasToolbar = ({ shapes, setShapes }: any) => {
+    const [isLoading, setIsLoading] = useState(false);
+
     //adds rectangle to center of page
     const handleAddRectangle = () => {
         setShapes({
@@ -27,8 +31,8 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
                 ...shapes.Rectangles,
                 {
                     id: 'rect-' + shapes.Rectangles.length,
-                    x: getPageHeight() / 2, //center of page
-                    y: getPageWidth() / 2, //center of page
+                    x: getPageWidth() / 4,
+                    y: getPageHeight() / 6,
                     isDragging: false,
                 }
             ]
@@ -42,8 +46,8 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
                 ...shapes.TextInputs,
                 {
                     id: 'text-' + shapes.TextInputs.length,
-                    x: getPageHeight() / 2, //center of page
-                    y: getPageWidth() / 2, //center of page
+                    x: getPageWidth() / 6,
+                    y: getPageHeight() / 2.5,
                     isDragging: false,
                 }
             ]
@@ -51,22 +55,31 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
     }
 
     const handleSave = () => {
-        console.log("SAVED")
+        //Show loader until post is complete
+        setIsLoading(true)
+        postNewTemplate(shapes).then(() => {
+            //Hide loader
+            window.location.href = "/templates";
+            console.log("SAVED")
+            setIsLoading(false)
+        });
     }
 
     return (
         <StyledDiv>
             <AppBar position="static">
                 <Toolbar variant="dense">
-                    <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddRectangle}>
+                    <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddRectangle} disabled={isLoading} >
                         <AddRectangleeOutlineIcon />
                     </MenuButton>
-                    <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddTextInput}>
+                    <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddTextInput} disabled={isLoading}>
                         <AddTextIcon />
                     </MenuButton>
-                    <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
+                    {isLoading ? <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
+                        Loading...
+                    </SaveButton> : <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
                         Done
-                    </SaveButton>
+                    </SaveButton>}
                 </Toolbar>
             </AppBar>
         </StyledDiv>

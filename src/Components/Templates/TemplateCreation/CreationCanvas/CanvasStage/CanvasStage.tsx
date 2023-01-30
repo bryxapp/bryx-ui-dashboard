@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Stage, Layer, Text } from 'react-konva';
+import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import { shapeObj } from '../../../../../Interfaces/TemplateCreationInterfaces';
 import TextInput from '../Shapes/TextInputShape';
@@ -65,8 +65,6 @@ const CanvasStage = ({ shapes, setShapes }: any) => {
         <PiecePaper>
             <Stage width={pageWidth} height={pageHeight}>
                 <Layer>
-                    {/* Estimatte Header */}
-                    <Text text="My New Estimate" x={(pageWidth / 2) - 100} y={20} fontSize={30} fontFamily="Calibri" fill="black" align="center" />
                     {/* Place all rectangle shapes on the canvas */}
                     {shapes.Rectangles.map((shape: shapeObj) => (
                         <RectangleShape key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />

@@ -7,7 +7,7 @@ const RectangleShape = ({ shape, handleDragStart, handleDragEnd }: any) => {
             x={shape.x}
             y={shape.y}
             width={200}
-            height={50}
+            height={300}
             fill="blue"
             opacity={0.8}
             draggable

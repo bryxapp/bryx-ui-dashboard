@@ -4,8 +4,15 @@ import axios from 'axios';
 
 const BASE_URL = 'http://localhost:3000/api/templates';
 
-export function createTemplate(template) {
-    return axios.post(BASE_URL, template);
+export function postNewTemplate(templateShapesState) {
+    console.log(templateShapesState)
+    //return a temporary async task 
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(templateShapesState);
+        }, 3000);
+    });
+   // return axios.post(BASE_URL, template);
 }
 
 export function updateTemplate(template) {
