@@ -26,39 +26,42 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
     // shapes =  {Rectangles:[], TextInputs:[]}
 
     const handleDragStart = (e: any) => {
-        //Check both Rectangles array and TextInputs array
         const id = e.target.id();
-        setCanvasDesign({
-            Rectangles: canvasDesign.Rectangles.map((shape: any) => {
+        const shapeTypes = Object.keys(canvasDesign);
+        const updatedCanvasDesign: any = {};
+        shapeTypes.forEach(shapeType => {
+            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
                 return {
                     ...shape,
                     isDragging: shape.id === id,
                 };
-            }),
-            TextInputs: canvasDesign.TextInputs.map((shape: any) => {
-                return {
-                    ...shape,
-                    isDragging: shape.id === id,
-                };
-            }),
+            });
         });
+        setCanvasDesign(updatedCanvasDesign);
     };
 
-    const handleDragEnd = () => {
-        setCanvasDesign({
-            Rectangles: canvasDesign.Rectangles.map((shape: any) => {
-                return {
-                    ...shape,
-                    isDragging: false,
-                };
-            }),
-            TextInputs: canvasDesign.TextInputs.map((shape: any) => {
-                return {
-                    ...shape,
-                    isDragging: false,
-                };
-            }),
+    const handleDragEnd = (e: any) => {
+        const id = e.target.id();
+        const shapeTypes = Object.keys(canvasDesign);
+        const updatedCanvasDesign: any = {};
+        shapeTypes.forEach(shapeType => {
+            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
+                if (shape.id === id) {
+                    return {
+                        ...shape,
+                        x: e.target.x(),
+                        y: e.target.y(),
+                        isDragging: false,
+                    };
+                } else {
+                    return {
+                        ...shape,
+                        isDragging: false,
+                    };
+                }
+            });
         });
+        setCanvasDesign(updatedCanvasDesign);
     };
 
     return (
