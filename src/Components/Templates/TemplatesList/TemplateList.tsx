@@ -11,7 +11,6 @@ const TemplatesList = () => {
 
     useEffect(() => {
         getTemplates().then((response) => {
-            console.log(response.data);
             setTemplates(response.data);
             setLoading(false);
         });

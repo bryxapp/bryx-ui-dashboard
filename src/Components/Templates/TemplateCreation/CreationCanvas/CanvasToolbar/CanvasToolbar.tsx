@@ -60,7 +60,6 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName }: any) => 
         postNewTemplate(canvasDesign,friendlyName).then(() => {
             //Hide loader
             window.location.href = "/templates";
-            console.log("SAVED")
             setIsLoading(false)
         });
     }
