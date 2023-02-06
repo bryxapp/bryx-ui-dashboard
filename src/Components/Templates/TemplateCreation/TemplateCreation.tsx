@@ -1,13 +1,13 @@
 import React, {useState} from "react";
-import TemplateName from "./TemplateName/TemplateName";
-import CreationCanvas from "./CreationCanvas/CreationCanvas";
+import TemplateName from "../TemplateName/TemplateName";
+import NewCanvas from "./NewCanvas/NewCanvas";
 
 const TemplateCreation = () => {
     const [friendlyName, setFriendlyName] = useState("New Template");
     return (
         <React.Fragment>
             <TemplateName friendlyName = {friendlyName} setFriendlyName={setFriendlyName}/>
-            <CreationCanvas friendlyName = {friendlyName}/>
+            <NewCanvas friendlyName = {friendlyName}/>
         </React.Fragment>
     );
 };

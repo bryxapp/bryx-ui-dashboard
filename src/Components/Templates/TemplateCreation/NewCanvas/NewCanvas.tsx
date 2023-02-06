@@ -1,10 +1,10 @@
 import { useState } from "react";
-import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
-import CanvasStage from "./CanvasStage/CanvasStage";
+import CanvasToolbar from "../../Canvas/CanvasToolbar/CanvasToolbar";
+import CanvasStage from "../../Canvas/CanvasStage/CanvasStage";
 import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationInterfaces";
 
 
-const CreationCanvas = ({friendlyName}:any) => {
+const NewCanvas = ({ friendlyName }: any) => {
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
         Rectangles: [],
@@ -20,4 +20,4 @@ const CreationCanvas = ({friendlyName}:any) => {
     );
 };
 
-export default CreationCanvas;
+export default NewCanvas;

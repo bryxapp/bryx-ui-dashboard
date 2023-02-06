@@ -7,16 +7,18 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 
-
 const TemplatesListItem = ({ template, handleTemplateDelete }: any) => {
     return (
         <ListItem
             secondaryAction={
                 <div>
-                    <IconButton aria-label="edit">
-                        <EditIcon />
-                    </IconButton>
-                    <IconButton aria-label="delete" onClick={() => handleTemplateDelete(template.id)}>                        <DeleteIcon />
+                    <a href={'/edit-template?templateId=' + template.id}>
+                        <IconButton aria-label="edit" >
+                            <EditIcon />
+                        </IconButton>
+                    </a>
+                    <IconButton aria-label="delete" onClick={() => handleTemplateDelete(template.id)}>
+                        <DeleteIcon />
                     </IconButton>
                 </div>
             }

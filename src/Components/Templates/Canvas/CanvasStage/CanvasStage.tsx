@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
-import { shapeObj } from '../../../../../Interfaces/TemplateCreationInterfaces';
+import { shapeObj } from '../../../../Interfaces/TemplateCreationInterfaces';
 import TextInput from '../Shapes/TextInputShape';
-import { getPageHeight, getPageWidth } from '../../../../../utils/page-util';
+import { getPageHeight, getPageWidth } from '../../../../utils/page-util';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getPageHeight();

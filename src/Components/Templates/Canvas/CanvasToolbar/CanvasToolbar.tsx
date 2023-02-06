@@ -4,8 +4,8 @@ import AppBar from '@mui/material/AppBar';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import AddRectangleeOutlineIcon from '@mui/icons-material/RectangleOutlined';
 import { styled } from '@mui/material/styles';
-import { getPageHeight, getPageWidth } from '../../../../../utils/page-util';
-import { postNewTemplate } from '../../../../../utils/templates-api';
+import { getPageHeight, getPageWidth } from '../../../../utils/page-util';
+import { postNewTemplate } from '../../../../utils/templates-api';
 import { useState } from 'react';
 
 const StyledDiv = styled('div')({
