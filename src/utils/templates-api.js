@@ -40,7 +40,6 @@ export function getTemplate(id) {
 }
 
 export function deleteTemplate(templateId) {
-    console.log(`${BASE_URL}/${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`)
     return axios.delete(`${BASE_URL}/${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
 }
 
