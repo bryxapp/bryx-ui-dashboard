@@ -20,17 +20,17 @@ const SaveButton = styled(IconButton)({
     marginLeft: 'auto'
 });
 
-const CanvasToolbar = ({ shapes, setShapes }: any) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName }: any) => {
     const [isLoading, setIsLoading] = useState(false);
 
     //adds rectangle to center of page
     const handleAddRectangle = () => {
-        setShapes({
-            ...shapes,
+        setCanvasDesign({
+            ...canvasDesign,
             Rectangles: [
-                ...shapes.Rectangles,
+                ...canvasDesign.Rectangles,
                 {
-                    id: 'rect-' + shapes.Rectangles.length,
+                    id: 'rect-' + canvasDesign.Rectangles.length,
                     x: getPageWidth() / 4,
                     y: getPageHeight() / 6,
                     isDragging: false,
@@ -40,12 +40,12 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
     }
 
     const handleAddTextInput = () => {
-        setShapes({
-            ...shapes,
+        setCanvasDesign({
+            ...canvasDesign,
             TextInputs: [
-                ...shapes.TextInputs,
+                ...canvasDesign.TextInputs,
                 {
-                    id: 'text-' + shapes.TextInputs.length,
+                    id: 'text-' + canvasDesign.TextInputs.length,
                     x: getPageWidth() / 6,
                     y: getPageHeight() / 2.5,
                     isDragging: false,
@@ -57,7 +57,7 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
     const handleSave = () => {
         //Show loader until post is complete
         setIsLoading(true)
-        postNewTemplate(shapes).then(() => {
+        postNewTemplate(canvasDesign,friendlyName).then(() => {
             //Hide loader
             window.location.href = "/templates";
             console.log("SAVED")
@@ -75,7 +75,7 @@ const CanvasToolbar = ({ shapes, setShapes }: any) => {
                     <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddTextInput} disabled={isLoading}>
                         <AddTextIcon />
                     </MenuButton>
-                    {isLoading ? <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
+                    {isLoading ? <SaveButton edge="end" color="inherit" aria-label="save">
                         Loading...
                     </SaveButton> : <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
                         Done

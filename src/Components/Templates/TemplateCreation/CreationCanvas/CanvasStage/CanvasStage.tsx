@@ -22,20 +22,20 @@ const PiecePaper = styled('div')({
 });
 
 
-const CanvasStage = ({ shapes, setShapes }: any) => {
+const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
     // shapes =  {Rectangles:[], TextInputs:[]}
 
     const handleDragStart = (e: any) => {
         //Check both Rectangles array and TextInputs array
         const id = e.target.id();
-        setShapes({
-            Rectangles: shapes.Rectangles.map((shape: any) => {
+        setCanvasDesign({
+            Rectangles: canvasDesign.Rectangles.map((shape: any) => {
                 return {
                     ...shape,
                     isDragging: shape.id === id,
                 };
             }),
-            TextInputs: shapes.TextInputs.map((shape: any) => {
+            TextInputs: canvasDesign.TextInputs.map((shape: any) => {
                 return {
                     ...shape,
                     isDragging: shape.id === id,
@@ -45,14 +45,14 @@ const CanvasStage = ({ shapes, setShapes }: any) => {
     };
 
     const handleDragEnd = () => {
-        setShapes({
-            Rectangles: shapes.Rectangles.map((shape: any) => {
+        setCanvasDesign({
+            Rectangles: canvasDesign.Rectangles.map((shape: any) => {
                 return {
                     ...shape,
                     isDragging: false,
                 };
             }),
-            TextInputs: shapes.TextInputs.map((shape: any) => {
+            TextInputs: canvasDesign.TextInputs.map((shape: any) => {
                 return {
                     ...shape,
                     isDragging: false,
@@ -66,11 +66,11 @@ const CanvasStage = ({ shapes, setShapes }: any) => {
             <Stage width={pageWidth} height={pageHeight}>
                 <Layer>
                     {/* Place all rectangle shapes on the canvas */}
-                    {shapes.Rectangles.map((shape: shapeObj) => (
+                    {canvasDesign.Rectangles.map((shape: shapeObj) => (
                         <RectangleShape key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                     {/* Place all text input shapes on the canvas */}
-                    {shapes.TextInputs.map((shape: shapeObj) => (
+                    {canvasDesign.TextInputs.map((shape: shapeObj) => (
                         <TextInput key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                 </Layer>

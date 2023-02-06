@@ -8,17 +8,15 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 
 
-const TemplatesListItem = ({ template }: any) => {
-
+const TemplatesListItem = ({ template, handleTemplateDelete }: any) => {
     return (
         <ListItem
             secondaryAction={
                 <div>
-                    <IconButton aria-label="delete">
+                    <IconButton aria-label="edit">
                         <EditIcon />
                     </IconButton>
-                    <IconButton aria-label="edit">
-                        <DeleteIcon />
+                    <IconButton aria-label="delete" onClick={() => handleTemplateDelete(template.id)}>                        <DeleteIcon />
                     </IconButton>
                 </div>
             }
@@ -29,7 +27,7 @@ const TemplatesListItem = ({ template }: any) => {
                 </Avatar>
             </ListItemAvatar>
             <ListItemText
-                primary={template.name}
+                primary={template.friendlyName}
             />
         </ListItem>
     );

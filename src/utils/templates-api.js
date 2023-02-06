@@ -2,93 +2,50 @@
 
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:3000/api/templates';
+const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
-export function postNewTemplate(templateShapesState) {
-    console.log(templateShapesState)
-    //return a temporary async task 
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(templateShapesState);
-        }, 3000);
-    });
-   // return axios.post(BASE_URL, template);
+export function postNewTemplate(canvasDesign, friendlyName) {
+    //Get User 
+    const user = getUser();
+    //Create Body
+    const body = {
+        user: user,
+        friendlyName: friendlyName,
+        canvasDesign: canvasDesign
+    }
+
+    return axios.post(`${BASE_URL}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`, body);
 }
 
-export function updateTemplate(template) {
+export function updateTemplate(templateId, canvasDesign, friendlyName) {
+    //Get User 
+    const user = getUser();
+    //Create Body
+    const body = {
+        user: user,
+        friendlyName: friendlyName,
+        canvasDesign: canvasDesign
+    }
 
-    return axios.put(`${BASE_URL}/${template._id}`, template);
+    return axios.put(`${BASE_URL}${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`, body);
 }
 
 export function getTemplates() {
-
-    //Create a dummy JARRAY of templates
-    const templates = [
-        {
-            _id: '123',
-            name: 'Template 1',
-            description: 'Template 1 description',
-            fields: [
-                {
-                    name: 'Field 1',
-                    type: 'text',
-                    required: true
-                },
-                {
-                    name: 'Field 2',
-                    type: 'text',
-                    required: false
-                }
-            ]
-        },
-        {
-            _id: '456',
-            name: 'Template 2',
-            description: 'Template 2 description',
-            fields: [
-                {
-                    name: 'Field 1',
-                    type: 'text',
-                    required: true
-                },
-                {
-                    name: 'Field 2',
-                    type: 'text',
-                    required: false
-                }
-            ]
-        },
-        {
-            _id: '789',
-            name: 'Template 3',
-            description: 'Template 3 description',
-            fields: [
-                {
-                    name: 'Field 1',
-                    type: 'text',
-                    required: true
-                },
-                {
-                    name: 'Field 2',
-                    type: 'text',
-                    required: false
-                }
-            ]
-        }
-    ];
-
-    return templates;
-    // return axios.get(BASE_URL);
+    //get all templates from the api
+    console.log(process.env)
+    return axios.get(`${BASE_URL}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
 }
 
 export function getTemplate(id) {
-    return axios.get(`${BASE_URL}/${id}`);
+    return axios.get(`${BASE_URL}/${id}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
 }
 
-
-export function deleteTemplate(template) {
-    return axios.delete(`${BASE_URL}/${template._id}`);
+export function deleteTemplate(templateId) {
+    console.log(`${BASE_URL}/${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`)
+    return axios.delete(`${BASE_URL}/${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
 }
 
-
-
+function getUser() {
+    return "bthomas_test"
+    //return JSON.parse(localStorage.getItem('user'));
+}

@@ -4,18 +4,18 @@ import CanvasStage from "./CanvasStage/CanvasStage";
 import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationInterfaces";
 
 
-const CreationCanvas = () => {
+const CreationCanvas = ({friendlyName}:any) => {
 
-    const [shapes, setShapes] = useState<TemplateCreationState>({
+    const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
         Rectangles: [],
         TextInputs: [],
     });
 
     return (
         <div>
-            <CanvasToolbar shapes={shapes} setShapes={setShapes} />
+            <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} />
             <div style={{ padding: '1vh' }} />
-            <CanvasStage shapes={shapes} setShapes={setShapes} />
+            <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </div>
     );
 };

@@ -1,14 +1,13 @@
-import { Typography } from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
+import TemplateName from "./TemplateName/TemplateName";
 import CreationCanvas from "./CreationCanvas/CreationCanvas";
 
 const TemplateCreation = () => {
+    const [friendlyName, setFriendlyName] = useState("New Template");
     return (
         <React.Fragment>
-            <Typography variant="h3" color="dark">
-                Create New Template
-            </Typography>
-            <CreationCanvas />
+            <TemplateName friendlyName = {friendlyName} setFriendlyName={setFriendlyName}/>
+            <CreationCanvas friendlyName = {friendlyName}/>
         </React.Fragment>
     );
 };
