@@ -32,7 +32,6 @@ export function updateTemplate(templateId, canvasDesign, friendlyName) {
 
 export function getTemplates() {
     //get all templates from the api
-    console.log(process.env)
     return axios.get(`${BASE_URL}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
 }
 

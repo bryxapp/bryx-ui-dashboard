@@ -19,7 +19,6 @@ const TemplatesList = () => {
 
     const handleTemplateDelete = (templateId: string) => {
         deleteTemplate(templateId).then((response) => {
-            console.log(response);
             setTemplates(templates.filter((template: any) => template.id !== templateId));
         });
     };
