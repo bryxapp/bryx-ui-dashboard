@@ -14,7 +14,7 @@ export function postNewTemplate(canvasDesign, friendlyName) {
         canvasDesign: canvasDesign
     }
 
-    return axios.post(`${BASE_URL}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`, body);
+    return axios.post(`${BASE_URL}`, body);
 }
 
 export function updateTemplate(templateId, canvasDesign, friendlyName) {
@@ -27,20 +27,20 @@ export function updateTemplate(templateId, canvasDesign, friendlyName) {
         canvasDesign: canvasDesign
     }
 
-    return axios.put(`${BASE_URL}${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`, body);
+    return axios.put(`${BASE_URL}${templateId}`, body);
 }
 
 export function getTemplates() {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
+    return axios.get(`${BASE_URL}`);
 }
 
 export function getTemplate(id) {
-    return axios.get(`${BASE_URL}/${id}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
+    return axios.get(`${BASE_URL}/${id}`);
 }
 
 export function deleteTemplate(templateId) {
-    return axios.delete(`${BASE_URL}/${templateId}?code=${process.env.REACT_APP_TEMPLATES_API_KEY}`);
+    return axios.delete(`${BASE_URL}/${templateId}`);
 }
 
 function getUser() {
