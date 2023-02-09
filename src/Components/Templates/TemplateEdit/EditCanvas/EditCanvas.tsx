@@ -5,12 +5,12 @@ import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationIn
 import { getTemplate } from "../../../../utils/templates-api";
 import { Typography } from "@mui/material";
 import { useLocation } from 'react-router-dom';
+import { updateTemplate } from "../../../../utils/templates-api";
 
-const EditCanvas = ({ friendlyName }: any) => {
+const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const templateId = params.get('templateId');
-    console.log(templateId);
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>();
     const [loading, setLoading] = useState(true);
@@ -18,11 +18,11 @@ const EditCanvas = ({ friendlyName }: any) => {
     useEffect(() => {
         getTemplate(templateId)
             .then((res) => {
-                console.log(res.data)
                 setCanvasDesign(res.data.canvasDesign);
+                setFriendlyName(res.data.friendlyName);
                 setLoading(false);
             });
-    }, [templateId]);
+    }, [templateId, setFriendlyName]);
 
     if (loading) {
         return (
@@ -32,9 +32,15 @@ const EditCanvas = ({ friendlyName }: any) => {
         );
     }
 
+    const updateTemplateOnSave = () => {
+        //update template
+        return updateTemplate(templateId, canvasDesign,friendlyName);
+    }
+
+
     return (
         <div>
-            <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} />
+            <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={updateTemplateOnSave} />
             <div style={{ padding: '1vh' }} />
             <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </div>

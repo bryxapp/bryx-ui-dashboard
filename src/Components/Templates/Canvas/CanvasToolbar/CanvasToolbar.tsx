@@ -5,7 +5,6 @@ import AddTextIcon from '@mui/icons-material/TextFields';
 import AddRectangleeOutlineIcon from '@mui/icons-material/RectangleOutlined';
 import { styled } from '@mui/material/styles';
 import { getPageHeight, getPageWidth } from '../../../../utils/page-util';
-import { postNewTemplate } from '../../../../utils/templates-api';
 import { useState } from 'react';
 
 const StyledDiv = styled('div')({
@@ -20,7 +19,7 @@ const SaveButton = styled(IconButton)({
     marginLeft: 'auto'
 });
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName }: any) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate }: any) => {
     const [isLoading, setIsLoading] = useState(false);
 
     //adds rectangle to center of page
@@ -57,10 +56,10 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName }: any) => 
     const handleSave = () => {
         //Show loader until post is complete
         setIsLoading(true)
-        postNewTemplate(canvasDesign,friendlyName).then(() => {
+        postTemplate().then(() => {
             //Hide loader
-            window.location.href = "/templates";
             setIsLoading(false)
+            window.location.href = "/templates";
         });
     }
 

@@ -7,7 +7,7 @@ const TemplateEdit = () => {
     return (
         <React.Fragment>
             <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
-            <EditCanvas friendlyName={friendlyName} />
+            <EditCanvas friendlyName={friendlyName} setFriendlyName={setFriendlyName}/>
         </React.Fragment>
     );
 };

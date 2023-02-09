@@ -9,7 +9,6 @@ import NotFound from './Components/NotFound/NotFound';
 import Dashboard from './Components/Dashboard/Dashboard';
 
 function App() {
-  console.log(process.env)
   return (
     <Navigation>
       <BrowserRouter>

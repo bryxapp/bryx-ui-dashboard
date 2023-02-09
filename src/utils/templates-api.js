@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
-export function postNewTemplate(canvasDesign, friendlyName) {
+export function createTemplate(canvasDesign, friendlyName) {
     //Get User 
     const user = getUser();
     //Create Body
@@ -27,7 +27,7 @@ export function updateTemplate(templateId, canvasDesign, friendlyName) {
         canvasDesign: canvasDesign
     }
 
-    return axios.put(`${BASE_URL}${templateId}`, body);
+    return axios.put(`${BASE_URL}/${templateId}`, body);
 }
 
 export function getTemplates() {
