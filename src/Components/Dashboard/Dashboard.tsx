@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import { getRecentTemplates } from '../../utils/templates-api';
 import RecentPreviews from './RecentPreviews/RecentPreviews';
+import Loading from '../SharedComponents/Loading/Loading';
 
 
 const Dashboard = () => {
@@ -20,14 +21,6 @@ const Dashboard = () => {
         //TODO Query for estimates
         setEstimates([]);
     }, []);
-
-    if (loading) {
-        return (
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-                Loading...
-            </Typography>
-        );
-    }
 
     return (
         <Grid container spacing={3}>
@@ -47,7 +40,8 @@ const Dashboard = () => {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Recent Estimates
                     </Typography>
-                    <RecentPreviews objects={estimates} url={'/past-estimate?estiamteId'} />
+                    {loading && <Loading />}
+                    {!loading && <RecentPreviews objects={estimates} url={'/past-estimate?estiamteId'} />}
                 </Paper>
             </Grid>
             {/* Recent Templates */}
@@ -63,7 +57,9 @@ const Dashboard = () => {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Recent Templates
                     </Typography>
-                    <RecentPreviews objects={templates} url={'/edit-template?templateId'} />
+                    {loading && <Loading />}
+                    {!loading &&
+                        <RecentPreviews objects={templates} url={'/edit-template?templateId'} />}
                 </Paper>
             </Grid>
         </Grid>
