@@ -35,6 +35,11 @@ export function getTemplates() {
     return axios.get(`${BASE_URL}`);
 }
 
+export function getRecentTemplates(count) {
+    //get all templates from the api
+    return axios.get(`${BASE_URL}/recent/${count}`);
+}
+
 export function getTemplate(id) {
     return axios.get(`${BASE_URL}/${id}`);
 }

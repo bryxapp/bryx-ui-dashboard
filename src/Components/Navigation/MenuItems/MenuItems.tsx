@@ -9,7 +9,7 @@ const MenuItems = (
     <React.Fragment>
         {MenuItem('Dashboard', '/', <DashboardIcon />)}
         {MenuItem('Templates', '/templates', <BarChartIcon />)}
-        {MenuItem('New Estimates', '/create-estimate', <AssignmentIcon />)}
+        {MenuItem('New Estimate', '/create-estimate', <AssignmentIcon />)}
         {MenuItem('Past Estimates', '/past-estimates', <LayersIcon />)}
     </React.Fragment>
 );
