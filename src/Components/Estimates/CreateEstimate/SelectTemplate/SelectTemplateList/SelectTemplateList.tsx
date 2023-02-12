@@ -4,7 +4,6 @@ import List from '@mui/material/List';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SelectTemplateListItem from "./SelectTemplateListItem/SelectTemplateListItem";
-import { Box } from "@mui/system";
 
 const SelectTemplateList = () => {
     const [templates, setTemplates] = useState([]);
