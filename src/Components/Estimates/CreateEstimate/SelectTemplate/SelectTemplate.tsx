@@ -1,12 +1,12 @@
 import { Typography } from "@mui/material";
 
 
-const CreateEstimate = () => {
+const SelectTemplate = () => {
     return (
         <Typography variant="h3" color="dark">
-            Create Estimate
+            Select a Template
         </Typography>
     );
 }
 
-export default CreateEstimate;
+export default SelectTemplate;
