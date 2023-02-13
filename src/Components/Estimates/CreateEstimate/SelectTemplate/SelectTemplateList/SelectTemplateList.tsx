@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getTemplates } from "../../../../../utils/templates-api";
-import List from '@mui/material/List';
+import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SelectTemplateListItem from "./SelectTemplateListItem/SelectTemplateListItem";
@@ -33,11 +33,13 @@ const SelectTemplateList = () => {
 
     );
     return (
-        <List>
+        <Grid container spacing={3}>
             {templates.map((template) => (
-                <SelectTemplateListItem template={template} />
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                    <SelectTemplateListItem template={template} />
+                </Grid>
             ))}
-        </List>
+        </Grid>
     );
 }
 
