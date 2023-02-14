@@ -1,50 +1,57 @@
-import TextField from '@mui/material/TextField';
+import { useEffect, useState } from 'react';
+import { getTemplate } from '../../../../utils/templates-api';
+import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
-
-const formData = [
-    {
-        type: "text",
-        name: "Full Name",
-        required: true
-    },
-    {
-        type: "email",
-        name: "Email",
-        required: true
-    },
-    {
-        type: "tel",
-        name: "Phone Number",
-        required: true
-    },
-    {
-        type: "text",
-        name: "Address",
-        required: false
-    }
-];
+import Loading from '../../../SharedComponents/Loading/Loading';
+import { Button } from '@mui/material';
+import FormTextField from './FormTextField/FormTextField';
+import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
 
 const Form = () => {
+
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const templateId = params.get('templateId');
+
+    const [loading, setLoading] = useState(true);
+    const [templateData, setTemplateData] = useState<TemplateData>();
+
+
+    const handleSubmit = () => {
+        //Creates PDF and Saves in object storage
+        //Creates Esimate in DB 
+        console.log('submit');
+    }
+
+    useEffect(() => {
+        getTemplate(templateId)
+            .then((res) => {
+                setTemplateData(res.data);
+                setLoading(false);
+            });
+    }, [templateId]);
+
+    if (loading) {
+        return (<Loading />)
+    }
+
+    if (!templateData) return (<div>Template not found</div>);
+
     return (
         <>
             <Typography variant="h3" color="primary">
-                Fill Out Form
+                Create Estimate
             </Typography>
-            {formData.map(({ type, name, required }: any, index: any) => (
-                <>
-                    <Typography variant="h6" sx={{ padding: 1 }}>
-                        {name}
-                    </Typography>
-                    <TextField
-                        key={index}
-                        type={type}
-                        label={name}
-                        name={name}
-                        required={required}
-                    />
-                    <div style={{ height: 15 }}></div>
-                </>
+            <div style={{ height: 20 }}></div>
+            <Typography variant="h6" color="gray">
+                Template: {templateData.friendlyName}
+            </Typography>
+            {templateData.canvasDesign.TextInputs.map(({ id }: any, index: any) => (
+                <FormTextField name={id} index={index} key={"TextInputComponent-" + index} />
             ))}
+            <Button variant="contained" color="primary" onClick={handleSubmit}>
+                Submit
+            </Button>
         </>
     );
 };

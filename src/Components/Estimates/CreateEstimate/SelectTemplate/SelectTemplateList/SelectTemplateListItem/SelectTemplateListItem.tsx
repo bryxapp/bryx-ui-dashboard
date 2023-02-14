@@ -3,7 +3,7 @@ import Feed from '@mui/icons-material/FeedOutlined';
 
 const SelectTemplateListItem = ({ template }: any) => {
     return (
-        <Link href={'/form?templateID=' + template.id} underline='none'>
+        <Link href={'/form?templateId=' + template.id} underline='none'>
             <Paper
                 sx={{
                     display: 'flex',

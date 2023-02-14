@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
-import { shapeObj } from '../../../../Interfaces/TemplateCreationInterfaces';
+import { shapeObj } from '../../../../utils/types/TemplateCreationInterfaces';
 import TextInput from '../Shapes/TextInputShape';
 import { getPageHeight, getPageWidth } from '../../../../utils/page-util';
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CanvasToolbar from "../../Canvas/CanvasToolbar/CanvasToolbar";
 import CanvasStage from "../../Canvas/CanvasStage/CanvasStage";
-import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationInterfaces";
+import { TemplateCreationState } from "../../../../utils/types/TemplateCreationInterfaces";
 import { createTemplate } from "../../../../utils/templates-api";
 
 

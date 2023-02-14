@@ -12,3 +12,10 @@ export interface TemplateCreationState {
     Rectangles: shapeObj[];
     TextInputs: shapeObj[];
 };
+
+export interface TemplateData {
+    user: string;
+    friendlyName: string;
+    canvasDesign: TemplateCreationState;
+    id: string;
+};

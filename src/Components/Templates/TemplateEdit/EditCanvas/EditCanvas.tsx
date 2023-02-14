@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import CanvasToolbar from "../../Canvas/CanvasToolbar/CanvasToolbar";
 import CanvasStage from "../../Canvas/CanvasStage/CanvasStage";
-import { TemplateCreationState } from "../../../../Interfaces/TemplateCreationInterfaces";
+import { TemplateCreationState } from "../../../../utils/types/TemplateCreationInterfaces";
 import { getTemplate } from "../../../../utils/templates-api";
 import { Typography } from "@mui/material";
 import { useLocation } from 'react-router-dom';
