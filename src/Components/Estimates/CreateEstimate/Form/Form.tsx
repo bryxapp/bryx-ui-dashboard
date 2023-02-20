@@ -6,6 +6,7 @@ import Loading from '../../../SharedComponents/Loading/Loading';
 import { Button } from '@mui/material';
 import FormTextField from './FormTextField/FormTextField';
 import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
+import { createCanvas } from '../../../../utils/canvas-util';
 
 const Form = () => {
 
@@ -17,18 +18,18 @@ const Form = () => {
     const [templateData, setTemplateData] = useState<TemplateData>();
 
 
-    const handleSubmit = () => {
-        //Creates PDF and Saves in object storage
-        //Creates Esimate in DB 
-        console.log('submit');
+    const handleSubmit = (canvasDesign: any) => {
+        createCanvas(canvasDesign);
     }
 
     useEffect(() => {
-        getTemplate(templateId)
-            .then((res) => {
-                setTemplateData(res.data);
-                setLoading(false);
-            });
+        if (templateId) {
+            getTemplate(templateId)
+                .then((res) => {
+                    setTemplateData(res.data);
+                    setLoading(false);
+                });
+        }
     }, [templateId]);
 
     if (loading) {
@@ -49,9 +50,7 @@ const Form = () => {
             {templateData.canvasDesign.TextInputs.map(({ id }: any, index: any) => (
                 <FormTextField name={id} index={index} key={"TextInputComponent-" + index} />
             ))}
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
-                Submit
-            </Button>
+            <Button variant="contained" onClick={() => handleSubmit(templateData.canvasDesign)}>Submit</Button>
         </>
     );
 };

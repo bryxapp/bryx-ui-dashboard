@@ -16,12 +16,17 @@ const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        getTemplate(templateId)
-            .then((res) => {
-                setCanvasDesign(res.data.canvasDesign);
-                setFriendlyName(res.data.friendlyName);
-                setLoading(false);
-            });
+        if (templateId) {
+            getTemplate(templateId)
+                .then((res) => {
+                    setCanvasDesign(res.data.canvasDesign);
+                    setFriendlyName(res.data.friendlyName);
+                    setLoading(false);
+                });
+        }
+        else {
+            setLoading(false);
+        }
     }, [templateId, setFriendlyName]);
 
     if (loading) {
@@ -34,7 +39,9 @@ const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
 
     const updateTemplateOnSave = () => {
         //update template
-        return updateTemplate(templateId, canvasDesign,friendlyName);
+        if(templateId){
+            return updateTemplate(templateId, canvasDesign, friendlyName);
+        }
     }
 
 

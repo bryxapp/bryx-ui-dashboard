@@ -5,7 +5,7 @@ import axios from 'axios';
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
 
-export function createEstimate(canvasDesign, templateName, estimateName) {
+export function createEstimate(canvasDesign: any, templateName: string, estimateName: string) {
     //Get User
     const user = getUser();
     //Create Body
@@ -23,16 +23,16 @@ export function getTemplates() {
     return axios.get(`${BASE_URL}`);
 }
 
-export function getRecentTemplates(count) {
+export function getRecentTemplates(count: number) {
     //get all templates from the api
     return axios.get(`${BASE_URL}/recent/${count}`);
 }
 
-export function getTemplate(id) {
+export function getTemplate(id: string) {
     return axios.get(`${BASE_URL}/${id}`);
 }
 
-export function deleteTemplate(templateId) {
+export function deleteTemplate(templateId: string) {
     return axios.delete(`${BASE_URL}/${templateId}`);
 }
 
