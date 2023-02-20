@@ -6,7 +6,7 @@ import TemplateEdit from './Components/Templates/TemplateEdit/TemplateEdit';
 import PastEstimates from './Components/Estimates/PastEstimates/PastEstimates';
 import NotFound from './Components/NotFound/NotFound';
 import Dashboard from './Components/Dashboard/Dashboard';
-import Form from "./Components/Estimates/CreateEstimate/Form/Form";
+import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
           <Route path="/create-template" element={<TemplateCreation />} />
           <Route path="/edit-template" element={<TemplateEdit />} />
           <Route path="/select-template" element={<SelectTemplate />} />
-          <Route path="/form" element={<Form />} />
+          <Route path="/form" element={<EstimateForm />} />
           <Route path="/past-estimates" element={<PastEstimates />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

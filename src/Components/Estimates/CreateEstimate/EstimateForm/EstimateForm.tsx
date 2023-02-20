@@ -4,22 +4,33 @@ import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Loading from '../../../SharedComponents/Loading/Loading';
 import { Button } from '@mui/material';
-import FormTextField from './FormTextField/FormTextField';
+import EstimateFormTextField from './EstimateFormTextField/EstimateFormTextField';
 import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
-import { createCanvas } from '../../../../utils/canvas-util';
+import { createEstimate } from '../../../../utils/estimates-api';
+import EstimateName from './EstimateName/EstimateName';
+import Creating from '../../../SharedComponents/Creating/Creating';
 
-const Form = () => {
+const EstimateForm = () => {
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const templateId = params.get('templateId');
 
     const [loading, setLoading] = useState(true);
+    const [creating, setCreating] = useState(false);
     const [templateData, setTemplateData] = useState<TemplateData>();
+    const [estimateName, setEstimateName] = useState("New Estimate");
 
-
-    const handleSubmit = (canvasDesign: any) => {
-        createCanvas(canvasDesign);
+    const handleSubmit = () => {
+        setCreating(true);
+        if (!templateData) return;
+        createEstimate(templateData.canvasDesign, templateData.id, estimateName)
+            .then((res) => {
+                console.log(res)
+                setCreating(false);
+                //Navigate users to the estimate page
+                window.location.href = "/past-estimates";
+            });
     }
 
     useEffect(() => {
@@ -36,6 +47,10 @@ const Form = () => {
         return (<Loading />)
     }
 
+    if (creating) {
+        return (<Creating />)
+    }
+
     if (!templateData) return (<div>Template not found</div>);
 
     return (
@@ -44,15 +59,17 @@ const Form = () => {
                 Create Estimate
             </Typography>
             <div style={{ height: 20 }}></div>
+            <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
+            <div style={{ height: 20 }}></div>
             <Typography variant="h6" color="gray">
                 Template: {templateData.friendlyName}
             </Typography>
             {templateData.canvasDesign.TextInputs.map(({ id }: any, index: any) => (
-                <FormTextField name={id} index={index} key={"TextInputComponent-" + index} />
+                <EstimateFormTextField name={id} index={index} key={"TextInputComponent-" + index} />
             ))}
-            <Button variant="contained" onClick={() => handleSubmit(templateData.canvasDesign)}>Submit</Button>
+            <Button variant="contained" onClick={() => handleSubmit()}>Submit</Button>
         </>
     );
 };
 
-export default Form;
+export default EstimateForm;

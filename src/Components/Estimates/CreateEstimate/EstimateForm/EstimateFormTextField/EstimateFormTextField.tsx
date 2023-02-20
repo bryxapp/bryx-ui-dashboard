@@ -1,7 +1,7 @@
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 
-const FormTextField = ({ name, index }: any) => {
+const EstimateFormTextField = ({ name, index }: any) => {
     return (
         <>
             <Typography variant="h6" sx={{ padding: 1 }}>
@@ -18,4 +18,4 @@ const FormTextField = ({ name, index }: any) => {
     );
 };
 
-export default FormTextField;
+export default EstimateFormTextField;
