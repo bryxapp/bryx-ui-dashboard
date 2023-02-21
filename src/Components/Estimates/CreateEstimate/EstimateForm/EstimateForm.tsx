@@ -26,7 +26,6 @@ const EstimateForm = () => {
         if (!templateData) return;
         createEstimate(templateData.canvasDesign, templateData.id, estimateName)
             .then((res) => {
-                console.log(res)
                 setCreating(false);
                 //Navigate users to the estimate page
                 window.location.href = "/past-estimates";

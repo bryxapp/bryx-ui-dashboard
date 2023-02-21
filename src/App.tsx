@@ -8,6 +8,7 @@ import NotFound from './Components/NotFound/NotFound';
 import Dashboard from './Components/Dashboard/Dashboard';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
+import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/select-template" element={<SelectTemplate />} />
           <Route path="/form" element={<EstimateForm />} />
           <Route path="/past-estimates" element={<PastEstimates />} />
+          <Route path="/view-estimate" element={<ViewEstimate />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
