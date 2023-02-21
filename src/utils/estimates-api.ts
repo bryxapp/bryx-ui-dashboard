@@ -5,7 +5,6 @@ import { createStage } from './canvas-util';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-
 export function createEstimate(canvasDesign: any, templateId: string, estimateName: string) {
     //Get User
     const user = getUser();
@@ -17,9 +16,7 @@ export function createEstimate(canvasDesign: any, templateId: string, estimateNa
         estimateName: estimateName,
         estimateImgObj: estimateImgObj
     }
-    console.log(body);
     return axios.post(`${BASE_URL}`, body);
-    //return axios.post(`${BASE_URL}`, body);
 }
 
 export function getEstimates() {
@@ -36,7 +33,7 @@ export function getEstimate(id: string) {
     return axios.get(`${BASE_URL}/${id}`);
 }
 
-export function deleteEstimates(templateId: string) {
+export function deleteEstimate(templateId: string) {
     return axios.delete(`${BASE_URL}/${templateId}`);
 }
 
