@@ -5,10 +5,10 @@ import { createStage } from './canvas-util';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-export function createEstimate(canvasDesign: any, templateId: string, estimateName: string) {
+export function createEstimate(canvasDesign: any, templateId: string, estimateName: string,fieldValues:string[]) {
     //Get User
     const user = getUser();
-    const estimateImgObj = createStage(canvasDesign);
+    const estimateImgObj = createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {
         user: user,

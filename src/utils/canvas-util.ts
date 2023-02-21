@@ -2,7 +2,7 @@ import Konva from "konva";
 import { shapeObj } from "./types/TemplateCreationInterfaces";
 import { getPageHeight, getPageWidth } from "./page-util";
 
-export function createStage(canvasDesign: any) {
+export function createStage(canvasDesign: any, fieldValues: string[]) {
     const layer = new Konva.Layer();
     const rect = new Konva.Rect({
         x: 0,
@@ -30,11 +30,15 @@ export function createStage(canvasDesign: any) {
         layer.add(rect);
     });
 
-    canvasDesign.TextInputs.forEach((shape: shapeObj) => {
+    canvasDesign.TextInputs.forEach((shape: shapeObj, index: number) => {
+        console.log("shape: ", shape)
+        console.log("index: ", index)
+        console.log("fieldValues: ", fieldValues)
+        console.log("fieldValues[index]: ", fieldValues[index])
         const text = new Konva.Text({
             x: shape.x,
             y: shape.y,
-            text: "USER INPUT",
+            text: fieldValues[index],
             fontSize: 12,
         });
         layer.add(text);

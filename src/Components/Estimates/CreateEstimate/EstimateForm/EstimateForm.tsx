@@ -20,11 +20,12 @@ const EstimateForm = () => {
     const [creating, setCreating] = useState(false);
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
+    const [fieldValues, setFieldValues] = useState<string[]>([]);
 
     const handleSubmit = () => {
         setCreating(true);
         if (!templateData) return;
-        createEstimate(templateData.canvasDesign, templateData.id, estimateName)
+        createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues)
             .then((res) => {
                 setCreating(false);
                 //Navigate users to the estimate page
@@ -37,10 +38,19 @@ const EstimateForm = () => {
             getTemplate(templateId)
                 .then((res) => {
                     setTemplateData(res.data);
+                    setFieldValues(new Array(res.data.canvasDesign.TextInputs.length).fill(''));
                     setLoading(false);
                 });
         }
     }, [templateId]);
+
+    const handleFieldValueChange = (index: number, value: string) => {
+        const newFieldValues = [...fieldValues];
+        newFieldValues[index] = value;
+        setFieldValues(newFieldValues);
+        console.log(newFieldValues)
+    };
+
 
     if (loading) {
         return (<Loading />)
@@ -64,7 +74,7 @@ const EstimateForm = () => {
                 Template: {templateData.friendlyName}
             </Typography>
             {templateData.canvasDesign.TextInputs.map(({ id }: any, index: any) => (
-                <EstimateFormTextField name={id} index={index} key={"TextInputComponent-" + index} />
+                <EstimateFormTextField name={id} index={index} key={"TextInputComponent-" + index} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
             ))}
             <Button variant="contained" onClick={() => handleSubmit()}>Submit</Button>
         </>
