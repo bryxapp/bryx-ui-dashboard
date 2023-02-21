@@ -39,7 +39,7 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             x: shape.x,
             y: shape.y,
             text: fieldValues[index],
-            fontSize: 12,
+            fontSize: 20,
         });
         layer.add(text);
     });

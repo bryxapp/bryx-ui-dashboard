@@ -12,7 +12,7 @@ const PastEstimates = () => {
 
     useEffect(() => {
         getEstimates().then((response) => {
-            setEstimates(response.data.resources);
+            setEstimates(response.data);
             setLoading(false);
         });
     }, []);

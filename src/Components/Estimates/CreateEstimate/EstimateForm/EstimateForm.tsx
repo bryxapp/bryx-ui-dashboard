@@ -27,9 +27,10 @@ const EstimateForm = () => {
         if (!templateData) return;
         createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues)
             .then((res) => {
+                setTimeout(() => {}, 1000) //Wait 1 second for blob to be accessible
                 setCreating(false);
                 //Navigate users to the estimate page
-                window.location.href = "/past-estimates";
+                window.location.href = "/view-estimate?estimateId=" + res.data.id;
             });
     }
 

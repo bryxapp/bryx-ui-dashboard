@@ -5,21 +5,25 @@ import { useEffect, useState } from 'react';
 import { getRecentTemplates } from '../../utils/templates-api';
 import RecentPreviews from './RecentPreviews/RecentPreviews';
 import Loading from '../SharedComponents/Loading/Loading';
+import { getRecentEstimates } from '../../utils/estimates-api';
 
 
 const Dashboard = () => {
     //Get 5 most recent templates
     const [templates, setTemplates] = useState([]);
+    const [templatesLoading, setTemplatesLoading] = useState(true);
     const [estimates, setEstimates] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [estimatesLoading, setEstimatesLoading] = useState(true);
 
     useEffect(() => {
         getRecentTemplates(4).then((response: any) => {
             setTemplates(response.data);
-            setLoading(false);
+            setTemplatesLoading(false);
         });
-        //TODO Query for estimates
-        setEstimates([]);
+        getRecentEstimates(4).then((response: any) => {
+            setEstimates(response.data);
+            setEstimatesLoading(false);
+        });
     }, []);
 
     return (
@@ -40,8 +44,8 @@ const Dashboard = () => {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Recent Estimates
                     </Typography>
-                    {loading && <Loading />}
-                    {!loading && <RecentPreviews objects={estimates} url={'/past-estimate?estiamteId'} />}
+                    {estimatesLoading && <Loading />}
+                    {!estimatesLoading && <RecentPreviews objects={estimates} url={'/past-estimate?estiamteId'} />}
                 </Paper>
             </Grid>
             {/* Recent Templates */}
@@ -57,8 +61,8 @@ const Dashboard = () => {
                     <Typography component="h2" variant="h6" color="primary" gutterBottom>
                         Recent Templates
                     </Typography>
-                    {loading && <Loading />}
-                    {!loading &&
+                    {templatesLoading && <Loading />}
+                    {!templatesLoading &&
                         <RecentPreviews objects={templates} url={'/edit-template?templateId'} />}
                 </Paper>
             </Grid>
