@@ -28,7 +28,7 @@ const PastEstimates = () => {
             {!loading && estimates.length === 0 && <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
                 No estimates found
             </Typography>}
-            {!loading && estimates.length > 0 && <EstimatesList estimates={estimates} />}
+            {!loading && estimates.length > 0 && <EstimatesList estimates={estimates} setEstimates={setEstimates} />}
 
         </React.Fragment>
     );

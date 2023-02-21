@@ -2,9 +2,9 @@ import List from '@mui/material/List';
 import EstimateListItem from './EstimateListItem/EstimateListItem';
 import { deleteEstimate } from '../../../../utils/estimates-api';
 
-const EstimatesList = ({estimates, setEstimates}:any) => {
+const EstimatesList = ({ estimates, setEstimates }: any) => {
 
-    const handleTemplateDelete = (estimatesId: string) => {
+    const handleEstimateDelete = (estimatesId: string) => {
         deleteEstimate(estimatesId).then((response) => {
             setEstimates(estimates.filter((estimate: any) => estimate.id !== estimatesId));
         });
@@ -12,8 +12,8 @@ const EstimatesList = ({estimates, setEstimates}:any) => {
 
     return (
         <List>
-            {estimates.map((estimate:any) => (
-                <EstimateListItem estimate={estimate} handleTemplateDelete={handleTemplateDelete} />
+            {estimates.map((estimate: any) => (
+                <EstimateListItem key={estimate.id} estimate={estimate} handleEstimateDelete={handleEstimateDelete} />
             ))}
         </List>
     );
