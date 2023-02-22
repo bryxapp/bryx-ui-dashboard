@@ -56,5 +56,15 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
     });
     stage.add(layer);
 
-    return stage.toDataURL();
+    let dataUrlSettings = {
+        type: "image/png",
+        quality: 1,
+        pixelRatio: 1,
+        height: getPageHeight(),
+        width: getPageWidth(),
+        x: 0,
+        y: 0,
+    };
+
+    return stage.toDataURL(dataUrlSettings);
 }
