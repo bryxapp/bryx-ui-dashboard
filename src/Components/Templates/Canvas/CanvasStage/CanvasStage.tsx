@@ -3,12 +3,11 @@ import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import { shapeObj } from '../../../../utils/types/TemplateCreationInterfaces';
 import TextInput from '../Shapes/TextInputShape';
-import { getPageHeight, getPageWidth } from '../../../../utils/page-util';
+import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
-const pageWidth = getPageHeight();
-const pageHeight = getPageWidth();
-
+const pageWidth = getWebCanvasWidth();
+const pageHeight = getWebCanvasHeight();
 
 //Create a styled div to mimic the look of paper. White drop shadow and rounded corners.
 const PiecePaper = styled('div')({

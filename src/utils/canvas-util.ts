@@ -1,14 +1,14 @@
 import Konva from "konva";
 import { shapeObj } from "./types/TemplateCreationInterfaces";
-import { getPageHeight, getPageWidth } from "./page-util";
+import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
 
 export function createStage(canvasDesign: any, fieldValues: string[]) {
     const layer = new Konva.Layer();
     const rect = new Konva.Rect({
         x: 0,
         y: 0,
-        width: getPageWidth(),
-        height: getPageHeight(),
+        width: getWebCanvasWidth(),
+        height: getWebCanvasHeight(),
         fill: "white"
     });
     layer.add(rect);
@@ -51,8 +51,8 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
 
     const stage = new Konva.Stage({
         container: "container",
-        width: getPageWidth(),
-        height: getPageHeight(),
+        width: getWebCanvasWidth(),
+        height: getWebCanvasHeight(),
     });
     stage.add(layer);
 
@@ -60,8 +60,8 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
         type: "image/png",
         quality: 1,
         pixelRatio: 1,
-        height: getPageHeight(),
-        width: getPageWidth(),
+        height: getWebCanvasHeight(),
+        width: getWebCanvasWidth(),
         x: 0,
         y: 0,
     };

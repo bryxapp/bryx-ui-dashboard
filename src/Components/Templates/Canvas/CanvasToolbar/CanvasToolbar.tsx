@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import AddRectangleeOutlineIcon from '@mui/icons-material/RectangleOutlined';
 import { styled } from '@mui/material/styles';
-import { getPageHeight, getPageWidth } from '../../../../utils/page-util';
+import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
 import { useState } from 'react';
 
 const StyledDiv = styled('div')({
@@ -30,8 +30,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                 ...canvasDesign.Rectangles,
                 {
                     id: 'rect-' + canvasDesign.Rectangles.length,
-                    x: getPageWidth() / 4,
-                    y: getPageHeight() / 6,
+                    x: getWebCanvasWidth() / 4,
+                    y: getWebCanvasHeight() / 6,
                     isDragging: false,
                 }
             ]
@@ -45,8 +45,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                 ...canvasDesign.TextInputs,
                 {
                     id: 'text-' + canvasDesign.TextInputs.length,
-                    x: getPageWidth() / 6,
-                    y: getPageHeight() / 2.5,
+                    x: getWebCanvasWidth() / 6,
+                    y: getWebCanvasHeight() / 2.5,
                     isDragging: false,
                 }
             ]
