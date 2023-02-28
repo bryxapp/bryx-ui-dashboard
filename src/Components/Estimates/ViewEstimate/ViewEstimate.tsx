@@ -1,5 +1,8 @@
-import { Button, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
+import { Button, Link, Typography } from "@mui/material";
+import LinkIcon from "@mui/icons-material/Link"
+import ClipBoardIcon from "@mui/icons-material/CopyAll"
+import EmailIcon from "@mui/icons-material/Email"
 import { useLocation } from 'react-router-dom';
 import { getEstimate } from "../../../utils/estimates-api";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
@@ -40,6 +43,12 @@ const ViewEstimate = () => {
         window.location.href = mailtoLink;
     };
 
+    const handleLinkClick = () => {
+        //Copy to clipboard
+        const link = estimate?.estimatePdfUrl;
+        console.log(link)
+    };
+
     return (
         <div>
             <Typography variant="h3" color="primary">
@@ -47,7 +56,10 @@ const ViewEstimate = () => {
             </Typography>
             <div style={{ height: 20 }}></div>
             <div>
-                <Button variant="contained" color="primary" onClick={handleShareClick}>Share</Button>
+                <Button variant="contained" color="primary" onClick={handleShareClick}><EmailIcon /></Button>
+                <Link href={estimate?.estimatePdfUrl} target="_blank"><Button variant="contained" color="primary"> <LinkIcon /></Button>
+                </Link>
+                <Button variant="contained" color="primary" onClick={handleLinkClick}> <ClipBoardIcon /> </Button>
             </div>
             <div style={{ height: 20 }}></div>
             <div>
