@@ -1,7 +1,8 @@
-import { rectangleObj, textObj } from "./ShapeInterfaces";
+import { rectangleObj, circleObj, textObj } from "./ShapeInterfaces";
 
 export interface TemplateCreationState {
     Rectangles: rectangleObj[];
+    Circles: circleObj[];
     TextInputs: textObj[];
 };
 

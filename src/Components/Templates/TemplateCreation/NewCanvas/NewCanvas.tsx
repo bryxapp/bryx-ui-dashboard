@@ -9,6 +9,7 @@ const NewCanvas = ({ friendlyName }: any) => {
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
         Rectangles : [],
+        Circles: [],
         TextInputs: [],
     });
 

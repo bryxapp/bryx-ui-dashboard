@@ -4,7 +4,15 @@ export interface rectangleObj {
     y: number;
     width: number;
     height: number;
-    text?: string;
+    isDragging: boolean;
+    fill: string;
+}
+
+export interface circleObj {
+    id: string;
+    x: number;
+    y: number;
+    radius: number;
     isDragging: boolean;
     fill: string;
 }

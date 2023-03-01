@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
+import CircleShape from '../Shapes/CircleShape';
 import TextInput from '../Shapes/TextInputShape';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { rectangleObj, textObj } from '../../../../utils/types/ShapeInterfaces';
+import { circleObj, rectangleObj, textObj } from '../../../../utils/types/ShapeInterfaces';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -22,7 +23,6 @@ const PiecePaper = styled('div')({
 
 
 const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
-    // shapes =  {Rectangles:[], TextInputs:[]}
 
     const handleDragStart = (e: any) => {
         const id = e.target.id();
@@ -70,6 +70,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                     {/* Place all rectangle shapes on the canvas */}
                     {canvasDesign.Rectangles.map((rectangleObj: rectangleObj) => (
                         <RectangleShape key={rectangleObj.id} rectangleObj={rectangleObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                    ))}
+                    {/* Place all circle shapes on the canvas */}
+                    {canvasDesign.Circles.map((circleObj: circleObj) => (
+                        <CircleShape key={circleObj.id} circleObj={circleObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                     {/* Place all text input shapes on the canvas */}
                     {canvasDesign.TextInputs.map((textInputObj: textObj) => (

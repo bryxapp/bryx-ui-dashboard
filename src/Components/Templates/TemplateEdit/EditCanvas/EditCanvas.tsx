@@ -44,7 +44,6 @@ const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
         }
     }
 
-
     return (
         <div>
             <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={updateTemplateOnSave} />
