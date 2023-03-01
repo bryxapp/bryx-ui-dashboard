@@ -1,16 +1,8 @@
-export interface shapeObj {
-    id: string;
-    x: number;
-    y: number;
-    width?: number;
-    height?: number;
-    text?: string;
-    isDragging: boolean;
-}
+import { rectangleObj, textObj } from "./ShapeInterfaces";
 
 export interface TemplateCreationState {
-    Rectangles: shapeObj[];
-    TextInputs: shapeObj[];
+    Rectangles: rectangleObj[];
+    TextInputs: textObj[];
 };
 
 export interface TemplateData {

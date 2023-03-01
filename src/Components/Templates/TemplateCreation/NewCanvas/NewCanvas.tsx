@@ -8,7 +8,7 @@ import { createTemplate } from "../../../../utils/templates-api";
 const NewCanvas = ({ friendlyName }: any) => {
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
-        Rectangles: [],
+        Rectangles : [],
         TextInputs: [],
     });
 

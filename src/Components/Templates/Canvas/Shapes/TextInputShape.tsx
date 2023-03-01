@@ -7,32 +7,32 @@ const TextInputContainer = styled(Rect)({
     padding: '12px'
 });
 
-const TextInput = ({ shape, handleDragStart, handleDragEnd }: any) => {
+const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
     return (
         <Group
-            key={shape.id}
-            id={shape.id}
-            x={shape.x}
-            y={shape.y}
+            key={textInputObj.id}
+            id={textInputObj.id}
+            x={textInputObj.x}
+            y={textInputObj.y}
             draggable
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
             <TextInputContainer
-                width={180}
-                height={40}
-                fill="#F5F5F5"
-                scaleX={shape.isDragging ? 1.2 : 1}
-                scaleY={shape.isDragging ? 1.2 : 1}
+                width={textInputObj.width}
+                height={textInputObj.height}
+                fill={textInputObj.fill}
+                scaleX={textInputObj.isDragging ? 1.2 : 1}
+                scaleY={textInputObj.isDragging ? 1.2 : 1}
             />
             <Text
                 x={5}
                 y={5}
-                text={`Form Input ${shape.id}`}
+                text={`Form Input ${textInputObj.id}`}
                 fontSize={12}
                 fill="#333"
-                scaleX={shape.isDragging ? 1.2 : 1}
-                scaleY={shape.isDragging ? 1.2 : 1}
+                scaleX={textInputObj.isDragging ? 1.2 : 1}
+                scaleY={textInputObj.isDragging ? 1.2 : 1}
             />
         </Group>
     );

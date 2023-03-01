@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
-import { shapeObj } from '../../../../utils/types/TemplateCreationInterfaces';
 import TextInput from '../Shapes/TextInputShape';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
+import { rectangleObj, textObj } from '../../../../utils/types/ShapeInterfaces';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -68,12 +68,12 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
             <Stage width={pageWidth} height={pageHeight}>
                 <Layer>
                     {/* Place all rectangle shapes on the canvas */}
-                    {canvasDesign.Rectangles.map((shape: shapeObj) => (
-                        <RectangleShape key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                    {canvasDesign.Rectangles.map((rectangleObj: rectangleObj) => (
+                        <RectangleShape key={rectangleObj.id} rectangleObj={rectangleObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                     {/* Place all text input shapes on the canvas */}
-                    {canvasDesign.TextInputs.map((shape: shapeObj) => (
-                        <TextInput key={shape.id} shape={shape} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                    {canvasDesign.TextInputs.map((textInputObj: textObj) => (
+                        <TextInput key={textInputObj.id} textInputObj={textInputObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                 </Layer>
             </Stage>

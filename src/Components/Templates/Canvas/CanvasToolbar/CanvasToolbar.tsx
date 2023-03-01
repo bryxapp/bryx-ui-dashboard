@@ -32,6 +32,9 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                     id: 'rect-' + canvasDesign.Rectangles.length,
                     x: getWebCanvasWidth() / 4,
                     y: getWebCanvasHeight() / 6,
+                    height: 200,
+                    width: 200,
+                    fill: 'gray',
                     isDragging: false,
                 }
             ]
@@ -47,6 +50,16 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                     id: 'text-' + canvasDesign.TextInputs.length,
                     x: getWebCanvasWidth() / 6,
                     y: getWebCanvasHeight() / 2.5,
+                    height: 50,
+                    width: 200,
+                    fill: '#F5F5F5',
+                    fontSize: 20,
+                    opacity: 0.5,
+                    shadowColor: 'black',
+                    shadowBlur: 10,
+                    shadowOpacity: 0.6,
+                    shadowOffsetX: 5,
+                    shadowOffsetY: 5,
                     isDragging: false,
                 }
             ]

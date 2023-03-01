@@ -1,6 +1,6 @@
 import Konva from "konva";
-import { shapeObj } from "./types/TemplateCreationInterfaces";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
+import { rectangleObj, textObj } from "./types/ShapeInterfaces";
 
 export function createStage(canvasDesign: any, fieldValues: string[]) {
     const layer = new Konva.Layer();
@@ -13,33 +13,23 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
     });
     layer.add(rect);
 
-    canvasDesign.Rectangles.forEach((shape: shapeObj) => {
+    canvasDesign.Rectangles.forEach((rectangle: rectangleObj) => {
         const rect = new Konva.Rect({
-            x: shape.x,
-            y: shape.y,
-            width: 200,
-            height: 200,
-            fill: "gray",
-            opacity: 0.8,
-            shadowColor: "black",
-            shadowBlur: 10,
-            shadowOpacity: 0.6,
-            shadowOffsetX: 5,
-            shadowOffsetY: 5
+            x: rectangle.x,
+            y: rectangle.y,
+            width: rectangle.width,
+            height: rectangle.height,
+            fill: rectangle.fill,
         });
         layer.add(rect);
     });
 
-    canvasDesign.TextInputs.forEach((shape: shapeObj, index: number) => {
-        console.log("shape: ", shape)
-        console.log("index: ", index)
-        console.log("fieldValues: ", fieldValues)
-        console.log("fieldValues[index]: ", fieldValues[index])
+    canvasDesign.TextInputs.forEach((textInput: textObj, index: number) => {
         const text = new Konva.Text({
-            x: shape.x,
-            y: shape.y,
+            x: textInput.x,
+            y: textInput.y,
             text: fieldValues[index],
-            fontSize: 20,
+            fontSize: textInput.fontSize,
         });
         layer.add(text);
     });

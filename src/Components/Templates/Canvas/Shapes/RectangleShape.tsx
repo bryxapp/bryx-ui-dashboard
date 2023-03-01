@@ -1,25 +1,19 @@
 import { Rect } from 'react-konva';
 
-const RectangleShape = ({ shape, handleDragStart, handleDragEnd }: any) => {
+const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd }: any) => {
     return (
         <Rect
-            id={shape.id}
-            x={shape.x}
-            y={shape.y}
-            width={200}
-            height={200}
-            fill="gray"
-            opacity={0.8}
-            draggable
-            shadowColor="black"
-            shadowBlur={10}
-            shadowOpacity={0.6}
-            shadowOffsetX={shape.isDragging ? 10 : 5}
-            shadowOffsetY={shape.isDragging ? 10 : 5}
-            scaleX={shape.isDragging ? 1.2 : 1}
-            scaleY={shape.isDragging ? 1.2 : 1}
+            id={rectangleObj.id}
+            x={rectangleObj.x}
+            y={rectangleObj.y}
+            width={rectangleObj.width}
+            height={rectangleObj.height}
+            fill={rectangleObj.fill}
+            scaleX={rectangleObj.isDragging ? 1.2 : 1}
+            scaleY={rectangleObj.isDragging ? 1.2 : 1}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            draggable
         />
     )
 };
