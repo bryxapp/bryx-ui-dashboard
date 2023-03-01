@@ -45,7 +45,7 @@ const Dashboard = () => {
                         Recent Estimates
                     </Typography>
                     {estimatesLoading && <Loading />}
-                    {!estimatesLoading && <RecentPreviews objects={estimates} url={'/past-estimate?estiamteId'} />}
+                    {!estimatesLoading && <RecentPreviews objects={estimates} url={'/view-estimate?estimateId'} />}
                 </Paper>
             </Grid>
             {/* Recent Templates */}
