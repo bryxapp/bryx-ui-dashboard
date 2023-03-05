@@ -9,9 +9,13 @@ import Dashboard from './Components/Dashboard/Dashboard';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { themeOptions } from "./theme/themeOptions";
 
 function App() {
+  const theme = createTheme(themeOptions);
   return (
+    <ThemeProvider theme={theme}>
     <Navigation>
       <BrowserRouter>
         <Routes>
@@ -27,6 +31,7 @@ function App() {
         </Routes>
       </BrowserRouter>
     </Navigation >
+    </ThemeProvider>
   );
 }
 
