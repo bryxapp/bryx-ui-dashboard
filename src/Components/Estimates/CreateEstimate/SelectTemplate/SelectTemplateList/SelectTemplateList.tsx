@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SelectTemplateListItem from "./SelectTemplateListItem/SelectTemplateListItem";
+import NoneFound from "../../../../SharedComponents/NoneFound/NoneFound";
 
 const SelectTemplateList = () => {
     const [templates, setTemplates] = useState([]);
@@ -23,12 +24,18 @@ const SelectTemplateList = () => {
     );
     if (templates.length === 0) return (
         <React.Fragment>
+            <NoneFound item="templates" />
+            <br />
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-                No templates found. Please create a template.
+                Please create a template to continue
             </Typography>
-            <Button variant="contained" color="primary" href="/templates">
-                Create Template
-            </Button>
+            <br />
+            <div style={{ textAlign: 'center' }}>
+                <Button variant="contained" color="primary" href="/create-template">
+                    Create Template
+                </Button>   
+            </div>
+
         </React.Fragment>
 
     );

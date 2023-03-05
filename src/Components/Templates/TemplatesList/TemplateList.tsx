@@ -4,6 +4,7 @@ import TemplatesListItem from './TemplatesListItem/TemplatesListItem';
 import { getTemplates } from '../../../utils/templates-api';
 import { Typography } from '@mui/material';
 import { deleteTemplate } from '../../../utils/templates-api';
+import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
 
 const TemplatesList = () => {
     const [templates, setTemplates] = useState([]);
@@ -28,9 +29,7 @@ const TemplatesList = () => {
         </Typography>
     );
     if (templates.length === 0) return (
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            No templates found
-        </Typography>
+        <NoneFound item="templates" />
     );
     return (
         <List>
