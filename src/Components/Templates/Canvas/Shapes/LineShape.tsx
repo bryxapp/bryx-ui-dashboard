@@ -4,6 +4,8 @@ const LineShape = ({ lineObj, handleDragStart, handleDragEnd }: any) => {
     return (
         <Line
             id={lineObj.id}
+            x={lineObj.x}
+            y={lineObj.y}
             points={lineObj.points}
             stroke={lineObj.stroke}
             strokeWidth={lineObj.strokeWidth}

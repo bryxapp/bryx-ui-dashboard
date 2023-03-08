@@ -6,19 +6,24 @@ import MenuItem from "@mui/material/MenuItem";
 const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     const handleAddRectangle = () => {
         setAnchorEl(null);
+
+        const newRectangle = {
+            id: 'rect-' + canvasDesign.Rectangles.length,
+            x: getWebCanvasWidth() / 2,
+            y: getWebCanvasHeight() / 2,
+            height: 300,
+            width: 200,
+            fill: '#CDB38B',
+            isDragging: false,
+        }
+
+        console.log(newRectangle)
+
         setCanvasDesign({
             ...canvasDesign,
             Rectangles: [
                 ...canvasDesign.Rectangles,
-                {
-                    id: 'rect-' + canvasDesign.Rectangles.length,
-                    x: getWebCanvasWidth() / 4,
-                    y: getWebCanvasHeight() / 6,
-                    height: 300,
-                    width: 200,
-                    fill: '#CDB38B',
-                    isDragging: false,
-                }
+                newRectangle
             ]
         });
     }

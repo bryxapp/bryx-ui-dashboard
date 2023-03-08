@@ -19,6 +19,8 @@ export interface circleObj {
 
 export interface lineObj {
     id: string;
+    x: number;
+    y: number;
     points: number[];
     isDragging: boolean;
     stroke: string;

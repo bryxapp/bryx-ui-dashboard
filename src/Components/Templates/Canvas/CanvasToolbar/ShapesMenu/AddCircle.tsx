@@ -6,18 +6,21 @@ import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page
 const AddCircle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     const handleAddCircle = () => {
         setAnchorEl(null);
+
+        const newCircle = {
+            id: 'circle-' + canvasDesign.Circles.length,
+            x: getWebCanvasWidth() / 2,
+            y: getWebCanvasHeight() / 2,
+            radius: 100,
+            fill: '#355E3B',
+            isDragging: false,
+        }
+        
         setCanvasDesign({
             ...canvasDesign,
             Circles: [
                 ...canvasDesign.Circles,
-                {
-                    id: 'circle-' + canvasDesign.Circles.length,
-                    x: getWebCanvasWidth() / 2,
-                    y: getWebCanvasHeight() / 2,
-                    radius: 100,
-                    fill: '#355E3B',
-                    isDragging: false,
-                }
+                newCircle
             ]
         });
     }
