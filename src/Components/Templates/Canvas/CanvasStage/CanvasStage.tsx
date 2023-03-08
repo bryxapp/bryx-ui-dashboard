@@ -75,58 +75,41 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const onTransformEnd = (e: any) => {
-        const node = e.target;
+    const onTransformEnd = (event: any) => {
+        const node = event.target;
         const scaleX = node.scaleX();
         const scaleY = node.scaleY();
         node.scaleX(1);
         node.scaleY(1);
-        const shapeTypes = Object.keys(canvasDesign);
+
         const updatedCanvasDesign: any = {};
-        shapeTypes.forEach(shapeType => {
+
+        Object.keys(canvasDesign).forEach((shapeType: string) => {
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                if (shape.id === node.id()) {
-                    if (node.radius) {
-                        return {
-                            ...shape,
-                            x: node.x(),
-                            y: node.y(),
-                            rotation: node.rotation(),
-                            radius: Math.max(5, node.radius() * scaleX),
-                        };
-                    }
-                    else if (node.points) {
-                        let points = node.points();
-                        points = points.map((point: any) => {
-                            return point * scaleX;
-                        });
-
-                        return {
-                            ...shape,
-                            x: node.x(),
-                            y: node.y(),
-                            rotation: node.rotation(),
-                            points: points,
-                            strokeWidth: Math.max(5, node.strokeWidth() * scaleX),
-                        };
-                    }
-                    else if (node.width) {
-                        return {
-                            ...shape,
-                            x: node.x(),
-                            y: node.y(),
-                            rotation: node.rotation(),
-                            width: Math.max(5, node.width() * scaleX),
-                            height: Math.max(node.height() * scaleY),
-                        };
-                    }
-
-                } else {
+                if (shape.id !== node.id()) {
                     return shape;
                 }
-                return shape;
+                const updatedShape = {
+                    ...shape,
+                    x: node.x(),
+                    y: node.y(),
+                    rotation: node.rotation(),
+                };
+
+                if (node.radius) { // Circle
+                    updatedShape.radius = Math.max(5, node.radius() * scaleX);
+                } else if (node.points) { // Line
+                    updatedShape.points = node.points().map((point: number) => point * scaleX);
+                    updatedShape.strokeWidth = Math.max(5, node.strokeWidth() * scaleX);
+                } else if (node.width) { // Rectangle
+                    updatedShape.width = Math.max(5, node.width() * scaleX);
+                    updatedShape.height = Math.max(node.height() * scaleY);
+                }
+
+                return updatedShape;
             });
         });
+
         setCanvasDesign(updatedCanvasDesign);
     };
 
