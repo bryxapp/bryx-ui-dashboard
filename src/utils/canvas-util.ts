@@ -20,6 +20,7 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             width: rectangle.width,
             height: rectangle.height,
             fill: rectangle.fill,
+            rotation: rectangle.rotation,
         });
         layer.add(rect);
     });
@@ -30,15 +31,20 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             y: circle.y,
             radius: circle.radius,
             fill: circle.fill,
+            rotation: circle.rotation,
         });
         layer.add(circ);
     });
 
     canvasDesign.Lines.forEach((line: any) => {
+        console.log(line)
         const lineObj = new Konva.Line({
+            x: line.x,
+            y: line.y,
             points: line.points,
             stroke: line.stroke,
             strokeWidth: line.strokeWidth,
+            rotation: line.rotation,
         });
         layer.add(lineObj);
     });

@@ -6,6 +6,7 @@ export interface rectangleObj {
     height: number;
     isDragging: boolean;
     fill: string;
+    rotation: number;
 }
 
 export interface circleObj {
@@ -15,6 +16,7 @@ export interface circleObj {
     radius: number;
     isDragging: boolean;
     fill: string;
+    rotation: number;
 }
 
 export interface lineObj {
@@ -25,6 +27,7 @@ export interface lineObj {
     isDragging: boolean;
     stroke: string;
     strokeWidth: number;
+    rotation: number;
 }
 
 export interface textObj {
