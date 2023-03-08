@@ -1,6 +1,7 @@
 import Tooltip from "@mui/material/Tooltip";
 import AddRectangleIcon from "@mui/icons-material/RectangleOutlined";
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
+import MenuItem from "@mui/material/MenuItem";
 
 const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     const handleAddRectangle = () => {
@@ -23,9 +24,13 @@ const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     }
 
     return (
+
         <Tooltip title="Add Rectangle" placement="right">
-            <AddRectangleIcon onClick={handleAddRectangle} />
+            <MenuItem onClick={handleAddRectangle}>
+                <AddRectangleIcon />
+            </MenuItem>
         </Tooltip>
+
     )
 }
 

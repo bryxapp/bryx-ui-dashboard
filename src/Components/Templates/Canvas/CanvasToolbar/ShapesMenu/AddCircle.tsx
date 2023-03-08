@@ -1,4 +1,5 @@
 import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
 import AddCircleIcon from "@mui/icons-material/CircleOutlined";
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
 
@@ -23,7 +24,9 @@ const AddCircle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
 
     return (
         <Tooltip title="Add Circle" placement="right">
-            <AddCircleIcon onClick={handleAddCircle} />
+            <MenuItem onClick={handleAddCircle}>
+                <AddCircleIcon />
+            </MenuItem>
         </Tooltip>
     )
 }

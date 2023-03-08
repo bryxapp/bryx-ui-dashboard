@@ -1,4 +1,5 @@
 import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
 import AddLineIcon from "@mui/icons-material/HorizontalRule";
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
 
@@ -23,7 +24,9 @@ const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
 
     return (
         <Tooltip title="Add Line" placement="right">
-            <AddLineIcon onClick={handleAddLine} />
+            <MenuItem onClick={handleAddLine}>
+                <AddLineIcon />
+            </MenuItem>
         </Tooltip>
     )
 }

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
 import AddCircle from './AddCircle';
 import AddRectangle from './AddRectangle';
@@ -39,16 +38,9 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <MenuItem>
-                    <AddLine canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                </MenuItem>
-                <MenuItem>
-                    <AddRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                </MenuItem>
-                <MenuItem>
-                    <AddCircle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                </MenuItem>
-
+                <AddLine canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddCircle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </div>
     );
