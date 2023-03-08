@@ -8,8 +8,9 @@ import { createTemplate } from "../../../../utils/templates-api";
 const NewCanvas = ({ friendlyName }: any) => {
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
-        Rectangles : [],
+        Rectangles: [],
         Circles: [],
+        Lines: [],
         TextInputs: [],
     });
 
@@ -20,7 +21,7 @@ const NewCanvas = ({ friendlyName }: any) => {
 
     return (
         <div>
-            <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate = {createTemplateOnSave}/>
+            <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={createTemplateOnSave} />
             <div style={{ padding: '1vh' }} />
             <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </div>

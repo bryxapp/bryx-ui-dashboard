@@ -34,6 +34,16 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
         layer.add(circ);
     });
 
+    canvasDesign.Lines.forEach((line: any) => {
+        const lineObj = new Konva.Line({
+            points: line.points,
+            stroke: line.stroke,
+            strokeWidth: line.strokeWidth,
+        });
+        layer.add(lineObj);
+    });
+
+
     canvasDesign.TextInputs.forEach((textInput: textObj, index: number) => {
         const text = new Konva.Text({
             x: textInput.x,

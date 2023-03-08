@@ -22,8 +22,8 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
                 width={textInputObj.width}
                 height={textInputObj.height}
                 fill={textInputObj.fill}
-                scaleX={textInputObj.isDragging ? 1.2 : 1}
-                scaleY={textInputObj.isDragging ? 1.2 : 1}
+                scaleX={textInputObj.isDragging ? 1.1 : 1}
+                scaleY={textInputObj.isDragging ? 1.1 : 1}
             />
             <Text
                 x={5}
@@ -31,8 +31,8 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
                 text={`Form Input ${textInputObj.id}`}
                 fontSize={12}
                 fill="#333"
-                scaleX={textInputObj.isDragging ? 1.2 : 1}
-                scaleY={textInputObj.isDragging ? 1.2 : 1}
+                scaleX={textInputObj.isDragging ? 1.1 : 1}
+                scaleY={textInputObj.isDragging ? 1.1 : 1}
             />
         </Group>
     );

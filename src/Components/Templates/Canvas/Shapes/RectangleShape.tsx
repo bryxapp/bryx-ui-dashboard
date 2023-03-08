@@ -9,8 +9,8 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd }: any) =
             width={rectangleObj.width}
             height={rectangleObj.height}
             fill={rectangleObj.fill}
-            scaleX={rectangleObj.isDragging ? 1.2 : 1}
-            scaleY={rectangleObj.isDragging ? 1.2 : 1}
+            scaleX={rectangleObj.isDragging ? 1.1 : 1}
+            scaleY={rectangleObj.isDragging ? 1.1 : 1}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
             draggable

@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import CircleShape from '../Shapes/CircleShape';
+import LineShape from '../Shapes/LineShape';
 import TextInput from '../Shapes/TextInputShape';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
 import { circleObj, rectangleObj, textObj } from '../../../../utils/types/ShapeInterfaces';
@@ -43,6 +44,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         const id = e.target.id();
         const shapeTypes = Object.keys(canvasDesign);
         const updatedCanvasDesign: any = {};
+        console.log(e.target);
         shapeTypes.forEach(shapeType => {
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
                 if (shape.id === id) {
@@ -74,6 +76,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                     {/* Place all circle shapes on the canvas */}
                     {canvasDesign.Circles.map((circleObj: circleObj) => (
                         <CircleShape key={circleObj.id} circleObj={circleObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                    ))}
+                    {/* Place all line shapes on the canvas */}
+                    {canvasDesign.Lines.map((lineObj: any) => (
+                        <LineShape key={lineObj.id} lineObj={lineObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
                     ))}
                     {/* Place all text input shapes on the canvas */}
                     {canvasDesign.TextInputs.map((textInputObj: textObj) => (

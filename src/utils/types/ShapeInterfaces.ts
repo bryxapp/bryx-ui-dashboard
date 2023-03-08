@@ -17,6 +17,14 @@ export interface circleObj {
     fill: string;
 }
 
+export interface lineObj {
+    id: string;
+    points: number[];
+    isDragging: boolean;
+    stroke: string;
+    strokeWidth: number;
+}
+
 export interface textObj {
     id: string;
     x: number;
