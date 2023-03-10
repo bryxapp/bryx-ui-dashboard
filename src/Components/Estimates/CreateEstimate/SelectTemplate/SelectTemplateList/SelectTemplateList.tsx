@@ -5,17 +5,20 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SelectTemplateListItem from "./SelectTemplateListItem/SelectTemplateListItem";
 import NoneFound from "../../../../SharedComponents/NoneFound/NoneFound";
+import { useAuth0 } from '@auth0/auth0-react';
 
 const SelectTemplateList = () => {
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { user } = useAuth0();
+    const userId = user?.email ? user.email : "";
 
     useEffect(() => {
-        getTemplates().then((response) => {
+        getTemplates(userId).then((response) => {
             setTemplates(response.data);
             setLoading(false);
         });
-    }, []);
+    }, [userId]);
 
     if (loading) return (
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
@@ -33,7 +36,7 @@ const SelectTemplateList = () => {
             <div style={{ textAlign: 'center' }}>
                 <Button variant="contained" color="primary" href="/create-template">
                     Create Template
-                </Button>   
+                </Button>
             </div>
 
         </React.Fragment>

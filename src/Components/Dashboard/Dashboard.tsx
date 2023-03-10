@@ -6,6 +6,7 @@ import { getRecentTemplates } from '../../utils/templates-api';
 import RecentPreviews from './RecentPreviews/RecentPreviews';
 import Loading from '../SharedComponents/Loading/Loading';
 import { getRecentEstimates } from '../../utils/estimates-api';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 const Dashboard = () => {
@@ -14,17 +15,19 @@ const Dashboard = () => {
     const [templatesLoading, setTemplatesLoading] = useState(true);
     const [estimates, setEstimates] = useState([]);
     const [estimatesLoading, setEstimatesLoading] = useState(true);
+    const { user } = useAuth0();
+    const userId = user?.email ? user.email : "";
 
     useEffect(() => {
-        getRecentTemplates(4).then((response: any) => {
+        getRecentTemplates(4, userId).then((response: any) => {
             setTemplates(response.data);
             setTemplatesLoading(false);
         });
-        getRecentEstimates(4).then((response: any) => {
+        getRecentEstimates(4, userId).then((response: any) => {
             setEstimates(response.data);
             setEstimatesLoading(false);
         });
-    }, []);
+    }, [userId]);
 
     return (
         <Grid container spacing={3}>

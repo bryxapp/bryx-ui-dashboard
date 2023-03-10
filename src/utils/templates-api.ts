@@ -1,13 +1,13 @@
 //Methods for creating and updating templates using axios
 
 import axios from 'axios';
-import { hashUserName } from './request-util';
-const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
+//const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
+const BASE_URL = "http://localhost:7071/api/templates";
 
-export function createTemplate(canvasDesign: any, friendlyName: string, user:string) {
+export function createTemplate(canvasDesign: any, friendlyName: string, user: string) {
     //Create Body
     const body = {
-        user: hashUserName(user),
+        user: user,
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
     }
@@ -15,11 +15,11 @@ export function createTemplate(canvasDesign: any, friendlyName: string, user:str
     return axios.post(`${BASE_URL}`, body);
 }
 
-export function updateTemplate(templateId: string, canvasDesign: any, friendlyName: string, user:string) {
+export function updateTemplate(templateId: string, canvasDesign: any, friendlyName: string, user: string) {
 
     //Create Body
     const body = {
-        user: hashUserName(user),
+        user: user,
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
     }
@@ -27,14 +27,14 @@ export function updateTemplate(templateId: string, canvasDesign: any, friendlyNa
     return axios.put(`${BASE_URL}/${templateId}`, body);
 }
 
-export function getTemplates() {
+export function getTemplates(user:string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}`);
+    return axios.get(`${BASE_URL}?userId=${user}`);
 }
 
-export function getRecentTemplates(count: number) {
+export function getRecentTemplates(count: number, user:string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}/recent/${count}`);
+    return axios.get(`${BASE_URL}/recent/${count}?userId=${user}`);
 }
 
 export function getTemplate(id: string) {

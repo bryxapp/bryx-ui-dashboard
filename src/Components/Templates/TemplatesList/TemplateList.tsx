@@ -5,17 +5,21 @@ import { getTemplates } from '../../../utils/templates-api';
 import { Typography } from '@mui/material';
 import { deleteTemplate } from '../../../utils/templates-api';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 const TemplatesList = () => {
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(true);
+    const {user} = useAuth0();
+    const userId = user?.email ? user.email : "";
 
     useEffect(() => {
-        getTemplates().then((response) => {
+        getTemplates(userId).then((response) => {
             setTemplates(response.data);
             setLoading(false);
         });
-    }, []);
+    }, [userId]);
 
     const handleTemplateDelete = (templateId: string) => {
         deleteTemplate(templateId).then((response) => {

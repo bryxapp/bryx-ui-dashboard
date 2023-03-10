@@ -17,6 +17,12 @@ import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 function App() {
   //Write environment variables to console for debugging
   const { user } = useAuth0();
+  //get JWT token from Auth0
+  const { getAccessTokenSilently } = useAuth0();
+  //get JWT token from Auth0
+  getAccessTokenSilently().then((token) => {
+    console.log(token);
+  });
   const theme = createTheme(themeOptions);
   return (
     <ThemeProvider theme={theme}>

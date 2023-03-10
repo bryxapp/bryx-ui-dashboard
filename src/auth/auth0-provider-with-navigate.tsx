@@ -10,12 +10,6 @@ export const Auth0ProviderWithNavigate = ({
   children,
 }: PropsWithChildren<Auth0ProviderWithNavigateProps>): JSX.Element | null => {
 
-  console.log("LOGGING ENVIRONMENT VARIABLES");
-  console.log("DOMAIN" + process.env.REACT_APP_AUTH0_DOMAIN);
-  console.log("CLIENTID" + process.env.REACT_APP_AUTH0_CLIENT_ID);
-  console.log("REDIRECTURI" + process.env.REACT_APP_AUTH0_CALLBACK_URL);
-  console.log("ENVIRONMENT" + JSON.stringify(process.env));
-
   
   const navigate = useNavigate();
 
