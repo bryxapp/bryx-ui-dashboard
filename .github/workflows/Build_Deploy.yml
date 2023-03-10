@@ -33,6 +33,10 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_GREEN_FIELD_062A5611E }}
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           action: "upload"
+          env:
+            REACT_APP_AUTH0_DOMAIN: dev-eqbwfxwsxyrgrg2y.us.auth0.com
+            REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
+            REACT_APP_AUTH0_CALLBACK_URL: https://dashboard.bryxapp.com/
           ###### Repository/Build Configurations - These values can be configured to match your app requirements. ######
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/build" # App source code path

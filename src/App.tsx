@@ -16,7 +16,10 @@ import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 
 function App() {
   //Write environment variables to console for debugging
-  console.log(process.env);
+  console.log("DOMAIN"+ process.env.REACT_APP_AUTH0_DOMAIN);
+  console.log("CLIENTID"+ process.env.REACT_APP_AUTH0_CLIENT_ID);
+  console.log("REDIRECTURI"+ process.env.REACT_APP_AUTH0_CALLBACK_URL);
+  console.log("ENVIRONMENT"+ process.env);
   const {user} = useAuth0();
 
   const theme = createTheme(themeOptions);
