@@ -26,7 +26,6 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo "BIG_VERSION=0.58.0" >> .env
           echo "REACT_APP_AUTH0_DOMAIN=dev-eqbwfxwsxyrgrg2y.us.auth0.com" >> .env
           echo "REACT_APP_AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> .env
           echo "REACT_APP_AUTH0_CALLBACK_URL=https://dashboard.bryxapp.com/" >> .env
@@ -47,9 +46,4 @@ jobs:
           app_location: "/build" # App source code path
           skip_app_build: true
           output_location: ""
-        env:
-          BIG_VERSION: 0.58.0
-          REACT_APP_AUTH0_DOMAIN: dev-eqbwfxwsxyrgrg2y.us.auth0.com
-          REACT_APP_AUTH0_CLIENT_ID: ${{ secrets.AUTH0_CLIENT_ID }}
-          REACT_APP_AUTH0_CALLBACK_URL: https://dashboard.bryxapp.com/
 
