@@ -6,9 +6,7 @@ import { getPDFHeight, getPDFWidth } from './page-util';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-export function createEstimate(canvasDesign: any, templateId: string, estimateName: string, fieldValues: string[]) {
-    //Get User
-    const user = getUser();
+export function createEstimate(canvasDesign: any, templateId: string, estimateName: string, fieldValues: string[], user:string) {
     const estimateImgObj = createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {
@@ -38,9 +36,4 @@ export function getEstimate(id: string) {
 
 export function deleteEstimate(templateId: string) {
     return axios.delete(`${BASE_URL}/${templateId}`);
-}
-
-function getUser() {
-    return "bthomas_test"
-    //return JSON.parse(localStorage.getItem('user'));
 }

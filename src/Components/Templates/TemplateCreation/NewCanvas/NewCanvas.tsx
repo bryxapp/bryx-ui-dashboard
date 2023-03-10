@@ -3,9 +3,13 @@ import CanvasToolbar from "../../Canvas/CanvasToolbar/CanvasToolbar";
 import CanvasStage from "../../Canvas/CanvasStage/CanvasStage";
 import { TemplateCreationState } from "../../../../utils/types/TemplateCreationInterfaces";
 import { createTemplate } from "../../../../utils/templates-api";
+import { useAuth0 } from "@auth0/auth0-react";
 
 
 const NewCanvas = ({ friendlyName }: any) => {
+
+    const { user } = useAuth0();
+    const userName = user?.email ? user.email : "";
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
         Rectangles: [],
@@ -13,10 +17,10 @@ const NewCanvas = ({ friendlyName }: any) => {
         Lines: [],
         TextInputs: [],
     });
-
+    
     const createTemplateOnSave = () => {
         //create new template
-        return createTemplate(canvasDesign, friendlyName);
+        return createTemplate(canvasDesign, friendlyName,userName);
     }
 
     return (

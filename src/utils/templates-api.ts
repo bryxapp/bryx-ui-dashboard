@@ -4,9 +4,7 @@ import axios from 'axios';
 
 const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
-export function createTemplate(canvasDesign: any, friendlyName: string) {
-    //Get User 
-    const user = getUser();
+export function createTemplate(canvasDesign: any, friendlyName: string, user:string) {
     //Create Body
     const body = {
         user: user,
@@ -17,9 +15,8 @@ export function createTemplate(canvasDesign: any, friendlyName: string) {
     return axios.post(`${BASE_URL}`, body);
 }
 
-export function updateTemplate(templateId: string, canvasDesign: any, friendlyName: string) {
-    //Get User 
-    const user = getUser();
+export function updateTemplate(templateId: string, canvasDesign: any, friendlyName: string, user:string) {
+
     //Create Body
     const body = {
         user: user,
@@ -46,9 +43,4 @@ export function getTemplate(id: string) {
 
 export function deleteTemplate(templateId: string) {
     return axios.delete(`${BASE_URL}/${templateId}`);
-}
-
-function getUser() {
-    return "bthomas_test"
-    //return JSON.parse(localStorage.getItem('user'));
 }

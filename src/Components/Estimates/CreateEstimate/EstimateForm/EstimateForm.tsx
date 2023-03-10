@@ -9,6 +9,7 @@ import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces
 import { createEstimate } from '../../../../utils/estimates-api';
 import EstimateName from './EstimateName/EstimateName';
 import Creating from '../../../SharedComponents/Creating/Creating';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const EstimateForm = () => {
 
@@ -21,13 +22,16 @@ const EstimateForm = () => {
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<string[]>([]);
+    const { user } = useAuth0();
+    const userName = user?.email ? user.email : "";
+
 
     const handleSubmit = () => {
         setCreating(true);
         if (!templateData) return;
-        createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues)
+        createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName)
             .then((res) => {
-                setTimeout(() => {}, 1000) //Wait 1 second for blob to be accessible
+                setTimeout(() => { }, 1000) //Wait 1 second for blob to be accessible
                 setCreating(false);
                 //Navigate users to the estimate page
                 window.location.href = "/view-estimate?estimateId=" + res.data.id;

@@ -6,11 +6,15 @@ import { getTemplate } from "../../../../utils/templates-api";
 import { Typography } from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import { updateTemplate } from "../../../../utils/templates-api";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const templateId = params.get('templateId');
+
+    const { user } = useAuth0();
+    const userName = user?.email ? user.email : "";
 
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>();
     const [loading, setLoading] = useState(true);
@@ -40,7 +44,7 @@ const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
     const updateTemplateOnSave = () => {
         //update template
         if(templateId){
-            return updateTemplate(templateId, canvasDesign, friendlyName);
+            return updateTemplate(templateId, canvasDesign, friendlyName,userName);
         }
     }
 
