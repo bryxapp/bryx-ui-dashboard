@@ -14,6 +14,7 @@ const SelectTemplateList = () => {
     const userId = user?.email ? user.email : "";
 
     useEffect(() => {
+        if (!userId) return;
         getTemplates(userId).then((response) => {
             setTemplates(response.data);
             setLoading(false);

@@ -19,6 +19,7 @@ const Dashboard = () => {
     const userId = user?.email ? user.email : "";
 
     useEffect(() => {
+        if (!userId) return;
         getRecentTemplates(4, userId).then((response: any) => {
             setTemplates(response.data);
             setTemplatesLoading(false);

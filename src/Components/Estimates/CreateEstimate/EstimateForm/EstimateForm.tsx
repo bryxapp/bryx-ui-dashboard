@@ -31,10 +31,11 @@ const EstimateForm = () => {
         if (!templateData) return;
         createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName)
             .then((res) => {
-                setTimeout(() => { }, 1000) //Wait 1 second for blob to be accessible
-                setCreating(false);
-                //Navigate users to the estimate page
-                window.location.href = "/view-estimate?estimateId=" + res.data.id;
+                //Wait for 2 seconds before navigating to the estimate page
+                setTimeout(() => {
+                    setCreating(false);
+                    window.location.href = "/view-estimate?estimateId=" + res.data.id;
+                }, 2000);
             });
     }
 

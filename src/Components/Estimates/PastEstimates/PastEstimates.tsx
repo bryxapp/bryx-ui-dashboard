@@ -15,6 +15,7 @@ const PastEstimates = () => {
     const userId = user?.email ? user.email : "";
 
     useEffect(() => {
+        if(!userId) return;
         getEstimates(userId).then((response) => {
             setEstimates(response.data);
             setLoading(false);
