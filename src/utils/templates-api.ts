@@ -1,8 +1,7 @@
 //Methods for creating and updating templates using axios
 
 import axios from 'axios';
-//const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
-const BASE_URL = "http://localhost:7071/api/templates";
+const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
 export function createTemplate(canvasDesign: any, friendlyName: string, user: string) {
     //Create Body
