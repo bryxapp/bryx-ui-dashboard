@@ -3,6 +3,7 @@
 import axios from 'axios';
 import { createStage } from './canvas-util';
 import { getPDFHeight, getPDFWidth } from './page-util';
+import { hashUserName } from './request-util';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
@@ -10,7 +11,7 @@ export function createEstimate(canvasDesign: any, templateId: string, estimateNa
     const estimateImgObj = createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {
-        user: user,
+        user: hashUserName(user),
         templateId: templateId,
         estimateName: estimateName,
         estimateImgObj: estimateImgObj,
