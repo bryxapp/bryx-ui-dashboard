@@ -4,13 +4,8 @@ import CanvasStage from "../../Canvas/CanvasStage/CanvasStage";
 import { TemplateCreationState } from "../../../../utils/types/TemplateCreationInterfaces";
 import { createTemplate } from "../../../../utils/templates-api";
 import { useAuth0 } from "@auth0/auth0-react";
-import styled from "@emotion/styled";
 import TextInputManager from "../../Canvas/TextInputManager/TextInputManager";
-
-const Container = styled('div')({
-    display: 'flex',
-    flexDirection: 'row',
-});
+import Box from "@mui/material/Box";
 
 const NewCanvas = ({ friendlyName }: any) => {
 
@@ -32,14 +27,18 @@ const NewCanvas = ({ friendlyName }: any) => {
 
     return (
         <div>
-            <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={createTemplateOnSave} />
-            <div style={{ padding: '1vh' }} />
-            <Container>
-                <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                <div style={{ padding: '1vw' }} />
-                <TextInputManager canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                <div style={{ padding: '1vw' }} />
-            </Container>
+            <div style={{ width: '100%' }}>
+                <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={createTemplateOnSave} />
+            </div>
+            <Box sx={{ height: '1vh' }} />
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+                <div style={{ flexGrow: 1 }}>
+                    <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                </div>
+                <div style={{ flexGrow: 1 }}>
+                    <TextInputManager canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                </div>
+            </div>
         </div>
     );
 };

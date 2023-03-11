@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import TemplateName from "../TemplateName/TemplateName";
 import EditCanvas from "./EditCanvas/EditCanvas";
+import { Box } from "@mui/material";
 
 const TemplateEdit = () => {
     const [friendlyName, setFriendlyName] = useState("New Template");
     return (
-        <React.Fragment>
+        <Box>
             <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
-            <div style={{ padding: '.5vh' }} />
-            <EditCanvas friendlyName={friendlyName} setFriendlyName={setFriendlyName}/>
-        </React.Fragment>
+            <Box sx={{ height: '2vh' }} />
+            <EditCanvas friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
+        </Box>
     );
 };
 

@@ -10,41 +10,47 @@ import { convertEpochTime } from '../../../../utils/time-util';
 import Typography from '@mui/material/Typography';
 
 const TemplatesListItem = ({ template, handleTemplateDelete }: any) => {
-    const displayDate = convertEpochTime(template._ts);
+  const displayDate = convertEpochTime(template._ts);
 
-    return (
-        <ListItem
-            secondaryAction={
-                <div>
-                    <a href={'/edit-template?templateId=' + template.id}>
-                        <IconButton aria-label="edit" >
-                            <EditIcon />
-                        </IconButton>
-                    </a>
-                    <IconButton aria-label="delete" onClick={() => handleTemplateDelete(template.id)}>
-                        <DeleteIcon />
-                    </IconButton>
-                </div>
-            }
-        >
-            <ListItemAvatar>
-                <Avatar>
-                    <DescriptionIcon />
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText
-                primary={
-                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                        {template.friendlyName}
-                    </Typography>
-                }
-                secondary={
-                    <Typography variant="body2" component="div" sx={{ flexGrow: 1 }}>
-                        {displayDate}
-                    </Typography>}
-            />
-        </ListItem>
-    );
+  return (
+    <ListItem
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+      }}
+      secondaryAction={
+        <div>
+          <a href={'/edit-template?templateId=' + template.id}>
+            <IconButton aria-label='edit'>
+              <EditIcon />
+            </IconButton>
+          </a>
+          <IconButton aria-label='delete' onClick={() => handleTemplateDelete(template.id)}>
+            <DeleteIcon />
+          </IconButton>
+        </div>
+      }
+    >
+      <ListItemAvatar sx={{ alignSelf: 'center', mb: 1 }}>
+        <Avatar>
+          <DescriptionIcon />
+        </Avatar>
+      </ListItemAvatar>
+      <ListItemText
+        primary={
+          <Typography variant='h5' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
+            {template.friendlyName}
+          </Typography>
+        }
+        secondary={
+          <Typography variant='body2' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
+            {displayDate}
+          </Typography>
+        }
+      />
+    </ListItem>
+  );
 };
 
 export default TemplatesListItem;

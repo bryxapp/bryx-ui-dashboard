@@ -1,15 +1,16 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import TemplateName from "../TemplateName/TemplateName";
 import NewCanvas from "./NewCanvas/NewCanvas";
+import { Box } from "@mui/material";
 
 const TemplateCreation = () => {
     const [friendlyName, setFriendlyName] = useState("New Template");
     return (
-        <React.Fragment>
-            <TemplateName friendlyName = {friendlyName} setFriendlyName={setFriendlyName}/>
-            <div style={{ padding: '.5vh' }} />
-            <NewCanvas friendlyName = {friendlyName}/>
-        </React.Fragment>
+        <Box>
+            <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
+            <Box sx={{ height: '2vh' }} />
+            <NewCanvas friendlyName={friendlyName} />
+        </Box>
     );
 };
 

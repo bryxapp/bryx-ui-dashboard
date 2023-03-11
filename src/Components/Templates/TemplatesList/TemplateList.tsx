@@ -6,16 +6,16 @@ import { Typography } from '@mui/material';
 import { deleteTemplate } from '../../../utils/templates-api';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
 import { useAuth0 } from '@auth0/auth0-react';
-
+import { TemplateData } from '../../../utils/types/TemplateCreationInterfaces';
 
 const TemplatesList = () => {
-    const [templates, setTemplates] = useState([]);
+    const [templates, setTemplates] = useState<TemplateData[]>([]);
     const [loading, setLoading] = useState(true);
-    const {user} = useAuth0();
-    const userId = user?.email ? user.email : "";
+    const { user } = useAuth0();
+    const userId = user?.email ? user.email : '';
 
     useEffect(() => {
-        if(!userId) return;
+        if (!userId) return;
         getTemplates(userId).then((response) => {
             setTemplates(response.data);
             setLoading(false);
@@ -28,22 +28,20 @@ const TemplatesList = () => {
         });
     };
 
-    if (loading) return (
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            Loading...
-        </Typography>
-    );
-    if (templates.length === 0) return (
-        <NoneFound item="templates" />
-    );
+    if (loading)
+        return (
+            <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>
+                Loading...
+            </Typography>
+        );
+    if (templates.length === 0) return <NoneFound item='templates' />;
     return (
-        <List>
+        <List sx={{ width: '100%' }}>
             {templates.map((template) => (
-                <TemplatesListItem template={template} handleTemplateDelete={handleTemplateDelete} />
+                <TemplatesListItem key={template.id} template={template} handleTemplateDelete={handleTemplateDelete} />
             ))}
         </List>
     );
-
 };
 
 export default TemplatesList;
