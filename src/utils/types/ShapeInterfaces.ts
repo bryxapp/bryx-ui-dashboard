@@ -37,4 +37,5 @@ export interface textObj {
     y: number;
     isDragging: boolean;
     fontSize: number;
+    fontColor: string;
 }

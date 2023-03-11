@@ -12,7 +12,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
         <Group
             key={textInputObj.id}
             id={textInputObj.id}
-            displayName = {textInputObj.displayName}
+            displayName={textInputObj.displayName}
             x={textInputObj.x}
             y={textInputObj.y}
             draggable
@@ -20,8 +20,8 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
             onDragEnd={handleDragEnd}
         >
             <TextInputContainer
-                width={textInputObj.width}
-                height={textInputObj.height}
+                width={textInputObj.fontSize * 10}
+                height={textInputObj.fontSize * 2}
                 fill={textInputObj.fill}
                 scaleX={textInputObj.isDragging ? 1.1 : 1}
                 scaleY={textInputObj.isDragging ? 1.1 : 1}
