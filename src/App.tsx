@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/themeOptions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
+import PageViewTracker from "./logging/PageViewTracker";
 
 function App() {
   //Write environment variables to console for debugging
@@ -21,6 +22,7 @@ function App() {
   const theme = createTheme(themeOptions);
   return (
     <ThemeProvider theme={theme}>
+      <PageViewTracker />
       <Navigation>
         {(isLoading||user) && (
           <Routes>

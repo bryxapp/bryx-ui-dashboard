@@ -30,6 +30,7 @@ jobs:
           echo "REACT_APP_AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> .env
           echo "REACT_APP_AUTH0_CALLBACK_URL=https://dashboard.bryxapp.com/" >> .env
           echo "REACT_APP_AUTH0_LOGOUT_URL=https://bryxapp.com/" >> .env
+          echo "REACT_APP_APPLICATIONINSIGHTS_CONNECTIONSTRING=${{ secrets.AUTH0_CLIENT_ID }}" >> .env
           cat .env
 
       - name: Build app
