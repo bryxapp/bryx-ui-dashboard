@@ -79,8 +79,11 @@ const EstimateForm = () => {
             <Typography variant="h6" color="gray">
                 Template: {templateData.friendlyName}
             </Typography>
-            {templateData.canvasDesign.TextInputs.map(({ id }: any, index: any) => (
-                <EstimateFormTextField name={id} index={index} key={"TextInputComponent-" + index} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
+            {templateData.canvasDesign.TextInputs.map((inputObj: any, index: any) => (
+                <>
+                    <EstimateFormTextField name={inputObj.displayName} index={index} key={inputObj.id} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
+                    <div style={{ height: 15 }}></div>
+                </>
             ))}
             <Button variant="contained" onClick={() => handleSubmit()}>Submit</Button>
         </>

@@ -12,6 +12,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
         <Group
             key={textInputObj.id}
             id={textInputObj.id}
+            displayName = {textInputObj.displayName}
             x={textInputObj.x}
             y={textInputObj.y}
             draggable
@@ -28,7 +29,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
             <Text
                 x={5}
                 y={5}
-                text={`Form Input ${textInputObj.id}`}
+                text={`${textInputObj.displayName}`}
                 fontSize={12}
                 fill="#333"
                 scaleX={textInputObj.isDragging ? 1.1 : 1}

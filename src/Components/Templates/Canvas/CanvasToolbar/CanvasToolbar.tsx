@@ -30,6 +30,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                 ...canvasDesign.TextInputs,
                 {
                     id: 'text-' + canvasDesign.TextInputs.length,
+                    displayName: 'Text Input ' + canvasDesign.TextInputs.length,
                     x: getWebCanvasWidth() / 6,
                     y: getWebCanvasHeight() / 2.5,
                     height: 50,

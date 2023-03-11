@@ -1,6 +1,5 @@
 import { TextField } from '@mui/material';
 import React from 'react';
-import Typography from '@mui/material/Typography';
 
 interface Props {
     name: string;
@@ -16,10 +15,6 @@ const EstimateFormTextField: React.FC<Props> = ({ name, index, value, onValueCha
     };
 
     return (
-        <>
-            <Typography variant="h6" sx={{ padding: 1 }}>
-                {name}
-            </Typography>
             <TextField
                 key={index}
                 type="text"
@@ -28,8 +23,6 @@ const EstimateFormTextField: React.FC<Props> = ({ name, index, value, onValueCha
                 value={value}
                 onChange={handleChange}
             />
-            <div style={{ height: 15 }}></div>
-        </>
     );
 };
 

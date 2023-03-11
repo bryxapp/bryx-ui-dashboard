@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
 import CanvasToolbar from "../../Canvas/CanvasToolbar/CanvasToolbar";
 import CanvasStage from "../../Canvas/CanvasStage/CanvasStage";
+import TextInputManager from "../../Canvas/TextInputManager/TextInputManager";
 import { TemplateCreationState } from "../../../../utils/types/TemplateCreationInterfaces";
 import { getTemplate } from "../../../../utils/templates-api";
 import { Typography } from "@mui/material";
 import { useLocation } from 'react-router-dom';
 import { updateTemplate } from "../../../../utils/templates-api";
 import { useAuth0 } from "@auth0/auth0-react";
+import styled from "@emotion/styled";
+
+const Container = styled('div')({
+    display: 'flex',
+    flexDirection: 'row',
+});
 
 const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
     const location = useLocation();
@@ -43,8 +50,8 @@ const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
 
     const updateTemplateOnSave = () => {
         //update template
-        if(templateId){
-            return updateTemplate(templateId, canvasDesign, friendlyName,userName);
+        if (templateId) {
+            return updateTemplate(templateId, canvasDesign, friendlyName, userName);
         }
     }
 
@@ -53,6 +60,11 @@ const EditCanvas = ({ friendlyName, setFriendlyName }: any) => {
             <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={updateTemplateOnSave} />
             <div style={{ padding: '1vh' }} />
             <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            <Container>
+                <div style={{ padding: '1vw' }} />
+                <TextInputManager canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                <div style={{ padding: '1vw' }} />
+            </Container>
         </div>
     );
 };

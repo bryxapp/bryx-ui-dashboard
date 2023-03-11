@@ -7,6 +7,7 @@ const TemplateEdit = () => {
     return (
         <React.Fragment>
             <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
+            <div style={{ padding: '.5vh' }} />
             <EditCanvas friendlyName={friendlyName} setFriendlyName={setFriendlyName}/>
         </React.Fragment>
     );

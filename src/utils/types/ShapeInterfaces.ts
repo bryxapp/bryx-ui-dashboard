@@ -32,6 +32,7 @@ export interface lineObj {
 
 export interface textObj {
     id: string;
+    displayName: string;
     x: number;
     y: number;
     isDragging: boolean;
