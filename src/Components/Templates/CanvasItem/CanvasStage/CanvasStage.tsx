@@ -7,6 +7,7 @@ import TextInput from '../Shapes/TextInputShape';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
 import { circleObj, rectangleObj, textObj } from '../../../../utils/types/ShapeInterfaces';
+import { ChromePicker } from 'react-color';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -27,6 +28,7 @@ const PiecePaper = styled('div')({
 const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
 
     const [selectedId, selectShape] = useState<string | null>(null);
+    const [color, setColor] = useState('#000000');
 
     const checkDeselect = (e: any) => {
         // deselect when clicked on empty area
@@ -113,56 +115,89 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         setCanvasDesign(updatedCanvasDesign);
     };
 
+    const onColorChange = (color: any) => {
+        setColor(color.hex);
+        const updatedCanvasDesign: any = {};
+
+        Object.keys(canvasDesign).forEach((shapeType: string) => {
+            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
+                if (shape.id !== selectedId) {
+                    return shape;
+                }
+                const updatedShape = {
+                    ...shape,
+                    fill: color.hex,
+                };
+                return updatedShape;
+            });
+        });
+
+        setCanvasDesign(updatedCanvasDesign);
+    };
+
+    const selectedShape = canvasDesign.Rectangles.concat(canvasDesign.Circles, canvasDesign.Lines, canvasDesign.TextInputs).find((shape: any) => shape.id === selectedId);
+
     return (
-        <PiecePaper>
-            <Stage width={pageWidth} height={pageHeight}
-                onMouseDown={checkDeselect}
-                onTouchStart={checkDeselect}>
-                <Layer>
-                    {/* Place all rectangle shapes on the canvas */}
-                    {canvasDesign.Rectangles.map((rectangleObj: rectangleObj) => (
-                        <RectangleShape
-                            key={rectangleObj.id}
-                            rectangleObj={rectangleObj}
-                            handleDragStart={handleDragStart}
-                            handleDragEnd={handleDragEnd}
-                            isSelected={rectangleObj.id === selectedId}
-                            onSelect={() => { selectShape(rectangleObj.id); }}
-                            onTransformEnd={onTransformEnd}
-                        />
-                    ))}
-                    {/* Place all circle shapes on the canvas */}
-                    {canvasDesign.Circles.map((circleObj: circleObj) => (
-                        <CircleShape
-                            key={circleObj.id}
-                            circleObj={circleObj}
-                            handleDragStart={handleDragStart}
-                            handleDragEnd={handleDragEnd}
-                            isSelected={circleObj.id === selectedId}
-                            onSelect={() => { selectShape(circleObj.id); }}
-                            onTransformEnd={onTransformEnd}
-                        />
-                    ))}
-                    {/* Place all line shapes on the canvas */}
-                    {canvasDesign.Lines.map((lineObj: any) => (
-                        <LineShape
-                            key={lineObj.id}
-                            lineObj={lineObj}
-                            handleDragStart={handleDragStart}
-                            handleDragEnd={handleDragEnd}
-                            isSelected={lineObj.id === selectedId}
-                            onSelect={() => { selectShape(lineObj.id); }}
-                            onTransformEnd={onTransformEnd}
-                        />
-                    ))}
-                    {/* Place all text input fields on the canvas */}
-                    {canvasDesign.TextInputs.map((textInputObj: textObj) => (
-                        <TextInput key={textInputObj.id} textInputObj={textInputObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
-                    ))}
-                </Layer>
-            </Stage>
-        </PiecePaper>
+        <>
+            <PiecePaper>
+                <Stage width={pageWidth} height={pageHeight}
+                    onMouseDown={checkDeselect}
+                    onTouchStart={checkDeselect}>
+                    <Layer>
+                        {/* Place all rectangle shapes on the canvas */}
+                        {canvasDesign.Rectangles.map((rectangleObj: rectangleObj) => (
+                            <RectangleShape
+                                key={rectangleObj.id}
+                                rectangleObj={rectangleObj}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={rectangleObj.id === selectedId}
+                                onSelect={() => { selectShape(rectangleObj.id); }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        ))}
+                        {/* Place all circle shapes on the canvas */}
+                        {canvasDesign.Circles.map((circleObj: circleObj) => (
+                            <CircleShape
+                                key={circleObj.id}
+                                circleObj={circleObj}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={circleObj.id === selectedId}
+                                onSelect={() => { selectShape(circleObj.id); }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        ))}
+                        {/* Place all line shapes on the canvas */}
+                        {canvasDesign.Lines.map((lineObj: any) => (
+                            <LineShape
+                                key={lineObj.id}
+                                lineObj={lineObj}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={lineObj.id === selectedId}
+                                onSelect={() => { selectShape(lineObj.id); }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        ))}
+                        {/* Place all text input fields on the canvas */}
+                        {canvasDesign.TextInputs.map((textInputObj: textObj) => (
+                            <TextInput key={textInputObj.id} textInputObj={textInputObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                        ))}
+                    </Layer>
+                </Stage>
+            </PiecePaper>
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+                {/* Add a color picker for the selected shape */}
+                {selectedShape && (
+                    <ChromePicker color={color} onChange={onColorChange}/>
+                )}
+            </div>
+        </>
+
     );
 };
 
 export default CanvasStage;
+
+

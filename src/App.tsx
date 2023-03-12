@@ -1,8 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Navigation from './Components/Navigation/Navigation';
 import Templates from './Components/Templates/Templates';
-import TemplateCreation from './Components/Templates/TemplateCreation/TemplateCreation';
-import TemplateEdit from './Components/Templates/TemplateEdit/TemplateEdit';
+import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import PastEstimates from './Components/Estimates/PastEstimates/PastEstimates';
 import NotFound from './Components/NotFound/NotFound';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -24,12 +23,12 @@ function App() {
     <ThemeProvider theme={theme}>
       <PageViewTracker />
       <Navigation>
-        {(isLoading||user) && (
+        {(isLoading || user) && (
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/templates" element={<Templates />} />
-            <Route path="/create-template" element={<TemplateCreation />} />
-            <Route path="/edit-template" element={<TemplateEdit />} />
+            <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
+            <Route path="/edit-template" element={<CanvasItem isNewCanvas={false} />} />
             <Route path="/select-template" element={<SelectTemplate />} />
             <Route path="/form" element={<EstimateForm />} />
             <Route path="/past-estimates" element={<PastEstimates />} />
