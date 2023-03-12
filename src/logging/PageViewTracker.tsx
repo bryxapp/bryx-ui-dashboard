@@ -12,6 +12,7 @@ const PageViewTracker = () => {
       uri: location.pathname,
       properties: {
         title: document.title,
+        environment: process.env.NODE_ENV,
       },
     });
   }, [location.pathname]);

@@ -10,7 +10,7 @@ const Templates = () => {
     const handleNewTemplateClick = () => {
         logger.trackEvent({
             name: 'New Template Click',
-            properties: { menu: 'New Template', user: user?.name },
+            properties: { menu: 'New Template', user: user?.name, environment: process.env.NODE_ENV },
         });
     };
 

@@ -20,12 +20,12 @@ const Logo = styled(Typography)`
 const TopNavBar = () => {
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
   const handleLogout = () => {
-    logger.trackEvent({ name: 'Logout', properties: { user: user?.name } });
+    logger.trackEvent({ name: 'Logout', properties: { user: user?.name, environment: process.env.NODE_ENV } });
     logout({ returnTo: process.env.REACT_APP_AUTH0_LOGOUT_URL } as LogoutOptions);
   };
 
   const handleLogin = () => {
-    logger.trackEvent({ name: 'Login' });
+    logger.trackEvent({ name: 'Login', properties: { user: user?.name, environment: process.env.NODE_ENV } });
     loginWithRedirect();
   };
 

@@ -44,7 +44,7 @@ const SideAppDrawer = () => {
     const handleNewEstimateClick = () => {
         logger.trackEvent({
             name: 'New Estimate Click',
-            properties: { menu: 'New Estimate', user: user?.name },
+            properties: { menu: 'New Estimate', user: user?.name, environment: process.env.NODE_ENV },
         });
     };
 
