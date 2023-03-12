@@ -7,9 +7,12 @@ const TextInputManager = ({ canvasDesign, setCanvasDesign }: any) => {
 
     return (
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "15rem" }}>
-            <Typography variant="h5">Text Input Manager</Typography>
-            <Typography variant="body1" color={"gray"}>
-                Edit your text input names, font sizes, and colors here
+            <Typography variant="h5" align="center" >Text Input Manager</Typography>
+            <Typography variant="body1" color={"gray"} align="center">
+                Edit or Delete Text Inputs
+            </Typography>
+            <Typography variant="body1" color={"gray"} align="center">
+                Customize your font size, font color, and name here
             </Typography>
             <Box sx={{ height: "1rem" }} />
             {canvasDesign.TextInputs !== 0 && canvasDesign.TextInputs.map((textInput: any) => {

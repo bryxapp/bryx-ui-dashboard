@@ -48,6 +48,14 @@ const TextCustomizer = (props: TextCustomizerProps) => {
         props.setCanvasDesign(updatedCanvasDesign);
     };
 
+    const handleDelete = (textInputId: string) => {
+        const updatedCanvasDesign = {
+            ...props.canvasDesign,
+            TextInputs: props.canvasDesign.TextInputs.filter((textInput: any) => textInput.id !== textInputId),
+        };
+        props.setCanvasDesign(updatedCanvasDesign);
+    };
+
     const handleClick = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
@@ -101,6 +109,9 @@ const TextCustomizer = (props: TextCustomizerProps) => {
                         onChange={(color: ColorResult) => handleColorChange(color, props.textInput.id)}
                         disableAlpha
                     />
+                    <Button onClick={() => handleDelete(props.textInput.id)} variant="outlined" sx={{ marginTop: "1rem" }}>
+                        Delete
+                    </Button>
                 </Box>
             </Popover>
         </>

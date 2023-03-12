@@ -27,8 +27,17 @@ const PiecePaper = styled('div')({
 
 const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
 
-    const [selectedId, selectShape] = useState<string | null>(null);
+    const [selectedId, setSelectedShape] = useState<string | null>(null);
     const [color, setColor] = useState('#000000');
+
+    const selectShape = (id: string | null) => {
+        setSelectedShape(id);
+        setCanvasDesign({
+            ...canvasDesign,
+            selectedId: id,
+        });
+    };
+
 
     const checkDeselect = (e: any) => {
         // deselect when clicked on empty area
@@ -43,6 +52,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         const shapeTypes = Object.keys(canvasDesign);
         const updatedCanvasDesign: any = {};
         shapeTypes.forEach(shapeType => {
+            if (shapeType === "selectedId") return;
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
                 return {
                     ...shape,

@@ -5,6 +5,7 @@ export interface TemplateCreationState {
     Circles: circleObj[];
     Lines: lineObj[];
     TextInputs: textObj[];
+    selectedId: string|null;
 };
 
 export interface TemplateData {

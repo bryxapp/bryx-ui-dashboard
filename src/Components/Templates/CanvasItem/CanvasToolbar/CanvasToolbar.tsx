@@ -2,6 +2,7 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
 import AddTextIcon from '@mui/icons-material/TextFields';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
 import { useState } from 'react';
@@ -53,6 +54,18 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
         });
     }
 
+    const handleDeleteShape = () => {
+        console.log("ID" + canvasDesign.selectedId)
+        const shapeTypes = Object.keys(canvasDesign);
+        const updatedCanvasDesign: any = {};
+        shapeTypes.forEach((shapeType: string) => {
+            if (shapeType === "selectedId") return;
+            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].filter((shape: any) => shape.id !== canvasDesign.selectedId);
+        });
+        canvasDesign.selectedId = null;
+        setCanvasDesign(updatedCanvasDesign);
+    }
+
     return (
         <StyledDiv>
             <AppBar position="static">
@@ -63,6 +76,13 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                             <AddTextIcon />
                         </MenuButton>
                     </Tooltip>
+                    {canvasDesign.selectedId ?
+                        <Tooltip title="Delete Shape" placement="bottom">
+                            <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading}>
+                                <DeleteIcon />
+                            </MenuButton>
+                        </Tooltip> : null
+                    }
                     {isLoading ? <SaveButton edge="end" color="inherit" aria-label="save">
                         Loading...
                     </SaveButton> : <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
