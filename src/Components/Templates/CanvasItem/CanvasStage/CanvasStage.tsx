@@ -68,6 +68,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         const shapeTypes = Object.keys(canvasDesign);
         const updatedCanvasDesign: any = {};
         shapeTypes.forEach(shapeType => {
+            if (shapeType === "selectedId") return;
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
                 if (shape.id === id) {
                     return {
@@ -97,6 +98,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         const updatedCanvasDesign: any = {};
 
         Object.keys(canvasDesign).forEach((shapeType: string) => {
+            if (shapeType === "selectedId") return;
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
                 if (shape.id !== node.id()) {
                     return shape;
@@ -130,6 +132,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         const updatedCanvasDesign: any = {};
 
         Object.keys(canvasDesign).forEach((shapeType: string) => {
+            if (shapeType === "selectedId") return;
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
                 if (shape.id !== selectedId) {
                     return shape;
