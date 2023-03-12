@@ -139,6 +139,15 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
 
     return (
         <>
+            {/* Add a color picker for the selected shape */}
+            <div style={{ position: 'relative' }}>
+                {/* Add a color picker for the selected shape */}
+                {selectedShape && (
+                    <div style={{ position: 'absolute', top: 0, right: -225 }}>
+                        <ChromePicker color={color} onChange={onColorChange} />
+                    </div>
+                )}
+            </div>
             <PiecePaper>
                 <Stage width={pageWidth} height={pageHeight}
                     onMouseDown={checkDeselect}
@@ -152,7 +161,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 isSelected={rectangleObj.id === selectedId}
-                                onSelect={() => { selectShape(rectangleObj.id); }}
+                                onSelect={() => {
+                                    setColor(rectangleObj.fill)
+                                    selectShape(rectangleObj.id);
+                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         ))}
@@ -164,7 +176,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 isSelected={circleObj.id === selectedId}
-                                onSelect={() => { selectShape(circleObj.id); }}
+                                onSelect={() => {
+                                    setColor(circleObj.fill)
+                                    selectShape(circleObj.id);
+                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         ))}
@@ -176,7 +191,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 isSelected={lineObj.id === selectedId}
-                                onSelect={() => { selectShape(lineObj.id); }}
+                                onSelect={() => {
+                                    setColor(lineObj.fill)
+                                    selectShape(lineObj.id);
+                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         ))}
@@ -187,12 +205,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                     </Layer>
                 </Stage>
             </PiecePaper>
-            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
-                {/* Add a color picker for the selected shape */}
-                {selectedShape && (
-                    <ChromePicker color={color} onChange={onColorChange}/>
-                )}
-            </div>
+
         </>
 
     );
