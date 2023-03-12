@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ListItem from '@mui/material/ListItem';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -8,10 +9,28 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import { convertEpochTime } from '../../../../../utils/time-util';
 import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import Button from '@mui/material/Button';
 
 const EstimateListItem = ({ estimate, handleEstimateDelete }: any) => {
     const displayDate = convertEpochTime(estimate._ts);
-    
+    const [open, setOpen] = useState(false);
+
+    const handleDeleteClick = () => {
+        setOpen(true);
+    };
+
+    const handleConfirmDelete = () => {
+        handleEstimateDelete(estimate.id);
+        setOpen(false);
+    };
+
+    const handleCancelDelete = () => {
+        setOpen(false);
+    };
+
     return (
         <ListItem
             secondaryAction={
@@ -21,7 +40,7 @@ const EstimateListItem = ({ estimate, handleEstimateDelete }: any) => {
                             <ViewIcon />
                         </IconButton>
                     </a>
-                    <IconButton aria-label="delete" onClick={() => handleEstimateDelete(estimate.id)}>
+                    <IconButton aria-label="delete" onClick={handleDeleteClick}>
                         <DeleteIcon />
                     </IconButton>
                 </div>
@@ -45,6 +64,17 @@ const EstimateListItem = ({ estimate, handleEstimateDelete }: any) => {
                         {displayDate}
                     </Typography>}
             />
+
+            <Dialog open={open} onClose={handleCancelDelete}>
+                <DialogTitle>Delete Estimate</DialogTitle>
+                <Typography variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
+                    Are you sure you want to permanently delete this estimate?
+                </Typography>
+                <DialogActions>
+                    <Button onClick={handleCancelDelete}>Cancel</Button>
+                    <Button onClick={handleConfirmDelete}>Delete</Button>
+                </DialogActions>
+            </Dialog>
         </ListItem>
     );
 };
