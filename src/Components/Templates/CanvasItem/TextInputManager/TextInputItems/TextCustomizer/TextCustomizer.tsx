@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { ChromePicker, ColorResult } from "react-color";
-import { textObj } from "../../../../../../utils/types/ShapeInterfaces";
+import { textObj } from "../../../../../../Utils/types/ShapeInterfaces";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
-import { TemplateCreationState } from "../../../../../../utils/types/TemplateCreationInterfaces";
+import { TemplateCreationState } from "../../../../../../Utils/types/TemplateCreationInterfaces";
 import { Box, Button, MenuItem, Popover, Select, Typography } from "@mui/material";
 
 interface TextCustomizerProps {

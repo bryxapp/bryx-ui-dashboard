@@ -1,6 +1,6 @@
 import TextField from "@mui/material/TextField";
-import { textObj } from "../../../../../utils/types/ShapeInterfaces";
-import { TemplateCreationState } from "../../../../../utils/types/TemplateCreationInterfaces";
+import { textObj } from "../../../../../Utils/types/ShapeInterfaces";
+import { TemplateCreationState } from "../../../../../Utils/types/TemplateCreationInterfaces";
 import TextCustomizer from "./TextCustomizer/TextCustomizer";
 
 interface TextInputItemProps {

@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import { useAuth0, LogoutOptions } from '@auth0/auth0-react';
 import { Button } from '@mui/material';
 import styled from '@emotion/styled';
-import logger from '../../../logging/logger';
+import logger from '../../../Logging/logger';
 
 const AuthButtons = styled(Button)`
   font-size: 1.5rem;

@@ -1,7 +1,7 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddCircleIcon from "@mui/icons-material/CircleOutlined";
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
+import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../Utils/page-util";
 
 const AddCircle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     const handleAddCircle = () => {

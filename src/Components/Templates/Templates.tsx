@@ -1,7 +1,7 @@
 import { Button, Typography } from '@mui/material';
 import React from 'react';
 import TemplatesList from './TemplatesList/TemplateList';
-import logger from '../../logging/logger';
+import logger from '../../Logging/logger';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Templates = () => {

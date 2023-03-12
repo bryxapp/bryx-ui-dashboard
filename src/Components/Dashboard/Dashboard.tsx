@@ -2,10 +2,10 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
-import { getRecentTemplates } from '../../utils/templates-api';
+import { getRecentTemplates } from '../../Utils/templates-api';
 import RecentPreviews from './RecentPreviews/RecentPreviews';
 import Loading from '../SharedComponents/Loading/Loading';
-import { getRecentEstimates } from '../../utils/estimates-api';
+import { getRecentEstimates } from '../../Utils/estimates-api';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Dashboard = () => {

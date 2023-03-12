@@ -4,7 +4,7 @@ import AppBar from '@mui/material/AppBar';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
-import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
+import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../Utils/page-util';
 import { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import ShapesMenu from './ShapesMenu/ShapesMenu';

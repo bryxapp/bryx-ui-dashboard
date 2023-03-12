@@ -5,8 +5,8 @@ import CircleShape from '../Shapes/CircleShape';
 import LineShape from '../Shapes/LineShape';
 import TextInput from '../Shapes/TextInputShape';
 import styled from '@emotion/styled';
-import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { circleObj, rectangleObj, textObj } from '../../../../utils/types/ShapeInterfaces';
+import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../Utils/page-util';
+import { circleObj, rectangleObj, textObj } from '../../../../Utils/types/ShapeInterfaces';
 import { ChromePicker } from 'react-color';
 
 //Page width and height is the same as the paper size. 8.5in x 11in

@@ -9,10 +9,10 @@ import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/Est
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { themeOptions } from "./theme/themeOptions";
+import { themeOptions } from "./Theme/themeOptions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
-import PageViewTracker from "./logging/PageViewTracker";
+import PageViewTracker from "./Logging/PageViewTracker";
 
 function App() {
   //Write environment variables to console for debugging
