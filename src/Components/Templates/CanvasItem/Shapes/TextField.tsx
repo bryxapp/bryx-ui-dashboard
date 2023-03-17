@@ -11,23 +11,6 @@ interface TextFieldProps {
     setCanvasDesign: any;
 }
 
-function getTextDimensions(value: string, fontSize: number, fontFamily: string = 'sans-serif'): { width: number; height: number } {
-    const tempElement = document.createElement('div');
-    tempElement.style.position = 'absolute';
-    tempElement.style.visibility = 'hidden';
-    tempElement.style.fontFamily = fontFamily;
-    tempElement.style.fontSize = `${fontSize}px`;
-    tempElement.style.whiteSpace = 'nowrap'; // Set to 'pre-wrap' if you want to consider line breaks
-    tempElement.innerText = value;
-
-    document.body.appendChild(tempElement);
-    const width = tempElement.clientWidth;
-    const height = tempElement.clientHeight;
-    document.body.removeChild(tempElement);
-
-    return { width, height };
-}
-
 const TextField = ({
     textFieldObj,
     handleDragStart,
@@ -58,14 +41,11 @@ const TextField = ({
         }
     }, [editing, textFieldObj.value]);
 
-    const dimensions = getTextDimensions(textFieldObj.value, textFieldObj.fontSize);
-
     const style: React.CSSProperties = {
-        width: `${dimensions.width}px`,
-        height: `${dimensions.height}px`,
         background: 'none',
         resize: 'none',
-        fontSize: `${textFieldObj.fontSize}`,
+        fontSize: `${textFieldObj.fontSize / 16}em`,
+        fill: textFieldObj.fontColor,
         fontFamily: 'sans-serif',
     };
 
