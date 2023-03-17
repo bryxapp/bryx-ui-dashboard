@@ -26,6 +26,7 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
         Circles: [],
         Lines: [],
         TextInputs: [],
+        TextFields: [],
         selectedId: null,
     });
 

@@ -3,10 +3,11 @@ import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import CircleShape from '../Shapes/CircleShape';
 import LineShape from '../Shapes/LineShape';
-import TextInput from '../Shapes/TextInputShape';
+import TextInput from '../Shapes/TextInput';
+import TextField from '../Shapes/TextField/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../Utils/page-util';
-import { circleObj, rectangleObj, textObj } from '../../../../Utils/types/ShapeInterfaces';
+import { circleObj, rectangleObj, textInputObj, textFieldObj } from '../../../../Utils/types/ShapeInterfaces';
 import { ChromePicker } from 'react-color';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
@@ -211,16 +212,25 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                                 onTransformEnd={onTransformEnd}
                             />
                         ))}
-                        {/* Place all text input fields on the canvas */}
-                        {canvasDesign.TextInputs.map((textInputObj: textObj) => (
+                        {/* Place all text inputs on the canvas */}
+                        {canvasDesign.TextInputs.map((textInputObj: textInputObj) => (
                             <TextInput key={textInputObj.id} textInputObj={textInputObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                        ))}
+                        {/* Place all text fields on the canvas */}
+                        {canvasDesign.TextFields.map((textFieldObj: textFieldObj) => (
+                            <TextField
+                                key={textFieldObj.id}
+                                textFieldObj={textFieldObj}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                canvasDesign={canvasDesign}
+                                setCanvasDesign={setCanvasDesign}
+                            />
                         ))}
                     </Layer>
                 </Stage>
             </PiecePaper>
-
         </>
-
     );
 };
 

@@ -2,8 +2,18 @@
 import React, { useEffect, useRef } from 'react';
 import { Line, Transformer } from 'react-konva';
 import Konva from 'konva';
+import { lineObj } from '../../../../Utils/types/ShapeInterfaces';
 
-const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: any) => {
+interface LineShapeProps {
+    lineObj: lineObj;
+    handleDragStart: any;
+    handleDragEnd: any;
+    isSelected: boolean;
+    onSelect: any;
+    onTransformEnd: any;
+}
+
+const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: LineShapeProps) => {
     const shapeRef = useRef<Konva.Line>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {

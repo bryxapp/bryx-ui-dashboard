@@ -1,5 +1,6 @@
 import { Rect, Text, Group } from 'react-konva';
 import { styled } from '@mui/material/styles';
+import { textInputObj } from '../../../../Utils/types/ShapeInterfaces';
 
 const TextInputContainer = styled(Rect)({
     borderRadius: '4px',
@@ -7,7 +8,13 @@ const TextInputContainer = styled(Rect)({
     padding: '12px'
 });
 
-const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
+interface TextInputProps {
+    textInputObj: textInputObj;
+    handleDragStart: any;
+    handleDragEnd: any;
+}
+
+const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: TextInputProps) => {
     return (
         <Group
             key={textInputObj.id}
@@ -22,7 +29,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
             <TextInputContainer
                 width={textInputObj.fontSize * 10}
                 height={textInputObj.fontSize * 2}
-                fill={textInputObj.fill}
+                fill='#F5F5F5'
                 scaleX={textInputObj.isDragging ? 1.1 : 1}
                 scaleY={textInputObj.isDragging ? 1.1 : 1}
             />
@@ -31,7 +38,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd }: any) => {
                 y={5}
                 text={`${textInputObj.displayName}`}
                 fontSize={12}
-                fill="#333"
+                fill={textInputObj.fontColor}
                 scaleX={textInputObj.isDragging ? 1.1 : 1}
                 scaleY={textInputObj.isDragging ? 1.1 : 1}
             />

@@ -1,10 +1,10 @@
 import TextField from "@mui/material/TextField";
-import { textObj } from "../../../../../Utils/types/ShapeInterfaces";
+import { textInputObj } from "../../../../../Utils/types/ShapeInterfaces";
 import { TemplateCreationState } from "../../../../../Utils/types/TemplateCreationInterfaces";
 import TextCustomizer from "./TextCustomizer/TextCustomizer";
 
 interface TextInputItemProps {
-    textInput: textObj;
+    textInput: textInputObj;
     canvasDesign: TemplateCreationState
     setCanvasDesign: React.Dispatch<React.SetStateAction<TemplateCreationState>>
 }

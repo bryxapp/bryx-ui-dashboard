@@ -1,8 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
 import Konva from 'konva';
+import { rectangleObj } from '../../../../Utils/types/ShapeInterfaces';
 
-const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: any) => {
+interface RectangleShapeProps {
+    rectangleObj: rectangleObj;
+    handleDragStart: any;
+    handleDragEnd: any;
+    isSelected: boolean;
+    onSelect: any;
+    onTransformEnd: any;
+}
+
+const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: RectangleShapeProps) => {
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {

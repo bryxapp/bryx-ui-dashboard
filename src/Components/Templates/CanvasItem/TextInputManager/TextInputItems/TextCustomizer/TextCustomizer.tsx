@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { ChromePicker, ColorResult } from "react-color";
-import { textObj } from "../../../../../../Utils/types/ShapeInterfaces";
+import { textInputObj } from "../../../../../../Utils/types/ShapeInterfaces";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
 import { TemplateCreationState } from "../../../../../../Utils/types/TemplateCreationInterfaces";
 import { Box, Button, MenuItem, Popover, Select, Typography } from "@mui/material";
 
 interface TextCustomizerProps {
-    textInput: textObj;
+    textInput: textInputObj;
     canvasDesign: TemplateCreationState;
     setCanvasDesign: React.Dispatch<React.SetStateAction<TemplateCreationState>>;
 }

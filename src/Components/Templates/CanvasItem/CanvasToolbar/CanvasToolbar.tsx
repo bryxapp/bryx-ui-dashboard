@@ -1,13 +1,12 @@
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import AppBar from '@mui/material/AppBar';
-import AddTextIcon from '@mui/icons-material/TextFields';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { styled } from '@mui/material/styles';
-import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../Utils/page-util';
 import { useState } from 'react';
 import Tooltip from '@mui/material/Tooltip';
 import ShapesMenu from './ShapesMenu/ShapesMenu';
+import TextMenu from './TextMenu/TextMenu';
 
 const StyledDiv = styled('div')({
     flexGrow: 1
@@ -23,26 +22,6 @@ const SaveButton = styled(IconButton)({
 
 const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate }: any) => {
     const [isLoading, setIsLoading] = useState(false);
-
-    const handleAddTextInput = () => {
-        setCanvasDesign({
-            ...canvasDesign,
-            TextInputs: [
-                ...canvasDesign.TextInputs,
-                {
-                    id: 'text-' + canvasDesign.TextInputs.length,
-                    displayName: 'Text Input ' + canvasDesign.TextInputs.length,
-                    x: getWebCanvasWidth() / 6,
-                    y: getWebCanvasHeight() / 2.5,
-                    height: 50,
-                    width: 200,
-                    fill: '#F5F5F5',
-                    fontSize: 20,
-                    isDragging: false,
-                }
-            ]
-        });
-    }
 
     const handleSave = () => {
         //Show loader until post is complete
@@ -71,11 +50,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
             <AppBar position="static">
                 <Toolbar variant="dense">
                     <ShapesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                    <Tooltip title="Add Text Input" placement="bottom">
-                        <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleAddTextInput} disabled={isLoading}>
-                            <AddTextIcon />
-                        </MenuButton>
-                    </Tooltip>
+                    <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     {canvasDesign.selectedId ?
                         <Tooltip title="Delete Shape" placement="bottom">
                             <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading}>

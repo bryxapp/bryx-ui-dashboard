@@ -1,11 +1,12 @@
-import { rectangleObj, circleObj, lineObj,textObj } from "./ShapeInterfaces";
+import { rectangleObj, circleObj, lineObj, textInputObj, textFieldObj } from "./ShapeInterfaces";
 
 export interface TemplateCreationState {
     Rectangles: rectangleObj[];
     Circles: circleObj[];
     Lines: lineObj[];
-    TextInputs: textObj[];
-    selectedId: string|null;
+    TextInputs: textInputObj[];
+    TextFields: textFieldObj[];
+    selectedId: string | null;
 };
 
 export interface TemplateData {

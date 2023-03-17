@@ -30,11 +30,23 @@ export interface lineObj {
     rotation: number;
 }
 
-export interface textObj {
+export interface textInputObj {
     id: string;
     displayName: string;
     x: number;
     y: number;
+    isDragging: boolean;
+    fontSize: number;
+    fontColor: string;
+}
+
+export interface textFieldObj {
+    id: string;
+    value: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
     isDragging: boolean;
     fontSize: number;
     fontColor: string;
