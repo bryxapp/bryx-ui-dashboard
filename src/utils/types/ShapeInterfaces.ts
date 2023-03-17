@@ -45,8 +45,6 @@ export interface textFieldObj {
     value: string;
     x: number;
     y: number;
-    width: number;
-    height: number;
     isDragging: boolean;
     fontSize: number;
     fontColor: string;

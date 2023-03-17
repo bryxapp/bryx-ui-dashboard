@@ -1,6 +1,6 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { circleObj, rectangleObj, textInputObj } from "./types/ShapeInterfaces";
+import { circleObj, rectangleObj, textFieldObj, textInputObj } from "./types/ShapeInterfaces";
 
 export function createStage(canvasDesign: any, fieldValues: string[]) {
     const layer = new Konva.Layer();
@@ -56,6 +56,18 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             y: textInput.y,
             text: fieldValues[index],
             fontSize: textInput.fontSize,
+            fontColor: textInput.fontColor,
+        });
+        layer.add(text);
+    });
+
+    canvasDesign.TextFields.forEach((textField: textFieldObj, index: number) => {
+        const text = new Konva.Text({
+            x: textField.x,
+            y: textField.y,
+            text: textField.value,
+            fontSize: textField.fontSize,
+            fontColor: textField.fontColor,
         });
         layer.add(text);
     });
