@@ -4,7 +4,7 @@ import RectangleShape from '../Shapes/RectangleShape';
 import CircleShape from '../Shapes/CircleShape';
 import LineShape from '../Shapes/LineShape';
 import TextInput from '../Shapes/TextInput';
-import TextField from '../Shapes/TextField/TextField';
+import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../Utils/page-util';
 import { circleObj, rectangleObj, textInputObj, textFieldObj } from '../../../../Utils/types/ShapeInterfaces';

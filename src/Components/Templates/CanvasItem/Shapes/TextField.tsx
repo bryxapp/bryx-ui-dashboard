@@ -1,4 +1,4 @@
-import { textFieldObj } from '../../../../../Utils/types/ShapeInterfaces';
+import { textFieldObj } from '../../../../Utils/types/ShapeInterfaces';
 import { Html } from 'react-konva-utils';
 
 interface TextFieldProps {
