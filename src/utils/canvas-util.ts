@@ -57,6 +57,7 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             text: fieldValues[index],
             fontSize: textInput.fontSize,
             fontColor: textInput.fontColor,
+            rotation: textInput.rotation,
         });
         layer.add(text);
     });
@@ -68,6 +69,7 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             text: textField.value,
             fontSize: textField.fontSize,
             fontColor: textField.fontColor,
+            rotation: textField.rotation,
         });
         layer.add(text);
     });

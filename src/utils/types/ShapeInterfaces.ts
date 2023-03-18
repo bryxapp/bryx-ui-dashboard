@@ -35,6 +35,7 @@ export interface textInputObj {
     displayName: string;
     x: number;
     y: number;
+    rotation: number;
     isDragging: boolean;
     fontSize: number;
     fontColor: string;
@@ -45,6 +46,7 @@ export interface textFieldObj {
     value: string;
     x: number;
     y: number;
+    rotation: number;
     isDragging: boolean;
     fontSize: number;
     fontColor: string;

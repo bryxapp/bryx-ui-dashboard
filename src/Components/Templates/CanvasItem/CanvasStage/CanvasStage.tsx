@@ -101,6 +101,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         Object.keys(canvasDesign).forEach((shapeType: string) => {
             if (shapeType === "selectedId") return;
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
+                console.log(node.rotation(), shape.rotation)
                 if (shape.id !== node.id()) {
                     return shape;
                 }
@@ -110,6 +111,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                     y: node.y(),
                     rotation: node.rotation(),
                 };
+
 
                 if (node.radius) { // Circle
                     updatedShape.radius = Math.max(5, node.radius() * scaleX);
@@ -149,7 +151,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedShape = canvasDesign.Rectangles.concat(canvasDesign.Circles, canvasDesign.Lines, canvasDesign.TextInputs).find((shape: any) => shape.id === selectedId);
+    const selectedShape = canvasDesign.Rectangles.concat(canvasDesign.Circles, canvasDesign.Lines).find((shape: any) => shape.id === selectedId);
 
     return (
         <>
@@ -214,7 +216,16 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                         ))}
                         {/* Place all text inputs on the canvas */}
                         {canvasDesign.TextInputs.map((textInputObj: textInputObj) => (
-                            <TextInput key={textInputObj.id} textInputObj={textInputObj} handleDragStart={handleDragStart} handleDragEnd={handleDragEnd} />
+                            <TextInput
+                                key={textInputObj.id}
+                                textInputObj={textInputObj}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={textInputObj.id === selectedId}
+                                onSelect={() => {
+                                    selectShape(textInputObj.id);
+                                }}
+                                onTransformEnd={onTransformEnd} />
                         ))}
                         {/* Place all text fields on the canvas */}
                         {canvasDesign.TextFields.map((textFieldObj: textFieldObj) => (
@@ -225,6 +236,11 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
                                 handleDragEnd={handleDragEnd}
                                 canvasDesign={canvasDesign}
                                 setCanvasDesign={setCanvasDesign}
+                                isSelected={textFieldObj.id === selectedId}
+                                onSelect={() => {
+                                    selectShape(textFieldObj.id);
+                                }}
+                                onTransformEnd={onTransformEnd}
                             />
                         ))}
                     </Layer>

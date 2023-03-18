@@ -9,12 +9,13 @@ const AddTextField = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
         setAnchorEl(null);
 
         const newTextField: textFieldObj = {
-            id: 'text-' + canvasDesign.TextFields.length,
+            id: 'textField-' + canvasDesign.TextFields.length,
             value: 'Text Field ' + canvasDesign.TextFields.length,
             x: getWebCanvasWidth() / 6,
             y: getWebCanvasHeight() / 2.5,
             fontColor: "black",
             fontSize: 20,
+            rotation: 0,
             isDragging: false,
         }
 

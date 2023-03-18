@@ -1,7 +1,8 @@
 import { textFieldObj } from '../../../../Utils/types/ShapeInterfaces';
-import { Group, Text } from 'react-konva';
+import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
+import Konva from 'konva';
 
 interface TextFieldProps {
     textFieldObj: textFieldObj;
@@ -9,6 +10,9 @@ interface TextFieldProps {
     handleDragEnd: any;
     canvasDesign: any;
     setCanvasDesign: any;
+    isSelected: boolean;
+    onSelect: any;
+    onTransformEnd: any;
 }
 
 const TextField = ({
@@ -17,9 +21,14 @@ const TextField = ({
     handleDragEnd,
     canvasDesign,
     setCanvasDesign,
+    isSelected,
+    onSelect,
+    onTransformEnd
 }: TextFieldProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const shapeRef = useRef<Konva.Group>(null);
+    const trRef = useRef<Konva.Transformer>(null);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -41,6 +50,14 @@ const TextField = ({
         }
     }, [editing, textFieldObj.value]);
 
+    useEffect(() => {
+        if (isSelected && shapeRef.current) {
+            // we need to attach transformer manually
+            trRef.current?.nodes([shapeRef.current]);
+            trRef.current?.getLayer()?.batchDraw();
+        }
+    }, [isSelected]);
+
     const style: React.CSSProperties = {
         background: 'none',
         resize: 'none',
@@ -48,7 +65,6 @@ const TextField = ({
         fill: textFieldObj.fontColor,
         fontFamily: 'sans-serif',
     };
-
 
     const onChange = (event: any) => {
         const shapeTypes = Object.keys(canvasDesign);
@@ -66,30 +82,57 @@ const TextField = ({
     };
 
     return (
-        <Group x={textFieldObj.x} y={textFieldObj.y} onDragStart={handleDragStart} onDragEnd={handleDragEnd} draggable>
-            {!editing && (
-                <Text
-                    text={textFieldObj.value}
-                    fontSize={textFieldObj.fontSize}
-                    fill={textFieldObj.fontColor}
-                    onClick={() => setEditing(true)}
-                    onTap={() => setEditing(true)}
+        <React.Fragment>
+            <Group
+                key={textFieldObj.id} id={textFieldObj.id}
+                x={textFieldObj.x} y={textFieldObj.y}
+                onDragStart={handleDragStart} onDragEnd={handleDragEnd} draggable
+                ref={shapeRef} rotation={textFieldObj.rotation}>
+                {!editing && (
+                    <Text
+                        text={textFieldObj.value}
+                        fontSize={textFieldObj.fontSize}
+                        fill={textFieldObj.fontColor}
+                        onClick={onSelect}
+                        onTap={onSelect}
+                        onDblClick={() => setEditing(true)}
+                        onDblTap={() => setEditing(true)}
+                    />
+
+                )}
+                {editing && (
+                    <Html>
+                        <textarea
+                            ref={textAreaRef}
+                            onChange={onChange}
+                            style={style}
+                            id={textFieldObj.id}
+                            value={textFieldObj.value}
+                            autoFocus
+                        />
+                    </Html>
+                )}
+            </Group>
+            {isSelected && (
+                <Transformer
+                    ref={trRef}
+                    boundBoxFunc={(oldBox, newBox) => {
+                        // limit resize
+                        if (newBox.width < 5 || newBox.height < 5) {
+                            return oldBox;
+                        }
+                        return newBox;
+                    }}
+                    onTransformEnd={onTransformEnd}
+                    rotateEnabled={true}
+                    anchorSize={10}
+                    resizeEnabled={false}
+                    keepRatio={false}
                 />
             )}
-            {editing && (
-                <Html>
-                    <textarea
-                        ref={textAreaRef}
-                        onChange={onChange}
-                        style={style}
-                        id={textFieldObj.id}
-                        value={textFieldObj.value}
-                        autoFocus
-                    />
-                </Html>
-            )}
-        </Group>
+        </React.Fragment>
     );
 };
 
 export default TextField;
+

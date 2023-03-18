@@ -51,13 +51,11 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                 <Toolbar variant="dense">
                     <ShapesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                    {canvasDesign.selectedId ?
-                        <Tooltip title="Delete Shape" placement="bottom">
-                            <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading}>
-                                <DeleteIcon />
-                            </MenuButton>
-                        </Tooltip> : null
-                    }
+                    <Tooltip title="Delete Shape" placement="bottom">
+                        <MenuButton edge="start" color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading || !canvasDesign.selectedId}>
+                            <DeleteIcon />
+                        </MenuButton>
+                    </Tooltip>
                     {isLoading ? <SaveButton edge="end" color="inherit" aria-label="save">
                         Loading...
                     </SaveButton> : <SaveButton edge="end" color="inherit" aria-label="save" onClick={handleSave}>
