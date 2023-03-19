@@ -12,9 +12,9 @@ interface TextFieldItemProps {
 const TextFieldItem = (props: TextFieldItemProps) => {
 
     const trunctateText = (text: string | null) => {
-        //Return the first 8 characters 
+        //Return the first characters as label
         if (text) {
-            return text.slice(0, 18)
+            return text.slice(0, 15)
         }
     }
 

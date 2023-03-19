@@ -120,6 +120,10 @@ const TextCustomizer = (props: TextCustomizerProps) => {
                         <MenuItem value={20}>20</MenuItem>
                         <MenuItem value={24}>24</MenuItem>
                         <MenuItem value={28}>28</MenuItem>
+                        <MenuItem value={32}>32</MenuItem>
+                        <MenuItem value={48}>48</MenuItem>
+                        <MenuItem value={64}>64</MenuItem>
+                        <MenuItem value={72}>72</MenuItem>
                     </Select>
                     <Typography variant="h6">Font Color</Typography>
                     <ChromePicker
