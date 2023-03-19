@@ -63,7 +63,6 @@ const TextField = ({
         resize: 'none',
         fontSize: `${textFieldObj.fontSize / 16}em`,
         fill: textFieldObj.fill,
-        fontFamily: 'sans-serif',
     };
 
     const onChange = (event: any) => {
@@ -97,6 +96,9 @@ const TextField = ({
                         onTap={onSelect}
                         onDblClick={() => setEditing(true)}
                         onDblTap={() => setEditing(true)}
+                        fontFamily={textFieldObj.fontFamily}
+                        fontStyle={textFieldObj.fontStyle}
+                        textDecoration={textFieldObj.textDecoration}
                     />
 
                 )}
