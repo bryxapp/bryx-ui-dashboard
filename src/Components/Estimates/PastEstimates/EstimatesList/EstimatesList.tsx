@@ -1,6 +1,6 @@
 import List from '@mui/material/List';
 import EstimateListItem from './EstimateListItem/EstimateListItem';
-import { deleteEstimate } from '../../../../Utils/estimates-api';
+import { deleteEstimate } from '../../../../utils/estimates-api';
 
 const EstimatesList = ({ estimates, setEstimates }: any) => {
 

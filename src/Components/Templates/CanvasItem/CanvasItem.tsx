@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { TemplateCreationState } from "../../../Utils/types/TemplateCreationInterfaces";
-import { createTemplate, updateTemplate, getTemplate } from "../../../Utils/templates-api";
+import { TemplateCreationState } from "../../../utils/types/TemplateCreationInterfaces";
+import { createTemplate, updateTemplate, getTemplate } from "../../../utils/templates-api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";

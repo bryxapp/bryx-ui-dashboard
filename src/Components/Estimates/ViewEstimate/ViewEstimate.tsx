@@ -7,8 +7,8 @@ import LinkIcon from "@mui/icons-material/Link"
 import ClipBoardIcon from "@mui/icons-material/ContentPaste"
 import ShareIcon from "@mui/icons-material/IosShare"
 import { useLocation } from 'react-router-dom';
-import { getEstimate } from "../../../Utils/estimates-api";
-import { EstimateData } from "../../../Utils/types/EstimateInterfaces";
+import { getEstimate } from "../../../utils/estimates-api";
+import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import Loading from "../../SharedComponents/Loading/Loading";
 import styled from "@emotion/styled";
 

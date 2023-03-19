@@ -1,8 +1,8 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddLineIcon from "@mui/icons-material/HorizontalRule";
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../Utils/page-util";
-import { lineObj } from "../../../../../Utils/types/ShapeInterfaces";
+import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
+import { lineObj } from "../../../../../utils/types/ShapeInterfaces";
 
 const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
 

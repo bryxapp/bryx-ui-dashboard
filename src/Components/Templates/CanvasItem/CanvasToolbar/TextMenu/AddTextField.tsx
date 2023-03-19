@@ -1,8 +1,8 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddTextFieldIcon from "@mui/icons-material/TitleOutlined";
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../Utils/page-util";
-import { textFieldObj } from "../../../../../Utils/types/ShapeInterfaces";
+import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
+import { textFieldObj } from "../../../../../utils/types/ShapeInterfaces";
 
 const AddTextField = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     const handleAddTextField = () => {

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { getTemplate } from '../../../../Utils/templates-api';
+import { getTemplate } from '../../../../utils/templates-api';
 import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Loading from '../../../SharedComponents/Loading/Loading';
 import { Button } from '@mui/material';
 import EstimateFormTextField from './EstimateFormTextField/EstimateFormTextField';
-import { TemplateData } from '../../../../Utils/types/TemplateCreationInterfaces';
-import { createEstimate } from '../../../../Utils/estimates-api';
+import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
+import { createEstimate } from '../../../../utils/estimates-api';
 import EstimateName from './EstimateName/EstimateName';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import { useAuth0 } from '@auth0/auth0-react';

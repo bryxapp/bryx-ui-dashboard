@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import TemplatesListItem from './TemplatesListItem/TemplatesListItem';
-import { getTemplates } from '../../../Utils/templates-api';
+import { getTemplates } from '../../../utils/templates-api';
 import { Typography } from '@mui/material';
-import { deleteTemplate } from '../../../Utils/templates-api';
+import { deleteTemplate } from '../../../utils/templates-api';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TemplateData } from '../../../Utils/types/TemplateCreationInterfaces';
+import { TemplateData } from '../../../utils/types/TemplateCreationInterfaces';
 
 const TemplatesList = () => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);

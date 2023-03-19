@@ -4,7 +4,7 @@ import MenuItems from '../MenuItems/MenuItems';
 import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import logger from '../../../Logging/logger';
+import logger from '../../../logging/logger';
 import { useAuth0 } from '@auth0/auth0-react';
 import styled from '@emotion/styled';
 import Drawer from '@mui/material/Drawer';

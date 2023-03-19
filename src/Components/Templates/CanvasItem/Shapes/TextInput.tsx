@@ -1,6 +1,6 @@
 import { Rect, Text, Group, Transformer } from 'react-konva';
 import { styled } from '@mui/material/styles';
-import { textInputObj } from '../../../../Utils/types/ShapeInterfaces';
+import { textInputObj } from '../../../../utils/types/ShapeInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 

@@ -12,7 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/themeOptions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
-import PageViewTracker from "./Logging/PageViewTracker";
+import PageViewTracker from "./logging/PageViewTracker";
 
 function App() {
   //Write environment variables to console for debugging
