@@ -39,6 +39,9 @@ export interface textInputObj {
     isDragging: boolean;
     fontSize: number;
     fill: string;
+    fontFamily: string;
+    fontStyle: string;
+    textDecoration: string;
 }
 
 export interface textFieldObj {
@@ -50,4 +53,7 @@ export interface textFieldObj {
     isDragging: boolean;
     fontSize: number;
     fill: string;
+    fontFamily: string;
+    fontStyle: string;
+    textDecoration: string;
 }

@@ -17,6 +17,9 @@ const AddTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
             fontSize: 20,
             rotation: 0,
             isDragging: false,
+            fontFamily: 'Arial',
+            fontStyle: 'normal',
+            textDecoration: ''
         }
 
         setCanvasDesign({

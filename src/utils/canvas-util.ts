@@ -58,6 +58,9 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             fontSize: textInput.fontSize,
             fontColor: textInput.fill,
             rotation: textInput.rotation,
+            fontFamily: textInput.fontFamily,
+            fontStyle: textInput.fontStyle,
+            textDecoration: textInput.textDecoration
         });
         layer.add(text);
     });
@@ -70,6 +73,9 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
             fontSize: textField.fontSize,
             fontColor: textField.fill,
             rotation: textField.rotation,
+            fontFamily: textField.fontFamily,
+            fontStyle: textField.fontStyle,
+            textDecoration: textField.textDecoration
         });
         layer.add(text);
     });
