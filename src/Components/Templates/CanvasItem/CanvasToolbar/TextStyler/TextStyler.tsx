@@ -9,14 +9,14 @@ import Typography from '@mui/material/Typography';
 
 const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 
-interface FontSizeSelectorProps {
+interface TextStylerProps {
     isLoading: boolean;
     canvasDesign: any;
     setCanvasDesign: any;
     selectedId: string | null;
 }
 
-function FontSizeSelector({ isLoading, canvasDesign, setCanvasDesign, selectedId }: FontSizeSelectorProps) {
+function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: TextStylerProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -103,4 +103,4 @@ function FontSizeSelector({ isLoading, canvasDesign, setCanvasDesign, selectedId
     );
 }
 
-export default FontSizeSelector;
+export default TextStyler;

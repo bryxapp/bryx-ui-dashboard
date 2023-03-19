@@ -5,8 +5,8 @@ import ShapesMenu from './ShapesMenu/ShapesMenu';
 import TextMenu from './TextMenu/TextMenu';
 import DeleteButton from './DeleteButton';
 import SaveButton from './SaveButton';
-import ColorSelector from './ColorSelector/ColorSelector'
-import FontSizeSelector from './FontSizeSelector/FontSizeSelector'
+import ColorPicker from './ColorPicker/ColorPicker'
+import TextStyler from './TextStyler/TextStyler'
 
 
 const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate, color, setColor, selectedId }: any) => {
@@ -19,8 +19,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <ShapesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <ColorSelector isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} selectedId={selectedId} />
-                        <FontSizeSelector isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                        <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} selectedId={selectedId} />
+                        <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>

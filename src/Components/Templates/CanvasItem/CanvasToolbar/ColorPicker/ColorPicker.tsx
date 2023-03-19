@@ -5,7 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ColorSelectorIcon from '@mui/icons-material/ColorLens';
 import { ChromePicker } from 'react-color';
 
-export default function ColorSelector({ isLoading, canvasDesign, setCanvasDesign, color, setColor, selectedId }: any) {
+export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor, selectedId }: any) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
