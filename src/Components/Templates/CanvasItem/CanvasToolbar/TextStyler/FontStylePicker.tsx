@@ -1,27 +1,51 @@
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
+import React from 'react';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import BoldIcon from '@mui/icons-material/FormatBold';
+import ItalicIcon from '@mui/icons-material/FormatItalic';
+interface CanvasDesign {
+    TextInputs: Array<{
+        id: string;
+        fontStyle: string;
+    }>;
+    TextFields: Array<{
+        id: string;
+        fontStyle: string;
+    }>;
+}
 
-const FONT_STYLES = ['normal', 'italic', 'bold'];
+interface FontStylePickerProps {
+    canvasDesign: CanvasDesign;
+    setCanvasDesign: (newCanvasDesign: CanvasDesign) => void;
+    selectedId: string | null;
+}
 
-export default function FontStylePicker({ canvasDesign, setCanvasDesign, selectedId }: any) {
+const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanvasDesign, selectedId }) => {
+    const handleFontStyleChange = (event: React.MouseEvent<HTMLElement>, newFontStyle: string[]) => {
+        const fontStyle = newFontStyle.includes('italic') && newFontStyle.includes('bold')
+            ? 'bold italic'
+            : newFontStyle.includes('italic')
+                ? 'italic'
+                : newFontStyle.includes('bold')
+                    ? 'bold'
+                    : 'normal';
 
-    const handleFontStyleChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: any) => {
+            TextInputs: canvasDesign.TextInputs.map((textInput) => {
                 if (textInput.id === selectedId) {
                     return {
                         ...textInput,
-                        fontStyle: event.target.value as string,
+                        fontStyle: fontStyle,
                     };
                 }
                 return textInput;
             }),
-            TextFields: canvasDesign.TextFields.map((textField: any) => {
+            TextFields: canvasDesign.TextFields.map((textField) => {
                 if (textField.id === selectedId) {
                     return {
                         ...textField,
-                        fontStyle: event.target.value as string,
+                        fontStyle: fontStyle,
                     };
                 }
                 return textField;
@@ -30,26 +54,33 @@ export default function FontStylePicker({ canvasDesign, setCanvasDesign, selecte
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontStyle = canvasDesign.TextInputs.find(
-        (textInput: any) => textInput.id === selectedId
-    )?.fontStyle || canvasDesign.TextFields.find(
-        (textField: any) => textField.id === selectedId
-    )?.fontStyle;
+    const selectedTextItemFontStyle =
+        canvasDesign.TextInputs.find((textInput) => textInput.id === selectedId)?.fontStyle ||
+        canvasDesign.TextFields.find((textField) => textField.id === selectedId)?.fontStyle;
+
+    const selectedFontStyles = [];
+    if (selectedTextItemFontStyle?.includes('italic')) {
+        selectedFontStyles.push('italic');
+    }
+    if (selectedTextItemFontStyle?.includes('bold')) {
+        selectedFontStyles.push('bold');
+    }
 
     return (
-        <>
-            <Select
-                value={selectedTextItemFontStyle || ''}
-                onChange={handleFontStyleChange}
-                variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '10rem', margin: 10 }}
-            >
-                {FONT_STYLES.map((fontStyle) => (
-                    <MenuItem key={fontStyle} value={fontStyle}>
-                        {fontStyle}
-                    </MenuItem>
-                ))}
-            </Select>
-        </>
+        <ToggleButtonGroup
+            value={selectedFontStyles}
+            onChange={handleFontStyleChange}
+            aria-label="font style"
+            style={{ marginBottom: '1rem', margin: 10 }}
+        >
+            <ToggleButton key={'italic'} value={'italic'}>
+                <ItalicIcon />
+            </ToggleButton>
+            <ToggleButton key={'bold'} value={'bold'}>
+                <BoldIcon />
+            </ToggleButton>
+        </ToggleButtonGroup>
     );
-}
+};
+
+export default FontStylePicker;

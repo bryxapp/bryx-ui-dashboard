@@ -47,11 +47,20 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
                 anchorEl={anchorEl}
                 open={open}
                 onClose={handleClose}
+                PaperProps={{
+                    style: {
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    },
+                }}
             >
                 <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                 <FontFamilyPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                    <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                </div>
             </Menu>
         </>
     );

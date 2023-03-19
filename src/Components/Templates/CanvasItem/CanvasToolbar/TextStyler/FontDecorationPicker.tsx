@@ -1,28 +1,52 @@
-import Select from '@mui/material/Select'
-import MenuItem from '@mui/material/MenuItem'
+import React from 'react';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
 
-const TEXT_DECORATIONS = ['none', 'underline', 'line-through'];
+interface CanvasDesign {
+    TextInputs: Array<{
+        id: string;
+        textDecoration: string;
+    }>;
+    TextFields: Array<{
+        id: string;
+        textDecoration: string;
+    }>;
+}
 
+interface FontDecorationPickerProps {
+    canvasDesign: CanvasDesign;
+    setCanvasDesign: (newCanvasDesign: CanvasDesign) => void;
+    selectedId: string | null;
+}
 
-export default function FontDecorationPicker({ canvasDesign, setCanvasDesign, selectedId }: any) {
+const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesign, setCanvasDesign, selectedId }) => {
+    const handleFontDecorationChange = (event: React.MouseEvent<HTMLElement>, newFontDecoration: string[]) => {
+        const fontDecoration = newFontDecoration.includes('line-through') && newFontDecoration.includes('underline')
+            ? 'underline line-through'
+            : newFontDecoration.includes('line-through')
+                ? 'line-through'
+                : newFontDecoration.includes('underline')
+                    ? 'underline'
+                    : '';
 
-    const handleTextDecorationChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: any) => {
+            TextInputs: canvasDesign.TextInputs.map((textInput) => {
                 if (textInput.id === selectedId) {
                     return {
                         ...textInput,
-                        textDecoration: event.target.value as string,
+                        textDecoration: fontDecoration,
                     };
                 }
                 return textInput;
             }),
-            TextFields: canvasDesign.TextFields.map((textField: any) => {
+            TextFields: canvasDesign.TextFields.map((textField) => {
                 if (textField.id === selectedId) {
                     return {
                         ...textField,
-                        textDecoration: event.target.value as string,
+                        textDecoration: fontDecoration,
                     };
                 }
                 return textField;
@@ -31,27 +55,33 @@ export default function FontDecorationPicker({ canvasDesign, setCanvasDesign, se
         setCanvasDesign(updatedCanvasDesign);
     };
 
+    const selectedTextItemFontDecoration =
+        canvasDesign.TextInputs.find((textInput) => textInput.id === selectedId)?.textDecoration ||
+        canvasDesign.TextFields.find((textField) => textField.id === selectedId)?.textDecoration;
 
-    const selectedTextItemTextDecoration = canvasDesign.TextInputs.find(
-        (textInput: any) => textInput.id === selectedId
-    )?.textDecoration || canvasDesign.TextFields.find(
-        (textField: any) => textField.id === selectedId
-    )?.textDecoration;
+    const selectedFontDecorations = [];
+    if (selectedTextItemFontDecoration?.includes('underline')) {
+        selectedFontDecorations.push('underline');
+    }
+    if (selectedTextItemFontDecoration?.includes('line-through')) {
+        selectedFontDecorations.push('line-through');
+    }
 
     return (
-        <>
-            <Select
-                value={selectedTextItemTextDecoration || ''}
-                onChange={handleTextDecorationChange}
-                variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '10rem', margin: 10 }}
-            >
-                {TEXT_DECORATIONS.map((textDecoration) => (
-                    <MenuItem key={textDecoration} value={textDecoration}>
-                        {textDecoration}
-                    </MenuItem>
-                ))}
-            </Select>
-        </>
+        <ToggleButtonGroup
+            value={selectedFontDecorations}
+            onChange={handleFontDecorationChange}
+            aria-label="font decoration"
+            style={{ marginBottom: '1rem', margin: 10 }}
+        >
+            <ToggleButton key={'line-through'} value={'line-through'}>
+                <StrikethroughIcon />
+            </ToggleButton>
+            <ToggleButton key={'underline'} value={'underline'}>
+                <UnderlinedIcon />
+            </ToggleButton>
+        </ToggleButtonGroup>
     );
-}
+};
+
+export default FontDecorationPicker;

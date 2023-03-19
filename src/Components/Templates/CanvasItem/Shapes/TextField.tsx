@@ -44,13 +44,6 @@ const TextField = ({
     }, []);
 
     useEffect(() => {
-        if (editing && textAreaRef.current) {
-            textAreaRef.current.focus();
-            textAreaRef.current.setSelectionRange(textFieldObj.value.length, textFieldObj.value.length);
-        }
-    }, [editing, textFieldObj.value]);
-
-    useEffect(() => {
         if (isSelected && shapeRef.current) {
             // we need to attach transformer manually
             trRef.current?.nodes([shapeRef.current]);
@@ -78,6 +71,12 @@ const TextField = ({
             });
         });
         setCanvasDesign(updatedCanvasDesign);
+    };
+
+    const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        const { target } = event;
+        const { value } = target;
+        target.setSelectionRange(value.length, value.length);
     };
 
     return (
@@ -111,6 +110,7 @@ const TextField = ({
                             id={textFieldObj.id}
                             value={textFieldObj.value}
                             autoFocus
+                            onFocus={moveCaretToEnd}
                         />
                     </Html>
                 )}
