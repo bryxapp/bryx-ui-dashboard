@@ -71,7 +71,7 @@ const TemplatesListItem = ({ template, handleTemplateDelete }: any) => {
 
       <Dialog open={open} onClose={handleCancelDelete}>
         <DialogTitle>Delete Template</DialogTitle>
-        <Typography variant='body1' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
+        <Typography variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
           Are you sure you want to permanently delete this template?
         </Typography>
         <DialogActions>
