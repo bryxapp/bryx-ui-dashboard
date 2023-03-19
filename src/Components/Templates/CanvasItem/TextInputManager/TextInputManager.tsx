@@ -2,6 +2,7 @@ import Typography from "@mui/material/Typography";
 import TextInputItem from "./TextInputItems/TextInputItems";
 import NoTextInputs from "./NoTextInputs/NoTextInputs";
 import { Box } from "@mui/system";
+import TextFieldItem from "./TextInputItems/TextFieldItems";
 
 const TextInputManager = ({ canvasDesign, setCanvasDesign }: any) => {
 
@@ -23,7 +24,15 @@ const TextInputManager = ({ canvasDesign, setCanvasDesign }: any) => {
                     </>
                 );
             })}
-            {canvasDesign.TextInputs.length === 0 && (
+            {canvasDesign.TextFields !== 0 && canvasDesign.TextFields.map((textField: any) => {
+                return (
+                    <>
+                        <TextFieldItem textField={textField} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        <Box sx={{ height: "1rem" }} />
+                    </>
+                );
+            })}
+            {canvasDesign.TextInputs.length === 0 && canvasDesign.TextFields.length === 0 && (
                 <NoTextInputs />
             )}
         </div>

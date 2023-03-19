@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { ChromePicker, ColorResult } from "react-color";
-import { textInputObj } from "../../../../../../Utils/types/ShapeInterfaces";
+import { textFieldObj, textInputObj } from "../../../../../../Utils/types/ShapeInterfaces";
 import TextFormatIcon from "@mui/icons-material/TextFormat";
 import { TemplateCreationState } from "../../../../../../Utils/types/TemplateCreationInterfaces";
 import { Box, Button, MenuItem, Popover, Select, Typography } from "@mui/material";
 
 interface TextCustomizerProps {
-    textInput: textInputObj;
+    textInput: textInputObj | textFieldObj;
     canvasDesign: TemplateCreationState;
     setCanvasDesign: React.Dispatch<React.SetStateAction<TemplateCreationState>>;
 }
@@ -23,9 +23,17 @@ const TextCustomizer = (props: TextCustomizerProps) => {
                         ...textInput,
                         fontSize: event.target.value,
                     };
-                } else {
-                    return textInput;
                 }
+                return textInput;
+            }),
+            TextFields: props.canvasDesign.TextFields.map((textField: any) => {
+                if (textField.id === textInputId) {
+                    return {
+                        ...textField,
+                        fontSize: event.target.value,
+                    };
+                }
+                return textField;
             }),
         };
         props.setCanvasDesign(updatedCanvasDesign);
@@ -44,6 +52,15 @@ const TextCustomizer = (props: TextCustomizerProps) => {
                     return textInput;
                 }
             }),
+            TextFields: props.canvasDesign.TextFields.map((textField: any) => {
+                if (textField.id === textInputId) {
+                    return {
+                        ...textField,
+                        fontColor: color.hex,
+                    };
+                }
+                return textField;
+            }),
         };
         props.setCanvasDesign(updatedCanvasDesign);
     };
@@ -52,6 +69,7 @@ const TextCustomizer = (props: TextCustomizerProps) => {
         const updatedCanvasDesign = {
             ...props.canvasDesign,
             TextInputs: props.canvasDesign.TextInputs.filter((textInput: any) => textInput.id !== textInputId),
+            TextFields: props.canvasDesign.TextFields.filter((textField: any) => textField.id !== textInputId),
         };
         props.setCanvasDesign(updatedCanvasDesign);
     };

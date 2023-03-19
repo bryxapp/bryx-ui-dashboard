@@ -1,6 +1,7 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
+import Tooltip from '@mui/material/Tooltip';
 import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
 import AddCircle from './AddCircle';
 import AddRectangle from './AddRectangle';
@@ -17,18 +18,20 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
     };
 
     return (
-        <div>
-            <Button
-                id="basic-button"
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-                color="inherit"
-                disabled={isLoading}
-            >
-                <AddShapeIcon />
-            </Button>
+        <>
+            <Tooltip title="Expand Shape Menu" placement="bottom">
+                <IconButton
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    color="inherit"
+                    disabled={isLoading}
+                >
+                    <AddShapeIcon />
+                </IconButton>
+            </Tooltip>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -42,6 +45,6 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
                 <AddRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddCircle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
-        </div>
+        </>
     );
 }

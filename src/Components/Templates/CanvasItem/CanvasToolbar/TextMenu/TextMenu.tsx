@@ -1,7 +1,8 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import AddTextIcon from '@mui/icons-material/TextFields';
+import Tooltip from '@mui/material/Tooltip';
 import AddTextField from './AddTextField';
 import AddTextInput from './AddTextInput';
 
@@ -16,18 +17,20 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: a
     };
 
     return (
-        <div>
-            <Button
-                id="basic-button"
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-                color="inherit"
-                disabled={isLoading}
-            >
-                <AddTextIcon />
-            </Button>
+        <>
+            <Tooltip title="Expand Shape Menu" placement="bottom">
+                <IconButton
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    color="inherit"
+                    disabled={isLoading}
+                >
+                    <AddTextIcon />
+                </IconButton>
+            </Tooltip>
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
@@ -40,6 +43,6 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: a
                 <AddTextField canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddTextInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
-        </div>
+        </>
     );
 }
