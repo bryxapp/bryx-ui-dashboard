@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import CircleShape from '../Shapes/CircleShape';
@@ -8,7 +7,6 @@ import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../Utils/page-util';
 import { circleObj, rectangleObj, textInputObj, textFieldObj } from '../../../../Utils/types/ShapeInterfaces';
-import { ChromePicker } from 'react-color';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -25,14 +23,20 @@ const PiecePaper = styled('div')({
     backgroundColor: 'white',
 });
 
+interface CanvasStageProps {
+    canvasDesign: any;
+    setCanvasDesign: any;
+    color: string;
+    setColor: any;
+    selectedId: string | null;
+    setSelectedId: any;
+}
 
-const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
 
-    const [selectedId, setSelectedShape] = useState<string | null>(null);
-    const [color, setColor] = useState('#000000');
+const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedId, setSelectedId }: CanvasStageProps) => {
 
     const selectShape = (id: string | null) => {
-        setSelectedShape(id);
+        setSelectedId(id);
         setCanvasDesign({
             ...canvasDesign,
             selectedId: id,
@@ -130,40 +134,8 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: any) => {
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const onColorChange = (color: any) => {
-        setColor(color.hex);
-        const updatedCanvasDesign: any = {};
-
-        Object.keys(canvasDesign).forEach((shapeType: string) => {
-            if (shapeType === "selectedId") return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                if (shape.id !== selectedId) {
-                    return shape;
-                }
-                const updatedShape = {
-                    ...shape,
-                    fill: color.hex,
-                };
-                return updatedShape;
-            });
-        });
-
-        setCanvasDesign(updatedCanvasDesign);
-    };
-
-    const selectedShape = canvasDesign.Rectangles.concat(canvasDesign.Circles, canvasDesign.Lines).find((shape: any) => shape.id === selectedId);
-
     return (
         <>
-            {/* Add a color picker for the selected shape */}
-            <div style={{ position: 'relative' }}>
-                {/* Add a color picker for the selected shape */}
-                {selectedShape && (
-                    <div style={{ position: 'absolute', top: 0, right: -225 }}>
-                        <ChromePicker color={color} onChange={onColorChange} />
-                    </div>
-                )}
-            </div>
             <PiecePaper>
                 <Stage width={pageWidth} height={pageHeight}
                     onMouseDown={checkDeselect}

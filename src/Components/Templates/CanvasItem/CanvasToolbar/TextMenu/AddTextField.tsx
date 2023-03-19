@@ -13,7 +13,7 @@ const AddTextField = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
             value: 'Text Field ' + canvasDesign.TextFields.length,
             x: getWebCanvasWidth() / 6,
             y: getWebCanvasHeight() / 2.5,
-            fontColor: "black",
+            fill: "black",
             fontSize: 20,
             rotation: 0,
             isDragging: false,

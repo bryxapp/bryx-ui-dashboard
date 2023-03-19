@@ -62,7 +62,7 @@ const TextField = ({
         background: 'none',
         resize: 'none',
         fontSize: `${textFieldObj.fontSize / 16}em`,
-        fill: textFieldObj.fontColor,
+        fill: textFieldObj.fill,
         fontFamily: 'sans-serif',
     };
 
@@ -92,7 +92,7 @@ const TextField = ({
                     <Text
                         text={textFieldObj.value}
                         fontSize={textFieldObj.fontSize}
-                        fill={textFieldObj.fontColor}
+                        fill={textFieldObj.fill}
                         onClick={onSelect}
                         onTap={onSelect}
                         onDblClick={() => setEditing(true)}

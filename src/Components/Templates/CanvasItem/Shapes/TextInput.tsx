@@ -59,7 +59,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     y={5}
                     text={`${textInputObj.displayName}`}
                     fontSize={12}
-                    fill={textInputObj.fontColor}
+                    fill={textInputObj.fill}
                     scaleX={textInputObj.isDragging ? 1.1 : 1}
                     scaleY={textInputObj.isDragging ? 1.1 : 1}
                 />

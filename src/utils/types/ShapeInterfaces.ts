@@ -38,7 +38,7 @@ export interface textInputObj {
     rotation: number;
     isDragging: boolean;
     fontSize: number;
-    fontColor: string;
+    fill: string;
 }
 
 export interface textFieldObj {
@@ -49,5 +49,5 @@ export interface textFieldObj {
     rotation: number;
     isDragging: boolean;
     fontSize: number;
-    fontColor: string;
+    fill: string;
 }

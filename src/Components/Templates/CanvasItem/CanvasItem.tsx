@@ -5,7 +5,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
-import TextInputManager from "./TextInputManager/TextInputManager";
 import TemplateName from "./../TemplateName/TemplateName";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -21,6 +20,8 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
     const location = useLocation();
     const [templateId, setTemplateId] = useState<string | null>(null);
     const [friendlyName, setFriendlyName] = useState("New Template");
+    const [color, setColor] = useState('#000000');
+    const [selectedId, setSelectedId] = useState<string | null>(null);
     const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
         Rectangles: [],
         Circles: [],
@@ -72,16 +73,25 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
             <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
             <Box sx={{ height: '2vh' }} />
             <div style={{ width: '100%' }}>
-                <CanvasToolbar canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} friendlyName={friendlyName} postTemplate={OnSave} />
+                <CanvasToolbar
+                    canvasDesign={canvasDesign}
+                    setCanvasDesign={setCanvasDesign}
+                    friendlyName={friendlyName}
+                    postTemplate={OnSave}
+                    color={color}
+                    setColor={setColor}
+                    selectedId={selectedId}
+                />
             </div>
             <Box sx={{ height: '1vh' }} />
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ flexGrow: 1 }}>
-                    <CanvasStage canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                </div>
-                <div style={{ flexGrow: 1 }}>
-                    <TextInputManager canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                </div>
+                <CanvasStage
+                    canvasDesign={canvasDesign}
+                    setCanvasDesign={setCanvasDesign}
+                    color={color}
+                    setColor={setColor}
+                    selectedId={selectedId}
+                    setSelectedId={setSelectedId} />
             </div>
         </div>
     );

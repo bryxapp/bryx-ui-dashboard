@@ -13,7 +13,7 @@ const AddTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
             displayName: 'Text Input ' + canvasDesign.TextInputs.length,
             x: getWebCanvasWidth() / 6,
             y: getWebCanvasHeight() / 2.5,
-            fontColor: '#00000',
+            fill: '#00000',
             fontSize: 20,
             rotation: 0,
             isDragging: false,
