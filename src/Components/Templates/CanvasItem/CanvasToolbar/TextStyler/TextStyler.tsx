@@ -3,6 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import FontSizeSelectorIcon from '@mui/icons-material/FormatColorText';
+import DisplayNameEditor from './DisplayNameEditor'
 import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
@@ -55,8 +56,9 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
                     },
                 }}
             >
-                <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                <DisplayNameEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                 <FontFamilyPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
                     <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                     <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
