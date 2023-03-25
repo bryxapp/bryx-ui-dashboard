@@ -10,6 +10,7 @@ import { createEstimate } from '../../../../utils/estimates-api';
 import EstimateName from './EstimateName/EstimateName';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import { useAuth0 } from '@auth0/auth0-react';
+import { textInputObj } from '../../../../utils/types/ShapeInterfaces';
 
 const EstimateForm = () => {
 
@@ -79,7 +80,7 @@ const EstimateForm = () => {
             <Typography variant="h6" color="gray">
                 Template: {templateData.friendlyName}
             </Typography>
-            {templateData.canvasDesign.TextInputs.map((inputObj: any, index: any) => (
+            {templateData.canvasDesign.TextInputs.map((inputObj: textInputObj, index: number) => (
                 <>
                     <EstimateFormTextField name={inputObj.displayName} index={index} key={inputObj.id} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
                     <div style={{ height: 15 }}></div>

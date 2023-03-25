@@ -1,8 +1,9 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { circleObj, rectangleObj, textFieldObj, textInputObj } from "./types/ShapeInterfaces";
+import { circleObj, lineObj, rectangleObj, textFieldObj, textInputObj } from "./types/ShapeInterfaces";
+import { TemplateCreationState } from "./types/TemplateCreationInterfaces";
 
-export function createStage(canvasDesign: any, fieldValues: string[]) {
+export function createStage(canvasDesign: TemplateCreationState, fieldValues: string[]) {
     const layer = new Konva.Layer();
     const rect = new Konva.Rect({
         x: 0,
@@ -36,7 +37,7 @@ export function createStage(canvasDesign: any, fieldValues: string[]) {
         layer.add(circ);
     });
 
-    canvasDesign.Lines.forEach((line: any) => {
+    canvasDesign.Lines.forEach((line: lineObj) => {
         console.log(line)
         const lineObj = new Konva.Line({
             x: line.x,

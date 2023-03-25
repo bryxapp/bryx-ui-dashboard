@@ -7,7 +7,13 @@ import AddCircle from './AddCircle';
 import AddRectangle from './AddRectangle';
 import AddLine from './AddLine';
 
-export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }: any) {
+interface ShapesMenuProps {
+    isLoading: boolean;
+    canvasDesign: any;
+    setCanvasDesign: any;
+}
+
+export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }: ShapesMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,18 +1,23 @@
 import List from '@mui/material/List';
 import EstimateListItem from './EstimateListItem/EstimateListItem';
 import { deleteEstimate } from '../../../../utils/estimates-api';
+import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
 
-const EstimatesList = ({ estimates, setEstimates }: any) => {
+interface EstimatesListProps {
+    estimates: EstimateData[];
+    setEstimates: React.Dispatch<React.SetStateAction<any>>;
+}
+const EstimatesList = ({ estimates, setEstimates }: EstimatesListProps) => {
 
     const handleEstimateDelete = (estimatesId: string) => {
-        deleteEstimate(estimatesId).then((response) => {
-            setEstimates(estimates.filter((estimate: any) => estimate.id !== estimatesId));
+        deleteEstimate(estimatesId).then(() => {
+            setEstimates(estimates.filter((estimate: EstimateData) => estimate.id !== estimatesId));
         });
     };
 
     return (
         <List>
-            {estimates.map((estimate: any) => (
+            {estimates.map((estimate: EstimateData) => (
                 <EstimateListItem key={estimate.id} estimate={estimate} handleEstimateDelete={handleEstimateDelete} />
             ))}
         </List>

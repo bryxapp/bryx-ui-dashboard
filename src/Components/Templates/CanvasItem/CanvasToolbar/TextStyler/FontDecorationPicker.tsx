@@ -17,7 +17,7 @@ interface CanvasDesign {
 
 interface FontDecorationPickerProps {
     canvasDesign: CanvasDesign;
-    setCanvasDesign: (newCanvasDesign: CanvasDesign) => void;
+    setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
 

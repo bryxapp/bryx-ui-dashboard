@@ -1,7 +1,10 @@
 import { Link, Paper, Typography } from '@mui/material';
 import Feed from '@mui/icons-material/FeedOutlined';
-
-const SelectTemplateListItem = ({ template }: any) => {
+import { TemplateData } from '../../../../../../utils/types/TemplateCreationInterfaces';
+interface SelectTemplateListItemProps {
+    template: TemplateData;
+}
+const SelectTemplateListItem = ({template}:SelectTemplateListItemProps) => {
     return (
         <Link href={'/form?templateId=' + template.id} underline='none'>
             <Paper

@@ -7,9 +7,19 @@ import DeleteButton from './DeleteButton';
 import SaveButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
+import { TemplateCreationState } from '../../../../utils/types/TemplateCreationInterfaces';
 
+interface CanvasToolbarProps {
+    canvasDesign: TemplateCreationState;
+    setCanvasDesign: any;
+    friendlyName: string;
+    postTemplate: any;
+    color: string;
+    setColor: any;
+    selectedId: string | null;
+}
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate, color, setColor, selectedId }: any) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate, color, setColor, selectedId }: CanvasToolbarProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
@@ -24,7 +34,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>
-                        <SaveButton isLoading={isLoading} setIsLoading={setIsLoading} friendlyName={friendlyName} postTemplate={postTemplate} style={{ marginLeft: 'auto' }} />
+                        <SaveButton isLoading={isLoading} setIsLoading={setIsLoading} postTemplate={postTemplate} />
                     </div>
                 </Toolbar>
             </AppBar>

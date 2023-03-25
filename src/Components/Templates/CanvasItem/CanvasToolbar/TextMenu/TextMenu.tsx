@@ -6,7 +6,13 @@ import Tooltip from '@mui/material/Tooltip';
 import AddTextField from './AddTextField';
 import AddTextInput from './AddTextInput';
 
-export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: any) {
+interface TextMenuProps {
+    isLoading: boolean;
+    canvasDesign: any;
+    setCanvasDesign: any;
+}
+
+export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: TextMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -6,7 +6,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { circleObj, rectangleObj, textInputObj, textFieldObj } from '../../../../utils/types/ShapeInterfaces';
+import { circleObj, rectangleObj, textInputObj, textFieldObj, lineObj } from '../../../../utils/types/ShapeInterfaces';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -172,7 +172,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                             />
                         ))}
                         {/* Place all line shapes on the canvas */}
-                        {canvasDesign.Lines.map((lineObj: any) => (
+                        {canvasDesign.Lines.map((lineObj: lineObj) => (
                             <LineShape
                                 key={lineObj.id}
                                 lineObj={lineObj}
@@ -180,7 +180,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                                 handleDragEnd={handleDragEnd}
                                 isSelected={lineObj.id === selectedId}
                                 onSelect={() => {
-                                    setColor(lineObj.fill)
+                                    setColor(lineObj.stroke)
                                     selectShape(lineObj.id);
                                 }}
                                 onTransformEnd={onTransformEnd}

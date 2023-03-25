@@ -28,7 +28,7 @@ const ViewEstimate = () => {
     useEffect(() => {
         if (estimateId) {
             getEstimate(estimateId)
-                .then((res: any) => {
+                .then((res) => {
                     setEstimate(res.data);
                     setLoading(false);
                 });

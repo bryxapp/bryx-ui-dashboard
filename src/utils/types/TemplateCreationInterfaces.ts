@@ -14,4 +14,5 @@ export interface TemplateData {
     friendlyName: string;
     canvasDesign: TemplateCreationState;
     id: string;
+    _ts: number;
 };

@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import SelectTemplateListItem from "./SelectTemplateListItem/SelectTemplateListItem";
 import NoneFound from "../../../../SharedComponents/NoneFound/NoneFound";
 import { useAuth0 } from '@auth0/auth0-react';
+import { TemplateData } from "../../../../../utils/types/TemplateCreationInterfaces";
 
 const SelectTemplateList = () => {
     const [templates, setTemplates] = useState([]);
@@ -45,7 +46,7 @@ const SelectTemplateList = () => {
     );
     return (
         <Grid container spacing={3}>
-            {templates.map((template) => (
+            {templates.map((template:TemplateData) => (
                 <Grid item xs={12} sm={6} md={4} lg={3}>
                     <SelectTemplateListItem template={template} />
                 </Grid>

@@ -13,8 +13,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { EstimateData } from '../../../../../utils/types/EstimateInterfaces';
 
-const EstimateListItem = ({ estimate, handleEstimateDelete }: any) => {
+interface EstimateListItemProps {
+    estimate: EstimateData;
+    handleEstimateDelete: (estimateId: string) => void;
+}
+
+const EstimateListItem = ({ estimate, handleEstimateDelete }: EstimateListItemProps) => {
     const displayDate = convertEpochTime(estimate._ts);
     const [open, setOpen] = useState(false);
 

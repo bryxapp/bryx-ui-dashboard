@@ -2,7 +2,12 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign }: any) {
+interface DeleteButtonProps {
+    isLoading: boolean;
+    canvasDesign: any;
+    setCanvasDesign: any;
+}
+export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign }: DeleteButtonProps) {
     const handleDeleteShape = () => {
         const shapeTypes = Object.keys(canvasDesign);
         const updatedCanvasDesign: any = {};

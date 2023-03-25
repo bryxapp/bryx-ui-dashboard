@@ -1,6 +1,10 @@
 import { TextField } from "@mui/material";
 
-const EstimateName = ({ estimateName, setEstimateName }: any) => {
+interface EstimateNameProps {
+  estimateName: string;
+  setEstimateName: (newEstimateName: string) => void;
+}
+const EstimateName = ({ estimateName, setEstimateName }: EstimateNameProps) => {
   return (
     <TextField
       label="Estimate Name"

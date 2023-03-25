@@ -1,6 +1,11 @@
 import { TextField } from '@mui/material';
 
-const TemplateName = ({ friendlyName, setFriendlyName }: any) => {
+interface TemplateNameProps {
+  friendlyName: string;
+  setFriendlyName: React.SetStateAction<any>;
+}
+
+const TemplateName = ({ friendlyName, setFriendlyName }: TemplateNameProps) => {
   return (
     <TextField
       label='Template Name'

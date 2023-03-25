@@ -2,16 +2,17 @@ import { convertEpochTime } from '../../../../utils/time-util';
 import { Link, Paper, Typography } from '@mui/material';
 import EstimateIcon from '@mui/icons-material/FeedOutlined';
 import TemplateIcon from '@mui/icons-material/InsertDriveFileOutlined';
-
+import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
+import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
 interface Props {
-    object: any;
+    object: TemplateData|EstimateData;
     url: string;
 }
 
 const RecentPreview = ({ object, url }: Props) => {
     const displayDate = convertEpochTime(object._ts);
-    const title = object.friendlyName ? object.friendlyName : object.estimateName;
-    const isTemplate = url.includes('template');
+    const isTemplate = (object as TemplateData).friendlyName !== undefined;
+    const title = isTemplate ? (object as TemplateData).friendlyName : (object as EstimateData).estimateName;
 
     return (
         <Link href={url + '=' + object.id} underline='none'>

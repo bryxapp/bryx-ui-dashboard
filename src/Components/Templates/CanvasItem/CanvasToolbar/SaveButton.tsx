@@ -2,8 +2,13 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 
 
+interface SaveButtonProps {
+    isLoading: boolean;
+    setIsLoading: any;
+    postTemplate: any;
+}
 
-export default function SaveButton({ isLoading, setIsLoading, postTemplate }: any) {
+export default function SaveButton({ isLoading, setIsLoading, postTemplate }: SaveButtonProps) {
 
     const handleSave = () => {
         //Show loader until post is complete

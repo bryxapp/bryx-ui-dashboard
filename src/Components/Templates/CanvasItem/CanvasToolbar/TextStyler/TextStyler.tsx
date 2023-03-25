@@ -8,11 +8,12 @@ import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
+import { TemplateCreationState } from '../../../../../utils/types/TemplateCreationInterfaces';
 
 interface TextStylerProps {
     isLoading: boolean;
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: TemplateCreationState;
+    setCanvasDesign: React.SetStateAction<TemplateCreationState>;
     selectedId: string | null;
 }
 
@@ -28,6 +29,10 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
         setAnchorEl(null);
     };
 
+    //Check if there is a selected textInput or textField
+    const isTextObject = canvasDesign.TextInputs.find((textInput) => textInput.id === selectedId)
+        || canvasDesign.TextFields.find((textField) => textField.id === selectedId);
+
     return (
         <>
             <Tooltip title="Change Text Style" placement="bottom">
@@ -38,7 +43,7 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
                     aria-expanded={open ? 'true' : undefined}
                     onClick={handleOpen}
                     color="inherit"
-                    disabled={isLoading || !selectedId}
+                    disabled={isLoading || !isTextObject}
                 >
                     <FontSizeSelectorIcon />
                 </IconButton>

@@ -1,18 +1,13 @@
 import React from 'react';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
+import { textInputObj } from '../../../../../utils/types/ShapeInterfaces';
+import { TemplateCreationState } from '../../../../../utils/types/TemplateCreationInterfaces';
 
-interface CanvasDesign {
-    TextInputs: Array<{
-        id: string;
-        fontStyle: string;
-        displayName: string;
-    }>;
-}
 
 interface DisplayNameEditorProps {
-    canvasDesign: CanvasDesign;
-    setCanvasDesign: (newCanvasDesign: CanvasDesign) => void;
+    canvasDesign: TemplateCreationState;
+    setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
 
@@ -23,7 +18,7 @@ const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCa
     const handleDisplayNameChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: any) => {
+            TextInputs: canvasDesign.TextInputs.map((textInput: textInputObj) => {
                 if (textInput.id === selectedId) {
                     return {
                         ...textInput,

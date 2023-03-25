@@ -18,11 +18,11 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (!userId) return;
-        getRecentTemplates(4, userId).then((response: any) => {
+        getRecentTemplates(4, userId).then((response) => {
             setTemplates(response.data);
             setTemplatesLoading(false);
         });
-        getRecentEstimates(4, userId).then((response: any) => {
+        getRecentEstimates(4, userId).then((response) => {
             setEstimates(response.data);
             setEstimatesLoading(false);
         });

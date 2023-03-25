@@ -13,8 +13,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
+import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
 
-const TemplatesListItem = ({ template, handleTemplateDelete }: any) => {
+interface TemplatesListItemProps {
+  template: TemplateData;
+  handleTemplateDelete: any;
+}
+
+const TemplatesListItem = ({ template, handleTemplateDelete }: TemplatesListItemProps) => {
   const displayDate = convertEpochTime(template._ts);
   const [open, setOpen] = useState(false);
 

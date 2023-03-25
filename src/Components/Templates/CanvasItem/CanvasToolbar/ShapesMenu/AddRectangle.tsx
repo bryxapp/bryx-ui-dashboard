@@ -2,9 +2,9 @@ import Tooltip from "@mui/material/Tooltip";
 import AddRectangleIcon from "@mui/icons-material/RectangleOutlined";
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
 import MenuItem from "@mui/material/MenuItem";
-import { rectangleObj } from "../../../../../utils/types/ShapeInterfaces";
+import { rectangleObj, ToolBarProps } from "../../../../../utils/types/ShapeInterfaces";
 
-const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
+const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
     const handleAddRectangle = () => {
         setAnchorEl(null);
 

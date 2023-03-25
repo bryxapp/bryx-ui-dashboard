@@ -57,3 +57,9 @@ export interface textFieldObj {
     fontStyle: string;
     textDecoration: string;
 }
+
+export interface ToolBarProps {
+    canvasDesign: any;
+    setCanvasDesign: React.Dispatch<React.SetStateAction<any>>;
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+}
