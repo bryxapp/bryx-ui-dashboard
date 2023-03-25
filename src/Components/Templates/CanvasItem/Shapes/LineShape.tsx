@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Line, Transformer } from 'react-konva';
 import Konva from 'konva';
-import { lineObj } from '../../../../utils/types/ShapeInterfaces';
+import { lineObj } from '../../../../utils/types/CanvasInterfaces';
 
 interface LineShapeProps {
     lineObj: lineObj;

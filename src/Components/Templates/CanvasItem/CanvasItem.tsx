@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { TemplateCreationState } from "../../../utils/types/TemplateCreationInterfaces";
+import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
 import { createTemplate, updateTemplate, getTemplate } from "../../../utils/templates-api";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from 'react-router-dom';
@@ -22,7 +22,7 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [color, setColor] = useState('#000000');
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [canvasDesign, setCanvasDesign] = useState<TemplateCreationState>({
+    const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
         Rectangles: [],
         Circles: [],
         Lines: [],

@@ -2,7 +2,7 @@ import { convertEpochTime } from '../../../../utils/time-util';
 import { Link, Paper, Typography } from '@mui/material';
 import EstimateIcon from '@mui/icons-material/FeedOutlined';
 import TemplateIcon from '@mui/icons-material/InsertDriveFileOutlined';
-import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
+import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
 interface Props {
     object: TemplateData|EstimateData;

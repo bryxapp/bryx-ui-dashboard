@@ -6,7 +6,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { circleObj, rectangleObj, textInputObj, textFieldObj, lineObj } from '../../../../utils/types/ShapeInterfaces';
+import { circleObj, rectangleObj, textInputObj, textFieldObj, lineObj } from '../../../../utils/types/CanvasInterfaces';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();

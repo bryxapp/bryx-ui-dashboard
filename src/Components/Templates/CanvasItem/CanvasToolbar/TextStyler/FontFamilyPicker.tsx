@@ -1,7 +1,7 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { textFieldObj, textInputObj } from '../../../../../utils/types/ShapeInterfaces';
+import { textFieldObj, textInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 const FONTS = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana'];
 

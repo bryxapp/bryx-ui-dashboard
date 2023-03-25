@@ -1,4 +1,4 @@
-import { textFieldObj } from '../../../../utils/types/ShapeInterfaces';
+import { textFieldObj } from '../../../../utils/types/CanvasInterfaces';
 import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';

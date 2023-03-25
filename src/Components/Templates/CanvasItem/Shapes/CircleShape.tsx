@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
 import { Circle, Transformer } from 'react-konva';
-import { circleObj } from '../../../../utils/types/ShapeInterfaces';
+import { circleObj } from '../../../../utils/types/CanvasInterfaces';
 
 interface CircleShapeProps {
     circleObj: circleObj;

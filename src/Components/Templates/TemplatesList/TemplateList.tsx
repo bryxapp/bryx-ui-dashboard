@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 import { deleteTemplate } from '../../../utils/templates-api';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TemplateData } from '../../../utils/types/TemplateCreationInterfaces';
+import { TemplateData } from '../../../utils/types/TemplateInterfaces';
 
 const TemplatesList = () => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);

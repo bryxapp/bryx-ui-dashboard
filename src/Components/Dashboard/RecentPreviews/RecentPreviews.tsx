@@ -1,7 +1,7 @@
 import RecentPreview from './RecentPreview/RecentPreview';
 import Grid from '@mui/material/Grid';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
-import { TemplateData } from '../../../utils/types/TemplateCreationInterfaces';
+import { TemplateData } from '../../../utils/types/TemplateInterfaces';
 import { EstimateData } from '../../../utils/types/EstimateInterfaces';
 interface RecentPreviewProps {
   objects: TemplateData[] | EstimateData[];

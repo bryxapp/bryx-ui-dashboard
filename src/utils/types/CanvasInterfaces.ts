@@ -1,3 +1,12 @@
+export interface CanvasDesignData {
+    Rectangles: rectangleObj[];
+    Circles: circleObj[];
+    Lines: lineObj[];
+    TextInputs: textInputObj[];
+    TextFields: textFieldObj[];
+    selectedId: string | null;
+};
+
 export interface rectangleObj {
     id: string;
     x: number;

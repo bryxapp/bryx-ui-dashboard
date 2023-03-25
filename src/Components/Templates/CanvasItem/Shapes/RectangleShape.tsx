@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
 import Konva from 'konva';
-import { rectangleObj } from '../../../../utils/types/ShapeInterfaces';
+import { rectangleObj } from '../../../../utils/types/CanvasInterfaces';
 
 interface RectangleShapeProps {
     rectangleObj: rectangleObj;

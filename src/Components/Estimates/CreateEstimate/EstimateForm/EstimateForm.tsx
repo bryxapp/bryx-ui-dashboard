@@ -5,12 +5,12 @@ import Typography from '@mui/material/Typography';
 import Loading from '../../../SharedComponents/Loading/Loading';
 import { Button } from '@mui/material';
 import EstimateFormTextField from './EstimateFormTextField/EstimateFormTextField';
-import { TemplateData } from '../../../../utils/types/TemplateCreationInterfaces';
+import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { createEstimate } from '../../../../utils/estimates-api';
 import EstimateName from './EstimateName/EstimateName';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import { useAuth0 } from '@auth0/auth0-react';
-import { textInputObj } from '../../../../utils/types/ShapeInterfaces';
+import { textInputObj } from '../../../../utils/types/CanvasInterfaces';
 
 const EstimateForm = () => {
 

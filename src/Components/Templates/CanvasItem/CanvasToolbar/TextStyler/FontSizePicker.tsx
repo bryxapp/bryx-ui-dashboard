@@ -1,7 +1,7 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { textFieldObj, textInputObj } from '../../../../../utils/types/ShapeInterfaces';
+import { textFieldObj, textInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 

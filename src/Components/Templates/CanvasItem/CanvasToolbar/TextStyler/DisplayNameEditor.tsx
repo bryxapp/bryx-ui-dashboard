@@ -1,12 +1,11 @@
 import React from 'react';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { textInputObj } from '../../../../../utils/types/ShapeInterfaces';
-import { TemplateCreationState } from '../../../../../utils/types/TemplateCreationInterfaces';
+import { textInputObj,CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 
 interface DisplayNameEditorProps {
-    canvasDesign: TemplateCreationState;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }

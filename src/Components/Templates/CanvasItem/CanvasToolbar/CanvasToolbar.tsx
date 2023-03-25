@@ -7,10 +7,10 @@ import DeleteButton from './DeleteButton';
 import SaveButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
-import { TemplateCreationState } from '../../../../utils/types/TemplateCreationInterfaces';
+import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 
 interface CanvasToolbarProps {
-    canvasDesign: TemplateCreationState;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: any;
     friendlyName: string;
     postTemplate: any;

@@ -1,7 +1,7 @@
 //Methods for creating and updating templates using axios
 
 import axios from 'axios';
-import { TemplateCreationState } from './types/TemplateCreationInterfaces';
+import { CanvasDesignData } from './types/CanvasInterfaces';
 const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
 export function createTemplate(canvasDesign: any, friendlyName: string, user: string) {
@@ -15,7 +15,7 @@ export function createTemplate(canvasDesign: any, friendlyName: string, user: st
     return axios.post(`${BASE_URL}`, body);
 }
 
-export function updateTemplate(templateId: string, canvasDesign: TemplateCreationState, friendlyName: string, user: string) {
+export function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, user: string) {
 
     //Create Body
     const body = {

@@ -1,6 +1,6 @@
 import { Link, Paper, Typography } from '@mui/material';
 import Feed from '@mui/icons-material/FeedOutlined';
-import { TemplateData } from '../../../../../../utils/types/TemplateCreationInterfaces';
+import { TemplateData } from '../../../../../../utils/types/TemplateInterfaces';
 interface SelectTemplateListItemProps {
     template: TemplateData;
 }

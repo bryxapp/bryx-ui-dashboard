@@ -8,12 +8,12 @@ import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
-import { TemplateCreationState } from '../../../../../utils/types/TemplateCreationInterfaces';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 interface TextStylerProps {
     isLoading: boolean;
-    canvasDesign: TemplateCreationState;
-    setCanvasDesign: React.SetStateAction<TemplateCreationState>;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<CanvasDesignData>;
     selectedId: string | null;
 }
 

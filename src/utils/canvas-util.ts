@@ -1,9 +1,9 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { circleObj, lineObj, rectangleObj, textFieldObj, textInputObj } from "./types/ShapeInterfaces";
-import { TemplateCreationState } from "./types/TemplateCreationInterfaces";
+import { circleObj, lineObj, rectangleObj, textFieldObj, textInputObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData } from "./types/CanvasInterfaces";
 
-export function createStage(canvasDesign: TemplateCreationState, fieldValues: string[]) {
+export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
     const layer = new Konva.Layer();
     const rect = new Konva.Rect({
         x: 0,
