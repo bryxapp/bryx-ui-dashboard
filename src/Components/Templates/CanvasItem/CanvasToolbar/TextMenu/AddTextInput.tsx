@@ -2,13 +2,13 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddTextInputIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
-import { textInputObj } from "../../../../../utils/types/CanvasInterfaces";
+import { TextInputObj } from "../../../../../utils/types/CanvasInterfaces";
 
 const AddTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
     const handleAddTextInput = () => {
         setAnchorEl(null);
 
-        const newTextInput: textInputObj = {
+        const newTextInput: TextInputObj = {
             id: 'textInput-' + canvasDesign.TextInputs.length,
             displayName: 'Text Input ' + canvasDesign.TextInputs.length,
             x: getWebCanvasWidth() / 6,

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
 import Konva from 'konva';
-import { rectangleObj } from '../../../../utils/types/CanvasInterfaces';
+import { RectangleObj } from '../../../../utils/types/CanvasInterfaces';
 
 interface RectangleShapeProps {
-    rectangleObj: rectangleObj;
+    rectangleObj: RectangleObj;
     handleDragStart: any;
     handleDragEnd: any;
     isSelected: boolean;

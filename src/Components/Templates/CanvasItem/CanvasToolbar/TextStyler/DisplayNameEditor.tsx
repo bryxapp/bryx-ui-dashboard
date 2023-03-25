@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import { textInputObj,CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import { TextInputObj,CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 
 interface DisplayNameEditorProps {
@@ -17,7 +17,7 @@ const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCa
     const handleDisplayNameChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: textInputObj) => {
+            TextInputs: canvasDesign.TextInputs.map((textInput: TextInputObj) => {
                 if (textInput.id === selectedId) {
                     return {
                         ...textInput,

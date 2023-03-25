@@ -1,11 +1,11 @@
-import { textFieldObj } from '../../../../utils/types/CanvasInterfaces';
+import { TextFieldObj } from '../../../../utils/types/CanvasInterfaces';
 import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 
 interface TextFieldProps {
-    textFieldObj: textFieldObj;
+    textFieldObj: TextFieldObj;
     handleDragStart: any;
     handleDragEnd: any;
     canvasDesign: any;

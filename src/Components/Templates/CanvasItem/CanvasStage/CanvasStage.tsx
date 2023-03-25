@@ -6,7 +6,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { circleObj, rectangleObj, textInputObj, textFieldObj, lineObj } from '../../../../utils/types/CanvasInterfaces';
+import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj } from '../../../../utils/types/CanvasInterfaces';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -142,7 +142,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                     onTouchStart={checkDeselect}>
                     <Layer>
                         {/* Place all rectangle shapes on the canvas */}
-                        {canvasDesign.Rectangles.map((rectangleObj: rectangleObj) => (
+                        {canvasDesign.Rectangles.map((rectangleObj: RectangleObj) => (
                             <RectangleShape
                                 key={rectangleObj.id}
                                 rectangleObj={rectangleObj}
@@ -157,7 +157,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                             />
                         ))}
                         {/* Place all circle shapes on the canvas */}
-                        {canvasDesign.Circles.map((circleObj: circleObj) => (
+                        {canvasDesign.Circles.map((circleObj: CircleObj) => (
                             <CircleShape
                                 key={circleObj.id}
                                 circleObj={circleObj}
@@ -172,7 +172,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                             />
                         ))}
                         {/* Place all line shapes on the canvas */}
-                        {canvasDesign.Lines.map((lineObj: lineObj) => (
+                        {canvasDesign.Lines.map((lineObj: LineObj) => (
                             <LineShape
                                 key={lineObj.id}
                                 lineObj={lineObj}
@@ -187,7 +187,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                             />
                         ))}
                         {/* Place all text inputs on the canvas */}
-                        {canvasDesign.TextInputs.map((textInputObj: textInputObj) => (
+                        {canvasDesign.TextInputs.map((textInputObj: TextInputObj) => (
                             <TextInput
                                 key={textInputObj.id}
                                 textInputObj={textInputObj}
@@ -200,7 +200,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                                 onTransformEnd={onTransformEnd} />
                         ))}
                         {/* Place all text fields on the canvas */}
-                        {canvasDesign.TextFields.map((textFieldObj: textFieldObj) => (
+                        {canvasDesign.TextFields.map((textFieldObj: TextFieldObj) => (
                             <TextField
                                 key={textFieldObj.id}
                                 textFieldObj={textFieldObj}

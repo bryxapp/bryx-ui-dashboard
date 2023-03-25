@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
 import { Circle, Transformer } from 'react-konva';
-import { circleObj } from '../../../../utils/types/CanvasInterfaces';
+import { CircleObj } from '../../../../utils/types/CanvasInterfaces';
 
 interface CircleShapeProps {
-    circleObj: circleObj;
+    circleObj: CircleObj;
     handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
     isSelected: boolean;

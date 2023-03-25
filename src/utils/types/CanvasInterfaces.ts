@@ -1,70 +1,52 @@
 export interface CanvasDesignData {
-    Rectangles: rectangleObj[];
-    Circles: circleObj[];
-    Lines: lineObj[];
-    TextInputs: textInputObj[];
-    TextFields: textFieldObj[];
+    Rectangles: RectangleObj[];
+    Circles: CircleObj[];
+    Lines: LineObj[];
+    TextInputs: TextInputObj[];
+    TextFields: TextFieldObj[];
     selectedId: string | null;
 };
 
-export interface rectangleObj {
+export interface ShapeObj {
     id: string;
     x: number;
     y: number;
+    rotation: number;
+    isDragging: boolean;
+}
+
+
+export interface RectangleObj extends ShapeObj {
     width: number;
     height: number;
-    isDragging: boolean;
     fill: string;
-    rotation: number;
 }
 
-export interface circleObj {
-    id: string;
-    x: number;
-    y: number;
+export interface CircleObj extends ShapeObj {
     radius: number;
-    isDragging: boolean;
     fill: string;
-    rotation: number;
 }
 
-export interface lineObj {
-    id: string;
-    x: number;
-    y: number;
+export interface LineObj extends ShapeObj {
     points: number[];
-    isDragging: boolean;
     stroke: string;
     strokeWidth: number;
-    rotation: number;
 }
 
-export interface textInputObj {
-    id: string;
+export interface TextObj {
+    fontSize: number;
+    fill: string;
+    fontFamily: string;
+    fontStyle: string;
+    textDecoration: string;
+}
+
+export interface TextInputObj extends ShapeObj, TextObj {
     displayName: string;
-    x: number;
-    y: number;
-    rotation: number;
-    isDragging: boolean;
-    fontSize: number;
-    fill: string;
-    fontFamily: string;
-    fontStyle: string;
-    textDecoration: string;
 }
 
-export interface textFieldObj {
-    id: string;
+export interface TextFieldObj extends ShapeObj, TextObj {
     value: string;
-    x: number;
-    y: number;
-    rotation: number;
-    isDragging: boolean;
-    fontSize: number;
-    fill: string;
-    fontFamily: string;
-    fontStyle: string;
-    textDecoration: string;
 }
 
 export interface ToolBarProps {

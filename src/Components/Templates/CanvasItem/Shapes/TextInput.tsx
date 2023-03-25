@@ -1,6 +1,6 @@
 import { Rect, Text, Group, Transformer } from 'react-konva';
 import { styled } from '@mui/material/styles';
-import { textInputObj } from '../../../../utils/types/CanvasInterfaces';
+import { TextInputObj } from '../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 
@@ -11,7 +11,7 @@ const TextInputContainer = styled(Rect)({
 });
 
 interface TextInputProps {
-    textInputObj: textInputObj;
+    textInputObj: TextInputObj;
     handleDragStart: any;
     handleDragEnd: any;
     isSelected: boolean;

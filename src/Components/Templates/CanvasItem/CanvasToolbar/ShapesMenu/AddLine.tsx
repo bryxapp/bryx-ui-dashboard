@@ -2,14 +2,14 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddLineIcon from "@mui/icons-material/HorizontalRule";
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
-import { lineObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
+import { LineObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
 
 const AddLine = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
 
     const handleAddLine = () => {
         setAnchorEl(null);
 
-        const newLine: lineObj = {
+        const newLine: LineObj = {
             id: 'line-' + canvasDesign.Lines.length,
             x: getWebCanvasWidth() / 2,
             y: getWebCanvasHeight() / 2,

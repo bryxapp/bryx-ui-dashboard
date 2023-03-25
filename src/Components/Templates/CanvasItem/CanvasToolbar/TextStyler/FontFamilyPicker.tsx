@@ -1,7 +1,7 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { textFieldObj, textInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 const FONTS = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana'];
 
@@ -16,7 +16,7 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, select
     const handleFontFamilyChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: textInputObj) => {
+            TextInputs: canvasDesign.TextInputs.map((textInput: TextInputObj) => {
                 if (textInput.id === selectedId) {
                     return {
                         ...textInput,
@@ -25,7 +25,7 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, select
                 }
                 return textInput;
             }),
-            TextFields: canvasDesign.TextFields.map((textField: textFieldObj) => {
+            TextFields: canvasDesign.TextFields.map((textField: TextFieldObj) => {
                 if (textField.id === selectedId) {
                     return {
                         ...textField,
@@ -39,9 +39,9 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, select
     };
 
     const selectedTextItemFontFamily = canvasDesign.TextInputs.find(
-        (textInput: textInputObj) => textInput.id === selectedId
+        (textInput: TextInputObj) => textInput.id === selectedId
     )?.fontFamily || canvasDesign.TextFields.find(
-        (textField: textFieldObj) => textField.id === selectedId
+        (textField: TextFieldObj) => textField.id === selectedId
     )?.fontFamily;
 
     return (

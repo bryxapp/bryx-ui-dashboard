@@ -1,6 +1,6 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { circleObj, lineObj, rectangleObj, textFieldObj, textInputObj } from "./types/CanvasInterfaces";
+import { CircleObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
 import { CanvasDesignData } from "./types/CanvasInterfaces";
 
 export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
@@ -14,7 +14,7 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
     });
     layer.add(rect);
 
-    canvasDesign.Rectangles.forEach((rectangle: rectangleObj) => {
+    canvasDesign.Rectangles.forEach((rectangle: RectangleObj) => {
         const rect = new Konva.Rect({
             x: rectangle.x,
             y: rectangle.y,
@@ -26,7 +26,7 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
         layer.add(rect);
     });
 
-    canvasDesign.Circles.forEach((circle: circleObj) => {
+    canvasDesign.Circles.forEach((circle: CircleObj) => {
         const circ = new Konva.Circle({
             x: circle.x,
             y: circle.y,
@@ -37,7 +37,7 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
         layer.add(circ);
     });
 
-    canvasDesign.Lines.forEach((line: lineObj) => {
+    canvasDesign.Lines.forEach((line: LineObj) => {
         console.log(line)
         const lineObj = new Konva.Line({
             x: line.x,
@@ -51,7 +51,7 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
     });
 
 
-    canvasDesign.TextInputs.forEach((textInput: textInputObj, index: number) => {
+    canvasDesign.TextInputs.forEach((textInput: TextInputObj, index: number) => {
         const text = new Konva.Text({
             x: textInput.x,
             y: textInput.y,
@@ -66,7 +66,7 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
         layer.add(text);
     });
 
-    canvasDesign.TextFields.forEach((textField: textFieldObj, index: number) => {
+    canvasDesign.TextFields.forEach((textField: TextFieldObj, index: number) => {
         const text = new Konva.Text({
             x: textField.x,
             y: textField.y,
