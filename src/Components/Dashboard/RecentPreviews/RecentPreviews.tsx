@@ -10,7 +10,7 @@ interface RecentPreviewProps {
 
 const RecentPreviews = ({ objects, url }: RecentPreviewProps) => {
   if (objects.length === 0) {
-    const type:string = url.includes('templates') ? 'templates' : 'estimates';
+    const type:string = url.includes('template') ? 'templates' : 'estimates';
     return <NoneFound item={type} />;
   }
 
