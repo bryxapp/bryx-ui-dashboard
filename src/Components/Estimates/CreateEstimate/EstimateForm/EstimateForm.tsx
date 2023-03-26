@@ -29,16 +29,30 @@ const EstimateForm = () => {
 
     const handleSubmit = () => {
         setCreating(true);
-        if (!templateData) return;
-        createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName)
-            .then((res) => {
-                //Wait for 2 seconds before navigating to the estimate page
+        const submitAsync = async () => {
+            if (!templateData) {
+                setCreating(false);
+                return;
+            };
+            try {
+                const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName);
+                // Wait for 2 seconds before navigating to the estimate page
                 setTimeout(() => {
                     setCreating(false);
                     window.location.href = "/view-estimate?estimateId=" + res.data.id;
                 }, 2000);
-            });
-    }
+            } catch (error) {
+                // Handle any errors that might occur during the createEstimate function
+                console.error("Error creating estimate:", error);
+            }
+            finally {
+                setCreating(false);
+            }
+        };
+
+        submitAsync();
+    };
+
 
     useEffect(() => {
         if (templateId) {
@@ -55,7 +69,6 @@ const EstimateForm = () => {
         const newFieldValues = [...fieldValues];
         newFieldValues[index] = value;
         setFieldValues(newFieldValues);
-        console.log(newFieldValues)
     };
 
 

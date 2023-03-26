@@ -4,6 +4,7 @@ export interface CanvasDesignData {
     Lines: LineObj[];
     TextInputs: TextInputObj[];
     TextFields: TextFieldObj[];
+    Images: ImageObj[];
     selectedId: string | null;
 };
 
@@ -47,6 +48,12 @@ export interface TextInputObj extends ShapeObj, TextObj {
 
 export interface TextFieldObj extends ShapeObj, TextObj {
     value: string;
+}
+
+export interface ImageObj extends ShapeObj {
+    src: string;
+    width: number;
+    height: number;
 }
 
 export interface ToolBarProps {

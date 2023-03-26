@@ -21,9 +21,11 @@ export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign 
 
     return (
         <Tooltip title="Delete Shape" placement="bottom">
+            <span>
             <IconButton color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading || !canvasDesign.selectedId}>
                 <DeleteIcon />
             </IconButton>
+            </span>
         </Tooltip>
     );
 }

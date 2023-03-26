@@ -6,7 +6,8 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj } from '../../../../utils/types/CanvasInterfaces';
+import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj } from '../../../../utils/types/CanvasInterfaces';
+import ImageShape from '../Shapes/ImageShape';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -105,7 +106,6 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
         Object.keys(canvasDesign).forEach((shapeType: string) => {
             if (shapeType === "selectedId") return;
             updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                console.log(node.rotation(), shape.rotation)
                 if (shape.id !== node.id()) {
                     return shape;
                 }
@@ -133,6 +133,8 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
 
         setCanvasDesign(updatedCanvasDesign);
     };
+const image = new window.Image();
+image.src = 'https://konvajs.org/assets/yoda.jpg';
 
     return (
         <>
@@ -211,6 +213,20 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                                 isSelected={textFieldObj.id === selectedId}
                                 onSelect={() => {
                                     selectShape(textFieldObj.id);
+                                }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        ))}
+                        {/* Place all images on the canvas */}
+                        {canvasDesign.Images.map((imageObj: ImageObj) => (
+                            <ImageShape
+                                key={imageObj.id}
+                                imageObj={imageObj}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={imageObj.id === selectedId}
+                                onSelect={() => {
+                                    selectShape(imageObj.id);
                                 }}
                                 onTransformEnd={onTransformEnd}
                             />

@@ -7,6 +7,7 @@ import DeleteButton from './DeleteButton';
 import SaveButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
+import ImagesMenu from './ImagesMenu/ImagesMenu';
 import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 
 interface CanvasToolbarProps {
@@ -31,6 +32,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                         <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} selectedId={selectedId} />
                         <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                        <ImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>

@@ -6,7 +6,6 @@ const PageViewTracker = () => {
   const location = useLocation();
 
   useEffect(() => {
-    console.log(location.pathname)
     logger.trackPageView({
       name: location.pathname,
       uri: location.pathname,

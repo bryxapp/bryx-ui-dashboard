@@ -36,17 +36,19 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
     return (
         <>
             <Tooltip title="Change Text Style" placement="bottom">
-                <IconButton
-                    id="font-size-selector"
-                    aria-controls="font-size-selector-menu"
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleOpen}
-                    color="inherit"
-                    disabled={isLoading || !isTextObject}
-                >
-                    <FontSizeSelectorIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        id="font-size-selector"
+                        aria-controls="font-size-selector-menu"
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleOpen}
+                        color="inherit"
+                        disabled={isLoading || !isTextObject}
+                    >
+                        <FontSizeSelectorIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
             <Menu
                 id="font-style-menu"

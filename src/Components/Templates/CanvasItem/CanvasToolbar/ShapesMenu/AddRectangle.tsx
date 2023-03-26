@@ -19,8 +19,6 @@ const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarPro
             isDragging: false,
         }
 
-        console.log(newRectangle)
-
         setCanvasDesign({
             ...canvasDesign,
             Rectangles: [

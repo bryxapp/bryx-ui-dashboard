@@ -7,8 +7,8 @@ import { CanvasDesignData } from './types/CanvasInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-export function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: string[], user: string) {
-    const estimateImgObj = createStage(canvasDesign, fieldValues);
+export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: string[], user: string) {
+    const estimateImgObj = await createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {
         user: user,

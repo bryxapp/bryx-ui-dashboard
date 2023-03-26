@@ -20,8 +20,6 @@ const AddLine = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) =
             isDragging: false,
         }
 
-        console.log(newLine)
-
         setCanvasDesign({
             ...canvasDesign,
             Lines: [

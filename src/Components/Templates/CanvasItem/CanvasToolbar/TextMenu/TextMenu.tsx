@@ -25,17 +25,19 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
     return (
         <>
             <Tooltip title="Expand Shape Menu" placement="bottom">
-                <IconButton
-                    id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                    color="inherit"
-                    disabled={isLoading}
-                >
-                    <AddTextIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        color="inherit"
+                        disabled={isLoading}
+                    >
+                        <AddTextIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
             <Menu
                 id="basic-menu"

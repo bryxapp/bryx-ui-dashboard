@@ -48,17 +48,19 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
     return (
         <>
             <Tooltip title="Expand Shape Menu" placement="bottom">
-                <IconButton
-                    id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                    color="inherit"
-                    disabled={isLoading || !selectedId}
-                >
-                    <ColorSelectorIcon />
-                </IconButton>
+                <span>
+                    <IconButton
+                        id="basic-button"
+                        aria-controls={open ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={open ? 'true' : undefined}
+                        onClick={handleClick}
+                        color="inherit"
+                        disabled={isLoading || !selectedId}
+                    >
+                        <ColorSelectorIcon />
+                    </IconButton>
+                </span>
             </Tooltip>
             <Menu
                 id="basic-menu"

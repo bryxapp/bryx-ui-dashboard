@@ -1,9 +1,10 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { CircleObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
+import { CircleObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
 import { CanvasDesignData } from "./types/CanvasInterfaces";
 
-export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
+
+export async function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
     const layer = new Konva.Layer();
     const rect = new Konva.Rect({
         x: 0,
@@ -38,7 +39,6 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
     });
 
     canvasDesign.Lines.forEach((line: LineObj) => {
-        console.log(line)
         const lineObj = new Konva.Line({
             x: line.x,
             y: line.y,
@@ -80,6 +80,29 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
         });
         layer.add(text);
     });
+    const imagePromises = canvasDesign.Images.map((imageObj: ImageObj) => {
+        return new Promise((resolve) => {
+            const image = new Image();
+            image.crossOrigin = "Anonymous";
+            image.src = imageObj.src;
+            image.onload = () => {
+                const konvaImage = new Konva.Image({
+                    x: imageObj.x,
+                    y: imageObj.y,
+                    image: image,
+                    width: imageObj.width,
+                    height: imageObj.height,
+                    rotation: imageObj.rotation,
+                    draggable: imageObj.isDragging,
+                });
+                layer.add(konvaImage);
+                resolve(null);
+            };
+        });
+    });
+    // Wait for all images to load before continuing
+    await Promise.all(imagePromises);
+    layer.batchDraw();
 
     //Create container for stage 
     const container = document.createElement("div");
@@ -102,6 +125,5 @@ export function createStage(canvasDesign: CanvasDesignData, fieldValues: string[
         x: 0,
         y: 0,
     };
-
     return stage.toDataURL(dataUrlSettings);
 }
