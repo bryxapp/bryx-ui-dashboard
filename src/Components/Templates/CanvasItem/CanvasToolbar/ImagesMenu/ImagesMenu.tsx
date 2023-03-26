@@ -4,11 +4,12 @@ import Menu from '@mui/material/Menu';
 import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import Tooltip from '@mui/material/Tooltip';
 import AddClipArt from './AddClipArt';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 interface ImagesMenuProps {
     isLoading: boolean;
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
 }
 
 export default function ImagesMenu({ isLoading, canvasDesign, setCanvasDesign }: ImagesMenuProps) {

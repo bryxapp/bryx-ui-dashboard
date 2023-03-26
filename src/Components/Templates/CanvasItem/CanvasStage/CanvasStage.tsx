@@ -6,7 +6,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
+import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import ImageShape from '../Shapes/ImageShape';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
@@ -25,12 +25,12 @@ const PiecePaper = styled('div')({
 });
 
 interface CanvasStageProps {
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
     color: string;
-    setColor: any;
+    setColor: React.SetStateAction<any>;
     selectedId: string | null;
-    setSelectedId: any;
+    setSelectedId: React.SetStateAction<any>;
 }
 
 
@@ -55,41 +55,41 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
 
     const handleDragStart = (e: any) => {
         const id = e.target.id();
-        const shapeTypes = Object.keys(canvasDesign);
-        const updatedCanvasDesign: any = {};
-        shapeTypes.forEach(shapeType => {
-            if (shapeType === "selectedId") return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                return {
+        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
+            if (shape.id === id) {
+                updatedCanvasDesign.Shapes[index] = {
                     ...shape,
-                    isDragging: shape.id === id,
+                    isDragging: true,
                 };
-            });
+            } else {
+                updatedCanvasDesign.Shapes[index] = {
+                    ...shape,
+                    isDragging: false,
+                };
+            }
         });
         setCanvasDesign(updatedCanvasDesign);
     };
 
     const handleDragEnd = (e: any) => {
         const id = e.target.id();
-        const shapeTypes = Object.keys(canvasDesign);
-        const updatedCanvasDesign: any = {};
-        shapeTypes.forEach(shapeType => {
-            if (shapeType === "selectedId") return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                if (shape.id === id) {
-                    return {
-                        ...shape,
-                        x: e.target.x(),
-                        y: e.target.y(),
-                        isDragging: false,
-                    };
-                } else {
-                    return {
-                        ...shape,
-                        isDragging: false,
-                    };
-                }
-            });
+        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+
+        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
+            if (shape.id === id) {
+                updatedCanvasDesign.Shapes[index] = {
+                    ...shape,
+                    x: e.target.x(),
+                    y: e.target.y(),
+                    isDragging: false,
+                };
+            } else {
+                updatedCanvasDesign.Shapes[index] = {
+                    ...shape,
+                    isDragging: false,
+                };
+            }
         });
         setCanvasDesign(updatedCanvasDesign);
     };
@@ -101,34 +101,38 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
         node.scaleX(1);
         node.scaleY(1);
 
-        const updatedCanvasDesign: any = {};
+        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
 
-        Object.keys(canvasDesign).forEach((shapeType: string) => {
-            if (shapeType === "selectedId") return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                if (shape.id !== node.id()) {
-                    return shape;
+        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
+            if (shape.id === node.id()) {
+                if (shape.type === "Circle") {
+                    updatedCanvasDesign.Shapes[index] = {
+                        ...shape,
+                        x: node.x(),
+                        y: node.y(),
+                        radius: Math.max(5, node.radius() * scaleX),
+                        rotation: node.rotation(),
+                    } as CircleObj;
+                } else if (shape.type === "Line") {
+                    updatedCanvasDesign.Shapes[index] = {
+                        ...shape,
+                        x: node.x(),
+                        y: node.y(),
+                        points: node.points().map((point: number) => point * scaleX),
+                        strokeWidth: Math.max(5, node.strokeWidth() * scaleX),
+                        rotation: node.rotation(),
+                    } as LineObj;
+                } else if (shape.type === "Rectangle" || shape.type === "TextInput" || shape.type === "TextField" || shape.type === "Image") {
+                    updatedCanvasDesign.Shapes[index] = {
+                        ...shape,
+                        x: node.x(),
+                        y: node.y(),
+                        width: Math.max(5, node.width() * scaleX),
+                        height: Math.max(5, node.height() * scaleY),
+                        rotation: node.rotation(),
+                    } as RectangleObj;
                 }
-                const updatedShape = {
-                    ...shape,
-                    x: node.x(),
-                    y: node.y(),
-                    rotation: node.rotation(),
-                };
-
-
-                if (node.radius) { // Circle
-                    updatedShape.radius = Math.max(5, node.radius() * scaleX);
-                } else if (node.points) { // Line
-                    updatedShape.points = node.points().map((point: number) => point * scaleX);
-                    updatedShape.strokeWidth = Math.max(5, node.strokeWidth() * scaleX);
-                } else if (node.width) { // Rectangle
-                    updatedShape.width = Math.max(5, node.width() * scaleX);
-                    updatedShape.height = Math.max(node.height() * scaleY);
-                }
-
-                return updatedShape;
-            });
+            }
         });
 
         setCanvasDesign(updatedCanvasDesign);
@@ -257,5 +261,3 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
 };
 
 export default CanvasStage;
-
-

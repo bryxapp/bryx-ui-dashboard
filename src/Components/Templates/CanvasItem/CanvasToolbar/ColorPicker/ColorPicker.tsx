@@ -4,13 +4,14 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import ColorSelectorIcon from '@mui/icons-material/ColorLens';
 import { ChromePicker } from 'react-color';
+import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface ColorPickerProps {
     isLoading: boolean;
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
     color: string;
-    setColor: any;
+    setColor: React.SetStateAction<any>;
     selectedId: string | null;
 }
 
@@ -24,24 +25,24 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         setAnchorEl(null);
     };
 
-    const onColorChange = (color: any) => {
+    const onColorChange = (color:any) => {
         setColor(color.hex);
-        const updatedCanvasDesign: any = {};
+        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
 
-        Object.keys(canvasDesign).forEach((shapeType: string) => {
-            if (shapeType === "selectedId") return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                if (shape.id !== selectedId) {
-                    return shape;
-                }
-                const updatedShape = {
-                    ...shape,
-                    fill: color.hex,
-                };
-                return updatedShape;
-            });
+        canvasDesign.Shapes.forEach((shape: ShapeObj) => {
+            if (shape.id === canvasDesign.selectedId) {
+                updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+                    if (shape.id !== selectedId) {
+                        return shape;
+                    }
+                    const updatedShape = {
+                        ...shape,
+                        fill: color.hex,
+                    };
+                    return updatedShape;
+                });
+            }
         });
-
         setCanvasDesign(updatedCanvasDesign);
     };
 

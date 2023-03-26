@@ -3,10 +3,10 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
-import { TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface FontStylePickerProps {
-    canvasDesign: any;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
@@ -23,21 +23,19 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanv
 
         const updatedCanvasDesign = {
             ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
-                if (textItem.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
+                if (shape.id === selectedId) {
                     return {
-                        ...textItem,
+                        ...shape,
                         fontStyle: fontStyle,
                     };
                 }
-                return textItem;
+                return shape;
             }),
         };
         setCanvasDesign(updatedCanvasDesign);
     };
-
-    const selectedTextItemFontStyle =
-        canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.fontStyle;
+    const selectedTextItemFontStyle = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.fontStyle;
 
     const selectedFontStyles = [];
     if (selectedTextItemFontStyle?.includes('italic')) {

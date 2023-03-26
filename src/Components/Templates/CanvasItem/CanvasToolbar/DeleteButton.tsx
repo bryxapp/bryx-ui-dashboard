@@ -1,19 +1,20 @@
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { CanvasDesignData, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 
 interface DeleteButtonProps {
     isLoading: boolean;
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
 }
 export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign }: DeleteButtonProps) {
     const handleDeleteShape = () => {
-        const shapeTypes = Object.keys(canvasDesign);
-        const updatedCanvasDesign: any = {};
-        shapeTypes.forEach((shapeType: string) => {
-            if (shapeType === "selectedId") return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].filter((shape: any) => shape.id !== canvasDesign.selectedId);
+        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+        canvasDesign.Shapes.forEach((shape: ShapeObj) => {
+            if (shape.id === canvasDesign.selectedId) {
+                updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
+            }
         });
         canvasDesign.selectedId = null;
         setCanvasDesign(updatedCanvasDesign);
@@ -22,9 +23,9 @@ export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign 
     return (
         <Tooltip title="Delete Shape" placement="bottom">
             <span>
-            <IconButton color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading || !canvasDesign.selectedId}>
-                <DeleteIcon />
-            </IconButton>
+                <IconButton color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading || !canvasDesign.selectedId}>
+                    <DeleteIcon />
+                </IconButton>
             </span>
         </Tooltip>
     );

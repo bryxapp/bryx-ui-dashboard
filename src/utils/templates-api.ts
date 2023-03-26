@@ -4,7 +4,7 @@ import axios from 'axios';
 import { CanvasDesignData } from './types/CanvasInterfaces';
 const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
-export function createTemplate(canvasDesign: any, friendlyName: string, user: string) {
+export function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, user: string) {
     //Create Body
     const body = {
         user: user,

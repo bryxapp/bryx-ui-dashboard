@@ -8,7 +8,7 @@ import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
-import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface TextStylerProps {
     isLoading: boolean;
@@ -29,7 +29,7 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
         setAnchorEl(null);
     };
 
-    const isTextObject = canvasDesign.Shapes.find((shape: any) => shape.id === selectedId)?.type.includes('Text')
+    const isTextObject = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId)?.type.includes('Text')
 
     return (
         <>

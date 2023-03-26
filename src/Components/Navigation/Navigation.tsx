@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import Box from '@mui/material/Box';
 import Footer from './Footer/Footer';
 import Container from '@mui/material/Container';
 import TopNavBar from './TopNavBar/TopNavBar';
 import Sidebar from './SideAppDrawer/SideAppDrawer';
 
-const Navigation = (props: any) => {
+interface NavigationProps {
+    children: ReactNode;
+}
+
+const Navigation = ({ children }: NavigationProps) => {
     return (
         <React.Fragment>
             <TopNavBar />
@@ -27,7 +31,7 @@ const Navigation = (props: any) => {
                     }}
                 >
                     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                        {props.children}
+                        {children}
                     </Container>
                 </Box>
             </Box>

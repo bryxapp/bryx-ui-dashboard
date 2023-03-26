@@ -4,7 +4,7 @@ import IconButton from '@mui/material/IconButton';
 
 interface SaveButtonProps {
     isLoading: boolean;
-    setIsLoading: any;
+    setIsLoading: React.SetStateAction<any>;
     postTemplate: any;
 }
 

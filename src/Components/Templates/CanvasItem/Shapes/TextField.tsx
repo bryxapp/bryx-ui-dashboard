@@ -1,4 +1,4 @@
-import { TextFieldObj } from '../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj } from '../../../../utils/types/CanvasInterfaces';
 import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
@@ -8,7 +8,7 @@ interface TextFieldProps {
     textFieldObj: TextFieldObj;
     handleDragStart: any;
     handleDragEnd: any;
-    canvasDesign: any;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: any;
     isSelected: boolean;
     onSelect: any;
@@ -59,16 +59,20 @@ const TextField = ({
     };
 
     const onChange = (event: any) => {
-        const shapeTypes = Object.keys(canvasDesign);
-        const updatedCanvasDesign: any = {};
-        shapeTypes.forEach((shapeType) => {
-            if (shapeType === 'selectedId') return;
-            updatedCanvasDesign[shapeType] = canvasDesign[shapeType].map((shape: any) => {
-                return {
-                    ...shape,
-                    value: shape.id === textFieldObj.id ? event.target.value : shape.value,
-                };
-            });
+        const updatedCanvasDesign:  CanvasDesignData = {...canvasDesign};
+
+        canvasDesign.Shapes.forEach((shape: ShapeObj) => {
+            if (shape.id === textFieldObj.id) {
+                updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+                    if (shape.id === textFieldObj.id) {
+                        return {
+                            ...shape,
+                            value: event.target.value,
+                        };
+                    }
+                    return shape;
+                });
+            }
         });
         setCanvasDesign(updatedCanvasDesign);
     };

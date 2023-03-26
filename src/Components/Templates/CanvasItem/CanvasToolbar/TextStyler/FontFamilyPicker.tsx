@@ -1,12 +1,12 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 const FONTS = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana'];
 
 interface FontFamilyPickerProps {
-    canvasDesign: any;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
@@ -16,20 +16,20 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, select
     const handleFontFamilyChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
-                if (textItem.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
+                if (shape.id === selectedId) {
                     return {
-                        ...textItem,
+                        ...shape,
                         fontFamily: event.target.value as string,
                     };
                 }
-                return textItem;
+                return shape;
             }),
         };
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontFamily = canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.fontFamily;
+    const selectedTextItemFontFamily = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.fontFamily;
 
     return (
         <>

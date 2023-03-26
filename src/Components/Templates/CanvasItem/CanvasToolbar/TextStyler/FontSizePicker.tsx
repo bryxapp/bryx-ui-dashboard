@@ -1,12 +1,12 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 
 interface FontSizePickerProps {
-    canvasDesign: any;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
@@ -16,20 +16,20 @@ export default function FontSizePicker({ canvasDesign, setCanvasDesign, selected
     const handleFontSizeChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
-                if (textItem.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((shape:ShapeObj) => {
+                if (shape.id === selectedId) {
                     return {
-                        ...textItem,
+                        ...shape,
                         fontSize: event.target.value as number,
                     };
                 }
-                return textItem;
+                return shape;
             })
         };
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontSize = canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.fontSize;
+    const selectedTextItemFontSize = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.fontSize;
 
     return (
         <>

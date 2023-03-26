@@ -5,11 +5,12 @@ import AddTextIcon from '@mui/icons-material/TextFields';
 import Tooltip from '@mui/material/Tooltip';
 import AddTextField from './AddTextField';
 import AddTextInput from './AddTextInput';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 interface TextMenuProps {
     isLoading: boolean;
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
 }
 
 export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: TextMenuProps) {

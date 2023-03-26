@@ -12,11 +12,11 @@ import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
-    setCanvasDesign: any;
+    setCanvasDesign: React.SetStateAction<any>;
     friendlyName: string;
     postTemplate: any;
     color: string;
-    setColor: any;
+    setColor: React.SetStateAction<any>;
     selectedId: string | null;
 }
 

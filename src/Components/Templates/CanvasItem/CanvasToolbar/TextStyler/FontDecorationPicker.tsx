@@ -3,10 +3,10 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
-import { TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface FontDecorationPickerProps {
-    canvasDesign: any;
+    canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
@@ -23,20 +23,20 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesig
 
         const updatedCanvasDesign = {
             ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
-                if (textItem.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
+                if (shape.id === selectedId) {
                     return {
-                        ...textItem,
+                        ...shape,
                         textDecoration: fontDecoration,
                     };
                 }
-                return textItem;
+                return shape;
             }),
         };
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontDecoration = canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.textDecoration;
+    const selectedTextItemFontDecoration = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.textDecoration;
 
     const selectedFontDecorations = [];
     if (selectedTextItemFontDecoration?.includes('underline')) {

@@ -1,11 +1,16 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddTextInputIcon from "@mui/icons-material/CheckBoxOutlineBlankOutlined";
-import { TextInputObj } from "../../../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, TextInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { createTextInputObj } from "../../../../../utils/types/ShapesFactory";
 
+interface AddTextInputProps {
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
+    setAnchorEl: React.SetStateAction<any>;
+}
 
-const AddTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: any) => {
+const AddTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: AddTextInputProps) => {
     const handleAddTextInput = () => {
         setAnchorEl(null);
 

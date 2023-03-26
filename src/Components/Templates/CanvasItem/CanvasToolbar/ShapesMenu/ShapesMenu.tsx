@@ -6,11 +6,12 @@ import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
 import AddCircle from './AddCircle';
 import AddRectangle from './AddRectangle';
 import AddLine from './AddLine';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 interface ShapesMenuProps {
     isLoading: boolean;
-    canvasDesign: any;
-    setCanvasDesign: any;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.SetStateAction<any>;
 }
 
 export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }: ShapesMenuProps) {
