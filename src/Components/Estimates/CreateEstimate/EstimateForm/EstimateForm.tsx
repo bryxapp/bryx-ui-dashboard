@@ -10,7 +10,7 @@ import { createEstimate } from '../../../../utils/estimates-api';
 import EstimateName from './EstimateName/EstimateName';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import { useAuth0 } from '@auth0/auth0-react';
-import { TextInputObj } from '../../../../utils/types/CanvasInterfaces';
+import { ShapeObj, TextInputObj } from '../../../../utils/types/CanvasInterfaces';
 
 const EstimateForm = () => {
 
@@ -24,33 +24,27 @@ const EstimateForm = () => {
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<string[]>([]);
     const { user } = useAuth0();
-    const userName = user?.email ? user.email : "";
+    const userName = user?.email || "";
 
-
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         setCreating(true);
-        const submitAsync = async () => {
-            if (!templateData) {
-                setCreating(false);
-                return;
-            };
-            try {
-                const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName);
-                // Wait for 2 seconds before navigating to the estimate page
-                setTimeout(() => {
-                    setCreating(false);
-                    window.location.href = "/view-estimate?estimateId=" + res.data.id;
-                }, 2000);
-            } catch (error) {
-                // Handle any errors that might occur during the createEstimate function
-                console.error("Error creating estimate:", error);
-            }
-            finally {
-                setCreating(false);
-            }
-        };
 
-        submitAsync();
+        try {
+            if (!templateData) {
+                return;
+            }
+
+            const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName);
+
+            // Wait for 2 seconds before navigating to the estimate page
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+
+            window.location.href = "/view-estimate?estimateId=" + res.data.id;
+        } catch (error) {
+            console.error("Error creating estimate:", error);
+        } finally {
+            setCreating(false);
+        }
     };
 
 
@@ -59,11 +53,15 @@ const EstimateForm = () => {
             getTemplate(templateId)
                 .then((res) => {
                     setTemplateData(res.data);
-                    setFieldValues(new Array(res.data.canvasDesign.TextInputs.length).fill(''));
+                    const textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
+                        (shape: ShapeObj) => shape.type === "TextInput"
+                    ) as TextInputObj[];
+                    setFieldValues(new Array(textInputs.length).fill(""));
                     setLoading(false);
                 });
         }
     }, [templateId]);
+
 
     const handleFieldValueChange = (index: number, value: string) => {
         const newFieldValues = [...fieldValues];
@@ -82,6 +80,11 @@ const EstimateForm = () => {
 
     if (!templateData) return (<div>Template not found</div>);
 
+    const textInputs: TextInputObj[] = templateData.canvasDesign.Shapes.filter(
+        (shape: ShapeObj) => shape.type === "TextInput"
+    ) as TextInputObj[];
+
+
     return (
         <>
             <Typography variant="h3" color="primary">
@@ -93,7 +96,7 @@ const EstimateForm = () => {
             <Typography variant="h6" color="gray">
                 Template: {templateData.friendlyName}
             </Typography>
-            {templateData.canvasDesign.TextInputs.map((inputObj: TextInputObj, index: number) => (
+            {textInputs.map((inputObj: TextInputObj, index: number) => (
                 <>
                     <EstimateFormTextField name={inputObj.displayName} index={index} key={inputObj.id} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
                     <div style={{ height: 15 }}></div>

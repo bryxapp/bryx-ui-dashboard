@@ -29,9 +29,7 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
         setAnchorEl(null);
     };
 
-    //Check if there is a selected textInput or textField
-    const isTextObject = canvasDesign.TextInputs.find((textInput) => textInput.id === selectedId)
-        || canvasDesign.TextFields.find((textField) => textField.id === selectedId);
+    const isTextObject = canvasDesign.Shapes.find((shape: any) => shape.id === selectedId)?.type.includes('Text')
 
     return (
         <>

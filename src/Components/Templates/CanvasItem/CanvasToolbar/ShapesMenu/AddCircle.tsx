@@ -1,29 +1,19 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddCircleIcon from "@mui/icons-material/CircleOutlined";
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
 import { CircleObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
+import { createCircleObj } from "../../../../../utils/types/ShapesFactory";
+
 
 const AddCircle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
     const handleAddCircle = () => {
         setAnchorEl(null);
 
-        const newCircle: CircleObj = {
-            id: 'circle-' + canvasDesign.Circles.length,
-            x: getWebCanvasWidth() / 2,
-            y: getWebCanvasHeight() / 2,
-            rotation: 0,
-            radius: 100,
-            fill: '#355E3B',
-            isDragging: false,
-        }
+        const newCircle: CircleObj = createCircleObj(canvasDesign.Shapes.length, 100, '#355E3B');
 
         setCanvasDesign({
             ...canvasDesign,
-            Circles: [
-                ...canvasDesign.Circles,
-                newCircle
-            ]
+            Shapes: [...canvasDesign.Shapes, newCircle]
         });
     }
 

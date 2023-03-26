@@ -6,7 +6,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj } from '../../../../utils/types/CanvasInterfaces';
+import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import ImageShape from '../Shapes/ImageShape';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
@@ -133,104 +133,122 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
 
         setCanvasDesign(updatedCanvasDesign);
     };
-const image = new window.Image();
-image.src = 'https://konvajs.org/assets/yoda.jpg';
+
+    const image = new window.Image();
+    image.src = 'https://konvajs.org/assets/yoda.jpg';
 
     return (
         <>
             <PiecePaper>
-                <Stage width={pageWidth} height={pageHeight}
+                <Stage
+                    width={pageWidth}
+                    height={pageHeight}
                     onMouseDown={checkDeselect}
-                    onTouchStart={checkDeselect}>
+                    onTouchStart={checkDeselect}
+                >
                     <Layer>
-                        {/* Place all rectangle shapes on the canvas */}
-                        {canvasDesign.Rectangles.map((rectangleObj: RectangleObj) => (
-                            <RectangleShape
-                                key={rectangleObj.id}
-                                rectangleObj={rectangleObj}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={rectangleObj.id === selectedId}
-                                onSelect={() => {
-                                    setColor(rectangleObj.fill)
-                                    selectShape(rectangleObj.id);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        ))}
-                        {/* Place all circle shapes on the canvas */}
-                        {canvasDesign.Circles.map((circleObj: CircleObj) => (
-                            <CircleShape
-                                key={circleObj.id}
-                                circleObj={circleObj}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={circleObj.id === selectedId}
-                                onSelect={() => {
-                                    setColor(circleObj.fill)
-                                    selectShape(circleObj.id);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        ))}
-                        {/* Place all line shapes on the canvas */}
-                        {canvasDesign.Lines.map((lineObj: LineObj) => (
-                            <LineShape
-                                key={lineObj.id}
-                                lineObj={lineObj}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={lineObj.id === selectedId}
-                                onSelect={() => {
-                                    setColor(lineObj.stroke)
-                                    selectShape(lineObj.id);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        ))}
-                        {/* Place all text inputs on the canvas */}
-                        {canvasDesign.TextInputs.map((textInputObj: TextInputObj) => (
-                            <TextInput
-                                key={textInputObj.id}
-                                textInputObj={textInputObj}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={textInputObj.id === selectedId}
-                                onSelect={() => {
-                                    selectShape(textInputObj.id);
-                                }}
-                                onTransformEnd={onTransformEnd} />
-                        ))}
-                        {/* Place all text fields on the canvas */}
-                        {canvasDesign.TextFields.map((textFieldObj: TextFieldObj) => (
-                            <TextField
-                                key={textFieldObj.id}
-                                textFieldObj={textFieldObj}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
-                                isSelected={textFieldObj.id === selectedId}
-                                onSelect={() => {
-                                    selectShape(textFieldObj.id);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        ))}
-                        {/* Place all images on the canvas */}
-                        {canvasDesign.Images.map((imageObj: ImageObj) => (
-                            <ImageShape
-                                key={imageObj.id}
-                                imageObj={imageObj}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={imageObj.id === selectedId}
-                                onSelect={() => {
-                                    selectShape(imageObj.id);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        ))}
+                        {/* Place all shapes on the canvas */}
+                        {canvasDesign.Shapes.map((shape: ShapeObj) => {
+                            switch (shape.type) {
+                                case 'Rectangle':
+                                    const rectangle = shape as RectangleObj;
+                                    return (
+                                        <RectangleShape
+                                            key={rectangle.id}
+                                            rectangleObj={rectangle}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            isSelected={rectangle.id === selectedId}
+                                            onSelect={() => {
+                                                setColor(rectangle.fill)
+                                                selectShape(rectangle.id);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                case 'Circle':
+                                    const circle = shape as CircleObj;
+                                    return (
+                                        <CircleShape
+                                            key={circle.id}
+                                            circleObj={circle}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            isSelected={circle.id === selectedId}
+                                            onSelect={() => {
+                                                setColor(circle.fill)
+                                                selectShape(circle.id);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                case 'Line':
+                                    const line = shape as LineObj;
+                                    return (
+                                        <LineShape
+                                            key={line.id}
+                                            lineObj={line}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            isSelected={line.id === selectedId}
+                                            onSelect={() => {
+                                                setColor(line.stroke)
+                                                selectShape(line.id);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                case 'TextInput':
+                                    const textInput = shape as TextInputObj;
+                                    return (
+                                        <TextInput
+                                            key={textInput.id}
+                                            textInputObj={textInput}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            isSelected={textInput.id === selectedId}
+                                            onSelect={() => {
+                                                selectShape(textInput.id);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                case 'TextField':
+                                    const textField = shape as TextFieldObj;
+                                    return (
+                                        <TextField
+                                            key={textField.id}
+                                            textFieldObj={textField}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            canvasDesign={canvasDesign}
+                                            setCanvasDesign={setCanvasDesign}
+                                            isSelected={textField.id === selectedId}
+                                            onSelect={() => {
+                                                selectShape(textField.id);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                case 'Image':
+                                    const image = shape as ImageObj;
+                                    return (
+                                        <ImageShape
+                                            key={image.id}
+                                            imageObj={image}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            isSelected={image.id === selectedId}
+                                            onSelect={() => {
+                                                selectShape(image.id);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                default:
+                                    return null;
+                            }
+                        })}
                     </Layer>
                 </Stage>
             </PiecePaper>

@@ -1,8 +1,6 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { CircleObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
-import { CanvasDesignData } from "./types/CanvasInterfaces";
-
+import { CanvasDesignData, CircleObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
 
 export async function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
     const layer = new Konva.Layer();
@@ -15,78 +13,76 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
     });
     layer.add(rect);
 
-    canvasDesign.Rectangles.forEach((rectangle: RectangleObj) => {
-        const rect = new Konva.Rect({
-            x: rectangle.x,
-            y: rectangle.y,
-            width: rectangle.width,
-            height: rectangle.height,
-            fill: rectangle.fill,
-            rotation: rectangle.rotation,
-        });
-        layer.add(rect);
-    });
+    canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
+        let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
 
-    canvasDesign.Circles.forEach((circle: CircleObj) => {
-        const circ = new Konva.Circle({
-            x: circle.x,
-            y: circle.y,
-            radius: circle.radius,
-            fill: circle.fill,
-            rotation: circle.rotation,
-        });
-        layer.add(circ);
-    });
-
-    canvasDesign.Lines.forEach((line: LineObj) => {
-        const lineObj = new Konva.Line({
-            x: line.x,
-            y: line.y,
-            points: line.points,
-            stroke: line.stroke,
-            strokeWidth: line.strokeWidth,
-            rotation: line.rotation,
-        });
-        layer.add(lineObj);
-    });
-
-
-    canvasDesign.TextInputs.forEach((textInput: TextInputObj, index: number) => {
-        const text = new Konva.Text({
-            x: textInput.x,
-            y: textInput.y,
-            text: fieldValues[index],
-            fontSize: textInput.fontSize,
-            fontColor: textInput.fill,
-            rotation: textInput.rotation,
-            fontFamily: textInput.fontFamily,
-            fontStyle: textInput.fontStyle,
-            textDecoration: textInput.textDecoration
-        });
-        layer.add(text);
-    });
-
-    canvasDesign.TextFields.forEach((textField: TextFieldObj, index: number) => {
-        const text = new Konva.Text({
-            x: textField.x,
-            y: textField.y,
-            text: textField.value,
-            fontSize: textField.fontSize,
-            fontColor: textField.fill,
-            rotation: textField.rotation,
-            fontFamily: textField.fontFamily,
-            fontStyle: textField.fontStyle,
-            textDecoration: textField.textDecoration
-        });
-        layer.add(text);
-    });
-    const imagePromises = canvasDesign.Images.map((imageObj: ImageObj) => {
-        return new Promise((resolve) => {
-            const image = new Image();
-            image.crossOrigin = "Anonymous";
-            image.src = imageObj.src;
-            image.onload = () => {
-                const konvaImage = new Konva.Image({
+        switch (shape.type) {
+            case 'Rectangle':
+                const rectangle = shape as RectangleObj;
+                konvaShape = new Konva.Rect({
+                    x: rectangle.x,
+                    y: rectangle.y,
+                    width: rectangle.width,
+                    height: rectangle.height,
+                    fill: rectangle.fill,
+                    rotation: rectangle.rotation,
+                });
+                break;
+            case 'Circle':
+                const circle = shape as CircleObj;
+                konvaShape = new Konva.Circle({
+                    x: circle.x,
+                    y: circle.y,
+                    radius: circle.radius,
+                    fill: circle.fill,
+                    rotation: circle.rotation,
+                });
+                break;
+            case 'Line':
+                const line = shape as LineObj;
+                konvaShape = new Konva.Line({
+                    x: line.x,
+                    y: line.y,
+                    points: line.points,
+                    stroke: line.stroke,
+                    strokeWidth: line.strokeWidth,
+                    rotation: line.rotation,
+                });
+                break;
+            case 'TextInput':
+                const textInput = shape as TextInputObj;
+                konvaShape = new Konva.Text({
+                    x: textInput.x,
+                    y: textInput.y,
+                    text: fieldValues[index],
+                    fontSize: textInput.fontSize,
+                    fontColor: textInput.fill,
+                    rotation: textInput.rotation,
+                    fontFamily: textInput.fontFamily,
+                    fontStyle: textInput.fontStyle,
+                    textDecoration: textInput.textDecoration
+                });
+                break;
+            case 'TextField':
+                const textField = shape as TextFieldObj;
+                konvaShape = new Konva.Text({
+                    x: textField.x,
+                    y: textField.y,
+                    text: textField.value,
+                    fontSize: textField.fontSize,
+                    fontColor: textField.fill,
+                    rotation: textField.rotation,
+                    fontFamily: textField.fontFamily,
+                    fontStyle: textField.fontStyle,
+                    textDecoration: textField.textDecoration
+                });
+                break;
+            case 'Image':
+                const imageObj = shape as ImageObj;
+                const image = new Image();
+                image.crossOrigin = "Anonymous";
+                image.src = imageObj.src;
+                konvaShape = new Konva.Image({
                     x: imageObj.x,
                     y: imageObj.y,
                     image: image,
@@ -95,16 +91,21 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
                     rotation: imageObj.rotation,
                     draggable: imageObj.isDragging,
                 });
-                layer.add(konvaImage);
-                resolve(null);
-            };
-        });
-    });
-    // Wait for all images to load before continuing
-    await Promise.all(imagePromises);
-    layer.batchDraw();
+                break;
 
-    //Create container for stage 
+            default:
+                break;
+        }
+
+        konvaShape?.setAttrs({
+            id: shape.id,
+            draggable: shape.isDragging
+        });
+
+        layer.add(konvaShape);
+    });
+
+    //Create container for stage
     const container = document.createElement("div");
     container.id = "container";
     document.body.appendChild(container);

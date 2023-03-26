@@ -63,46 +63,48 @@ const PastEstimates = () => {
                 Past Estimates
             </Typography>
             <br />
-            <div style={{ display: "flex", alignItems: "center" }}>
-                <div style={{ flex: "1" }}>
-                    <TextField
-                        id="outlined-search"
-                        label="Search Estimates"
-                        type="search"
-                        variant="outlined"
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        style={{ width: "100%" }} // make search box wider
-                    />
-                </div>
-                <div style={{ paddingLeft: "16px" }}> {/* add padding */}
-                    <FormControl variant="outlined" sx={{ minWidth: 120 }}>
-                        <InputLabel id="templateId-label">Template ID</InputLabel>
-                        <Select
-                            labelId="templateId-label"
-                            id="templateId"
-                            value={selectedTemplateId}
-                            onChange={handleTemplateIdFilter}
-                            label="Template ID"
-                            style={{ width: "10em" }}
-                        >
-                            <MenuItem value="">
-                                <em>All</em>
-                            </MenuItem>
-                            {filteredTemplates.map(({ id, friendlyName }) => (
-                                <MenuItem key={id} value={id}>
-                                    {friendlyName}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                </div>
-            </div>
-            <br />
             {loading && <Loading />}
             {!loading && filteredEstimates.length === 0 && <NoneFound item="estimates" />}
             {!loading && filteredEstimates.length > 0 && (
-                <EstimatesList estimates={filteredEstimates} setEstimates={setEstimates} />
+                <React.Fragment>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                        <div style={{ flex: "1" }}>
+                            <TextField
+                                id="outlined-search"
+                                label="Search Estimates"
+                                type="search"
+                                variant="outlined"
+                                value={searchTerm}
+                                onChange={handleSearch}
+                                style={{ width: "100%" }} // make search box wider
+                            />
+                        </div>
+                        <div style={{ paddingLeft: "16px" }}> {/* add padding */}
+                            <FormControl variant="outlined" sx={{ minWidth: 120 }}>
+                                <InputLabel id="templateId-label">Template ID</InputLabel>
+                                <Select
+                                    labelId="templateId-label"
+                                    id="templateId"
+                                    value={selectedTemplateId}
+                                    onChange={handleTemplateIdFilter}
+                                    label="Template ID"
+                                    style={{ width: "10em" }}
+                                >
+                                    <MenuItem value="">
+                                        <em>All</em>
+                                    </MenuItem>
+                                    {filteredTemplates.map(({ id, friendlyName }) => (
+                                        <MenuItem key={id} value={id}>
+                                            {friendlyName}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                    </div>
+                    <br />
+                    <EstimatesList estimates={filteredEstimates} setEstimates={setEstimates} />
+                </React.Fragment>
             )}
         </React.Fragment>
     );

@@ -16,33 +16,20 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, select
     const handleFontFamilyChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: TextInputObj) => {
-                if (textInput.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
+                if (textItem.id === selectedId) {
                     return {
-                        ...textInput,
+                        ...textItem,
                         fontFamily: event.target.value as string,
                     };
                 }
-                return textInput;
-            }),
-            TextFields: canvasDesign.TextFields.map((textField: TextFieldObj) => {
-                if (textField.id === selectedId) {
-                    return {
-                        ...textField,
-                        fontFamily: event.target.value as string,
-                    };
-                }
-                return textField;
+                return textItem;
             }),
         };
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontFamily = canvasDesign.TextInputs.find(
-        (textInput: TextInputObj) => textInput.id === selectedId
-    )?.fontFamily || canvasDesign.TextFields.find(
-        (textField: TextFieldObj) => textField.id === selectedId
-    )?.fontFamily;
+    const selectedTextItemFontFamily = canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.fontFamily;
 
     return (
         <>

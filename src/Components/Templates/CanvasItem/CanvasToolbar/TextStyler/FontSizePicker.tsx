@@ -16,33 +16,20 @@ export default function FontSizePicker({ canvasDesign, setCanvasDesign, selected
     const handleFontSizeChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput: TextInputObj) => {
-                if (textInput.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
+                if (textItem.id === selectedId) {
                     return {
-                        ...textInput,
+                        ...textItem,
                         fontSize: event.target.value as number,
                     };
                 }
-                return textInput;
-            }),
-            TextFields: canvasDesign.TextFields.map((textField: TextFieldObj) => {
-                if (textField.id === selectedId) {
-                    return {
-                        ...textField,
-                        fontSize: event.target.value as number,
-                    };
-                }
-                return textField;
-            }),
+                return textItem;
+            })
         };
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontSize = canvasDesign.TextInputs.find(
-        (textInput: TextInputObj) => textInput.id === selectedId
-    )?.fontSize || canvasDesign.TextFields.find(
-        (textField: TextFieldObj) => textField.id === selectedId
-    )?.fontSize;
+    const selectedTextItemFontSize = canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.fontSize;
 
     return (
         <>

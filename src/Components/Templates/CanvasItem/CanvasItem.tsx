@@ -23,12 +23,7 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
     const [color, setColor] = useState('#000000');
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
-        Rectangles: [],
-        Circles: [],
-        Lines: [],
-        TextInputs: [],
-        TextFields: [],
-        Images: [],
+        Shapes: [],
         selectedId: null,
     });
 

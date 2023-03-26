@@ -1,31 +1,20 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddLineIcon from "@mui/icons-material/HorizontalRule";
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
 import { LineObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
+import { createLineObj } from "../../../../../utils/types/ShapesFactory";
+
 
 const AddLine = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
 
     const handleAddLine = () => {
         setAnchorEl(null);
 
-        const newLine: LineObj = {
-            id: 'line-' + canvasDesign.Lines.length,
-            x: getWebCanvasWidth() / 2,
-            y: getWebCanvasHeight() / 2,
-            points: [0, 0, 200, 0],
-            stroke: '#7F8274',
-            strokeWidth: 8,
-            rotation: 0,
-            isDragging: false,
-        }
+        const newLine: LineObj = createLineObj(canvasDesign.Shapes.length, [0, 0, 200, 0], '#7F8274', 8);
 
         setCanvasDesign({
             ...canvasDesign,
-            Lines: [
-                ...canvasDesign.Lines,
-                newLine
-            ]
+            Shapes: [...canvasDesign.Shapes, newLine]
         });
     }
 

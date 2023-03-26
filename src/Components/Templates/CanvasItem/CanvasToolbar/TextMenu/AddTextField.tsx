@@ -1,34 +1,19 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddTextFieldIcon from "@mui/icons-material/TitleOutlined";
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../../utils/page-util";
 import { TextFieldObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
+import { createTextFieldObj } from "../../../../../utils/types/ShapesFactory";
+
 
 const AddTextField = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
     const handleAddTextField = () => {
         setAnchorEl(null);
 
-        const newTextField: TextFieldObj = {
-            id: 'textField-' + canvasDesign.TextFields.length,
-            value: 'Text Field ' + canvasDesign.TextFields.length,
-            x: getWebCanvasWidth() / 6,
-            y: getWebCanvasHeight() / 2.5,
-            fill: "black",
-            fontSize: 20,
-            rotation: 0,
-            isDragging: false,
-            fontFamily: 'Arial',
-            fontStyle: 'normal',
-            textDecoration: ''
-        }
-
+        const newTextField: TextFieldObj = createTextFieldObj(canvasDesign.Shapes.length, 'Text Field ', 20, 'black', 'Arial', 'normal', '');
 
         setCanvasDesign({
             ...canvasDesign,
-            TextFields: [
-                ...canvasDesign.TextFields,
-                newTextField
-            ]
+            Shapes: [...canvasDesign.Shapes, newTextField]
         });
     }
 

@@ -3,19 +3,10 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
-interface CanvasDesign {
-    TextInputs: Array<{
-        id: string;
-        fontStyle: string;
-    }>;
-    TextFields: Array<{
-        id: string;
-        fontStyle: string;
-    }>;
-}
+import { TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface FontStylePickerProps {
-    canvasDesign: CanvasDesign;
+    canvasDesign: any;
     setCanvasDesign: React.SetStateAction<any>;
     selectedId: string | null;
 }
@@ -32,31 +23,21 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanv
 
         const updatedCanvasDesign = {
             ...canvasDesign,
-            TextInputs: canvasDesign.TextInputs.map((textInput) => {
-                if (textInput.id === selectedId) {
+            Shapes: canvasDesign.Shapes.map((textItem: TextFieldObj | TextInputObj) => {
+                if (textItem.id === selectedId) {
                     return {
-                        ...textInput,
+                        ...textItem,
                         fontStyle: fontStyle,
                     };
                 }
-                return textInput;
-            }),
-            TextFields: canvasDesign.TextFields.map((textField) => {
-                if (textField.id === selectedId) {
-                    return {
-                        ...textField,
-                        fontStyle: fontStyle,
-                    };
-                }
-                return textField;
+                return textItem;
             }),
         };
         setCanvasDesign(updatedCanvasDesign);
     };
 
     const selectedTextItemFontStyle =
-        canvasDesign.TextInputs.find((textInput) => textInput.id === selectedId)?.fontStyle ||
-        canvasDesign.TextFields.find((textField) => textField.id === selectedId)?.fontStyle;
+        canvasDesign.Shapes.find((textItem: TextFieldObj | TextInputObj) => textItem.id === selectedId)?.fontStyle;
 
     const selectedFontStyles = [];
     if (selectedTextItemFontStyle?.includes('italic')) {

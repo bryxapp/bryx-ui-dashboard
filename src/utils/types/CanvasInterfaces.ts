@@ -1,37 +1,35 @@
 export interface CanvasDesignData {
-    Rectangles: RectangleObj[];
-    Circles: CircleObj[];
-    Lines: LineObj[];
-    TextInputs: TextInputObj[];
-    TextFields: TextFieldObj[];
-    Images: ImageObj[];
+    Shapes: ShapeObj[];
     selectedId: string | null;
-};
+}
 
 export interface ShapeObj {
     id: string;
+    type: ShapeType;
     x: number;
     y: number;
     rotation: number;
     isDragging: boolean;
 }
 
-
 export interface RectangleObj extends ShapeObj {
     width: number;
     height: number;
     fill: string;
+    type: 'Rectangle';
 }
 
 export interface CircleObj extends ShapeObj {
     radius: number;
     fill: string;
+    type: 'Circle';
 }
 
 export interface LineObj extends ShapeObj {
     points: number[];
     stroke: string;
     strokeWidth: number;
+    type: 'Line';
 }
 
 export interface TextObj {
@@ -44,20 +42,26 @@ export interface TextObj {
 
 export interface TextInputObj extends ShapeObj, TextObj {
     displayName: string;
+    type: 'TextInput';
+
 }
 
 export interface TextFieldObj extends ShapeObj, TextObj {
     value: string;
+    type: 'TextField';
 }
 
 export interface ImageObj extends ShapeObj {
     src: string;
     width: number;
     height: number;
+    type: 'Image';
 }
 
 export interface ToolBarProps {
-    canvasDesign: any;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<any>>;
+    canvasDesign: CanvasDesignData;
+    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
+
+export type ShapeType = 'Rectangle' | 'Circle' | 'Line' | 'TextInput' | 'TextField' | 'Image';  
