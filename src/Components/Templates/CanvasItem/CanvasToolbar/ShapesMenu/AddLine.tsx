@@ -4,13 +4,12 @@ import AddLineIcon from "@mui/icons-material/HorizontalRule";
 import { LineObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
 import { createLineObj } from "../../../../../utils/types/ShapesFactory";
 
-
 const AddLine = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
 
     const handleAddLine = () => {
         setAnchorEl(null);
 
-        const newLine: LineObj = createLineObj(canvasDesign.Shapes.length, [0, 0, 200, 0], '#7F8274', 8);
+        const newLine: LineObj = createLineObj([0, 0, 200, 0], '#7F8274', 8);
 
         setCanvasDesign({
             ...canvasDesign,

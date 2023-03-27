@@ -8,7 +8,7 @@ const AddClipArt = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps
     const handleAddClipArt = () => {
         setAnchorEl(null);
 
-        const newImage: ImageObj = createImageObj(canvasDesign.Shapes.length, 'https://konvajs.org/assets/yoda.jpg', 200, 50);
+        const newImage: ImageObj = createImageObj('https://konvajs.org/assets/yoda.jpg', 213, 236);
 
         setCanvasDesign({
             ...canvasDesign,

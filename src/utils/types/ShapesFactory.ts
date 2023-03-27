@@ -1,8 +1,9 @@
+import { generateShapeId } from '../id-util';
 import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
 import { RectangleObj, CircleObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from './CanvasInterfaces';
-export function createRectangleObj(index: number, width: number, height: number, fill: string): RectangleObj {
+export function createRectangleObj(width: number, height: number, fill: string): RectangleObj {
     return {
-        id: 'rectangle-' + index,
+        id: 'rectangle-' + generateShapeId(),
         type: 'Rectangle',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
@@ -14,9 +15,9 @@ export function createRectangleObj(index: number, width: number, height: number,
     };
 }
 
-export function createCircleObj(index: number, radius: number, fill: string): CircleObj {
+export function createCircleObj(radius: number, fill: string): CircleObj {
     return {
-        id: 'circle-' + index,
+        id: 'circle-' + generateShapeId(),
         type: 'Circle',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
@@ -27,9 +28,9 @@ export function createCircleObj(index: number, radius: number, fill: string): Ci
     };
 }
 
-export function createLineObj(index: number, points: number[], stroke: string, strokeWidth: number): LineObj {
+export function createLineObj(points: number[], stroke: string, strokeWidth: number): LineObj {
     return {
-        id: 'line-' + index,
+        id: 'line-' + generateShapeId(),
         type: 'Line',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
@@ -41,9 +42,9 @@ export function createLineObj(index: number, points: number[], stroke: string, s
     };
 }
 
-export function createTextInputObj(index: number, displayName: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string): TextInputObj {
+export function createTextInputObj(displayName: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string): TextInputObj {
     return {
-        id: 'text-input-' + index,
+        id: 'text-input-' + generateShapeId(),
         type: 'TextInput',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
@@ -58,9 +59,9 @@ export function createTextInputObj(index: number, displayName: string, fontSize:
     };
 }
 
-export function createTextFieldObj(index: number, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string): TextFieldObj {
+export function createTextFieldObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string): TextFieldObj {
     return {
-        id: 'text-field-' + index,
+        id: 'text-field-' + generateShapeId(),
         type: 'TextField',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
@@ -75,9 +76,9 @@ export function createTextFieldObj(index: number, value: string, fontSize: numbe
     };
 }
 
-export function createImageObj(index: number, src: string, width: number, height: number): ImageObj {
+export function createImageObj(src: string, width: number, height: number): ImageObj {
     return {
-        id: 'image-' + index,
+        id: 'image-' + generateShapeId(),
         type: 'Image',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,

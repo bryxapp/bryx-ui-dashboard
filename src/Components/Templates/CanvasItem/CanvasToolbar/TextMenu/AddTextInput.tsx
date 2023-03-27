@@ -14,7 +14,7 @@ const AddTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: AddTextInp
     const handleAddTextInput = () => {
         setAnchorEl(null);
 
-        const newTextInput: TextInputObj = createTextInputObj(canvasDesign.Shapes.length, 'Text Input', 20, 'black', 'Arial', 'normal', '');
+        const newTextInput: TextInputObj = createTextInputObj('Text Input', 20, 'black', 'Arial', 'normal', '');
 
         setCanvasDesign({
             ...canvasDesign,

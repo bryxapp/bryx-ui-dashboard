@@ -9,7 +9,7 @@ const AddCircle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps)
     const handleAddCircle = () => {
         setAnchorEl(null);
 
-        const newCircle: CircleObj = createCircleObj(canvasDesign.Shapes.length, 100, '#355E3B');
+        const newCircle: CircleObj = createCircleObj(100, '#355E3B');
 
         setCanvasDesign({
             ...canvasDesign,
