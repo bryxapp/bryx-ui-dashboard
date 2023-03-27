@@ -1,6 +1,17 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { CanvasDesignData, CircleObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, CircleObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
+
+async function loadImage(src: string): Promise<HTMLImageElement> {
+    return new Promise((resolve, reject) => {
+        const image = new Image();
+        image.crossOrigin = "Anonymous";
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = src;
+    });
+}
+
 
 export async function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
     const layer = new Konva.Layer();
@@ -13,7 +24,8 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
     });
     layer.add(rect);
 
-    canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
+    let index = 0;
+    for (const shape of canvasDesign.Shapes) {
         let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
 
         switch (shape.type) {
@@ -79,9 +91,7 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
                 break;
             case 'Image':
                 const imageObj = shape as ImageObj;
-                const image = new Image();
-                image.crossOrigin = "Anonymous";
-                image.src = imageObj.src;
+                const image = await loadImage(imageObj.src);
                 konvaShape = new Konva.Image({
                     x: imageObj.x,
                     y: imageObj.y,
@@ -103,7 +113,8 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
         });
 
         layer.add(konvaShape);
-    });
+        index++;
+    }
 
     //Create container for stage
     const container = document.createElement("div");
