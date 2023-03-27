@@ -15,6 +15,7 @@ interface ColorPickerProps {
     selectedId: string | null;
 }
 
+
 export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor, selectedId }: ColorPickerProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -46,6 +47,8 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         setCanvasDesign(updatedCanvasDesign);
     };
 
+    const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId)?.type.includes('Image')
+
     return (
         <>
             <Tooltip title="Expand Shape Menu" placement="bottom">
@@ -57,7 +60,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                         color="inherit"
-                        disabled={isLoading || !selectedId}
+                        disabled={isLoading || isImage || !selectedId}
                     >
                         <ColorSelectorIcon />
                     </IconButton>

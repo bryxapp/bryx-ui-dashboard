@@ -43,12 +43,13 @@ const ImageShape = ({
         <React.Fragment>
             <Image
                 id={imageObj.id}
-
                 onClick={onSelect}
                 onTap={onSelect}
                 ref={shapeRef}
                 x={imageObj.x}
                 y={imageObj.y}
+                width={imageObj.width}
+                height={imageObj.height}
                 scaleX={imageObj.isDragging ? 1.1 : 1}
                 scaleY={imageObj.isDragging ? 1.1 : 1}
                 rotation={imageObj.rotation}
