@@ -1,6 +1,6 @@
 import { generateShapeId } from '../id-util';
 import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
-import { RectangleObj, CircleObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from './CanvasInterfaces';
 export function createRectangleObj(width: number, height: number, fill: string): RectangleObj {
     return {
         id: 'rectangle-' + generateShapeId(),
@@ -15,14 +15,15 @@ export function createRectangleObj(width: number, height: number, fill: string):
     };
 }
 
-export function createCircleObj(radius: number, fill: string): CircleObj {
+export function createEllipseObj(radiusX: number, radiusY:number, fill: string): EllipseObj {
     return {
-        id: 'circle-' + generateShapeId(),
-        type: 'Circle',
+        id: 'ellipse-' + generateShapeId(),
+        type: 'Ellipse',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
         rotation: 0,
-        radius,
+        radiusX,
+        radiusY,
         fill,
         isDragging: false,
     };

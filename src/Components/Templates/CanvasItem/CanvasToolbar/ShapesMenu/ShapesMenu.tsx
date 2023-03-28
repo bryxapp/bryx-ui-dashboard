@@ -3,7 +3,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
-import AddCircle from './AddCircle';
+import AddEllipse from './AddEllipse';
 import AddRectangle from './AddRectangle';
 import AddLine from './AddLine';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
@@ -50,7 +50,7 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
             >
                 <AddLine canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddCircle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddEllipse canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );

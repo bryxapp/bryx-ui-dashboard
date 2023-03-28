@@ -1,6 +1,6 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { CanvasDesignData, CircleObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
@@ -40,14 +40,15 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
                     rotation: rectangle.rotation,
                 });
                 break;
-            case 'Circle':
-                const circle = shape as CircleObj;
-                konvaShape = new Konva.Circle({
-                    x: circle.x,
-                    y: circle.y,
-                    radius: circle.radius,
-                    fill: circle.fill,
-                    rotation: circle.rotation,
+            case 'Ellipse':
+                const ellipse = shape as EllipseObj;
+                konvaShape = new Konva.Ellipse({
+                    x: ellipse.x,
+                    y: ellipse.y,
+                    radiusX: ellipse.radiusX,
+                    radiusY: ellipse.radiusY,
+                    fill: ellipse.fill,
+                    rotation: ellipse.rotation,
                 });
                 break;
             case 'Line':

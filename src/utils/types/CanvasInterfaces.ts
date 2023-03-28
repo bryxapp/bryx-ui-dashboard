@@ -19,10 +19,11 @@ export interface RectangleObj extends ShapeObj {
     type: 'Rectangle';
 }
 
-export interface CircleObj extends ShapeObj {
-    radius: number;
+export interface EllipseObj extends ShapeObj {
+    radiusX: number;
+    radiusY: number;
     fill: string;
-    type: 'Circle';
+    type: 'Ellipse';
 }
 
 export interface LineObj extends ShapeObj {
@@ -43,7 +44,6 @@ export interface TextObj {
 export interface TextInputObj extends ShapeObj, TextObj {
     displayName: string;
     type: 'TextInput';
-
 }
 
 export interface TextFieldObj extends ShapeObj, TextObj {
@@ -64,4 +64,4 @@ export interface ToolBarProps {
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 
-export type ShapeType = 'Rectangle' | 'Circle' | 'Line' | 'TextInput' | 'TextField' | 'Image';  
+export type ShapeType = 'Rectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';  

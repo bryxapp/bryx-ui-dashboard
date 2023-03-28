@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
-import { Circle, Transformer } from 'react-konva';
-import { CircleObj } from '../../../../utils/types/CanvasInterfaces';
+import { Ellipse, Transformer } from 'react-konva';
+import { EllipseObj } from '../../../../utils/types/CanvasInterfaces';
 
-interface CircleShapeProps {
-    circleObj: CircleObj;
+interface EllipseShapeProps {
+    ellipseObj: EllipseObj;
     handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
     isSelected: boolean;
@@ -12,15 +12,15 @@ interface CircleShapeProps {
     onTransformEnd: (e: any) => void;
 }
 
-const CircleShape = ({
-    circleObj,
+const EllipseShape = ({
+    ellipseObj,
     handleDragStart,
     handleDragEnd,
     isSelected,
     onSelect,
     onTransformEnd,
-}: CircleShapeProps) => {
-    const shapeRef = useRef<Konva.Circle>(null);
+}: EllipseShapeProps) => {
+    const shapeRef = useRef<Konva.Ellipse>(null);
     const trRef = useRef<Konva.Transformer>(null);
 
     useEffect(() => {
@@ -33,18 +33,19 @@ const CircleShape = ({
 
     return (
         <React.Fragment>
-            <Circle
-                id={circleObj.id}
+            <Ellipse
+                id={ellipseObj.id}
                 onClick={onSelect}
                 onTap={onSelect}
                 ref={shapeRef}
-                x={circleObj.x}
-                y={circleObj.y}
-                radius={circleObj.radius}
-                fill={circleObj.fill}
-                scaleX={circleObj.isDragging ? 1.1 : 1}
-                scaleY={circleObj.isDragging ? 1.1 : 1}
-                rotation={circleObj.rotation}
+                x={ellipseObj.x}
+                y={ellipseObj.y}
+                radiusX={ellipseObj.radiusX}
+                radiusY={ellipseObj.radiusY}
+                fill={ellipseObj.fill}
+                scaleX={ellipseObj.isDragging ? 1.1 : 1}
+                scaleY={ellipseObj.isDragging ? 1.1 : 1}
+                rotation={ellipseObj.rotation}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable
@@ -66,4 +67,4 @@ const CircleShape = ({
     );
 };
 
-export default CircleShape;
+export default EllipseShape;

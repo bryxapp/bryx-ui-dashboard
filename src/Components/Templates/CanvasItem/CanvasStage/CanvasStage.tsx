@@ -1,12 +1,12 @@
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
-import CircleShape from '../Shapes/CircleShape';
+import EllipseShape from '../Shapes/EllipseShape';
 import LineShape from '../Shapes/LineShape';
 import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { CircleObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
+import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import ImageShape from '../Shapes/ImageShape';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
@@ -105,14 +105,15 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
 
         canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
             if (shape.id === node.id()) {
-                if (shape.type === "Circle") {
+                if (shape.type === "Ellipse") {
                     updatedCanvasDesign.Shapes[index] = {
                         ...shape,
                         x: node.x(),
                         y: node.y(),
-                        radius: Math.max(5, node.radius() * scaleX),
+                        radiusX: Math.max(5, node.radiusX() * scaleX),
+                        radiusY: Math.max(5, node.radiusY() * scaleY),
                         rotation: node.rotation(),
-                    } as CircleObj;
+                    } as EllipseObj;
                 } else if (shape.type === "Line") {
                     updatedCanvasDesign.Shapes[index] = {
                         ...shape,
@@ -170,18 +171,18 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
                                             onTransformEnd={onTransformEnd}
                                         />
                                     );
-                                case 'Circle':
-                                    const circle = shape as CircleObj;
+                                case 'Ellipse':
+                                    const ellipse = shape as EllipseObj;
                                     return (
-                                        <CircleShape
-                                            key={circle.id}
-                                            circleObj={circle}
+                                        <EllipseShape
+                                            key={ellipse.id}
+                                            ellipseObj={ellipse}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
-                                            isSelected={circle.id === selectedId}
+                                            isSelected={ellipse.id === selectedId}
                                             onSelect={() => {
-                                                setColor(circle.fill)
-                                                selectShape(circle.id);
+                                                setColor(ellipse.fill)
+                                                selectShape(ellipse.id);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />
