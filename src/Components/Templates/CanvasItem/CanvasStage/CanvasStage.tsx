@@ -139,9 +139,6 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const image = new window.Image();
-    image.src = 'https://konvajs.org/assets/yoda.jpg';
-
     return (
         <>
             <PiecePaper>

@@ -11,6 +11,7 @@ import EstimateName from './EstimateName/EstimateName';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import { useAuth0 } from '@auth0/auth0-react';
 import { ShapeObj, TextInputObj } from '../../../../utils/types/CanvasInterfaces';
+import PreviewStage from './PreviewStage/PreviewStage';
 
 const EstimateForm = () => {
 
@@ -81,19 +82,34 @@ const EstimateForm = () => {
                 Create Estimate
             </Typography>
             <div style={{ height: 20 }}></div>
-            <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
-            <div style={{ height: 10 }}></div>
-            <Typography variant="h6" color="gray">
-                Template: {templateData.friendlyName}
-            </Typography>
-            <div style={{ height: 20 }}></div>
-            {textInputs.map((inputObj: TextInputObj, index: number) => (
-                <span key={inputObj.id}>
-                    <EstimateFormTextField textInputObj={inputObj} index={index} fieldValues={fieldValues} setFieldValues={setFieldValues} />
+            <div style={{ display: "flex" }}>
+                <div style={{ flex: 3 }}>
+                    <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
+                    <div style={{ height: 10 }}></div>
+                    <Typography variant="h6" color="gray">
+                        Template: {templateData.friendlyName}
+                    </Typography>
                     <div style={{ height: 20 }}></div>
-                </span>
-            ))}
-            <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+                    {textInputs.map((inputObj: TextInputObj, index: number) => (
+                        <span key={inputObj.id}>
+                            <EstimateFormTextField textInputObj={inputObj} index={index} fieldValues={fieldValues} setFieldValues={setFieldValues} />
+                            <div style={{ height: 20 }}></div>
+                        </span>
+                    ))}
+                    <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+                </div>
+                <div style={{ flex: 1 }}>
+                    <Typography variant="h4" color="gray">
+                        Template Snapshot
+                    </Typography>
+                    <Typography variant="subtitle1" color="gray">
+                        *Does not show preview of input values
+                    </Typography>
+                    <div style={{ height: 20 }}></div>
+
+                    <PreviewStage canvasDesign={templateData.canvasDesign} />
+                </div>
+            </div>
         </>
     );
 };
