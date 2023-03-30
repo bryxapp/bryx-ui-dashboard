@@ -1,6 +1,13 @@
 import React from 'react';
-import { TextField, InputAdornment } from '@mui/material';
+import TextField from '@mui/material/TextField';
 import { TextInputObj, TextInputFormat } from '../../../../../utils/types/CanvasInterfaces';
+import PhoneIcon from '@mui/icons-material/Phone';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import ParagraphIcon from '@mui/icons-material/ViewHeadline';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import TextIcon from '@mui/icons-material/TextFields';
+import NumberIcon from '@mui/icons-material/Numbers';
 
 interface EstimateFormTextFieldProps {
     textInputObj: TextInputObj;
@@ -9,7 +16,12 @@ interface EstimateFormTextFieldProps {
     setFieldValues: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-const EstimateFormTextField = ({ textInputObj, index, fieldValues, setFieldValues }: EstimateFormTextFieldProps) => {
+const EstimateFormTextField = ({
+    textInputObj,
+    index,
+    fieldValues,
+    setFieldValues,
+}: EstimateFormTextFieldProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
         const newFieldValues = [...fieldValues];
@@ -20,19 +32,19 @@ const EstimateFormTextField = ({ textInputObj, index, fieldValues, setFieldValue
     const getInputProps = (format: TextInputFormat) => {
         switch (format) {
             case 'number':
-                return { type: 'number' };
+                return { type: 'number', startAdornment: <NumberIcon />};
             case 'date':
-                return { type: 'date' };
+                return { type: 'date', startAdornment: <DateRangeIcon /> };
             case 'email':
-                return { type: 'email' };
+                return { type: 'email', startAdornment: <MailOutlineIcon /> };
             case 'phone':
-                return { type: 'tel' };
+                return { type: 'tel', startAdornment: <PhoneIcon /> };
             case 'paragraph':
-                return { type: 'text', multiline: true };
+                return { type: 'text', multiline: true, rows: 4, startAdornment: <ParagraphIcon /> };
             case 'currency':
-                return { type: 'text', isCurrency: true };
+                return { type: 'text', startAdornment: <AttachMoneyIcon /> };
             default:
-                return { type: 'text' };
+                return { type: 'text', startAdornment: <TextIcon />  };
         }
     };
 
@@ -45,19 +57,10 @@ const EstimateFormTextField = ({ textInputObj, index, fieldValues, setFieldValue
             name={textInputObj.displayName}
             value={fieldValues[index]}
             onChange={handleChange}
-            {...inputProps}
-            InputProps={
-                inputProps.isCurrency
-                    ? {
-                        startAdornment: (
-                            <InputAdornment position="start">$</InputAdornment>
-                        ),
-                    }
-                    : undefined
-            }
+            InputProps={inputProps}
+            InputLabelProps={{ style: { fontSize: 20 } }} // Set the font size of the label text
         />
     );
-
 };
 
 export default EstimateFormTextField;

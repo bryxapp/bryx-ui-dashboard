@@ -82,17 +82,18 @@ const EstimateForm = () => {
             </Typography>
             <div style={{ height: 20 }}></div>
             <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
-            <div style={{ height: 20 }}></div>
+            <div style={{ height: 10 }}></div>
             <Typography variant="h6" color="gray">
                 Template: {templateData.friendlyName}
             </Typography>
+            <div style={{ height: 20 }}></div>
             {textInputs.map((inputObj: TextInputObj, index: number) => (
                 <span key={inputObj.id}>
                     <EstimateFormTextField textInputObj={inputObj} index={index} fieldValues={fieldValues} setFieldValues={setFieldValues} />
-                    <div style={{ height: 15 }}></div>
+                    <div style={{ height: 20 }}></div>
                 </span>
             ))}
-            <Button variant="contained" onClick={() => handleSubmit()}>Submit</Button>
+            <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
         </>
     );
 };
