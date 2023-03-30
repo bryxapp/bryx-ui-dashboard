@@ -47,6 +47,7 @@ export function createTextInputObj(displayName: string, fontSize: number, fill: 
     return {
         id: 'text-input-' + generateShapeId(),
         type: 'TextInput',
+        format: 'text',
         x: getWebCanvasWidth() / 2,
         y: getWebCanvasHeight() / 2,
         rotation: 0,

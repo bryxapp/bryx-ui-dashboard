@@ -75,6 +75,7 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
                     fontStyle: textInput.fontStyle,
                     textDecoration: textInput.textDecoration
                 });
+                index++; //Increment textinput pointer
                 break;
             case 'TextField':
                 const textField = shape as TextFieldObj;
@@ -114,7 +115,6 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
         });
 
         layer.add(konvaShape);
-        index++;
     }
 
     //Create container for stage

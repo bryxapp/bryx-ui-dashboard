@@ -44,6 +44,7 @@ export interface TextObj {
 export interface TextInputObj extends ShapeObj, TextObj {
     displayName: string;
     type: 'TextInput';
+    format: TextInputFormat;
 }
 
 export interface TextFieldObj extends ShapeObj, TextObj {
@@ -65,3 +66,5 @@ export interface ToolBarProps {
 }
 
 export type ShapeType = 'Rectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';  
+
+export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency short' | 'currency long';

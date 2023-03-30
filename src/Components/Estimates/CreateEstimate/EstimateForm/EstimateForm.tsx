@@ -23,6 +23,7 @@ const EstimateForm = () => {
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<string[]>([]);
+    const [textInputs, setTextInputs] = useState<TextInputObj[]>([]);
     const { user } = useAuth0();
     const userName = user?.email || "";
 
@@ -53,9 +54,10 @@ const EstimateForm = () => {
             getTemplate(templateId)
                 .then((res) => {
                     setTemplateData(res.data);
-                    const textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
+                    let textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
                         (shape: ShapeObj) => shape.type === "TextInput"
                     ) as TextInputObj[];
+                    setTextInputs(textInputs);
                     setFieldValues(new Array(textInputs.length).fill(""));
                     setLoading(false);
                 });
@@ -80,11 +82,6 @@ const EstimateForm = () => {
 
     if (!templateData) return (<div>Template not found</div>);
 
-    const textInputs: TextInputObj[] = templateData.canvasDesign.Shapes.filter(
-        (shape: ShapeObj) => shape.type === "TextInput"
-    ) as TextInputObj[];
-
-
     return (
         <>
             <Typography variant="h3" color="primary">
@@ -97,10 +94,10 @@ const EstimateForm = () => {
                 Template: {templateData.friendlyName}
             </Typography>
             {textInputs.map((inputObj: TextInputObj, index: number) => (
-                <>
-                    <EstimateFormTextField name={inputObj.displayName} index={index} key={inputObj.id} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
+                <span key={inputObj.id}>
+                    <EstimateFormTextField name={inputObj.displayName} index={index} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
                     <div style={{ height: 15 }}></div>
-                </>
+                </span>
             ))}
             <Button variant="contained" onClick={() => handleSubmit()}>Submit</Button>
         </>
