@@ -23,7 +23,10 @@ const EstimateFormTextField = ({
     setFieldValues,
 }: EstimateFormTextFieldProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
+        let { value } = event.target;
+        if (textInputObj.format === 'date') {
+            value = formatDate(value);
+        }
         const newFieldValues = [...fieldValues];
         newFieldValues[index] = value;
         setFieldValues(newFieldValues);
@@ -32,7 +35,7 @@ const EstimateFormTextField = ({
     const getInputProps = (format: TextInputFormat) => {
         switch (format) {
             case 'number':
-                return { type: 'number', startAdornment: <NumberIcon />};
+                return { type: 'number', startAdornment: <NumberIcon /> };
             case 'date':
                 return { type: 'date', startAdornment: <DateRangeIcon /> };
             case 'email':
@@ -44,9 +47,18 @@ const EstimateFormTextField = ({
             case 'currency':
                 return { type: 'text', startAdornment: <AttachMoneyIcon /> };
             default:
-                return { type: 'text', startAdornment: <TextIcon />  };
+                return { type: 'text', startAdornment: <TextIcon /> };
         }
     };
+
+    const formatDate = (value: string) => {
+        const date = new Date(value);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        return `${month}/${day}/${year}`;
+    }
+
 
     const inputProps = getInputProps(textInputObj.format);
 

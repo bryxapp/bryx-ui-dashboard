@@ -64,6 +64,9 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
                 break;
             case 'TextInput':
                 const textInput = shape as TextInputObj;
+                if(textInput.format === "currency"){
+                    fieldValues[index] = "$" + fieldValues[index];
+                }
                 konvaShape = new Konva.Text({
                     x: textInput.x,
                     y: textInput.y,
