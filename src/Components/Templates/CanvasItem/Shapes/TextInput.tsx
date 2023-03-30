@@ -31,6 +31,29 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
         }
     }, [isSelected]);
 
+    const getIndicator = () => {
+        switch (textInputObj.format) {
+            case 'currency':
+                return '$';
+            case 'number':
+                return '#';
+            case 'date':
+                return '📅';
+            case 'email':
+                return '@';
+            case 'phone':
+                return '📞';
+            case 'paragraph':
+                return '¶';
+            default:
+                return '';
+        }
+    };
+
+    const isParagraph = textInputObj.format === 'paragraph';
+    const containerWidth = isParagraph ? textInputObj.fontSize * 15 : textInputObj.fontSize * 10;
+    const containerHeight = isParagraph ? textInputObj.fontSize * 4 : textInputObj.fontSize * 2;
+
     return (
         <React.Fragment>
             <Group
@@ -48,8 +71,8 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                 onTap={onSelect}
             >
                 <TextInputContainer
-                    width={textInputObj.fontSize * 10}
-                    height={textInputObj.fontSize * 2}
+                    width={containerWidth}
+                    height={containerHeight}
                     fill='#F5F5F5'
                     scaleX={textInputObj.isDragging ? 1.1 : 1}
                     scaleY={textInputObj.isDragging ? 1.1 : 1}
@@ -58,8 +81,17 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     x={5}
                     y={5}
                     text={`${textInputObj.displayName}`}
-                    fontSize={12}
+                    fontSize={16}
                     fill={textInputObj.fill}
+                    scaleX={textInputObj.isDragging ? 1.1 : 1}
+                    scaleY={textInputObj.isDragging ? 1.1 : 1}
+                />
+                <Text
+                    x={containerWidth - 20}
+                    y={5}
+                    text={getIndicator()}
+                    fontSize={16}
+                    fill={'gray'}
                     scaleX={textInputObj.isDragging ? 1.1 : 1}
                     scaleY={textInputObj.isDragging ? 1.1 : 1}
                 />

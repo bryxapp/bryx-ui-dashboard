@@ -9,6 +9,7 @@ import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
 import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import InputFormatPicker from './InputFormatPicker';
 
 interface TextStylerProps {
     isLoading: boolean;
@@ -62,6 +63,7 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
                 }}
             >
                 <DisplayNameEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                <InputFormatPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                 <FontFamilyPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                 <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                 <div style={{ display: 'flex', flexDirection: 'row' }}>

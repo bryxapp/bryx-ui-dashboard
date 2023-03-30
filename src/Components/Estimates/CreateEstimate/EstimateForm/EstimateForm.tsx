@@ -65,13 +65,6 @@ const EstimateForm = () => {
     }, [templateId]);
 
 
-    const handleFieldValueChange = (index: number, value: string) => {
-        const newFieldValues = [...fieldValues];
-        newFieldValues[index] = value;
-        setFieldValues(newFieldValues);
-    };
-
-
     if (loading) {
         return (<Loading />)
     }
@@ -95,7 +88,7 @@ const EstimateForm = () => {
             </Typography>
             {textInputs.map((inputObj: TextInputObj, index: number) => (
                 <span key={inputObj.id}>
-                    <EstimateFormTextField name={inputObj.displayName} index={index} value={fieldValues[index]} onValueChange={handleFieldValueChange} />
+                    <EstimateFormTextField textInputObj={inputObj} index={index} fieldValues={fieldValues} setFieldValues={setFieldValues} />
                     <div style={{ height: 15 }}></div>
                 </span>
             ))}
