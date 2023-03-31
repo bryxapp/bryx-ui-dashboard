@@ -3,8 +3,8 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import Tooltip from '@mui/material/Tooltip';
-import AddClipArt from './AddClipArt';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import ImagesSearch from './ImagesSearch';
 
 interface ImagesMenuProps {
     isLoading: boolean;
@@ -14,23 +14,13 @@ interface ImagesMenuProps {
 
 export default function ImagesMenu({ isLoading, canvasDesign, setCanvasDesign }: ImagesMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
     return (
         <>
-            <Tooltip title="Expand Images Menu" placement="bottom">
+            <Tooltip title="Add Image" placement="bottom">
                 <IconButton
                     id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
                     aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}
                     color="inherit"
                     disabled={isLoading}
                 >
@@ -40,13 +30,20 @@ export default function ImagesMenu({ isLoading, canvasDesign, setCanvasDesign }:
             <Menu
                 id="basic-menu"
                 anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
                 MenuListProps={{
                     'aria-labelledby': 'basic-button',
                 }}
+                PaperProps={{
+                    style: {
+                        maxHeight: '100vh',
+                        width: '600px',
+                        overflow: 'auto',
+                    },
+                }}
             >
-                <AddClipArt canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <ImagesSearch canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );
