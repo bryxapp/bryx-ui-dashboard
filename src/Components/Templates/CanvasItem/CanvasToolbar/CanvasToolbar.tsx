@@ -7,9 +7,10 @@ import DeleteButton from './DeleteButton';
 import SaveButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
-import ImagesMenu from './ImagesMenu/ImagesMenu';
+import PublicImagesMenu from './PublicImagesMenu/PublicImagesMenu';
 import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
+import UserImagesMenu from './UserImagesMenu/UserImages';
 
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
@@ -31,7 +32,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <ShapesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <ImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        <PublicImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        <UserImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} selectedId={selectedId} />
                         <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
                         <LayerManager isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />

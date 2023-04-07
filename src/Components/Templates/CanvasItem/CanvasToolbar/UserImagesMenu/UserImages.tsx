@@ -11,14 +11,19 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Loading from '../../../../SharedComponents/Loading/Loading';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import Tooltip from '@mui/material/Tooltip';
 
-interface UserImagesProps {
+interface UserImagesMenuProps {
+    isLoading: boolean;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    setAnchorEl: React.SetStateAction<any>;
 }
 
-export default function UserImages({ canvasDesign, setCanvasDesign, setAnchorEl }: UserImagesProps) {
+export default function UserImagesMenu({ isLoading, canvasDesign, setCanvasDesign }: UserImagesMenuProps) {
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [images, setImages] = useState<Array<{ url: string; width: number; height: number; }>>([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth0();
@@ -84,30 +89,60 @@ export default function UserImages({ canvasDesign, setCanvasDesign, setAnchorEl 
     if (loading) return <Loading />
 
     return (
-        <div style={{ 'margin': '1vh' }}>
-            <Typography variant="body2">
-                Use your own images
-            </Typography>
-            <Grid container spacing={2} sx={{ p: 2 }}>
-                {images.map((imageData) => (
-                    <Grid item xs={6} sm={4} md={3} key={imageData.url}>
-                        <Card>
-                            <CardActionArea onClick={() => handleImageClick(imageData)}>
-                                <CardMedia component="img" src={imageData.url} alt="Image thumbnail" />
-                            </CardActionArea>
-                        </Card>
+        <>
+            <Tooltip title="Add Your Own Image" placement="bottom">
+                <IconButton
+                    id="basic-button"
+                    aria-haspopup="true"
+                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}
+                    color="inherit"
+                    disabled={isLoading}
+                >
+                    <CloudUploadIcon />
+                </IconButton>
+            </Tooltip>
+            <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+                MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                }}
+                PaperProps={{
+                    style: {
+                        maxHeight: '100vh',
+                        width: '600px',
+                        overflow: 'auto',
+                    },
+                }}
+            >
+                <div style={{ 'margin': '1vh' }}>
+                    <Typography variant="body2">
+                        Use your own images
+                    </Typography>
+                    <Grid container spacing={2} sx={{ p: 2 }}>
+                        {images.map((imageData) => (
+                            <Grid item xs={6} sm={4} md={3} key={imageData.url}>
+                                <Card>
+                                    <CardActionArea onClick={() => handleImageClick(imageData)}>
+                                        <CardMedia component="img" src={imageData.url} alt="Image thumbnail" />
+                                    </CardActionArea>
+                                </Card>
+                            </Grid>
+                        ))}
                     </Grid>
-                ))}
-            </Grid>
-            <Button variant="contained" component="label">
-                Upload File
-                <input
-                    type="file"
-                    hidden
-                    onChange={handleImageUpload}
-                />
-            </Button>
-        </div>
+                    <Button variant="contained" component="label">
+                        Upload File
+                        <input
+                            type="file"
+                            hidden
+                            onChange={handleImageUpload}
+                        />
+                    </Button>
+                </div>
+            </Menu>
+        </>
     );
 }
 
