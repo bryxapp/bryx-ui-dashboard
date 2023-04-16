@@ -45,7 +45,7 @@ const SelectTemplateList = () => {
 
     );
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={6}>
             {templates.map((template: TemplateData) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={template.id}>
                     <SelectTemplateListItem template={template} />
