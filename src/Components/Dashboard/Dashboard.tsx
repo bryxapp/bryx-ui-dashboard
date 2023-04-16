@@ -6,6 +6,7 @@ import { getRecentTemplates } from '../../utils/templates-api';
 import RecentPreviews from './RecentPreviews/RecentPreviews';
 import Loading from '../SharedComponents/Loading/Loading';
 import { getRecentEstimates } from '../../utils/estimates-api';
+import useTheme from '@mui/material/styles/useTheme';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Dashboard = () => {
@@ -15,6 +16,7 @@ const Dashboard = () => {
     const [estimatesLoading, setEstimatesLoading] = useState(true);
     const { user } = useAuth0();
     const userId = user?.email ? user.email : '';
+    const theme = useTheme();
 
     useEffect(() => {
         if (!userId) return;
@@ -29,11 +31,12 @@ const Dashboard = () => {
     }, [userId]);
 
     const isSmallScreen = window.innerWidth < 600;
+    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
 
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h3" color="dark">
+                <Typography variant="h3" color = {textColor}>
                     Dashboard
                 </Typography>
             </Grid>

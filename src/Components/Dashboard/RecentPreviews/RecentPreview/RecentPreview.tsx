@@ -4,6 +4,7 @@ import EstimateIcon from '@mui/icons-material/FeedOutlined';
 import TemplateIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
+import { useTheme } from '@mui/material';
 
 interface Props {
   object: TemplateData | EstimateData;
@@ -16,6 +17,10 @@ const RecentPreview = ({ object, url }: Props) => {
   const title = isTemplate
     ? (object as TemplateData).friendlyName
     : (object as EstimateData).estimateName;
+  const theme = useTheme();
+  const paperColor = theme.palette.mode === 'dark' ? 'gray' : 'white';
+  const barColor = theme.palette.mode === 'dark' ? 'white' : 'gray';
+  const textColor = theme.palette.mode === 'dark' ? 'black' : 'white';
 
   return (
     <Link href={url + '=' + object.id} underline="none">
@@ -28,6 +33,7 @@ const RecentPreview = ({ object, url }: Props) => {
           alignItems: 'center',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
+          background: paperColor,
         }}
       >
         {isTemplate ? (
@@ -39,7 +45,7 @@ const RecentPreview = ({ object, url }: Props) => {
           sx={{
             height: '5rem',
             width: '100%',
-            background: 'gray',
+            background: barColor,
             justifyContent: 'flex-end',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -54,7 +60,7 @@ const RecentPreview = ({ object, url }: Props) => {
           >
             <Typography
               variant="body1"
-              color="white"
+              color={textColor}
               gutterBottom
               sx={{
                 overflow: 'hidden',
@@ -66,7 +72,7 @@ const RecentPreview = ({ object, url }: Props) => {
             >
               {title}
             </Typography>
-            <Typography variant="body2" color="white" gutterBottom>
+            <Typography variant="body2" color={textColor} gutterBottom>
               {displayDate}
             </Typography>
           </div>

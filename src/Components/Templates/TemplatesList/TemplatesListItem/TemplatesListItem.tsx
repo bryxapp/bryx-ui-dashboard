@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
+import { useTheme } from '@mui/material';
 
 interface TemplatesListItemProps {
   template: TemplateData;
@@ -23,6 +24,8 @@ interface TemplatesListItemProps {
 const TemplatesListItem = ({ template, handleTemplateDelete }: TemplatesListItemProps) => {
   const displayDate = convertEpochTime(template._ts);
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
+  const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
 
   const handleDeleteClick = () => {
     setOpen(true);
@@ -64,12 +67,12 @@ const TemplatesListItem = ({ template, handleTemplateDelete }: TemplatesListItem
       </ListItemAvatar>
       <ListItemText
         primary={
-          <Typography variant='h5' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
+          <Typography color={textColor} variant='h5' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
             {template.friendlyName}
           </Typography>
         }
         secondary={
-          <Typography variant='body2' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
+          <Typography color={textColor} variant='body2' component='div' sx={{ flexGrow: 1, maxWidth: '100%' }} noWrap>
             {displayDate}
           </Typography>
         }
@@ -77,7 +80,7 @@ const TemplatesListItem = ({ template, handleTemplateDelete }: TemplatesListItem
 
       <Dialog open={open} onClose={handleCancelDelete}>
         <DialogTitle>Delete Template</DialogTitle>
-        <Typography variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
+        <Typography color={textColor} variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
           Are you sure you want to permanently delete this template?
         </Typography>
         <DialogActions>

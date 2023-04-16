@@ -3,10 +3,12 @@ import React from 'react';
 import TemplatesList from './TemplatesList/TemplateList';
 import logger from '../../logging/logger';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useTheme } from '@mui/material/styles';
 
 const Templates = () => {
     const { user } = useAuth0();
-
+    const theme = useTheme();
+    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
     const handleNewTemplateClick = () => {
         logger.trackEvent({
             name: 'New Template Click',
@@ -16,7 +18,7 @@ const Templates = () => {
 
     return (
         <React.Fragment>
-            <Typography variant='h3' color='dark'>
+            <Typography color={textColor} variant='h3'>
                 Templates
             </Typography>
             <br />

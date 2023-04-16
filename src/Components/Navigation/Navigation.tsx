@@ -4,19 +4,24 @@ import Footer from './Footer/Footer';
 import Container from '@mui/material/Container';
 import TopNavBar from './TopNavBar/TopNavBar';
 import Sidebar from './SideAppDrawer/SideAppDrawer';
+import { useTheme } from '@mui/material/styles';
 
 interface NavigationProps {
     children: ReactNode;
+    onToggleTheme: () => void;
+    themeMode: string;
 }
 
-const Navigation = ({ children }: NavigationProps) => {
+const Navigation = ({ children, onToggleTheme, themeMode }: NavigationProps) => {
+    const theme = useTheme();
+
     return (
         <React.Fragment>
-            <TopNavBar />
+            <TopNavBar onToggleTheme={onToggleTheme} themeMode={themeMode} />
             <Box
                 component="main"
                 sx={{
-                    backgroundColor: '#f4f6f8',
+                    backgroundColor: theme.palette.background.default,
                     display: 'flex',
                     flexDirection: 'row',
                     height: '95vh',
@@ -25,7 +30,7 @@ const Navigation = ({ children }: NavigationProps) => {
                 <Sidebar />
                 <Box
                     sx={{
-                        backgroundColor: '#f4f6f8',
+                        backgroundColor: theme.palette.background.default,
                         flexGrow: 1,
                         overflow: 'auto',
                     }}
@@ -38,5 +43,6 @@ const Navigation = ({ children }: NavigationProps) => {
             <Footer />
         </React.Fragment>
     );
-}
+};
+
 export default Navigation;

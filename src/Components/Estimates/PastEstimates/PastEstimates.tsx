@@ -14,6 +14,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import { TemplateData } from "../../../utils/types/TemplateInterfaces";
+import useTheme from "@mui/material/styles/useTheme";
 
 const PastEstimates = () => {
 
@@ -24,6 +25,7 @@ const PastEstimates = () => {
     const [selectedTemplateId, setSelectedTemplateId] = useState("");
     const { user } = useAuth0();
     const userId = user?.email ? user.email : "";
+    const theme = useTheme();
 
     useEffect(() => {
         if (!userId) return;
@@ -56,10 +58,12 @@ const PastEstimates = () => {
             return selectedTemplateId === "" || estimate.templateId === selectedTemplateId;
         });
 
+    const textColor = theme.palette.mode === "dark" ? "white" : "black";
+
 
     return (
         <React.Fragment>
-            <Typography variant="h3" color="dark">
+            <Typography variant="h3" color={textColor}>
                 Past Estimates
             </Typography>
             <br />

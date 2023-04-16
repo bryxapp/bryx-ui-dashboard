@@ -12,34 +12,10 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
-
-const SideAppDrawerWrapper = styled(Box)`
-  background-color: #e5e5e5;
-  min-height: 90vh;
-  padding: 1rem;
-`;
-
-const NewEstimateButton = styled(Button)`
-  width: 100%;
-  margin: 1rem 0;
-  font-size: 1.2rem;
-`;
-
-const MenuButton = styled(IconButton)`
-  margin-right: 16px;
-`;
-
-const MenuIconWrapper = styled(MenuIcon)`
-  color: white;
-  font-size: 2rem;
-`;
-
-const CloseIconWrapper = styled(CloseIcon)`
-  color: white;
-  font-size: 2rem;
-`;
+import { useTheme } from '@mui/material/styles';
 
 const SideAppDrawer = () => {
+    const theme = useTheme();
     const { user } = useAuth0();
     const handleNewEstimateClick = () => {
         logger.trackEvent({
@@ -57,6 +33,32 @@ const SideAppDrawer = () => {
     const handleDrawerClose = () => {
         setOpenDrawer(false);
     };
+
+    const SideAppDrawerWrapper = styled(Box)`
+        background-color: ${theme.palette.background.paper};
+        min-height: 90vh;
+        padding: 1rem;
+    `;
+
+    const NewEstimateButton = styled(Button)`
+        width: 100%;
+        margin: 1rem 0;
+        font-size: 1.2rem;
+    `;
+
+    const MenuButton = styled(IconButton)`
+        margin-right: 16px;
+    `;
+
+    const MenuIconWrapper = styled(MenuIcon)`
+        color: white;
+        font-size: 2rem;
+    `;
+
+    const CloseIconWrapper = styled(CloseIcon)`
+        color: white;
+        font-size: 2rem;
+    `;
 
     return (
         <>

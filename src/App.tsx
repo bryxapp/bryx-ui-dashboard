@@ -9,20 +9,28 @@ import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/Est
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { themeOptions } from "./theme/themeOptions";
+import { lightTheme, darkTheme } from "./theme/themeOptions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 import PageViewTracker from "./logging/PageViewTracker";
+import { useState } from "react";
 
 function App() {
-  //Write environment variables to console for debugging
   const { user, isLoading } = useAuth0();
+  const [themeMode, setThemeMode] = useState('light');
 
-  const theme = createTheme(themeOptions);
+  const toggleTheme = () => {
+    setThemeMode(themeMode === 'light' ? 'dark' : 'light');
+  };
+
+  const currentThemeOptions = themeMode === 'light' ? lightTheme : darkTheme;
+
+  const theme = createTheme(currentThemeOptions);
+
   return (
     <ThemeProvider theme={theme}>
       <PageViewTracker />
-      <Navigation>
+      <Navigation onToggleTheme={toggleTheme} themeMode={themeMode}>
         {(isLoading || user) && (
           <Routes>
             <Route path="/" element={<Dashboard />} />
@@ -40,7 +48,7 @@ function App() {
             <Route path="*" element={<NotLoggedIn />} />
           </Routes>
         )}
-      </Navigation >
+      </Navigation>
     </ThemeProvider>
   );
 }

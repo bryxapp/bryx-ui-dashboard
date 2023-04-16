@@ -14,6 +14,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { EstimateData } from '../../../../../utils/types/EstimateInterfaces';
+import { useTheme } from '@mui/material';
 
 interface EstimateListItemProps {
     estimate: EstimateData;
@@ -23,6 +24,8 @@ interface EstimateListItemProps {
 const EstimateListItem = ({ estimate, handleEstimateDelete }: EstimateListItemProps) => {
     const displayDate = convertEpochTime(estimate._ts);
     const [open, setOpen] = useState(false);
+    const theme = useTheme();
+    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
 
     const handleDeleteClick = () => {
         setOpen(true);
@@ -61,19 +64,19 @@ const EstimateListItem = ({ estimate, handleEstimateDelete }: EstimateListItemPr
             </a>
             <ListItemText
                 primary={
-                    <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography color = {textColor} variant="h5" component="div" sx={{ flexGrow: 1 }}>
                         {estimate.estimateName}
                     </Typography>
                 }
                 secondary={
-                    <Typography variant="body2" component="div" sx={{ flexGrow: 1 }}>
+                    <Typography color = {textColor} variant="body2" component="div" sx={{ flexGrow: 1 }}>
                         {displayDate}
                     </Typography>}
             />
 
             <Dialog open={open} onClose={handleCancelDelete}>
                 <DialogTitle>Delete Estimate</DialogTitle>
-                <Typography variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
+                <Typography color = {textColor} variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
                     Are you sure you want to permanently delete this estimate?
                 </Typography>
                 <DialogActions>
