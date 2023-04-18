@@ -1,5 +1,5 @@
 export interface CanvasDesignData {
-    Shapes: ShapeObj[];
+    Shapes: (ShapeObj|RectangleObj|EllipseObj|LineObj|TextInputObj|TextFieldObj|ImageObj)[];
     selectedId: string | null;
 }
 
@@ -64,7 +64,10 @@ export interface ToolBarProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
-
+export interface CanvasStarterData {
+    name: string;
+    canvasDesign: CanvasDesignData;
+}
 export type ShapeType = 'Rectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';  
 
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';

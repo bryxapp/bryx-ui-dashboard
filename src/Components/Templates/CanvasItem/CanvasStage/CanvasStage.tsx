@@ -8,6 +8,8 @@ import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
 import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import ImageShape from '../Shapes/ImageShape';
+import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
+import { CanvasStarters } from '../../../../utils/canvas-starters';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -34,7 +36,19 @@ interface CanvasStageProps {
 }
 
 
-const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedId, setSelectedId }: CanvasStageProps) => {
+const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setSelectedId }: CanvasStageProps) => {
+
+    //Parse url to get canvas starter name
+    const urlParams = new URLSearchParams(window.location.search);
+    const canvasStarterName = urlParams.get('canvasStarterName');
+    
+    if (canvasStarterName && canvasDesign.Shapes.length === 0) {
+        const canvasStarter = CanvasStarters.find((canvasStarter: CanvasStarterData) => canvasStarter.name === canvasStarterName);
+        if (canvasStarter) {
+            setCanvasDesign(canvasStarter.canvasDesign);
+        }
+    }
+
 
     const selectShape = (id: string | null) => {
         setSelectedId(id);
@@ -138,6 +152,8 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, color, setColor, selectedI
 
         setCanvasDesign(updatedCanvasDesign);
     };
+
+    console.log(canvasDesign);
 
     return (
         <>

@@ -7,6 +7,7 @@ import NotFound from './Components/NotFound/NotFound';
 import Dashboard from './Components/Dashboard/Dashboard';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
+import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { lightTheme, darkTheme } from "./theme/themeOptions";
@@ -36,6 +37,7 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/templates" element={<Templates />} />
             <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
+            <Route path="/choose-canvas-starter" element = {<SelectCanvasStarter />} />
             <Route path="/edit-template" element={<CanvasItem isNewCanvas={false} />} />
             <Route path="/select-template" element={<SelectTemplate />} />
             <Route path="/form" element={<EstimateForm />} />

@@ -23,7 +23,7 @@ const Templates = () => {
             </Typography>
             <br />
             <Button
-                href='/create-template'
+                href='/choose-canvas-starter'
                 onClick={handleNewTemplateClick}
                 variant='contained'
                 color='primary'
