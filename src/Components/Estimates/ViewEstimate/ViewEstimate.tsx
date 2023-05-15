@@ -8,9 +8,11 @@ import ClipBoardIcon from "@mui/icons-material/ContentPaste"
 import ShareIcon from "@mui/icons-material/IosShare"
 import { useLocation } from 'react-router-dom';
 import { getEstimate } from "../../../utils/estimates-api";
+import { getEstimateComments } from "../../../utils/estimate-comments-api";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import Loading from "../../SharedComponents/Loading/Loading";
 import styled from "@emotion/styled";
+import EstimateComments from "./EstimateComments/EstimateComments";
 
 
 const EstimateButton = styled(Button)`
@@ -23,6 +25,9 @@ const ViewEstimate = () => {
     const estimateId = params.get('estimateId');
 
     const [estimate, setEstimate] = useState<EstimateData>();
+    const [estimateError, setEstimateError] = useState(false);
+    const [estimateComments, setEstimateComments] = useState<any[]>([]);
+    const [commentsError, setCommentsError] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -30,8 +35,20 @@ const ViewEstimate = () => {
             getEstimate(estimateId)
                 .then((res) => {
                     setEstimate(res.data);
+                    getEstimateComments(estimateId).then((res) => {
+                        setEstimateComments(res.data);
+                        setLoading(false);
+                    }).catch
+                        (() => {
+                            setCommentsError(true);
+                            setLoading(false);
+                        }
+                        );
+                }).catch(() => {
+                    setEstimateError(true);
                     setLoading(false);
-                });
+                }
+                );
         }
         else {
             setLoading(false);
@@ -43,6 +60,15 @@ const ViewEstimate = () => {
             <Loading />
         );
     }
+
+    if (estimateError) {
+        return (
+            <Typography variant="h3" color="primary">
+                Error loading estimate
+            </Typography>
+        );
+    }
+
 
     const handleShareClick = () => {
         const subject = `Estimate: ${estimate?.estimateName}`;
@@ -85,6 +111,7 @@ const ViewEstimate = () => {
             <div>
                 <iframe src={estimate?.estimatePdfUrl} width="100%" height="900" title="PDF"></iframe>
             </div>
+            <EstimateComments estimateId={estimateId || ''} estimateComments={estimateComments} setEstimateComments={setEstimateComments} commentsError={commentsError} />
         </div>
     );
 }
