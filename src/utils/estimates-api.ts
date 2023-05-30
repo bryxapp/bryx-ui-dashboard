@@ -28,7 +28,7 @@ export function getEstimates(user: string) {
 
 export function getRecentEstimates(count: number, user: string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}/?userId=${user}&count=${count}`);
+    return axios.get(`${BASE_URL}/?userId=${user}&pageSize=${count}`);
 }
 
 export function getEstimate(id: string) {
