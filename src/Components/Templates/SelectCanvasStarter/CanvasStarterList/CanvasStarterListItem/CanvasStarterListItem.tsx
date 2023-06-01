@@ -1,58 +1,22 @@
-import { Link, Paper, Typography, useTheme } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import { CanvasStarterData } from '../../../../../utils/types/CanvasInterfaces';
-import { Feed } from '@mui/icons-material';
+import PreviewStage from '../../../../SharedComponents/PreviewStage/PreviewStage';
 
 interface CanvasStarterListItemProps {
-    canvasStarter: CanvasStarterData;
+  canvasStarter: CanvasStarterData;
 }
 
 const CanvasStarterListItem = ({ canvasStarter }: CanvasStarterListItemProps) => {
-    const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
-
-    return (
-        <Link href={'/create-template?canvasStarterName=' + canvasStarter.name} underline="none">
-            <Paper
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '14rem',
-                    width: '14rem',
-                    alignItems: 'center',
-                }}
-            >
-                <Feed sx={{ fontSize: '8rem', color: 'gray' }} />
-                <Paper
-                    sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'flex-end',
-                        height: '5rem',
-                        width: '100%',
-                        backgroundColor: 'gray',
-                        p: '0.5rem',
-                    }}
-                >
-                    <Typography
-                        variant="h5"
-                        color={textColor}
-                        gutterBottom
-                        sx={{
-                            textAlign: 'center',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical',
-                            width: '100%',
-                        }}
-                    >
-                        {canvasStarter.name}
-                    </Typography>
-                </Paper>
-            </Paper>
-        </Link>
-    );
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <Typography variant="h5" color="gray">
+        {canvasStarter.name}
+      </Typography>
+      <Link href={'/create-template?canvasStarterName=' + canvasStarter.name} underline="none">
+        <PreviewStage canvasDesign={canvasStarter.canvasDesign} scale={0.33} />
+      </Link>
+    </div>
+  );
 };
 
 export default CanvasStarterListItem;

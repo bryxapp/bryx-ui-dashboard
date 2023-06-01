@@ -17,7 +17,7 @@ import Creating from '../../../SharedComponents/Creating/Creating';
 import EstimateFormTextField from './EstimateFormTextField/EstimateFormTextField';
 import EstimateName from './EstimateName/EstimateName';
 import Loading from '../../../SharedComponents/Loading/Loading';
-import PreviewStage from './PreviewStage/PreviewStage';
+import PreviewStage from './TemplatePreview/TemplatePreview';
 import Saving from '../../../SharedComponents/Saving/Saving';
 
 const EstimateForm = () => {
