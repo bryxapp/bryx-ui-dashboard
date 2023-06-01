@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -7,14 +8,28 @@ import PastEstimates from "./PastEstimates/PastEstimates";
 import EstimateDrafts from "./EstimateDrafts/EstimateDrafts";
 import useTheme from "@mui/material/styles/useTheme";
 
-const Estimates = () => {
+const Estimates: React.FC = () => {
   const theme = useTheme();
   const textColor = theme.palette.mode === "dark" ? "white" : "black";
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<number>(0);
+  const location = useLocation();
 
-  const handleTabChange = (event:any, newValue:any) => {
+  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const tabValue = parseInt(searchParams.get("tab") || "0", 10);
+    setActiveTab(tabValue);
+  }, []);
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("tab", activeTab.toString());
+    const newUrl = `${location.pathname}?${searchParams.toString()}`;
+    window.history.replaceState(null, "", newUrl);
+  }, [activeTab, location.pathname]);
 
   return (
     <React.Fragment>
