@@ -4,10 +4,11 @@ import axios from 'axios';
 import { createStage } from './canvas-util';
 import { getPDFHeight, getPDFWidth } from './page-util';
 import { CanvasDesignData } from './types/CanvasInterfaces';
+import { EstimateFormFields } from './types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: string[], user: string) {
+export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string) {
     const estimateImgObj = await createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {

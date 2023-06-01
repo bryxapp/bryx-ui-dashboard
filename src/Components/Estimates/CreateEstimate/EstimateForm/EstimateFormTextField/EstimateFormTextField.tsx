@@ -8,17 +8,16 @@ import ParagraphIcon from '@mui/icons-material/ViewHeadline';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TextIcon from '@mui/icons-material/TextFields';
 import NumberIcon from '@mui/icons-material/Numbers';
+import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
 
 interface EstimateFormTextFieldProps {
     textInputObj: TextInputObj;
-    index: number;
-    fieldValues: string[];
-    setFieldValues: React.Dispatch<React.SetStateAction<string[]>>;
+    fieldValues: EstimateFormFields;
+    setFieldValues: React.Dispatch<React.SetStateAction<EstimateFormFields>>;
 }
 
 const EstimateFormTextField = ({
     textInputObj,
-    index,
     fieldValues,
     setFieldValues,
 }: EstimateFormTextFieldProps) => {
@@ -27,9 +26,11 @@ const EstimateFormTextField = ({
         if (textInputObj.format === 'date') {
             value = formatDate(value);
         }
-        const newFieldValues = [...fieldValues];
-        newFieldValues[index] = value;
-        setFieldValues(newFieldValues);
+        const updatedFieldValues = {
+            ...fieldValues,
+            [textInputObj.id]: value,
+          };
+        setFieldValues(updatedFieldValues);
     };
 
     const getInputProps = (format: TextInputFormat) => {
@@ -64,13 +65,13 @@ const EstimateFormTextField = ({
 
     return (
         <TextField
-            key={index}
+            key={textInputObj.id}
             label={textInputObj.displayName}
             name={textInputObj.displayName}
-            value={fieldValues[index]}
+            value={fieldValues[textInputObj.id]}
             onChange={handleChange}
             InputProps={inputProps}
-            InputLabelProps={{ style: { fontSize: 20 } }} // Set the font size of the label text
+            InputLabelProps={{ style: { fontSize: 20 } }} // Set the font size of the label text}
         />
     );
 };

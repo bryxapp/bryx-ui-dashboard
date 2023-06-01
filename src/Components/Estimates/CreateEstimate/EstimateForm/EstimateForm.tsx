@@ -1,42 +1,95 @@
 import { useEffect, useState } from 'react';
-import { getTemplate } from '../../../../utils/templates-api';
 import { useLocation } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import Loading from '../../../SharedComponents/Loading/Loading';
-import { Button } from '@mui/material';
-import EstimateFormTextField from './EstimateFormTextField/EstimateFormTextField';
-import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
-import { createEstimate } from '../../../../utils/estimates-api';
-import EstimateName from './EstimateName/EstimateName';
-import Creating from '../../../SharedComponents/Creating/Creating';
 import { useAuth0 } from '@auth0/auth0-react';
+
+import { Button } from '@mui/material';
+import Typography from '@mui/material/Typography';
+
+import { createEstimate } from '../../../../utils/estimates-api';
+import { getEstimateDraft, createEstimateDraft, updateEstimateDraft, deleteEstimateDraft } from '../../../../utils/estimate-drafts-api';
+import { getTemplate } from '../../../../utils/templates-api';
+
 import { ShapeObj, TextInputObj } from '../../../../utils/types/CanvasInterfaces';
+import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
+import { EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
+
+import Creating from '../../../SharedComponents/Creating/Creating';
+import EstimateFormTextField from './EstimateFormTextField/EstimateFormTextField';
+import EstimateName from './EstimateName/EstimateName';
+import Loading from '../../../SharedComponents/Loading/Loading';
 import PreviewStage from './PreviewStage/PreviewStage';
+import Saving from '../../../SharedComponents/Saving/Saving';
 
 const EstimateForm = () => {
 
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const templateId = params.get('templateId');
+    const draftId = params.get('draftId') || "";
 
     const [loading, setLoading] = useState(true);
     const [creating, setCreating] = useState(false);
+    const [saving, setSaving] = useState(false);
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
-    const [fieldValues, setFieldValues] = useState<string[]>([]);
-    const [textInputs, setTextInputs] = useState<TextInputObj[]>([]);
+    const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
+    const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
     const { user } = useAuth0();
     const userName = user?.email || "";
 
+
+    useEffect(() => {
+        if (!templateId) return;
+        getTemplate(templateId)
+            .then((res) => {
+                setTemplateData(res.data);
+                let textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
+                    (shape: ShapeObj) => shape.type === "TextInput"
+                ) as TextInputObj[];
+                setTextInputShapeObjs(textInputs);
+                let newFieldValues: EstimateFormFields = {};
+                textInputs.forEach((textInput: TextInputObj) => {
+                    newFieldValues[textInput.id] = "";
+                });
+                if (draftId) {
+                    getEstimateDraft(draftId)
+                        .then((res) => {
+                            setEstimateName(res.data.estimateName);
+                            const draftFieldValues = res.data.filledFields; //fieldvalues object saved from the last draft
+                            //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
+                            let missingKeys: string[] = [];
+                            Object.keys(draftFieldValues).forEach((key) => {
+                                if (!newFieldValues.hasOwnProperty(key)) {
+                                    missingKeys.push(key);
+                                }
+                                else {
+                                    newFieldValues[key] = draftFieldValues[key];
+                                }
+                            });
+                            setFieldValues(newFieldValues);
+                            if (missingKeys.length > 0) {
+                                alert("There were fields in the draft that are no longer in the template.")
+                            }
+                        });
+                }
+
+                setFieldValues(newFieldValues);
+                setLoading(false);
+            });
+
+    }, [draftId, templateId]);
+
+
+
     const handleSubmit = async () => {
         setCreating(true);
-
         try {
             if (!templateData) {
                 return;
             }
 
             const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName);
+            if (draftId) deleteEstimateDraft(draftId); //delete the draft if it exists
 
             // Wait for 2 seconds before navigating to the estimate page
             await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -49,21 +102,31 @@ const EstimateForm = () => {
         }
     };
 
+    const handleSaveAsDraft = async () => {
+        setSaving(true);
+        try {
+            if (!templateData) {
+                return;
+            }
+            if (!draftId) {
 
-    useEffect(() => {
-        if (templateId) {
-            getTemplate(templateId)
-                .then((res) => {
-                    setTemplateData(res.data);
-                    let textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
-                        (shape: ShapeObj) => shape.type === "TextInput"
-                    ) as TextInputObj[];
-                    setTextInputs(textInputs);
-                    setFieldValues(new Array(textInputs.length).fill(""));
-                    setLoading(false);
-                });
+                await createEstimateDraft(templateData.id, estimateName, fieldValues, userName);
+            }
+            else {
+                await updateEstimateDraft(templateData.id, estimateName, fieldValues, userName, draftId);
+            }
+
+            window.location.href = "/estimates";
+        } catch (error) {
+            console.error("Error Saving Estimate Draft:", error);
+        } finally {
+            setSaving(false);
         }
-    }, [templateId]);
+    };
+
+
+
+
 
 
     if (loading) {
@@ -72,6 +135,10 @@ const EstimateForm = () => {
 
     if (creating) {
         return (<Creating />)
+    }
+
+    if (saving) {
+        return (<Saving />)
     }
 
     if (!templateData) return (<div>Template not found</div>);
@@ -90,23 +157,20 @@ const EstimateForm = () => {
                         Template: {templateData.friendlyName}
                     </Typography>
                     <div style={{ height: 20 }}></div>
-                    {textInputs.map((inputObj: TextInputObj, index: number) => (
+                    {textInputShapeObjs.map((inputObj: TextInputObj) => (
                         <span key={inputObj.id}>
-                            <EstimateFormTextField textInputObj={inputObj} index={index} fieldValues={fieldValues} setFieldValues={setFieldValues} />
+                            <EstimateFormTextField textInputObj={inputObj} fieldValues={fieldValues} setFieldValues={setFieldValues} />
                             <div style={{ height: 20 }}></div>
                         </span>
                     ))}
-                    <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+                    <div style={{ display: 'flex' }}>
+                        <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+                        <span style={{ width: 20 }}></span>
+                        {!draftId && <Button variant="contained" size="large" onClick={() => handleSaveAsDraft()}>Save As Draft</Button>}
+                        {draftId && <Button variant="contained" size="large" onClick={() => handleSaveAsDraft()}>Update Draft</Button>}
+                    </div>
                 </div>
                 <div style={{ flex: 1 }}>
-                    <Typography variant="h4" color="gray">
-                        Template Snapshot
-                    </Typography>
-                    <Typography variant="subtitle1" color="gray">
-                        *Does not show preview of input values
-                    </Typography>
-                    <div style={{ height: 20 }}></div>
-
                     <PreviewStage canvasDesign={templateData.canvasDesign} />
                 </div>
             </div>

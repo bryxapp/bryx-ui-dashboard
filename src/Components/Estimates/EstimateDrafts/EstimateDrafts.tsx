@@ -19,7 +19,6 @@ const EstimateDrafts = () => {
             setLoading(false);
         });
     }, [userId]);
-
     return (
         <React.Fragment>
             {loading && <Loading />}

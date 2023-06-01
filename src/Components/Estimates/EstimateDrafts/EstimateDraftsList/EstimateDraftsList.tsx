@@ -1,6 +1,6 @@
 import List from '@mui/material/List';
 import EstimateDraftsListItem from './EstimateDraftsListItem/EstimateDraftsListItem';
-import { deleteEstimate } from '../../../../utils/estimates-api';
+import { deleteEstimateDraft } from '../../../../utils/estimate-drafts-api';
 import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
 
 interface EstimateDraftsListProps {
@@ -10,7 +10,7 @@ interface EstimateDraftsListProps {
 const EstimateDraftsList = ({ estimateDrafts, setEstimateDrafts }: EstimateDraftsListProps) => {
 
     const handleEstimateDraftDelete = (estimateDraftId: string) => {
-        deleteEstimate(estimateDraftId).then(() => {
+        deleteEstimateDraft(estimateDraftId).then(() => {
             setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
         });
     };

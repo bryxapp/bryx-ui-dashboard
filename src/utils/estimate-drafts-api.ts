@@ -1,14 +1,15 @@
 import axios from 'axios';
+import { EstimateFormFields } from './types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimateDrafts";
 
-export async function createEstimateDraft(templateId: string, estimateName: string, fieldValues: string[], user: string) {
+export async function createEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string) {
     //Create Body
     const body = {
         user: user,
         templateId: templateId,
         estimateName: estimateName,
-        fields: fieldValues,
+        filledFields: fieldValues,
     }
     return axios.post(`${BASE_URL}`, body);
 }
@@ -19,20 +20,21 @@ export function getEstimateDrafts(user: string) {
 }
 
 export function getEstimateDraft(id: string) {
+    console.log(`${BASE_URL}/${id}`)
     return axios.get(`${BASE_URL}/${id}`);
 }
 
-export async function updateEstimateDraft(templateId: string, estimateName: string, fieldValues: string[], user: string, id: string) {
+export async function updateEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string, id: string) {
     //Create Body
     const body = {
         user: user,
         templateId: templateId,
         estimateName: estimateName,
-        fields: fieldValues,
+        filledFields: fieldValues,
     }
     return axios.put(`${BASE_URL}/${id}`, body);
 }
 
-export function deleteEstimateDraft(templateId: string) {
-    return axios.delete(`${BASE_URL}/${templateId}`);
+export function deleteEstimateDraft(estimateDraftId: string) {
+    return axios.delete(`${BASE_URL}/${estimateDraftId}`);
 }

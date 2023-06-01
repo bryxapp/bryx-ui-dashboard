@@ -1,6 +1,7 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
+import { EstimateFormFields } from "./types/EstimateInterfaces";
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
@@ -13,7 +14,7 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
 }
 
 
-export async function createStage(canvasDesign: CanvasDesignData, fieldValues: string[]) {
+export async function createStage(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields) {
     const layer = new Konva.Layer();
     const rect = new Konva.Rect({
         x: 0,
@@ -24,7 +25,6 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
     });
     layer.add(rect);
 
-    let index = 0;
     for (const shape of canvasDesign.Shapes) {
         let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
 
@@ -65,12 +65,12 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
             case 'TextInput':
                 const textInput = shape as TextInputObj;
                 if (textInput.format === "currency") {
-                    fieldValues[index] = "$" + fieldValues[index];
+                    fieldValues[textInput.id] = "$" + fieldValues[textInput.id];
                 }
                 konvaShape = new Konva.Text({
                     x: textInput.x,
                     y: textInput.y,
-                    text: fieldValues[index],
+                    text: fieldValues[textInput.id],
                     fontSize: textInput.fontSize,
                     fill: textInput.fill,
                     rotation: textInput.rotation,
@@ -78,7 +78,6 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: s
                     fontStyle: textInput.fontStyle,
                     textDecoration: textInput.textDecoration
                 });
-                index++; //Increment textinput pointer
                 break;
             case 'TextField':
                 const textField = shape as TextFieldObj;

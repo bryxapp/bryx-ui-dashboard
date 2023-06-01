@@ -14,10 +14,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material';
+import { EstimateDraftData } from '../../../../../utils/types/EstimateInterfaces';
 
 interface EstimateDraftListItemProps {
-    estimateDraft: any;
-    handleEstimateDraftDelete: (estimateId: string) => void;
+    estimateDraft: EstimateDraftData;
+    handleEstimateDraftDelete: (estimateDraftId: string) => void;
 }
 
 const EstimateListItem = ({ estimateDraft, handleEstimateDraftDelete }: EstimateDraftListItemProps) => {
@@ -43,7 +44,7 @@ const EstimateListItem = ({ estimateDraft, handleEstimateDraftDelete }: Estimate
         <ListItem
             secondaryAction={
                 <div>
-                    <a href={'/view-estimate?estimateId=' + estimateDraft.id}>
+                    <a href={'/form?templateId=' + estimateDraft.templateId + '&draftId=' + estimateDraft.id}>
                         <IconButton aria-label="view" >
                             <EditIcon />
                         </IconButton>
@@ -64,7 +65,7 @@ const EstimateListItem = ({ estimateDraft, handleEstimateDraftDelete }: Estimate
             <ListItemText
                 primary={
                     <Typography color={textColor} variant="h5" component="div" sx={{ flexGrow: 1 }}>
-                        {`[DRAFT] + ${estimateDraft.estimateName}`}
+                        {`[DRAFT]${estimateDraft.estimateName}`}
                     </Typography>
                 }
                 secondary={
