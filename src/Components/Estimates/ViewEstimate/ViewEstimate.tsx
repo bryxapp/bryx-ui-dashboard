@@ -72,7 +72,7 @@ const ViewEstimate = () => {
 
     const handleShareClick = () => {
         const subject = `Estimate: ${estimate?.estimateName}`;
-        const body = `Hi,\n\nPlease find attached  the estimate for ${estimate?.estimateName}.\n\nBest regards\n`;
+        const body = `Hi,\n\nPlease find link below for your estimate ${estimate?.estimateName}. \n\n${estimate?.estimatePdfUrl}\n\nBest Regards,\n\n`;
         const mailtoLink = `mailto:?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}&attachment=${encodeURIComponent(estimate?.estimatePdfUrl || '')}`;
         window.location.href = mailtoLink;
     };
