@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import RecentPreview from './RecentPreview/RecentPreview';
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
-import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
-import { TemplateData } from '../../../utils/types/TemplateInterfaces';
 import { EstimateData } from '../../../utils/types/EstimateInterfaces';
+import { TemplateData } from '../../../utils/types/TemplateInterfaces';
+import { Button } from '@mui/material';
+import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
+import EstimateRecentPreview from './RecentPreview/EstimateRecentPreview';
+import TemplateRecentPreview from './RecentPreview/TemplateRecentPreview';
+
 interface RecentPreviewProps {
-  objects: TemplateData[] | EstimateData[];
-  url: string;
+  estimates?: EstimateData[];
+  templates?: TemplateData[];
+  type: 'estimate' | 'template';
 }
 
-const RecentPreviews = ({ objects, url }: RecentPreviewProps) => {
+const RecentPreviews = ({ estimates = [], templates = [], type }: RecentPreviewProps) => {
   const [numberOfItems, setNumberOfItems] = useState(1);
 
   useEffect(() => {
     const updateNumberOfItems = () => {
       const containerWidth = window.innerWidth;
       const itemWidth = 23 * 16; // 14rem converted to pixels
-      const itemsPerRow = Math.floor(containerWidth / itemWidth);
+      const itemsPerRow = Math.min(4, Math.floor(containerWidth / itemWidth));
       setNumberOfItems(itemsPerRow);
     };
 
@@ -29,21 +33,33 @@ const RecentPreviews = ({ objects, url }: RecentPreviewProps) => {
     };
   }, []);
 
-  // Slice the objects array to display a limited number of items
-  const limitedObjects = objects.slice(0, numberOfItems);
-
-  if (objects.length === 0) {
-    const type: string = url.includes('template') ? 'templates' : 'estimates';
-    return <NoneFound item={type} />;
+  if (type === 'estimate' && estimates.length === 0) {
+    return <NoneFound item={'estimates'} />;
   }
+
+  if (type === 'template' && templates.length === 0) {
+    return <NoneFound item={'templates'} />;
+  }
+
+  // Slice the objects array to display a limited number of items
+  const limitedObjects = type === 'estimate' ? estimates.slice(0, numberOfItems) : templates.slice(0, numberOfItems);
 
   return (
     <Grid container spacing={2}>
-      {limitedObjects.map((object: TemplateData | EstimateData) => (
-        <Grid item xs={12} sm={6} md={4} lg={3} key={object.id}>
-          <RecentPreview key={object.id} object={object} url={url} />
+      {limitedObjects.map((item: EstimateData | TemplateData) => (
+        <Grid item xs={12} sm={6} md={type === 'estimate' ? 4 : 3} lg={3} key={item.id}>
+          {type === 'estimate' ? (
+            <EstimateRecentPreview key={item.id} estimate={item as EstimateData} />
+          ) : (
+            <TemplateRecentPreview key={item.id} template={item as TemplateData} />
+          )}
         </Grid>
       ))}
+      <Grid item xs={12}>
+        <Button href="/choose-canvas-starter" variant='outlined' color='primary' >
+          + New {type === 'estimate' ? 'Estimate' : 'Template'}
+        </Button>
+      </Grid>
     </Grid>
   );
 };

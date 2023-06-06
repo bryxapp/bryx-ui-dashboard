@@ -1,29 +1,22 @@
 import { convertEpochTime } from '../../../../utils/time-util';
 import { Link, Paper, Typography } from '@mui/material';
-import EstimateIcon from '@mui/icons-material/FeedOutlined';
-import TemplateIcon from '@mui/icons-material/InsertDriveFileOutlined';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
-import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
+import PreviewStage from '../../../SharedComponents/PreviewStage/PreviewStage';
 import { useTheme } from '@mui/material';
 
 interface Props {
-  object: TemplateData | EstimateData;
-  url: string;
+  template: TemplateData;
 }
 
-const RecentPreview = ({ object, url }: Props) => {
-  const displayDate = convertEpochTime(object._ts);
-  const isTemplate = (object as TemplateData).friendlyName !== undefined;
-  const title = isTemplate
-    ? (object as TemplateData).friendlyName
-    : (object as EstimateData).estimateName;
+const TemplateRecentPreview = ({ template }: Props) => {
+  const displayDate = convertEpochTime(template._ts);
   const theme = useTheme();
   const paperColor = theme.palette.mode === 'dark' ? 'gray' : 'white';
   const barColor = theme.palette.mode === 'dark' ? 'white' : 'gray';
   const textColor = theme.palette.mode === 'dark' ? 'black' : 'white';
 
   return (
-    <Link href={url + '=' + object.id} underline="none">
+    <Link href={'/edit-template?templateId=' + template.id} underline="none">
       <Paper
         sx={{
           display: 'flex',
@@ -36,14 +29,11 @@ const RecentPreview = ({ object, url }: Props) => {
           background: paperColor,
         }}
       >
-        {isTemplate ? (
-          <TemplateIcon sx={{ fontSize: '8rem' }} />
-        ) : (
-          <EstimateIcon sx={{ fontSize: '8rem' }} />
-        )}
+        <div style={{ height: '1rem' }} />
+        <PreviewStage canvasDesign={template.canvasDesign} scale={.20} />
         <Paper
           sx={{
-            height: '5rem',
+            height: '7rem',
             width: '100%',
             background: barColor,
             justifyContent: 'flex-end',
@@ -70,7 +60,7 @@ const RecentPreview = ({ object, url }: Props) => {
                 WebkitBoxOrient: 'vertical',
               }}
             >
-              {title}
+              {template.friendlyName}
             </Typography>
             <Typography variant="body2" color={textColor} gutterBottom>
               {displayDate}
@@ -82,4 +72,4 @@ const RecentPreview = ({ object, url }: Props) => {
   );
 };
 
-export default RecentPreview;
+export default TemplateRecentPreview;

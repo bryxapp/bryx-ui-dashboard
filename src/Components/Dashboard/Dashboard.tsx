@@ -36,7 +36,7 @@ const Dashboard = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant="h3" color = {textColor}>
+                <Typography variant="h3" color={textColor}>
                     Dashboard
                 </Typography>
             </Grid>
@@ -70,7 +70,7 @@ const Dashboard = () => {
                             p: 2,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 250,
+                            height: 280,
                         }}
                     >
                         <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -78,8 +78,7 @@ const Dashboard = () => {
                         </Typography>
                         {estimatesLoading && <Loading />}
                         {!estimatesLoading && (
-                            <RecentPreviews objects={estimates} url={'/view-estimate?estimateId'} />
-                        )}
+                            <RecentPreviews type="estimate" estimates={estimates} />)}
                     </Paper>
                 </Grid>
             }
@@ -113,7 +112,7 @@ const Dashboard = () => {
                             p: 2,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 250,
+                            height: 280,
                         }}
                     >
                         <Typography component="h2" variant="h6" color="primary" gutterBottom>
@@ -121,7 +120,7 @@ const Dashboard = () => {
                         </Typography>
                         {templatesLoading && <Loading />}
                         {!templatesLoading && (
-                            <RecentPreviews objects={templates} url={'/edit-template?templateId'} />
+                            <RecentPreviews type="template" templates={templates} />
                         )}
                     </Paper>
                 </Grid>
