@@ -1,14 +1,12 @@
 import React from 'react';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import BarChartIcon from '@mui/icons-material/BarChart';
+import FeedOutlined from '@mui/icons-material/FeedOutlined';
 import LayersIcon from '@mui/icons-material/Layers';
 import MenuItem from './MenuItem.tsx/MenuItem';
 
 const MenuItems = (
     <React.Fragment>
-        {MenuItem('Dashboard', '/', <DashboardIcon />)}
-        {MenuItem('Templates', '/templates', <BarChartIcon />)}
-        {MenuItem('Estimates', '/estimates', <LayersIcon />)}
+        {MenuItem('Estimates', '/estimates', <FeedOutlined />)}
+        {MenuItem('Templates', '/templates', <LayersIcon />)}
     </React.Fragment>
 );
 

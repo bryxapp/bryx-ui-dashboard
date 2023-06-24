@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import List from '@mui/material/List';
 import MenuItems from '../MenuItems/MenuItems';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
-import logger from '../../../logging/logger';
-import { useAuth0 } from '@auth0/auth0-react';
 import styled from '@emotion/styled';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
@@ -16,13 +12,6 @@ import { useTheme } from '@mui/material/styles';
 
 const SideAppDrawer = () => {
     const theme = useTheme();
-    const { user } = useAuth0();
-    const handleNewEstimateClick = () => {
-        logger.trackEvent({
-            name: 'New Estimate Click',
-            properties: { menu: 'New Estimate', user: user?.name, environment: process.env.NODE_ENV },
-        });
-    };
 
     const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -38,12 +27,6 @@ const SideAppDrawer = () => {
         background-color: ${theme.palette.background.paper};
         min-height: 90vh;
         padding: 1rem;
-    `;
-
-    const NewEstimateButton = styled(Button)`
-        width: 100%;
-        margin: 1rem 0;
-        font-size: 1.2rem;
     `;
 
     const MenuButton = styled(IconButton)`
@@ -72,11 +55,6 @@ const SideAppDrawer = () => {
                     <List component="nav" sx={{ alignItems: 'center' }}>
                         {MenuItems}
                     </List>
-                    <Link href="/select-template" onClick={handleNewEstimateClick}>
-                        <NewEstimateButton variant="contained" color="primary">
-                            + New Estimate
-                        </NewEstimateButton>
-                    </Link>
                 </SideAppDrawerWrapper>
             </Box>
             <Drawer
@@ -95,11 +73,6 @@ const SideAppDrawer = () => {
                     <List component="nav" sx={{ alignItems: 'center' }}>
                         {MenuItems}
                     </List>
-                    <Link href="/select-template" onClick={handleNewEstimateClick}>
-                        <NewEstimateButton variant="contained" color="primary">
-                            + New Estimate
-                        </NewEstimateButton>
-                    </Link>
                 </Box>
             </Drawer>
         </>

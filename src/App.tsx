@@ -1,9 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navigation from './Components/Navigation/Navigation';
 import Templates from './Components/Templates/Templates';
 import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import NotFound from './Components/NotFound/NotFound';
-import Dashboard from './Components/Dashboard/Dashboard';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
@@ -34,7 +33,7 @@ function App() {
       <Navigation onToggleTheme={toggleTheme} themeMode={themeMode}>
         {isLoading || user ? (
           <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<Navigate to="/estimates" replace />} />
             <Route path="/templates" element={<Templates />} />
             <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
             <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
