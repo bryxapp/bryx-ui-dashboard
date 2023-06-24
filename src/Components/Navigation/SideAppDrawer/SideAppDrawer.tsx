@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import List from '@mui/material/List';
 import MenuItems from '../MenuItems/MenuItems';
 import Box from '@mui/material/Box';
 import styled from '@emotion/styled';
@@ -52,9 +51,7 @@ const SideAppDrawer = () => {
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <SideAppDrawerWrapper>
-                    <List component="nav" sx={{ alignItems: 'center' }}>
-                        {MenuItems}
-                    </List>
+                    <MenuItems />
                 </SideAppDrawerWrapper>
             </Box>
             <Drawer
@@ -70,9 +67,7 @@ const SideAppDrawer = () => {
                         </Typography>
                         <CloseIconWrapper onClick={handleDrawerClose} />
                     </Box>
-                    <List component="nav" sx={{ alignItems: 'center' }}>
-                        {MenuItems}
-                    </List>
+                    <MenuItems />
                 </Box>
             </Drawer>
         </>

@@ -1,13 +1,14 @@
-import React from 'react';
 import FeedOutlined from '@mui/icons-material/FeedOutlined';
 import LayersIcon from '@mui/icons-material/Layers';
 import MenuItem from './MenuItem.tsx/MenuItem';
+import List from '@mui/material/List';
 
-const MenuItems = (
-    <React.Fragment>
-        {MenuItem('Estimates', '/estimates', <FeedOutlined />)}
+
+const MenuItems = () => (
+    <List component="nav" sx={{ alignItems: 'center' }}>
+        {MenuItem('Estimates', '/', <FeedOutlined />)}
         {MenuItem('Templates', '/templates', <LayersIcon />)}
-    </React.Fragment>
+    </List>
 );
 
 export default MenuItems;

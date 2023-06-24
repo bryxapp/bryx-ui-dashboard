@@ -116,7 +116,7 @@ const EstimateForm = () => {
                 await updateEstimateDraft(templateData.id, estimateName, fieldValues, userName, draftId);
             }
 
-            window.location.href = "/estimates?tab=1";
+            window.location.href = "/?tab=1";
         } catch (error) {
             console.error("Error Saving Estimate Draft:", error);
         } finally {
