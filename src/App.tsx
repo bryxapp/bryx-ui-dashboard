@@ -17,14 +17,15 @@ import Estimates from "./Components/Estimates/Estimates";
 
 function App() {
   const { user, isLoading } = useAuth0();
-  const [themeMode, setThemeMode] = useState('light');
+  const [themeMode, setThemeMode] = useState(localStorage.getItem('themeMode') || 'light');
 
   const toggleTheme = () => {
-    setThemeMode(themeMode === 'light' ? 'dark' : 'light');
+    const newTheme = themeMode === 'light' ? 'dark' : 'light';
+    localStorage.setItem('themeMode', newTheme);
+    setThemeMode(newTheme);
   };
 
   const currentThemeOptions = themeMode === 'light' ? lightTheme : darkTheme;
-
   const theme = createTheme(currentThemeOptions);
 
   return (
