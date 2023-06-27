@@ -14,9 +14,9 @@ export async function createEstimateDraft(templateId: string, estimateName: stri
     return axios.post(`${BASE_URL}`, body);
 }
 
-export function getEstimateDrafts(user: string) {
+export function getEstimateDrafts(user: string, pageSize: number, pageNumber: number) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?userId=${user}`);
+    return axios.get(`${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
 }
 
 export function getEstimateDraft(id: string) {

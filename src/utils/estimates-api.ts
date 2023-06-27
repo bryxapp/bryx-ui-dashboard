@@ -22,9 +22,9 @@ export async function createEstimate(canvasDesign: CanvasDesignData, templateId:
     return axios.post(`${BASE_URL}`, body);
 }
 
-export function getEstimates(user: string) {
+export function getEstimates(user: string,pageSize:number, pageNumber: number) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?userId=${user}`);
+    return axios.get(`${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
 }
 
 export function getRecentEstimates(count: number, user: string) {
