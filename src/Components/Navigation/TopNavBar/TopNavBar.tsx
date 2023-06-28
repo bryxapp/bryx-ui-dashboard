@@ -17,6 +17,10 @@ const AuthButtons = styled(Button)`
 const Logo = styled(Typography)`
   font-size: 4rem;
   font-weight: bold;
+
+  @media (max-width: 600px) {
+    font-size: 2rem;
+  }
 `;
 
 interface TopNavBarProps {

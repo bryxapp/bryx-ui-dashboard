@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from "react";
-import EstimatesList from "./EstimatesList/EstimatesList";
 import { getEstimates } from "../../../utils/estimates-api";
 import { getTemplates } from "../../../utils/templates-api";
 import Loading from "../../SharedComponents/Loading/Loading";
@@ -8,8 +7,11 @@ import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import { useAuth0 } from "@auth0/auth0-react";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import { TemplateData } from "../../../utils/types/TemplateInterfaces";
-import EstimatesPagingControls from "./EstimatesPagingControls";
-import EstimatesSearch from "./EstimatesSearch";
+import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
+import EstimatesSearch from "../SharedEstimateComponents/EstimatesSearch";
+import { deleteEstimate } from "../../../utils/estimates-api";
+import { List } from "@mui/material";
+import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 
 const PAGE_SIZE = 10; // Number of estimate drafts per page
 
@@ -44,6 +46,12 @@ const PastEstimates = () => {
       return selectedTemplateId === "" || estimate.templateId === selectedTemplateId;
     });
 
+  const handleEstimateDelete = (estimatesId: string) => {
+    deleteEstimate(estimatesId).then(() => {
+      setEstimates(estimates.filter((estimate: EstimateData) => estimate.id !== estimatesId));
+    });
+  };
+
   return (
     <>
       {loading && <Loading />}
@@ -61,7 +69,16 @@ const PastEstimates = () => {
           {filteredEstimates.length === 0 && <NoneFound item="estimates" />}
           {filteredEstimates.length > 0 && (
             <>
-              <EstimatesList estimates={filteredEstimates} setEstimates={setEstimates} />
+              <List>
+                {estimates.map((estimate: EstimateData) => (
+                  <EstimateListItem
+                    key={estimate.id}
+                    estimate={estimate}
+                    handleEstimateDelete={handleEstimateDelete}
+                    editLink={'/view-estimate?estimateId=' + estimate.id}
+                    itemName='Estimate' />
+                ))}
+              </List>
               <EstimatesPagingControls
                 estimates={filteredEstimates}
                 pageNumber={pageNumber}

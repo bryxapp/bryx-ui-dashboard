@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import EstimatesList from "./EstimateDraftsList/EstimateDraftsList";
-import { getEstimateDrafts } from "../../../utils/estimate-drafts-api";
+import { deleteEstimateDraft, getEstimateDrafts } from "../../../utils/estimate-drafts-api";
 import Loading from "../../SharedComponents/Loading/Loading";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import { useAuth0 } from "@auth0/auth0-react";
-import EstimatesPagingControls from "../PastEstimates/EstimatesPagingControls";
+import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
+import { EstimateDraftData } from "../../../utils/types/EstimateInterfaces";
+import { List } from "@mui/material";
+import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 
 const PAGE_SIZE = 10; // Number of estimate drafts per page
 
@@ -26,6 +28,11 @@ const EstimateDrafts = () => {
   }, [userId, pageNumber]); // Include pageNumber in the dependency array
 
 
+  const handleEstimateDraftDelete = (estimateDraftId: string) => {
+    deleteEstimateDraft(estimateDraftId).then(() => {
+      setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
+    });
+  };
 
   return (
     <React.Fragment>
@@ -33,10 +40,16 @@ const EstimateDrafts = () => {
       {!loading && estimateDrafts.length === 0 && <NoneFound item="drafts" />}
       {!loading && estimateDrafts.length > 0 && (
         <React.Fragment>
-          <EstimatesList
-            estimateDrafts={estimateDrafts}
-            setEstimateDrafts={setEstimateDrafts}
-          />
+          <List>
+            {estimateDrafts.map((estimateDraft: EstimateDraftData) => (
+              <EstimateListItem
+                key={estimateDraft.id}
+                estimate={estimateDraft}
+                handleEstimateDelete={handleEstimateDraftDelete}
+                editLink={'/form?templateId=' + estimateDraft.templateId + '&draftId=' + estimateDraft.id}
+                itemName='Estimate Draft' />
+            ))}
+          </List>
           <EstimatesPagingControls
             estimates={estimateDrafts}
             pageNumber={pageNumber}
