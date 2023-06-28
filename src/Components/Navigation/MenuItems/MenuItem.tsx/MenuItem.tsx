@@ -13,11 +13,15 @@ const MenuItem = (title: string, hrefValue: string, icon: any) => {
 
     const listItemButtonStyle = {
         backgroundColor: selected ? theme.palette.background.default : 'inherit', // Update the background color based on the selected prop
+        color: theme.palette.text.primary,
     };
+
 
     return (
         <Link href={hrefValue} underline="none" noWrap>
-            <ListItemButton style={listItemButtonStyle}>
+            <ListItemButton sx={
+                listItemButtonStyle
+            }>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText
                     primary={

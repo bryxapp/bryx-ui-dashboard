@@ -13,7 +13,6 @@ import logger from "../../logging/logger";
 
 const Estimates: React.FC = () => {
   const theme = useTheme();
-  const textColor = theme.palette.mode === "dark" ? "white" : "black";
   const [activeTab, setActiveTab] = useState<number>(0);
   const location = useLocation();
   const { user } = useAuth0();
@@ -44,7 +43,7 @@ const Estimates: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Typography variant="h3" color={textColor}>
+      <Typography variant="h3" color={theme.palette.text.primary}>
         Estimates
       </Typography>
       <br />
@@ -65,8 +64,18 @@ const Estimates: React.FC = () => {
           textColor="primary"
           indicatorColor="primary"
         >
-          <Tab label="Estimates" />
-          <Tab label="Drafts" />
+          <Tab
+            label="Estimates"
+            sx={{
+              color: activeTab === 0 ? theme.palette.primary.main : theme.palette.text.primary
+            }}
+          />
+          <Tab
+            label="Drafts"
+            sx={{
+              color: activeTab === 1 ? theme.palette.primary.main : theme.palette.text.primary
+            }}
+          />
         </Tabs>
         <Box
           role="tabpanel"

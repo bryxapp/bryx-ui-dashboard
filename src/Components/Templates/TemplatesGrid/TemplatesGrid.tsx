@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
-import List from '@mui/material/List';
-import TemplatesListItem from './TemplatesListItem/TemplatesListItem';
-import { getTemplates } from '../../../utils/templates-api';
+import React, { useEffect, useState } from 'react';
+import Grid from '@mui/material/Grid';
+import TemplatesListItem from './TemplateItem/TemplateItem';
+import { getTemplates, deleteTemplate } from '../../../utils/templates-api';
 import { Typography } from '@mui/material';
-import { deleteTemplate } from '../../../utils/templates-api';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
 import { useAuth0 } from '@auth0/auth0-react';
 import { TemplateData } from '../../../utils/types/TemplateInterfaces';
 
-const TemplatesList = () => {
+const MAX_TEMPLATES = 6;
+
+interface TemplatesGridProps {
+    setMaxReached: any;
+}
+
+const TemplatesGrid = ({setMaxReached}:TemplatesGridProps) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const [loading, setLoading] = useState(true);
     const { user } = useAuth0();
@@ -18,9 +23,12 @@ const TemplatesList = () => {
         if (!userId) return;
         getTemplates(userId).then((response) => {
             setTemplates(response.data);
+            if(templates.length >= MAX_TEMPLATES){
+                setMaxReached(true)
+            }
             setLoading(false);
         });
-    }, [userId]);
+    }, [setMaxReached, templates.length, userId]);
 
     const handleTemplateDelete = (templateId: string) => {
         deleteTemplate(templateId).then(() => {
@@ -35,13 +43,16 @@ const TemplatesList = () => {
             </Typography>
         );
     if (templates.length === 0) return <NoneFound item='templates' />;
+
     return (
-        <List sx={{ width: '100%' }}>
+        <Grid container spacing={2}>
             {templates.map((template) => (
-                <TemplatesListItem key={template.id} template={template} handleTemplateDelete={handleTemplateDelete} />
+                <Grid item xs={12} sm={6} md={4} key={template.id}>
+                    <TemplatesListItem template={template} handleTemplateDelete={handleTemplateDelete} />
+                </Grid>
             ))}
-        </List>
+        </Grid>
     );
 };
 
-export default TemplatesList;
+export default TemplatesGrid;

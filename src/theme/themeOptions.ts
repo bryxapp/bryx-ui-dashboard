@@ -1,22 +1,32 @@
 import { createTheme, ThemeOptions } from '@mui/material/styles';
 
+// Define shared color variables for consistency
+const colors = {
+    primary: '#00ADB5',
+    secondary: '#5D646E',
+    lightText: '#EEEEEE',
+    darkText: '#222831',
+    lightBackground: '#F1F1F1',
+    darkBackground: '#222831',
+};
+
 const lightThemeOptions: ThemeOptions = {
     palette: {
         mode: 'light',
         primary: {
-            main: '#00ADB5',
-            contrastText: '#EEEEEE',
+            main: colors.primary,
+            contrastText: colors.lightText,
         },
         secondary: {
-            main: '#393E46',
+            main: colors.secondary,
         },
         text: {
-            primary: '#222831',
-            secondary: '#393E46',
+            primary: colors.darkText,
+            secondary: colors.lightText,
         },
         background: {
             default: '#FFFFFF',
-            paper: '#F1F1F1',
+            paper: colors.lightBackground,
         },
     }
 };
@@ -25,21 +35,21 @@ const darkThemeOptions: ThemeOptions = {
     palette: {
         mode: 'dark',
         primary: {
-            main: '#00ADB5',
-            contrastText: '#EEEEEE',
+            main: colors.secondary,
+            contrastText: colors.lightText,
         },
         secondary: {
-            main: '#EEEEEE',
+            main: colors.primary,
         },
         text: {
-            primary: '#EEEEEE',
-            secondary: '#BDBDBD',
+            primary: colors.lightText,
+            secondary: colors.darkText,
         },
         background: {
-            default: '#222831',
-            paper: '#393E46',
-        }
-    },
+            default: colors.darkBackground,
+            paper: colors.secondary,
+        },
+    }
 };
 
 export const lightTheme = createTheme(lightThemeOptions);

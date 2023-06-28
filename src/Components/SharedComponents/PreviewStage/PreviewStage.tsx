@@ -22,7 +22,7 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
     width: pageWidth,
     height: pageHeight,
     boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
-    borderRadius: '0.25in',
+    borderRadius: '0.1in',
     margin: 'auto',
     overflow: 'hidden',
     backgroundColor: 'white',

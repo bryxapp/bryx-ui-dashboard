@@ -32,21 +32,11 @@ const SideAppDrawer = () => {
         margin-right: 16px;
     `;
 
-    const MenuIconWrapper = styled(MenuIcon)`
-        color: white;
-        font-size: 2rem;
-    `;
-
-    const CloseIconWrapper = styled(CloseIcon)`
-        color: white;
-        font-size: 2rem;
-    `;
-
     return (
         <>
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                 <MenuButton onClick={handleDrawerOpen}>
-                    <MenuIconWrapper />
+                    <MenuIcon sx={{fontSize:'2rem'}} />
                 </MenuButton>
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
@@ -60,12 +50,12 @@ const SideAppDrawer = () => {
                 onClose={handleDrawerClose}
                 sx={{ display: { xs: 'block', sm: 'none' } }}
             >
-                <Box sx={{ backgroundColor: '#e5e5e5', minHeight: '100vh', padding: '1rem' }}>
+                <Box sx={{ backgroundColor: theme.palette.background.default , minHeight: '100vh', padding: '1rem' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
                         <Typography variant="h4" component="div" sx={{ flexGrow: 1 }} >
                             BRYX
                         </Typography>
-                        <CloseIconWrapper onClick={handleDrawerClose} />
+                        <CloseIcon onClick={handleDrawerClose} sx={{fontSize:'2rem'}} />
                     </Box>
                     <MenuItems />
                 </Box>
