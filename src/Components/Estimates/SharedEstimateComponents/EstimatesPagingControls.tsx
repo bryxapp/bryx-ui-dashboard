@@ -42,7 +42,7 @@ const EstimatesPagingControls = ({ estimates, pageNumber, setPageNumber, PAGE_SI
                     {pageNumber}
                 </Typography>
 
-                <Tooltip title={hasNextPage ? "Go to next page" : "No more pages"}>
+                <Tooltip title={hasNextPage ? "Go to next page" : "No additional pages"}>
                     <span>
                         <Button
                             disabled={!hasNextPage}

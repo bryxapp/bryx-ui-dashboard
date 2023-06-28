@@ -74,27 +74,24 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     width={containerWidth}
                     height={containerHeight}
                     fill='#F5F5F5'
-                    scaleX={textInputObj.isDragging ? 1.1 : 1}
-                    scaleY={textInputObj.isDragging ? 1.1 : 1}
-                />
+                    scaleX={1}
+                    scaleY={1}                />
                 <Text
                     x={5}
                     y={5}
                     text={`${textInputObj.displayName}`}
                     fontSize={16}
                     fill={textInputObj.fill}
-                    scaleX={textInputObj.isDragging ? 1.1 : 1}
-                    scaleY={textInputObj.isDragging ? 1.1 : 1}
-                />
+                    scaleX={1}
+                    scaleY={1}                />
                 <Text
                     x={containerWidth - 20}
                     y={5}
                     text={getIndicator()}
                     fontSize={16}
                     fill={'gray'}
-                    scaleX={textInputObj.isDragging ? 1.1 : 1}
-                    scaleY={textInputObj.isDragging ? 1.1 : 1}
-                />
+                    scaleX={1}
+                    scaleY={1}                />
             </Group>
             {isSelected && (
                 <Transformer
