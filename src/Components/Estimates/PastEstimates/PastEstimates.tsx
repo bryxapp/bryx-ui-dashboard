@@ -76,7 +76,8 @@ const PastEstimates = () => {
                     estimate={estimate}
                     handleEstimateDelete={handleEstimateDelete}
                     editLink={'/view-estimate?estimateId=' + estimate.id}
-                    itemName='Estimate' />
+                    itemName='Estimate'
+                    type="estimate" />
                 ))}
               </List>
               <EstimatesPagingControls

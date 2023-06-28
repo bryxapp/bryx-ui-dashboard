@@ -47,7 +47,8 @@ const EstimateDrafts = () => {
                 estimate={estimateDraft}
                 handleEstimateDelete={handleEstimateDraftDelete}
                 editLink={'/form?templateId=' + estimateDraft.templateId + '&draftId=' + estimateDraft.id}
-                itemName='Estimate Draft' />
+                itemName='Estimate Draft'
+                type="draft" />
             ))}
           </List>
           <EstimatesPagingControls

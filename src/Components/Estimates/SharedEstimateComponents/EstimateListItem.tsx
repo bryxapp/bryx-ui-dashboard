@@ -14,13 +14,14 @@ import EstimatesDeleteDialog from './EstimatesDeleteDialog';
 import EstimatesActionPanel from './EstimatesActionPanel';
 
 interface EstimateListItemProps {
-    estimate: EstimateData |EstimateDraftData;
+    estimate: EstimateData | EstimateDraftData;
+    type: string;
     handleEstimateDelete: (estimateId: string) => void;
     editLink: string;
     itemName: string;
 }
 
-const EstimateListItem = ({ estimate, handleEstimateDelete, editLink, itemName }: EstimateListItemProps) => {
+const EstimateListItem = ({ estimate, handleEstimateDelete, editLink, itemName, type }: EstimateListItemProps) => {
     const displayDate = convertEpochTime(estimate._ts);
     const [open, setOpen] = useState(false);
     const theme = useTheme();
@@ -61,8 +62,7 @@ const EstimateListItem = ({ estimate, handleEstimateDelete, editLink, itemName }
                                     color: theme.palette.text.primary,
                                 }}
                             >
-                                {estimate.estimateName}
-                            </Typography>
+                                {(type === "draft" ? "[DRAFT] " : "") + estimate.estimateName}                            </Typography>
                         }
                         secondary={
                             <Typography
