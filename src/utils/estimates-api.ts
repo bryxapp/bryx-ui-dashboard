@@ -22,10 +22,24 @@ export async function createEstimate(canvasDesign: CanvasDesignData, templateId:
     return axios.post(`${BASE_URL}`, body);
 }
 
-export function getEstimates(user: string,pageSize:number, pageNumber: number) {
-    //get all templates from the api
-    return axios.get(`${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
+export function getEstimates(user: string, pageSize: number, pageNumber: number, searchTerm?: string, templateId?: string) {
+    // Initialize base URL
+    let url = `${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    
+    // Check if searchTerm is provided
+    if(searchTerm) {
+        url += `&searchTerm=${searchTerm}`;
+    }
+
+    // Check if templateId is provided
+    if(templateId) {
+        url += `&templateId=${templateId}`;
+    }
+    
+    // Get all templates from the api
+    return axios.get(url);
 }
+
 
 export function getRecentEstimates(count: number, user: string) {
     //get all templates from the api

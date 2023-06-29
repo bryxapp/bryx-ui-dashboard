@@ -3,12 +3,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import { TemplateData } from "../../../utils/types/TemplateInterfaces";
 import { useTheme } from "@mui/material";
 
 interface EstimatesSearchProps {
-    estimates: EstimateData[];
     templates: TemplateData[];
     searchTerm: string;
     setSearchTerm: (searchTerm: string) => void;
@@ -16,7 +14,7 @@ interface EstimatesSearchProps {
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const EstimatesSearch = ({ estimates, templates, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
+const EstimatesSearch = ({ templates, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
 
@@ -28,8 +26,6 @@ const EstimatesSearch = ({ estimates, templates, searchTerm, setSearchTerm, sele
         setSelectedTemplateId(event.target.value);
     };
 
-    const uniqueTemplateIds = new Set(estimates.map(({ templateId }) => String(templateId)));
-    const filteredTemplates = templates.filter(({ id }) => uniqueTemplateIds.has(String(id)?.toString()));
     return (
         <div style={{ display: "flex", alignItems: "center" }}>
             <div style={{ flex: "1" }}>
@@ -62,7 +58,7 @@ const EstimatesSearch = ({ estimates, templates, searchTerm, setSearchTerm, sele
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        {filteredTemplates.map(({ id, friendlyName }) => (
+                        {templates.map(({ id, friendlyName }) => (
                             <MenuItem key={id} value={id}>
                                 {friendlyName}
                             </MenuItem>
