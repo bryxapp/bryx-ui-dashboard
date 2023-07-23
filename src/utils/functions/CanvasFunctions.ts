@@ -1,4 +1,5 @@
 import { CanvasDesignData, ShapeObj } from '../types/CanvasInterfaces';
+import { generateShapeId } from '../id-util';
 
 export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
@@ -42,4 +43,21 @@ export const selectShape = (id: string | null, canvasDesign: any, setCanvasDesig
         ...canvasDesign,
         selectedId: id,
     });
+};
+
+
+
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, copiedObject: any) => {
+
+    const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
+
+    const pastedObject = JSON.parse(JSON.stringify(copiedObject)); // Make a deep copy of the copiedObject
+    pastedObject.id = generateShapeId(); // Generate a unique ID for the pasted object
+    pastedObject.x = copiedObject.x + 20;
+    pastedObject.y = copiedObject.y + 20;
+
+    updatedCanvasDesign.Shapes.push(pastedObject);
+    updatedCanvasDesign.selectedId = pastedObject.id; // Select the pasted object
+
+    setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
 };

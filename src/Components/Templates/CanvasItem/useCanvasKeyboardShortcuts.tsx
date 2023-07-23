@@ -1,11 +1,15 @@
 import { useEffect } from "react";
-import { deleteShape, moveShape, selectShape } from '../../../utils/functions/CanvasFunctions';
+import { deleteShape, moveShape, selectShape, pasteObject } from "../../../utils/functions/CanvasFunctions";
+import { ShapeObj } from "../../../utils/types/CanvasInterfaces";
 
 export const useCanvasKeyboardShortcuts = ({
   canvasDesign,
   setCanvasDesign,
   setSelectedId,
+  copiedObject,
+  setCopiedObject,
 }: any) => {
+
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       switch (event.key) {
@@ -27,6 +31,18 @@ export const useCanvasKeyboardShortcuts = ({
         case "ArrowRight":
           moveShape({ canvasDesign, setCanvasDesign, direction: "right" });
           break;
+        case "c":
+          if (event.ctrlKey || event.metaKey) {
+            setCopiedObject(canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId) || null);
+          }
+          break;
+        case "v":
+          if (event.ctrlKey || event.metaKey) {
+            if (copiedObject) {
+              pasteObject(canvasDesign, setCanvasDesign, copiedObject); // Adjust the paste position as needed
+            }
+          }
+          break;
         default:
           break;
       }
@@ -37,5 +53,5 @@ export const useCanvasKeyboardShortcuts = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [canvasDesign, setCanvasDesign, setSelectedId]);
+  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject]);
 };

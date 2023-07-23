@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import RectangleShape from '../Shapes/RectangleShape';
 import EllipseShape from '../Shapes/EllipseShape';
@@ -48,8 +49,9 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
             setCanvasDesign(canvasStarter.canvasDesign);
         }
     }
-
-    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign });
+    
+    const [copiedObject, setCopiedObject] = useState<ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj | null>(null);
+    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, copiedObject, setCopiedObject });
 
     const checkDeselect = (e: any) => {
         // deselect when clicked on empty area
