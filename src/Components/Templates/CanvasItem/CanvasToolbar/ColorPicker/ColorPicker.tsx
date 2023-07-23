@@ -12,11 +12,10 @@ interface ColorPickerProps {
     setCanvasDesign: React.SetStateAction<any>;
     color: string;
     setColor: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
 
-export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor, selectedId }: ColorPickerProps) {
+export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor }: ColorPickerProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,7 +32,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         canvasDesign.Shapes.forEach((shape: ShapeObj) => {
             if (shape.id === canvasDesign.selectedId) {
                 updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-                    if (shape.id !== selectedId) {
+                    if (shape.id !== canvasDesign.selectedId) {
                         return shape;
                     }
                     const updatedShape = {
@@ -47,7 +46,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId)?.type.includes('Image')
+    const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type.includes('Image')
 
     return (
         <>
@@ -60,7 +59,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                         color="inherit"
-                        disabled={isLoading || isImage || !selectedId}
+                        disabled={isLoading || isImage || !canvasDesign.selectedId}
                     >
                         <ColorSelectorIcon />
                     </IconButton>

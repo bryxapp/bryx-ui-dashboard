@@ -8,20 +8,19 @@ import { CanvasDesignData, ShapeObj, TextInputObj } from '../../../../../utils/t
 interface InputFormatPickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
 const formats: string[] = ['text', 'number', 'date', 'email', 'phone', 'paragraph', 'currency'];
 
-const InputFormatPicker = ({ canvasDesign, setCanvasDesign, selectedId }: InputFormatPickerProps) => {
+const InputFormatPicker = ({ canvasDesign, setCanvasDesign }: InputFormatPickerProps) => {
 
-    const isTextInput: boolean = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId)?.type?.includes('TextInput') || false;
+    const isTextInput: boolean = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type?.includes('TextInput') || false;
 
     const handleFormatPickerChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
             Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === selectedId) {
+                if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
                         format: event.target.value,
@@ -34,7 +33,7 @@ const InputFormatPicker = ({ canvasDesign, setCanvasDesign, selectedId }: InputF
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextInputFormat = (canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId) as TextInputObj | undefined)?.format ?? '';
+    const selectedTextInputFormat = (canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId) as TextInputObj | undefined)?.format ?? '';
 
     if (!isTextInput) return null;
 

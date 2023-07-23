@@ -8,10 +8,9 @@ import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../..
 interface FontDecorationPickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesign, setCanvasDesign, selectedId }) => {
+const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesign, setCanvasDesign }) => {
     const handleFontDecorationChange = (event: React.MouseEvent<HTMLElement>, newFontDecoration: string[]) => {
         const fontDecoration = newFontDecoration.includes('line-through') && newFontDecoration.includes('underline')
             ? 'underline line-through'
@@ -24,7 +23,7 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesig
         const updatedCanvasDesign = {
             ...canvasDesign,
             Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === selectedId) {
+                if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
                         textDecoration: fontDecoration,
@@ -36,7 +35,7 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesig
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontDecoration = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.textDecoration;
+    const selectedTextItemFontDecoration = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.textDecoration;
 
     const selectedFontDecorations = [];
     if (selectedTextItemFontDecoration?.includes('underline')) {

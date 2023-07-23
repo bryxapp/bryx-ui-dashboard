@@ -19,10 +19,9 @@ interface CanvasToolbarProps {
     postTemplate: any;
     color: string;
     setColor: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate, color, setColor, selectedId }: CanvasToolbarProps) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate, color, setColor }: CanvasToolbarProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
@@ -34,9 +33,9 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                         <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <PublicImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <UserImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} selectedId={selectedId} />
-                        <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                        <LayerManager isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                        <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} />
+                        <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        <LayerManager isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>

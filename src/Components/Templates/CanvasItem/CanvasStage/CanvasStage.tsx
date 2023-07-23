@@ -33,12 +33,10 @@ interface CanvasStageProps {
     setCanvasDesign: React.SetStateAction<any>;
     color: string;
     setColor: React.SetStateAction<any>;
-    selectedId: string | null;
-    setSelectedId: React.SetStateAction<any>;
 }
 
 
-const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setSelectedId }: CanvasStageProps) => {
+const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStageProps) => {
 
     //Parse url to get canvas starter name
     const urlParams = new URLSearchParams(window.location.search);
@@ -51,13 +49,13 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
         }
     }
 
-    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, setSelectedId });
+    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign });
 
     const checkDeselect = (e: any) => {
         // deselect when clicked on empty area
         const clickedOnEmpty = e.target === e.target.getStage();
         if (clickedOnEmpty) {
-            selectShape(null, setSelectedId, canvasDesign, setCanvasDesign);
+            selectShape(null, canvasDesign, setCanvasDesign);
         }
     };
 
@@ -168,10 +166,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
                                             rectangleObj={rectangle}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
-                                            isSelected={rectangle.id === selectedId}
+                                            isSelected={rectangle.id === canvasDesign.selectedId}
                                             onSelect={() => {
                                                 setColor(rectangle.fill)
-                                                selectShape(rectangle.id, setSelectedId, canvasDesign, setCanvasDesign);
+                                                selectShape(rectangle.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />
@@ -184,10 +182,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
                                             ellipseObj={ellipse}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
-                                            isSelected={ellipse.id === selectedId}
+                                            isSelected={ellipse.id === canvasDesign.selectedId}
                                             onSelect={() => {
                                                 setColor(ellipse.fill)
-                                                selectShape(ellipse.id, setSelectedId, canvasDesign, setCanvasDesign);
+                                                selectShape(ellipse.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />
@@ -200,10 +198,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
                                             lineObj={line}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
-                                            isSelected={line.id === selectedId}
+                                            isSelected={line.id === canvasDesign.selectedId}
                                             onSelect={() => {
                                                 setColor(line.stroke)
-                                                selectShape(line.id, setSelectedId, canvasDesign, setCanvasDesign);
+                                                selectShape(line.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />
@@ -216,9 +214,9 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
                                             textInputObj={textInput}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
-                                            isSelected={textInput.id === selectedId}
+                                            isSelected={textInput.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                selectShape(textInput.id, setSelectedId, canvasDesign, setCanvasDesign);
+                                                selectShape(textInput.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />
@@ -233,9 +231,9 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
                                             handleDragEnd={handleDragEnd}
                                             canvasDesign={canvasDesign}
                                             setCanvasDesign={setCanvasDesign}
-                                            isSelected={textField.id === selectedId}
+                                            isSelected={textField.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                selectShape(textField.id, setSelectedId, canvasDesign, setCanvasDesign);
+                                                selectShape(textField.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />
@@ -248,9 +246,9 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor, selectedId, setS
                                             imageObj={image}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
-                                            isSelected={image.id === selectedId}
+                                            isSelected={image.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                selectShape(image.id, setSelectedId, canvasDesign, setCanvasDesign);
+                                                selectShape(image.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />

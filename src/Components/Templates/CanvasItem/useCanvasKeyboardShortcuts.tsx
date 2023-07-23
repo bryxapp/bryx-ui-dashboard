@@ -13,7 +13,7 @@ export const useCanvasKeyboardShortcuts = ({
           deleteShape({ canvasDesign, setCanvasDesign });
           break;
         case "Escape":
-          selectShape(null, setSelectedId, canvasDesign, setCanvasDesign);
+          selectShape(null, canvasDesign, setCanvasDesign);
           break;
         case "ArrowUp":
           moveShape({ canvasDesign, setCanvasDesign, direction: "up" });

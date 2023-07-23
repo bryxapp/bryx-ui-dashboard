@@ -8,10 +8,9 @@ import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../..
 interface FontStylePickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanvasDesign, selectedId }) => {
+const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanvasDesign }) => {
     const handleFontStyleChange = (event: React.MouseEvent<HTMLElement>, newFontStyle: string[]) => {
         const fontStyle = newFontStyle.includes('italic') && newFontStyle.includes('bold')
             ? 'bold italic'
@@ -24,7 +23,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanv
         const updatedCanvasDesign = {
             ...canvasDesign,
             Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === selectedId) {
+                if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
                         fontStyle: fontStyle,
@@ -35,7 +34,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanv
         };
         setCanvasDesign(updatedCanvasDesign);
     };
-    const selectedTextItemFontStyle = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.fontStyle;
+    const selectedTextItemFontStyle = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.fontStyle;
 
     const selectedFontStyles = [];
     if (selectedTextItemFontStyle?.includes('italic')) {

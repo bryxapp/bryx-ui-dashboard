@@ -15,10 +15,9 @@ interface TextStylerProps {
     isLoading: boolean;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<CanvasDesignData>;
-    selectedId: string | null;
 }
 
-function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: TextStylerProps) {
+function TextStyler({ isLoading, canvasDesign, setCanvasDesign }: TextStylerProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -30,7 +29,7 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
         setAnchorEl(null);
     };
 
-    const isTextObject = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId)?.type.includes('Text')
+    const isTextObject = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type.includes('Text')
 
     return (
         <>
@@ -62,13 +61,13 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign, selectedId }: Te
                     },
                 }}
             >
-                <DisplayNameEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                <InputFormatPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                <FontFamilyPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                <DisplayNameEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign}/>
+                <InputFormatPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                <FontFamilyPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                    <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                    <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                 </div>
             </Menu>
         </>

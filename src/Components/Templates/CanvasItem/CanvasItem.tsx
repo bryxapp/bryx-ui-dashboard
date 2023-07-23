@@ -21,7 +21,6 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
     const [templateId, setTemplateId] = useState<string | null>(null);
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [color, setColor] = useState('#000000');
-    const [selectedId, setSelectedId] = useState<string | null>(null);
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
         Shapes: [],
         selectedId: null,
@@ -76,7 +75,6 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
                     postTemplate={OnSave}
                     color={color}
                     setColor={setColor}
-                    selectedId={selectedId}
                 />
             </div>
             <Box sx={{ height: '1vh' }} />
@@ -85,9 +83,7 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
                     canvasDesign={canvasDesign}
                     setCanvasDesign={setCanvasDesign}
                     color={color}
-                    setColor={setColor}
-                    selectedId={selectedId}
-                    setSelectedId={setSelectedId} />
+                    setColor={setColor} />
             </div>
         </div>
     );

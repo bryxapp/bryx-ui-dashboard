@@ -8,16 +8,15 @@ import { IconButton } from '@mui/material';
 interface SendBackwardProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-export default function SendBackward({ canvasDesign, setCanvasDesign, selectedId }: SendBackwardProps) {
+export default function SendBackward({ canvasDesign, setCanvasDesign }: SendBackwardProps) {
 
     const handleSendToBack = (event: any) => {
-        if (!selectedId) return;
+        if (!canvasDesign.selectedId) return;
 
-        const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId);
-        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
+        const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
+        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
 
         const updatedCanvasDesign = {
             ...canvasDesign,
@@ -27,9 +26,9 @@ export default function SendBackward({ canvasDesign, setCanvasDesign, selectedId
     };
 
     const handleSendBackward = (event: any) => {
-        if (!selectedId) return;
+        if (!canvasDesign.selectedId) return;
 
-        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === selectedId);
+        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
         if (selectedIndex === 0) return;
 
         const updatedShapes = [...canvasDesign.Shapes];

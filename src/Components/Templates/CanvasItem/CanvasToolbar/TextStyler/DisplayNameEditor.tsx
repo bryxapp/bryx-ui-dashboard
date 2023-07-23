@@ -7,18 +7,17 @@ import { CanvasDesignData, ShapeObj, TextInputObj } from '../../../../../utils/t
 interface DisplayNameEditorProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCanvasDesign, selectedId }) => {
+const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCanvasDesign }) => {
 
-    const isTextInput: boolean = canvasDesign.Shapes.find((shape:ShapeObj) => shape.id === selectedId)?.type?.includes('TextInput') || false;
+    const isTextInput: boolean = canvasDesign.Shapes.find((shape:ShapeObj) => shape.id === canvasDesign.selectedId)?.type?.includes('TextInput') || false;
 
     const handleDisplayNameChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
             Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === selectedId) {
+                if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
                         displayName: event.target.value,
@@ -31,7 +30,7 @@ const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCa
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextInputDisplayName = (canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId) as TextInputObj | undefined)?.displayName ?? '';
+    const selectedTextInputDisplayName = (canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId) as TextInputObj | undefined)?.displayName ?? '';
 
     if (!isTextInput) return null;
 

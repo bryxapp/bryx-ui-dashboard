@@ -8,16 +8,15 @@ const FONTS = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana'
 interface FontFamilyPickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, selectedId }: FontFamilyPickerProps) {
+export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: FontFamilyPickerProps) {
 
     const handleFontFamilyChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
             Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === selectedId) {
+                if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
                         fontFamily: event.target.value as string,
@@ -29,7 +28,7 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign, select
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontFamily = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.fontFamily;
+    const selectedTextItemFontFamily = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.fontFamily;
 
     return (
         <>

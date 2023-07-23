@@ -8,16 +8,15 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 interface BringForwardProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-export default function BringForward({ canvasDesign, setCanvasDesign, selectedId }: BringForwardProps) {
+export default function BringForward({ canvasDesign, setCanvasDesign }: BringForwardProps) {
 
     const handleBringToFront = (event: any) => {
-        if (!selectedId) return;
+        if (!canvasDesign.selectedId) return;
 
-        const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === selectedId);
-        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
+        const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
+        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
 
         const updatedCanvasDesign = {
             ...canvasDesign,
@@ -27,9 +26,9 @@ export default function BringForward({ canvasDesign, setCanvasDesign, selectedId
     };
 
     const handleBringForward = (event: any) => {
-        if (!selectedId) return;
+        if (!canvasDesign.selectedId) return;
 
-        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === selectedId);
+        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
         if (selectedIndex === canvasDesign.Shapes.length - 1) return;
 
         const updatedShapes = [...canvasDesign.Shapes];

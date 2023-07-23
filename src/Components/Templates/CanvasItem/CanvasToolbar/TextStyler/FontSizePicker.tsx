@@ -8,16 +8,15 @@ const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 interface FontSizePickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
-export default function FontSizePicker({ canvasDesign, setCanvasDesign, selectedId }: FontSizePickerProps) {
+export default function FontSizePicker({ canvasDesign, setCanvasDesign }: FontSizePickerProps) {
 
     const handleFontSizeChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
             Shapes: canvasDesign.Shapes.map((shape:ShapeObj) => {
-                if (shape.id === selectedId) {
+                if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
                         fontSize: event.target.value as number,
@@ -29,7 +28,7 @@ export default function FontSizePicker({ canvasDesign, setCanvasDesign, selected
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontSize = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === selectedId)?.fontSize;
+    const selectedTextItemFontSize = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.fontSize;
 
     return (
         <>

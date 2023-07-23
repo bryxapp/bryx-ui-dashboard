@@ -9,7 +9,7 @@ export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
     });
     canvasDesign.selectedId = null;
     setCanvasDesign(updatedCanvasDesign);
-    selectShape(null, setCanvasDesign, updatedCanvasDesign, setCanvasDesign);
+    selectShape(null, updatedCanvasDesign, setCanvasDesign);
 }
 
 export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => {
@@ -37,8 +37,7 @@ export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => 
     setCanvasDesign(updatedCanvasDesign);
 }
 
-export const selectShape = (id: string | null, setSelectedId: any, canvasDesign: any, setCanvasDesign: any) => {
-    setSelectedId(id);
+export const selectShape = (id: string | null, canvasDesign: any, setCanvasDesign: any) => {
     setCanvasDesign({
         ...canvasDesign,
         selectedId: id,

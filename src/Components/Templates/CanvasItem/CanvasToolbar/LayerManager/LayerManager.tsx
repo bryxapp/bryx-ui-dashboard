@@ -13,11 +13,10 @@ interface LayerManagerProps {
     isLoading: boolean;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    selectedId: string | null;
 }
 
 
-export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign, selectedId }: LayerManagerProps) {
+export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign }: LayerManagerProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -38,7 +37,7 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign,
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                         color="inherit"
-                        disabled={isLoading || !selectedId}
+                        disabled={isLoading || !canvasDesign.selectedId}
                     >
                         <LayerIcon />
                     </IconButton>
@@ -54,8 +53,8 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign,
                 }}
             >
                 <Stack spacing={1}>
-                    <SendBackward canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
-                    <BringForward canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} />
+                    <SendBackward canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <BringForward canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                 </Stack>
             </Menu>
         </>
