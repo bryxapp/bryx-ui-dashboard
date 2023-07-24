@@ -131,7 +131,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                         strokeWidth: Math.max(5, node.strokeWidth() * scaleX),
                         rotation: node.rotation(),
                     } as LineObj;
-                } else if (shape.type === "Rectangle" || shape.type === "TextInput" || shape.type === "TextField" || shape.type === "Image") {
+                } else if (shape.type === "Rectangle" || shape.type === "RoundedRectangle" || shape.type === "TextInput" || shape.type === "TextField" || shape.type === "Image") {
                     updatedCanvasDesign.Shapes[index] = {
                         ...shape,
                         x: node.x(),
@@ -172,6 +172,22 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             onSelect={() => {
                                                 setColor(rectangle.fill)
                                                 selectShape(rectangle.id, canvasDesign, setCanvasDesign);
+                                            }}
+                                            onTransformEnd={onTransformEnd}
+                                        />
+                                    );
+                                case 'RoundedRectangle':
+                                    const roundedRectangle = shape as RectangleObj;
+                                    return (
+                                        <RectangleShape
+                                            key={roundedRectangle.id}
+                                            rectangleObj={roundedRectangle}
+                                            handleDragStart={handleDragStart}
+                                            handleDragEnd={handleDragEnd}
+                                            isSelected={roundedRectangle.id === canvasDesign.selectedId}
+                                            onSelect={() => {
+                                                setColor(roundedRectangle.fill)
+                                                selectShape(roundedRectangle.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
                                         />

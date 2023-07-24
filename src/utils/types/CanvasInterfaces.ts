@@ -1,5 +1,5 @@
 export interface CanvasDesignData {
-    Shapes: (ShapeObj|RectangleObj|EllipseObj|LineObj|TextInputObj|TextFieldObj|ImageObj)[];
+    Shapes: (ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj)[];
     selectedId: string | null;
 }
 
@@ -16,7 +16,8 @@ export interface RectangleObj extends ShapeObj {
     width: number;
     height: number;
     fill: string;
-    type: 'Rectangle';
+    cornerRadius?: number;
+    type: 'Rectangle'|'RoundedRectangle';
 }
 
 export interface EllipseObj extends ShapeObj {
@@ -68,6 +69,6 @@ export interface CanvasStarterData {
     name: string;
     canvasDesign: CanvasDesignData;
 }
-export type ShapeType = 'Rectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';  
+export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';
 
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';

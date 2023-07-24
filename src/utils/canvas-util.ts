@@ -40,6 +40,18 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: E
                     rotation: rectangle.rotation,
                 });
                 break;
+            case 'RoundedRectangle':
+                const roundedRectangle = shape as RectangleObj;
+                konvaShape = new Konva.Rect({
+                    x: roundedRectangle.x,
+                    y: roundedRectangle.y,
+                    width: roundedRectangle.width,
+                    height: roundedRectangle.height,
+                    fill: roundedRectangle.fill,
+                    cornerRadius: roundedRectangle.cornerRadius,
+                    rotation: roundedRectangle.rotation,
+                });
+                break;
             case 'Ellipse':
                 const ellipse = shape as EllipseObj;
                 konvaShape = new Konva.Ellipse({

@@ -15,6 +15,21 @@ export function createRectangleObj(width: number, height: number, fill: string):
     };
 }
 
+export function createRoundedRectangleObj(width: number, height: number, fill: string, cornerRadius: number): RectangleObj {
+    return {
+        id: generateShapeId(),
+        type: 'RoundedRectangle',
+        x: getWebCanvasWidth() / 2,
+        y: getWebCanvasHeight() / 2,
+        rotation: 0,
+        width,
+        height,
+        fill,
+        cornerRadius,
+        isDragging: false,
+    };
+}
+
 export function createEllipseObj(radiusX: number, radiusY:number, fill: string): EllipseObj {
     return {
         id: generateShapeId(),

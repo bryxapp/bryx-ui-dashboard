@@ -3,8 +3,8 @@ import { Rect, Transformer } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../utils/types/CanvasInterfaces';
 
-interface RectangleShapeProps {
-    rectangleObj: RectangleObj;
+interface RoundedRectangleShapeProps {
+    roundedRectangleObj: RectangleObj;
     handleDragStart: any;
     handleDragEnd: any;
     isSelected: boolean;
@@ -12,7 +12,7 @@ interface RectangleShapeProps {
     onTransformEnd: any;
 }
 
-const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: RectangleShapeProps) => {
+const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: RoundedRectangleShapeProps) => {
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {
@@ -29,18 +29,18 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelect
                 onClick={onSelect}
                 onTap={onSelect}
                 ref={shapeRef}
-                id={rectangleObj.id}
-                x={rectangleObj.x}
-                y={rectangleObj.y}
-                width={rectangleObj.width}
-                height={rectangleObj.height}
-                fill={rectangleObj.fill}
-                scaleX={rectangleObj.isDragging ? 1.0: 1}
-                scaleY={rectangleObj.isDragging ? 1.0: 1}
-                rotation={rectangleObj.rotation}
+                id={roundedRectangleObj.id}
+                x={roundedRectangleObj.x}
+                y={roundedRectangleObj.y}
+                width={roundedRectangleObj.width}
+                height={roundedRectangleObj.height}
+                fill={roundedRectangleObj.fill}
+                scaleX={roundedRectangleObj.isDragging ? 1.0: 1}
+                scaleY={roundedRectangleObj.isDragging ? 1.0: 1}
+                rotation={roundedRectangleObj.rotation}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
-                cornerRadius={rectangleObj.cornerRadius? rectangleObj.cornerRadius: 0}
+                cornerRadius={roundedRectangleObj.cornerRadius}
                 draggable
             />
             {isSelected && (
@@ -60,4 +60,4 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelect
     )
 };
 
-export default RectangleShape;
+export default RoundedRectangleShape;

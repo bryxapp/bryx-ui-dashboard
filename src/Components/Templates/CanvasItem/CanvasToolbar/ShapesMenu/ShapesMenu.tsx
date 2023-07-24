@@ -6,6 +6,7 @@ import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
 import AddEllipse from './AddEllipse';
 import AddRectangle from './AddRectangle';
 import AddLine from './AddLine';
+import AddRoundedRectangle from './AddRoundedRectangle';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 interface ShapesMenuProps {
@@ -50,6 +51,7 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
             >
                 <AddLine canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddRoundedRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddEllipse canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </>
