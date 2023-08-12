@@ -32,11 +32,6 @@ export function getTemplates(user: string, token: string) {
     return axios.get(`${BASE_URL}?userId=${user}`, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function getRecentTemplates(count: number, user: string, token: string) {
-    //get all templates from the api
-    return axios.get(`${BASE_URL}?userId=${user}&count=${count}`, { headers: { Authorization: `Bearer ${token}` } });
-}
-
 export function getTemplate(id: string, token: string) {
     return axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
 }

@@ -57,7 +57,7 @@ const PastEstimates = () => {
     if (!userId) return;
     getAccessToken().then((token) => {
       if (!token) return;
-      getTemplates(userId,token).then((response) => {
+      getTemplates(userId, token).then((response) => {
         setTemplates(response.data);
       });
     });
@@ -76,10 +76,13 @@ const PastEstimates = () => {
   }, [userId, pageNumber, searchTerm, selectedTemplateId]);
 
   const handleEstimateDelete = (estimateId: string) => {
-    deleteEstimate(estimateId).then(() => {
-      setEstimates((prevEstimates) =>
-        prevEstimates.filter((estimate) => estimate.id !== estimateId)
-      );
+    getAccessToken().then((token) => {
+      if (!token) return;
+      deleteEstimate(estimateId, token).then(() => {
+        setEstimates((prevEstimates) =>
+          prevEstimates.filter((estimate) => estimate.id !== estimateId)
+        );
+      });
     });
   };
 

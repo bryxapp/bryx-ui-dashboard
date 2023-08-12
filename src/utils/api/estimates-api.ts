@@ -8,7 +8,7 @@ import { EstimateFormFields } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string) {
+export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string, token: string) {
     const estimateImgObj = await createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {
@@ -19,37 +19,31 @@ export async function createEstimate(canvasDesign: CanvasDesignData, templateId:
         estimatePDFHeight: getPDFHeight(),
         estimatePDFWidth: getPDFWidth()
     }
-    return axios.post(`${BASE_URL}`, body);
+    return axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function getEstimates(user: string, pageSize: number, pageNumber: number, searchTerm?: string, templateId?: string) {
+export function getEstimates(user: string, pageSize: number, pageNumber: number, token:string, searchTerm?: string, templateId?: string) {
     // Initialize base URL
     let url = `${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
-    
+
     // Check if searchTerm is provided
-    if(searchTerm) {
+    if (searchTerm) {
         url += `&searchTerm=${searchTerm}`;
     }
 
     // Check if templateId is provided
-    if(templateId) {
+    if (templateId) {
         url += `&templateId=${templateId}`;
     }
-    
+
     // Get all templates from the api
-    return axios.get(url);
+    return axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-
-export function getRecentEstimates(count: number, user: string) {
-    //get all templates from the api
-    return axios.get(`${BASE_URL}/?userId=${user}&pageSize=${count}`);
+export function getEstimate(id: string, token: string) {
+    return axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function getEstimate(id: string) {
-    return axios.get(`${BASE_URL}/${id}`);
-}
-
-export function deleteEstimate(templateId: string) {
-    return axios.delete(`${BASE_URL}/${templateId}`);
+export function deleteEstimate(templateId: string, token: string) {
+    return axios.delete(`${BASE_URL}/${templateId}`, { headers: { Authorization: `Bearer ${token}` } });
 }
