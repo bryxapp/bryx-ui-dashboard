@@ -4,8 +4,8 @@ import TemplatesListItem from './TemplateItem/TemplateItem';
 import { getTemplates, deleteTemplate } from '../../../utils/templates-api';
 import { Typography } from '@mui/material';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
-import { useAuth0 } from '@auth0/auth0-react';
 import { TemplateData } from '../../../utils/types/TemplateInterfaces';
+import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 
 const MAX_TEMPLATES = 6;
 
@@ -16,19 +16,21 @@ interface TemplatesGridProps {
 const TemplatesGrid = ({setMaxReached}:TemplatesGridProps) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const [loading, setLoading] = useState(true);
-    const { user } = useAuth0();
-    const userId = user?.email ? user.email : '';
+    const { userId, getAccessToken } = useAccessToken();
 
     useEffect(() => {
         if (!userId) return;
-        getTemplates(userId).then((response) => {
-            setTemplates(response.data);
-            if(templates.length >= MAX_TEMPLATES){
-                setMaxReached(true)
-            }
-            setLoading(false);
+        getAccessToken().then((token) => {
+            if (!token) return;
+            getTemplates(userId, token).then((response) => {
+                setTemplates(response.data);
+                if (response.data.length >= MAX_TEMPLATES) {
+                    setMaxReached(true);
+                }
+                setLoading(false);
+            });
         });
-    }, [setMaxReached, templates.length, userId]);
+    }, [getAccessToken, setMaxReached, userId]);
 
     const handleTemplateDelete = (templateId: string) => {
         deleteTemplate(templateId).then(() => {

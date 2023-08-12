@@ -5,22 +5,23 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import SelectTemplateListItem from "./SelectTemplateListItem/SelectTemplateListItem";
 import NoneFound from "../../../../SharedComponents/NoneFound/NoneFound";
-import { useAuth0 } from '@auth0/auth0-react';
 import { TemplateData } from "../../../../../utils/types/TemplateInterfaces";
+import { useAccessToken } from "../../../../../utils/customHooks/useAccessToken";
 
 const SelectTemplateList = () => {
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { user } = useAuth0();
-    const userId = user?.email ? user.email : "";
-
+    const { userId, getAccessToken } = useAccessToken();
     useEffect(() => {
         if (!userId) return;
-        getTemplates(userId).then((response) => {
-            setTemplates(response.data);
-            setLoading(false);
+        getAccessToken().then((token) => {
+            if (!token) return;
+            getTemplates(userId, token).then((response) => {
+                setTemplates(response.data);
+                setLoading(false);
+            });
         });
-    }, [userId]);
+    }, [userId, getAccessToken]);
 
     if (loading) return (
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
