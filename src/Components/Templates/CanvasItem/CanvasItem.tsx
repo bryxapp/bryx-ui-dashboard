@@ -1,21 +1,20 @@
 import { useState, useEffect } from "react";
 import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
 import { createTemplate, updateTemplate, getTemplate } from "../../../utils/templates-api";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
 import TemplateName from "./../TemplateName/TemplateName";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
 
 interface CanvasProps {
     isNewCanvas: boolean;
 }
 
 const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
-    const { user } = useAuth0();
-    const userName = user?.email || "";
+    const { userId, getAccessToken } = useAccessToken();
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const [templateId, setTemplateId] = useState<string | null>(null);
@@ -33,24 +32,31 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
             const templateId = params.get('templateId');
             if (templateId) {
                 setTemplateId(templateId);
-                getTemplate(templateId).then((res) => {
-                    setCanvasDesign(res.data.canvasDesign);
-                    setFriendlyName(res.data.friendlyName);
-                    setLoading(false);
+                getAccessToken().then((token) => {
+                    if (!token) return;
+
+                    getTemplate(templateId, token).then((res) => {
+                        setCanvasDesign(res.data.canvasDesign);
+                        setFriendlyName(res.data.friendlyName);
+                        setLoading(false);
+                    });
                 });
             }
         } else {
             setLoading(false);
         }
-    }, [isNewCanvas, location.search]);
+    }, [isNewCanvas, location.search, getAccessToken]);
 
     const OnSave = () => {
         // create or update template
-        if (isNewCanvas) {
-            return createTemplate(canvasDesign, friendlyName, userName);
-        } else if (templateId) {
-            return updateTemplate(templateId, canvasDesign, friendlyName, userName);
-        }
+        getAccessToken().then((token) => {
+            if (!token) return;
+            if (isNewCanvas) {
+                return createTemplate(canvasDesign, friendlyName, userId, token);
+            } else if (templateId) {
+                return updateTemplate(templateId, canvasDesign, friendlyName, userId, token);
+            }
+        });
     };
 
     if (loading) {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
 
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -19,6 +18,7 @@ import EstimateName from './EstimateName/EstimateName';
 import Loading from '../../../SharedComponents/Loading/Loading';
 import PreviewStage from './TemplatePreview/TemplatePreview';
 import Saving from '../../../SharedComponents/Saving/Saving';
+import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 
 const EstimateForm = () => {
 
@@ -34,50 +34,51 @@ const EstimateForm = () => {
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
     const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
-    const { user } = useAuth0();
-    const userName = user?.email || "";
-
+    const { userId, getAccessToken } = useAccessToken();
 
     useEffect(() => {
         if (!templateId) return;
-        getTemplate(templateId)
-            .then((res) => {
-                setTemplateData(res.data);
-                let textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
-                    (shape: ShapeObj) => shape.type === "TextInput"
-                ) as TextInputObj[];
-                setTextInputShapeObjs(textInputs);
-                let newFieldValues: EstimateFormFields = {};
-                textInputs.forEach((textInput: TextInputObj) => {
-                    newFieldValues[textInput.id] = "";
-                });
-                if (draftId) {
-                    getEstimateDraft(draftId)
-                        .then((res) => {
-                            setEstimateName(res.data.estimateName);
-                            const draftFieldValues = res.data.filledFields; //fieldvalues object saved from the last draft
-                            //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
-                            let missingKeys: string[] = [];
-                            Object.keys(draftFieldValues).forEach((key) => {
-                                if (!newFieldValues.hasOwnProperty(key)) {
-                                    missingKeys.push(key);
-                                }
-                                else {
-                                    newFieldValues[key] = draftFieldValues[key];
+        getAccessToken().then((token) => {
+            if (!token) return;
+            getTemplate(templateId, token)
+                .then((res) => {
+                    setTemplateData(res.data);
+                    let textInputs: TextInputObj[] = res.data.canvasDesign.Shapes.filter(
+                        (shape: ShapeObj) => shape.type === "TextInput"
+                    ) as TextInputObj[];
+                    setTextInputShapeObjs(textInputs);
+                    let newFieldValues: EstimateFormFields = {};
+                    textInputs.forEach((textInput: TextInputObj) => {
+                        newFieldValues[textInput.id] = "";
+                    });
+                    if (draftId) {
+                        getEstimateDraft(draftId)
+                            .then((res) => {
+                                setEstimateName(res.data.estimateName);
+                                const draftFieldValues = res.data.filledFields; //fieldvalues object saved from the last draft
+                                //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
+                                let missingKeys: string[] = [];
+                                Object.keys(draftFieldValues).forEach((key) => {
+                                    if (!newFieldValues.hasOwnProperty(key)) {
+                                        missingKeys.push(key);
+                                    }
+                                    else {
+                                        newFieldValues[key] = draftFieldValues[key];
+                                    }
+                                });
+                                setFieldValues(newFieldValues);
+                                if (missingKeys.length > 0) {
+                                    alert("There were fields in the draft that are no longer in the template.")
                                 }
                             });
-                            setFieldValues(newFieldValues);
-                            if (missingKeys.length > 0) {
-                                alert("There were fields in the draft that are no longer in the template.")
-                            }
-                        });
-                }
+                    }
 
-                setFieldValues(newFieldValues);
-                setLoading(false);
-            });
+                    setFieldValues(newFieldValues);
+                    setLoading(false);
+                });
+        });
 
-    }, [draftId, templateId]);
+    }, [draftId, templateId, getAccessToken]);
 
 
 
@@ -88,7 +89,7 @@ const EstimateForm = () => {
                 return;
             }
 
-            const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userName);
+            const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userId);
             if (draftId) deleteEstimateDraft(draftId); //delete the draft if it exists
 
             // Wait for 2 seconds before navigating to the estimate page
@@ -110,10 +111,10 @@ const EstimateForm = () => {
             }
             if (!draftId) {
 
-                await createEstimateDraft(templateData.id, estimateName, fieldValues, userName);
+                await createEstimateDraft(templateData.id, estimateName, fieldValues, userId);
             }
             else {
-                await updateEstimateDraft(templateData.id, estimateName, fieldValues, userName, draftId);
+                await updateEstimateDraft(templateData.id, estimateName, fieldValues, userId, draftId);
             }
 
             window.location.href = "/?tab=1";

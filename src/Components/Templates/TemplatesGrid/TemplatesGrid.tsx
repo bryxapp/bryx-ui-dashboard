@@ -13,7 +13,7 @@ interface TemplatesGridProps {
     setMaxReached: any;
 }
 
-const TemplatesGrid = ({setMaxReached}:TemplatesGridProps) => {
+const TemplatesGrid = ({ setMaxReached }: TemplatesGridProps) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const [loading, setLoading] = useState(true);
     const { userId, getAccessToken } = useAccessToken();
@@ -33,9 +33,13 @@ const TemplatesGrid = ({setMaxReached}:TemplatesGridProps) => {
     }, [getAccessToken, setMaxReached, userId]);
 
     const handleTemplateDelete = (templateId: string) => {
-        deleteTemplate(templateId).then(() => {
-            setTemplates(templates.filter((template: TemplateData) => template.id !== templateId));
-        });
+        getAccessToken().then((token) => {
+            if (!token) return;
+            deleteTemplate(templateId, token).then(() => {
+                setTemplates(templates.filter((template: TemplateData) => template.id !== templateId));
+            });
+        }
+        );
     };
 
     if (loading)
