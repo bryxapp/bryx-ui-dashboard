@@ -31,7 +31,7 @@ const ViewEstimate = () => {
                 getEstimate(estimateId, token)
                     .then((res) => {
                         setEstimate(res.data);
-                        getEstimateComments(estimateId).then((res) => {
+                        getEstimateComments(estimateId,token).then((res) => {
                             setEstimateComments(res.data);
                             setLoading(false);
                         }).catch

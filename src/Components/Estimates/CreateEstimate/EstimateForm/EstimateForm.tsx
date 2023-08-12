@@ -52,7 +52,7 @@ const EstimateForm = () => {
                         newFieldValues[textInput.id] = "";
                     });
                     if (draftId) {
-                        getEstimateDraft(draftId)
+                        getEstimateDraft(draftId, token)
                             .then((res) => {
                                 setEstimateName(res.data.estimateName);
                                 const draftFieldValues = res.data.filledFields; //fieldvalues object saved from the last draft
@@ -89,7 +89,7 @@ const EstimateForm = () => {
             getAccessToken().then(async (token) => {
                 if (!token) return;
                 const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userId, token);
-                if (draftId) deleteEstimateDraft(draftId); //delete the draft if it exists
+                if (draftId) deleteEstimateDraft(draftId, token); //delete the draft if it exists
 
                 // Wait for 2 seconds before navigating to the estimate page
                 await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -110,13 +110,15 @@ const EstimateForm = () => {
             if (!templateData) {
                 return;
             }
-            if (!draftId) {
-
-                await createEstimateDraft(templateData.id, estimateName, fieldValues, userId);
-            }
-            else {
-                await updateEstimateDraft(templateData.id, estimateName, fieldValues, userId, draftId);
-            }
+            getAccessToken().then(async (token) => {
+                if (!token) return;
+                if (!draftId) {
+                    await createEstimateDraft(templateData.id, estimateName, fieldValues, userId, token);
+                }
+                else {
+                    await updateEstimateDraft(templateData.id, estimateName, fieldValues, userId, draftId, token);
+                }
+            });
 
             window.location.href = "/?tab=1";
         } catch (error) {

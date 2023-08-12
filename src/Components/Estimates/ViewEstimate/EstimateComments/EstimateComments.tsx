@@ -7,6 +7,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 
 interface EstimateCommentsProps {
     estimateId: string;
@@ -17,15 +18,18 @@ interface EstimateCommentsProps {
 
 const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, commentsError }: EstimateCommentsProps) => {
     const [newComment, setNewComment] = useState('');
+    const { userId, getAccessToken } = useAccessToken();
     const { user } = useAuth0();
-    const userEmail = user?.email || '';
-    const userName = user?.nickname || userEmail;
+    const userEmail = user?.email || 'Unknown User';
 
     const handleEstimateCommentDelete = (estimateId: string) => {
-        deleteEstimateComment(estimateId).then(() => {
-            setEstimateComments((prevComments: any) =>
-                prevComments.filter((estimate: EstimateData) => estimate.id !== estimateId)
-            );
+        getAccessToken().then((token) => {
+            if (!token) return;
+            deleteEstimateComment(estimateId, token).then(() => {
+                setEstimateComments((prevComments: any) =>
+                    prevComments.filter((estimate: EstimateData) => estimate.id !== estimateId)
+                );
+            });
         });
     };
 
@@ -33,14 +37,17 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         if (newComment.trim() === '') {
             return;
         }
-        createEstimateComment(userEmail, userName, estimateId, newComment)
-            .then((res) => {
-                setEstimateComments((prevComments: any) => [res.data.estimateComment, ...prevComments]);
-                setNewComment('');
-            })
-            .catch(() => {
-                // Handle error if adding comment fails
-            });
+        getAccessToken().then((token) => {
+            if (!token) return;
+            createEstimateComment(userEmail, userId, estimateId, userId, token)
+                .then((res) => {
+                    setEstimateComments((prevComments: any) => [res.data.estimateComment, ...prevComments]);
+                    setNewComment('');
+                })
+                .catch(() => {
+                    // Handle error if adding comment fails
+                });
+        });
     };
 
     if (commentsError) {

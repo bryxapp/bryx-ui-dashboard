@@ -8,6 +8,7 @@ import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInt
 import { createImageObj } from '../../../../../utils/types/ShapesFactory';
 import { deleteImage } from '../../../../../utils/api/user-images-api';
 import Box from '@mui/material/Box';
+import { useAccessToken } from '../../../../../utils/customHooks/useAccessToken';
 
 interface UserImageProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
@@ -27,6 +28,7 @@ type ImageData = {
 
 
 export default function UserImageCard({ setCanvasDesign, imageData, setAnchorEl, userImages, setUserImages }: UserImageProps) {
+    const { getAccessToken } = useAccessToken();
 
     const handleImageClick = useCallback((imageData: ImageData) => {
         //Create a canvas image object
@@ -42,17 +44,31 @@ export default function UserImageCard({ setCanvasDesign, imageData, setAnchorEl,
 
     const handleImageDelete = useCallback(
         async (selectedToDeleteImageUrl: string) => {
-            // Delete the image using the API utility
-            let imageDBIdToDelete = userImages.find((image) => image.url === selectedToDeleteImageUrl)?.imageDbId;
-            if (!imageDBIdToDelete) return;
-            await deleteImage(imageDBIdToDelete);
-            // Remove the deleted image from the local state
-            setUserImages((prevImages) =>
-                prevImages.filter((imageData) => imageData.url !== selectedToDeleteImageUrl)
-            );
+            try {
+                // Find the image database ID to delete
+                const imageDBIdToDelete = userImages.find((image) => image.url === selectedToDeleteImageUrl)?.imageDbId;
+
+                if (!imageDBIdToDelete) return;
+
+                // Get the access token
+                const token = await getAccessToken();
+                if (!token) return;
+
+                // Delete the image using the API utility
+                await deleteImage(imageDBIdToDelete, token);
+
+                // Remove the deleted image from the local state
+                setUserImages((prevImages) =>
+                    prevImages.filter((imageData) => imageData.url !== selectedToDeleteImageUrl)
+                );
+            } catch (error) {
+                // Handle error as needed
+                console.error(error);
+            }
         },
-        [setUserImages, userImages]
+        [getAccessToken, setUserImages, userImages]
     );
+
 
 
     return (

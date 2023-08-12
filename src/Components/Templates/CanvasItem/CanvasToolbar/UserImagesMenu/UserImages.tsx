@@ -7,11 +7,11 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { useAuth0 } from '@auth0/auth0-react';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import { getUserImages, uploadImage } from '../../../../../utils/api/user-images-api';
 import Loading from '../../../../SharedComponents/Loading/Loading';
 import UserImageCard from './UserImageCard';
+import { useAccessToken } from '../../../../../utils/customHooks/useAccessToken';
 
 interface UserImagesMenuProps {
     isLoading: boolean;
@@ -30,25 +30,36 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
     const [fetchingUserImages, setFetchingUserImages] = useState(true);
-    const { user } = useAuth0();
-    const userId = user?.email || '';
+    const { userId, getAccessToken } = useAccessToken();
 
     const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (!file) return;
-        setFetchingUserImages(true);
-        await uploadImage(userId, file);
-        await getUserImages(userId).then(async (response) => {
+        if (!file || !userId) return;
+
+        try {
+            setFetchingUserImages(true);
+            const token = await getAccessToken();
+            if (!token) return;
+
+            await uploadImage(userId, file, token);
+            const response = await getUserImages(userId, token);
             const results = response.data;
+
             const imagePromises = results.map(async (image: ImageApiResponse) => {
                 const { width, height } = await getImageDimensions(image.imageBlobUrl);
                 return { url: image.imageBlobUrl, width, height, imageDbId: image.id };
             });
+
             const imageData = await Promise.all(imagePromises);
             setUserImages(imageData);
+        } catch (error) {
+            // Handle error as needed
+            console.error(error);
+        } finally {
             setFetchingUserImages(false);
-        });
-    }, [userId]);
+        }
+    }, [userId, getAccessToken]);
+
 
 
     useEffect(() => {
@@ -56,22 +67,41 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
             setFetchingUserImages(false);
             return;
         }
+
+        let isCancelled = false; // Cancellation token
+
         const fetchUserImages = async () => {
-            const response = await getUserImages(userId);
-            const results = response.data;
+            try {
+                const token = await getAccessToken();
+                if (!token || isCancelled) return;
 
-            const imagePromises = results.map(async (image: any) => {
-                const { width, height } = await getImageDimensions(image.imageBlobUrl);
-                return { url: image.imageBlobUrl, width, height, imageDbId: image.id };
-            });
+                const response = await getUserImages(userId, token);
+                const results = response.data;
 
-            const imageData = await Promise.all(imagePromises);
-            setUserImages(imageData);
-            setFetchingUserImages(false);
+                const imagePromises = results.map(async (image: any) => {
+                    const { width, height } = await getImageDimensions(image.imageBlobUrl);
+                    return { url: image.imageBlobUrl, width, height, imageDbId: image.id };
+                });
+
+                const imageData = await Promise.all(imagePromises);
+
+                if (!isCancelled) {
+                    setUserImages(imageData);
+                    setFetchingUserImages(false);
+                }
+            } catch (error) {
+                // Handle error as needed
+                console.error(error);
+            }
         };
 
         fetchUserImages();
-    }, [userId]);
+
+        return () => {
+            isCancelled = true; // Cancel any pending async operations if the component unmounts
+        };
+    }, [userId, getAccessToken]);
+
 
     const getImageDimensions = (url: string): Promise<{ width: number; height: number }> => {
         return new Promise((resolve, reject) => {
