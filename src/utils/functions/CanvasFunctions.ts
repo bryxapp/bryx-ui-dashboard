@@ -1,5 +1,5 @@
 import { CanvasDesignData, ShapeObj } from '../types/CanvasInterfaces';
-import { generateShapeId } from '../id-util';
+import { generateShapeId } from '../shapeid-util';
 
 export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };

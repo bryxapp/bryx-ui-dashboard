@@ -1,4 +1,4 @@
-import { generateShapeId } from '../id-util';
+import { generateShapeId } from '../shapeid-util';
 import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
 import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from './CanvasInterfaces';
 export function createRectangleObj(width: number, height: number, fill: string): RectangleObj {

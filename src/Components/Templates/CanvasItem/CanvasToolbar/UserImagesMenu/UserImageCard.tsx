@@ -6,7 +6,7 @@ import CardMedia from '@mui/material/CardMedia';
 import DeleteIcon from '@mui/icons-material/Clear';
 import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { createImageObj } from '../../../../../utils/types/ShapesFactory';
-import { deleteImage } from '../../../../../utils/user-images-api';
+import { deleteImage } from '../../../../../utils/api/user-images-api';
 import Box from '@mui/material/Box';
 
 interface UserImageProps {

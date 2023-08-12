@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { useLocation } from 'react-router-dom';
-import { getEstimate } from "../../../utils/estimates-api";
-import { getEstimateComments } from "../../../utils/estimate-comments-api";
+import { getEstimate } from "../../../utils/api/estimates-api";
+import { getEstimateComments } from "../../../utils/api/estimate-comments-api";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import Loading from "../../SharedComponents/Loading/Loading";
 import EstimateComments from "./EstimateComments/EstimateComments";

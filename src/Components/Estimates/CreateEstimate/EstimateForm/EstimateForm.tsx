@@ -4,9 +4,9 @@ import { useLocation } from 'react-router-dom';
 import { Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-import { createEstimate } from '../../../../utils/estimates-api';
-import { getEstimateDraft, createEstimateDraft, updateEstimateDraft, deleteEstimateDraft } from '../../../../utils/estimate-drafts-api';
-import { getTemplate } from '../../../../utils/templates-api';
+import { createEstimate } from '../../../../utils/api/estimates-api';
+import { getEstimateDraft, createEstimateDraft, updateEstimateDraft, deleteEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
+import { getTemplate } from '../../../../utils/api/templates-api';
 
 import { ShapeObj, TextInputObj } from '../../../../utils/types/CanvasInterfaces';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';

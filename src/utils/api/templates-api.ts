@@ -1,7 +1,7 @@
 //Methods for creating and updating templates using axios
 
 import axios from 'axios';
-import { CanvasDesignData } from './types/CanvasInterfaces';
+import { CanvasDesignData } from '../types/CanvasInterfaces';
 const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
 

@@ -5,7 +5,7 @@ import Menu from '@mui/material/Menu';
 import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import Tooltip from '@mui/material/Tooltip';
 import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInterfaces';
-import { searchUnsplashImages } from '../../../../../utils/unsplash-images-api';
+import { searchUnsplashImages } from '../../../../../utils/api/unsplash-images-api';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';

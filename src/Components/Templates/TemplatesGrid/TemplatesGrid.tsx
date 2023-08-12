@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
-import { getTemplates, deleteTemplate } from '../../../utils/templates-api';
+import { getTemplates, deleteTemplate } from '../../../utils/api/templates-api';
 import { Typography } from '@mui/material';
 import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
 import { TemplateData } from '../../../utils/types/TemplateInterfaces';

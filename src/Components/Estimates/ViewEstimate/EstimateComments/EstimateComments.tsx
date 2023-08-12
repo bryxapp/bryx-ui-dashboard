@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import List from '@mui/material/List';
 import EstimateComment from './EstimateComment/EstimateComment';
-import { deleteEstimateComment, createEstimateComment } from '../../../../utils/estimate-comments-api';
+import { deleteEstimateComment, createEstimateComment } from '../../../../utils/api/estimate-comments-api';
 import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';

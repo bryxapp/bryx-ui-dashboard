@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { getEstimates } from "../../../utils/estimates-api";
-import { getTemplates } from "../../../utils/templates-api";
+import { getEstimates } from "../../../utils/api/estimates-api";
+import { getTemplates } from "../../../utils/api/templates-api";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import { TemplateData } from "../../../utils/types/TemplateInterfaces";
 import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
 import EstimatesSearch from "../SharedEstimateComponents/EstimatesSearch";
-import { deleteEstimate } from "../../../utils/estimates-api";
+import { deleteEstimate } from "../../../utils/api/estimates-api";
 import { List } from "@mui/material";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import _ from "lodash"; // Import lodash

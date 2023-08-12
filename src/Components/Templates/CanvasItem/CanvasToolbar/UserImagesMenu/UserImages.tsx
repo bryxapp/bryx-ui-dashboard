@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useAuth0 } from '@auth0/auth0-react';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
-import { getUserImages, uploadImage } from '../../../../../utils/user-images-api';
+import { getUserImages, uploadImage } from '../../../../../utils/api/user-images-api';
 import Loading from '../../../../SharedComponents/Loading/Loading';
 import UserImageCard from './UserImageCard';
 

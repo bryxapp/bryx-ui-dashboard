@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { EstimateFormFields } from './types/EstimateInterfaces';
+import { EstimateFormFields } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimateDrafts";
 

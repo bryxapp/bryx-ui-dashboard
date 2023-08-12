@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
-import { createTemplate, updateTemplate, getTemplate } from "../../../utils/templates-api";
+import { createTemplate, updateTemplate, getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";

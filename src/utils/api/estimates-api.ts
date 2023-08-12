@@ -1,10 +1,10 @@
 //Methods for creating and updating templates using axios
 
 import axios from 'axios';
-import { createStage } from './canvas-util';
-import { getPDFHeight, getPDFWidth } from './page-util';
-import { CanvasDesignData } from './types/CanvasInterfaces';
-import { EstimateFormFields } from './types/EstimateInterfaces';
+import { createStage } from '../canvas-util';
+import { getPDFHeight, getPDFWidth } from '../page-util';
+import { CanvasDesignData } from '../types/CanvasInterfaces';
+import { EstimateFormFields } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
