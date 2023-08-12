@@ -54,14 +54,13 @@ const PastEstimates = () => {
 
   useEffect(() => {
     setEstimateRequestCompleted(false);
-    if (!userId) return;
     getAccessToken().then((token) => {
       if (!token) return;
-      getTemplates(userId, token).then((response) => {
+      getTemplates(token).then((response) => {
         setTemplates(response.data);
       });
     });
-  }, [userId, getAccessToken]);
+  }, [getAccessToken]);
 
   useEffect(() => {
     if (!userId) return;

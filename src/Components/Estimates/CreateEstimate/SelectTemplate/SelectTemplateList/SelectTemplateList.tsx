@@ -11,17 +11,16 @@ import { useAccessToken } from "../../../../../utils/customHooks/useAccessToken"
 const SelectTemplateList = () => {
     const [templates, setTemplates] = useState([]);
     const [loading, setLoading] = useState(true);
-    const { userId, getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAccessToken();
     useEffect(() => {
-        if (!userId) return;
         getAccessToken().then((token) => {
             if (!token) return;
-            getTemplates(userId, token).then((response) => {
+            getTemplates(token).then((response) => {
                 setTemplates(response.data);
                 setLoading(false);
             });
         });
-    }, [userId, getAccessToken]);
+    }, [getAccessToken]);
 
     if (loading) return (
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>

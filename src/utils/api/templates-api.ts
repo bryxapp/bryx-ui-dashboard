@@ -27,9 +27,9 @@ export function updateTemplate(templateId: string, canvasDesign: CanvasDesignDat
     return axios.put(`${BASE_URL}/${templateId}`, body, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function getTemplates(user: string, token: string) {
+export function getTemplates(token: string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?userId=${user}`, { headers: { Authorization: `Bearer ${token}` } });
+    return axios.get(`${BASE_URL}`, { headers: { Authorization: `Bearer ${token}` } });
 }
 
 export function getTemplate(id: string, token: string) {
