@@ -27,25 +27,24 @@ const PastEstimates = () => {
 
   const loadEstimates = useRef(
     _.debounce(
-      (
+      async (
         userId: string,
         pageSize: number,
         pageNumber: number,
+        token: string,
         searchTerm: string,
         selectedTemplateId: string
       ) => {
-        getAccessToken().then((token) => {
-          if (!token) return;
-          getEstimates(
-            userId,
-            pageSize,
-            pageNumber,
-            searchTerm,
-            selectedTemplateId
-          ).then((response) => {
-            setEstimates(response.data);
-            setEstimateRequestCompleted(true);
-          });
+        getEstimates(
+          userId,
+          pageSize,
+          pageNumber,
+          token,
+          searchTerm,
+          selectedTemplateId
+        ).then((response) => {
+          setEstimates(response.data);
+          setEstimateRequestCompleted(true);
         });
       },
       500
@@ -64,15 +63,18 @@ const PastEstimates = () => {
 
   useEffect(() => {
     if (!userId) return;
-
-    loadEstimates.current(
-      userId,
-      PAGE_SIZE,
-      pageNumber,
-      searchTerm,
-      selectedTemplateId
-    );
-  }, [userId, pageNumber, searchTerm, selectedTemplateId]);
+    getAccessToken().then((token) => {
+      if (!token) return;
+      loadEstimates.current(
+        userId,
+        PAGE_SIZE,
+        pageNumber,
+        token,
+        searchTerm,
+        selectedTemplateId
+      );
+    });
+  }, [userId, pageNumber, searchTerm, selectedTemplateId, getAccessToken]);
 
   const handleEstimateDelete = (estimateId: string) => {
     getAccessToken().then((token) => {
