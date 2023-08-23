@@ -10,9 +10,10 @@ interface RectangleShapeProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
+    handleDragMove: any;
 }
 
-const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: RectangleShapeProps) => {
+const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove }: RectangleShapeProps) => {
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {
@@ -40,6 +41,7 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelect
                 rotation={rectangleObj.rotation}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
+                onDragMove={handleDragMove}
                 cornerRadius={rectangleObj.cornerRadius? rectangleObj.cornerRadius: 0}
                 draggable
             />
