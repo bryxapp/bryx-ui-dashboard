@@ -13,6 +13,7 @@ import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
 import { selectShape } from '../../../../utils/functions/CanvasFunctions';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
+import Konva from 'konva';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
 const pageWidth = getWebCanvasWidth();
@@ -28,6 +29,23 @@ const PiecePaper = styled('div')({
     overflow: 'hidden',
     backgroundColor: 'white',
 });
+
+const GUIDELINE_OFFSET = 5;
+
+type Snap = "start" | "center" | "end";
+type SnappingEdges = {
+    vertical: Array<{
+        guide: number;
+        offset: number;
+        snap: Snap;
+    }>;
+    horizontal: Array<{
+        guide: number;
+        offset: number;
+        snap: Snap;
+    }>;
+};
+
 
 interface CanvasStageProps {
     canvasDesign: CanvasDesignData;
@@ -49,7 +67,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
             setCanvasDesign(canvasStarter.canvasDesign);
         }
     }
-    
+
     const [copiedObject, setCopiedObject] = useState<ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj | null>(null);
     useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, copiedObject, setCopiedObject });
 
@@ -81,6 +99,11 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
     };
 
     const handleDragEnd = (e: any) => {
+        // clear all guide lines on the screen
+        const layer = e.target.getLayer();
+        layer.find(".guid-line").forEach((l: Konva.Shape) => l.destroy());
+
+        //Update shape
         const id = e.target.id();
         const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
 
@@ -147,6 +170,261 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
         setCanvasDesign(updatedCanvasDesign);
     };
 
+    const getLineGuideStops = (currentShape: Konva.Shape) => {
+        // we can snap to stage borders and the center of the stage
+        const vertical = [0, pageWidth / 2, pageWidth];
+        const horizontal = [0, pageHeight / 2, pageHeight];
+        //get stage 
+        var shapes = currentShape.getStage()?.children?.at(0)?.children;
+        if (!shapes) return { vertical: [], horizontal: [] };
+
+        // and we snap over edges and center of each object on the canvas
+        shapes.forEach((shape) => {
+            if (shape.attrs.id === currentShape.attrs.id) {
+                return;
+            }
+            const boundingBox = shape.getClientRect();
+
+            // and we can snap to all edges of shapes
+            vertical.push(boundingBox.x, boundingBox.x + boundingBox.width, boundingBox.x + boundingBox.width / 2);
+            horizontal.push(boundingBox.y, boundingBox.y + boundingBox.height, boundingBox.y + boundingBox.height / 2);
+        });
+
+        return {
+            vertical,
+            horizontal
+        };
+    };
+
+    const getObjectSnappingEdges = React.useCallback(
+        (node: Konva.Shape): SnappingEdges => {
+            const box = node.getClientRect();
+            const absPos = node.absolutePosition();
+
+            return {
+                vertical: [
+                    {
+                        guide: Math.round(box.x),
+                        offset: Math.round(absPos.x - box.x),
+                        snap: "start"
+                    },
+                    {
+                        guide: Math.round(box.x + box.width / 2),
+                        offset: Math.round(absPos.x - box.x - box.width / 2),
+                        snap: "center"
+                    },
+                    {
+                        guide: Math.round(box.x + box.width),
+                        offset: Math.round(absPos.x - box.x - box.width),
+                        snap: "end"
+                    }
+                ],
+                horizontal: [
+                    {
+                        guide: Math.round(box.y),
+                        offset: Math.round(absPos.y - box.y),
+                        snap: "start"
+                    },
+                    {
+                        guide: Math.round(box.y + box.height / 2),
+                        offset: Math.round(absPos.y - box.y - box.height / 2),
+                        snap: "center"
+                    },
+                    {
+                        guide: Math.round(box.y + box.height),
+                        offset: Math.round(absPos.y - box.y - box.height),
+                        snap: "end"
+                    }
+                ]
+            };
+        },
+        []
+    );
+
+    const getGuides = React.useCallback(
+        (
+            lineGuideStops: ReturnType<typeof getLineGuideStops>,
+            itemBounds: ReturnType<typeof getObjectSnappingEdges>
+        ) => {
+            const resultV: Array<{
+                lineGuide: number;
+                diff: number;
+                snap: Snap;
+                offset: number;
+            }> = [];
+
+            const resultH: Array<{
+                lineGuide: number;
+                diff: number;
+                snap: Snap;
+                offset: number;
+            }> = [];
+
+            lineGuideStops.vertical.forEach((lineGuide) => {
+                itemBounds.vertical.forEach((itemBound) => {
+                    const diff = Math.abs(lineGuide - itemBound.guide);
+                    if (diff < GUIDELINE_OFFSET) {
+                        resultV.push({
+                            lineGuide: lineGuide,
+                            diff: diff,
+                            snap: itemBound.snap,
+                            offset: itemBound.offset
+                        });
+                    }
+                });
+            });
+
+            lineGuideStops.horizontal.forEach((lineGuide) => {
+                itemBounds.horizontal.forEach((itemBound) => {
+                    const diff = Math.abs(lineGuide - itemBound.guide);
+                    if (diff < GUIDELINE_OFFSET) {
+                        resultH.push({
+                            lineGuide: lineGuide,
+                            diff: diff,
+                            snap: itemBound.snap,
+                            offset: itemBound.offset
+                        });
+                    }
+                });
+            });
+
+            const guides: Array<{
+                lineGuide: number;
+                offset: number;
+                orientation: "V" | "H";
+                snap: "start" | "center" | "end";
+            }> = [];
+
+            const minV = resultV.sort((a, b) => a.diff - b.diff)[0];
+            const minH = resultH.sort((a, b) => a.diff - b.diff)[0];
+
+            if (minV) {
+                guides.push({
+                    lineGuide: minV.lineGuide,
+                    offset: minV.offset,
+                    orientation: "V",
+                    snap: minV.snap
+                });
+            }
+
+            if (minH) {
+                guides.push({
+                    lineGuide: minH.lineGuide,
+                    offset: minH.offset,
+                    orientation: "H",
+                    snap: minH.snap
+                });
+            }
+
+            return guides;
+        },
+        []
+    );
+
+    const drawGuides = React.useCallback(
+        (guides: ReturnType<typeof getGuides>, layer: Konva.Layer) => {
+            guides.forEach((lg) => {
+                if (lg.orientation === "H") {
+                    const line = new Konva.Line({
+                        points: [-6000, 0, 6000, 0],
+                        stroke: "rgb(0, 161, 255)",
+                        strokeWidth: 1,
+                        name: "guid-line",
+                        dash: [4, 6]
+                    });
+                    layer.add(line);
+                    line.absolutePosition({
+                        x: 0,
+                        y: lg.lineGuide
+                    });
+                } else if (lg.orientation === "V") {
+                    const line = new Konva.Line({
+                        points: [0, -6000, 0, 6000],
+                        stroke: "rgb(0, 161, 255)",
+                        strokeWidth: 1,
+                        name: "guid-line",
+                        dash: [4, 6]
+                    });
+                    layer.add(line);
+                    line.absolutePosition({
+                        x: lg.lineGuide,
+                        y: 0
+                    });
+                }
+            });
+        },
+        []
+    );
+
+    const handleDragMove = React.useCallback(
+        (e: Konva.KonvaEventObject<DragEvent>) => {
+            const layer = e.target.getLayer();
+            // clear all previous lines on the screen
+            layer.find(".guid-line").forEach((l: Konva.Shape) => l.destroy());
+            // find possible snapping lines
+            const lineGuideStops = getLineGuideStops(e.target as Konva.Shape);
+            // find snapping points of current object
+            const itemBounds = getObjectSnappingEdges(e.target as Konva.Shape);
+            // now find where can we snap current object
+            const guides = getGuides(lineGuideStops, itemBounds);
+
+            // do nothing if no snapping
+            if (!guides.length) {
+                return;
+            }
+
+            drawGuides(guides, layer);
+
+            const absPos = e.target.absolutePosition();
+            // now force object position
+            guides.forEach((lg) => {
+                switch (lg.snap) {
+                    case "start": {
+                        switch (lg.orientation) {
+                            case "V": {
+                                absPos.x = lg.lineGuide + lg.offset;
+                                break;
+                            }
+                            case "H": {
+                                absPos.y = lg.lineGuide + lg.offset;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case "center": {
+                        switch (lg.orientation) {
+                            case "V": {
+                                absPos.x = lg.lineGuide + lg.offset;
+                                break;
+                            }
+                            case "H": {
+                                absPos.y = lg.lineGuide + lg.offset;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                    case "end": {
+                        switch (lg.orientation) {
+                            case "V": {
+                                absPos.x = lg.lineGuide + lg.offset;
+                                break;
+                            }
+                            case "H": {
+                                absPos.y = lg.lineGuide + lg.offset;
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
+            });
+            e.target.absolutePosition(absPos);
+        },
+        [drawGuides, getGuides, getObjectSnappingEdges]
+    );
+
     return (
         <>
             <PiecePaper>
@@ -166,6 +444,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                         <RectangleShape
                                             key={rectangle.id}
                                             rectangleObj={rectangle}
+                                            handleDragMove={handleDragMove}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
                                             isSelected={rectangle.id === canvasDesign.selectedId}
@@ -182,6 +461,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                         <RectangleShape
                                             key={roundedRectangle.id}
                                             rectangleObj={roundedRectangle}
+                                            handleDragMove={handleDragMove}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
                                             isSelected={roundedRectangle.id === canvasDesign.selectedId}
@@ -198,6 +478,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                         <EllipseShape
                                             key={ellipse.id}
                                             ellipseObj={ellipse}
+                                            handleDragMove={handleDragMove}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
                                             isSelected={ellipse.id === canvasDesign.selectedId}
@@ -215,6 +496,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             key={line.id}
                                             lineObj={line}
                                             handleDragStart={handleDragStart}
+                                            handleDragMove={handleDragMove}
                                             handleDragEnd={handleDragEnd}
                                             isSelected={line.id === canvasDesign.selectedId}
                                             onSelect={() => {
@@ -231,6 +513,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             key={textInput.id}
                                             textInputObj={textInput}
                                             handleDragStart={handleDragStart}
+                                            handleDragMove={handleDragMove}
                                             handleDragEnd={handleDragEnd}
                                             isSelected={textInput.id === canvasDesign.selectedId}
                                             onSelect={() => {
@@ -247,6 +530,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             textFieldObj={textField}
                                             handleDragStart={handleDragStart}
                                             handleDragEnd={handleDragEnd}
+                                            handleDragMove={handleDragMove}
                                             canvasDesign={canvasDesign}
                                             setCanvasDesign={setCanvasDesign}
                                             isSelected={textField.id === canvasDesign.selectedId}
@@ -263,6 +547,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             key={image.id}
                                             imageObj={image}
                                             handleDragStart={handleDragStart}
+                                            handleDragMove={handleDragMove}
                                             handleDragEnd={handleDragEnd}
                                             isSelected={image.id === canvasDesign.selectedId}
                                             onSelect={() => {

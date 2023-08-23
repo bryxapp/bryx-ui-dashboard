@@ -13,6 +13,7 @@ interface TextFieldProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
+    handleDragMove:any;
 }
 
 const TextField = ({
@@ -23,7 +24,8 @@ const TextField = ({
     setCanvasDesign,
     isSelected,
     onSelect,
-    onTransformEnd
+    onTransformEnd,
+    handleDragMove
 }: TextFieldProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -116,6 +118,7 @@ const TextField = ({
                 key={textFieldObj.id} id={textFieldObj.id}
                 x={textFieldObj.x} y={textFieldObj.y}
                 onDragStart={handleDragStart} onDragEnd={handleDragEnd} draggable
+                onDragMove={handleDragMove}
                 ref={shapeRef} rotation={textFieldObj.rotation}>
                 {!editing && (
                     <Text

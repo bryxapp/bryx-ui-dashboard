@@ -10,6 +10,7 @@ interface EllipseShapeProps {
     isSelected: boolean;
     onSelect: () => void;
     onTransformEnd: (e: any) => void;
+    handleDragMove:any;
 }
 
 const EllipseShape = ({
@@ -19,6 +20,7 @@ const EllipseShape = ({
     isSelected,
     onSelect,
     onTransformEnd,
+    handleDragMove
 }: EllipseShapeProps) => {
     const shapeRef = useRef<Konva.Ellipse>(null);
     const trRef = useRef<Konva.Transformer>(null);
@@ -46,6 +48,7 @@ const EllipseShape = ({
                 scaleX={1}
                 scaleY={1}
                 rotation={ellipseObj.rotation}
+                onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable

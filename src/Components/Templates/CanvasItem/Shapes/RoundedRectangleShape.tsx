@@ -10,9 +10,10 @@ interface RoundedRectangleShapeProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
+    handleDragMove:any
 }
 
-const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: RoundedRectangleShapeProps) => {
+const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove }: RoundedRectangleShapeProps) => {
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {
@@ -38,6 +39,7 @@ const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDra
                 scaleX={roundedRectangleObj.isDragging ? 1.0: 1}
                 scaleY={roundedRectangleObj.isDragging ? 1.0: 1}
                 rotation={roundedRectangleObj.rotation}
+                onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 cornerRadius={roundedRectangleObj.cornerRadius}

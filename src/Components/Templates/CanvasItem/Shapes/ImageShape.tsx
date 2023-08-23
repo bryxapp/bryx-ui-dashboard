@@ -10,6 +10,7 @@ interface ImageShapeProps {
     isSelected: boolean;
     onSelect: () => void;
     onTransformEnd: (e: any) => void;
+    handleDragMove:any;
 }
 
 const ImageShape = ({
@@ -19,6 +20,7 @@ const ImageShape = ({
     isSelected,
     onSelect,
     onTransformEnd,
+    handleDragMove
 }: ImageShapeProps) => {
     const shapeRef = useRef<Konva.Image>(null);
     const trRef = useRef<Konva.Transformer>(null);
@@ -53,6 +55,7 @@ const ImageShape = ({
                 scaleX={1}
                 scaleY={1}
                 rotation={imageObj.rotation}
+                onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable

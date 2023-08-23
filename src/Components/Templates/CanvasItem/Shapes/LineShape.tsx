@@ -11,9 +11,10 @@ interface LineShapeProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
+    handleDragMove:any;
 }
 
-const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd }: LineShapeProps) => {
+const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove }: LineShapeProps) => {
     const shapeRef = useRef<Konva.Line>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {
@@ -39,6 +40,7 @@ const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSele
                 scaleX={1}
                 scaleY={1}
                 rotation={lineObj.rotation}
+                onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable
