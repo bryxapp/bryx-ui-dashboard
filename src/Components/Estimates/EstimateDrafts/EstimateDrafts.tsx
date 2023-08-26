@@ -14,20 +14,19 @@ const EstimateDrafts = () => {
   const [estimateDrafts, setEstimateDrafts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1); // Current page number
-  const { userId, getAccessToken } = useAccessToken();
+  const { getAccessToken } = useAccessToken();
 
   useEffect(() => {
-    if (!userId) return;
     setLoading(true);
     getAccessToken().then((token) => {
       if (!token) return;
-      getEstimateDrafts(userId, PAGE_SIZE, pageNumber, token) // Pass the pageNumber to getEstimateDrafts
+      getEstimateDrafts(PAGE_SIZE, pageNumber, token) // Pass the pageNumber to getEstimateDrafts
         .then((response) => {
           setEstimateDrafts(response.data);
           setLoading(false);
         });
     });
-  }, [userId, pageNumber, getAccessToken]); // Include pageNumber in the dependency array
+  }, [pageNumber, getAccessToken]); // Include pageNumber in the dependency array
 
 
   const handleEstimateDraftDelete = (estimateDraftId: string) => {

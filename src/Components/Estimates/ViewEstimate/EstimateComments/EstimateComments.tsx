@@ -18,9 +18,17 @@ interface EstimateCommentsProps {
 
 const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, commentsError }: EstimateCommentsProps) => {
     const [newComment, setNewComment] = useState('');
-    const { userId, getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAccessToken();
     const { user } = useAuth0();
-    const userEmail = user?.email || 'Unknown User';
+    let userName = "Unknown User"
+    if (user?.name) {
+        userName = user.name;
+    }else if (user?.nickname) {
+        userName = user.nickname;
+    }
+    else if (user?.email) {
+        userName = user.email;
+    }
 
     const handleEstimateCommentDelete = (estimateId: string) => {
         getAccessToken().then((token) => {
@@ -39,7 +47,7 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         }
         getAccessToken().then((token) => {
             if (!token) return;
-            createEstimateComment(userEmail, userId, estimateId, userId, token)
+            createEstimateComment(userName, estimateId, newComment, token)
                 .then((res) => {
                     setEstimateComments((prevComments: any) => [res.data.estimateComment, ...prevComments]);
                     setNewComment('');

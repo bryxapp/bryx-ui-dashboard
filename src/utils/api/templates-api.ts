@@ -5,10 +5,9 @@ import { CanvasDesignData } from '../types/CanvasInterfaces';
 const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
 
 
-export function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, user: string, token: string) {
+export function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
     //Create Body
     const body = {
-        user: user,
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
     }
@@ -16,10 +15,9 @@ export function createTemplate(canvasDesign: CanvasDesignData, friendlyName: str
     return axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, user: string, token: string) {
+export function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
     // Create Body
     const body = {
-        user: user,
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
     };

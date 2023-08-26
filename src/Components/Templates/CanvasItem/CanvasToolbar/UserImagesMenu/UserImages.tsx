@@ -30,19 +30,19 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
     const [fetchingUserImages, setFetchingUserImages] = useState(true);
-    const { userId, getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAccessToken();
 
     const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        if (!file || !userId) return;
+        if (!file) return;
 
         try {
             setFetchingUserImages(true);
             const token = await getAccessToken();
             if (!token) return;
 
-            await uploadImage(userId, file, token);
-            const response = await getUserImages(userId, token);
+            await uploadImage(file, token);
+            const response = await getUserImages(token);
             const results = response.data;
 
             const imagePromises = results.map(async (image: ImageApiResponse) => {
@@ -58,16 +58,11 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
         } finally {
             setFetchingUserImages(false);
         }
-    }, [userId, getAccessToken]);
+    }, [ getAccessToken]);
 
 
 
     useEffect(() => {
-        if (!userId) {
-            setFetchingUserImages(false);
-            return;
-        }
-
         let isCancelled = false; // Cancellation token
 
         const fetchUserImages = async () => {
@@ -75,7 +70,7 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
                 const token = await getAccessToken();
                 if (!token || isCancelled) return;
 
-                const response = await getUserImages(userId, token);
+                const response = await getUserImages(token);
                 const results = response.data;
 
                 const imagePromises = results.map(async (image: any) => {
@@ -100,7 +95,7 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
         return () => {
             isCancelled = true; // Cancel any pending async operations if the component unmounts
         };
-    }, [userId, getAccessToken]);
+    }, [getAccessToken]);
 
 
     const getImageDimensions = (url: string): Promise<{ width: number; height: number }> => {

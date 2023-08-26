@@ -14,7 +14,7 @@ interface CanvasProps {
 }
 
 const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
-    const { userId, getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAccessToken();
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const [templateId, setTemplateId] = useState<string | null>(null);
@@ -52,9 +52,9 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
         getAccessToken().then((token) => {
             if (!token) return;
             if (isNewCanvas) {
-                return createTemplate(canvasDesign, friendlyName, userId, token);
+                return createTemplate(canvasDesign, friendlyName, token);
             } else if (templateId) {
-                return updateTemplate(templateId, canvasDesign, friendlyName, userId, token);
+                return updateTemplate(templateId, canvasDesign, friendlyName, token);
             }
         });
     };

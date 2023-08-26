@@ -3,10 +3,9 @@ import { EstimateFormFields } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimateDrafts";
 
-export async function createEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string, token: string) {
+export async function createEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, token: string) {
     //Create Body
     const body = {
-        user: user,
         templateId: templateId,
         estimateName: estimateName,
         filledFields: fieldValues,
@@ -18,9 +17,9 @@ export async function createEstimateDraft(templateId: string, estimateName: stri
     });
 }
 
-export function getEstimateDrafts(user: string, pageSize: number, pageNumber: number, token: string) {
+export function getEstimateDrafts(pageSize: number, pageNumber: number, token: string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+    return axios.get(`${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -36,10 +35,9 @@ export function getEstimateDraft(id: string, token: string) {
     });
 }
 
-export async function updateEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string, id: string, token: string) {
+export async function updateEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, id: string, token: string) {
     //Create Body
     const body = {
-        user: user,
         templateId: templateId,
         estimateName: estimateName,
         filledFields: fieldValues,

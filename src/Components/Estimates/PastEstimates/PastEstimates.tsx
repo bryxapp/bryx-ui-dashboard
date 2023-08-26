@@ -23,12 +23,11 @@ const PastEstimates = () => {
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [pageNumber, setPageNumber] = useState(1); // Current page number
   const [estimateRequestCompleted, setEstimateRequestCompleted] = useState(false);
-  const { userId, getAccessToken } = useAccessToken();
+  const { getAccessToken } = useAccessToken();
 
   const loadEstimates = useRef(
     _.debounce(
       async (
-        userId: string,
         pageSize: number,
         pageNumber: number,
         token: string,
@@ -36,7 +35,6 @@ const PastEstimates = () => {
         selectedTemplateId: string
       ) => {
         getEstimates(
-          userId,
           pageSize,
           pageNumber,
           token,
@@ -62,11 +60,10 @@ const PastEstimates = () => {
   }, [getAccessToken]);
 
   useEffect(() => {
-    if (!userId) return;
+    debugger;
     getAccessToken().then((token) => {
       if (!token) return;
       loadEstimates.current(
-        userId,
         PAGE_SIZE,
         pageNumber,
         token,
@@ -74,7 +71,7 @@ const PastEstimates = () => {
         selectedTemplateId
       );
     });
-  }, [userId, pageNumber, searchTerm, selectedTemplateId, getAccessToken]);
+  }, [pageNumber, searchTerm, selectedTemplateId, getAccessToken]);
 
   const handleEstimateDelete = (estimateId: string) => {
     getAccessToken().then((token) => {

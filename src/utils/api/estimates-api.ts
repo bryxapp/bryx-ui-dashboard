@@ -8,11 +8,10 @@ import { EstimateFormFields } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimates";
 
-export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: EstimateFormFields, user: string, token: string) {
+export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: EstimateFormFields, token: string) {
     const estimateImgObj = await createStage(canvasDesign, fieldValues);
     //Create Body
     const body = {
-        user: user,
         templateId: templateId,
         estimateName: estimateName,
         estimateImgObj: estimateImgObj,

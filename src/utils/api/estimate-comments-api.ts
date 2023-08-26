@@ -2,10 +2,9 @@ import axios from 'axios';
 
 const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimateComments";
 
-export async function createEstimateComment(userEmail: string, userName:string, estimateId: string, comment: string, token: string) {
+export async function createEstimateComment(userName:string, estimateId: string, comment: string, token: string) {
     //Create Body
     const body = {
-        userEmail: userEmail,
         userName: userName,
         estimateId: estimateId,
         comment: comment,

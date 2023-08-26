@@ -34,7 +34,7 @@ const EstimateForm = () => {
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
     const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
-    const { userId, getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAccessToken();
 
     useEffect(() => {
         if (!templateId) return;
@@ -88,7 +88,7 @@ const EstimateForm = () => {
             if (!templateData) return;
             getAccessToken().then(async (token) => {
                 if (!token) return;
-                const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, userId, token);
+                const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, token);
                 if (draftId) deleteEstimateDraft(draftId, token); //delete the draft if it exists
 
                 // Wait for 2 seconds before navigating to the estimate page
@@ -113,10 +113,10 @@ const EstimateForm = () => {
             getAccessToken().then(async (token) => {
                 if (!token) return;
                 if (!draftId) {
-                    await createEstimateDraft(templateData.id, estimateName, fieldValues, userId, token);
+                    await createEstimateDraft(templateData.id, estimateName, fieldValues, token);
                 }
                 else {
-                    await updateEstimateDraft(templateData.id, estimateName, fieldValues, userId, draftId, token);
+                    await updateEstimateDraft(templateData.id, estimateName, fieldValues, draftId, token);
                 }
             });
 
