@@ -22,9 +22,9 @@ export async function createEstimate(canvasDesign: CanvasDesignData, templateId:
     return axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function getEstimates(user: string, pageSize: number, pageNumber: number, token:string, searchTerm?: string, templateId?: string) {
+export function getEstimates(pageSize: number, pageNumber: number, token:string, searchTerm?: string, templateId?: string) {
     // Initialize base URL
-    let url = `${BASE_URL}?userId=${user}&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    let url = `${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
     // Check if searchTerm is provided
     if (searchTerm) {

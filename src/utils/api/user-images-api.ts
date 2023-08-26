@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from 'axios';
 
 const BASE_URL = "https://bryx-api-images.azurewebsites.net/api/userImages";
 
-export const uploadImage = async (user: string, image: File, token:string): Promise<string> => {
+export const uploadImage = async (image: File, token:string): Promise<string> => {
     // Create a FormData object
     const formData = new FormData();
 
@@ -19,7 +19,7 @@ export const uploadImage = async (user: string, image: File, token:string): Prom
 
     try {
         // Post to the API
-        const response: AxiosResponse = await axios.post(`${BASE_URL}?userId=${user}`, formData, config);
+        const response: AxiosResponse = await axios.post(`${BASE_URL}`, formData, config);
         return response.data.imageBlobUrl;
     } catch (error) {
         console.error("Error uploading image:", error);
@@ -28,9 +28,9 @@ export const uploadImage = async (user: string, image: File, token:string): Prom
 }
 
 
-export function getUserImages(user: string, token: string) {
+export function getUserImages(token: string) {
     //get all images for the user from the api
-    return axios.get(`${BASE_URL}?userId=${user}`, { headers: { 'Authorization': `Bearer ${token}` } });
+    return axios.get(`${BASE_URL}?`, { headers: { 'Authorization': `Bearer ${token}` } });
 }
 
 export function getUserImageByID(id: string, token: string) {
