@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button, Typography, Tooltip, useTheme } from '@mui/material';
-import TemplatesGrid from './TemplatesGrid/TemplatesGrid';
+import TemplatesGrid from '../SharedComponents/Templates/TemplatesGrid/TemplatesGrid';
 import logger from '../../logging/logger';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -48,7 +48,10 @@ const Templates = () => {
       </Tooltip>
       <br />
       <br />
-      <TemplatesGrid setMaxReached={setMaxReached} />
+      <TemplatesGrid
+        setMaxReached={setMaxReached}
+        baseUrl='/edit-template?templateId='
+        showActions={true} />
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { Link, Typography } from '@mui/material';
 import { CanvasStarterData } from '../../../../../utils/types/CanvasInterfaces';
-import PreviewStage from '../../../../SharedComponents/PreviewStage/PreviewStage';
+import PreviewStage from '../../../../SharedComponents/Templates/PreviewStage/PreviewStage';
 
 interface CanvasStarterListItemProps {
   canvasStarter: CanvasStarterData;

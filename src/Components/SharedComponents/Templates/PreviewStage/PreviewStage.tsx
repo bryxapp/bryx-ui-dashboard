@@ -1,6 +1,6 @@
 import { Stage, Layer, Rect, Ellipse, Line, Image, Text } from "react-konva";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj } from "../../../utils/types/CanvasInterfaces"
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../utils/page-util";
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj } from "../../../../utils/types/CanvasInterfaces"
+import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../utils/page-util";
 import styled from '@emotion/styled';
 
 

@@ -22,7 +22,7 @@ const lightThemeOptions: ThemeOptions = {
         },
         text: {
             primary: colors.darkText,
-            secondary: colors.lightText,
+            secondary: colors.darkText,
         },
         background: {
             default: '#FFFFFF',

@@ -15,16 +15,16 @@ import Avatar from '@mui/material/Avatar';
 
 interface EsEstimateCommentProps {
     estimateComment: any;
+    userId: string;
     handleEstimateCommentDelete: (estimateCommentId: string) => void;
 }
 
-const EstimateComment = ({ estimateComment, handleEstimateCommentDelete }: EsEstimateCommentProps) => {
+const EstimateComment = ({ estimateComment, userId, handleEstimateCommentDelete }: EsEstimateCommentProps) => {
 
     const displayDate = estimateComment._ts ? convertEpochTime(estimateComment._ts) : 'Just now'
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
-    const avatarLetter = estimateComment.userName.charAt(0).toUpperCase();
 
     const handleDeleteClick = () => {
         setOpen(true);
@@ -43,15 +43,17 @@ const EstimateComment = ({ estimateComment, handleEstimateCommentDelete }: EsEst
         <ListItem
             secondaryAction={
                 <div>
+                    {/*Can only Delete your own comments*/}
+                    {estimateComment.userId === userId &&
                     <IconButton aria-label="delete" onClick={handleDeleteClick}>
                         <DeleteIcon />
-                    </IconButton>
+                    </IconButton>}
                 </div>
             }
             sx={{ alignItems: 'flex-start' }}
         >
             <ListItemAvatar>
-                <Avatar>{avatarLetter}</Avatar>
+                {estimateComment.userPicture ? <Avatar src={estimateComment.userPicture} /> : <Avatar>{estimateComment.userName.charAt(0).toUpperCase()}</Avatar>}
             </ListItemAvatar>
             <ListItemText
                 primary={
@@ -64,13 +66,13 @@ const EstimateComment = ({ estimateComment, handleEstimateCommentDelete }: EsEst
                         <Typography color={textColor} variant="body2" component="span" sx={{ flexGrow: 1, whiteSpace: 'pre-wrap' }}>
                             {estimateComment.comment}
                         </Typography>
+                        <div style={{ height: '5px' }} />
                         <Typography color={textColor} variant="body2" component="span" sx={{ flexGrow: 1 }}>
                             {displayDate}
                         </Typography>
                     </>
                 }
             />
-
             <Dialog open={open} onClose={handleCancelDelete}>
                 <DialogTitle>Delete Comment</DialogTitle>
                 <Typography color={textColor} variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>

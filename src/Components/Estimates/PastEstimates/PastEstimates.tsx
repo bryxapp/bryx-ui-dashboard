@@ -60,7 +60,6 @@ const PastEstimates = () => {
   }, [getAccessToken]);
 
   useEffect(() => {
-    debugger;
     getAccessToken().then((token) => {
       if (!token) return;
       loadEstimates.current(

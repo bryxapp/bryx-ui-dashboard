@@ -3,7 +3,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
-import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
+import { TemplateData } from '../../../../../utils/types/TemplateInterfaces';
 import { useTheme } from '@mui/material';
 
 interface TemplateDeleteDialogProps {
@@ -11,7 +11,6 @@ interface TemplateDeleteDialogProps {
     handleTemplateDelete: any;
     open: boolean;
     setOpen: any;
-
 }
 
 const TemplateDeleteDialog = ({ template, handleTemplateDelete, open, setOpen }: TemplateDeleteDialogProps) => {

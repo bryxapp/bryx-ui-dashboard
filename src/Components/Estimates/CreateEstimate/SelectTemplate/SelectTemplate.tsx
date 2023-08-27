@@ -1,7 +1,7 @@
 import React from "react";
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
-import SelectTemplateList from "./SelectTemplateList/SelectTemplateList";
+import TemplatesGrid from "../../../SharedComponents/Templates/TemplatesGrid/TemplatesGrid";
 import useTheme from '@mui/material/styles/useTheme';
 
 const SelectTemplate = () => {
@@ -20,7 +20,9 @@ const SelectTemplate = () => {
                     flexDirection: 'column',
                 }}
             >
-                <SelectTemplateList />
+                <TemplatesGrid
+                    setMaxReached={null}
+                    baseUrl='/form?templateId=' />
             </Paper>
         </React.Fragment>
     )

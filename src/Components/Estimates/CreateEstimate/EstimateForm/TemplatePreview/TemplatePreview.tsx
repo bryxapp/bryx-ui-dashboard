@@ -1,6 +1,6 @@
 import { CanvasDesignData } from "../../../../../utils/types/CanvasInterfaces";
 import Typography from "@mui/material/Typography";
-import PreviewStage from "../../../../SharedComponents/PreviewStage/PreviewStage";
+import PreviewStage from "../../../../SharedComponents/Templates/PreviewStage/PreviewStage";
 
 
 interface TemplatePreviewProps {

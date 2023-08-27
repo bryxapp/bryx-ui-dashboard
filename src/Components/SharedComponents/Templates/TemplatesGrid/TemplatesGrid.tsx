@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
-import { getTemplates, deleteTemplate } from '../../../utils/api/templates-api';
+import { getTemplates, deleteTemplate } from '../../../../utils/api/templates-api';
 import { Typography } from '@mui/material';
-import NoneFound from '../../SharedComponents/NoneFound/NoneFound';
-import { TemplateData } from '../../../utils/types/TemplateInterfaces';
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import NoneFound from '../../../SharedComponents/NoneFound/NoneFound';
+import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
+import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 
 const MAX_TEMPLATES = 6;
 
 interface TemplatesGridProps {
     setMaxReached: any;
+    baseUrl: string;
+    showActions?: boolean;
 }
 
-const TemplatesGrid = ({ setMaxReached }: TemplatesGridProps) => {
+const TemplatesGrid = ({ setMaxReached, baseUrl, showActions = false }: TemplatesGridProps) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const [loading, setLoading] = useState(true);
     const { getAccessToken } = useAccessToken();
@@ -53,7 +55,12 @@ const TemplatesGrid = ({ setMaxReached }: TemplatesGridProps) => {
         <Grid container spacing={2}>
             {templates.map((template) => (
                 <Grid item xs={12} sm={6} md={4} key={template.id}>
-                    <TemplatesListItem template={template} handleTemplateDelete={handleTemplateDelete} />
+                    <TemplatesListItem
+                        template={template}
+                        handleTemplateDelete={handleTemplateDelete}
+                        baseUrl={baseUrl}
+                        showActions={showActions}
+                    />
                 </Grid>
             ))}
         </Grid>

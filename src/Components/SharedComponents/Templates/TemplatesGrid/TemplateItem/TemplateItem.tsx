@@ -1,17 +1,21 @@
 import { useState } from 'react';
-import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
+import { TemplateData } from '../../../../../utils/types/TemplateInterfaces';
 import { Paper, Link } from '@mui/material';
-import PreviewStage from '../../../SharedComponents/PreviewStage/PreviewStage';
+import PreviewStage from '../../../../SharedComponents/Templates/PreviewStage/PreviewStage';
 import TemplateDeleteDialog from './TemplateDeleteDialog';
 import TemplateInfoBox from './TemplateInfoBox';
+import { useTheme } from '@mui/material';
 
 interface TemplateItemProps {
   template: TemplateData;
   handleTemplateDelete: any;
+  baseUrl: string;
+  showActions: boolean;
 }
 
-const TemplateItem = ({ template, handleTemplateDelete }: TemplateItemProps) => {
+const TemplateItem = ({ template, handleTemplateDelete, baseUrl, showActions }: TemplateItemProps) => {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
 
   return (
     <>
@@ -19,19 +23,19 @@ const TemplateItem = ({ template, handleTemplateDelete }: TemplateItemProps) => 
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          height: '20rem',
-          width: '18rem',
+          height: showActions ? '19rem' : '17rem',
+          width: showActions ? '18rem' : '16rem',
           alignItems: 'center',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
-          background: 'primary.main',
+          background: theme.palette.secondary.main,
         }}
       >
-        <Link href={'/edit-template?templateId=' + template.id} underline="none">
+        <Link href={baseUrl + template.id} underline="none">
           <div style={{ height: '1rem' }} />
           <PreviewStage canvasDesign={template.canvasDesign} scale={0.20} />
         </Link>
-        <TemplateInfoBox template={template} setOpen={setOpen} />
+        <TemplateInfoBox template={template} setOpen={setOpen} showActions={showActions} />
       </Paper>
       <TemplateDeleteDialog template={template} handleTemplateDelete={handleTemplateDelete} open={open} setOpen={setOpen} />
     </>

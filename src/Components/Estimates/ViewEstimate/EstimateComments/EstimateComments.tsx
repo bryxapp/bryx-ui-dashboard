@@ -23,7 +23,7 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
     let userName = "Unknown User"
     if (user?.name) {
         userName = user.name;
-    }else if (user?.nickname) {
+    } else if (user?.nickname) {
         userName = user.nickname;
     }
     else if (user?.email) {
@@ -47,7 +47,8 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         }
         getAccessToken().then((token) => {
             if (!token) return;
-            createEstimateComment(userName, estimateId, newComment, token)
+            const userPic = user?.picture || '';
+            createEstimateComment(userName, estimateId, newComment, userPic, token)
                 .then((res) => {
                     setEstimateComments((prevComments: any) => [res.data.estimateComment, ...prevComments]);
                     setNewComment('');
@@ -69,6 +70,7 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
                     <EstimateComment
                         key={estimateComment.id}
                         estimateComment={estimateComment}
+                        userId={user?.sub || ''}
                         handleEstimateCommentDelete={handleEstimateCommentDelete}
                     />
                 ))}
