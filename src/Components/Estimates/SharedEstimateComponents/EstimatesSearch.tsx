@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -5,18 +6,24 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { TemplateData } from "../../../utils/types/TemplateInterfaces";
 import { useTheme } from "@mui/material";
+import { getTemplates } from "../../../utils/api/templates-api";
+import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 
 interface EstimatesSearchProps {
-    templates: TemplateData[];
     searchTerm: string;
     setSearchTerm: (searchTerm: string) => void;
     selectedTemplateId: string;
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const EstimatesSearch = ({ templates, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
+const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
+    const { getAccessToken } = useAccessToken();
+    const [templates, setTemplates] = useState<TemplateData[]>([]);
+    const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
+    const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
+
 
     const handleSearch = (event: any) => {
         setSearchTerm(event.target.value);
@@ -25,6 +32,23 @@ const EstimatesSearch = ({ templates, searchTerm, setSearchTerm, selectedTemplat
     const handleTemplateIdFilter = (event: any) => {
         setSelectedTemplateId(event.target.value);
     };
+
+    useEffect(() => {
+        setTemplateRequestCompleted(false);
+        setErrorRetrievingTemplates(false);  // Reset the error state at the start
+        getAccessToken().then((token: any) => {
+            if (!token) return;
+            getTemplates(token).then(({ data }) => {
+                setTemplates(data);
+            }).catch(error => {
+                setErrorRetrievingTemplates(true);
+                console.error('Error retrieving templates:', error);
+            });
+        }).finally(() => {
+            setTemplateRequestCompleted(true);
+        });
+    }, [getAccessToken]);
+
 
     return (
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -58,11 +82,22 @@ const EstimatesSearch = ({ templates, searchTerm, setSearchTerm, selectedTemplat
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>
-                        {templates.map(({ id, friendlyName }) => (
-                            <MenuItem key={id} value={id}>
-                                {friendlyName}
+                        {!templateRequestCompleted && (
+                            <MenuItem value="" disabled>
+                                Loading...
                             </MenuItem>
-                        ))}
+                        )}
+                        {errorRetrievingTemplates ? (
+                            <MenuItem value="" disabled>
+                                Error loading templates
+                            </MenuItem>
+                        ) : (
+                            templates.map(({ id, friendlyName }) => (
+                                <MenuItem key={id} value={id}>
+                                    {friendlyName}
+                                </MenuItem>
+                            ))
+                        )}
                     </Select>
                 </FormControl>
             </div>

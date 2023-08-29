@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getEstimates, deleteEstimate } from "../../../utils/api/estimates-api";
-import { getTemplates } from "../../../utils/api/templates-api";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
-import { TemplateData } from "../../../utils/types/TemplateInterfaces";
 import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
 import EstimatesSearch from "../SharedEstimateComponents/EstimatesSearch";
 import { List } from "@mui/material";
@@ -18,7 +16,6 @@ const PAGE_SIZE = 2; // Number of estimate drafts per page
 
 const PastEstimates = () => {
   const [estimates, setEstimates] = useState<EstimateData[]>([]);
-  const [templates, setTemplates] = useState<TemplateData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [pageNumber, setPageNumber] = useState(1); // Current page number
@@ -60,17 +57,6 @@ const PastEstimates = () => {
   );
 
   useEffect(() => {
-    getAccessToken().then((token: any) => {
-      if (!token) return;
-      getTemplates(token).then(({ data }) => {
-        setTemplates(data);
-      }).catch(error => {
-        console.error('Error retrieving templates:', error);
-      });
-    });
-  }, [getAccessToken]);
-
-  useEffect(() => {
     setEstimateRequestCompleted(false);
     getAccessToken().then((token: any) => {
       if (!token) return;
@@ -98,7 +84,6 @@ const PastEstimates = () => {
   return (
     <>
       <EstimatesSearch
-        templates={templates}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         selectedTemplateId={selectedTemplateId}
