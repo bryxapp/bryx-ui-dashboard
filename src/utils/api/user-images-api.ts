@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 
-const BASE_URL = "https://bryx-api-images.azurewebsites.net/api/userImages";
+const BASE_URL = "https://bryx-api.azurewebsites.net/api/userImages";
 
 export const uploadImage = async (image: File, token:string): Promise<string> => {
     // Create a FormData object

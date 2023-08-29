@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { EstimateFormFields } from '../types/EstimateInterfaces';
 
-const BASE_URL = "https://bryx-api-estimates.azurewebsites.net/api/estimateDrafts";
+const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimateDrafts";
 
 export async function createEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, token: string) {
     //Create Body

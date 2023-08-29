@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import { CanvasDesignData } from '../types/CanvasInterfaces';
-const BASE_URL = "https://bryx-api-templates.azurewebsites.net/api/templates";
+const BASE_URL = "https://bryx-api.azurewebsites.net/api/templates";
 
 
 export function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
