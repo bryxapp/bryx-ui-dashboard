@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from "react";
-import { getEstimates } from "../../../utils/api/estimates-api";
+import { getEstimates, deleteEstimate } from "../../../utils/api/estimates-api";
 import { getTemplates } from "../../../utils/api/templates-api";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 import { TemplateData } from "../../../utils/types/TemplateInterfaces";
 import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
 import EstimatesSearch from "../SharedEstimateComponents/EstimatesSearch";
-import { deleteEstimate } from "../../../utils/api/estimates-api";
 import { List } from "@mui/material";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import _ from "lodash"; // Import lodash
 import Loading from "../../SharedComponents/Loading/Loading";
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { Alert } from "@mui/material";
 
 
 const PAGE_SIZE = 2; // Number of estimate drafts per page
@@ -23,6 +23,8 @@ const PastEstimates = () => {
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
   const [pageNumber, setPageNumber] = useState(1); // Current page number
   const [estimateRequestCompleted, setEstimateRequestCompleted] = useState(false);
+  const [errorRetrievingEstimates, setErrorRetrievingEstimates] = useState(false);
+
   const { getAccessToken } = useAccessToken();
 
   const loadEstimates = useRef(
@@ -34,33 +36,43 @@ const PastEstimates = () => {
         searchTerm: string,
         selectedTemplateId: string
       ) => {
+        setErrorRetrievingEstimates(false);
         getEstimates(
           pageSize,
           pageNumber,
           token,
           searchTerm,
           selectedTemplateId
-        ).then((response) => {
-          setEstimates(response.data);
-          setEstimateRequestCompleted(true);
-        });
+        )
+          .then((response) => {
+            setEstimates(response.data);
+          })
+          .catch(error => {
+            console.error('Error retrieving estimates:', error);
+            setErrorRetrievingEstimates(true);
+          })
+          .finally(() => {
+            setEstimateRequestCompleted(true);
+          });
       },
       500
     )
   );
 
   useEffect(() => {
-    setEstimateRequestCompleted(false);
-    getAccessToken().then((token) => {
+    getAccessToken().then((token: any) => {
       if (!token) return;
-      getTemplates(token).then((response) => {
-        setTemplates(response.data);
+      getTemplates(token).then(({ data }) => {
+        setTemplates(data);
+      }).catch(error => {
+        console.error('Error retrieving templates:', error);
       });
     });
   }, [getAccessToken]);
 
   useEffect(() => {
-    getAccessToken().then((token) => {
+    setEstimateRequestCompleted(false);
+    getAccessToken().then((token: any) => {
       if (!token) return;
       loadEstimates.current(
         PAGE_SIZE,
@@ -94,11 +106,14 @@ const PastEstimates = () => {
       />
       <br />
       <>
-        {estimates.length === 0 && !estimateRequestCompleted && (
+        {errorRetrievingEstimates && (
+          <Alert severity="error">There was an error retrieving your estimates. Please try again.</Alert>
+        )}
+        {estimates.length === 0 && !estimateRequestCompleted && !errorRetrievingEstimates && (
           <Loading />
         )}
-        {estimates.length === 0 && estimateRequestCompleted ? (<NoneFound item="estimates" />
-        ) : (
+        {estimates.length === 0 && estimateRequestCompleted && !errorRetrievingEstimates && <NoneFound item="estimates" />}
+        {estimates.length > 0 && (
           <>
             <List>
               {estimates.map((estimate) => (

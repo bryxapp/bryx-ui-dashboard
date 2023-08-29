@@ -6,7 +6,7 @@ import { getPDFHeight, getPDFWidth } from '../page-util';
 import { CanvasDesignData } from '../types/CanvasInterfaces';
 import { EstimateFormFields } from '../types/EstimateInterfaces';
 
-const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimates";
+const BASE_URL = "https://sbryx-api.azurewebsites.net/api/estimates";
 
 export async function createEstimate(canvasDesign: CanvasDesignData, templateId: string, estimateName: string, fieldValues: EstimateFormFields, token: string) {
     const estimateImgObj = await createStage(canvasDesign, fieldValues);
