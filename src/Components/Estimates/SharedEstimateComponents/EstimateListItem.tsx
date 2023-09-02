@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import { convertEpochTime } from '../../../utils/time-util';
 import Typography from '@mui/material/Typography';
 import { EstimateData, EstimateDraftData } from '../../../utils/types/EstimateInterfaces';
-import { useTheme } from '@mui/material';
+import { Link, useTheme } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import EstimatesDeleteDialog from './EstimatesDeleteDialog';
@@ -49,6 +49,10 @@ const EstimateListItem = ({ estimate, handleEstimateDelete, editLink, itemName, 
                     </Grid>)
                 }
                 <Grid item xs={isSmallScreen ? 11 : 10} sm={6} md={8} lg={9} xl={10}>
+                    <Link 
+                    href={editLink}
+                    underline="none"
+                    >
                     <ListItemText
                         primary={
                             <Typography
@@ -80,6 +84,7 @@ const EstimateListItem = ({ estimate, handleEstimateDelete, editLink, itemName, 
                             </Typography>
                         }
                     />
+                    </Link>
                 </Grid>
             </Grid>
             <EstimatesDeleteDialog
