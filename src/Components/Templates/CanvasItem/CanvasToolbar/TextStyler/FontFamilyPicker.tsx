@@ -3,8 +3,24 @@ import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 
-const FONTS = ['Arial', 'Helvetica', 'Times New Roman', 'Courier New', 'Verdana'];
-
+const FONTS = [
+    'Arial',
+    'Helvetica',
+    'Times New Roman',
+    'Courier New',
+    'Verdana',
+    'Georgia',
+    'Palatino',
+    'Garamond',
+    'Tahoma',
+    'Comic Sans MS',
+    'Impact',
+    'Lucida Console',
+    'Arial Narrow',
+    'Book Antiqua',
+    'Century Gothic',
+    // Add more fonts here
+];
 interface FontFamilyPickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
@@ -40,9 +56,16 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: Font
                 onChange={handleFontFamilyChange}
                 variant="outlined"
                 style={{ marginBottom: '1rem', minWidth: '10rem', margin: 10 }}
+                MenuProps={{
+                    PaperProps: {
+                        style: {
+                            maxHeight: 250, // Adjust as needed
+                        },
+                    },
+                }}
             >
                 {FONTS.map((fontFamily) => (
-                    <MenuItem key={fontFamily} value={fontFamily}>
+                    <MenuItem key={fontFamily} value={fontFamily} style={{ fontFamily: fontFamily }}>
                         {fontFamily}
                     </MenuItem>
                 ))}
