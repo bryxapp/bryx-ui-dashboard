@@ -6,8 +6,10 @@ import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Snackbar from '@mui/material/Snackbar';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { Typography } from '@mui/material';
 
 interface EstimateCommentsProps {
     estimateId: string;
@@ -18,6 +20,8 @@ interface EstimateCommentsProps {
 
 const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, commentsError }: EstimateCommentsProps) => {
     const [newComment, setNewComment] = useState('');
+    const [isSnackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackBarText, setSnackBarText] = useState('');
     const { getAccessToken } = useAccessToken();
     const { user } = useAuth0();
     let userName = "Unknown User"
@@ -30,6 +34,10 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         userName = user.email;
     }
 
+    const handleCloseSnackbar = () => {
+        setSnackbarOpen(false);
+    };
+
     const handleEstimateCommentDelete = (estimateId: string) => {
         getAccessToken().then((token) => {
             if (!token) return;
@@ -37,7 +45,13 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
                 setEstimateComments((prevComments: any) =>
                     prevComments.filter((estimate: EstimateData) => estimate.id !== estimateId)
                 );
-            });
+            }).catch
+                (() => {
+                    //Show a Snackbar message
+                    setSnackBarText('Error deleting comment');
+                    setSnackbarOpen(true);
+                }
+                );
         });
     };
 
@@ -54,13 +68,21 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
                     setNewComment('');
                 })
                 .catch(() => {
-                    // Handle error if adding comment fails
+                    //Show a Snackbar message
+                    setSnackBarText('Error adding comment');
+                    setSnackbarOpen(true);
                 });
         });
     };
 
     if (commentsError) {
-        return <div>There was an error loading the comments</div>;
+        return <Typography
+            variant="h5"
+            component="div"
+            sx={{ flexGrow: 1, color: 'red' }}
+        >
+            Error loading comments
+        </Typography>
     }
 
     return (
@@ -91,6 +113,13 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
                     Add Comment
                 </Button>
             </Box>
+            <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={isSnackbarOpen}
+                message={snackBarText}
+                autoHideDuration={6000}
+                onClose={handleCloseSnackbar}
+            />
         </>
     );
 };
