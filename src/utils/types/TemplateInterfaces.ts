@@ -7,3 +7,8 @@ export interface TemplateData {
     id: string;
     _ts: number;
 };
+
+export interface EstimateTemplateUsedData {
+    id: string;
+    friendlyName: string;
+};

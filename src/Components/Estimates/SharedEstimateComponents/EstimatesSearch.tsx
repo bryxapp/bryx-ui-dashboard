@@ -4,10 +4,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { TemplateData } from "../../../utils/types/TemplateInterfaces";
+import { EstimateTemplateUsedData } from "../../../utils/types/TemplateInterfaces";
 import { useTheme } from "@mui/material";
-import { getTemplates } from "../../../utils/api/templates-api";
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { getUsedTemplates } from "../../../utils/api/estimates-api";
 
 interface EstimatesSearchProps {
     searchTerm: string;
@@ -20,7 +20,7 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
 
     const theme = useTheme();
     const { getAccessToken } = useAccessToken();
-    const [templates, setTemplates] = useState<TemplateData[]>([]);
+    const [templatesUsed, setTemplatesUsed] = useState<EstimateTemplateUsedData[]>([]);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
 
@@ -38,8 +38,8 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
         setErrorRetrievingTemplates(false);  // Reset the error state at the start
         getAccessToken().then((token: any) => {
             if (!token) return;
-            getTemplates(token).then(({ data }) => {
-                setTemplates(data);
+            getUsedTemplates(token).then(({ data }) => {
+                setTemplatesUsed(data);
             }).catch(error => {
                 setErrorRetrievingTemplates(true);
                 console.error('Error retrieving templates:', error);
@@ -92,7 +92,7 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
                                 Error loading templates
                             </MenuItem>
                         ) : (
-                            templates.map(({ id, friendlyName }) => (
+                            templatesUsed.map(({ id, friendlyName }) => (
                                 <MenuItem key={id} value={id}>
                                     {friendlyName}
                                 </MenuItem>

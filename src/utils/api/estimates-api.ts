@@ -40,6 +40,10 @@ export function getEstimates(pageSize: number, pageNumber: number, token:string,
     return axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
 }
 
+export function getUsedTemplates(token: string) {
+    return axios.get(`${BASE_URL}/templates}`, { headers: { Authorization: `Bearer ${token}` } });
+}
+
 export function getEstimate(id: string, token: string) {
     return axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
 }
