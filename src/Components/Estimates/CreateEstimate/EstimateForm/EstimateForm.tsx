@@ -88,7 +88,7 @@ const EstimateForm = () => {
             if (!templateData) return;
             getAccessToken().then(async (token) => {
                 if (!token) return;
-                const res = await createEstimate(templateData.canvasDesign, templateData.id, estimateName, fieldValues, token);
+                const res = await createEstimate(templateData, estimateName, fieldValues, token);
                 if (draftId) deleteEstimateDraft(draftId, token); //delete the draft if it exists
 
                 // Wait for 2 seconds before navigating to the estimate page
