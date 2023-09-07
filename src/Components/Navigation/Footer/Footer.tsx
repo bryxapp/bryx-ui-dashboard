@@ -8,7 +8,7 @@ const Footer = () => {
         <Box sx={{ minHeight: '10%', padding: '1.2rem', background:theme.palette.background.default }}>
             <Typography variant="body2" color={theme.palette.text.primary} align="center">
                 {'Copyright © '}
-                BRYX
+                BRYX bids
                 {' '}
                 {new Date().getFullYear()}
             </Typography>

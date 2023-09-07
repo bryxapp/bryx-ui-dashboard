@@ -38,7 +38,7 @@ const TopNavBar = () => {
     <AppBar position="static">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Logo variant="h1" color={theme.palette.text.secondary} noWrap>
-          BRYX
+          BRYX bids
         </Logo>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {!isLoading && user ? (
