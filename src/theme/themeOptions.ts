@@ -3,19 +3,19 @@ import { ThemeOptions } from '@mui/material/styles';
 export const themeOptions: ThemeOptions = {
     palette: {
         primary: {
-            main: '#00ADB5',
+            main: '#3A7CA5',
             contrastText: '#EEEEEE',
         },
         secondary: {
-            main: '#5D646E',
+            main: '#edede9',
         },
         text: {
-            primary: '#222831',
+            primary: '#023047',
             secondary: '#EEEEEE',
         },
         background: {
             default: '#FFFFFF',
-            paper: '#F1F1F1',
+            paper: '#EEEEEE',
         },
     }
 };
