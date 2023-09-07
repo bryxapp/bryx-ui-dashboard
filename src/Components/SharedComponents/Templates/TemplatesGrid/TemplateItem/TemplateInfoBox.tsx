@@ -41,7 +41,7 @@ const TemplateInfoBox: React.FC<TemplateInfoBoxProps> = ({ template, setOpen, sh
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingLeft: '1rem' }}>
         <Typography
           variant="body1"
-          color={theme.palette.primary.contrastText}
+          color={theme.palette.text.secondary}
           gutterBottom
           sx={{
             overflow: 'hidden',
@@ -54,7 +54,7 @@ const TemplateInfoBox: React.FC<TemplateInfoBoxProps> = ({ template, setOpen, sh
           {template.friendlyName}
         </Typography>
         {showActions && (
-          <Typography variant="body2" color={theme.palette.primary.contrastText} gutterBottom>
+          <Typography variant="body2" color={theme.palette.text.secondary} gutterBottom>
             {displayDate}
           </Typography>
         )}
@@ -62,10 +62,10 @@ const TemplateInfoBox: React.FC<TemplateInfoBoxProps> = ({ template, setOpen, sh
       {showActions && (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingRight: '.5rem', }}>
           <IconButton onClick={handleDeleteClick}>
-            <DeleteIcon htmlColor={theme.palette.primary.contrastText} />
+            <DeleteIcon htmlColor={theme.palette.text.secondary} />
           </IconButton>
           <IconButton href={`/edit-template?templateId=${template.id}`}>
-            <EditIcon htmlColor={theme.palette.primary.contrastText} />
+            <EditIcon htmlColor={theme.palette.text.secondary} />
           </IconButton>
         </div>
       )}

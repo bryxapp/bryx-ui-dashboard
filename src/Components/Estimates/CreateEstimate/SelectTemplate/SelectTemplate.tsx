@@ -6,10 +6,9 @@ import useTheme from '@mui/material/styles/useTheme';
 
 const SelectTemplate = () => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
     return (
         <React.Fragment>
-            <Typography variant="h3" color={textColor}>
+            <Typography variant="h3" color={theme.palette.text.secondary}>
                 Select a Template
             </Typography>
             <div style={{ height: 50 }} />

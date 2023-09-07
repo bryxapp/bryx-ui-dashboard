@@ -2,11 +2,9 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import { useAuth0, LogoutOptions } from '@auth0/auth0-react';
-import { Button, Box, Switch, FormControlLabel } from '@mui/material';
+import { Button, Box, useTheme } from '@mui/material';
 import styled from '@emotion/styled';
 import logger from '../../../logging/logger';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness2Icon from '@mui/icons-material/Brightness2';
 
 const AuthButtons = styled(Button)`
   font-size: 1.5rem;
@@ -23,13 +21,9 @@ const Logo = styled(Typography)`
   }
 `;
 
-interface TopNavBarProps {
-  onToggleTheme: () => void;
-  themeMode: string;
-}
-
-const TopNavBar = ({ onToggleTheme, themeMode }: TopNavBarProps) => {
+const TopNavBar = () => {
   const { loginWithRedirect, logout, user, isLoading } = useAuth0();
+  const theme = useTheme();
   const handleLogout = () => {
     logger.trackEvent({ name: 'Logout', properties: { user: user?.name, environment: process.env.NODE_ENV } });
     logout({ returnTo: process.env.REACT_APP_AUTH0_LOGOUT_URL } as LogoutOptions);
@@ -43,22 +37,10 @@ const TopNavBar = ({ onToggleTheme, themeMode }: TopNavBarProps) => {
   return (
     <AppBar position="static">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Logo variant="h1" color="inherit" noWrap>
+        <Logo variant="h1" color={theme.palette.text.secondary} noWrap>
           BRYX
         </Logo>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={themeMode === 'dark'}
-                onChange={onToggleTheme}
-                color="secondary"
-                inputProps={{ 'aria-label': 'toggle theme' }}
-              />
-            }
-            label={themeMode === 'light' ? <Brightness4Icon /> : <Brightness2Icon />}
-          />
-          <Box sx={{ width: '16px' }} /> {/* Add spacing between the switch and the buttons */}
           {!isLoading && user ? (
             <AuthButtons color="inherit" onClick={() => handleLogout()}>
               Logout

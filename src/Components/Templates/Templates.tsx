@@ -38,7 +38,7 @@ const Templates = () => {
             sx={{
               borderRadius: 2,
               backgroundColor: theme.palette.primary.main,
-              color: theme.palette.primary.contrastText,
+              color: theme.palette.text.secondary,
             }}
             disabled={maxReached}
           >

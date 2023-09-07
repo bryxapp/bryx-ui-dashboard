@@ -6,9 +6,8 @@ interface NoneFoundProps {
 
 const NoneFound = ({ item }: NoneFoundProps) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === "dark" ? "white" : "black";
     return (
-        <Typography color={textColor} variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <Typography color={theme.palette.text.primary} variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
             No {item} found
         </Typography>
     );

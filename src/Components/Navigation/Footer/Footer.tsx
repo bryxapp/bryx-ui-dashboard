@@ -6,7 +6,7 @@ const Footer = () => {
     const theme = useTheme();
     return (
         <Box sx={{ minHeight: '10%', padding: '1.2rem', background:theme.palette.background.default }}>
-            <Typography variant="body2" color="text.primary" align="center">
+            <Typography variant="body2" color={theme.palette.text.primary} align="center">
                 {'Copyright © '}
                 BRYX
                 {' '}

@@ -15,8 +15,6 @@ interface TemplateDeleteDialogProps {
 
 const TemplateDeleteDialog = ({ template, handleTemplateDelete, open, setOpen }: TemplateDeleteDialogProps) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
-
 
     const handleConfirmDelete = () => {
         handleTemplateDelete(template.id);
@@ -30,7 +28,7 @@ const TemplateDeleteDialog = ({ template, handleTemplateDelete, open, setOpen }:
     return (
         <Dialog open={open} onClose={handleCancelDelete}>
             <DialogTitle>Delete Template</DialogTitle>
-            <Typography color={textColor} variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
+            <Typography color={theme.palette.text.primary} variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
                 Are you sure you want to permanently delete this template?
             </Typography>
             <DialogActions>

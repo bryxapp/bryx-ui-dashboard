@@ -8,16 +8,14 @@ import { useTheme } from '@mui/material/styles';
 
 interface NavigationProps {
     children: ReactNode;
-    onToggleTheme: () => void;
-    themeMode: string;
 }
 
-const Navigation = ({ children, onToggleTheme, themeMode }: NavigationProps) => {
+const Navigation = ({ children }: NavigationProps) => {
     const theme = useTheme();
 
     return (
         <React.Fragment>
-            <TopNavBar onToggleTheme={onToggleTheme} themeMode={themeMode} />
+            <TopNavBar />
             <Box
                 component="main"
                 sx={{

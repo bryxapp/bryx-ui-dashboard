@@ -7,13 +7,12 @@ import Button from "@mui/material/Button";
 
 const SelectCanvasStarter = () => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? 'white' : 'black';
     return (
         <React.Fragment>
-            <Typography variant="h4" color={textColor}>
+            <Typography variant="h4" color={theme.palette.text.primary}>
                 Choose a Starter Canvas or Create a New Design
             </Typography>
-            <Typography variant="subtitle1" color={textColor}>
+            <Typography variant="subtitle1" color={theme.palette.text.primary}>
                 Get started by selecting a starter canvas or creating a new design from scratch.
             </Typography>
             <div style={{ height: 30 }} />

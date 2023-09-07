@@ -8,30 +8,20 @@ import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
-import { lightTheme, darkTheme } from "./theme/themeOptions";
+import { themeOptions } from "./theme/themeOptions";
 import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 import PageViewTracker from "./logging/PageViewTracker";
-import { useState } from "react";
 import Estimates from "./Components/Estimates/Estimates";
 
 function App() {
   const { user, isLoading } = useAuth0();
-  const [themeMode, setThemeMode] = useState(localStorage.getItem('themeMode') || 'light');
-
-  const toggleTheme = () => {
-    const newTheme = themeMode === 'light' ? 'dark' : 'light';
-    localStorage.setItem('themeMode', newTheme);
-    setThemeMode(newTheme);
-  };
-
-  const currentThemeOptions = themeMode === 'light' ? lightTheme : darkTheme;
-  const theme = createTheme(currentThemeOptions);
+  const theme = createTheme(themeOptions);
 
   return (
     <ThemeProvider theme={theme}>
       <PageViewTracker />
-      <Navigation onToggleTheme={toggleTheme} themeMode={themeMode}>
+      <Navigation>
         {isLoading || user ? (
           <Routes>
             <Route path="/" element={<Estimates />} />
