@@ -26,7 +26,7 @@ const TopNavBar = () => {
   const theme = useTheme();
   const handleLogout = () => {
     logger.trackEvent({ name: 'Logout', properties: { user: user?.name, environment: process.env.NODE_ENV } });
-    logout({ returnTo: process.env.REACT_APP_AUTH0_LOGOUT_URL } as LogoutOptions);
+    logout({ returnTo: 'https://www.bryxbids.com/' } as LogoutOptions);
   };
 
   const handleLogin = () => {
