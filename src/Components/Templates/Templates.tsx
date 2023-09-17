@@ -1,22 +1,12 @@
 import { useState } from 'react';
-import { Button, Typography, Tooltip, useTheme } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import TemplatesGrid from '../SharedComponents/Templates/TemplatesGrid/TemplatesGrid';
-import logger from '../../logging/logger';
-import { useAuth0 } from '@auth0/auth0-react';
+import NewTemplateButton from './NewTemplateButton';
 
 
 const Templates = () => {
-  const [maxReached, setMaxReached] = useState(false);
+  const [maxTemplatesReached, setMaxTemplatesReached] = useState(false);
   const theme = useTheme();
-  const { user } = useAuth0();
-
-
-  const handleNewTemplateClick = () => {
-    logger.trackEvent({
-      name: 'New Template Click',
-      properties: { menu: 'New Template', user: user?.name, environment: process.env.NODE_ENV },
-    });
-  };
 
   return (
     <>
@@ -24,32 +14,11 @@ const Templates = () => {
         Templates
       </Typography>
       <br />
-      <Tooltip
-        title={maxReached ? 'Maximum number of templates reached' : ''}
-        placement="top"
-        disableHoverListener={!maxReached}
-      >
-        <span>
-          <Button
-            href="/choose-canvas-starter"
-            onClick={handleNewTemplateClick}
-            variant="contained"
-            size="large"
-            sx={{
-              borderRadius: 2,
-              backgroundColor: theme.palette.primary.main,
-              color: theme.palette.text.secondary,
-            }}
-            disabled={maxReached}
-          >
-            + New Template
-          </Button>
-        </span>
-      </Tooltip>
+      <NewTemplateButton maxTemplatesReached={maxTemplatesReached} />
       <br />
       <br />
       <TemplatesGrid
-        setMaxReached={setMaxReached}
+        setMaxReached={setMaxTemplatesReached}
         baseUrl='/edit-template?templateId='
         showActions={true} />
     </>

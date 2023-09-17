@@ -7,8 +7,6 @@ import NoneFound from '../../../SharedComponents/NoneFound/NoneFound';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 
-const MAX_TEMPLATES = 6;
-
 interface TemplatesGridProps {
     setMaxReached: any;
     baseUrl: string;
@@ -24,10 +22,8 @@ const TemplatesGrid = ({ setMaxReached, baseUrl, showActions = false }: Template
         getAccessToken().then((token) => {
             if (!token) return;
             getTemplates(token).then((response) => {
-                setTemplates(response.data);
-                if (response.data.length >= MAX_TEMPLATES) {
-                    setMaxReached(true);
-                }
+                setTemplates(response.data.templates);
+                setMaxReached(response.data.maxTemplatesReached);
                 setLoading(false);
             });
         });

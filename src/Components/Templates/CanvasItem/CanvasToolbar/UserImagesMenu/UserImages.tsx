@@ -1,17 +1,14 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
-import { getUserImages, uploadImage } from '../../../../../utils/api/user-images-api';
 import Loading from '../../../../SharedComponents/Loading/Loading';
-import UserImageCard from './UserImageCard';
-import { useAccessToken } from '../../../../../utils/customHooks/useAccessToken';
+import NewUserImageButton from './NewUserImageButton';
+import UserImagesGrid from './UserImagesGrid';
 
 interface UserImagesMenuProps {
     isLoading: boolean;
@@ -19,93 +16,12 @@ interface UserImagesMenuProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
 }
 
-
-type ImageApiResponse = {
-    imageBlobUrl: string;
-    id: string;
-};
-
 export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImagesMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
+    const [maxUserImagesReached, setMaxUserImagesReached] = useState(false);
     const [fetchingUserImages, setFetchingUserImages] = useState(true);
-    const { getAccessToken } = useAccessToken();
-
-    const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
-        try {
-            setFetchingUserImages(true);
-            const token = await getAccessToken();
-            if (!token) return;
-
-            await uploadImage(file, token);
-            const response = await getUserImages(token);
-            const results = response.data;
-
-            const imagePromises = results.map(async (image: ImageApiResponse) => {
-                const { width, height } = await getImageDimensions(image.imageBlobUrl);
-                return { url: image.imageBlobUrl, width, height, imageDbId: image.id };
-            });
-
-            const imageData = await Promise.all(imagePromises);
-            setUserImages(imageData);
-        } catch (error) {
-            // Handle error as needed
-            console.error(error);
-        } finally {
-            setFetchingUserImages(false);
-        }
-    }, [ getAccessToken]);
-
-
-
-    useEffect(() => {
-        let isCancelled = false; // Cancellation token
-
-        const fetchUserImages = async () => {
-            try {
-                const token = await getAccessToken();
-                if (!token || isCancelled) return;
-
-                const response = await getUserImages(token);
-                const results = response.data;
-
-                const imagePromises = results.map(async (image: any) => {
-                    const { width, height } = await getImageDimensions(image.imageBlobUrl);
-                    return { url: image.imageBlobUrl, width, height, imageDbId: image.id };
-                });
-
-                const imageData = await Promise.all(imagePromises);
-
-                if (!isCancelled) {
-                    setUserImages(imageData);
-                    setFetchingUserImages(false);
-                }
-            } catch (error) {
-                // Handle error as needed
-                console.error(error);
-            }
-        };
-
-        fetchUserImages();
-
-        return () => {
-            isCancelled = true; // Cancel any pending async operations if the component unmounts
-        };
-    }, [getAccessToken]);
-
-
-    const getImageDimensions = (url: string): Promise<{ width: number; height: number }> => {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve({ width: img.width * 2, height: img.height * 2 });
-            img.onerror = reject;
-            img.src = url;
-        });
-    };
 
     return (
         <>
@@ -143,28 +59,16 @@ export default function UserImagesMenu({ isLoading, setCanvasDesign }: UserImage
                     {fetchingUserImages ? (
                         <Loading />
                     ) : (
-                        <Grid container spacing={2} sx={{ p: 2 }}>
-                            {userImages.map((imageData) => (
-                                <Grid item xs={6} sm={4} md={3} key={imageData.url}>
-                                    <UserImageCard
-                                        setCanvasDesign={setCanvasDesign}
-                                        imageData={imageData}
-                                        userImages={userImages}
-                                        setUserImages={setUserImages}
-                                        setAnchorEl={setAnchorEl}
-                                    />
-                                </Grid>
-                            ))}
-                        </Grid>
-                    )}
-                    <Button variant="contained" component="label">
-                        Upload File
-                        <input
-                            type="file"
-                            hidden
-                            onChange={handleImageUpload}
+                        <UserImagesGrid
+                            setCanvasDesign={setCanvasDesign}
+                            userImages={userImages}
+                            setUserImages={setUserImages}
+                            setFetchingUserImages={setFetchingUserImages}
+                            setAnchorEl={setAnchorEl}
+                            setMaxUserImagesReached = {setMaxUserImagesReached}
                         />
-                    </Button>
+                    )}
+                    <NewUserImageButton maxUserImagesReached={maxUserImagesReached} setFetchingUserImages={setFetchingUserImages} setUserImages={setUserImages} />
                 </div>
             </Menu>
         </>

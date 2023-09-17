@@ -12,9 +12,13 @@ import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { Alert } from "@mui/material";
 
 
-const PAGE_SIZE = 2; // Number of estimate drafts per page
+const PAGE_SIZE = 10; // Number of estimate drafts per page
 
-const PastEstimates = () => {
+interface PastEstimatesProps {
+  setMaxEstimatesReached: (maxEstimatesReached: boolean) => void;
+}
+
+const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
   const [estimates, setEstimates] = useState<EstimateData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedTemplateId, setSelectedTemplateId] = useState("");
@@ -42,7 +46,8 @@ const PastEstimates = () => {
           selectedTemplateId
         )
           .then((response) => {
-            setEstimates(response.data);
+            setEstimates(response.data.estimates);
+            setMaxEstimatesReached(response.data.maxEstimatesReached);
           })
           .catch(error => {
             console.error('Error retrieving estimates:', error);

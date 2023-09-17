@@ -40,3 +40,12 @@ export function getUserImageByID(id: string, token: string) {
 export function deleteImage(id: string, token: string) {
     return axios.delete(`${BASE_URL}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
 }
+
+export const getImageDimensions = (url: string): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve({ width: img.width * 2, height: img.height * 2 });
+        img.onerror = reject;
+        img.src = url;
+    });
+};

@@ -16,7 +16,6 @@ interface UserImageProps {
     userImages: Array<ImageData>;
     setUserImages: React.Dispatch<React.SetStateAction<Array<ImageData>>>;
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-
 }
 
 type ImageData = {

@@ -4,25 +4,17 @@ import Typography from "@mui/material/Typography";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import PastEstimates from "./PastEstimates/PastEstimates";
 import EstimateDrafts from "./EstimateDrafts/EstimateDrafts";
 import useTheme from "@mui/material/styles/useTheme";
-import { useAuth0 } from "@auth0/auth0-react";
-import logger from "../../logging/logger";
+import NewEstimateButton from "./NewEstimateButton";
 
 const Estimates: React.FC = () => {
   const theme = useTheme();
   const [activeTab, setActiveTab] = useState<number>(0);
+  const [maxEstimatesReached, setMaxEstimatesReached] = useState(false);
   const location = useLocation();
-  const { user } = useAuth0();
 
-  const handleNewEstimateClick = () => {
-    logger.trackEvent({
-      name: 'New Estimate Click',
-      properties: { menu: 'New Estimate', user: user?.name, environment: process.env.NODE_ENV },
-    });
-  };
 
   const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setActiveTab(newValue);
@@ -47,16 +39,7 @@ const Estimates: React.FC = () => {
         Estimates
       </Typography>
       <br />
-      <Button
-        href='/select-template'
-        onClick={handleNewEstimateClick}
-        variant='contained'
-        color='primary'
-        size='large'
-        sx={{ borderRadius: 2 }}
-      >
-        + New Estimate
-      </Button>
+      <NewEstimateButton maxEstimatesReached={maxEstimatesReached} />
       <Box sx={{ width: "100%", marginTop: 2 }}>
         <Tabs
           value={activeTab}
@@ -83,7 +66,7 @@ const Estimates: React.FC = () => {
           id="past-estimates-tabpanel"
           sx={{ marginTop: 2 }}
         >
-          {activeTab === 0 && <PastEstimates />}
+          {activeTab === 0 && <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached}/>}
         </Box>
         <Box
           role="tabpanel"
