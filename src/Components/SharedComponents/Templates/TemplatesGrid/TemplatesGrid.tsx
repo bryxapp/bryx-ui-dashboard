@@ -8,7 +8,7 @@ import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 
 interface TemplatesGridProps {
-    setMaxTemplatesReached: (value: boolean) => void|null;
+    setMaxTemplatesReached: ((value: boolean) => void) | null;
     baseUrl: string;
     showActions?: boolean;
 }
@@ -18,7 +18,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     const { getAccessToken } = useAccessToken();
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
-    
+
     useEffect(() => {
         const fetchTemplates = async () => {
             setTemplateRequestCompleted(false);
@@ -27,7 +27,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                 if (!token) return;
                 const response = await getTemplates(token);
                 setTemplates(response.data.templates);
-                setMaxTemplatesReached(response.data.maxTemplatesReached);
+                if (setMaxTemplatesReached) {
+                    setMaxTemplatesReached(response.data.maxTemplatesReached);
+                }
             } catch (error) {
                 console.error('Error retrieving estimates:', error);
                 setErrorRetrievingTemplates(true);
@@ -36,12 +38,12 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
             }
         };
         fetchTemplates();
-    }, [setMaxTemplatesReached,getAccessToken]);
+    }, [setMaxTemplatesReached, getAccessToken]);
 
     const handleTemplateDelete = async (templateId: string) => {
         const token = await getAccessToken();
         if (!token) return;
-        
+
         await deleteTemplate(templateId, token);
         setTemplates(prevTemplates => prevTemplates.filter(template => template.id !== templateId));
     };
