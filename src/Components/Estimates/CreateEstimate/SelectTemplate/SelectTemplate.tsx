@@ -20,7 +20,7 @@ const SelectTemplate = () => {
                 }}
             >
                 <TemplatesGrid
-                    setMaxReached={null}
+                    setMaxTemplatesReached={null}
                     baseUrl='/form?templateId=' />
             </Paper>
         </React.Fragment>

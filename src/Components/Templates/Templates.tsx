@@ -18,7 +18,7 @@ const Templates = () => {
       <br />
       <br />
       <TemplatesGrid
-        setMaxReached={setMaxTemplatesReached}
+        setMaxTemplatesReached={setMaxTemplatesReached}
         baseUrl='/edit-template?templateId='
         showActions={true} />
     </>

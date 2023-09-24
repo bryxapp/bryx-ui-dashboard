@@ -1,55 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, } from 'react';
 import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
 import { getTemplates, deleteTemplate } from '../../../../utils/api/templates-api';
-import { Typography } from '@mui/material';
+import { Typography, Alert } from '@mui/material';
 import NoneFound from '../../../SharedComponents/NoneFound/NoneFound';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 
 interface TemplatesGridProps {
-    setMaxReached: any;
+    setMaxTemplatesReached: (value: boolean) => void|null;
     baseUrl: string;
     showActions?: boolean;
 }
 
-const TemplatesGrid = ({ setMaxReached, baseUrl, showActions = false }: TemplatesGridProps) => {
+const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, baseUrl, showActions = false }) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
-    const [loading, setLoading] = useState(true);
     const { getAccessToken } = useAccessToken();
-
+    const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
+    const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
+    
     useEffect(() => {
-        getAccessToken().then((token) => {
-            if (!token) return;
-            getTemplates(token).then((response) => {
+        const fetchTemplates = async () => {
+            setTemplateRequestCompleted(false);
+            try {
+                const token = await getAccessToken();
+                if (!token) return;
+                const response = await getTemplates(token);
                 setTemplates(response.data.templates);
-                setMaxReached(response.data.maxTemplatesReached);
-                setLoading(false);
-            });
-        });
-    }, [getAccessToken, setMaxReached]);
+                setMaxTemplatesReached(response.data.maxTemplatesReached);
+            } catch (error) {
+                console.error('Error retrieving estimates:', error);
+                setErrorRetrievingTemplates(true);
+            } finally {
+                setTemplateRequestCompleted(true);
+            }
+        };
+        fetchTemplates();
+    }, [setMaxTemplatesReached,getAccessToken]);
 
-    const handleTemplateDelete = (templateId: string) => {
-        getAccessToken().then((token) => {
-            if (!token) return;
-            deleteTemplate(templateId, token).then(() => {
-                setTemplates(templates.filter((template: TemplateData) => template.id !== templateId));
-            });
-        }
-        );
+    const handleTemplateDelete = async (templateId: string) => {
+        const token = await getAccessToken();
+        if (!token) return;
+        
+        await deleteTemplate(templateId, token);
+        setTemplates(prevTemplates => prevTemplates.filter(template => template.id !== templateId));
     };
 
-    if (loading)
-        return (
-            <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>
-                Loading...
-            </Typography>
-        );
+    if (!templateRequestCompleted)
+        return <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>Loading...</Typography>;
+
+    if (errorRetrievingTemplates)
+        return <Alert severity="error">There was an error retrieving your templates. Please try again.</Alert>
+
     if (templates.length === 0) return <NoneFound item='templates' />;
 
     return (
         <Grid container spacing={2}>
-            {templates.map((template) => (
+            {templates.map(template => (
                 <Grid item xs={12} sm={6} md={4} key={template.id}>
                     <TemplatesListItem
                         template={template}
