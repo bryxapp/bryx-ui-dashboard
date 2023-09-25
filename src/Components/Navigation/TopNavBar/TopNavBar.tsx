@@ -27,7 +27,7 @@ const Logo = styled(Typography)`
 
 const TopNavBar = () => {
   const { user, getAccessToken } = useAccessToken();
-  const { loginWithRedirect, logout,isLoading } = useAuth0();
+  const { loginWithRedirect, logout, isLoading } = useAuth0();
   const theme = useTheme();
   const subscription = sessionStorage.getItem('subscription'); // Get from sessionStorage
 
@@ -58,7 +58,7 @@ const TopNavBar = () => {
     if (user && !subscription) {
       fetchSubscription();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.sub]);
 
   return (
@@ -68,8 +68,8 @@ const TopNavBar = () => {
           BRYX bids
         </Logo>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Chip label={subscription} sx={{ marginRight: '10px' }} />
-          {isLoading||user ? (
+          <Chip label={subscription} sx={{ marginRight: '10px', color: theme.palette.text.secondary, fontWeight: "bold" }} />
+          {isLoading || user ? (
             <AuthButtons color="inherit" onClick={handleLogout}>
               Logout
             </AuthButtons>

@@ -68,14 +68,14 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
                     onChange={handleSearch}
                     style={{ width: "100%" }} // make search box wider
                     InputLabelProps={{
-                        style: { color: theme.palette.secondary.main } // change the color to your desired color
+                        style: { color: theme.palette.text.primary } // change the color to your desired color
                     }}
                 />
             </div>
             <div style={{ paddingLeft: "16px" }}> {/* add padding */}
                 <FormControl variant="outlined" sx={{ minWidth: 120 }}>
                     <InputLabel id="templateId-label" sx={{
-                        color: theme.palette.secondary.main
+                        color: theme.palette.text.primary
                     }}>Template ID</InputLabel>
                     <Select
                         labelId="templateId-label"
