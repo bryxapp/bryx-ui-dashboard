@@ -27,7 +27,7 @@ const Logo = styled(Typography)`
 
 const TopNavBar = () => {
   const { user, getAccessToken } = useAccessToken();
-  const { loginWithRedirect, logout } = useAuth0();
+  const { loginWithRedirect, logout,isLoading } = useAuth0();
   const theme = useTheme();
   const subscription = sessionStorage.getItem('subscription'); // Get from sessionStorage
 
@@ -69,7 +69,7 @@ const TopNavBar = () => {
         </Logo>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Chip label={subscription} sx={{ marginRight: '10px' }} />
-          {user ? (
+          {isLoading||user ? (
             <AuthButtons color="inherit" onClick={handleLogout}>
               Logout
             </AuthButtons>
