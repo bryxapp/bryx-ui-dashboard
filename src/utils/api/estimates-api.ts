@@ -23,6 +23,7 @@ export async function createEstimate(templateData:TemplateData, estimateName: st
 }
 
 export function getEstimates(pageSize: number, pageNumber: number, token:string, searchTerm?: string, templateId?: string) {
+    console.log("ESTIMATES API")
     // Initialize base URL
     let url = `${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
@@ -40,9 +41,10 @@ export function getEstimates(pageSize: number, pageNumber: number, token:string,
     return axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
 }
 
-export function getUsedTemplates(token: string) {
-    return axios.get(`${BASE_URL}/templates`, { headers: { Authorization: `Bearer ${token}` } });
+export async function getUsedTemplates(token: string) {
+    return await axios.get(`${BASE_URL}/templates`, { headers: { Authorization: `Bearer ${token}` } });
 }
+
 
 export function getEstimate(id: string, token: string) {
     return axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });

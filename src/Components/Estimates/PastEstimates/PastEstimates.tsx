@@ -26,7 +26,7 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
   const [estimateRequestCompleted, setEstimateRequestCompleted] = useState(false);
   const [errorRetrievingEstimates, setErrorRetrievingEstimates] = useState(false);
 
-  const { getAccessToken } = useAccessToken();
+  const { getAccessToken, user } = useAccessToken();
 
   const loadEstimates = useRef(
     _.debounce(
@@ -73,7 +73,8 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
         selectedTemplateId
       );
     });
-  }, [pageNumber, searchTerm, selectedTemplateId, getAccessToken]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber, searchTerm, selectedTemplateId, user?.sub]);
 
   const handleEstimateDelete = (estimateId: string) => {
     getAccessToken().then((token) => {

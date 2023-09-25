@@ -15,7 +15,7 @@ interface TemplatesGridProps {
 
 const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, baseUrl, showActions = false }) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken, user } = useAccessToken();
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
 
@@ -23,6 +23,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
         const fetchTemplates = async () => {
             setTemplateRequestCompleted(false);
             try {
+                if (!user) return;
                 const token = await getAccessToken();
                 if (!token) return;
                 const response = await getTemplates(token);
@@ -38,7 +39,8 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
             }
         };
         fetchTemplates();
-    }, [setMaxTemplatesReached, getAccessToken]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user?.sub]);
 
     const handleTemplateDelete = async (templateId: string) => {
         const token = await getAccessToken();

@@ -13,34 +13,39 @@ import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 import PageViewTracker from "./logging/PageViewTracker";
 import Estimates from "./Components/Estimates/Estimates";
+import { AccessTokenProvider } from './utils/contexts/AccessTokenContext';
 
 function App() {
   const { user, isLoading } = useAuth0();
   const theme = createTheme(themeOptions);
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <PageViewTracker />
-      <Navigation>
-        {isLoading || user ? (
-          <Routes>
-            <Route path="/" element={<Estimates />} />
-            <Route path="/templates" element={<Templates />} />
-            <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
-            <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
-            <Route path="/edit-template" element={<CanvasItem isNewCanvas={false} />} />
-            <Route path="/select-template" element={<SelectTemplate />} />
-            <Route path="/form" element={<EstimateForm />} />
-            <Route path="/view-estimate" element={<ViewEstimate />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        ) : (
-          <Routes>
-            <Route path="*" element={<NotLoggedIn />} />
-          </Routes>
-        )}
-      </Navigation>
-    </ThemeProvider>
+      <AccessTokenProvider>
+          <ThemeProvider theme={theme}>
+            <Navigation>
+              {isLoading || user ? (
+                <Routes>
+                  <Route path="/" element={<Estimates />} />
+                  <Route path="/templates" element={<Templates />} />
+                  <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
+                  <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
+                  <Route path="/edit-template" element={<CanvasItem isNewCanvas={false} />} />
+                  <Route path="/select-template" element={<SelectTemplate />} />
+                  <Route path="/form" element={<EstimateForm />} />
+                  <Route path="/view-estimate" element={<ViewEstimate />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              ) : (
+                <Routes>
+                  <Route path="*" element={<NotLoggedIn />} />
+                </Routes>
+              )}
+            </Navigation>
+          </ThemeProvider>
+      </AccessTokenProvider>
+    </>
   );
 }
 

@@ -34,20 +34,26 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
     };
 
     useEffect(() => {
-        setTemplateRequestCompleted(false);
-        setErrorRetrievingTemplates(false);  // Reset the error state at the start
-        getAccessToken().then((token: any) => {
+        const fetchUsedTemplates = async () => {
+            setTemplateRequestCompleted(false);
+            setErrorRetrievingTemplates(false);  // Reset the error state at the start
+            const token = await getAccessToken();
             if (!token) return;
-            getUsedTemplates(token).then(({ data }) => {
-                setTemplatesUsed(data);
-            }).catch(error => {
+            try {
+                const response = await getUsedTemplates(token);
+                setTemplatesUsed(response.data);
+            }
+            catch (error) {
                 setErrorRetrievingTemplates(true);
                 console.error('Error retrieving templates:', error);
-            });
-        }).finally(() => {
-            setTemplateRequestCompleted(true);
-        });
+            }
+            finally {
+                setTemplateRequestCompleted(true);
+            }
+        };
+        fetchUsedTemplates();
     }, [getAccessToken]);
+    
 
 
     return (

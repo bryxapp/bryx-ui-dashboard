@@ -26,6 +26,7 @@ export function updateTemplate(templateId: string, canvasDesign: CanvasDesignDat
 }
 
 export function getTemplates(token: string) {
+    console.log("TEMPLATES API")
     //get all templates from the api
     return axios.get(`${BASE_URL}`, { headers: { Authorization: `Bearer ${token}` } });
 }
