@@ -3,12 +3,13 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import { LogoutOptions } from '@auth0/auth0-react';
-import { Button, Box, useTheme, Chip } from '@mui/material';
+import { Button, Box, useTheme } from '@mui/material';
 import styled from '@emotion/styled';
 import logger from '../../../logging/logger';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { getSubscription } from "../../../utils/api/user-api";
+import Subscription from "./Subscription/Subscription";
 
 const AuthButtons = styled(Button)`
   font-size: 1.5rem;
@@ -68,11 +69,14 @@ const TopNavBar = () => {
           BRYX bids
         </Logo>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Chip label={subscription} sx={{ marginRight: '10px', color: theme.palette.text.secondary, fontWeight: "bold" }} />
+
           {isLoading || user ? (
-            <AuthButtons color="inherit" onClick={handleLogout}>
-              Logout
-            </AuthButtons>
+            <>
+              <Subscription />
+              <AuthButtons color="inherit" onClick={handleLogout}>
+                Logout
+              </AuthButtons>
+            </>
           ) : (
             <AuthButtons color="inherit" onClick={handleLogin}>
               Login
