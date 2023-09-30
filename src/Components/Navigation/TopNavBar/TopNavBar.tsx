@@ -1,35 +1,19 @@
 import { useEffect } from "react";
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
 import AppBar from '@mui/material/AppBar';
 import { LogoutOptions } from '@auth0/auth0-react';
-import { Button, Box, useTheme } from '@mui/material';
-import styled from '@emotion/styled';
+import { Box } from '@mui/material';
 import logger from '../../../logging/logger';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { getSubscription } from "../../../utils/api/user-api";
 import Subscription from "./Subscription/Subscription";
-
-const AuthButtons = styled(Button)`
-  font-size: 1.5rem;
-  padding: 10px;
-  min-width: 100px;
-`;
-
-const Logo = styled(Typography)`
-  font-size: 4rem;
-  font-weight: bold;
-
-  @media (max-width: 600px) {
-    font-size: 2rem;
-  }
-`
+import Logo from "./Logo";
+import AuthButton from "./AuthButton";
 
 const TopNavBar = () => {
   const { user, getAccessToken } = useAccessToken();
   const { loginWithRedirect, logout, isLoading } = useAuth0();
-  const theme = useTheme();
   const subscription = sessionStorage.getItem('subscription'); // Get from sessionStorage
 
   const handleLogout = () => {
@@ -39,7 +23,7 @@ const TopNavBar = () => {
   };
 
   const handleLogin = async () => {
-    logger.trackEvent({ name: 'Login', properties: { user: user?.name, environment: process.env.NODE_ENV } });
+    logger.trackEvent({ name: 'Login', properties: { environment: process.env.NODE_ENV } });
     await loginWithRedirect();
   };
 
@@ -65,22 +49,15 @@ const TopNavBar = () => {
   return (
     <AppBar position="static">
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Logo variant="h1" color={theme.palette.text.secondary} noWrap>
-          BRYX bids
-        </Logo>
+        <Logo />
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-
           {isLoading || user ? (
             <>
               <Subscription />
-              <AuthButtons color="inherit" onClick={handleLogout}>
-                Logout
-              </AuthButtons>
+              <AuthButton onClick={handleLogout} text={"Logout"} />
             </>
           ) : (
-            <AuthButtons color="inherit" onClick={handleLogin}>
-              Login
-            </AuthButtons>
+            <AuthButton onClick={handleLogin} text={"Login"} />
           )}
         </Box>
       </Toolbar>
