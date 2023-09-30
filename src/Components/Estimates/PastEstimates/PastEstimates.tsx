@@ -90,6 +90,7 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
   return (
     <>
       <EstimatesSearch
+        enabled={estimates.length>0}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         selectedTemplateId={selectedTemplateId}

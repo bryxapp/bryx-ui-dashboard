@@ -10,13 +10,14 @@ import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { getUsedTemplates } from "../../../utils/api/estimates-api";
 
 interface EstimatesSearchProps {
+    enabled: boolean;
     searchTerm: string;
     setSearchTerm: (searchTerm: string) => void;
     selectedTemplateId: string;
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
+const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
     const { getAccessToken } = useAccessToken();
@@ -53,7 +54,7 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
         };
         fetchUsedTemplates();
     }, [getAccessToken]);
-    
+
 
 
     return (
@@ -61,6 +62,7 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
             <div style={{ flex: "1" }}>
                 <TextField
                     id="outlined-search"
+                    disabled={!enabled}
                     label="Search Estimates"
                     type="search"
                     variant="outlined"
@@ -68,23 +70,30 @@ const EstimatesSearch = ({ searchTerm, setSearchTerm, selectedTemplateId, setSel
                     onChange={handleSearch}
                     style={{ width: "100%" }} // make search box wider
                     InputLabelProps={{
-                        style: { color: theme.palette.text.primary } // change the color to your desired color
+                        style: { color: enabled ? theme.palette.text.primary : theme.palette.text.secondary } // change the color to your desired color
                     }}
                 />
             </div>
             <div style={{ paddingLeft: "16px" }}> {/* add padding */}
                 <FormControl variant="outlined" sx={{ minWidth: 120 }}>
-                    <InputLabel id="templateId-label" sx={{
-                        color: theme.palette.text.primary
-                    }}>Template ID</InputLabel>
+                    <InputLabel
+                        id="templateId-label"
+                        sx={{ color: enabled ? theme.palette.text.primary : theme.palette.text.secondary }}>
+                        Template ID
+                    </InputLabel>
                     <Select
+                        disabled={!enabled}
                         labelId="templateId-label"
                         id="templateId"
                         value={selectedTemplateId}
                         onChange={handleTemplateIdFilter}
                         label="Template ID"
-                        style={{ width: "10em" }}
+                        style={{
+                            width: "10em",
+                            color: enabled ? theme.palette.text.primary : theme.palette.text.secondary
+                        }}
                     >
+
                         <MenuItem value="">
                             <em>All</em>
                         </MenuItem>

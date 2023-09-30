@@ -22,7 +22,7 @@ const EstimateDrafts = () => {
       if (!token) return;
       getEstimateDrafts(PAGE_SIZE, pageNumber, token) // Pass the pageNumber to getEstimateDrafts
         .then((response) => {
-          setEstimateDrafts(response.data.estimateDrafts);
+          setEstimateDrafts(response.data.fetchedEstimateDrafts);
           setLoading(false);
         });
     });
