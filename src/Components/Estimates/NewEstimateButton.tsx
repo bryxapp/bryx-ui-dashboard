@@ -2,6 +2,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import logger from "../../logging/logger";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 
 interface NewEstimateButtonProps {
     maxEstimatesReached: boolean;
@@ -9,12 +10,14 @@ interface NewEstimateButtonProps {
 
 const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
     const { user } = useAuth0();
+    const navigate = useNavigate();
 
     const handleNewEstimateClick = () => {
         logger.trackEvent({
             name: 'New Estimate Click',
             properties: { menu: 'New Estimate', user: user?.name, environment: process.env.NODE_ENV },
         });
+        navigate('/select-template')
     };
 
     const tooltipTitle = maxEstimatesReached 
@@ -25,7 +28,6 @@ const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
         <Tooltip title={tooltipTitle}>
             <span> {/* span is added because disabled buttons don't trigger tooltips */}
                 <Button
-                    href='/select-template'
                     onClick={handleNewEstimateClick}
                     variant='contained'
                     color='primary'

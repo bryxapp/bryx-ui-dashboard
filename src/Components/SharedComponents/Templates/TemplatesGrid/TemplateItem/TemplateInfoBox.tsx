@@ -6,6 +6,7 @@ import { convertEpochTime } from '../../../../../utils/time-util';
 import Typography from '@mui/material/Typography';
 import { Paper, useTheme } from '@mui/material';
 import { TemplateData } from '../../../../../utils/types/TemplateInterfaces';
+import { useNavigate } from 'react-router-dom';
 
 interface TemplateInfoBoxProps {
   template: TemplateData;
@@ -16,12 +17,16 @@ interface TemplateInfoBoxProps {
 const TemplateInfoBox: React.FC<TemplateInfoBoxProps> = ({ template, setOpen, showActions }) => {
   const displayDate = convertEpochTime(template._ts);
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleDeleteClick = () => {
     if (setOpen) {
       setOpen(true);
     }
   };
+  const handleEditClick = () => {
+    navigate(`/edit-template?templateId=${template.id}`)
+  }
 
   return (
     <Paper
@@ -64,7 +69,7 @@ const TemplateInfoBox: React.FC<TemplateInfoBoxProps> = ({ template, setOpen, sh
           <IconButton onClick={handleDeleteClick}>
             <DeleteIcon htmlColor={theme.palette.text.secondary} />
           </IconButton>
-          <IconButton href={`/edit-template?templateId=${template.id}`}>
+          <IconButton onClick={handleEditClick}>
             <EditIcon htmlColor={theme.palette.text.secondary} />
           </IconButton>
         </div>

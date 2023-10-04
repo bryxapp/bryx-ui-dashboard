@@ -1,27 +1,29 @@
-import React from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import Link from '@mui/material/Link';
+import Link from '../../../SharedComponents/Link/Link'
 import { Typography, useTheme } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
-const MenuItem = (title: string, hrefValue: string, icon: any) => {
+interface MenuItemProps {
+    title: string;
+    link: string;
+    icon: React.ReactNode;
+}
+
+const MenuItem: React.FC<MenuItemProps> = ({ title, link, icon }) => {
     const location = useLocation();
-    const selected = location.pathname === hrefValue;
+    const selected = location.pathname === link;
     const theme = useTheme();
 
     const listItemButtonStyle = {
-        backgroundColor: selected ? theme.palette.background.default : 'inherit', // Update the background color based on the selected prop
+        backgroundColor: selected ? theme.palette.background.default : 'inherit',
         color: theme.palette.text.primary,
     };
 
-
     return (
-        <Link href={hrefValue} underline="none" noWrap>
-            <ListItemButton sx={
-                listItemButtonStyle
-            }>
+        <Link to={link}>
+            <ListItemButton sx={listItemButtonStyle}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText
                     primary={

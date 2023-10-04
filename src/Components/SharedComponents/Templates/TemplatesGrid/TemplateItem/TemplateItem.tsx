@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { TemplateData } from '../../../../../utils/types/TemplateInterfaces';
-import { Paper, Link } from '@mui/material';
+import { Paper } from '@mui/material';
 import PreviewStage from '../../../../SharedComponents/Templates/PreviewStage/PreviewStage';
 import TemplateDeleteDialog from './TemplateDeleteDialog';
 import TemplateInfoBox from './TemplateInfoBox';
 import { useTheme } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 interface TemplateItemProps {
   template: TemplateData;
@@ -31,7 +32,7 @@ const TemplateItem = ({ template, handleTemplateDelete, baseUrl, showActions }: 
           background: theme.palette.secondary.main,
         }}
       >
-        <Link href={baseUrl + template.id} underline="none">
+        <Link to={baseUrl + template.id}>
           <div style={{ height: '1rem' }} />
           <PreviewStage canvasDesign={template.canvasDesign} scale={0.20} />
         </Link>

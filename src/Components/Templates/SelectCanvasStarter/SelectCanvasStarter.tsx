@@ -4,9 +4,16 @@ import Paper from '@mui/material/Paper';
 import CanvasStarterList from "./CanvasStarterList/CanvasStarterList";
 import useTheme from '@mui/material/styles/useTheme';
 import Button from "@mui/material/Button";
+import { useNavigate } from 'react-router-dom';
 
 const SelectCanvasStarter = () => {
     const theme = useTheme();
+    const navigate = useNavigate();
+
+    const handleButtonClick = () => {
+        navigate('/create-template')
+    }
+
     return (
         <React.Fragment>
             <Typography variant="h4" color={theme.palette.text.primary}>
@@ -26,7 +33,7 @@ const SelectCanvasStarter = () => {
                 <CanvasStarterList />
             </Paper>
             <div style={{ height: 30 }} />
-            <Button variant="contained" href="/create-template">Start From Scratch</Button>
+            <Button variant="contained" onClick={handleButtonClick}>Start From Scratch</Button>
         </React.Fragment>
     )
 }

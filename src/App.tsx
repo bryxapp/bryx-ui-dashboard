@@ -20,32 +20,30 @@ function App() {
   const theme = createTheme(themeOptions);
 
   return (
-    <>
+    <AccessTokenProvider>
       <PageViewTracker />
-      <AccessTokenProvider>
-          <ThemeProvider theme={theme}>
-            <Navigation>
-              {isLoading || user ? (
-                <Routes>
-                  <Route path="/" element={<Estimates />} />
-                  <Route path="/templates" element={<Templates />} />
-                  <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
-                  <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
-                  <Route path="/edit-template" element={<CanvasItem isNewCanvas={false} />} />
-                  <Route path="/select-template" element={<SelectTemplate />} />
-                  <Route path="/form" element={<EstimateForm />} />
-                  <Route path="/view-estimate" element={<ViewEstimate />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              ) : (
-                <Routes>
-                  <Route path="*" element={<NotLoggedIn />} />
-                </Routes>
-              )}
-            </Navigation>
-          </ThemeProvider>
-      </AccessTokenProvider>
-    </>
+      <ThemeProvider theme={theme}>
+        <Navigation>
+          {isLoading || user ? (
+            <Routes>
+              <Route path="/" element={<Estimates />} />
+              <Route path="/templates" element={<Templates />} />
+              <Route path="/create-template" element={<CanvasItem isNewCanvas={true} />} />
+              <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
+              <Route path="/edit-template" element={<CanvasItem isNewCanvas={false} />} />
+              <Route path="/select-template" element={<SelectTemplate />} />
+              <Route path="/form" element={<EstimateForm />} />
+              <Route path="/view-estimate" element={<ViewEstimate />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="*" element={<NotLoggedIn />} />
+            </Routes>
+          )}
+        </Navigation>
+      </ThemeProvider>
+    </AccessTokenProvider>
   );
 }
 

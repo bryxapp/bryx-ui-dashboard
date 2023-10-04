@@ -19,6 +19,7 @@ import Loading from '../../../SharedComponents/Loading/Loading';
 import PreviewStage from './TemplatePreview/TemplatePreview';
 import Saving from '../../../SharedComponents/Saving/Saving';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { useNavigate } from 'react-router-dom';
 
 const EstimateForm = () => {
 
@@ -35,6 +36,7 @@ const EstimateForm = () => {
     const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
     const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
     const { getAccessToken } = useAccessToken();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!templateId) return;
@@ -94,7 +96,7 @@ const EstimateForm = () => {
                 // Wait for 2 seconds before navigating to the estimate page
                 await new Promise((resolve) => setTimeout(resolve, 2000));
 
-                window.location.href = "/view-estimate?estimateId=" + res.data.id;
+                navigate("/view-estimate?estimateId=" + res.data.id);
             });
 
         } catch (error) {
@@ -120,7 +122,7 @@ const EstimateForm = () => {
                 }
             });
 
-            window.location.href = "/?tab=1";
+            navigate("/?tab=1");
         } catch (error) {
             console.error("Error Saving Estimate Draft:", error);
         } finally {
