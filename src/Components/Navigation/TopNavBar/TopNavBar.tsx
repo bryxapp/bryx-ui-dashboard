@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
 import { LogoutOptions } from '@auth0/auth0-react';
@@ -14,7 +14,7 @@ import AuthButton from "./AuthButton";
 const TopNavBar = () => {
   const { user, getAccessToken } = useAccessToken();
   const { loginWithRedirect, logout, isLoading } = useAuth0();
-  const subscription = sessionStorage.getItem('subscription'); // Get from sessionStorage
+  const [subscription, setSubscription] = useState(sessionStorage.getItem('subscription'));
 
   const handleLogout = () => {
     logger.trackEvent({ name: 'Logout', properties: { user: user?.name, environment: process.env.NODE_ENV } });
@@ -29,20 +29,16 @@ const TopNavBar = () => {
 
   useEffect(() => {
     async function fetchSubscription() {
-      if (user && !subscription) {
-        const token = await getAccessToken();
-        if (token) {
-          const sub = await getSubscription(token);
-          if (!sub) return;
-          sessionStorage.setItem('subscription', sub);  // Store in sessionStorage
-        }
-      }
+      if (!user || subscription) return;
+      const token = await getAccessToken();
+      if (!token) return;
+      const fetchedSubscription = await getSubscription(token);
+      if (!fetchedSubscription) return;
+      sessionStorage.setItem('subscription', fetchedSubscription);
+      setSubscription(fetchedSubscription);
     }
 
-    // If there's no subscription in sessionStorage and the user is logged in, fetch it.
-    if (user && !subscription) {
-      fetchSubscription();
-    }
+    fetchSubscription();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.sub]);
 
