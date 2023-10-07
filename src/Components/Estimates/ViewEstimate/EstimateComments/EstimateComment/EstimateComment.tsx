@@ -12,6 +12,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 
 interface EsEstimateCommentProps {
     estimateComment: any;
@@ -64,7 +65,7 @@ const EstimateComment = ({ estimateComment, userId, handleEstimateCommentDelete 
                         <Typography color={theme.palette.text.primary} variant="body2" component="span" sx={{ flexGrow: 1, whiteSpace: 'pre-wrap' }}>
                             {estimateComment.comment}
                         </Typography>
-                        <div style={{ height: '5px' }} />
+                        <Box height="5px" />
                         <Typography color={theme.palette.text.primary} variant="body2" component="span" sx={{ flexGrow: 1 }}>
                             {displayDate}
                         </Typography>

@@ -18,7 +18,6 @@ export default function SaveTemplateButton({ isLoading, setIsLoading, canvasDesi
     const navigate = useNavigate();
     const handleSave = async () => {
         //Show loader until post is complete
-        debugger;
         setIsLoading(true)
         const token = await getAccessToken();
         if (!token) {

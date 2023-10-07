@@ -9,6 +9,6 @@ export interface TemplateData {
 };
 
 export interface EstimateTemplateUsedData {
-    id: string;
-    friendlyName: string;
+    templateId: string;
+    templateFriendlyName: string;
 };

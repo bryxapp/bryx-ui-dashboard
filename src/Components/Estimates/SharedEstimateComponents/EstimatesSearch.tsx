@@ -10,14 +10,14 @@ import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { getUsedTemplates } from "../../../utils/api/estimates-api";
 
 interface EstimatesSearchProps {
-    enabled: boolean;
+    disabled: boolean;
     searchTerm: string;
     setSearchTerm: (searchTerm: string) => void;
     selectedTemplateId: string;
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
+const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
     const { getAccessToken } = useAccessToken();
@@ -62,7 +62,7 @@ const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateI
             <div style={{ flex: "1" }}>
                 <TextField
                     id="outlined-search"
-                    disabled={!enabled}
+                    disabled={disabled}
                     label="Search Estimates"
                     type="search"
                     variant="outlined"
@@ -70,7 +70,7 @@ const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateI
                     onChange={handleSearch}
                     style={{ width: "100%" }} // make search box wider
                     InputLabelProps={{
-                        style: { color: enabled ? theme.palette.text.primary : theme.palette.text.secondary } // change the color to your desired color
+                        style: { color: !disabled ? theme.palette.text.primary : theme.palette.text.secondary } // change the color to your desired color
                     }}
                 />
             </div>
@@ -78,11 +78,11 @@ const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateI
                 <FormControl variant="outlined" sx={{ minWidth: 120 }}>
                     <InputLabel
                         id="templateId-label"
-                        sx={{ color: enabled ? theme.palette.text.primary : theme.palette.text.secondary }}>
+                        sx={{ color: !disabled ? theme.palette.text.primary : theme.palette.text.secondary }}>
                         Template ID
                     </InputLabel>
                     <Select
-                        disabled={!enabled}
+                        disabled={disabled}
                         labelId="templateId-label"
                         id="templateId"
                         value={selectedTemplateId}
@@ -90,7 +90,7 @@ const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateI
                         label="Template ID"
                         style={{
                             width: "10em",
-                            color: enabled ? theme.palette.text.primary : theme.palette.text.secondary
+                            color: !disabled ? theme.palette.text.primary : theme.palette.text.secondary
                         }}
                     >
 
@@ -107,9 +107,9 @@ const EstimatesSearch = ({ enabled, searchTerm, setSearchTerm, selectedTemplateI
                                 Error loading templates
                             </MenuItem>
                         ) : (
-                            templatesUsed.map(({ id, friendlyName }) => (
-                                <MenuItem key={id} value={id}>
-                                    {friendlyName}
+                            templatesUsed.map(({ templateId, templateFriendlyName }) => (
+                                <MenuItem key={templateId} value={templateId}>
+                                    {templateFriendlyName}
                                 </MenuItem>
                             ))
                         )}
