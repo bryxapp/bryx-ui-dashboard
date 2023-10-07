@@ -1,24 +1,38 @@
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
+import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { updateTemplate, createTemplate } from '../../../../utils/api/templates-api';
 
 
-interface SaveButtonProps {
+interface SaveTemplateButtonProps {
     isLoading: boolean;
     setIsLoading: React.SetStateAction<any>;
-    postTemplate: any;
+    canvasDesign: any;
+    friendlyName: string;
 }
 
-export default function SaveButton({ isLoading, setIsLoading, postTemplate }: SaveButtonProps) {
+export default function SaveTemplateButton({ isLoading, setIsLoading, canvasDesign, friendlyName }: SaveTemplateButtonProps) {
+    const { getAccessToken } = useAccessToken();
+
     const navigate = useNavigate();
-    const handleSave = () => {
+    const handleSave = async () => {
         //Show loader until post is complete
+        debugger;
         setIsLoading(true)
-        postTemplate().then(() => {
-            //Hide loader
-            setIsLoading(false)
-            navigate("/templates");
-        });
+        const token = await getAccessToken();
+        if (!token) {
+            console.log("No token for posting template");
+            return;
+        }
+        const params = new URLSearchParams(window.location.search);
+        const templateId = params.get('templateId');
+        if (templateId) {
+            await updateTemplate(templateId, canvasDesign, friendlyName, token);
+        } else {
+            await createTemplate(canvasDesign, friendlyName, token);
+        }
+        navigate("/templates");
     }
 
     if (isLoading) {

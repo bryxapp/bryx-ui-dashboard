@@ -8,7 +8,7 @@ const SelectTemplate = () => {
     const theme = useTheme();
     return (
         <React.Fragment>
-            <Typography variant="h3" color={theme.palette.text.secondary}>
+            <Typography variant="h3" color={theme.palette.text.primary}>
                 Select a Template
             </Typography>
             <div style={{ height: 50 }} />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
-import { createTemplate, updateTemplate, getTemplate } from "../../../utils/api/templates-api";
+import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
@@ -9,55 +9,35 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
 
-interface CanvasProps {
-    isNewCanvas: boolean;
-}
-
-const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
+const CanvasItem = () => {
     const { getAccessToken } = useAccessToken();
     const [loading, setLoading] = useState(true);
     const location = useLocation();
-    const [templateId, setTemplateId] = useState<string | null>(null);
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [color, setColor] = useState('#000000');
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
         Shapes: [],
         selectedId: null,
     });
-
     useEffect(() => {
         // fetch template data if the canvas is not new
-        if (!isNewCanvas) {
-            const params = new URLSearchParams(location.search);
-            const templateId = params.get('templateId');
-            if (templateId) {
-                setTemplateId(templateId);
-                getAccessToken().then((token) => {
-                    if (!token) return;
+        const params = new URLSearchParams(location.search);
+        const templateId = params.get('templateId');
+        if (templateId) {
+            getAccessToken().then((token) => {
+                if (!token) return;
 
-                    getTemplate(templateId, token).then((res) => {
-                        setCanvasDesign(res.data.canvasDesign);
-                        setFriendlyName(res.data.friendlyName);
-                        setLoading(false);
-                    });
+                getTemplate(templateId, token).then((res) => {
+                    setCanvasDesign(res.data.canvasDesign);
+                    setFriendlyName(res.data.friendlyName);
+                    setLoading(false);
                 });
-            }
-        } else {
+            });
+        }
+        else {
             setLoading(false);
         }
-    }, [isNewCanvas, location.search, getAccessToken]);
-
-    const OnSave = () => {
-        // create or update template
-        getAccessToken().then((token) => {
-            if (!token) return;
-            if (isNewCanvas) {
-                return createTemplate(canvasDesign, friendlyName, token);
-            } else if (templateId) {
-                return updateTemplate(templateId, canvasDesign, friendlyName, token);
-            }
-        });
-    };
+    }, [location.search]);
 
     if (loading) {
         // show loading message while data is being fetched
@@ -78,7 +58,6 @@ const CanvasItem = ({ isNewCanvas }: CanvasProps) => {
                     canvasDesign={canvasDesign}
                     setCanvasDesign={setCanvasDesign}
                     friendlyName={friendlyName}
-                    postTemplate={OnSave}
                     color={color}
                     setColor={setColor}
                 />

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ShapesMenu from './ShapesMenu/ShapesMenu';
 import TextMenu from './TextMenu/TextMenu';
 import DeleteButton from './DeleteButton';
-import SaveButton from './SaveButton';
+import SaveTemplateButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
 import PublicImagesMenu from './PublicImagesMenu/PublicImagesMenu';
@@ -15,13 +15,12 @@ import UserImagesMenu from './UserImagesMenu/UserImages';
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    friendlyName: string;
-    postTemplate: any;
     color: string;
     setColor: React.SetStateAction<any>;
+    friendlyName: string;
 }
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTemplate, color, setColor }: CanvasToolbarProps) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendlyName }: CanvasToolbarProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
@@ -39,7 +38,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, postTempla
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>
-                        <SaveButton isLoading={isLoading} setIsLoading={setIsLoading} postTemplate={postTemplate} />
+                        <SaveTemplateButton isLoading={isLoading} setIsLoading={setIsLoading} canvasDesign={canvasDesign} friendlyName={friendlyName}/>
                     </div>
                 </Toolbar>
             </AppBar>
