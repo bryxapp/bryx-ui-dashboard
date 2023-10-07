@@ -1,5 +1,5 @@
 import React from 'react';
-import TextField from "@mui/material/TextField";
+import {StyledTextField as TextField} from '../../../../SharedComponents/TextField/TextField'
 import Typography from "@mui/material/Typography";
 import { CanvasDesignData, ShapeObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 

@@ -3,7 +3,7 @@ import List from '@mui/material/List';
 import EstimateComment from './EstimateComment/EstimateComment';
 import { deleteEstimateComment, createEstimateComment } from '../../../../utils/api/estimate-comments-api';
 import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
-import TextField from '@mui/material/TextField';
+import {StyledTextField as TextField} from '../../../SharedComponents/TextField/TextField'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';

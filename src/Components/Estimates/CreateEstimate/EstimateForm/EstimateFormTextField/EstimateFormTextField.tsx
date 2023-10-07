@@ -1,5 +1,4 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
 import { TextInputObj, TextInputFormat } from '../../../../../utils/types/CanvasInterfaces';
 import PhoneIcon from '@mui/icons-material/Phone';
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
@@ -9,6 +8,7 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TextIcon from '@mui/icons-material/TextFields';
 import NumberIcon from '@mui/icons-material/Numbers';
 import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
+import {StyledTextField as TextField} from '../../../../SharedComponents/TextField/TextField'
 
 interface EstimateFormTextFieldProps {
     textInputObj: TextInputObj;
