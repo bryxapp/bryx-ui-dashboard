@@ -1,37 +1,19 @@
+import React, { useState } from 'react';
 import { useTheme, Chip } from '@mui/material';
-import { loadStripe } from '@stripe/stripe-js';
+import SubscriptionDialog from '../../../Subscriptions/SubscriptionDialog';
+interface SubscriptionProps {
+    subscription: string | null;
+}
 
-const stripePromise = loadStripe('YOUR_PUBLISHABLE_KEY');  // Replace with your Stripe publishable key
-
-const Subscription = () => {
+const Subscription: React.FC<SubscriptionProps> = ({subscription}) => {
     const theme = useTheme();
-    const subscription = sessionStorage.getItem('subscription');
-
-    const upgradeSubscription = async () => {
-        try {
-            // Fetch the Stripe session ID from your backend
-            const response = await fetch('/api/create-checkout-session', { method: 'POST' }); // Adjust this API endpoint to your backend setup
-            const session = await response.json();
-
-            const stripe = await stripePromise;
-            if (!stripe) return;
-            const { error } = await stripe.redirectToCheckout({
-                sessionId: session.id,
-            });
-
-            if (error) {
-                console.error(error);
-            }
-        } catch (err) {
-            console.error("Error redirecting to Stripe checkout:", err);
-        }
-    };
+    const [open, setOpen] = useState(false);
 
     return (
         <>
             <Chip
                 label={subscription}
-                onClick={upgradeSubscription}
+                onClick={() => setOpen(true)} // Open the dialog on chip click
                 sx={{
                     marginRight: '10px',
                     color: theme.palette.text.secondary,
@@ -39,6 +21,7 @@ const Subscription = () => {
                     cursor: "pointer" // To show it's clickable
                 }}
             />
+            <SubscriptionDialog open={open} onClose={() => setOpen(false)} />
         </>
     );
 };

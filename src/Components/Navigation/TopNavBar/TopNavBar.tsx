@@ -49,7 +49,7 @@ const TopNavBar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading || user ? (
             <>
-              <Subscription />
+              <Subscription subscription={subscription}/>
               <AuthButton onClick={handleLogout} text={"Logout"} />
             </>
           ) : (
