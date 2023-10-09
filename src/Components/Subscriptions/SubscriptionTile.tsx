@@ -78,9 +78,9 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, currentSubscripti
                 ))}
             </Box>
             {subscriptionInfo.name.toLowerCase() === 'starter' && (
-                <Button variant="contained" color="primary" size="medium" disabled>
+                <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
                     Current Subscription
-                </Button>
+                </Typography>
             )}
             {subscriptionInfo.name.toLowerCase() === 'pro' && (
                 <Button variant="contained" color="primary" size="large" onClick={handleCheckout}>

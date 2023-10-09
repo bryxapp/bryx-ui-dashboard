@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme, Chip } from '@mui/material';
-import SubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
+import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
 interface SubscriptionProps {
     subscription: string | null;
 }
@@ -10,13 +10,13 @@ const Subscription: React.FC<SubscriptionProps> = ({ subscription }) => {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
-        if (subscription === 'starter') { setOpen(true); }
+        if (subscription?.toLowerCase() === 'starter') { setOpen(true); }
     }
 
     return (
         <>
             <Chip
-                clickable={subscription === 'starter' ? true : false}
+                clickable={subscription?.toLowerCase() === 'starter' ? true : false}
                 label={subscription}
                 onClick={handleOpen} // Open the dialog on chip click
                 sx={{
@@ -26,7 +26,7 @@ const Subscription: React.FC<SubscriptionProps> = ({ subscription }) => {
                     cursor: "pointer" // To show it's clickable
                 }}
             />
-            <SubscriptionDialog open={open} onClose={() => setOpen(false)} />
+            <UpgradeSubscriptionDialog open={open} onClose={() => setOpen(false)} />
         </>
     );
 };

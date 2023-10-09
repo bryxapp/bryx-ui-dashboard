@@ -29,7 +29,7 @@ const packages: Subscription[] = [
 const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
     const theme = useTheme();
     const currentSubscription = sessionStorage.getItem('subscription');
-    if (currentSubscription === 'starter') {
+    if (currentSubscription?.toLowerCase() === 'starter') {
         return (
             <Dialog open={open} onClose={onClose} aria-labelledby="subscription-dialog-title" fullWidth maxWidth="md"> {/* Set fullWidth and maxWidth */}
                 <DialogTitle id="subscription-dialog-title" sx={{ background: theme.palette.primary.main }}>
@@ -64,12 +64,12 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
                     </Typography></DialogTitle>
                 <DialogContent sx={{ background: theme.palette.primary.main }}>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', overflowX: 'auto' }}> {/* Flex container */}
-                        {currentSubscription === 'pro' &&
+                        {currentSubscription?.toLowerCase() === 'pro' &&
                             <Typography>
                                 You are already subscribed to the Pro plan.
                             </Typography>
                         }
-                        {currentSubscription === 'team' && (
+                        {currentSubscription?.toLowerCase() === 'team' && (
                             <Typography>
                                 You have a team subscription.
                             </Typography>
