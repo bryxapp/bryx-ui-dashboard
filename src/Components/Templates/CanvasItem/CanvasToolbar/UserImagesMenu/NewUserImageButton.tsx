@@ -51,7 +51,8 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
                 properties: { menu: 'New Template', user: user?.name, environment: process.env.NODE_ENV },
             });
         }
-    }, [getAccessToken]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setFetchingUserImages, setUserImages]);
 
     const tooltipTitle = maxUserImagesReached
         ? "Maximum number of user images reached"

@@ -37,6 +37,7 @@ const CanvasItem = () => {
         else {
             setLoading(false);
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search]);
 
     if (loading) {

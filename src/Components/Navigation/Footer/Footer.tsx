@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import { useTheme, Button } from '@mui/material';
 import { Box } from '@mui/system';
-import SubscriptionDialog from '../../Subscriptions/SubscriptionDialog';
+import SubscriptionDialog from '../../Subscriptions/UpgradeSubscriptionDialog';
 
 const Footer = () => {
     const theme = useTheme();

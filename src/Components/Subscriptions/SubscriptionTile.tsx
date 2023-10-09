@@ -1,11 +1,15 @@
 import React from 'react';
 import { Box, Typography, useTheme, Button } from '@mui/material';
+import { loadStripe } from "@stripe/stripe-js";
+import { createCheckoutSession } from '../../utils/api/checkout-api';
+import ErrorDialog from './ErrorDialog/ErrorDialog';
 
 interface Subscription {
     id: string;
     name: string;
     monthlyPrice: string;
     features: string[];
+    stripeId: string;
 }
 
 interface Props {
@@ -13,8 +17,35 @@ interface Props {
     currentSubscription: string | null;
 }
 
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY!);
+
 const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, currentSubscription }) => {
+    const [isErrorDialogOpen, setIsErrorDialogOpen] = React.useState(false);
     const theme = useTheme();
+    const handleCheckout = async () => {
+        const stripe = await stripePromise;
+        const session = await createCheckoutSession(subscriptionInfo.stripeId);
+        //if session is undefined then display error message
+        if (!session) {
+            setIsErrorDialogOpen(true);
+            return;
+        }
+        await stripe?.redirectToCheckout({ sessionId: session.id });
+        //if success then remove current subscription from session storage and fetch new subscription info
+        if (session.success) {
+            localStorage.removeItem('subscription');
+        }
+        //if fail then display error message
+        if (session.error) {
+            setIsErrorDialogOpen(true);
+            return;
+        }
+        //if cancel then do nothing
+        if (session.cancel) {
+            return;
+        }
+    };
+
     return (
         <Box
             sx={{
@@ -36,24 +67,30 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, currentSubscripti
             </Box>
             <Box sx={{ overflow: 'auto', maxHeight: '120px' }}>
                 {subscriptionInfo.features.map((feature, index) => (
-                    <Typography 
-                        variant="body1" 
-                        color="text.primary" 
+                    <Typography
+                        variant="body1"
+                        color="text.primary"
                         key={index}
-                        sx={{ fontSize: '1.1rem', marginBottom:'15px' }} // Adjust this value for desired size
+                        sx={{ fontSize: '1.1rem', marginBottom: '15px' }} // Adjust this value for desired size
                     >
                         - {feature}
                     </Typography>
                 ))}
             </Box>
-            {currentSubscription?.toLowerCase() === subscriptionInfo.name.toLowerCase() ? (
+            {subscriptionInfo.name.toLowerCase() === 'starter' && (
                 <Button variant="contained" color="primary" size="medium" disabled>
                     Current Subscription
                 </Button>
-            ) : <Button variant="contained" color="primary" size="large">
-                Upgrade
-            </Button>}
-
+            )}
+            {subscriptionInfo.name.toLowerCase() === 'pro' && (
+                <Button variant="contained" color="primary" size="large" onClick={handleCheckout}>
+                    Upgrade
+                </Button>)}
+            {subscriptionInfo.name.toLowerCase() === 'team' && (
+                <Button variant="contained" color="primary" size="large" disabled>
+                    Create Team (Coming Soon)
+                </Button>)}
+            <ErrorDialog open={isErrorDialogOpen} setOpen={setIsErrorDialogOpen} />
         </Box>
     );
 };

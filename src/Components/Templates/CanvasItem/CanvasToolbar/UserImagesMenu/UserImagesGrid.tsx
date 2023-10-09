@@ -52,7 +52,8 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
         return () => {
             isCancelled = true; // Cancel any pending async operations if the component unmounts
         };
-    }, [getAccessToken]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [setFetchingUserImages, setMaxUserImagesReached, setUserImages]);
 
     return (
         <Grid container spacing={2} sx={{ p: 2 }}>
