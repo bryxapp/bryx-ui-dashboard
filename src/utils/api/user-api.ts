@@ -1,40 +1,52 @@
-//Methods for creating and updating templates using axios
-
 import axios from 'axios';
+import { SubscriptionType } from '../types/SubscriptionInterfaces';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/user";
-export type SubscriptionType = "STARTER" | "PRO" | "TEAM" | "ENTERPRISE";
+const SUBSCRIPTION_TYPES = {
+    PRO: "PRO",
+    TEAM: "TEAM",
+    ENTERPRISE: "ENTERPRISE",
+    STARTER: "STARTER"
+}
+
+const createAuthHeader = (token: string) => ({ headers: { Authorization: `Bearer ${token}` } });
 
 export function getUser(token: string) {
-    // Get all templates from the api
-    return axios.get(BASE_URL, { headers: { Authorization: `Bearer ${token}` } });
+    // Fetch the user from the API
+    return axios.get(BASE_URL, createAuthHeader(token));
 }
 
-export async function getSubscription(token: string) {
-    // Get all templates from the api
+export async function getSubscription(token: string): Promise<SubscriptionType | null> {
     try {
-        const response = await axios.get(BASE_URL, { headers: { Authorization: `Bearer ${token}` } });
-        return subscriptionMap(response.data.subscription) as SubscriptionType;
+        const response = await axios.get(BASE_URL, createAuthHeader(token));
+        return mapSubscriptionType(response.data.subscription);
+    } catch (error) {
+        console.error("Failed to fetch subscription:", error);
+        return null;
     }
-    catch (error) {
-        console.log(error);
-    }
-    return null;
 }
 
-const subscriptionMap = (subResponse: string) => {
-    subResponse = subResponse.toUpperCase().trim();
-    switch (subResponse) {
-        case "PRO":
-            return "PRO";
-        case "TEAM":
-            return "TEAM";
-        case "ENTERPRISE":
-            return "ENTERPRISE";
+export async function updateSubscription(sessionId: string,) {
+    try {
+        const response = await axios.put(`${BASE_URL}/subscription`, { sessionId: sessionId },);
+        return response.data
+    } catch (error) {
+        console.error("Failed to update subscription:", error);
+        return null;
+    }
+}
+
+const mapSubscriptionType = (subResponse: string): SubscriptionType => {
+    const normalizedResponse = subResponse.toUpperCase().trim();
+    switch (normalizedResponse) {
+        case SUBSCRIPTION_TYPES.PRO:
+            return SUBSCRIPTION_TYPES.PRO as SubscriptionType;
+        case SUBSCRIPTION_TYPES.TEAM:
+            return SUBSCRIPTION_TYPES.TEAM as SubscriptionType;
+        case SUBSCRIPTION_TYPES.ENTERPRISE:
+            return SUBSCRIPTION_TYPES.ENTERPRISE as SubscriptionType;
         case "":
-        case "STARTER":
         default:
-            return "STARTER";
+            return SUBSCRIPTION_TYPES.STARTER as SubscriptionType;
     }
 }
-

@@ -10,16 +10,17 @@ import { getSubscription } from "../../../utils/api/user-api";
 import Subscription from "./Subscription/Subscription";
 import Logo from "./Logo";
 import AuthButton from "./AuthButton";
+import { SubscriptionType } from "../../../utils/types/SubscriptionInterfaces";
 
 const TopNavBar = () => {
   const { user, getAccessToken } = useAccessToken();
   const { loginWithRedirect, logout, isLoading } = useAuth0();
-  const [subscription, setSubscription] = useState(sessionStorage.getItem('subscription'));
+  const [subscription, setSubscription] = useState(sessionStorage.getItem('subscription') as SubscriptionType);
 
   const handleLogout = () => {
     logger.trackEvent({ name: 'Logout', properties: { user: user?.name, environment: process.env.NODE_ENV } });
     sessionStorage.removeItem('subscription'); // Clear from sessionStorage on logout
-    logout({ returnTo: 'https://www.bryxbids.com/' } as LogoutOptions);
+    logout({ returnTo: 'https://dashboard.bryxbids.com/' } as LogoutOptions);
   };
 
   const handleLogin = async () => {
@@ -32,7 +33,7 @@ const TopNavBar = () => {
       if (!user || subscription) return;
       const token = await getAccessToken();
       if (!token) return;
-      const fetchedSubscription = await getSubscription(token);
+      const fetchedSubscription = await getSubscription(token) as SubscriptionType
       if (!fetchedSubscription) return;
       sessionStorage.setItem('subscription', fetchedSubscription);
       setSubscription(fetchedSubscription);
@@ -49,7 +50,7 @@ const TopNavBar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {isLoading || user ? (
             <>
-              <Subscription subscription={subscription}/>
+              <Subscription subscription={subscription} />
               <AuthButton onClick={handleLogout} text={"Logout"} />
             </>
           ) : (
