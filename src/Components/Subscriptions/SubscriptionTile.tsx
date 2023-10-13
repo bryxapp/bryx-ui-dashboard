@@ -1,15 +1,15 @@
 import React from 'react';
-import { Box, Typography, useTheme, Button } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { SubscriptionInfo } from '../../utils/types/SubscriptionInterfaces';
-import UpgradeButton from './UpgradeButton';
+import ProUpgradeButton from './ProCheckout/ProUpgradeButton';
+import CreateTeamButton from './TeamCheckout/CreateTeamButton';
 
 interface Props {
     subscriptionInfo: SubscriptionInfo;
-    stripePromise: any;
     closeDialog: () => void;
 }
 
-const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog, stripePromise }) => {
+const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog }) => {
     const theme = useTheme();
 
     const renderActionButton = () => {
@@ -19,11 +19,9 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog, stri
                     Current Subscription
                 </Typography>;
             case "PRO":
-                return <UpgradeButton subscriptionInfo={subscriptionInfo} closeDialog={closeDialog} stripePromise={stripePromise} />;
+                return <ProUpgradeButton closeDialog={closeDialog} />;
             case "TEAM":
-                return <Button variant="contained" color="primary" size="large" disabled>
-                    Create Team (Coming Soon)
-                </Button>;
+                return <CreateTeamButton closeDialog={closeDialog} />;
             default:
                 return null;
         }

@@ -1,15 +1,15 @@
 import { Button } from "@mui/material";
-import { useAccessToken } from "../../utils/customHooks/useAccessToken";
-import { createCheckoutSession } from "../../utils/api/checkout-api";
-import { SubscriptionInfo } from "../../utils/types/SubscriptionInterfaces";
+import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { createCheckoutSession } from "../../../utils/api/checkout-api";
+import { proSubscription } from "../../../utils/types/SubscriptionInterfaces";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
 
 interface Props {
     closeDialog: () => void;
-    subscriptionInfo: SubscriptionInfo;
-    stripePromise: any;
 }
 
-const UpgradeButton = ({ closeDialog, subscriptionInfo, stripePromise }: Props) => {
+const ProUpgradeButton = ({ closeDialog }: Props) => {
     const { user } = useAccessToken();
 
     const handleCheckout = async () => {
@@ -23,7 +23,7 @@ const UpgradeButton = ({ closeDialog, subscriptionInfo, stripePromise }: Props) 
                 throw new Error("Stripe is not initialized.");
             }
 
-            const session = await createCheckoutSession(subscriptionInfo.stripeId);
+            const session = await createCheckoutSession(proSubscription.stripeId);
             if (!session) {
                 throw new Error("Session creation failed.");
             }
@@ -35,7 +35,6 @@ const UpgradeButton = ({ closeDialog, subscriptionInfo, stripePromise }: Props) 
             if (result.error) {
                 throw new Error("Error redirecting to checkout.");
             }
-            localStorage.setItem('newSubscriptionName', subscriptionInfo.name);
             closeDialog();
         } catch (error) {
             console.error("An error occurred during the checkout process:", error);
@@ -48,4 +47,4 @@ const UpgradeButton = ({ closeDialog, subscriptionInfo, stripePromise }: Props) 
     );
 }
 
-export default UpgradeButton;
+export default ProUpgradeButton;

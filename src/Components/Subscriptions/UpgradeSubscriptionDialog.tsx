@@ -2,8 +2,6 @@ import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, useTheme } from '@mui/material';
 import SubscriptionTile from './SubscriptionTile';
 import { SubscriptionInfo, SubscriptionType, proSubscription, starterSubscription, teamSubscription } from '../../utils/types/SubscriptionInterfaces';
-import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
 
 interface Props {
     open: boolean;
@@ -26,7 +24,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', overflowX: 'auto' }}>
                     {packages.map((pkg, index) => (
                         <Box sx={{ minWidth: '220px', marginRight: index === packages.length - 1 ? 0 : '15px' }} key={pkg.name}>
-                            <SubscriptionTile subscriptionInfo={pkg} closeDialog={onClose} stripePromise={stripePromise}/>
+                            <SubscriptionTile subscriptionInfo={pkg} closeDialog={onClose}/>
                         </Box>
                     ))}
                 </Box>

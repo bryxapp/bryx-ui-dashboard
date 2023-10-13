@@ -14,7 +14,9 @@ import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 import PageViewTracker from "./logging/PageViewTracker";
 import Estimates from "./Components/Estimates/Estimates";
 import { AccessTokenProvider } from './utils/contexts/AccessTokenContext';
-import Checkout from "./Components/Subscriptions/Checkout/Checkout";
+import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
+import CreateTeam from "./Components/Subscriptions/TeamCheckout/CreateTeam";
+import TeamCheckout from "./Components/Subscriptions/TeamCheckout/TeamCheckout";
 
 function App() {
   const { user, isLoading } = useAuth0();
@@ -35,7 +37,9 @@ function App() {
               <Route path="/select-template" element={<SelectTemplate />} />
               <Route path="/form" element={<EstimateForm />} />
               <Route path="/view-estimate" element={<ViewEstimate />} />
-              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/proCheckout" element={<ProCheckout />} />
+              <Route path="/teamCheckout" element={<TeamCheckout />} />
+              <Route path="/create-team" element={<CreateTeam />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           ) : (

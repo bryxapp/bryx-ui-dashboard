@@ -3,6 +3,7 @@ export type SubscriptionType = "STARTER" | "PRO" | "TEAM" | "ENTERPRISE";
 export type SubscriptionInfo = {
     name: SubscriptionType;
     monthlyPrice: string;
+    monthlyPriceInt: number;
     features: string[];
     stripeId: string;
 }
@@ -10,6 +11,7 @@ export type SubscriptionInfo = {
 export const starterSubscription: SubscriptionInfo = {
     name: "STARTER",
     monthlyPrice: "FREE",
+    monthlyPriceInt: 0,
     features: [
         "Single user account",
         "Create up to 3 Templates",
@@ -21,6 +23,7 @@ export const starterSubscription: SubscriptionInfo = {
 export const proSubscription: SubscriptionInfo = {
     name: "PRO",
     monthlyPrice: "$15+tax/mo",
+    monthlyPriceInt: 15,
     features: [
         "Single user account",
         "Create up to 5 Templates",
@@ -32,6 +35,7 @@ export const proSubscription: SubscriptionInfo = {
 export const teamSubscription: SubscriptionInfo = {
     name: "TEAM",
     monthlyPrice: "$50+tax/mo",
+    monthlyPriceInt: 50,
     features: [
         "Up to 10 team members",
         "Create Unlimited Templates",

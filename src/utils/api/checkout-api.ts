@@ -12,6 +12,9 @@ export async function createCheckoutSession(priceId: string) {
 
 export async function updateSubscription(sessionId: string, userId: string, subscriptionName: SubscriptionType) {
     const response = await axios.put(BASE_URL, { sessionId: sessionId, userId: userId, subscriptionName: subscriptionName });
+    if (!response || response.status !== 200) {
+        throw new Error("Error updating subscription");
+    }
     return response;
 }
 
