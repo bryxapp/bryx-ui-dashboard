@@ -24,7 +24,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', overflowX: 'auto' }}>
                     {packages.map((pkg, index) => (
                         <Box sx={{ minWidth: '220px', marginRight: index === packages.length - 1 ? 0 : '15px' }} key={pkg.name}>
-                            <SubscriptionTile subscriptionInfo={pkg} closeDialog={onClose}/>
+                            <SubscriptionTile subscriptionInfo={pkg} closeDialog={onClose} />
                         </Box>
                     ))}
                 </Box>
@@ -32,7 +32,14 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
         }
 
         if (currentSubscription === 'PRO') {
-            return <Typography>You are already subscribed to the Pro plan.</Typography>;
+            return (
+                <>
+                    <Typography variant='h6' color="secondary.main">You are currently subscribed to the Pro plan. To create a new Team plan, simply click the button below.</Typography>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'nowrap', overflowX: 'auto' }}>
+                        <SubscriptionTile subscriptionInfo={teamSubscription} closeDialog={onClose} />
+                    </Box>
+                </>
+            );
         }
 
         if (currentSubscription === 'TEAM') {

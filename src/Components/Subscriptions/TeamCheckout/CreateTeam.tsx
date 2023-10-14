@@ -1,92 +1,121 @@
 import { useState } from 'react';
-import { Button, TextField, Typography, Container, Box } from '@mui/material';
+import {
+  Button,
+  Typography,
+  Container,
+  Box,
+  TextField,
+  Paper,
+  Grid,
+} from '@mui/material';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
-import { createCheckoutSession } from '../../../utils/api/checkout-api';
+import { createTeamCheckoutSession } from '../../../utils/api/checkout-api';
 import { loadStripe } from "@stripe/stripe-js";
-const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
+
+const stripePromise = process.env.REACT_APP_STRIPE_KEY
+  ? loadStripe(process.env.REACT_APP_STRIPE_KEY)
+  : null;
 
 const CreateTeam = () => {
   const [teamName, setTeamName] = useState('');
+  const [teamNameError, setTeamNameError] = useState('');
   const { user } = useAccessToken();
 
-  const handleTeamNameChange = (event:any) => {
+  const handleTeamNameChange = (event: any) => {
     setTeamName(event.target.value);
+    setTeamNameError('');
   };
 
   const handleCheckout = async () => {
+    if (teamName.trim() === '') {
+      setTeamNameError('Please enter a valid team name.');
+      return;
+    }
+
     try {
-        if (teamName.trim() === '') {
-            // Display an error message or prevent checkout
-            alert('Please enter a valid team name.');
-          } else {
+      if (!user?.sub) {
+        throw new Error("User not found");
+      }
 
-        if (!user?.sub) {
-            throw new Error("User not found");
-        }
+      const stripe = await stripePromise;
+      if (!stripe) {
+        throw new Error("Stripe is not initialized.");
+      }
 
-        const stripe = await stripePromise;
-        if (!stripe) {
-            throw new Error("Stripe is not initialized.");
-        }
+      const session = await createTeamCheckoutSession(teamName);
+      if (!session) {
+        throw new Error("Session creation failed.");
+      }
 
-        const session = await createCheckoutSession(teamSubscription.stripeId);
-        if (!session) {
-            throw new Error("Session creation failed.");
-        }
-        //redirect to stripe checkout
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.id,
-        });
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
 
-        if (result.error) {
-            throw new Error("Error redirecting to checkout.");
-        }
-    }
+      if (result.error) {
+        throw new Error("Error redirecting to checkout.");
+      }
     } catch (error) {
-        console.error("An error occurred during the checkout process:", error);
+      console.error("An error occurred during the checkout process:", error);
     }
-};
+  };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
       <Box mt={4}>
-        <Typography variant="h2" gutterBottom>
-            Upgrading to {teamSubscription.name} Plan
+        <Typography variant="h2" color="primary.main">
+          Upgrade to Team Plan
         </Typography>
+        <Typography variant="h4" gutterBottom mt={4}>
+          Team Features
+        </Typography>
+        <Grid container spacing={2}>
+          {teamSubscription.features.map((feature, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Paper elevation={3} sx={{ p: 2 }}>
+                <Typography variant="body1">
+                  {feature}
+                </Typography>
+              </Paper>
+            </Grid>
+          ))}
+          <Grid item xs={12} sm={6} md={3} key={4}>
+            <Paper elevation={3} sx={{ p: 2 }}>
+              <Typography variant="body1">
+                Easily add or remove team members.
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Box mt={4} />
         <Typography variant="h4" gutterBottom>
           Create Your Team
         </Typography>
-        <Typography variant="body1" paragraph>
-          Fill in the team name and proceed to create a team organization for collaboration.
-        </Typography>
-        <TextField
-          label="Team Name"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          value={teamName}
-          onChange={handleTeamNameChange}
-        />
-        <Typography variant="body2" paragraph>
-          - This action creates a separate organization for team members to collaborate.
-        </Typography>
-        <Typography variant="body2" paragraph>
-          - After checkout, you'll need to log out and log in to access your new team.
-        </Typography>
-        <Typography variant="body2" paragraph>
-          - You can change the team name later.
-        </Typography>
-        <Typography variant="body2" paragraph>
-          - You will be able to add and remove team members.
-        </Typography>
-        <Typography variant="body2" paragraph>
-          - This action does not impact your personal STARTER or PRO subscription; it is managed separately.
-        </Typography>
-        <Button variant="contained" color="primary" onClick={handleCheckout}>
-          Proceed to Checkout
-        </Button>
+        <Paper elevation={3} variant="outlined" sx={{ p: 3 }}>
+          <Typography variant="h6" mb={2}>
+            Enter a name for your team and proceed to create an organization for collaboration.
+          </Typography>
+          <Typography variant="body1" mb={1}>
+            *You can change this later
+          </Typography>
+          <TextField
+            label="Team Name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={teamName}
+            onChange={handleTeamNameChange}
+            error={Boolean(teamNameError)}
+            helperText={teamNameError}
+          />
+          <Button variant="contained" color="primary" onClick={handleCheckout}>
+            Proceed to Checkout
+          </Button>
+        </Paper>
       </Box>
+      <Typography variant="body1">
+        NOTE: You are creating a separate organization for team members to collaborate. Your personal starter or pro subscription remains unaffected.
+      </Typography>
     </Container>
   );
 };

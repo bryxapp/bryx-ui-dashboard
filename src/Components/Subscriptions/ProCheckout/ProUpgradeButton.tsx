@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
-import { createCheckoutSession } from "../../../utils/api/checkout-api";
-import { proSubscription } from "../../../utils/types/SubscriptionInterfaces";
+import { createProCheckoutSession } from "../../../utils/api/checkout-api";
 import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
 
@@ -23,7 +22,7 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
                 throw new Error("Stripe is not initialized.");
             }
 
-            const session = await createCheckoutSession(proSubscription.stripeId);
+            const session = await createProCheckoutSession();
             if (!session) {
                 throw new Error("Session creation failed.");
             }

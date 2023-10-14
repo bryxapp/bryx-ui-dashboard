@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
 import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
-import { updateSubscription } from '../../../utils/api/checkout-api';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { createTeam } from '../../../utils/api/checkout-api';
 
 const TeamCheckout = () => {
     const location = useLocation();
@@ -22,7 +22,7 @@ const TeamCheckout = () => {
                         throw new Error("Error retrieving session id or user id");
                     }
 
-                    await updateSubscription(sessionId, user.sub, proSubscription.name);
+                    await createTeam(sessionId, user.sub);
 
                     localStorage.setItem("subscriptionName", proSubscription.name);
 

@@ -10,7 +10,7 @@ const CreateTeamButton = ({ closeDialog }: Props) => {
 
     const handleClick = async () => {
         closeDialog();
-        navigate('/createTeam');        
+        navigate('/create-team');        
     };
     return (
         <Button variant="contained" color="primary" size="large" onClick={handleClick}>
