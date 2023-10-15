@@ -18,6 +18,7 @@ import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
 import CreateTeam from "./Components/Subscriptions/TeamCheckout/CreateTeam";
 import TeamCheckout from "./Components/Subscriptions/TeamCheckout/TeamCheckout";
 import { SubscriptionProvider } from "./utils/contexts/SubscriptionContext";
+import Admin from "./Components/Admin/Admin";
 
 function App() {
   const { user, isLoading } = useAuth0();
@@ -30,7 +31,6 @@ function App() {
       <SubscriptionProvider>
         <Navigation>
           {isLoading || user ? (
-
             <Routes>
               <Route path="/" element={<Estimates />} />
               <Route path="/templates" element={<Templates />} />
@@ -43,6 +43,7 @@ function App() {
               <Route path="/pro-checkout" element={<ProCheckout />} />
               <Route path="/team-checkout" element={<TeamCheckout />} />
               <Route path="/create-team" element={<CreateTeam />} />
+              {user?.org_id && <Route path="/admin" element={<Admin />} />}
               <Route path="*" element={<NotFound />} />
             </Routes>
           ) : (

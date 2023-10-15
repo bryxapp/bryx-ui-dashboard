@@ -14,7 +14,7 @@ export function getOrganization(token: string) {
 export async function getOrganizationSubscription(token: string): Promise<SubscriptionType | null> {
     try {
         const response = await axios.get(BASE_URL, createAuthHeader(token));
-        return mapSubscriptionType(response.data.subscription);
+        return mapSubscriptionType(response.data.bryxOrg.subscription);
     } catch (error) {
         console.error("Failed to fetch subscription:", error);
         return null;

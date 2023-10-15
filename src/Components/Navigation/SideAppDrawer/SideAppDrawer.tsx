@@ -8,9 +8,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
+import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 
 const SideAppDrawer = () => {
     const theme = useTheme();
+    const {user} = useAccessToken();
 
     const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -41,7 +43,7 @@ const SideAppDrawer = () => {
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <SideAppDrawerWrapper>
-                    <MenuItems />
+                    <MenuItems isAdmin={user?.org_id}/>
                 </SideAppDrawerWrapper>
             </Box>
             <Drawer
@@ -57,7 +59,7 @@ const SideAppDrawer = () => {
                         </Typography>
                         <CloseIcon onClick={handleDrawerClose} sx={{fontSize:'2rem'}} />
                     </Box>
-                    <MenuItems />
+                    <MenuItems isAdmin={user?.org_id} />
                 </Box>
             </Drawer>
         </>
