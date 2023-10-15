@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTheme, Chip } from '@mui/material';
 import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
-import { SubscriptionEnum, SubscriptionType, mapSubscriptionToInfo, teamSubscription } from '../../../../utils/types/SubscriptionInterfaces';
+import { SubscriptionEnum, SubscriptionType, mapSubscriptionToInfo } from '../../../../utils/types/SubscriptionInterfaces';
 import { CircularProgress } from '@mui/material';
 import { useSubscriptionContext } from '../../../../utils/contexts/SubscriptionContext';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
-import { getSubscription } from '../../../../utils/api/user-api';
+import { getSubscription } from '../../../../utils/subscription-util';
 
 const Subscription = () => {
     const theme = useTheme();
@@ -16,15 +16,10 @@ const Subscription = () => {
 
     useEffect(() => {
         async function fetchSubscription() {
-            debugger;
           if (!user || subscription) return;
-          if(user.org_id) {
-            setSubscription(teamSubscription);
-            return;
-          }
           const token = await getAccessToken();
           if (!token) return;
-          const fetchedSubscription = await getSubscription(token) as SubscriptionType
+          const fetchedSubscription = await getSubscription(token,user.org_id) as SubscriptionType
           if (!fetchedSubscription) {
             throw new Error("Error fetching subscription");
           }
@@ -34,7 +29,7 @@ const Subscription = () => {
     
         fetchSubscription();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [user?.sub]);
+      }, [user?.sub, user?.org_id]);
 
     const handleClick = () => {
         if (!isTeam) {

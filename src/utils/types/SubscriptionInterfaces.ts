@@ -1,10 +1,10 @@
-export type SubscriptionType = "STARTER" | "PRO" | "TEAM" | "ENTERPRISE";
+export type SubscriptionType = "STARTER" | "PRO" | "TEAM" | "EXPIRED";
 
 export enum SubscriptionEnum {
     STARTER = "STARTER",
     PRO = "PRO",
     TEAM = "TEAM",
-    ENTERPRISE = "ENTERPRISE"
+    EXPIRED = "EXPIRED"
 }
 
 export type SubscriptionInfo = {
@@ -58,7 +58,8 @@ export const mapSubscriptionToInfo = (subscription: SubscriptionType): Subscript
         case "PRO":
             return proSubscription;
         case "TEAM":
-            return teamSubscription;
+        case "EXPIRED":
+            return teamSubscription; 
         default:
             return starterSubscription;
     }
