@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
-import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
+import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { createTeam } from '../../../utils/api/checkout-api';
+import AuthButton from '../../NotLoggedIn/AuthButton';
+import { LogoutOptions, useAuth0 } from '@auth0/auth0-react';
 
 const TeamCheckout = () => {
     const location = useLocation();
-    const { user } = useAccessToken();
+    const { user, isLoading } = useAccessToken();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
+    const { logout } = useAuth0();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,15 +20,12 @@ const TeamCheckout = () => {
 
             if (query.get("success")) {
                 try {
+                    if (isLoading || !user) return;
                     const sessionId = query.get("session_id");
                     if (!sessionId || !user?.sub) {
                         throw new Error("Error retrieving session id or user id");
-                    }
-
+                    } 
                     await createTeam(sessionId, user.sub);
-
-                    localStorage.setItem("subscriptionName", proSubscription.name);
-
                     // Clear search parameters
                     window.history.replaceState({}, document.title, "/teamCheckout");
                     setOrderSuccess(true);
@@ -42,21 +42,26 @@ const TeamCheckout = () => {
         // Fetch data on component mount
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search]);
+    }, [location.search, isLoading]);
+
+    const handleLogout = () => {
+        logout({ returnTo: 'dashboard.bryxbids.com' } as LogoutOptions);
+      };
 
     return (
         <Container>
             {orderSuccess && <Container>
                 <Typography variant="h2" color="primary.main">Order Complete</Typography>
                 <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
-                    Your subscription has been updated to {proSubscription.name}
+                    You have created your new team!
                 </Typography>
-                <Typography variant="h4" color="primary.main">You now have access to</Typography>
-                {proSubscription.features.map((feature, index) => (
+                <Typography variant="h4" color="primary.main">You will need to logout and then log back in to your new team to all your cool new features</Typography>
+                {teamSubscription.features.map((feature, index) => (
                     <Typography variant="body1" color="text.primary" key={index}>
                         {feature}
                     </Typography>
                 ))}
+                <AuthButton onClick={handleLogout} text="Log Out"/>
             </Container>}
             {errorMessage && <section>
                 <Typography variant="body1" color="error" id="payment-message">

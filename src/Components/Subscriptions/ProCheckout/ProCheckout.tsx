@@ -3,13 +3,15 @@ import { useLocation } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
 import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { updateUserToProSubscription } from '../../../utils/api/checkout-api';
+import { useSubscriptionContext } from '../../../utils/contexts/SubscriptionContext';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 
 const ProCheckout = () => {
     const location = useLocation();
-    const { user } = useAccessToken();
+    const { user, isLoading } = useAccessToken();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
+    const { setSubscription } = useSubscriptionContext();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -17,6 +19,7 @@ const ProCheckout = () => {
 
             if (query.get("success")) {
                 try {
+                    if (isLoading || !user) return;
                     const sessionId = query.get("session_id");
                     if (!sessionId || !user?.sub) {
                         throw new Error("Error retrieving session id or user id");
@@ -24,12 +27,12 @@ const ProCheckout = () => {
 
                     await updateUserToProSubscription(sessionId, user.sub);
 
-                    localStorage.setItem("subscriptionName", proSubscription.name);
+                    setSubscription(proSubscription);
 
                     // Clear search parameters
-                    window.history.replaceState({}, document.title, "/proCheckout");
+                    window.history.replaceState({}, document.title, "/pro-checkout");
+                    setErrorMessage('');
                     setOrderSuccess(true);
-
                 } catch (error) {
                     console.error("An error occurred during the checkout success process:", error);
                     setErrorMessage("An error occurred during the payment process.");
@@ -42,7 +45,7 @@ const ProCheckout = () => {
         // Fetch data on component mount
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search]);
+    }, [location.search,isLoading]);
 
     return (
         <Container>

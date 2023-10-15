@@ -3,7 +3,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useAccessTokenContext } from '../contexts/AccessTokenContext';
 
 export const useAccessToken = () => {
-  const { user, getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently, isLoading } = useAuth0();
   const { token, expiry, setTokenAndExpiry } = useAccessTokenContext();
 
   const getAccessToken = useCallback(async () => {
@@ -34,5 +34,5 @@ export const useAccessToken = () => {
   }, [token, expiry, user?.sub]);
 
   // Return getAccessToken and user from the custom hook
-  return { getAccessToken, user };
+  return { getAccessToken, user, isLoading };
 };

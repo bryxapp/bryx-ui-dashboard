@@ -1,5 +1,12 @@
 export type SubscriptionType = "STARTER" | "PRO" | "TEAM" | "ENTERPRISE";
 
+export enum SubscriptionEnum {
+    STARTER = "STARTER",
+    PRO = "PRO",
+    TEAM = "TEAM",
+    ENTERPRISE = "ENTERPRISE"
+}
+
 export type SubscriptionInfo = {
     name: SubscriptionType;
     monthlyPrice: string;

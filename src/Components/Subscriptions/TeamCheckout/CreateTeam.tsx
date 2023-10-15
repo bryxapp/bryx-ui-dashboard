@@ -7,6 +7,7 @@ import {
   TextField,
   Paper,
   Grid,
+  CircularProgress,
 } from '@mui/material';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
@@ -20,6 +21,7 @@ const stripePromise = process.env.REACT_APP_STRIPE_KEY
 const CreateTeam = () => {
   const [teamName, setTeamName] = useState('');
   const [teamNameError, setTeamNameError] = useState('');
+  const [loading, setLoading] = useState(false);
   const { user } = useAccessToken();
 
   const handleTeamNameChange = (event: any) => {
@@ -32,7 +34,7 @@ const CreateTeam = () => {
       setTeamNameError('Please enter a valid team name.');
       return;
     }
-
+    setLoading(true);
     try {
       if (!user?.sub) {
         throw new Error("User not found");
@@ -58,6 +60,7 @@ const CreateTeam = () => {
     } catch (error) {
       console.error("An error occurred during the checkout process:", error);
     }
+    setLoading(false);
   };
 
   return (
@@ -108,8 +111,8 @@ const CreateTeam = () => {
             error={Boolean(teamNameError)}
             helperText={teamNameError}
           />
-          <Button variant="contained" color="primary" onClick={handleCheckout}>
-            Proceed to Checkout
+          <Button variant="contained" color="primary" onClick={handleCheckout} disabled={loading}>
+            {loading ? <CircularProgress color="secondary" size={20} /> : "Proceed to Checkout"}
           </Button>
         </Paper>
       </Box>

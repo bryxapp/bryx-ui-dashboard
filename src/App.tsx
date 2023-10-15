@@ -17,6 +17,7 @@ import { AccessTokenProvider } from './utils/contexts/AccessTokenContext';
 import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
 import CreateTeam from "./Components/Subscriptions/TeamCheckout/CreateTeam";
 import TeamCheckout from "./Components/Subscriptions/TeamCheckout/TeamCheckout";
+import { SubscriptionProvider } from "./utils/contexts/SubscriptionContext";
 
 function App() {
   const { user, isLoading } = useAuth0();
@@ -26,8 +27,10 @@ function App() {
     <AccessTokenProvider>
       <PageViewTracker />
       <ThemeProvider theme={theme}>
+      <SubscriptionProvider>
         <Navigation>
           {isLoading || user ? (
+
             <Routes>
               <Route path="/" element={<Estimates />} />
               <Route path="/templates" element={<Templates />} />
@@ -37,8 +40,8 @@ function App() {
               <Route path="/select-template" element={<SelectTemplate />} />
               <Route path="/form" element={<EstimateForm />} />
               <Route path="/view-estimate" element={<ViewEstimate />} />
-              <Route path="/proCheckout" element={<ProCheckout />} />
-              <Route path="/teamCheckout" element={<TeamCheckout />} />
+              <Route path="/pro-checkout" element={<ProCheckout />} />
+              <Route path="/team-checkout" element={<TeamCheckout />} />
               <Route path="/create-team" element={<CreateTeam />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
@@ -48,6 +51,7 @@ function App() {
             </Routes>
           )}
         </Navigation>
+        </SubscriptionProvider>
       </ThemeProvider>
     </AccessTokenProvider>
   );

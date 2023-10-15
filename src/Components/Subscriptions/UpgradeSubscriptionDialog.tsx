@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, useTheme } from '@mui/material';
 import SubscriptionTile from './SubscriptionTile';
-import { SubscriptionInfo, SubscriptionType, proSubscription, starterSubscription, teamSubscription } from '../../utils/types/SubscriptionInterfaces';
+import { SubscriptionEnum, SubscriptionInfo, proSubscription, starterSubscription, teamSubscription } from '../../utils/types/SubscriptionInterfaces';
+import { useSubscriptionContext } from '../../utils/contexts/SubscriptionContext';
 
 interface Props {
     open: boolean;
@@ -16,10 +17,10 @@ const packages: SubscriptionInfo[] = [
 
 const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
     const theme = useTheme();
-    const currentSubscription = sessionStorage.getItem('subscription') as SubscriptionType;
+    const {subscription} = useSubscriptionContext();
 
     const getContent = () => {
-        if (currentSubscription === "STARTER") {
+        if (subscription?.name === SubscriptionEnum.STARTER) {
             return (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', overflowX: 'auto' }}>
                     {packages.map((pkg, index) => (
@@ -31,7 +32,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
             );
         }
 
-        if (currentSubscription === 'PRO') {
+        if (subscription?.name === SubscriptionEnum.PRO) {
             return (
                 <>
                     <Typography variant='h6' color="secondary.main">You are currently subscribed to the Pro plan. To create a new Team plan, simply click the button below.</Typography>
@@ -42,7 +43,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
             );
         }
 
-        if (currentSubscription === 'TEAM') {
+        if (subscription?.name === SubscriptionEnum.TEAM) {
             return <Typography>You have a team subscription.</Typography>;
         }
     };
