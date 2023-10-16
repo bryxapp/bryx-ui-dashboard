@@ -20,3 +20,35 @@ export async function getOrganizationSubscription(token: string): Promise<Subscr
         return null;
     }
 }
+
+export async function getOrganizationMembers(token:string){
+    try{
+        const response = await axios.get(BASE_URL + "/members", createAuthHeader(token));
+        return response.data;
+    }catch(error){
+        console.error("Failed to fetch members:", error);
+        return null;
+    }
+}
+
+export async function removeMemberFromOrg(token: string, memberId: string){
+    try{
+        const body = { memberId };
+        const response = await axios.delete(BASE_URL+"/member", { ...createAuthHeader(token), data: body });
+        return response.data;
+    }catch(error){
+        console.error("Failed to remove member:", error);
+        return null;
+    }
+}
+
+export async function deleteInviteToOrg(token: string, inviteId: string){
+    try{
+        const body = { inviteId };
+        const response = await axios.delete(BASE_URL+"/invite", { ...createAuthHeader(token), data: body });
+        return response.data;
+    }catch(error){
+        console.error("Failed to delete invite:", error);
+        return null;
+    }
+}
