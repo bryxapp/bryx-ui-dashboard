@@ -5,7 +5,8 @@ import { SubscriptionEnum, SubscriptionType, mapSubscriptionToInfo } from '../..
 import { CircularProgress } from '@mui/material';
 import { useSubscriptionContext } from '../../../../utils/contexts/SubscriptionContext';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
-import { getSubscription } from '../../../../utils/subscription-util';
+import { useOrganizationContext } from '../../../../utils/contexts/OrganizationContext';
+import { getUser } from '../../../../utils/api/user-api';
 
 const Subscription = () => {
     const theme = useTheme();
@@ -13,23 +14,31 @@ const Subscription = () => {
     const { subscription, setSubscription } = useSubscriptionContext();
     const { user, getAccessToken } = useAccessToken();
     const isTeam = subscription && subscription.name === SubscriptionEnum.TEAM;
+    const { organization } = useOrganizationContext();
 
     useEffect(() => {
-        async function fetchSubscription() {
-          if (!user || subscription) return;
-          const token = await getAccessToken();
-          if (!token) return;
-          const fetchedSubscription = await getSubscription(token,user.org_id) as SubscriptionType
-          if (!fetchedSubscription) {
-            throw new Error("Error fetching subscription");
-          }
-          const fetchedSubscriptionInfo = mapSubscriptionToInfo(fetchedSubscription);
-          setSubscription(fetchedSubscriptionInfo);
-        }
-    
+        const fetchSubscription = async () => {
+            if (!user || subscription) return;
+
+            if (user.org_id) {
+                if (organization) {
+                    setSubscription(mapSubscriptionToInfo(organization.bryxOrg.subscription));
+                }
+            } else {
+                const token = await getAccessToken();
+                if (!token) return;
+
+                const response = await getUser(token);
+                if (!response) throw new Error("Error fetching subscription");
+
+                setSubscription(mapSubscriptionToInfo(response.subscription as SubscriptionType));
+            }
+        };
+
         fetchSubscription();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [user?.sub, user?.org_id]);
+    }, [user?.sub, user?.org_id]);
+
 
     const handleClick = () => {
         if (!isTeam) {

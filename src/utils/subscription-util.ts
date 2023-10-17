@@ -1,5 +1,3 @@
-import { getOrganizationSubscription } from "./api/org-api";
-import { getUserSubscription } from "./api/user-api";
 import { SubscriptionEnum, SubscriptionType } from "./types/SubscriptionInterfaces";
 
 export const mapSubscriptionType = (subResponse: string): SubscriptionType => {
@@ -15,11 +13,4 @@ export const mapSubscriptionType = (subResponse: string): SubscriptionType => {
         default:
             return SubscriptionEnum.STARTER as SubscriptionType;
     }
-}
-
-export const getSubscription = (token: string, isOrg: boolean) => {
-    if (isOrg) {
-        return getOrganizationSubscription(token);
-    }
-    return getUserSubscription(token);
 }
