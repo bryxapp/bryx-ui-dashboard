@@ -3,6 +3,8 @@ import React, { createContext, useContext, ReactNode } from 'react';
 import { OrganizationInfo } from '../types/OrganizationInterfaces';
 
 interface OrganizationContextProps {
+    isOwner: boolean;
+    setIsOwner: (isOwner: boolean) => void;
     organization: OrganizationInfo | undefined;
     setOrganization: (organization: OrganizationInfo | undefined) => void;
 }
@@ -22,14 +24,19 @@ interface Props {
 }
 
 export const OrganizationProvider: React.FC<Props> = ({ children }) => {
-    const [organization, setOrganization] = React.useState<OrganizationInfo | undefined>(); // Initialize with undefined
+    const [organization, setOrganization] = React.useState<OrganizationInfo | undefined>();
+    const [isOwner, setIsOwner] = React.useState(false);
 
     const setOrganizationValue = (newOrganization: OrganizationInfo | undefined) => {
         setOrganization(newOrganization);
     };
 
+    const setIsOwnerValue = (newIsOwner: boolean) => {
+        setIsOwner(newIsOwner);
+    }
+
     return (
-        <OrganizationContext.Provider value={{ organization, setOrganization: setOrganizationValue }}>
+        <OrganizationContext.Provider value={{ organization, setOrganization: setOrganizationValue, isOwner, setIsOwner:setIsOwnerValue }}>
             {children}
         </OrganizationContext.Provider>
     );

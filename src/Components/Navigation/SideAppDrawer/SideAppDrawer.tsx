@@ -8,12 +8,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 
 const SideAppDrawer = () => {
     const theme = useTheme();
-    const {auth0User} = useAuth0User();
-
+    const {isOwner} = useOrganizationContext();
 
     const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -44,7 +43,7 @@ const SideAppDrawer = () => {
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <SideAppDrawerWrapper>
-                    <MenuItems isAdmin={auth0User?.org_id}/>
+                    <MenuItems isAdmin={isOwner}/>
                 </SideAppDrawerWrapper>
             </Box>
             <Drawer
@@ -60,7 +59,7 @@ const SideAppDrawer = () => {
                         </Typography>
                         <CloseIcon onClick={handleDrawerClose} sx={{fontSize:'2rem'}} />
                     </Box>
-                    <MenuItems isAdmin={auth0User?.org_id} />
+                    <MenuItems isAdmin={isOwner} />
                 </Box>
             </Drawer>
         </>

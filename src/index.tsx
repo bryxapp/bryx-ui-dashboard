@@ -7,6 +7,7 @@ import { Auth0ProviderWithNavigate } from './utils/contexts/auth0-provider-with-
 import { BrowserRouter } from 'react-router-dom';
 import { OrganizationProvider } from './utils/contexts/OrganizationContext';
 import { Auth0UserProvider } from './utils/contexts/Auth0UserContext';
+import { BryxUserProvider } from './utils/contexts/BryxUserContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,11 +15,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Auth0ProviderWithNavigate>
-    <Auth0UserProvider>
-    <OrganizationProvider>
-          <App />
-        </OrganizationProvider>
-        </Auth0UserProvider>
+      <Auth0UserProvider>
+        <BryxUserProvider>
+          <OrganizationProvider>
+            <App />
+          </OrganizationProvider>
+        </BryxUserProvider>
+      </Auth0UserProvider>
     </Auth0ProviderWithNavigate>
   </BrowserRouter>
 );

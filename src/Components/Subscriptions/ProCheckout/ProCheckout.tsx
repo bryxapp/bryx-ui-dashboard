@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
 import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { updateUserToProSubscription } from '../../../utils/api/checkout-api';
-import { useSubscriptionContext } from '../../../utils/contexts/SubscriptionContext';
+import { useBryxUserContext } from '../../../utils/contexts/BryxUserContext';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 
 const ProCheckout = () => {
@@ -11,7 +11,7 @@ const ProCheckout = () => {
     const { auth0User, isLoading } = useAuth0User();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
-    const { setSubscription } = useSubscriptionContext();
+    const { bryxUser, setBryxUser } = useBryxUserContext();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,7 +27,8 @@ const ProCheckout = () => {
 
                     await updateUserToProSubscription(sessionId, auth0User.sub);
 
-                    setSubscription(proSubscription);
+                    if (!bryxUser) return;
+                    setBryxUser({ ...bryxUser, subscription: proSubscription.name });
 
                     // Clear search parameters
                     window.history.replaceState({}, document.title, "/pro-checkout");
