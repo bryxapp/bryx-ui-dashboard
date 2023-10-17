@@ -56,8 +56,9 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
   );
 
   useEffect(() => {
-    setEstimateRequestCompleted(false);
-    getAccessToken().then((token: any) => {
+    const fetchEstimates = async () => {
+      setEstimateRequestCompleted(false);
+      const token = await getAccessToken();
       if (!token) return;
       loadEstimates.current(
         PAGE_SIZE,
@@ -66,19 +67,18 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
         searchTerm,
         selectedTemplateId
       );
-    });
+    }
+    fetchEstimates();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, searchTerm, selectedTemplateId, auth0User?.sub]);
 
-  const handleEstimateDelete = (estimateId: string) => {
-    getAccessToken().then((token) => {
-      if (!token) return;
-      deleteEstimate(estimateId, token).then(() => {
-        setEstimates((prevEstimates) =>
-          prevEstimates.filter((estimate) => estimate.id !== estimateId)
-        );
-      });
-    });
+  const handleEstimateDelete = async (estimateId: string) => {
+    const token = await getAccessToken();
+    if (!token) return;
+    await deleteEstimate(estimateId, token)
+    setEstimates((prevEstimates) =>
+      prevEstimates.filter((estimate) => estimate.id !== estimateId)
+    );
   };
 
   return (

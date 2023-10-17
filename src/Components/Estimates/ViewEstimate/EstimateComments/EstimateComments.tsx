@@ -36,21 +36,19 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         setSnackbarOpen(false);
     };
 
-    const handleEstimateCommentDelete = (estimateId: string) => {
-        getAccessToken().then((token) => {
-            if (!token) return;
-            deleteEstimateComment(estimateId, token).then(() => {
-                setEstimateComments((prevComments: any) =>
-                    prevComments.filter((estimate: EstimateData) => estimate.id !== estimateId)
-                );
-            }).catch
-                (() => {
-                    //Show a Snackbar message
-                    setSnackBarText('Error deleting comment');
-                    setSnackbarOpen(true);
-                }
-                );
-        });
+    const handleEstimateCommentDelete = async (estimateId: string) => {
+        const token = await getAccessToken();
+        if (!token) return;
+        try {
+            await deleteEstimateComment(estimateId, token)
+            setEstimateComments((prevComments: any) =>
+                prevComments.filter((estimate: EstimateData) => estimate.id !== estimateId)
+            );
+        } catch {
+            //Show a Snackbar message
+            setSnackBarText('Error deleting comment');
+            setSnackbarOpen(true);
+        }
     };
 
     const handleAddComment = async () => {

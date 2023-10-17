@@ -30,13 +30,11 @@ const EstimateDrafts = () => {
   }, [pageNumber]); // Include pageNumber in the dependency array
 
 
-  const handleEstimateDraftDelete = (estimateDraftId: string) => {
-    getAccessToken().then((token) => {
-      if (!token) return;
-      deleteEstimateDraft(estimateDraftId, token).then(() => {
-        setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
-      });
-    });
+  const handleEstimateDraftDelete = async (estimateDraftId: string) => {
+    const token = await getAccessToken();
+    if (!token) return;
+    await deleteEstimateDraft(estimateDraftId, token)
+    setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
   };
 
   return (

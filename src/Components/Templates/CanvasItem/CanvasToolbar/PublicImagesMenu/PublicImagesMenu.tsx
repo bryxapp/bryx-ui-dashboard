@@ -27,14 +27,13 @@ export default function PublicImagesMenu({ isLoading, canvasDesign, setCanvasDes
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const prevSearchQueryRef = useRef<string>('');
 
-    const searchImages = useCallback((query: string) => {
-        searchUnsplashImages(query).then((results) => {
-            setUnsplashImages(results.map((image: { urls: { small: string; }; width: number; height: number; }) => ({
-                url: image.urls.small,
-                width: image.width,
-                height: image.height
-            })));
-        });
+    const searchImages = useCallback(async (query: string) => {
+        const unsplashImages = await searchUnsplashImages(query)
+        setUnsplashImages(unsplashImages.map((image: { urls: { small: string; }; width: number; height: number; }) => ({
+            url: image.urls.small,
+            width: image.width,
+            height: image.height
+        })));
     }, []);
 
     useEffect(() => {

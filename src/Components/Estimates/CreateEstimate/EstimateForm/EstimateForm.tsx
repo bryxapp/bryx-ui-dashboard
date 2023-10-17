@@ -105,16 +105,14 @@ const EstimateForm = () => {
             if (!templateData) {
                 return;
             }
-            getAccessToken().then(async (token) => {
-                if (!token) return;
-                if (!draftId) {
-                    await createEstimateDraft(templateData.id, estimateName, fieldValues, token);
-                }
-                else {
-                    await updateEstimateDraft(templateData.id, estimateName, fieldValues, draftId, token);
-                }
-            });
-
+            const token = await getAccessToken()
+            if (!token) return;
+            if (!draftId) {
+                await createEstimateDraft(templateData.id, estimateName, fieldValues, token);
+            }
+            else {
+                await updateEstimateDraft(templateData.id, estimateName, fieldValues, draftId, token);
+            }
             navigate("/?tab=1");
         } catch (error) {
             console.error("Error Saving Estimate Draft:", error);
