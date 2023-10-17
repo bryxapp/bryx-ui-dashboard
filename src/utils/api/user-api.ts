@@ -13,5 +13,5 @@ export async function getUser(token: string) {
 
 export async function updateUserSubscription(sessionId: string,) {
     const response = await axios.put(`${BASE_URL}/subscription`, { sessionId: sessionId },);
-    return response.data
+    return response.data as BryxUserInfo
 }

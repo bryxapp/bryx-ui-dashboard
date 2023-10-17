@@ -27,18 +27,19 @@ export const uploadImage = async (image: File, token:string): Promise<string> =>
     }
 }
 
-
-export function getUserImages(token: string) {
+export async function getUserImages(token: string) {
     //get all images for the user from the api
-    return axios.get(`${BASE_URL}?`, { headers: { 'Authorization': `Bearer ${token}` } });
+    const response = await axios.get(`${BASE_URL}?`, { headers: { 'Authorization': `Bearer ${token}` } });
+    return response.data;
 }
 
-export function getUserImageByID(id: string, token: string) {
-    return axios.get(`${BASE_URL}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+export async function getUserImageByID(id: string, token: string) {
+    const response = await axios.get(`${BASE_URL}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+    return response.data;
 }
 
-export function deleteImage(id: string, token: string) {
-    return axios.delete(`${BASE_URL}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
+export async function deleteImage(id: string, token: string) {
+    await axios.delete(`${BASE_URL}/${id}`, { headers: { 'Authorization': `Bearer ${token}` } });
 }
 
 export const getImageDimensions = (url: string): Promise<{ width: number; height: number }> => {
