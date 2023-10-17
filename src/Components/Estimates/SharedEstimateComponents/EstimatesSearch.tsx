@@ -41,8 +41,8 @@ const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplate
             const token = await getAccessToken();
             if (!token) return;
             try {
-                const response = await getUsedTemplates(token);
-                setTemplatesUsed(response.data);
+                const fetchedTemplates = await getUsedTemplates(token);
+                setTemplatesUsed(fetchedTemplates);
             }
             catch (error) {
                 setErrorRetrievingTemplates(true);

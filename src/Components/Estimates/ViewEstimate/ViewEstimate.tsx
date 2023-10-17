@@ -25,33 +25,35 @@ const ViewEstimate = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (estimateId) {
-            getAccessToken().then((token) => {
+        const fetchEstimate = async () => {
+            if (estimateId) {
+                const token = await getAccessToken();
                 if (!token) return;
-                getEstimate(estimateId, token)
-                    .then((res) => {
-                        setEstimate(res.data);
-                        getEstimateComments(estimateId,token).then((res) => {
-                            setEstimateComments(res.data);
-                            setLoading(false);
-                        }).catch
-                            (() => {
-                                setCommentsError(true);
-                                setLoading(false);
-                            }
-                            );
-                    }).catch(() => {
-                        setEstimateError(true);
+                try {
+                    const estimate = await getEstimate(estimateId, token);
+                    setEstimate(estimate);
+                    getEstimateComments(estimateId, token).then((res) => {
+                        setEstimateComments(res.data);
                         setLoading(false);
-                    }
-                    );
-            });
+                    }).catch
+                        (() => {
+                            setCommentsError(true);
+                            setLoading(false);
+                        }
+                        );
+                }
+                catch {
+                    setEstimateError(true);
+                    setLoading(false);
+                }
+            }
+            else {
+                setLoading(false);
+            }
         }
-        else {
-            setLoading(false);
-        }
-
-    }, [estimateId, getAccessToken]);
+        fetchEstimate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [estimateId]);
 
     if (loading) {
         return (

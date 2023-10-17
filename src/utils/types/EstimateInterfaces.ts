@@ -18,3 +18,8 @@ export interface EstimateDraftData {
 export interface EstimateFormFields {
     [key: string]: string;
 }
+
+export interface EstimateResponse {
+    estimates: EstimateData[];
+    maxEstimatesReached: boolean;
+}

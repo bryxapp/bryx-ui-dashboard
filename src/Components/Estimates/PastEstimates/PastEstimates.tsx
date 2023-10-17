@@ -38,24 +38,18 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
         selectedTemplateId: string
       ) => {
         setErrorRetrievingEstimates(false);
-        getEstimates(
-          pageSize,
-          pageNumber,
-          token,
-          searchTerm,
-          selectedTemplateId
-        )
-          .then((response) => {
-            setEstimates(response.data.estimates);
-            setMaxEstimatesReached(response.data.maxEstimatesReached);
-          })
-          .catch(error => {
-            console.error('Error retrieving estimates:', error);
-            setErrorRetrievingEstimates(true);
-          })
-          .finally(() => {
-            setEstimateRequestCompleted(true);
-          });
+        try {
+          const estimateData = await getEstimates(pageSize, pageNumber, token, searchTerm, selectedTemplateId)
+          setEstimates(estimateData.estimates);
+          setMaxEstimatesReached(estimateData.maxEstimatesReached);
+        }
+        catch (error) {
+          console.error('Error retrieving estimates:', error);
+          setErrorRetrievingEstimates(true);
+        }
+        finally {
+          setEstimateRequestCompleted(true);
+        }
       },
       500
     )

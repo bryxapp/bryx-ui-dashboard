@@ -88,17 +88,13 @@ const EstimateForm = () => {
         setCreating(true);
         try {
             if (!templateData) return;
-            getAccessToken().then(async (token) => {
-                if (!token) return;
-                const res = await createEstimate(templateData, estimateName, fieldValues, token);
-                if (draftId) deleteEstimateDraft(draftId, token); //delete the draft if it exists
-
-                // Wait for 2 seconds before navigating to the estimate page
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-
-                navigate("/view-estimate?estimateId=" + res.data.id);
-            });
-
+            const token = await getAccessToken()
+            if (!token) return;
+            const createdEstimate = await createEstimate(templateData, estimateName, fieldValues, token);
+            if (draftId) deleteEstimateDraft(draftId, token); //delete the draft if it exists
+            // Wait for 2 seconds before navigating to the estimate page
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            navigate("/view-estimate?estimateId=" + createdEstimate.id);
         } catch (error) {
             console.error("Error creating estimate:", error);
         } finally {
