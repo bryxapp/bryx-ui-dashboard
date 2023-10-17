@@ -5,7 +5,7 @@ import { getTemplates, deleteTemplate } from '../../../../utils/api/templates-ap
 import { Typography, Alert } from '@mui/material';
 import NoneFound from '../../../SharedComponents/NoneFound/NoneFound';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
-import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 
 interface TemplatesGridProps {
     setMaxTemplatesReached: ((value: boolean) => void) | null;
@@ -15,7 +15,7 @@ interface TemplatesGridProps {
 
 const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, baseUrl, showActions = false }) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
-    const { auth0User, getAccessToken } = useAccessToken();
+    const { auth0User, getAccessToken } = useAuth0User();
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
 

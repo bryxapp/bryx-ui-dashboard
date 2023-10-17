@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeam } from '../../../utils/api/checkout-api';
 import AuthButton from '../../NotLoggedIn/AuthButton';
 import { LogoutOptions } from '@auth0/auth0-react';
 
 const TeamCheckout = () => {
     const location = useLocation();
-    const { auth0User, isLoading, logout } = useAccessToken();
+    const { auth0User, isLoading, logout } = useAuth0User();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
 

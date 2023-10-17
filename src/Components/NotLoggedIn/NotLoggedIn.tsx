@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 import logger from "../../logging/logger";
 import AuthButton from "./AuthButton";
-import { useAccessToken } from "../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 
 const NotLoggedIn = () => {
-    const { loginWithRedirect } = useAccessToken();
+    const { loginWithRedirect } = useAuth0User();
     const handleSignUp = async () => {
         logger.trackEvent({ name: 'SignUp', properties: { environment: process.env.NODE_ENV } });
         await loginWithRedirect({

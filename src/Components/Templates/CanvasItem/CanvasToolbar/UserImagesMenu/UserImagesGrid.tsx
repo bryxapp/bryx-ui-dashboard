@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import { getUserImages, getImageDimensions } from '../../../../../utils/api/user-images-api';
 import UserImageCard from './UserImageCard';
-import { useAccessToken } from '../../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
 
 interface UserImagesMenuProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
@@ -16,7 +16,7 @@ interface UserImagesMenuProps {
 }
 
 export default function UserImagesGrid({ setCanvasDesign, userImages, setUserImages, setFetchingUserImages, setAnchorEl, setMaxUserImagesReached }: UserImagesMenuProps) {
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
 
     useEffect(() => {
         let isCancelled = false; // Cancellation token

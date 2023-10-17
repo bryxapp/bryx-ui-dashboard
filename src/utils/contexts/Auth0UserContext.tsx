@@ -1,16 +1,16 @@
-// AccessTokenContext.tsx
+// Auth0UserContext.tsx
 import React, { createContext, useContext, ReactNode } from 'react';
 
-interface AccessTokenContextProps {
+interface Auth0UserContextProps {
     token: string | null;
     expiry: number | null;
     setTokenAndExpiry: (token: string, expiry: number) => void;
 }
 
-const AccessTokenContext = createContext<AccessTokenContextProps | undefined>(undefined);
+const Auth0UserContext = createContext<Auth0UserContextProps | undefined>(undefined);
 
-export const useAccessTokenContext = () => {
-    const context = useContext(AccessTokenContext);
+export const useAuth0UserContext = () => {
+    const context = useContext(Auth0UserContext);
     if (!context) {
         throw new Error("useAccessTokenContext must be used within an AccessTokenProvider");
     }
@@ -21,7 +21,7 @@ interface Props {
     children: ReactNode;
 }
 
-export const AccessTokenProvider: React.FC<Props> = ({ children }) => {
+export const Auth0UserProvider: React.FC<Props> = ({ children }) => {
     const [token, setToken] = React.useState<string | null>(null);
     const [expiry, setExpiry] = React.useState<number | null>(null);
 
@@ -31,8 +31,8 @@ export const AccessTokenProvider: React.FC<Props> = ({ children }) => {
     };
 
     return (
-        <AccessTokenContext.Provider value={{ token, expiry, setTokenAndExpiry }}>
+        <Auth0UserContext.Provider value={{ token, expiry, setTokenAndExpiry }}>
             {children}
-        </AccessTokenContext.Provider>
+        </Auth0UserContext.Provider>
     );
 };

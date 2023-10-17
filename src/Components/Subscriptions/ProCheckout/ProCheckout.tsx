@@ -4,11 +4,11 @@ import { Container, Typography } from '@mui/material';
 import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { updateUserToProSubscription } from '../../../utils/api/checkout-api';
 import { useSubscriptionContext } from '../../../utils/contexts/SubscriptionContext';
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 
 const ProCheckout = () => {
     const location = useLocation();
-    const { auth0User, isLoading } = useAccessToken();
+    const { auth0User, isLoading } = useAuth0User();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
     const { setSubscription } = useSubscriptionContext();

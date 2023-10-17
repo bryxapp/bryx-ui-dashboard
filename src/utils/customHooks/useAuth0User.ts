@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import { useAccessTokenContext } from '../contexts/AccessTokenContext';
+import { useAuth0UserContext } from '../contexts/Auth0UserContext';
 
-export const useAccessToken = () => {
+export const useAuth0User = () => {
   const { user: auth0User, getAccessTokenSilently, isLoading, loginWithRedirect, logout } = useAuth0();
-  const { token, expiry, setTokenAndExpiry } = useAccessTokenContext();
+  const { token, expiry, setTokenAndExpiry } = useAuth0UserContext();
 
   const getAccessToken = useCallback(async () => {
     // Check if there's a valid token in the context and it's not expired

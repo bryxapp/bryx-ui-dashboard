@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
 import { useEffect, useState } from "react";
 import { getOrganizationMembers } from "../../utils/api/org-api";
-import { useAccessToken } from "../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 import { Invite, Member, OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
 import { useOrganizationContext } from "../../utils/contexts/OrganizationContext";
 import MemberLineItem from "./Members/MemberListItem";
@@ -15,7 +15,7 @@ const Admin: React.FC = () => {
     const { organization } = useOrganizationContext();
     const [members, setMembers] = useState<Member[]>([]);
     const [invites, setInvites] = useState<Invite[]>([]);
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
 
     useEffect(() => {
         async function fetchMembers() {

@@ -7,10 +7,10 @@ import CanvasStage from "./CanvasStage/CanvasStage";
 import TemplateName from "./../TemplateName/TemplateName";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 
 const CanvasItem = () => {
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");

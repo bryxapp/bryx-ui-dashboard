@@ -8,7 +8,7 @@ import { List } from "@mui/material";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import _ from "lodash"; // Import lodash
 import Loading from "../../SharedComponents/Loading/Loading";
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { Alert } from "@mui/material";
 
 
@@ -26,7 +26,7 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
   const [estimateRequestCompleted, setEstimateRequestCompleted] = useState(false);
   const [errorRetrievingEstimates, setErrorRetrievingEstimates] = useState(false);
 
-  const { auth0User, getAccessToken } = useAccessToken();
+  const { auth0User, getAccessToken } = useAuth0User();
 
   const loadEstimates = useRef(
     _.debounce(

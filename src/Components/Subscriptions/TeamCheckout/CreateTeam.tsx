@@ -10,7 +10,7 @@ import {
   CircularProgress,
 } from '@mui/material';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeamCheckoutSession } from '../../../utils/api/checkout-api';
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -22,7 +22,7 @@ const CreateTeam = () => {
   const [teamName, setTeamName] = useState('');
   const [teamNameError, setTeamNameError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { auth0User } = useAccessToken();
+  const { auth0User } = useAuth0User();
 
   const handleTeamNameChange = (event: any) => {
     setTeamName(event.target.value);

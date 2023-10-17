@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 import { useState } from "react";
 import { deleteInviteToOrg } from "../../../utils/api/org-api";
-import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { Invite } from "../../../utils/types/OrganizationInterfaces";
 import { ListItem, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
@@ -12,7 +12,7 @@ interface InviteItemProps {
 
 const InviteLineItem = ({ invite }: InviteItemProps) => {
     const theme = useTheme();
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleRemoveUser = async () => {

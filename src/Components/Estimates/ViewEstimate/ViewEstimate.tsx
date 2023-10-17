@@ -8,14 +8,14 @@ import Loading from "../../SharedComponents/Loading/Loading";
 import EstimateComments from "./EstimateComments/EstimateComments";
 import useTheme from "@mui/material/styles/useTheme";
 import EstimateShareBar from "./EstimateShareBar/EstimateShareBar";
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 
 const ViewEstimate = () => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const estimateId = params.get('estimateId');
     const theme = useTheme();
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
 
 
     const [estimate, setEstimate] = useState<EstimateData>();

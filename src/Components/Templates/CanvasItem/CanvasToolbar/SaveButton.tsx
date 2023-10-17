@@ -1,7 +1,7 @@
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
-import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { updateTemplate, createTemplate } from '../../../../utils/api/templates-api';
 
 
@@ -13,7 +13,7 @@ interface SaveTemplateButtonProps {
 }
 
 export default function SaveTemplateButton({ isLoading, setIsLoading, canvasDesign, friendlyName }: SaveTemplateButtonProps) {
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
 
     const navigate = useNavigate();
     const handleSave = async () => {

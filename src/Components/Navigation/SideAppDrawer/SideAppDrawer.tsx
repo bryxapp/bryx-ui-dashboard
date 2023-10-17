@@ -8,11 +8,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 
 const SideAppDrawer = () => {
     const theme = useTheme();
-    const {auth0User} = useAccessToken();
+    const {auth0User} = useAuth0User();
 
 
     const [openDrawer, setOpenDrawer] = useState(false);

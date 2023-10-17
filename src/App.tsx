@@ -21,13 +21,13 @@ import Admin from "./Components/Admin/Admin";
 import { useOrganizationContext } from "./utils/contexts/OrganizationContext";
 import { getOrganization } from "./utils/api/org-api";
 import { OrganizationInfo } from "./utils/types/OrganizationInterfaces";
-import { useAccessToken } from "./utils/customHooks/useAccessToken";
+import { useAuth0User } from "./utils/customHooks/useAuth0User";
 
 function App() {
   const theme = createTheme(themeOptions);
   const { organization, setOrganization } = useOrganizationContext();
   const [isOwner, setIsOwner] = useState(false);
-  const {auth0User, isLoading, getAccessToken} = useAccessToken();
+  const {auth0User, isLoading, getAccessToken} = useAuth0User();
   useEffect(() => {
     if (auth0User && organization) {
       setIsOwner(auth0User.sub === organization.bryxOrg.ownerUserId);

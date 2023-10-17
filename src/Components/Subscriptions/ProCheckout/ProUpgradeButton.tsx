@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@mui/material";
-import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { createProCheckoutSession } from "../../../utils/api/checkout-api";
 import { loadStripe } from "@stripe/stripe-js";
 import { CircularProgress } from "@mui/material";
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ProUpgradeButton = ({ closeDialog }: Props) => {
-    const { auth0User } = useAccessToken();
+    const { auth0User } = useAuth0User();
     const [loading, setLoading] = useState(false);
 
     const handleCheckout = async () => {

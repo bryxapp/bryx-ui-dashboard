@@ -3,14 +3,14 @@ import Tooltip from "@mui/material/Tooltip";
 import logger from "../../logging/logger";
 import { useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { useAccessToken } from "../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 
 interface NewTemplateButtonProps {
     maxTemplatesReached: boolean;
 }
 
 const NewTemplateButton = ({ maxTemplatesReached }: NewTemplateButtonProps) => {
-    const { auth0User } = useAccessToken();
+    const { auth0User } = useAuth0User();
     const theme = useTheme();
     const navigate = useNavigate();
 

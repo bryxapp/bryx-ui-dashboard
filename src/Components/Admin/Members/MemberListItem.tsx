@@ -2,7 +2,7 @@ import Typography from "@mui/material/Typography";
 import useTheme from "@mui/material/styles/useTheme";
 import { useState } from "react";
 import { removeMemberFromOrg } from "../../../utils/api/org-api";
-import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { Member } from "../../../utils/types/OrganizationInterfaces";
 import { useOrganizationContext } from "../../../utils/contexts/OrganizationContext";
 import { ListItem, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
@@ -14,7 +14,7 @@ interface MemberItemProps {
 const MemberLineItem = ({ member }: MemberItemProps) => {
     const theme = useTheme();
     const { organization } = useOrganizationContext();
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
     const lineItemIsOwner = member.user_id === organization?.bryxOrg.ownerUserId;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 

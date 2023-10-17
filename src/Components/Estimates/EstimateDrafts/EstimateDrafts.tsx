@@ -6,7 +6,7 @@ import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPaging
 import { EstimateDraftData } from "../../../utils/types/EstimateInterfaces";
 import { List } from "@mui/material";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
-import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 
 const PAGE_SIZE = 10; // Number of estimate drafts per page
 
@@ -14,7 +14,7 @@ const EstimateDrafts = () => {
   const [estimateDrafts, setEstimateDrafts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1); // Current page number
-  const { getAccessToken } = useAccessToken();
+  const { getAccessToken } = useAuth0User();
 
   useEffect(() => {
     setLoading(true);

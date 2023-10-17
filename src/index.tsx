@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Auth0ProviderWithNavigate } from './utils/contexts/auth0-provider-with-navigate';
 import { BrowserRouter } from 'react-router-dom';
 import { OrganizationProvider } from './utils/contexts/OrganizationContext';
-import { AccessTokenProvider } from './utils/contexts/AccessTokenContext';
+import { Auth0UserProvider } from './utils/contexts/Auth0UserContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,11 +14,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Auth0ProviderWithNavigate>
-    <AccessTokenProvider>
+    <Auth0UserProvider>
     <OrganizationProvider>
           <App />
         </OrganizationProvider>
-        </AccessTokenProvider>
+        </Auth0UserProvider>
     </Auth0ProviderWithNavigate>
   </BrowserRouter>
 );

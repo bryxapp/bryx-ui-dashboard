@@ -7,7 +7,7 @@ import {StyledTextField as TextField} from '../../../SharedComponents/TextField/
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
-import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { Typography } from '@mui/material';
 
 interface EstimateCommentsProps {
@@ -21,7 +21,7 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
     const [newComment, setNewComment] = useState('');
     const [isSnackbarOpen, setSnackbarOpen] = useState(false);
     const [snackBarText, setSnackBarText] = useState('');
-    const { auth0User, getAccessToken } = useAccessToken();
+    const { auth0User, getAccessToken } = useAuth0User();
     let userName = "Unknown User"
     if (auth0User?.name) {
         userName = auth0User.name;

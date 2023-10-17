@@ -18,7 +18,7 @@ import EstimateName from './EstimateName/EstimateName';
 import Loading from '../../../SharedComponents/Loading/Loading';
 import PreviewStage from './TemplatePreview/TemplatePreview';
 import Saving from '../../../SharedComponents/Saving/Saving';
-import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { useNavigate } from 'react-router-dom';
 
 const EstimateForm = () => {
@@ -35,7 +35,7 @@ const EstimateForm = () => {
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
     const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
 
     useEffect(() => {

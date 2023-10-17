@@ -3,7 +3,7 @@ import Tooltip from "@mui/material/Tooltip";
 import logger from "../../../../../logging/logger";
 import { uploadImage, getUserImages, getImageDimensions } from "../../../../../utils/api/user-images-api";
 import { useCallback } from "react";
-import { useAccessToken } from "../../../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../../../utils/customHooks/useAuth0User";
 
 interface NewUserImageButtonProps {
     maxUserImagesReached: boolean;
@@ -17,8 +17,8 @@ type ImageApiResponse = {
 };
 
 const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUserImages }: NewUserImageButtonProps) => {
-    const { auth0User } = useAccessToken();
-    const { getAccessToken } = useAccessToken();
+    const { auth0User } = useAuth0User();
+    const { getAccessToken } = useAuth0User();
 
     const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];

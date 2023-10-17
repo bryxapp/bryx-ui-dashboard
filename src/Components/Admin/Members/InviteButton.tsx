@@ -9,13 +9,13 @@ import {
 } from "@mui/material";
 import { StyledTextField as TextField} from "../../SharedComponents/TextField/TextField";
 import { inviteMemberToOrg } from "../../../utils/api/org-api";
-import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 
 interface InviteButtonProps {
     disabled?: boolean;
 }
 const InviteButton = ({disabled}:InviteButtonProps) => {
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(true); // To track email format validity

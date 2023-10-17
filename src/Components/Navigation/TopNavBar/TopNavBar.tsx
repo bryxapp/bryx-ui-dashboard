@@ -3,13 +3,13 @@ import AppBar from '@mui/material/AppBar';
 import { LogoutOptions } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
 import logger from '../../../logging/logger';
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import Subscription from "./Subscription/Subscription";
 import Logo from "./Logo";
 import AuthButton from "./AuthButton";
 
 const TopNavBar = () => {
-  const { auth0User, isLoading, loginWithRedirect, logout } = useAccessToken();
+  const { auth0User, isLoading, loginWithRedirect, logout } = useAuth0User();
 
   const handleLogout = () => {
     logger.trackEvent({ name: 'Logout', properties: { user: auth0User?.sub, environment: process.env.NODE_ENV } });

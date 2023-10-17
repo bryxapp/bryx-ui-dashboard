@@ -2,14 +2,14 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import logger from "../../logging/logger";
 import { useNavigate } from "react-router-dom";
-import { useAccessToken } from "../../utils/customHooks/useAccessToken";
+import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 
 interface NewEstimateButtonProps {
     maxEstimatesReached: boolean;
 }
 
 const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
-    const { auth0User } = useAccessToken();
+    const { auth0User } = useAuth0User();
     const navigate = useNavigate();
 
     const handleNewEstimateClick = () => {

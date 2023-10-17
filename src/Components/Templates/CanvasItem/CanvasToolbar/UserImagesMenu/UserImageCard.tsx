@@ -8,7 +8,7 @@ import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInt
 import { createImageObj } from '../../../../../utils/types/ShapesFactory';
 import { deleteImage } from '../../../../../utils/api/user-images-api';
 import Box from '@mui/material/Box';
-import { useAccessToken } from '../../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
 
 interface UserImageProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
@@ -27,7 +27,7 @@ type ImageData = {
 
 
 export default function UserImageCard({ setCanvasDesign, imageData, setAnchorEl, userImages, setUserImages }: UserImageProps) {
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
 
     const handleImageClick = useCallback((imageData: ImageData) => {
         //Create a canvas image object

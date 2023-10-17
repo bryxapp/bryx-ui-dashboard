@@ -6,7 +6,7 @@ import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { EstimateTemplateUsedData } from "../../../utils/types/TemplateInterfaces";
 import { useTheme } from "@mui/material";
-import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { getUsedTemplates } from "../../../utils/api/estimates-api";
 
 interface EstimatesSearchProps {
@@ -20,7 +20,7 @@ interface EstimatesSearchProps {
 const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
-    const { getAccessToken } = useAccessToken();
+    const { getAccessToken } = useAuth0User();
     const [templatesUsed, setTemplatesUsed] = useState<EstimateTemplateUsedData[]>([]);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);

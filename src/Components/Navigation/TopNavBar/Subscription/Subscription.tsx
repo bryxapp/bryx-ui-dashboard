@@ -4,7 +4,7 @@ import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptio
 import { SubscriptionEnum, SubscriptionType, mapSubscriptionToInfo } from '../../../../utils/types/SubscriptionInterfaces';
 import { CircularProgress } from '@mui/material';
 import { useSubscriptionContext } from '../../../../utils/contexts/SubscriptionContext';
-import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { useOrganizationContext } from '../../../../utils/contexts/OrganizationContext';
 import { getUser } from '../../../../utils/api/user-api';
 
@@ -12,7 +12,7 @@ const Subscription = () => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const { subscription, setSubscription } = useSubscriptionContext();
-    const { auth0User, getAccessToken } = useAccessToken();
+    const { auth0User, getAccessToken } = useAuth0User();
     const isTeam = subscription && subscription.name === SubscriptionEnum.TEAM;
     const { organization } = useOrganizationContext();
 
