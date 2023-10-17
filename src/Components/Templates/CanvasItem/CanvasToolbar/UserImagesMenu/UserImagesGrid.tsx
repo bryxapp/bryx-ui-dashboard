@@ -16,7 +16,7 @@ interface UserImagesMenuProps {
 }
 
 export default function UserImagesGrid({ setCanvasDesign, userImages, setUserImages, setFetchingUserImages, setAnchorEl, setMaxUserImagesReached }: UserImagesMenuProps) {
-    const { getAccessToken } = useAuth0User();
+    const { auth0User, getAccessToken } = useAuth0User();
 
     useEffect(() => {
         let isCancelled = false; // Cancellation token
@@ -53,7 +53,7 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
             isCancelled = true; // Cancel any pending async operations if the component unmounts
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setFetchingUserImages, setMaxUserImagesReached, setUserImages]);
+    }, [auth0User?.sub]);
 
     return (
         <Grid container spacing={2} sx={{ p: 2 }}>

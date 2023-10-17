@@ -27,7 +27,7 @@ type ImageData = {
 
 
 export default function UserImageCard({ setCanvasDesign, imageData, setAnchorEl, userImages, setUserImages }: UserImageProps) {
-    const { getAccessToken } = useAuth0User();
+    const { auth0User, getAccessToken } = useAuth0User();
 
     const handleImageClick = useCallback((imageData: ImageData) => {
         //Create a canvas image object
@@ -65,7 +65,8 @@ export default function UserImageCard({ setCanvasDesign, imageData, setAnchorEl,
                 console.error(error);
             }
         },
-        [getAccessToken, setUserImages, userImages]
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [auth0User?.sub, userImages]
     );
 
 

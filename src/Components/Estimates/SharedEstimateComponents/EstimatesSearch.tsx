@@ -20,7 +20,7 @@ interface EstimatesSearchProps {
 const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
-    const { getAccessToken } = useAuth0User();
+    const { auth0User, getAccessToken } = useAuth0User();
     const [templatesUsed, setTemplatesUsed] = useState<EstimateTemplateUsedData[]>([]);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
@@ -53,7 +53,8 @@ const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplate
             }
         };
         fetchUsedTemplates();
-    }, [getAccessToken]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [auth0User?.sub]);
 
 
 

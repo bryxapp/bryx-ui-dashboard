@@ -51,7 +51,7 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [setFetchingUserImages, setUserImages]);
+    }, [auth0User?.sub]);
 
     const tooltipTitle = maxUserImagesReached
         ? "Maximum number of user images reached"
