@@ -10,7 +10,6 @@ import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/Sele
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/themeOptions";
-import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 import PageViewTracker from "./logging/PageViewTracker";
 import Estimates from "./Components/Estimates/Estimates";
@@ -25,23 +24,22 @@ import { OrganizationInfo } from "./utils/types/OrganizationInterfaces";
 import { useAccessToken } from "./utils/customHooks/useAccessToken";
 
 function App() {
-  const { user, isLoading } = useAuth0();
   const theme = createTheme(themeOptions);
   const { organization, setOrganization } = useOrganizationContext();
   const [isOwner, setIsOwner] = useState(false);
-  const {getAccessToken} = useAccessToken();
+  const {auth0User, isLoading, getAccessToken} = useAccessToken();
   useEffect(() => {
-    if (user && organization) {
-      setIsOwner(user.sub === organization.bryxOrg.ownerUserId);
+    if (auth0User && organization) {
+      setIsOwner(auth0User.sub === organization.bryxOrg.ownerUserId);
     } else {
       setIsOwner(false);
     }
-  }, [user, organization]);
+  }, [auth0User, organization]);
 
   useEffect(() => {
     async function fetchOrg() {
-        if (organization || !user) return;
-        if(!user.org_id) return;
+        if (organization || !auth0User) return;
+        if(!auth0User.org_id) return;
         const token = await getAccessToken();
         if (!token) return;
         const fetchedOrg = await getOrganization(token);
@@ -49,7 +47,7 @@ function App() {
     }
     fetchOrg();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [user?.org_id]);
+}, [auth0User?.org_id]);
 
   return (
     <>
@@ -57,7 +55,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <SubscriptionProvider>
           <Navigation>
-            {isLoading || user ? (
+            {isLoading || auth0User ? (
               <Routes>
                 <Route path="/" element={<Estimates />} />
                 <Route path="/templates" element={<Templates />} />

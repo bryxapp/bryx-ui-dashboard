@@ -1,7 +1,6 @@
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import logger from "../../../../../logging/logger";
-import { useAuth0 } from "@auth0/auth0-react";
 import { uploadImage, getUserImages, getImageDimensions } from "../../../../../utils/api/user-images-api";
 import { useCallback } from "react";
 import { useAccessToken } from "../../../../../utils/customHooks/useAccessToken";
@@ -18,7 +17,7 @@ type ImageApiResponse = {
 };
 
 const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUserImages }: NewUserImageButtonProps) => {
-    const { user } = useAuth0();
+    const { auth0User } = useAccessToken();
     const { getAccessToken } = useAccessToken();
 
     const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +47,7 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
             setFetchingUserImages(false);
             logger.trackEvent({
                 name: 'New Template Click',
-                properties: { menu: 'New Template', user: user?.name, environment: process.env.NODE_ENV },
+                properties: { menu: 'New Template', user: auth0User?.name, environment: process.env.NODE_ENV },
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

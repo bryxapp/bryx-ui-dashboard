@@ -3,18 +3,16 @@ import AppBar from '@mui/material/AppBar';
 import { LogoutOptions } from '@auth0/auth0-react';
 import { Box } from '@mui/material';
 import logger from '../../../logging/logger';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import Subscription from "./Subscription/Subscription";
 import Logo from "./Logo";
 import AuthButton from "./AuthButton";
 
 const TopNavBar = () => {
-  const { user } = useAccessToken();
-  const { loginWithRedirect, logout, isLoading } = useAuth0();
+  const { auth0User, isLoading, loginWithRedirect, logout } = useAccessToken();
 
   const handleLogout = () => {
-    logger.trackEvent({ name: 'Logout', properties: { user: user?.name, environment: process.env.NODE_ENV } });
+    logger.trackEvent({ name: 'Logout', properties: { user: auth0User?.sub, environment: process.env.NODE_ENV } });
     logout({ returnTo: 'https://dashboard.bryxbids.com/' } as LogoutOptions);
   };
 
@@ -28,7 +26,7 @@ const TopNavBar = () => {
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Logo />
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {isLoading || user ? (
+          {isLoading || auth0User ? (
             <>
               <Subscription />
               <AuthButton onClick={handleLogout} text={"Logout"} />

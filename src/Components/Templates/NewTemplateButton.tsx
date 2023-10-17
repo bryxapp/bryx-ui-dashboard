@@ -1,16 +1,16 @@
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import logger from "../../logging/logger";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { useAccessToken } from "../../utils/customHooks/useAccessToken";
 
 interface NewTemplateButtonProps {
     maxTemplatesReached: boolean;
 }
 
 const NewTemplateButton = ({ maxTemplatesReached }: NewTemplateButtonProps) => {
-    const { user } = useAuth0();
+    const { auth0User } = useAccessToken();
     const theme = useTheme();
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const NewTemplateButton = ({ maxTemplatesReached }: NewTemplateButtonProps) => {
 
         logger.trackEvent({
             name: 'New Template Click',
-            properties: { menu: 'New Template', user: user?.name, environment: process.env.NODE_ENV },
+            properties: { menu: 'New Template', user: auth0User?.sub, environment: process.env.NODE_ENV },
         });
         navigate("/choose-canvas-starter")
     };

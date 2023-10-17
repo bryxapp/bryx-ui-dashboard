@@ -8,7 +8,7 @@ import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 
 const ProCheckout = () => {
     const location = useLocation();
-    const { user, isLoading } = useAccessToken();
+    const { auth0User, isLoading } = useAccessToken();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
     const { setSubscription } = useSubscriptionContext();
@@ -19,13 +19,13 @@ const ProCheckout = () => {
 
             if (query.get("success")) {
                 try {
-                    if (isLoading || !user) return;
+                    if (isLoading || !auth0User) return;
                     const sessionId = query.get("session_id");
-                    if (!sessionId || !user?.sub) {
+                    if (!sessionId || !auth0User?.sub) {
                         throw new Error("Error retrieving session id or user id");
                     }
 
-                    await updateUserToProSubscription(sessionId, user.sub);
+                    await updateUserToProSubscription(sessionId, auth0User.sub);
 
                     setSubscription(proSubscription);
 

@@ -12,15 +12,15 @@ const Subscription = () => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const { subscription, setSubscription } = useSubscriptionContext();
-    const { user, getAccessToken } = useAccessToken();
+    const { auth0User, getAccessToken } = useAccessToken();
     const isTeam = subscription && subscription.name === SubscriptionEnum.TEAM;
     const { organization } = useOrganizationContext();
 
     useEffect(() => {
         const fetchSubscription = async () => {
-            if (!user || subscription) return;
+            if (!auth0User || subscription) return;
 
-            if (user.org_id) {
+            if (auth0User.org_id) {
                 if (organization) {
                     setSubscription(mapSubscriptionToInfo(organization.bryxOrg.subscription));
                 }
@@ -37,7 +37,7 @@ const Subscription = () => {
 
         fetchSubscription();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.sub, user?.org_id]);
+    }, [auth0User?.sub, auth0User?.org_id]);
 
 
     const handleClick = () => {

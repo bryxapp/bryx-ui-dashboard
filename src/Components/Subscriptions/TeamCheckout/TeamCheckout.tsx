@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container, Typography } from '@mui/material';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 import { createTeam } from '../../../utils/api/checkout-api';
 import AuthButton from '../../NotLoggedIn/AuthButton';
-import { LogoutOptions, useAuth0 } from '@auth0/auth0-react';
+import { LogoutOptions } from '@auth0/auth0-react';
 
 const TeamCheckout = () => {
     const location = useLocation();
-    const { user, isLoading } = useAccessToken();
+    const { auth0User, isLoading, logout } = useAccessToken();
     const [errorMessage, setErrorMessage] = useState('');
     const [orderSuccess, setOrderSuccess] = useState(false);
-    const { logout } = useAuth0();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,12 +19,12 @@ const TeamCheckout = () => {
 
             if (query.get("success")) {
                 try {
-                    if (isLoading || !user) return;
+                    if (isLoading || !auth0User) return;
                     const sessionId = query.get("session_id");
-                    if (!sessionId || !user?.sub) {
+                    if (!sessionId || !auth0User?.sub) {
                         throw new Error("Error retrieving session id or user id");
                     } 
-                    await createTeam(sessionId, user.sub);
+                    await createTeam(sessionId, auth0User.sub);
                     // Clear search parameters
                     window.history.replaceState({}, document.title, "/teamCheckout");
                     setOrderSuccess(true);

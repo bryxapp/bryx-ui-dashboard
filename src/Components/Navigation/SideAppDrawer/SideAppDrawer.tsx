@@ -12,7 +12,8 @@ import { useAccessToken } from '../../../utils/customHooks/useAccessToken';
 
 const SideAppDrawer = () => {
     const theme = useTheme();
-    const {user} = useAccessToken();
+    const {auth0User} = useAccessToken();
+
 
     const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -43,7 +44,7 @@ const SideAppDrawer = () => {
             </Box>
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                 <SideAppDrawerWrapper>
-                    <MenuItems isAdmin={user?.org_id}/>
+                    <MenuItems isAdmin={auth0User?.org_id}/>
                 </SideAppDrawerWrapper>
             </Box>
             <Drawer
@@ -59,7 +60,7 @@ const SideAppDrawer = () => {
                         </Typography>
                         <CloseIcon onClick={handleDrawerClose} sx={{fontSize:'2rem'}} />
                     </Box>
-                    <MenuItems isAdmin={user?.org_id} />
+                    <MenuItems isAdmin={auth0User?.org_id} />
                 </Box>
             </Drawer>
         </>

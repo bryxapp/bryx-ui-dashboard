@@ -11,13 +11,13 @@ interface Props {
 }
 
 const ProUpgradeButton = ({ closeDialog }: Props) => {
-    const { user } = useAccessToken();
+    const { auth0User } = useAccessToken();
     const [loading, setLoading] = useState(false);
 
     const handleCheckout = async () => {
         setLoading(true);
         try {
-            if (!user?.sub) {
+            if (!auth0User?.sub) {
                 throw new Error("User not found");
             }
 

@@ -7,7 +7,6 @@ import {StyledTextField as TextField} from '../../../SharedComponents/TextField/
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
-import { useAuth0 } from '@auth0/auth0-react';
 import { useAccessToken } from '../../../../utils/customHooks/useAccessToken';
 import { Typography } from '@mui/material';
 
@@ -22,16 +21,15 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
     const [newComment, setNewComment] = useState('');
     const [isSnackbarOpen, setSnackbarOpen] = useState(false);
     const [snackBarText, setSnackBarText] = useState('');
-    const { getAccessToken } = useAccessToken();
-    const { user } = useAuth0();
+    const { auth0User, getAccessToken } = useAccessToken();
     let userName = "Unknown User"
-    if (user?.name) {
-        userName = user.name;
-    } else if (user?.nickname) {
-        userName = user.nickname;
+    if (auth0User?.name) {
+        userName = auth0User.name;
+    } else if (auth0User?.nickname) {
+        userName = auth0User.nickname;
     }
-    else if (user?.email) {
-        userName = user.email;
+    else if (auth0User?.email) {
+        userName = auth0User.email;
     }
 
     const handleCloseSnackbar = () => {
@@ -61,7 +59,7 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         }
         getAccessToken().then((token) => {
             if (!token) return;
-            const userPic = user?.picture || '';
+            const userPic = auth0User?.picture || '';
             createEstimateComment(userName, estimateId, newComment, userPic, token)
                 .then((res) => {
                     setEstimateComments((prevComments: any) => [res.data.estimateComment, ...prevComments]);
@@ -92,7 +90,7 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
                     <EstimateComment
                         key={estimateComment.id}
                         estimateComment={estimateComment}
-                        userId={user?.sub || ''}
+                        userId={auth0User?.sub || ''}
                         handleEstimateCommentDelete={handleEstimateCommentDelete}
                     />
                 ))}

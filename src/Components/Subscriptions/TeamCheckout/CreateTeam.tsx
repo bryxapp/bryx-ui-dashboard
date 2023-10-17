@@ -22,7 +22,7 @@ const CreateTeam = () => {
   const [teamName, setTeamName] = useState('');
   const [teamNameError, setTeamNameError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { user } = useAccessToken();
+  const { auth0User } = useAccessToken();
 
   const handleTeamNameChange = (event: any) => {
     setTeamName(event.target.value);
@@ -36,7 +36,7 @@ const CreateTeam = () => {
     }
     setLoading(true);
     try {
-      if (!user?.sub) {
+      if (!auth0User?.sub) {
         throw new Error("User not found");
       }
 
