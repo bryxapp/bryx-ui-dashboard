@@ -2,39 +2,38 @@
 
 import axios from 'axios';
 import { CanvasDesignData } from '../types/CanvasInterfaces';
+import { TemplateData, TemplateResponse } from '../types/TemplateInterfaces';
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/templates";
 
 
-export function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
-    //Create Body
+export async function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
     const body = {
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
     }
-
-    return axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data as TemplateData;
 }
 
-export function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
-    // Create Body
+export async function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
     const body = {
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
     };
-
-    return axios.put(`${BASE_URL}/${templateId}`, body, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await axios.put(`${BASE_URL}/${templateId}`, body, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data as TemplateData;
 }
 
-export function getTemplates(token: string) {
-    console.log("TEMPLATES API")
-    //get all templates from the api
-    return axios.get(`${BASE_URL}`, { headers: { Authorization: `Bearer ${token}` } });
+export async function getTemplates(token: string) {
+    const response = await axios.get(`${BASE_URL}`, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data as TemplateResponse
 }
 
-export function getTemplate(id: string, token: string) {
-    return axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+export async function getTemplate(id: string, token: string) {
+    const response = await axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+    return response.data as TemplateData;
 }
 
-export function deleteTemplate(templateId: string, token: string) {
-    return axios.delete(`${BASE_URL}/${templateId}`, { headers: { Authorization: `Bearer ${token}` } });
+export async function deleteTemplate(templateId: string, token: string) {
+    await axios.delete(`${BASE_URL}/${templateId}`, { headers: { Authorization: `Bearer ${token}` } });
 }

@@ -26,10 +26,10 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                 if (!auth0User) return;
                 const token = await getAccessToken();
                 if (!token) return;
-                const response = await getTemplates(token);
-                setTemplates(response.data.templates);
+                const templateData = await getTemplates(token);
+                setTemplates(templateData.templates);
                 if (setMaxTemplatesReached) {
-                    setMaxTemplatesReached(response.data.maxTemplatesReached);
+                    setMaxTemplatesReached(templateData.maxTemplatesReached);
                 }
             } catch (error) {
                 console.error('Error retrieving estimates:', error);

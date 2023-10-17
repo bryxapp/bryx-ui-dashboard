@@ -20,24 +20,24 @@ const CanvasItem = () => {
         selectedId: null,
     });
     useEffect(() => {
-        // fetch template data if the canvas is not new
-        const params = new URLSearchParams(location.search);
-        const templateId = params.get('templateId');
-        if (templateId) {
-            getAccessToken().then((token) => {
+        const fetchTemplate = async () => {
+            // fetch template data if the canvas is not new
+            const params = new URLSearchParams(location.search);
+            const templateId = params.get('templateId');
+            if (templateId) {
+                const token = await getAccessToken()
                 if (!token) return;
-
-                getTemplate(templateId, token).then((res) => {
-                    setCanvasDesign(res.data.canvasDesign);
-                    setFriendlyName(res.data.friendlyName);
-                    setLoading(false);
-                });
-            });
+                const fetchedTemplate = await getTemplate(templateId, token);
+                setCanvasDesign(fetchedTemplate.canvasDesign);
+                setFriendlyName(fetchedTemplate.friendlyName);
+                setLoading(false);
+            }
+            else {
+                setLoading(false);
+            }
         }
-        else {
-            setLoading(false);
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        fetchTemplate();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search]);
 
     if (loading) {

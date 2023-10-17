@@ -12,3 +12,8 @@ export interface EstimateTemplateUsedData {
     templateId: string;
     templateFriendlyName: string;
 };
+
+export interface TemplateResponse {
+    templates: TemplateData[];
+    maxTemplatesReached: boolean;
+}
