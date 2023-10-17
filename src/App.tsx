@@ -14,19 +14,22 @@ import { useAuth0 } from "@auth0/auth0-react";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
 import PageViewTracker from "./logging/PageViewTracker";
 import Estimates from "./Components/Estimates/Estimates";
-import { AccessTokenProvider } from './utils/contexts/AccessTokenContext';
 import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
 import CreateTeam from "./Components/Subscriptions/TeamCheckout/CreateTeam";
 import TeamCheckout from "./Components/Subscriptions/TeamCheckout/TeamCheckout";
 import { SubscriptionProvider } from "./utils/contexts/SubscriptionContext";
 import Admin from "./Components/Admin/Admin";
 import { useOrganizationContext } from "./utils/contexts/OrganizationContext";
+import { getOrganization } from "./utils/api/org-api";
+import { OrganizationInfo } from "./utils/types/OrganizationInterfaces";
+import { useAccessToken } from "./utils/customHooks/useAccessToken";
 
 function App() {
   const { user, isLoading } = useAuth0();
   const theme = createTheme(themeOptions);
-  const { organization } = useOrganizationContext();
+  const { organization, setOrganization } = useOrganizationContext();
   const [isOwner, setIsOwner] = useState(false);
+  const {getAccessToken} = useAccessToken();
   useEffect(() => {
     if (user && organization) {
       setIsOwner(user.sub === organization.bryxOrg.ownerUserId);
@@ -35,8 +38,21 @@ function App() {
     }
   }, [user, organization]);
 
+  useEffect(() => {
+    async function fetchOrg() {
+        if (organization || !user) return;
+        if(!user.org_id) return;
+        const token = await getAccessToken();
+        if (!token) return;
+        const fetchedOrg = await getOrganization(token);
+        setOrganization(fetchedOrg.data as OrganizationInfo);
+    }
+    fetchOrg();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+}, [user?.org_id]);
+
   return (
-    <AccessTokenProvider>
+    <>
       <PageViewTracker />
       <ThemeProvider theme={theme}>
         <SubscriptionProvider>
@@ -65,8 +81,9 @@ function App() {
           </Navigation>
         </SubscriptionProvider>
       </ThemeProvider>
-    </AccessTokenProvider>
+      </>
   );
 }
 
 export default App;
+

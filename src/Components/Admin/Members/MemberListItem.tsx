@@ -5,7 +5,7 @@ import { removeMemberFromOrg } from "../../../utils/api/org-api";
 import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
 import { Member } from "../../../utils/types/OrganizationInterfaces";
 import { useOrganizationContext } from "../../../utils/contexts/OrganizationContext";
-import { ListItem, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { ListItem, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 interface MemberItemProps {
     member: Member;
@@ -15,7 +15,7 @@ const MemberLineItem = ({ member }: MemberItemProps) => {
     const theme = useTheme();
     const { organization } = useOrganizationContext();
     const { getAccessToken } = useAccessToken();
-    const lineItemIsOwner = member.userId === organization?.bryxOrg.ownerUserId;
+    const lineItemIsOwner = member.user_id === organization?.bryxOrg.ownerUserId;
     const [isDialogOpen, setIsDialogOpen] = useState(false);
 
     const handleRemoveUser = async () => {
@@ -30,7 +30,7 @@ const MemberLineItem = ({ member }: MemberItemProps) => {
         const token = await getAccessToken();
         if (!token) return;
 
-        await removeMemberFromOrg(token, member.userId);
+        await removeMemberFromOrg(token, member.user_id);
 
         // Close the dialog
         setIsDialogOpen(false);
@@ -42,16 +42,21 @@ const MemberLineItem = ({ member }: MemberItemProps) => {
     };
 
     return (
+        <Paper>
         <ListItem>
             <Typography variant="h5" color={theme.palette.text.primary}>
-                {member.displayName}
+                {member.name}
             </Typography>
             {!lineItemIsOwner && (
                 <Button onClick={handleRemoveUser} variant="outlined" color="secondary">
                     Remove User
                 </Button>)
             }
-
+            {lineItemIsOwner && (
+                <Typography variant="h6" color={theme.palette.text.primary}>
+                    Owner
+                </Typography>
+            )}
             <Dialog
                 open={isDialogOpen}
                 onClose={handleCloseDialog}
@@ -61,7 +66,7 @@ const MemberLineItem = ({ member }: MemberItemProps) => {
                 <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to remove {member.displayName} from the organization?
+                        Are you sure you want to remove {member.name} from the organization?
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
@@ -74,6 +79,7 @@ const MemberLineItem = ({ member }: MemberItemProps) => {
                 </DialogActions>
             </Dialog>
         </ListItem>
+        </Paper>
     );
 };
 

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { deleteInviteToOrg } from "../../../utils/api/org-api";
 import { useAccessToken } from "../../../utils/customHooks/useAccessToken";
 import { Invite } from "../../../utils/types/OrganizationInterfaces";
-import { ListItem, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { ListItem, Paper, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
 
 interface InviteItemProps {
     invite: Invite;
@@ -38,37 +38,39 @@ const InviteLineItem = ({ invite }: InviteItemProps) => {
     };
 
     return (
-        <ListItem>
-            <Typography variant="h5" color={theme.palette.text.primary}>
-                {invite.email}
-            </Typography>
-            <Button onClick={handleRemoveUser} variant="outlined" color="secondary">
-                Delete Invite
-            </Button>)
+        <Paper>
+            <ListItem>
+                <Typography variant="h5" color={theme.palette.text.primary}>
+                    {invite.email}
+                </Typography>
+                <Button onClick={handleRemoveUser} variant="outlined" color="secondary">
+                    Delete Invite
+                </Button>)
 
 
-            <Dialog
-                open={isDialogOpen}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to delete invite to {invite.email} to join the organization?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleConfirmDeleteInvite} color="secondary" autoFocus>
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </ListItem>
+                <Dialog
+                    open={isDialogOpen}
+                    onClose={handleCloseDialog}
+                    aria-labelledby="alert-dialog-title"
+                    aria-describedby="alert-dialog-description"
+                >
+                    <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete invite to {invite.email} to join the organization?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleConfirmDeleteInvite} color="secondary" autoFocus>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+            </ListItem>
+        </Paper>
     );
 };
 

@@ -2,32 +2,20 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import useTheme from "@mui/material/styles/useTheme";
 import { useEffect, useState } from "react";
-import { getOrganization, getOrganizationMembers } from "../../utils/api/org-api";
+import { getOrganizationMembers } from "../../utils/api/org-api";
 import { useAccessToken } from "../../utils/customHooks/useAccessToken";
-import { Invite, Member, OrganizationInfo, OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
+import { Invite, Member, OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
 import { useOrganizationContext } from "../../utils/contexts/OrganizationContext";
 import MemberLineItem from "./Members/MemberListItem";
 import InviteLineItem from "./Members/InviteListItem";
+import InviteButton from "./Members/InviteButton";
 
 const Admin: React.FC = () => {
     const theme = useTheme();
-    const { organization, setOrganization } = useOrganizationContext();
-    const [members, setMembers] = useState<Member[] | undefined>();
-    const [invites, setInvites] = useState<Invite[] | undefined>();
-    const { user, getAccessToken } = useAccessToken();
-
-    useEffect(() => {
-        async function fetchOrg() {
-            if (organization || !user) return;
-            const token = await getAccessToken();
-            if (!token) return;
-            const fetchedOrg = await getOrganization(token);
-            setOrganization(fetchedOrg.data as OrganizationInfo);
-        }
-
-        fetchOrg();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user?.org_id]);
+    const { organization } = useOrganizationContext();
+    const [members, setMembers] = useState<Member[]>([]);
+    const [invites, setInvites] = useState<Invite[]>([]);
+    const { getAccessToken } = useAccessToken();
 
     useEffect(() => {
         async function fetchMembers() {
@@ -35,8 +23,8 @@ const Admin: React.FC = () => {
             const token = await getAccessToken();
             if (!token) return;
             const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
-            setMembers(fetchedMembers.members);
-            setInvites(fetchedMembers.invites);
+            setMembers(fetchedMembers.members.data);
+            setInvites(fetchedMembers.invites.data);
         }
         fetchMembers();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -50,18 +38,19 @@ const Admin: React.FC = () => {
             <br />
             <Box sx={{ width: "100%", marginTop: 2 }}>
                 <Typography variant="h5" color={theme.palette.text.primary}>
-                    {organization?.bryxOrg.orgDisplayName}
+                    Team Name: {organization?.bryxOrg.orgDisplayName}
                 </Typography>
+                <InviteButton disabled = {members.length+invites.length >=5}/>
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Members
                 </Typography>
-                {members?.map((member) => (
-                    <MemberLineItem key={member.userId} member={member} />
+                {members && members?.map((member) => (
+                    <MemberLineItem key={member.user_id} member={member} />
                 ))}
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Invites
                 </Typography>
-                {invites?.map((invite) => (
+                {invites && invites?.map((invite) => (
                     <InviteLineItem key={invite.inviteId} invite={invite} />
                 ))}
             </Box>

@@ -16,14 +16,14 @@ export interface OrganizationInfo {
 }
 
 export interface OrganizationMembers {
-    members: Member[]
-    invites: Invite[]
+    members: { data: Member[] }
+    invites: { data: Invite[] }
 }
 
 export interface Member {
-    userId: string;
-    displayName: string;
+    user_id: string;
     email: string;
+    name: string;
 }
 
 export interface Invite {

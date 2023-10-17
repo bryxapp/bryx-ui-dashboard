@@ -52,3 +52,14 @@ export async function deleteInviteToOrg(token: string, inviteId: string){
         return null;
     }
 }
+
+export async function inviteMemberToOrg(token: string, email: string){
+    try{
+        const body = { email };
+        const response = await axios.post(BASE_URL+"/invite", body, createAuthHeader(token));
+        return response.data;
+    }catch(error){
+        console.error("Failed to invite member:", error);
+        return null;
+    }
+}
