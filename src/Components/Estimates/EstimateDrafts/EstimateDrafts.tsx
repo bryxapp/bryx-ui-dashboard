@@ -17,16 +17,17 @@ const EstimateDrafts = () => {
   const { getAccessToken } = useAuth0User();
 
   useEffect(() => {
-    setLoading(true);
-    getAccessToken().then((token) => {
+    const fetchEstimateDrafts = async () => {
+      setLoading(true);
+      const token = await getAccessToken();
       if (!token) return;
-      getEstimateDrafts(PAGE_SIZE, pageNumber, token) // Pass the pageNumber to getEstimateDrafts
-        .then((response) => {
-          setEstimateDrafts(response.data.fetchedEstimateDrafts);
-          setLoading(false);
-        });
-    });
-  }, [pageNumber, getAccessToken]); // Include pageNumber in the dependency array
+      const estimateDrafts = await getEstimateDrafts(PAGE_SIZE, pageNumber, token);
+      setEstimateDrafts(estimateDrafts);
+      setLoading(false);
+    }
+    fetchEstimateDrafts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageNumber]); // Include pageNumber in the dependency array
 
 
   const handleEstimateDraftDelete = (estimateDraftId: string) => {

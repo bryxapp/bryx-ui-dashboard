@@ -32,15 +32,15 @@ const ViewEstimate = () => {
                 try {
                     const estimate = await getEstimate(estimateId, token);
                     setEstimate(estimate);
-                    getEstimateComments(estimateId, token).then((res) => {
-                        setEstimateComments(res.data);
+                    try {
+                        const estimateComments = await getEstimateComments(estimateId, token)
+                        setEstimateComments(estimateComments);
                         setLoading(false);
-                    }).catch
-                        (() => {
-                            setCommentsError(true);
-                            setLoading(false);
-                        }
-                        );
+                    }
+                    catch {
+                        setCommentsError(true);
+                        setLoading(false);
+                    }
                 }
                 catch {
                     setEstimateError(true);

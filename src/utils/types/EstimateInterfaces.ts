@@ -13,6 +13,7 @@ export interface EstimateDraftData {
     estimateName: string,
     _ts: number,
     id: string,
+    filledFields: EstimateFormFields
 }
 
 export interface EstimateFormFields {
@@ -22,4 +23,13 @@ export interface EstimateFormFields {
 export interface EstimateResponse {
     estimates: EstimateData[];
     maxEstimatesReached: boolean;
+}
+
+export interface EstimateCommentData {
+    userName: string;
+    userPic: string;
+    estimateId: string;
+    comment: string;
+    _ts: number;
+    id: string;
 }

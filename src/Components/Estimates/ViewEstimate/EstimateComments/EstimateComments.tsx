@@ -3,7 +3,7 @@ import List from '@mui/material/List';
 import EstimateComment from './EstimateComment/EstimateComment';
 import { deleteEstimateComment, createEstimateComment } from '../../../../utils/api/estimate-comments-api';
 import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
-import {StyledTextField as TextField} from '../../../SharedComponents/TextField/TextField'
+import { StyledTextField as TextField } from '../../../SharedComponents/TextField/TextField'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
@@ -53,24 +53,22 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         });
     };
 
-    const handleAddComment = () => {
+    const handleAddComment = async () => {
         if (newComment.trim() === '') {
             return;
         }
-        getAccessToken().then((token) => {
-            if (!token) return;
-            const userPic = auth0User?.picture || '';
-            createEstimateComment(userName, estimateId, newComment, userPic, token)
-                .then((res) => {
-                    setEstimateComments((prevComments: any) => [res.data.estimateComment, ...prevComments]);
-                    setNewComment('');
-                })
-                .catch(() => {
-                    //Show a Snackbar message
-                    setSnackBarText('Error adding comment');
-                    setSnackbarOpen(true);
-                });
-        });
+        const token = await getAccessToken()
+        if (!token) return;
+        const userPic = auth0User?.picture || '';
+        try {
+            const createdEstimateComment = await createEstimateComment(userName, estimateId, newComment, userPic, token);
+            setEstimateComments((prevComments: any) => [createdEstimateComment.comment, ...prevComments]);
+            setNewComment('');
+        } catch {
+            //Show a Snackbar message
+            setSnackBarText('Error adding comment');
+            setSnackbarOpen(true);
+        }
     };
 
     if (commentsError) {

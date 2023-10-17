@@ -54,25 +54,23 @@ const EstimateForm = () => {
                 newFieldValues[textInput.id] = "";
             });
             if (draftId) {
-                getEstimateDraft(draftId, token)
-                    .then((res) => {
-                        setEstimateName(res.data.estimateName);
-                        const draftFieldValues = res.data.filledFields; //fieldvalues object saved from the last draft
-                        //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
-                        let missingKeys: string[] = [];
-                        Object.keys(draftFieldValues).forEach((key) => {
-                            if (!newFieldValues.hasOwnProperty(key)) {
-                                missingKeys.push(key);
-                            }
-                            else {
-                                newFieldValues[key] = draftFieldValues[key];
-                            }
-                        });
-                        setFieldValues(newFieldValues);
-                        if (missingKeys.length > 0) {
-                            alert("There were fields in the draft that are no longer in the template.")
-                        }
-                    });
+                const fetchedEstimateDraft = await getEstimateDraft(draftId, token);
+                setEstimateName(fetchedEstimateDraft.estimateName);
+                const draftFieldValues = fetchedEstimateDraft.filledFields; //fieldvalues object saved from the last draft
+                //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
+                let missingKeys: string[] = [];
+                Object.keys(draftFieldValues).forEach((key) => {
+                    if (!newFieldValues.hasOwnProperty(key)) {
+                        missingKeys.push(key);
+                    }
+                    else {
+                        newFieldValues[key] = draftFieldValues[key];
+                    }
+                });
+                setFieldValues(newFieldValues);
+                if (missingKeys.length > 0) {
+                    alert("There were fields in the draft that are no longer in the template.")
+                }
             }
             setFieldValues(newFieldValues);
             setLoading(false);

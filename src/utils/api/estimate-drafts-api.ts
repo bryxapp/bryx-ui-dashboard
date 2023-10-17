@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { EstimateFormFields } from '../types/EstimateInterfaces';
+import { EstimateDraftData, EstimateFormFields } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimateDrafts";
 
@@ -10,29 +10,31 @@ export async function createEstimateDraft(templateId: string, estimateName: stri
         estimateName: estimateName,
         filledFields: fieldValues,
     }
-    return axios.post(`${BASE_URL}`, body, {
+    const response = await axios.post(`${BASE_URL}`, body, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data as EstimateDraftData;
 }
 
-export function getEstimateDrafts(pageSize: number, pageNumber: number, token: string) {
+export async function getEstimateDrafts(pageSize: number, pageNumber: number, token: string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`, {
+    const response = await axios.get(`${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data as EstimateDraftData[];
 }
 
-export function getEstimateDraft(id: string, token: string) {
-    console.log(`${BASE_URL}/${id}`)
-    return axios.get(`${BASE_URL}/${id}`, {
+export async function getEstimateDraft(id: string, token: string) {
+    const response = await axios.get(`${BASE_URL}/${id}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data as EstimateDraftData;
 }
 
 export async function updateEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, id: string, token: string) {
@@ -42,15 +44,16 @@ export async function updateEstimateDraft(templateId: string, estimateName: stri
         estimateName: estimateName,
         filledFields: fieldValues,
     }
-    return axios.put(`${BASE_URL}/${id}`, body, {
+    const response = await axios.put(`${BASE_URL}/${id}`, body, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data as EstimateDraftData;
 }
 
-export function deleteEstimateDraft(estimateDraftId: string, token: string) {
-    return axios.delete(`${BASE_URL}/${estimateDraftId}`, {
+export async function deleteEstimateDraft(estimateDraftId: string, token: string) {
+    await axios.delete(`${BASE_URL}/${estimateDraftId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }

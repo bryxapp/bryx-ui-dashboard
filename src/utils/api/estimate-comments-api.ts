@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { EstimateCommentData } from '../types/EstimateInterfaces';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimateComments";
 
@@ -10,24 +11,26 @@ export async function createEstimateComment(userName:string, estimateId: string,
         estimateId: estimateId,
         comment: comment,
     }
-    return axios.post(`${BASE_URL}`, body, {
+    const response = await axios.post(`${BASE_URL}`, body, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data as EstimateCommentData;
 }
 
-export function getEstimateComments(estimateId: string, token: string) {
+export async function getEstimateComments(estimateId: string, token: string) {
     //get all templates from the api
-    return axios.get(`${BASE_URL}?estimateId=${estimateId}`, {
+    const response = await axios.get(`${BASE_URL}?estimateId=${estimateId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
+    return response.data as EstimateCommentData[];
 }
 
-export function deleteEstimateComment(estimateCommentId: string, token: string) {
-    return axios.delete(`${BASE_URL}/${estimateCommentId}`, {
+export async function deleteEstimateComment(estimateCommentId: string, token: string) {
+    await axios.delete(`${BASE_URL}/${estimateCommentId}`, {
         headers: {
             Authorization: `Bearer ${token}`
         }
