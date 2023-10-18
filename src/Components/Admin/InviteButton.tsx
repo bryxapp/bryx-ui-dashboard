@@ -7,14 +7,17 @@ import {
     DialogContentText,
     DialogTitle,
 } from "@mui/material";
-import { StyledTextField as TextField} from "../../SharedComponents/TextField/TextField";
-import { inviteMemberToOrg } from "../../../utils/api/org-api";
-import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
+import { StyledTextField as TextField } from "../SharedComponents/TextField/TextField";
+import { getOrganizationMembers, inviteMemberToOrg } from "../../utils/api/org-api";
+import { useAuth0User } from "../../utils/customHooks/useAuth0User";
+import { OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
 
 interface InviteButtonProps {
     disabled?: boolean;
+    setInvites: (invites: any) => void;
+    setMembers: (members: any) => void;
 }
-const InviteButton = ({disabled}:InviteButtonProps) => {
+const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) => {
     const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [email, setEmail] = useState("");
@@ -32,6 +35,10 @@ const InviteButton = ({disabled}:InviteButtonProps) => {
         if (!token) return;
 
         await inviteMemberToOrg(token, email);
+
+        const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
+        setMembers(fetchedMembers.members.data);
+        setInvites(fetchedMembers.invites.data);
 
         // Close the dialog
         setIsDialogOpen(false);

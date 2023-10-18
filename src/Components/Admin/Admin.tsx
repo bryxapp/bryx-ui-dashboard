@@ -7,8 +7,8 @@ import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 import { Invite, Member, OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
 import { useOrganizationContext } from "../../utils/contexts/OrganizationContext";
 import MemberLineItem from "./Members/MemberListItem";
-import InviteLineItem from "./Members/InviteListItem";
-import InviteButton from "./Members/InviteButton";
+import InviteLineItem from "./Invites/InviteListItem";
+import InviteButton from "./InviteButton";
 import TeamName from "./TeamName/TeamName";
 
 const Admin: React.FC = () => {
@@ -40,27 +40,21 @@ const Admin: React.FC = () => {
             <Box sx={{ width: "100%", marginTop: 2 }}>
                 <TeamName teamName={organization?.bryxOrg.orgDisplayName} />
                 <Box sx={{ width: "100%", marginTop: 2 }} />
-                <InviteButton disabled={members.length + invites.length >= 5} />
+                <InviteButton disabled={members.length + invites.length >= 5} setMembers={setMembers} setInvites={setInvites} />
                 <Box sx={{ width: "100%", marginTop: 2 }} />
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Members
                 </Typography>
                 <Box sx={{ width: "100%", marginTop: 2 }} />
                 {members && members?.map((member) => (
-                    <>
-                        <MemberLineItem key={member.user_id} member={member} />
-                        <Box sx={{ width: "100%", marginTop: 2 }} />
-                    </>
+                        <MemberLineItem key={member.user_id} member={member} setMembers={setMembers} setInvites={setInvites} />
                 ))}
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Invites
                 </Typography>
                 <Box sx={{ width: "100%", marginTop: 2 }} />
                 {invites && invites?.map((invite) => (
-                    <>
-                        <InviteLineItem key={invite.inviteId} invite={invite} />
-                        <Box sx={{ width: "100%", marginTop: 2 }} />
-                    </>
+                        <InviteLineItem key={invite.id} invite={invite} setMembers={setMembers} setInvites={setInvites} />
                 ))}
             </Box>
         </>

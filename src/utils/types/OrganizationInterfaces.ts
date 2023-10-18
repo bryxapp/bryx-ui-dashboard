@@ -27,6 +27,16 @@ export interface Member {
 }
 
 export interface Invite {
-    inviteId: string;
-    email: string;
+    id: string;
+    inviter : {
+        name: string;
+    };
+    invitee: {
+        email: string;
+    };
+    invitation_url: string;
+    ticket_id: string;
+    created_at: string;
+    expires_at: string;
+    organization_id: string;
 }
