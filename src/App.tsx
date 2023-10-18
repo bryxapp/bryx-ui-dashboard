@@ -23,6 +23,7 @@ import { getOrganization } from "./utils/api/org-api";
 import { useAuth0User } from "./utils/customHooks/useAuth0User";
 import { getUser } from "./utils/api/user-api";
 import { isEqual } from "lodash";
+import AuthRedirect from "./Components/NotLoggedIn/AuthRedirect";
 
 function App() {
   const theme = createTheme(themeOptions);
@@ -94,10 +95,12 @@ function App() {
               <Route path="/team-checkout" element={<TeamCheckout />} />
               <Route path="/create-team" element={<CreateTeam />} />
               {isOwner && <Route path="/admin" element={<Admin />} />}
+              <Route path="/auth-redirect" element={<AuthRedirect />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           ) : (
             <Routes>
+              <Route path="/auth-redirect" element={<AuthRedirect />} />
               <Route path="*" element={<NotLoggedIn />} />
             </Routes>
           )}
