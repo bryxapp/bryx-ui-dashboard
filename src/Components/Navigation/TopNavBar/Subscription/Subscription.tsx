@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useTheme, Chip } from '@mui/material';
 import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
-import { SubscriptionEnum } from '../../../../utils/types/SubscriptionInterfaces';
 import { CircularProgress } from '@mui/material';
 import { useBryxUserContext } from '../../../../utils/contexts/BryxUserContext';
 
@@ -9,13 +8,9 @@ const Subscription = () => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const { bryxUser } = useBryxUserContext();
-    const isTeam = bryxUser?.subscription && bryxUser?.subscription === SubscriptionEnum.TEAM;
-
 
     const handleClick = () => {
-        if (!isTeam) {
-            setOpen(true);
-        }
+        setOpen(true);
     };
 
     return (
@@ -27,7 +22,6 @@ const Subscription = () => {
                     marginRight: '10px',
                     color: theme.palette.text.secondary,
                     fontWeight: "bold",
-                    cursor: !isTeam ? 'pointer' : 'default',
                 }}
             />
             <UpgradeSubscriptionDialog open={open} onClose={() => setOpen(false)} />

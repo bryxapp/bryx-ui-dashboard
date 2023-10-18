@@ -3,6 +3,8 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typogra
 import SubscriptionTile from './SubscriptionTile';
 import { SubscriptionEnum, SubscriptionInfo, proSubscription, starterSubscription, teamSubscription } from '../../utils/types/SubscriptionInterfaces';
 import { useBryxUserContext } from '../../utils/contexts/BryxUserContext';
+import BillingButton from './Billing/Billing';
+import { useOrganizationContext } from '../../utils/contexts/OrganizationContext';
 
 interface Props {
     open: boolean;
@@ -18,6 +20,7 @@ const packages: SubscriptionInfo[] = [
 const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
     const theme = useTheme();
     const { bryxUser } = useBryxUserContext();
+    const {isOwner} = useOrganizationContext();
 
     const getContent = () => {
         if (bryxUser?.subscription === SubscriptionEnum.STARTER) {
@@ -39,12 +42,16 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
                     <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'nowrap', overflowX: 'auto' }}>
                         <SubscriptionTile subscriptionInfo={teamSubscription} closeDialog={onClose} />
                     </Box>
+                    <BillingButton />
                 </>
             );
         }
 
         if (bryxUser?.subscription === SubscriptionEnum.TEAM) {
-            return <Typography>You have a team subscription.</Typography>;
+            return <>
+            <Typography>You have a team subscription.</Typography>
+            {isOwner && <BillingButton />}
+            </>;
         }
     };
 
