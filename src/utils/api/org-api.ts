@@ -30,3 +30,8 @@ export async function inviteMemberToOrg(token: string, email: string) {
     const response = await axios.post(BASE_URL + "/invite", body, createAuthHeader(token));
     return response.data as Invite;
 }
+
+export async function renameOrg(token: string, name: string) {
+    const body = { newTeamName: name };
+    await axios.put(BASE_URL + "/rename", body, createAuthHeader(token));
+}

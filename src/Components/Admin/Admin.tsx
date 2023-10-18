@@ -9,6 +9,7 @@ import { useOrganizationContext } from "../../utils/contexts/OrganizationContext
 import MemberLineItem from "./Members/MemberListItem";
 import InviteLineItem from "./Members/InviteListItem";
 import InviteButton from "./Members/InviteButton";
+import TeamName from "./TeamName/TeamName";
 
 const Admin: React.FC = () => {
     const theme = useTheme();
@@ -37,21 +38,29 @@ const Admin: React.FC = () => {
             </Typography>
             <br />
             <Box sx={{ width: "100%", marginTop: 2 }}>
-                <Typography variant="h5" color={theme.palette.text.primary}>
-                    Team Name: {organization?.bryxOrg.orgDisplayName}
-                </Typography>
-                <InviteButton disabled = {members.length+invites.length >=5}/>
+                <TeamName teamName={organization?.bryxOrg.orgDisplayName} />
+                <Box sx={{ width: "100%", marginTop: 2 }} />
+                <InviteButton disabled={members.length + invites.length >= 5} />
+                <Box sx={{ width: "100%", marginTop: 2 }} />
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Members
                 </Typography>
+                <Box sx={{ width: "100%", marginTop: 2 }} />
                 {members && members?.map((member) => (
-                    <MemberLineItem key={member.user_id} member={member} />
+                    <>
+                        <MemberLineItem key={member.user_id} member={member} />
+                        <Box sx={{ width: "100%", marginTop: 2 }} />
+                    </>
                 ))}
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Invites
                 </Typography>
+                <Box sx={{ width: "100%", marginTop: 2 }} />
                 {invites && invites?.map((invite) => (
-                    <InviteLineItem key={invite.inviteId} invite={invite} />
+                    <>
+                        <InviteLineItem key={invite.inviteId} invite={invite} />
+                        <Box sx={{ width: "100%", marginTop: 2 }} />
+                    </>
                 ))}
             </Box>
         </>
