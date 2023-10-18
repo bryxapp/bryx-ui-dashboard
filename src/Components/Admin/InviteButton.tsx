@@ -11,6 +11,7 @@ import { StyledTextField as TextField } from "../SharedComponents/TextField/Text
 import { getOrganizationMembers, inviteMemberToOrg } from "../../utils/api/org-api";
 import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 import { OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
+import AddIcon from '@mui/icons-material/Add';
 
 interface InviteButtonProps {
     disabled?: boolean;
@@ -60,8 +61,8 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
 
     return (
         <>
-            <Button onClick={handleInviteUser} variant="contained" color="primary" disabled={disabled}>
-                Invite User
+            <Button onClick={handleInviteUser} variant="contained" color="primary" disabled={disabled} sx={{fontWeight:"bold"}}>
+                <AddIcon/> Invite User
             </Button>
             <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
                 <DialogTitle>Send Invite</DialogTitle>
