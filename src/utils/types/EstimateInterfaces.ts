@@ -30,6 +30,7 @@ export interface EstimateCommentData {
     userPic: string;
     estimateId: string;
     comment: string;
-    _ts: number;
+    userId: string;
     id: string;
+    _ts: number;
 }

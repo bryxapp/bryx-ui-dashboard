@@ -16,7 +16,7 @@ export async function createEstimateComment(userName:string, estimateId: string,
             Authorization: `Bearer ${token}`
         }
     });
-    return response.data as EstimateCommentData;
+    return response.data.estimateComment as EstimateCommentData;
 }
 
 export async function getEstimateComments(estimateId: string, token: string) {

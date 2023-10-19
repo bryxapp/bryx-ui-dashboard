@@ -13,26 +13,45 @@ import Button from '@mui/material/Button';
 import { useTheme } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
+import { EstimateCommentData } from '../../../../../utils/types/EstimateInterfaces';
+import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
+import { deleteEstimateComment } from '../../../../../utils/api/estimate-comments-api';
 
-interface EsEstimateCommentProps {
-    estimateComment: any;
-    userId: string;
-    handleEstimateCommentDelete: (estimateCommentId: string) => void;
+interface EstimateCommentProps {
+    estimateComment: EstimateCommentData;
+    setEstimateComments: React.Dispatch<React.SetStateAction<any>>;
+    setSnackbarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setSnackBarText: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const EstimateComment = ({ estimateComment, userId, handleEstimateCommentDelete }: EsEstimateCommentProps) => {
+const EstimateComment = ({ estimateComment, setEstimateComments, setSnackBarText, setSnackbarOpen }: EstimateCommentProps) => {
 
     const displayDate = estimateComment._ts ? convertEpochTime(estimateComment._ts) : 'Just now'
     const [open, setOpen] = useState(false);
     const theme = useTheme();
+    const { auth0User, getAccessToken } = useAuth0User();
+
+
     const handleDeleteClick = () => {
         setOpen(true);
     };
 
-    const handleConfirmDelete = () => {
-        handleEstimateCommentDelete(estimateComment.id);
+    const handleConfirmDelete = async () => {
+        const token = await getAccessToken();
+        if (!token) return;
+        try {
+            await deleteEstimateComment(estimateComment.id, token)
+            setEstimateComments((prevComments: any) =>
+                prevComments.filter((comment: any) => comment.id !== estimateComment.id)
+            );
+        } catch (error) {
+            console.error("Failed to delete comment:", error);
+            setSnackBarText('Error deleting comment');
+            setSnackbarOpen(true);
+        }
         setOpen(false);
     };
+
 
     const handleCancelDelete = () => {
         setOpen(false);
@@ -42,8 +61,7 @@ const EstimateComment = ({ estimateComment, userId, handleEstimateCommentDelete 
         <ListItem
             secondaryAction={
                 <div>
-                    {/*Can only Delete your own comments*/}
-                    {estimateComment.userId === userId &&
+                    {estimateComment.userId === auth0User?.sub &&
                         <IconButton aria-label="delete" onClick={handleDeleteClick}>
                             <DeleteIcon />
                         </IconButton>}
@@ -52,7 +70,7 @@ const EstimateComment = ({ estimateComment, userId, handleEstimateCommentDelete 
             sx={{ alignItems: 'flex-start' }}
         >
             <ListItemAvatar>
-                {estimateComment.userPicture ? <Avatar src={estimateComment.userPicture} /> : <Avatar>{estimateComment.userName.charAt(0).toUpperCase()}</Avatar>}
+                {estimateComment.userPic ? <Avatar src={estimateComment.userPic} /> : <Avatar>{estimateComment.userName.charAt(0).toUpperCase()}</Avatar>}
             </ListItemAvatar>
             <ListItemText
                 primary={
@@ -87,3 +105,4 @@ const EstimateComment = ({ estimateComment, userId, handleEstimateCommentDelete 
 };
 
 export default EstimateComment;
+

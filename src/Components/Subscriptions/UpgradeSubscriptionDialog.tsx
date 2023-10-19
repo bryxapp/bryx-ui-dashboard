@@ -23,7 +23,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
     const {isOwner} = useOrganizationContext();
 
     const getContent = () => {
-        if (bryxUser?.subscription === SubscriptionEnum.STARTER) {
+        if (bryxUser?.subscription === SubscriptionEnum.STARTER || !bryxUser?.subscription) {
             return (
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', overflowX: 'auto' }}>
                     {packages.map((pkg, index) => (

@@ -1,57 +1,54 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import EstimateComment from './EstimateComment/EstimateComment';
-import { deleteEstimateComment, createEstimateComment } from '../../../../utils/api/estimate-comments-api';
-import { EstimateData } from '../../../../utils/types/EstimateInterfaces';
+import { createEstimateComment, getEstimateComments } from '../../../../utils/api/estimate-comments-api';
 import { StyledTextField as TextField } from '../../../SharedComponents/TextField/TextField'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { Typography } from '@mui/material';
+import { EstimateCommentData, EstimateData } from '../../../../utils/types/EstimateInterfaces';
 
 interface EstimateCommentsProps {
-    estimateId: string;
-    estimateComments: any[];
-    setEstimateComments: React.Dispatch<React.SetStateAction<any>>;
-    commentsError: boolean;
+    estimate: EstimateData|null;
 }
 
-const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, commentsError }: EstimateCommentsProps) => {
+const EstimateComments = ({ estimate }: EstimateCommentsProps) => {
     const [newComment, setNewComment] = useState('');
     const [isSnackbarOpen, setSnackbarOpen] = useState(false);
     const [snackBarText, setSnackBarText] = useState('');
     const { auth0User, getAccessToken } = useAuth0User();
-    let userName = "Unknown User"
-    if (auth0User?.name) {
-        userName = auth0User.name;
-    } else if (auth0User?.nickname) {
-        userName = auth0User.nickname;
-    }
-    else if (auth0User?.email) {
-        userName = auth0User.email;
-    }
+    const [estimateComments, setEstimateComments] = useState<any[]>([]);
+    const [commentsError, setCommentsError] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchEstimateComments = async () => {
+            if (!estimate ) return
+                const token = await getAccessToken();
+                if (!token) return;
+                try {
+                    const fetchedEstimateComments = await getEstimateComments(estimate.id, token)
+                    setEstimateComments(fetchedEstimateComments);
+                    setLoading(false);
+                }
+                catch {
+                    setCommentsError(true);
+                    setLoading(false);
+                }
+        }
+        fetchEstimateComments();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [estimate, auth0User?.sub]);
 
     const handleCloseSnackbar = () => {
         setSnackbarOpen(false);
     };
 
-    const handleEstimateCommentDelete = async (estimateId: string) => {
-        const token = await getAccessToken();
-        if (!token) return;
-        try {
-            await deleteEstimateComment(estimateId, token)
-            setEstimateComments((prevComments: any) =>
-                prevComments.filter((estimate: EstimateData) => estimate.id !== estimateId)
-            );
-        } catch {
-            //Show a Snackbar message
-            setSnackBarText('Error deleting comment');
-            setSnackbarOpen(true);
-        }
-    };
 
     const handleAddComment = async () => {
+        if (!estimate) return;
         if (newComment.trim() === '') {
             return;
         }
@@ -59,8 +56,17 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
         if (!token) return;
         const userPic = auth0User?.picture || '';
         try {
-            const createdEstimateComment = await createEstimateComment(userName, estimateId, newComment, userPic, token);
-            setEstimateComments((prevComments: any) => [createdEstimateComment.comment, ...prevComments]);
+            let userName = "Unknown User"
+            if (auth0User?.name) {
+                userName = auth0User.name;
+            } else if (auth0User?.nickname) {
+                userName = auth0User.nickname;
+            }
+            else if (auth0User?.email) {
+                userName = auth0User.email;
+            }
+            const createdEstimateComment = await createEstimateComment(userName, estimate.id, newComment, userPic, token);
+            setEstimateComments((prevComments: EstimateCommentData[]) => [createdEstimateComment, ...prevComments]);
             setNewComment('');
         } catch {
             //Show a Snackbar message
@@ -82,16 +88,17 @@ const EstimateComments = ({ estimateId, estimateComments, setEstimateComments, c
     return (
         <>
             <List>
-                {estimateComments.slice().reverse().map((estimateComment: any) => (
+                {!loading && estimateComments.slice().reverse().map((estimateComment: EstimateCommentData) => (
                     <EstimateComment
                         key={estimateComment.id}
                         estimateComment={estimateComment}
-                        userId={auth0User?.sub || ''}
-                        handleEstimateCommentDelete={handleEstimateCommentDelete}
+                        setEstimateComments={setEstimateComments}
+                        setSnackBarText={setSnackBarText}
+                        setSnackbarOpen={setSnackbarOpen}
                     />
                 ))}
+                {loading && <Typography variant="h5" component="div" sx={{ flexGrow: 1, color: 'primary' }}> Loading comments... </Typography>}
             </List>
-
             <Box mt={3}>
                 <TextField
                     label="Add a new comment"
