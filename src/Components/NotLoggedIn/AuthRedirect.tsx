@@ -3,7 +3,12 @@ import { useEffect } from 'react';
 
 const AuthRedirect = () => {
   useEffect(() => {
-    window.location.href = `https://${process.env.REACT_APP_AUTH0_DOMAIN}/authorize`;
+    const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+    const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
+    const scope = encodeURIComponent("read:current_user update:current_user_metadata openid profile email");
+
+    window.location.href = `https://${domain}/authorize?response_type=code&client_id=${clientId}&scope=${scope}&redirect_uri=${redirectUri}`;
   }, []);
 
   return null;
