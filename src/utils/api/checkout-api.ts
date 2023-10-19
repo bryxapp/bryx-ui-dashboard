@@ -4,13 +4,14 @@ import axios from 'axios';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/checkout";
 
-export async function createProCheckoutSession() {
-    const response = await axios.post(BASE_URL + "/pro-checkout");
+export async function createProCheckoutSession(email:string) {
+    const body = {email}
+    const response = await axios.post(BASE_URL + "/pro-checkout",body);
     return response.data;
 }
 
-export async function createTeamCheckoutSession(teamName: string) {
-    const response = await axios.post(BASE_URL + "/team-checkout", { teamName: teamName });
+export async function createTeamCheckoutSession(teamName: string, email:string) {
+    const response = await axios.post(BASE_URL + "/team-checkout", { teamName: teamName, email: email });
     return response.data;
 }
 

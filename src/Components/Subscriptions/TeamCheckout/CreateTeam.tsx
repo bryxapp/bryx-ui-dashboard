@@ -45,7 +45,8 @@ const CreateTeam = () => {
         throw new Error("Stripe is not initialized.");
       }
 
-      const session = await createTeamCheckoutSession(teamName);
+      const email = auth0User?.email || "";
+      const session = await createTeamCheckoutSession(teamName,email);
       if (!session) {
         throw new Error("Session creation failed.");
       }

@@ -25,8 +25,8 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
             if (!stripe) {
                 throw new Error("Stripe is not initialized.");
             }
-
-            const session = await createProCheckoutSession();
+            const email = auth0User?.email || "";
+            const session = await createProCheckoutSession(email);
             if (!session) {
                 throw new Error("Session creation failed.");
             }
