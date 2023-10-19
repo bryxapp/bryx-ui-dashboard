@@ -6,8 +6,10 @@ import { createBillingSession } from "../../../utils/api/billing-api";
 const stripePromise = process.env.REACT_APP_STRIPE_KEY
     ? loadStripe(process.env.REACT_APP_STRIPE_KEY)
     : null;
-
-const BillingButton = () => {
+interface BillingButtonProps {
+    onClose: () => void;
+}
+const BillingButton = ({onClose}:BillingButtonProps) => {
     const { getAccessToken } = useAuth0User();
     const [loading, setLoading] = useState(false);
 
@@ -35,10 +37,11 @@ const BillingButton = () => {
             console.error("An error occurred during the checkout process:", error);
         }
         setLoading(false);
+        onClose();
     };
 
     return (
-        <Button variant="contained" color="primary" onClick={handleManageBilling} disabled={loading}>
+        <Button variant="contained" color="secondary" onClick={handleManageBilling} disabled={loading} size="large">
             {loading ? <CircularProgress color="secondary" size={20} /> : "Open Billing"}
         </Button>
     );

@@ -20,7 +20,7 @@ const packages: SubscriptionInfo[] = [
 const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
     const theme = useTheme();
     const { bryxUser } = useBryxUserContext();
-    const {isOwner} = useOrganizationContext();
+    const { isOwner } = useOrganizationContext();
 
     const getContent = () => {
         if (bryxUser?.subscription === SubscriptionEnum.STARTER || !bryxUser?.subscription) {
@@ -42,15 +42,24 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
                     <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'nowrap', overflowX: 'auto' }}>
                         <SubscriptionTile subscriptionInfo={teamSubscription} closeDialog={onClose} />
                     </Box>
-                    <BillingButton />
+                    <br />
+                    <Typography variant='h6' color="secondary.main">To manage your billing, click the button below.</Typography>
+                    <br />
+                    <BillingButton onClose={onClose} />
                 </>
             );
         }
 
         if (bryxUser?.subscription === SubscriptionEnum.TEAM) {
             return <>
-            <Typography>You have a team subscription.</Typography>
-            {isOwner && <BillingButton />}
+                <Typography variant='h6' color="secondary.main">You have a team subscription.</Typography>
+                
+                {isOwner &&
+                    (<>
+                        <Typography variant='h6' color="secondary.main">To manage your billing, click the button below.</Typography>
+                        <br />
+                        <BillingButton onClose={onClose} />
+                    </>)}
             </>;
         }
     };
