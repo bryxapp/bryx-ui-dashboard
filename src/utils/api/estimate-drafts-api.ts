@@ -10,12 +10,11 @@ export async function createEstimateDraft(templateId: string, estimateName: stri
         estimateName: estimateName,
         filledFields: fieldValues,
     }
-    const response = await axios.post(`${BASE_URL}`, body, {
+    await axios.post(`${BASE_URL}`, body, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     });
-    return response.data as EstimateDraftData;
 }
 
 export async function getEstimateDrafts(pageSize: number, pageNumber: number, token: string) {
@@ -25,7 +24,7 @@ export async function getEstimateDrafts(pageSize: number, pageNumber: number, to
             Authorization: `Bearer ${token}`
         }
     });
-    return response.data as EstimateDraftData[];
+    return response.data.fetchedEstimateDrafts as EstimateDraftData[];
 }
 
 export async function getEstimateDraft(id: string, token: string) {

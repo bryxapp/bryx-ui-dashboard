@@ -11,7 +11,6 @@ import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/themeOptions";
 import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
-import PageViewTracker from "./logging/PageViewTracker";
 import Estimates from "./Components/Estimates/Estimates";
 import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
 import CreateTeam from "./Components/Subscriptions/TeamCheckout/CreateTeam";
@@ -78,7 +77,6 @@ function App() {
 
   return (
     <>
-      <PageViewTracker />
       <ThemeProvider theme={theme}>
         <Navigation>
           {isLoading || auth0User ? (
@@ -94,7 +92,7 @@ function App() {
               <Route path="/pro-checkout" element={<ProCheckout />} />
               <Route path="/team-checkout" element={<TeamCheckout />} />
               <Route path="/create-team" element={<CreateTeam />} />
-              {isOwner && <Route path="/admin" element={<Admin />} />}
+              {(isOwner || isLoading) && <Route path="/admin" element={<Admin />} />}
               <Route path="/auth-redirect" element={<AuthRedirect />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

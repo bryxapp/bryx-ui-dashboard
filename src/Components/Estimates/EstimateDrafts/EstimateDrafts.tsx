@@ -14,7 +14,7 @@ const EstimateDrafts = () => {
   const [estimateDrafts, setEstimateDrafts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1); // Current page number
-  const { getAccessToken } = useAuth0User();
+  const { auth0User, getAccessToken } = useAuth0User();
 
   useEffect(() => {
     const fetchEstimateDrafts = async () => {
@@ -27,7 +27,7 @@ const EstimateDrafts = () => {
     }
     fetchEstimateDrafts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNumber]); // Include pageNumber in the dependency array
+  }, [pageNumber,auth0User?.sub]);
 
 
   const handleEstimateDraftDelete = async (estimateDraftId: string) => {

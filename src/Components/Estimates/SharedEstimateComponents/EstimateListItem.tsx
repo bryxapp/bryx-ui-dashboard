@@ -34,7 +34,8 @@ const EstimateListItem = ({ estimate, handleEstimateDelete, editLink, itemName, 
                 <EstimatesActionPanel
                     estimate={estimate}
                     setOpen={setOpen}
-                    editLink={editLink} />
+                    editLink={editLink}
+                    type={type} />
             }
         >
             <Grid container spacing={2} alignItems="center">
