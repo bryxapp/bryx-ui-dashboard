@@ -18,15 +18,21 @@ interface InviteButtonProps {
     setInvites: (invites: any) => void;
     setMembers: (members: any) => void;
 }
+
 const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) => {
     const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(true); // To track email format validity
+    const [error, setError] = useState<string | null>(null); // Error state
+    const [success, setSuccess] = useState<boolean>(false); // Success state
 
-    const handleInviteUser = async () => {
-        // Show the confirmation dialog
+    const handleInviteUser = () => {
+        // Show the invite dialog
         setIsDialogOpen(true);
+        // Reset error and success states
+        setError(null);
+        setSuccess(false);
     };
 
     const handleConfirmInvite = async () => {
@@ -35,11 +41,19 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
         const token = await getAccessToken();
         if (!token) return;
 
-        await inviteMemberToOrg(token, email);
+        try {
+            await inviteMemberToOrg(token, email);
 
-        const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
-        setMembers(fetchedMembers.members.data);
-        setInvites(fetchedMembers.invites.data);
+            const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
+            setMembers(fetchedMembers.members.data);
+            setInvites(fetchedMembers.invites.data);
+
+            // Set success state
+            setSuccess(true);
+        } catch (err) {
+            // Set error state
+            setError("An error occurred while sending the invite. Please try again.");
+        }
 
         // Close the dialog
         setIsDialogOpen(false);
@@ -61,8 +75,8 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
 
     return (
         <>
-            <Button onClick={handleInviteUser} variant="contained" color="primary" disabled={disabled} sx={{fontWeight:"bold"}}>
-                <AddIcon/> Invite User
+            <Button onClick={handleInviteUser} variant="contained" color="primary" disabled={disabled} sx={{ fontWeight: "bold" }}>
+                <AddIcon /> Invite User
             </Button>
             <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
                 <DialogTitle>Send Invite</DialogTitle>
@@ -82,12 +96,22 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
                         error={!isValidEmail} // Display error if email is not valid
                         helperText={!isValidEmail ? "Invalid email format" : ""}
                     />
+                    {error && (
+                        <DialogContentText color="error">
+                            {error}
+                        </DialogContentText>
+                    )}
+                    {success && (
+                        <DialogContentText color="success">
+                            Invite sent successfully!
+                        </DialogContentText>
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleConfirmInvite} color="primary" autoFocus disabled={!isValidEmail}>
+                    <Button onClick={handleConfirmInvite} color="primary" autoFocus disabled={!isValidEmail || success}>
                         Send Invite
                     </Button>
                 </DialogActions>

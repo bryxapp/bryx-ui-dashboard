@@ -18,24 +18,38 @@ interface RemoveMemberButtonProps {
     setMembers: (members: any) => void;
     setInvites: (invites: any) => void;
 }
+
 const RemoveMemberButton = ({ member, setMembers, setInvites }: RemoveMemberButtonProps) => {
     const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [error, setError] = useState<string | null>(null); // Error state
+    const [success, setSuccess] = useState<boolean>(false); // Success state
 
-    const handleRemoveMember = async () => {
+    const handleRemoveMember = () => {
         // Show the confirmation dialog
         setIsDialogOpen(true);
+        // Reset error and success states
+        setError(null);
+        setSuccess(false);
     };
 
     const handleConfirmRemoveMember = async () => {
-
         const token = await getAccessToken();
         if (!token) return;
-        await removeMemberFromOrg(token, member.user_id);
 
-        const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
-        setMembers(fetchedMembers.members.data);
-        setInvites(fetchedMembers.invites.data);
+        try {
+            await removeMemberFromOrg(token, member.user_id);
+
+            const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
+            setMembers(fetchedMembers.members.data);
+            setInvites(fetchedMembers.invites.data);
+
+            // Set success state
+            setSuccess(true);
+        } catch (err) {
+            // Set error state
+            setError("An error occurred while removing the member. Please try again.");
+        }
 
         // Close the dialog
         setIsDialogOpen(false);
@@ -60,8 +74,18 @@ const RemoveMemberButton = ({ member, setMembers, setInvites }: RemoveMemberButt
                 <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Are you sure you want to remove member {member.name} from organization?
+                        Are you sure you want to remove member {member.name} from the organization?
                     </DialogContentText>
+                    {error && (
+                        <DialogContentText color="error">
+                            {error}
+                        </DialogContentText>
+                    )}
+                    {success && (
+                        <DialogContentText color="success">
+                            Member removed successfully!
+                        </DialogContentText>
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">

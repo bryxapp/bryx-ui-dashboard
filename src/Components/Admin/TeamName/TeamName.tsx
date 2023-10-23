@@ -7,7 +7,8 @@ import {
     DialogTitle,
     IconButton,
     Typography,
-    Tooltip
+    Tooltip,
+    DialogContentText
 } from "@mui/material";
 import { StyledTextField as TextField } from "../../SharedComponents/TextField/TextField";
 import { getOrganization, renameOrg } from "../../../utils/api/org-api";
@@ -18,35 +19,50 @@ import { useOrganizationContext } from "../../../utils/contexts/OrganizationCont
 interface TeamNameProps {
     teamName: string | undefined;
 }
+
 const TeamName = ({ teamName }: TeamNameProps) => {
     const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [newTeamName, setNewTeamName] = useState(teamName);
     const [isValidTeamName, setIsValidTeamName] = useState(true);
+    const [error, setError] = useState<string | null>(null); // Error state
+    const [success, setSuccess] = useState<boolean>(false); // Success state
     const { setOrganization } = useOrganizationContext();
 
-    const handleEditTeamName = async () => {
-        // Show the confirmation dialog
+    const handleEditTeamName = () => {
+        // Show the edit dialog
         setIsDialogOpen(true);
+        // Reset error and success states
+        setError(null);
+        setSuccess(false);
     };
 
     const handleConfirmTeamRename = async () => {
-        if (!isValidTeamName) return; // Prevent sending invite if email is not valid
+        if (!isValidTeamName) return; // Prevent renaming if the team name is not valid
 
         const token = await getAccessToken();
         if (!token) return;
         if (!newTeamName) return;
-        await renameOrg(token, newTeamName);
 
-        const org = await getOrganization(token);
-        setOrganization(org);
+        try {
+            await renameOrg(token, newTeamName);
+
+            const org = await getOrganization(token);
+            setOrganization(org);
+
+            // Set success state
+            setSuccess(true);
+        } catch (err) {
+            // Set error state
+            setError("An error occurred while renaming the team name. Please try again.");
+        }
 
         // Close the dialog
         setIsDialogOpen(false);
     };
 
     const handleCloseDialog = () => {
-        // Close the dialog without removing the user
+        // Close the dialog without renaming
         setNewTeamName(teamName);
         setIsDialogOpen(false);
     };
@@ -55,7 +71,7 @@ const TeamName = ({ teamName }: TeamNameProps) => {
         const enteredTeamName = event.target.value;
         setNewTeamName(enteredTeamName);
 
-        // Validate email format
+        // Validate team name
         setIsValidTeamName(enteredTeamName.length > 0);
     };
 
@@ -86,12 +102,22 @@ const TeamName = ({ teamName }: TeamNameProps) => {
                         error={!isValidTeamName}
                         helperText={!isValidTeamName ? "Team Name cannot be empty" : ""}
                     />
+                    {error && (
+                        <DialogContentText color="error">
+                            {error}
+                        </DialogContentText>
+                    )}
+                    {success && (
+                        <DialogContentText color="success">
+                            Team name changed successfully!
+                        </DialogContentText>
+                    )}
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCloseDialog} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleConfirmTeamRename} color="primary" autoFocus disabled={!isValidTeamName}>
+                    <Button onClick={handleConfirmTeamRename} color="primary" autoFocus disabled={!isValidTeamName || success}>
                         Confirm
                     </Button>
                 </DialogActions>
