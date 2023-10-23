@@ -32,7 +32,8 @@ function App() {
 
   // Hook to set the 'isOwner' flag
   useEffect(() => {
-    setIsOwner(auth0User?.sub === organization?.bryxOrg?.ownerUserId || false);
+    const isOwner = (auth0User?.sub && auth0User?.sub === organization?.bryxOrg?.ownerUserId) as boolean;
+    setIsOwner(isOwner);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth0User, organization]);
 

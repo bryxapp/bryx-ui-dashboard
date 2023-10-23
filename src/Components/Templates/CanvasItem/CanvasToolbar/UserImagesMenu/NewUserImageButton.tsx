@@ -46,8 +46,8 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
         } finally {
             setFetchingUserImages(false);
             logger.trackEvent({
-                name: 'New Template Click',
-                properties: { menu: 'New Template', user: auth0User?.name, environment: process.env.NODE_ENV },
+                name: 'New UserImage Click',
+                properties: { menu: 'New User Image', user: auth0User?.name, environment: process.env.NODE_ENV },
             });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
