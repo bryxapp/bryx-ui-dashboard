@@ -11,7 +11,7 @@ import InviteLineItem from "./Invites/InviteListItem";
 import InviteButton from "./InviteButton";
 import TeamName from "./TeamName/TeamName";
 import logger from "../../logging/logger";
-import Error from "../SharedComponents/Error/Error";
+import ErrorMessage from "../SharedComponents/ErrorMessage/ErrorMessage";
 
 const Admin: React.FC = () => {
     const theme = useTheme();
@@ -58,7 +58,7 @@ const Admin: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [organization]);
 
-    if (error) return <Error dataName="admin" />;
+    if (error) return <ErrorMessage dataName="admin" />;
 
     return (
         <>
