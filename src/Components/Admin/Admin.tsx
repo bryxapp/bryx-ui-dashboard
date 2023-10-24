@@ -10,6 +10,8 @@ import MemberLineItem from "./Members/MemberListItem";
 import InviteLineItem from "./Invites/InviteListItem";
 import InviteButton from "./InviteButton";
 import TeamName from "./TeamName/TeamName";
+import logger from "../../logging/logger";
+import Error from "../SharedComponents/Error/Error";
 
 const Admin: React.FC = () => {
     const theme = useTheme();
@@ -20,22 +22,32 @@ const Admin: React.FC = () => {
     const [error, setError] = useState<string | null>(null); // Add error state
     const { getAccessToken } = useAuth0User();
 
-    async function fetchMembers() {
-        if (!organization) return;
-        const token = await getAccessToken();
-        if (!token) return;
 
-        try {
-            const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
-            setMembers(fetchedMembers.members.data);
-            setInvites(fetchedMembers.invites.data);
-            setError(null); // Clear any previous errors
-        } catch (err) {
-            setError("An error occurred. Please try again."); // Set the error message
-        }
-    }
 
     useEffect(() => {
+        async function fetchMembers() {
+            if (!organization) return;
+            const token = await getAccessToken();
+            if (!token) return;
+
+            try {
+                const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
+                setMembers(fetchedMembers.members.data);
+                setInvites(fetchedMembers.invites.data);
+                setError(null); // Clear any previous errors
+            } catch (err) {
+                logger.trackException({
+                    properties: {
+                        name: "Admin Error",
+                        page: "Admin",
+                        description: "Error fetching members",
+                        error: err,
+                    },
+                });
+                setError("An error occurred. Please try again."); // Set the error message
+            }
+        }
+
         fetchMembers();
 
         if (organization?.bryxOrg.subscription !== "TEAM") {
@@ -45,6 +57,8 @@ const Admin: React.FC = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [organization]);
+
+    if (error) return <Error dataName="admin" />;
 
     return (
         <>
@@ -61,24 +75,20 @@ const Admin: React.FC = () => {
                     Members
                 </Typography>
                 <Box sx={{ width: "100%", marginTop: 2 }} />
-                {error ? (
-                    <Typography color="error">{error}</Typography>
-                ) : (
+                {
                     members && members?.map((member) => (
                         <MemberLineItem key={member.user_id} member={member} setMembers={setMembers} setInvites={setInvites} />
                     ))
-                )}
+                }
                 <Typography variant="h6" color={theme.palette.text.primary}>
                     Invites
                 </Typography>
                 <Box sx={{ width: "100%", marginTop: 2 }} />
-                {error ? (
-                    <button onClick={fetchMembers}>Try Again</button>
-                ) : (
+                {
                     invites && invites?.map((invite) => (
                         <InviteLineItem key={invite.id} invite={invite} setMembers={setMembers} setInvites={setInvites} />
                     ))
-                )}
+                }
             </Box>
         </>
     );
