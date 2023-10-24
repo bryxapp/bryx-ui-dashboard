@@ -7,6 +7,8 @@ import { EstimateDraftData } from "../../../utils/types/EstimateInterfaces";
 import { List } from "@mui/material";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
+import logger from "../../../logging/logger";
+import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 
 const PAGE_SIZE = 10; // Number of estimate drafts per page
 
@@ -15,15 +17,31 @@ const EstimateDrafts = () => {
   const [loading, setLoading] = useState(true);
   const [pageNumber, setPageNumber] = useState(1); // Current page number
   const { auth0User, getAccessToken } = useAuth0User();
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchEstimateDrafts = async () => {
-      setLoading(true);
-      const token = await getAccessToken();
-      if (!token) return;
-      const estimateDrafts = await getEstimateDrafts(PAGE_SIZE, pageNumber, token);
-      setEstimateDrafts(estimateDrafts);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const token = await getAccessToken();
+        if (!token) return;
+        const estimateDrafts = await getEstimateDrafts(PAGE_SIZE, pageNumber, token);
+        setEstimateDrafts(estimateDrafts);
+      }
+      catch (error) {
+        logger.trackException({
+          properties: {
+            name: "Estimate Drafts Error",
+            page: "Estimate Drafts",
+            description: "Error fetching estimate drafts",
+            error: error,
+          },
+        });
+        setError(true);
+      }
+      finally {
+        setLoading(false);
+      }
     }
     fetchEstimateDrafts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -31,15 +49,31 @@ const EstimateDrafts = () => {
 
 
   const handleEstimateDraftDelete = async (estimateDraftId: string) => {
-    const token = await getAccessToken();
-    if (!token) return;
-    await deleteEstimateDraft(estimateDraftId, token)
-    setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
+    try {
+      setError(false);
+      const token = await getAccessToken();
+      if (!token) return;
+      await deleteEstimateDraft(estimateDraftId, token)
+      setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
+    }
+    catch (error) {
+      logger.trackException({
+        properties: {
+          name: "Estimate Draft Delete Error",
+          page: "Estimate Drafts",
+          description: "Error deleting estimate draft",
+          error: error,
+        },
+      });
+      setError(true);
+    }
   };
 
   if (loading) return <Loading />;
 
   if (estimateDrafts.length === 0) return <NoneFound item="drafts" />;
+
+  if (error) return <ErrorMessage dataName="Estimate Drafts" />;
 
   return (
     <>

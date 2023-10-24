@@ -15,6 +15,8 @@ import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import SubmitButton from './SubmitButton/SubmitButton';
 import SaveAsDraftButton from './SaveDraftButton/SaveDraftButton';
 import EstimateFormTextFieldsList from './EstimateFormTextFields/EstimateFromTextFieldsList';
+import logger from '../../../../logging/logger';
+import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
 
 const EstimateForm = () => {
 
@@ -30,11 +32,8 @@ const EstimateForm = () => {
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
     const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
-    const [error, setError] = useState<string | null>(null); // Error state
+    const [error, setError] = useState(false); // Error state
     const { getAccessToken } = useAuth0User();
-
-
-
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -58,11 +57,20 @@ const EstimateForm = () => {
                 else{
                     setFieldValues(newFieldValues);
                 }
-                setLoading(false);
             }
             catch (error) {
-                setError("Error fetching template");
+                logger.trackException({
+                    properties: {
+                        name: "Estimate Form Error",
+                        page: "Estimate Form",
+                        description: "Error fetching template",
+                        error: error,
+                    },
+                });
+                setError(true);
                 console.error("Error fetching template:", error);
+            }
+            finally {
                 setLoading(false);
             }
         }
@@ -90,21 +98,13 @@ const EstimateForm = () => {
         fetchTemplate();
     }, [draftId, templateId, getAccessToken]);
 
-    if (loading) {
-        return (<Loading />)
-    }
+    if (loading) return <Loading />
 
-    if (creating) {
-        return (<Creating />)
-    }
+    if (creating) return <Creating />
 
-    if (saving) {
-        return (<Saving />)
-    }
+    if (saving) return <Saving />
 
-    if (error) {
-        return (<div>{error}</div>)
-    }
+    if (error) return <ErrorMessage dataName="Template" />
 
     if (!templateData) return (<div>Template not found</div>);
 
