@@ -1,11 +1,11 @@
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 
 const Creating = () => {
     return (
         <div>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-                Creating...
+                Creating... <CircularProgress />
             </Typography>
         </div>
     );

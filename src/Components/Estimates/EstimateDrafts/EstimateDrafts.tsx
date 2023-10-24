@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { deleteEstimateDraft, getEstimateDrafts } from "../../../utils/api/estimate-drafts-api";
 import Loading from "../../SharedComponents/Loading/Loading";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
@@ -27,7 +27,7 @@ const EstimateDrafts = () => {
     }
     fetchEstimateDrafts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageNumber,auth0User?.sub]);
+  }, [pageNumber, auth0User?.sub]);
 
 
   const handleEstimateDraftDelete = async (estimateDraftId: string) => {
@@ -37,32 +37,30 @@ const EstimateDrafts = () => {
     setEstimateDrafts(estimateDrafts.filter((estimateDraft: any) => estimateDraft.id !== estimateDraftId));
   };
 
+  if (loading) return <Loading />;
+
+  if (estimateDrafts.length === 0) return <NoneFound item="drafts" />;
+
   return (
-    <React.Fragment>
-      {loading && <Loading />}
-      {!loading && estimateDrafts.length === 0 && <NoneFound item="drafts" />}
-      {!loading && estimateDrafts.length > 0 && (
-        <React.Fragment>
-          <List>
-            {estimateDrafts.map((estimateDraft: EstimateDraftData) => (
-              <EstimateListItem
-                key={estimateDraft.id}
-                estimate={estimateDraft}
-                handleEstimateDelete={handleEstimateDraftDelete}
-                editLink={'/form?templateId=' + estimateDraft.templateId + '&draftId=' + estimateDraft.id}
-                itemName='Estimate Draft'
-                type="draft" />
-            ))}
-          </List>
-          <EstimatesPagingControls
-            estimates={estimateDrafts}
-            pageNumber={pageNumber}
-            setPageNumber={setPageNumber}
-            PAGE_SIZE={PAGE_SIZE}
-          />
-        </React.Fragment>
-      )}
-    </React.Fragment>
+    <>
+      <List>
+        {estimateDrafts.map((estimateDraft: EstimateDraftData) => (
+          <EstimateListItem
+            key={estimateDraft.id}
+            estimate={estimateDraft}
+            handleEstimateDelete={handleEstimateDraftDelete}
+            editLink={'/form?templateId=' + estimateDraft.templateId + '&draftId=' + estimateDraft.id}
+            itemName='Estimate Draft'
+            type="draft" />
+        ))}
+      </List>
+      <EstimatesPagingControls
+        estimates={estimateDrafts}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+        PAGE_SIZE={PAGE_SIZE}
+      />
+    </>
   );
 };
 

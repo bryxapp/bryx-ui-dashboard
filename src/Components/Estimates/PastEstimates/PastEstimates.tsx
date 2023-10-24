@@ -1,16 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { getEstimates, deleteEstimate } from "../../../utils/api/estimates-api";
-import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
+import { getEstimates } from "../../../utils/api/estimates-api";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
-import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
-import EstimatesSearch from "../SharedEstimateComponents/EstimatesSearch";
-import { List } from "@mui/material";
-import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
+import EstimatesSearch from "./PastEstimatesSearch/PastEstimatesSearch";
 import _ from "lodash"; // Import lodash
-import Loading from "../../SharedComponents/Loading/Loading";
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
-import { Alert } from "@mui/material";
-
+import PastEstimatesList from "./PastEstimatesList/PastEstimatesList";
 
 const PAGE_SIZE = 10; // Number of estimate drafts per page
 
@@ -72,15 +66,6 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pageNumber, searchTerm, selectedTemplateId, auth0User?.sub]);
 
-  const handleEstimateDelete = async (estimateId: string) => {
-    const token = await getAccessToken();
-    if (!token) return;
-    await deleteEstimate(estimateId, token)
-    setEstimates((prevEstimates) =>
-      prevEstimates.filter((estimate) => estimate.id !== estimateId)
-    );
-  };
-
   return (
     <>
       <EstimatesSearch
@@ -91,37 +76,14 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
         setSelectedTemplateId={setSelectedTemplateId}
       />
       <br />
-      <>
-        {errorRetrievingEstimates && (
-          <Alert severity="error">There was an error retrieving your estimates. Please try again.</Alert>
-        )}
-        {estimates.length === 0 && !estimateRequestCompleted && !errorRetrievingEstimates && (
-          <Loading />
-        )}
-        {estimates.length === 0 && estimateRequestCompleted && !errorRetrievingEstimates && <NoneFound item="estimates" />}
-        {estimates.length > 0 && (
-          <>
-            <List>
-              {estimates.map((estimate) => (
-                <EstimateListItem
-                  key={estimate.id}
-                  estimate={estimate}
-                  handleEstimateDelete={handleEstimateDelete}
-                  editLink={"/view-estimate?estimateId=" + estimate.id}
-                  itemName="Estimate"
-                  type="estimate"
-                />
-              ))}
-            </List>
-            <EstimatesPagingControls
-              estimates={estimates}
-              pageNumber={pageNumber}
-              setPageNumber={setPageNumber}
-              PAGE_SIZE={PAGE_SIZE}
-            />
-          </>
-        )}
-      </>
+      <PastEstimatesList
+        estimates={estimates}
+        setEstimates={setEstimates}
+        estimateRequestCompleted={estimateRequestCompleted}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+        PAGE_SIZE={PAGE_SIZE}
+        errorRetrievingEstimates={errorRetrievingEstimates} />
     </>
   );
 };

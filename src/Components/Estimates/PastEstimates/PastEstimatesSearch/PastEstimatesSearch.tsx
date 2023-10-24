@@ -4,10 +4,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { EstimateTemplateUsedData } from "../../../utils/types/TemplateInterfaces";
+import { EstimateTemplateUsedData } from "../../../../utils/types/TemplateInterfaces";
 import { useTheme } from "@mui/material";
-import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
-import { getUsedTemplates } from "../../../utils/api/estimates-api";
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
+import { getUsedTemplates } from "../../../../utils/api/estimates-api";
 
 interface EstimatesSearchProps {
     disabled: boolean;
@@ -17,7 +17,7 @@ interface EstimatesSearchProps {
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
+const PastEstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
 
     const theme = useTheme();
     const { auth0User, getAccessToken } = useAuth0User();
@@ -121,4 +121,4 @@ const EstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplate
     );
 };
 
-export default EstimatesSearch;
+export default PastEstimatesSearch;
