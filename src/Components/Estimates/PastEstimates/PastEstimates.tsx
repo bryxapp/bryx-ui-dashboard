@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { getEstimates } from "../../../utils/api/estimates-api";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
-import EstimatesSearch from "./PastEstimatesSearch/PastEstimatesSearch";
+import PastEstimatesSearch from "./PastEstimatesSearch/PastEstimatesSearch";
 import _ from "lodash"; // Import lodash
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import PastEstimatesList from "./PastEstimatesList/PastEstimatesList";
@@ -68,7 +68,7 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
 
   return (
     <>
-      <EstimatesSearch
+      <PastEstimatesSearch
         disabled={estimateRequestCompleted && estimates.length === 0 && searchTerm.length === 0 && selectedTemplateId.length === 0}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

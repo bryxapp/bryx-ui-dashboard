@@ -9,7 +9,7 @@ import { useTheme } from "@mui/material";
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { getUsedTemplates } from "../../../../utils/api/estimates-api";
 
-interface EstimatesSearchProps {
+interface PastEstimatesSearchProps {
     disabled: boolean;
     searchTerm: string;
     setSearchTerm: (searchTerm: string) => void;
@@ -17,7 +17,7 @@ interface EstimatesSearchProps {
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const PastEstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: EstimatesSearchProps) => {
+const PastEstimatesSearch = ({ disabled, searchTerm, setSearchTerm, selectedTemplateId, setSelectedTemplateId }: PastEstimatesSearchProps) => {
 
     const theme = useTheme();
     const { auth0User, getAccessToken } = useAuth0User();
