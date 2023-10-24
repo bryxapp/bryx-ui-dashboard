@@ -29,7 +29,7 @@ jobs:
           echo "REACT_APP_AUTH0_DOMAIN=dev-eqbwfxwsxyrgrg2y.us.auth0.com" >> .env
           echo "REACT_APP_AUTH0_CLIENT_ID=${{ secrets.AUTH0_CLIENT_ID }}" >> .env
           echo "REACT_APP_AUTH0_CALLBACK_URL=https://dashboard.bryxbids.com/" >> .env
-          echo "REACT_APP_AUTH0_LOGOUT_URL=https://www.bryxbids.com/" >> .env
+          echo "REACT_APP_AUTH0_LOGOUT_URL=https://dashboard.bryxbids.com/" >> .env
           echo "REACT_APP_APPLICATIONINSIGHTS_CONNECTIONSTRING=${{ secrets.REACT_APP_APPLICATIONINSIGHTS_CONNECTIONSTRING }}" >> .env
           echo "REACT_APP_UNSPLASH_ACCESS_KEY=${{ secrets.UNSPLASH_ACCESS_KEY }}" >> .env
           echo "REACT_APP_STRIPE_KEY=${{ secrets.STRIPE_KEY }}" >> .env
