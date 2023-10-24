@@ -9,6 +9,8 @@ import Snackbar from '@mui/material/Snackbar';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { Typography } from '@mui/material';
 import { EstimateCommentData, EstimateData } from '../../../../utils/types/EstimateInterfaces';
+import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
+import logger from '../../../../logging/logger';
 
 interface EstimateCommentsProps {
     estimate: EstimateData|null;
@@ -20,7 +22,7 @@ const EstimateComments = ({ estimate }: EstimateCommentsProps) => {
     const [snackBarText, setSnackBarText] = useState('');
     const { auth0User, getAccessToken } = useAuth0User();
     const [estimateComments, setEstimateComments] = useState<any[]>([]);
-    const [commentsError, setCommentsError] = useState(false);
+    const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -34,7 +36,14 @@ const EstimateComments = ({ estimate }: EstimateCommentsProps) => {
                     setLoading(false);
                 }
                 catch {
-                    setCommentsError(true);
+                    logger.trackException({
+                        properties: {
+                            name: "Estimate Comments Error",
+                            page: "Estimate Comments",
+                            description: "Error fetching estimate comments",
+                        },
+                    });
+                    setError(true);
                     setLoading(false);
                 }
         }
@@ -69,21 +78,20 @@ const EstimateComments = ({ estimate }: EstimateCommentsProps) => {
             setEstimateComments((prevComments: EstimateCommentData[]) => [createdEstimateComment, ...prevComments]);
             setNewComment('');
         } catch {
+            logger.trackException({
+                properties: {
+                    name: "Estimate Comments Error",
+                    page: "Estimate Comments",
+                    description: "Error adding comment",
+                },
+            });
             //Show a Snackbar message
             setSnackBarText('Error adding comment');
             setSnackbarOpen(true);
         }
     };
 
-    if (commentsError) {
-        return <Typography
-            variant="h5"
-            component="div"
-            sx={{ flexGrow: 1, color: 'red' }}
-        >
-            Error loading comments
-        </Typography>
-    }
+    if (error) return <ErrorMessage dataName='comments' />;
 
     return (
         <>

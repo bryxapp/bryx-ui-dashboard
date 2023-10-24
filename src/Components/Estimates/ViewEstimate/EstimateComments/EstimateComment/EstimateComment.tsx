@@ -16,6 +16,7 @@ import Box from '@mui/material/Box';
 import { EstimateCommentData } from '../../../../../utils/types/EstimateInterfaces';
 import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
 import { deleteEstimateComment } from '../../../../../utils/api/estimate-comments-api';
+import logger from '../../../../../logging/logger';
 
 interface EstimateCommentProps {
     estimateComment: EstimateCommentData;
@@ -45,6 +46,14 @@ const EstimateComment = ({ estimateComment, setEstimateComments, setSnackBarText
                 prevComments.filter((comment: any) => comment.id !== estimateComment.id)
             );
         } catch (error) {
+            logger.trackException({
+                properties: {
+                    name: "Estimate Comment Delete Error",
+                    page: "Estimate Comments",
+                    description: "Error deleting estimate comment",
+                    error: error,
+                },
+            });
             console.error("Failed to delete comment:", error);
             setSnackBarText('Error deleting comment');
             setSnackbarOpen(true);
