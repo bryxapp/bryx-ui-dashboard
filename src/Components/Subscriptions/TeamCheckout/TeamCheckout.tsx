@@ -4,7 +4,7 @@ import { Container, Typography } from '@mui/material';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeam } from '../../../utils/api/checkout-api';
-import AuthButton from '../../NotLoggedIn/AuthButton';
+import AuthButton from '../../SharedComponents/NotLoggedIn/AuthButton';
 import { LogoutOptions } from '@auth0/auth0-react';
 
 const TeamCheckout = () => {

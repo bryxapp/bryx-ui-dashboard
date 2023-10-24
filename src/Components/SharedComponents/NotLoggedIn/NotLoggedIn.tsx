@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
-import logger from "../../logging/logger";
+import logger from "../../../logging/logger";
 import AuthButton from "./AuthButton";
-import { useAuth0User } from "../../utils/customHooks/useAuth0User";
+import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 
 const NotLoggedIn = () => {
     const { loginWithRedirect } = useAuth0User();

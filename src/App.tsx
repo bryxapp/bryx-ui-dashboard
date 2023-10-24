@@ -3,14 +3,14 @@ import { Routes, Route } from "react-router-dom";
 import Navigation from './Components/Navigation/Navigation';
 import Templates from './Components/Templates/Templates';
 import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
-import NotFound from './Components/NotFound/NotFound';
+import NotFound from './Components/SharedComponents/NotFound/NotFound';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
 import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/themeOptions";
-import NotLoggedIn from "./Components/NotLoggedIn/NotLoggedIn";
+import NotLoggedIn from "./Components/SharedComponents/NotLoggedIn/NotLoggedIn";
 import Estimates from "./Components/Estimates/Estimates";
 import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
 import CreateTeam from "./Components/Subscriptions/TeamCheckout/CreateTeam";
@@ -22,7 +22,7 @@ import { getOrganization } from "./utils/api/org-api";
 import { useAuth0User } from "./utils/customHooks/useAuth0User";
 import { getUser } from "./utils/api/user-api";
 import { isEqual } from "lodash";
-import AuthRedirect from "./Components/NotLoggedIn/AuthRedirect";
+import AuthRedirect from "./Components/SharedComponents/NotLoggedIn/AuthRedirect";
 
 function App() {
   const theme = createTheme(themeOptions);
@@ -56,9 +56,23 @@ function App() {
       if (bryxUser || !auth0User) return;
       const token = await getAccessToken();
       if (!token) return;
-      const response = await getUser(token);
-      if (!response) throw new Error("Error fetching subscription");
-      setBryxUser(response);
+
+      try {
+        const response = await getUser(token);
+        if (!response) throw new Error("Error fetching subscription");
+        else {
+          setBryxUser(response);
+        }
+      } catch (error) {
+        // If the response is not valid, wait for 3 seconds and retry
+        setTimeout(async () => {
+          const retryResponse = await getUser(token);
+          if (!retryResponse) {
+            throw new Error("Error fetching subscription after retry");
+          }
+          setBryxUser(retryResponse);
+        }, 3000); // 3000 milliseconds (3 seconds)
+      }
     };
     fetchBryxUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps

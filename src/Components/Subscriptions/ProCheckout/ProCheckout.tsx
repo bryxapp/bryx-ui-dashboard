@@ -19,15 +19,12 @@ const ProCheckout = () => {
 
             if (query.get("success")) {
                 try {
-                    if (isLoading || !auth0User) return;
+                    if (isLoading || !auth0User || !bryxUser|| bryxUser.subscription===proSubscription.name) return;
                     const sessionId = query.get("session_id");
                     if (!sessionId || !auth0User?.sub) {
                         throw new Error("Error retrieving session id or user id");
                     }
-
                     await updateUserToProSubscription(sessionId, auth0User.sub);
-
-                    if (!bryxUser) return;
                     setBryxUser({ ...bryxUser, subscription: proSubscription.name });
 
                     // Clear search parameters
@@ -46,7 +43,7 @@ const ProCheckout = () => {
         // Fetch data on component mount
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search,isLoading]);
+    }, [location.search,isLoading,bryxUser]);
 
     return (
         <Container>
