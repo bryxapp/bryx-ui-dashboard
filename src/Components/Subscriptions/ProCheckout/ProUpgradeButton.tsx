@@ -4,6 +4,8 @@ import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { createProCheckoutSession } from "../../../utils/api/checkout-api";
 import { loadStripe } from "@stripe/stripe-js";
 import { CircularProgress } from "@mui/material";
+import logger from "../../../logging/logger";
+import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
 
 interface Props {
@@ -13,8 +15,10 @@ interface Props {
 const ProUpgradeButton = ({ closeDialog }: Props) => {
     const { auth0User } = useAuth0User();
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<boolean>(false);
 
     const handleCheckout = async () => {
+        setError(false);
         setLoading(true);
         try {
             if (!auth0User?.sub) {
@@ -40,12 +44,23 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
             }
             closeDialog();
         } catch (error) {
+            logger.trackException({
+                properties: {
+                    name: "Checkout Error",
+                    page: "Checkout",
+                    description: "Error creating checkout session",
+                    error: error,
+                },
+            });
+            setError(true);
             console.error("An error occurred during the checkout process:", error);
         }
         setLoading(false);
     };
-    return (
+    
+    if (error) return <ErrorMessage dataName="checkout" />;
 
+    return (
         <Button variant="contained" color="primary" size="large" onClick={handleCheckout} disabled={loading}>
             {loading ? <CircularProgress color="secondary" size={20} /> : "Upgrade to Pro"}
         </Button>

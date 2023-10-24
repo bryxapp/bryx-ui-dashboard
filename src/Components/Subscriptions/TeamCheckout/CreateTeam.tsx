@@ -13,6 +13,8 @@ import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeamCheckoutSession } from '../../../utils/api/checkout-api';
 import { loadStripe } from "@stripe/stripe-js";
+import logger from '../../../logging/logger';
+import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
 
 const stripePromise = process.env.REACT_APP_STRIPE_KEY
   ? loadStripe(process.env.REACT_APP_STRIPE_KEY)
@@ -23,6 +25,7 @@ const CreateTeam = () => {
   const [teamNameError, setTeamNameError] = useState('');
   const [loading, setLoading] = useState(false);
   const { auth0User } = useAuth0User();
+  const [error, setError] = useState<boolean>(false);
 
   const handleTeamNameChange = (event: any) => {
     setTeamName(event.target.value);
@@ -59,10 +62,21 @@ const CreateTeam = () => {
         throw new Error("Error redirecting to checkout.");
       }
     } catch (error) {
+      logger.trackException({
+        properties: {
+          name: "Checkout Error",
+          page: "Checkout",
+          description: "Error creating checkout session",
+          error: error,
+        },
+      });
+      setError(true);
       console.error("An error occurred during the checkout process:", error);
     }
     setLoading(false);
   };
+
+  if (error) return <ErrorMessage dataName="checkout" />;
 
   return (
     <Container maxWidth="md">

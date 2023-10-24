@@ -6,12 +6,13 @@ import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeam } from '../../../utils/api/checkout-api';
 import AuthButton from '../../SharedComponents/NotLoggedIn/AuthButton';
 import { LogoutOptions } from '@auth0/auth0-react';
+import logger from '../../../logging/logger';
+import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
 
 const TeamCheckout = () => {
     const location = useLocation();
     const { auth0User, isLoading, logout } = useAuth0User();
-    const [errorMessage, setErrorMessage] = useState('');
-    const [orderSuccess, setOrderSuccess] = useState(false);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,18 +24,33 @@ const TeamCheckout = () => {
                     const sessionId = query.get("session_id");
                     if (!sessionId || !auth0User?.sub) {
                         throw new Error("Error retrieving session id or user id");
-                    } 
+                    }
                     await createTeam(sessionId, auth0User.sub);
+                    setError(false);
                     // Clear search parameters
                     window.history.replaceState({}, document.title, "/teamCheckout");
-                    setOrderSuccess(true);
-
                 } catch (error) {
                     console.error("An error occurred during the checkout success process:", error);
-                    setErrorMessage("An error occurred during the payment process.");
+                    setError(true);
+                    logger.trackException({
+                        properties: {
+                            name: "Checkout Success Error",
+                            page: "Checkout",
+                            description: "Error creating team",
+                            error: error,
+                        },
+                    });
                 }
             } else if (query.get("canceled")) {
-                setErrorMessage("Order canceled -- continue to shop around and checkout when you're ready.");
+                setError(true);
+                logger.trackException({
+                    properties: {
+                        name: "Checkout Canceled Error",
+                        page: "Checkout",
+                        description: "User canceled checkout",
+                    },
+                });
+                console.error("Checkout canceled");
             }
         };
 
@@ -45,28 +61,23 @@ const TeamCheckout = () => {
 
     const handleLogout = () => {
         logout({ returnTo: 'dashboard.bryxbids.com' } as LogoutOptions);
-      };
+    };
+
+    if (error) return <ErrorMessage dataName='checkout' />;
 
     return (
         <Container>
-            {orderSuccess && <Container>
-                <Typography variant="h2" color="primary.main">Order Complete</Typography>
-                <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
-                    You have created your new team!
+            <Typography variant="h2" color="primary.main">Order Complete</Typography>
+            <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
+                You have created your new team!
+            </Typography>
+            <Typography variant="h4" color="primary.main">You will need to logout and then log back in to your new team to all your cool new features</Typography>
+            {teamSubscription.features.map((feature, index) => (
+                <Typography variant="body1" color="text.primary" key={index}>
+                    {feature}
                 </Typography>
-                <Typography variant="h4" color="primary.main">You will need to logout and then log back in to your new team to all your cool new features</Typography>
-                {teamSubscription.features.map((feature, index) => (
-                    <Typography variant="body1" color="text.primary" key={index}>
-                        {feature}
-                    </Typography>
-                ))}
-                <AuthButton onClick={handleLogout} text="Log Out"/>
-            </Container>}
-            {errorMessage && <section>
-                <Typography variant="body1" color="error" id="payment-message">
-                    {errorMessage}
-                </Typography>
-            </section>}
+            ))}
+            <AuthButton onClick={handleLogout} text="Log Out" />
         </Container>
     );
 };
