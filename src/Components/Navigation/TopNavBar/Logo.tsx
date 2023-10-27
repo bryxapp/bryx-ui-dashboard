@@ -1,6 +1,5 @@
 import { Typography, useTheme } from '@mui/material';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-
+import Link from '../../SharedComponents/Link/Link';
 const Logo = () => {
     const theme = useTheme();
     
