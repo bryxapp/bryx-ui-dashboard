@@ -78,7 +78,7 @@ const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButt
                     </DialogContentText>
                     {error && (
                         <DialogContentText color="error">
-                            {error}
+                            Error deleting invite
                         </DialogContentText>
                     )}
                     {success && (

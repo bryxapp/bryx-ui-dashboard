@@ -98,7 +98,7 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
                     />
                     {error && (
                         <DialogContentText color="error">
-                            {error}
+                            Error sending invite.
                         </DialogContentText>
                     )}
                     {success && (

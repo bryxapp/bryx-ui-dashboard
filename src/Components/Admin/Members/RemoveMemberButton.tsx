@@ -78,7 +78,7 @@ const RemoveMemberButton = ({ member, setMembers, setInvites }: RemoveMemberButt
                     </DialogContentText>
                     {error && (
                         <DialogContentText color="error">
-                            {error}
+                            Error removing member
                         </DialogContentText>
                     )}
                     {success && (

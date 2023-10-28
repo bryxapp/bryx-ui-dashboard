@@ -3,8 +3,8 @@ import { Button, CircularProgress } from "@mui/material";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { loadStripe } from "@stripe/stripe-js";
 import { createBillingSession } from "../../../utils/api/billing-api";
-import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 import logger from "../../../logging/logger";
+import ErrorModal from "../../SharedComponents/ErrorModal/ErrorModal";
 
 const stripePromise = process.env.REACT_APP_STRIPE_KEY
     ? loadStripe(process.env.REACT_APP_STRIPE_KEY)
@@ -53,12 +53,14 @@ const BillingButton = ({ onClose }: BillingButtonProps) => {
         setLoading(false);
         onClose();
     };
-    if (error) return <ErrorMessage dataName="billing" />;
 
     return (
+        <>
+        <ErrorModal error={error} setError={setError} />
         <Button variant="contained" color="secondary" onClick={handleManageBilling} disabled={loading} size="large">
             {loading ? <CircularProgress color="secondary" size={20} /> : "Open Billing"}
         </Button>
+        </>
     );
 };
 
