@@ -8,6 +8,8 @@ import TemplateName from "./../TemplateName/TemplateName";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
+import logger from "../../../logging/logger";
+import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 
 const CanvasItem = () => {
     const { getAccessToken } = useAuth0User();
@@ -19,18 +21,32 @@ const CanvasItem = () => {
         Shapes: [],
         selectedId: null,
     });
+    const [error, setError] = useState(false);
     useEffect(() => {
         const fetchTemplate = async () => {
             // fetch template data if the canvas is not new
             const params = new URLSearchParams(location.search);
             const templateId = params.get('templateId');
             if (templateId) {
-                const token = await getAccessToken()
-                if (!token) return;
-                const fetchedTemplate = await getTemplate(templateId, token);
-                setCanvasDesign(fetchedTemplate.canvasDesign);
-                setFriendlyName(fetchedTemplate.friendlyName);
-                setLoading(false);
+                try {
+                    const token = await getAccessToken()
+                    if (!token) return;
+                    const fetchedTemplate = await getTemplate(templateId, token);
+                    setCanvasDesign(fetchedTemplate.canvasDesign);
+                    setFriendlyName(fetchedTemplate.friendlyName);
+                    setLoading(false);
+                } catch (error) {
+                    logger.trackException({
+                        properties: {
+                            name: "Template Fetch Error",
+                            page: "Canvas",
+                            description: "Error fetching template",
+                            error: error,
+                        },
+                    });
+                    setError(true);
+                    console.log("Error fetching template:", error);
+                }
             }
             else {
                 setLoading(false);
@@ -48,6 +64,8 @@ const CanvasItem = () => {
             </Typography>
         );
     }
+
+    if (error) return <ErrorMessage dataName="template" />;
 
     // render canvas components when data is available
     return (

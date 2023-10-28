@@ -2,10 +2,12 @@ import React, { useEffect, useState, } from 'react';
 import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
 import { getTemplates, deleteTemplate } from '../../../../utils/api/templates-api';
-import { Typography, Alert } from '@mui/material';
+import { Typography } from '@mui/material';
 import NoneFound from '../../../SharedComponents/NoneFound/NoneFound';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
+import logger from '../../../../logging/logger';
+import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 
 interface TemplatesGridProps {
     setMaxTemplatesReached: ((value: boolean) => void) | null;
@@ -16,13 +18,14 @@ interface TemplatesGridProps {
 const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, baseUrl, showActions = false }) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const { auth0User, getAccessToken } = useAuth0User();
-    const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
+    const [error, setError] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
 
     useEffect(() => {
         const fetchTemplates = async () => {
             setTemplateRequestCompleted(false);
             try {
+                setError(false);
                 if (!auth0User) return;
                 const token = await getAccessToken();
                 if (!token) return;
@@ -32,8 +35,16 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                     setMaxTemplatesReached(templateData.maxTemplatesReached);
                 }
             } catch (error) {
+                logger.trackException({
+                    properties: {
+                        name: "Templates Fetch Error",
+                        page: "Templates",
+                        description: "Error fetching templates",
+                        error: error,
+                    },
+                });
+                setError(true);
                 console.error('Error retrieving estimates:', error);
-                setErrorRetrievingTemplates(true);
             } finally {
                 setTemplateRequestCompleted(true);
             }
@@ -53,8 +64,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     if (!templateRequestCompleted)
         return <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>Loading...</Typography>;
 
-    if (errorRetrievingTemplates)
-        return <Alert severity="error">There was an error retrieving your templates. Please try again.</Alert>
+    if (error) return <ErrorMessage dataName='templates' />;
 
     if (templates.length === 0) return <NoneFound item='templates' />;
 

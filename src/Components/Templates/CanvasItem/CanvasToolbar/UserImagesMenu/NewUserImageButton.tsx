@@ -2,8 +2,9 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import logger from "../../../../../logging/logger";
 import { uploadImage, getUserImages, getImageDimensions } from "../../../../../utils/api/user-images-api";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useAuth0User } from "../../../../../utils/customHooks/useAuth0User";
+import ErrorModal from "../../../../SharedComponents/ErrorModal/ErrorModal";
 
 interface NewUserImageButtonProps {
     maxUserImagesReached: boolean;
@@ -17,14 +18,15 @@ type ImageApiResponse = {
 };
 
 const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUserImages }: NewUserImageButtonProps) => {
-    const { auth0User } = useAuth0User();
-    const { getAccessToken } = useAuth0User();
+    const { auth0User, getAccessToken, } = useAuth0User();
+    const [error, setError] = useState(false); // Error state
 
     const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (!file) return;
 
         try {
+            setError(false);
             setFetchingUserImages(true);
             const token = await getAccessToken();
             if (!token) return;
@@ -41,8 +43,16 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
             const imageData = await Promise.all(imagePromises);
             setUserImages(imageData);
         } catch (error) {
-            // Handle error as needed
-            console.error(error);
+            logger.trackException({
+                properties: {
+                    name: "Image Upload Error",
+                    page: "Canvas",
+                    description: "Error uploading image",
+                    error: error,
+                },
+            });
+            setError(true);
+            console.log("Error uploading image:", error);
         } finally {
             setFetchingUserImages(false);
             logger.trackEvent({
@@ -58,18 +68,21 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
         : "upload a new user image";
 
     return (
-        <Tooltip title={tooltipTitle}>
-            <span> {/* span is added because disabled buttons don't trigger tooltips */}
-                <Button variant="contained" component="label" disabled={maxUserImagesReached}>
-                    Upload File
-                    <input
-                        type="file"
-                        hidden
-                        onChange={handleImageUpload}
-                    />
-                </Button>
-            </span>
-        </Tooltip>
+        <>
+            <ErrorModal error={error} setError={setError} />
+            <Tooltip title={tooltipTitle}>
+                <span> {/* span is added because disabled buttons don't trigger tooltips */}
+                    <Button variant="contained" component="label" disabled={maxUserImagesReached}>
+                        Upload File
+                        <input
+                            type="file"
+                            hidden
+                            onChange={handleImageUpload}
+                        />
+                    </Button>
+                </span>
+            </Tooltip>
+        </>
     );
 };
 

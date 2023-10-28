@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import { getUserImages, getImageDimensions } from '../../../../../utils/api/user-images-api';
 import UserImageCard from './UserImageCard';
 import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
+import logger from '../../../../../logging/logger';
+import ErrorMessage from '../../../../SharedComponents/ErrorMessage/ErrorMessage';
 
 interface UserImagesMenuProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
@@ -17,12 +19,14 @@ interface UserImagesMenuProps {
 
 export default function UserImagesGrid({ setCanvasDesign, userImages, setUserImages, setFetchingUserImages, setAnchorEl, setMaxUserImagesReached }: UserImagesMenuProps) {
     const { auth0User, getAccessToken } = useAuth0User();
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         let isCancelled = false; // Cancellation token
 
         const fetchUserImages = async () => {
             try {
+                setError(false);
                 const token = await getAccessToken();
                 if (!token || isCancelled) return;
 
@@ -42,7 +46,16 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
                     setFetchingUserImages(false);
                 }
             } catch (error) {
-                // Handle error as needed
+                logger.trackException({
+                    properties: {
+                        name: "User Images Fetch Error",
+                        page: "Canvas",
+                        description: "Error fetching user images",
+                        error: error,
+                    },
+                });
+                setError(true);
+                setFetchingUserImages(false);
                 console.error(error);
             }
         };
@@ -54,6 +67,8 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
         };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth0User?.sub]);
+
+    if (error) return <ErrorMessage dataName='user images' />
 
     return (
         <Grid container spacing={2} sx={{ p: 2 }}>

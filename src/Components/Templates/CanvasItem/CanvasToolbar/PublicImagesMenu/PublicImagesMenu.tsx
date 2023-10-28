@@ -6,13 +6,11 @@ import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import Tooltip from '@mui/material/Tooltip';
 import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { searchUnsplashImages } from '../../../../../utils/api/unsplash-images-api';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardActionArea from '@mui/material/CardActionArea';
 import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
 import { createImageObj } from '../../../../../utils/types/ShapesFactory';
+import logger from '../../../../../logging/logger';
+import PublicImagesGrid from './PublicImagesGrid/PublicImagesGrid';
 
 interface PublicImagesMenuProps {
     isLoading: boolean;
@@ -26,14 +24,30 @@ export default function PublicImagesMenu({ isLoading, canvasDesign, setCanvasDes
     const [unsplashImages, setUnsplashImages] = useState<Array<{ url: string; width: number; height: number; }>>([]);
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const prevSearchQueryRef = useRef<string>('');
+    const [error, setError] = useState(false);
 
     const searchImages = useCallback(async (query: string) => {
-        const unsplashImages = await searchUnsplashImages(query)
-        setUnsplashImages(unsplashImages.map((image: { urls: { small: string; }; width: number; height: number; }) => ({
-            url: image.urls.small,
-            width: image.width,
-            height: image.height
-        })));
+        try {
+            setError(false);
+            const unsplashImages = await searchUnsplashImages(query)
+            setUnsplashImages(unsplashImages.map((image: { urls: { small: string; }; width: number; height: number; }) => ({
+                url: image.urls.small,
+                width: image.width,
+                height: image.height
+            })));
+        }
+        catch (error) {
+            logger.trackException({
+                properties: {
+                    name: "Image Search Error",
+                    page: "Canvas",
+                    description: "Error searching images",
+                    error: error,
+                },
+            });
+            setError(true);
+            console.error("Error searching images:", error);
+        }
     }, []);
 
     useEffect(() => {
@@ -107,17 +121,7 @@ export default function PublicImagesMenu({ isLoading, canvasDesign, setCanvasDes
                     <Typography variant="body2">
                         Powered by Unsplash
                     </Typography>
-                    <Grid container spacing={2} sx={{ p: 2 }}>
-                        {unsplashImages.map((imageData) => (
-                            <Grid item xs={6} sm={4} md={3} key={imageData.url}>
-                                <Card>
-                                    <CardActionArea onClick={() => handleImageClick(imageData)}>
-                                        <CardMedia component="img" src={imageData.url} alt="Image thumbnail" />
-                                    </CardActionArea>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
+                    <PublicImagesGrid unsplashImages={unsplashImages} handleImageClick={handleImageClick} error={error} />
                 </div>
             </Menu>
         </>
