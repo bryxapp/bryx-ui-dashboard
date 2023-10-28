@@ -4,6 +4,8 @@ import { deleteEstimateDraft } from '../../../../../utils/api/estimate-drafts-ap
 import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import logger from '../../../../../logging/logger';
+import ErrorModal from '../../../../SharedComponents/ErrorModal/ErrorModal';
 
 interface SubmitButtonProps {
     templateData: any;
@@ -13,13 +15,14 @@ interface SubmitButtonProps {
     setCreating: any;
 }
 
-const SubmitButton = ({templateData,estimateName,fieldValues, draftId,setCreating}:SubmitButtonProps) => {
-    const [error, setError] = useState<string | null>(null); // Error state
+const SubmitButton = ({ templateData, estimateName, fieldValues, draftId, setCreating }: SubmitButtonProps) => {
+    const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
 
     const handleSubmit = async () => {
         setCreating(true);
+        setError(false);
         try {
             if (!templateData) return;
             const token = await getAccessToken()
@@ -30,18 +33,26 @@ const SubmitButton = ({templateData,estimateName,fieldValues, draftId,setCreatin
             await new Promise((resolve) => setTimeout(resolve, 2000));
             navigate("/view-estimate?estimateId=" + createdEstimate.id);
         } catch (error) {
-            setError("Error creating estimate");
+            logger.trackException({
+                properties: {
+                    name: "Estimate Creation Error",
+                    page: "Estimate Creation",
+                    description: "Error creating estimate",
+                    error: error,
+                },
+            });
+            setError(true);
             console.error("Error creating estimate:", error);
         } finally {
             setCreating(false);
         }
     };
 
-    if (error) {
-        return (<div>{error}</div>)
-    }
     return (
-        <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+        <>
+            <ErrorModal error={error} setError={setError} />
+            <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+        </>
     );
 };
 

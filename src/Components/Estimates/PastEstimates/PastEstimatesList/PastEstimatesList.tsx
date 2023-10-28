@@ -1,26 +1,36 @@
-import NoneFound from "../../../SharedComponents/NoneFound/NoneFound";
+import React, { useEffect, useRef, useState } from "react";
 import { List } from "@mui/material";
+import _ from "lodash";
+
+import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
+import { deleteEstimate, getEstimates } from "../../../../utils/api/estimates-api";
+import { EstimateData } from "../../../../utils/types/EstimateInterfaces";
+import logger from "../../../../logging/logger";
+
+import NoneFound from "../../../SharedComponents/NoneFound/NoneFound";
 import EstimateListItem from "../../SharedEstimateComponents/EstimateListItem";
 import Loading from "../../../SharedComponents/Loading/Loading";
-import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
-import { Alert } from "@mui/material";
-import { EstimateData } from "../../../../utils/types/EstimateInterfaces";
-import { deleteEstimate } from "../../../../utils/api/estimates-api";
+import ErrorMessage from "../../../SharedComponents/ErrorMessage/ErrorMessage";
 import EstimatesPagingControls from "../../SharedEstimateComponents/EstimatesPagingControls";
 
+const PAGE_SIZE = 10; // Number of estimate drafts per page
+
 interface PastEstimatesListProps {
-    estimates: EstimateData[];
-    setEstimates: (estimates: EstimateData[]) => void;
-    estimateRequestCompleted: boolean;
-    pageNumber: number;
-    setPageNumber: (pageNumber: number) => void;
-    PAGE_SIZE: number;
-    errorRetrievingEstimates: boolean;
+    searchTerm: string;
+    selectedTemplateId: string;
+    setNoEstimatesAvailable: (noEstimatesAvailable: boolean) => void;
+    setMaxEstimatesReached: (maxEstimatesReached: boolean) => void;
 }
 
-const PastEstimatesList = ({ estimates, setEstimates, estimateRequestCompleted, pageNumber, setPageNumber, PAGE_SIZE, errorRetrievingEstimates }: PastEstimatesListProps) => {
-    const { getAccessToken } = useAuth0User();
+const PastEstimatesList = ({ searchTerm, selectedTemplateId, setNoEstimatesAvailable, setMaxEstimatesReached }: PastEstimatesListProps) => {
+    // State and hooks
+    const { auth0User, getAccessToken } = useAuth0User();
+    const [pageNumber, setPageNumber] = useState(1);
+    const [estimates, setEstimates] = useState<EstimateData[]>([]);
+    const [error, setError] = useState(false);
+    const [estimateRequestCompleted, setEstimateRequestCompleted] = useState(false);
 
+    // Helper function to handle estimate deletion
     const handleEstimateDelete = async (estimateId: string) => {
         const token = await getAccessToken();
         if (!token) return;
@@ -28,13 +38,60 @@ const PastEstimatesList = ({ estimates, setEstimates, estimateRequestCompleted, 
         setEstimates(estimates.filter((estimate: any) => estimate.id !== estimateId));
     };
 
-    if (errorRetrievingEstimates) {
-        return <Alert severity="error">There was an error retrieving your estimates. Please try again.</Alert>
-    }
-    if (estimates.length === 0 && !estimateRequestCompleted && !errorRetrievingEstimates) {
+    // Use debounced function for loading estimates
+    const loadEstimates = useRef(
+        _.debounce(
+            async (pageSize: number, pageNumber: number, token: string, searchTerm: string, selectedTemplateId: string) => {
+                setNoEstimatesAvailable(false);
+                setEstimateRequestCompleted(false);
+                try {
+                    const estimateData = await getEstimates(pageSize, pageNumber, token, searchTerm, selectedTemplateId)
+                    setEstimates(estimateData.estimates);
+                    setMaxEstimatesReached(estimateData.maxEstimatesReached);
+                    setNoEstimatesAvailable(estimateData.estimates.length === 0)
+                    setEstimateRequestCompleted(true);
+                }
+                catch (error) {
+                    // Handle error and log
+                    logger.trackException({
+                        properties: {
+                            name: 'Estimate Retrieval Error',
+                            page: 'Past Estimates',
+                            description: 'Error retrieving estimates',
+                            error: error,
+                        },
+                    });
+                    console.error('Error retrieving estimates:', error);
+                    setNoEstimatesAvailable(true);
+                    setEstimateRequestCompleted(true);
+                    setError(true);
+                }
+            },
+            500
+        )
+    );
+
+    // Fetch estimates on component mount or when dependencies change
+    useEffect(() => {
+        const fetchEstimates = async () => {
+            const token = await getAccessToken();
+            if (!token) return;
+            loadEstimates.current(PAGE_SIZE, pageNumber, token, searchTerm, selectedTemplateId);
+        }
+        fetchEstimates();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pageNumber, searchTerm, selectedTemplateId, auth0User?.sub]);
+
+    // Render components based on state
+    if (error) return <ErrorMessage dataName='Estimates' />;
+
+    if (estimates.length === 0 && !estimateRequestCompleted && !error) {
         return <Loading />
     }
-    if (estimates.length === 0 && estimateRequestCompleted && !errorRetrievingEstimates) { return <NoneFound item="estimates" /> }
+
+    if (estimates.length === 0 && estimateRequestCompleted && !error) {
+        return <NoneFound item="estimates" />
+    }
 
     return (
         <>
