@@ -8,6 +8,7 @@ import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
+import ErrorModal from '../../ErrorModal/ErrorModal';
 
 interface TemplatesGridProps {
     setMaxTemplatesReached: ((value: boolean) => void) | null;
@@ -19,6 +20,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false);
+    const [deleteError, setDeleteError] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
 
     useEffect(() => {
@@ -54,11 +56,25 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     }, [auth0User?.sub]);
 
     const handleTemplateDelete = async (templateId: string) => {
-        const token = await getAccessToken();
-        if (!token) return;
+        try {
+            setDeleteError(false);
+            const token = await getAccessToken();
+            if (!token) return;
 
-        await deleteTemplate(templateId, token);
-        setTemplates(prevTemplates => prevTemplates.filter(template => template.id !== templateId));
+            await deleteTemplate(templateId, token);
+            setTemplates(prevTemplates => prevTemplates.filter(template => template.id !== templateId));
+        } catch (error) {
+            logger.trackException({
+                properties: {
+                    name: "Template Delete Error",
+                    page: "Templates",
+                    description: "Error deleting template",
+                    error: error,
+                },
+            });
+            setDeleteError(true);
+            console.error('Error deleting template:', error);
+        }
     };
 
     if (!templateRequestCompleted)
@@ -69,18 +85,21 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     if (templates.length === 0) return <NoneFound item='templates' />;
 
     return (
-        <Grid container spacing={2}>
-            {templates.map(template => (
-                <Grid item xs={12} sm={6} md={4} key={template.id}>
-                    <TemplatesListItem
-                        template={template}
-                        handleTemplateDelete={handleTemplateDelete}
-                        baseUrl={baseUrl}
-                        showActions={showActions}
-                    />
-                </Grid>
-            ))}
-        </Grid>
+        <>
+            <ErrorModal error={deleteError} setError={setDeleteError} />
+            <Grid container spacing={2}>
+                {templates.map(template => (
+                    <Grid item xs={12} sm={6} md={4} key={template.id}>
+                        <TemplatesListItem
+                            template={template}
+                            handleTemplateDelete={handleTemplateDelete}
+                            baseUrl={baseUrl}
+                            showActions={showActions}
+                        />
+                    </Grid>
+                ))}
+            </Grid>
+        </>
     );
 };
 

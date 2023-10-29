@@ -9,6 +9,7 @@ import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
+import ErrorModal from "../../SharedComponents/ErrorModal/ErrorModal";
 
 const PAGE_SIZE = 10; // Number of estimate drafts per page
 
@@ -18,6 +19,7 @@ const EstimateDrafts = () => {
   const [pageNumber, setPageNumber] = useState(1); // Current page number
   const { auth0User, getAccessToken } = useAuth0User();
   const [error, setError] = useState(false);
+  const [deleteError, setDeleteError] = useState(false);
 
   useEffect(() => {
     const fetchEstimateDrafts = async () => {
@@ -50,7 +52,7 @@ const EstimateDrafts = () => {
 
   const handleEstimateDraftDelete = async (estimateDraftId: string) => {
     try {
-      setError(false);
+      setDeleteError(false);
       const token = await getAccessToken();
       if (!token) return;
       await deleteEstimateDraft(estimateDraftId, token)
@@ -65,7 +67,7 @@ const EstimateDrafts = () => {
           error: error,
         },
       });
-      setError(true);
+      setDeleteError(true);
     }
   };
 
@@ -77,6 +79,7 @@ const EstimateDrafts = () => {
 
   return (
     <>
+      <ErrorModal error={deleteError} setError={setDeleteError} />
       <List>
         {estimateDrafts.map((estimateDraft: EstimateDraftData) => (
           <EstimateListItem
