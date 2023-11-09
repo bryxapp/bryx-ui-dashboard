@@ -1,7 +1,22 @@
 import React from 'react';
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, useTheme } from '@mui/material';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    Box,
+    Typography,
+    useTheme,
+    IconButton,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close'; // Import the Close icon
 import SubscriptionTile from './SubscriptionTile';
-import { SubscriptionEnum, SubscriptionInfo, proSubscription, starterSubscription, teamSubscription } from '../../utils/types/SubscriptionInterfaces';
+import {
+    SubscriptionEnum,
+    SubscriptionInfo,
+    proSubscription,
+    starterSubscription,
+    teamSubscription,
+} from '../../utils/types/SubscriptionInterfaces';
 import { useBryxUserContext } from '../../utils/contexts/BryxUserContext';
 import BillingButton from './Billing/Billing';
 import { useOrganizationContext } from '../../utils/contexts/OrganizationContext';
@@ -14,7 +29,7 @@ interface Props {
 const packages: SubscriptionInfo[] = [
     starterSubscription,
     proSubscription,
-    teamSubscription
+    teamSubscription,
 ];
 
 const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
@@ -53,7 +68,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
         if (bryxUser?.subscription === SubscriptionEnum.TEAM) {
             return <>
                 <Typography variant='h6' color="secondary.main">You have a team subscription.</Typography>
-                
+
                 {isOwner &&
                     (<>
                         <Typography variant='h6' color="secondary.main">To manage your billing, click the button below.</Typography>
@@ -65,22 +80,37 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
     };
 
     return (
-        <Dialog open={open} onClose={onClose} aria-labelledby="subscription-dialog-title" fullWidth maxWidth="md">
-            <DialogTitle id="subscription-dialog-title" sx={{ background: theme.palette.primary.main }}>
+        <Dialog
+            open={open}
+            onClose={onClose}
+            aria-labelledby="subscription-dialog-title"
+            fullWidth
+            maxWidth="md"
+        >
+            <DialogTitle
+                id="subscription-dialog-title"
+                sx={{
+                    background: theme.palette.primary.main,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center', // Align the close icon vertically
+                }}
+            >
                 <Typography variant="h4" color="secondary.main">
                     Upgrade Subscription
                 </Typography>
+                <IconButton
+                    edge="end"
+                    color="secondary"
+                    onClick={onClose}
+                    aria-label="close"
+                >
+                    <CloseIcon /> {/* Close icon (X) */}
+                </IconButton>
             </DialogTitle>
             <DialogContent sx={{ background: theme.palette.primary.main }}>
                 {getContent()}
             </DialogContent>
-            <DialogActions sx={{ background: theme.palette.primary.main }}>
-                <Button onClick={onClose} color="secondary">
-                    <Typography variant='h6'>
-                        Close
-                    </Typography>
-                </Button>
-            </DialogActions>
         </Dialog>
     );
 };

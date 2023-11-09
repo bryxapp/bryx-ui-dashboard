@@ -1,5 +1,15 @@
 import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import {
+    Card,
+    CardHeader,
+    CardContent,
+    Typography,
+    useTheme,
+    Box,
+    Grid,
+    CardActions,
+    Button,
+} from '@mui/material';
 import { SubscriptionInfo } from '../../utils/types/SubscriptionInterfaces';
 import ProUpgradeButton from './ProCheckout/ProUpgradeButton';
 import CreateTeamButton from './TeamCheckout/CreateTeamButton';
@@ -15,9 +25,9 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog }) =>
     const renderActionButton = () => {
         switch (subscriptionInfo.name) {
             case "STARTER":
-                return <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
+                return <Button variant="outlined" color="primary" disabled>
                     Current Subscription
-                </Typography>;
+                </Button >
             case "PRO":
                 return <ProUpgradeButton closeDialog={closeDialog} />;
             case "TEAM":
@@ -28,38 +38,59 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog }) =>
     };
 
     return (
-        <Box
-            sx={{
-                width: '240px',
-                height: '300px',
-                borderRadius: '15px',
-                padding: '15px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                backgroundColor: theme.palette.primary.main,
-                background: theme.palette.secondary.main,
-            }}
+        <Grid
+            item
+            key={subscriptionInfo.name}
+            xs={12}
+            sm={subscriptionInfo.name === 'TEAM' ? 12 : 6}
+            md={4}
         >
-            <Box sx={{ textAlign: 'center' }}>
-                <Typography variant="h4" color="primary.main">{subscriptionInfo.name}</Typography>
-                <Typography variant="h6" color="text.primary">{subscriptionInfo.monthlyPrice}</Typography>
-            </Box>
-            <Box sx={{ overflow: 'auto', maxHeight: '120px' }}>
-                {subscriptionInfo.features.map((feature, index) => (
-                    <Typography
-                        variant="body1"
-                        color="text.primary"
-                        key={index}
-                        sx={{ fontSize: '1.1rem', marginBottom: '15px' }} // Adjust this value for desired size
+            <Card>
+                <CardHeader
+                    title={subscriptionInfo.name}
+                    titleTypographyProps={{ align: 'center', color: theme.palette.text.secondary }}
+                    sx={{
+                        backgroundColor: theme.palette.grey[500],
+                    }}
+                />
+                <CardContent>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'baseline',
+                            mb: 2,
+                        }}
                     >
-                        - {feature}
-                    </Typography>
-                ))}
-            </Box>
-            {renderActionButton()}
-        </Box>
+                        <Typography component="h2" variant="h3" color="text.primary">
+                            ${subscriptionInfo.monthlyPriceInt}
+                        </Typography>
+                        <Typography variant="h6" color="text.primary">
+                            /mo
+                        </Typography>
+                    </Box>
+                    <ul>
+                        {subscriptionInfo.features.map((line) => (
+                            <Typography
+                                component="li"
+                                variant="subtitle1"
+                                align="center"
+                                key={line}
+                            >
+                                {line}
+                            </Typography>
+                        ))}
+                    </ul>
+                </CardContent>
+                <CardActions
+                    sx={{
+                        justifyContent: 'center',
+                    }}
+                >
+                    {renderActionButton()}
+                </CardActions>
+            </Card>
+        </Grid>
     );
 };
 
