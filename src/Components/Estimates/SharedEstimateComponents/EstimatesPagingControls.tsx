@@ -21,6 +21,10 @@ const EstimatesPagingControls = ({ estimates, pageNumber, setPageNumber, PAGE_SI
     const hasPreviousPage = pageNumber > 1;
     const hasNextPage = estimates.length >= PAGE_SIZE;
 
+    if (!hasPreviousPage && !hasNextPage) {
+        return null;
+    }
+    
     return (
             <div>
                 <Tooltip title={hasPreviousPage ? "Go to previous page" : "No previous pages"}>

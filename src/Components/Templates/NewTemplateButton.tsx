@@ -35,7 +35,7 @@ const NewTemplateButton = ({ maxTemplatesReached }: NewTemplateButtonProps) => {
                     variant="contained"
                     size="large"
                     sx={{
-                        borderRadius: 2,
+                        borderRadius: 1,
                         backgroundColor: theme.palette.primary.main,
                         color: theme.palette.text.secondary,
                     }}

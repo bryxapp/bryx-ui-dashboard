@@ -14,10 +14,10 @@ const AuthButton: React.FC<AuthButtonProps> = ({ onClick, text }) => {
             onClick={onClick}
             color='primary'
             sx={{
-                fontSize: '1rem',
-                padding: '10px',
-                margin: '10px',
+                fontSize: '14px',
+                padding: '10px 20px', // Common padding values
                 minWidth: '100px',
+                borderRadius: '4px', // Common border radius
                 backgroundColor: theme.palette.secondary.main,
                 '&:hover': {
                     backgroundColor: darken(theme.palette.secondary.main, 0.1),

@@ -8,16 +8,16 @@ const Logo = () => {
     };
     
     return (
-        <Link to="/" onClick={handleLogoClick}> {/* Use Link from react-router-dom */}
+        <Link to="/" onClick={handleLogoClick}>
             <Typography 
-                variant="h1" 
+                variant="h2" 
                 color={theme.palette.text.secondary} 
                 noWrap
                 sx={{
-                    fontSize: '4rem',
+                    fontSize: '2rem',
                     fontWeight: 'bold',
                     '@media (max-width: 600px)': {
-                        fontSize: '2rem',
+                        fontSize: '1rem',
                     },
                 }}
             >

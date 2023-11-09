@@ -1,6 +1,5 @@
 import React, { ReactNode } from 'react';
 import Box from '@mui/material/Box';
-import Footer from './Footer/Footer';
 import Container from '@mui/material/Container';
 import TopNavBar from './TopNavBar/TopNavBar';
 import Sidebar from './SideAppDrawer/SideAppDrawer';
@@ -38,7 +37,6 @@ const Navigation = ({ children }: NavigationProps) => {
                     </Container>
                 </Box>
             </Box>
-            <Footer />
         </React.Fragment>
     );
 };

@@ -35,7 +35,7 @@ const Estimates: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Typography variant="h3" color={theme.palette.text.primary}>
+      <Typography variant="h4" color={theme.palette.text.primary}>
         Estimates
       </Typography>
       <br />

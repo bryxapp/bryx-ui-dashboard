@@ -10,7 +10,7 @@ const Templates = () => {
 
   return (
     <>
-      <Typography color={theme.palette.text.primary} variant="h3">
+      <Typography color={theme.palette.text.primary} variant="h4">
         Templates
       </Typography>
       <br />

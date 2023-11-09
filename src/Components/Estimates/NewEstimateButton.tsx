@@ -32,7 +32,7 @@ const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
                     variant='contained'
                     color='primary'
                     size='large'
-                    sx={{ borderRadius: 2 }}
+                    sx={{ borderRadius: 1 }}
                     disabled={maxEstimatesReached}
                 >
                     + New Estimate
