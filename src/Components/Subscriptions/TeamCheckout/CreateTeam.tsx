@@ -4,11 +4,11 @@ import {
   Typography,
   Container,
   Box,
-  TextField,
   Paper,
   Grid,
   CircularProgress,
 } from '@mui/material';
+import { StyledTextField as TextField } from '../../SharedComponents/TextField/TextField';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeamCheckoutSession } from '../../../utils/api/checkout-api';
@@ -49,7 +49,7 @@ const CreateTeam = () => {
       }
 
       const email = auth0User?.email || "";
-      const session = await createTeamCheckoutSession(teamName,email);
+      const session = await createTeamCheckoutSession(teamName, email);
       if (!session) {
         throw new Error("Session creation failed.");
       }
@@ -90,18 +90,22 @@ const CreateTeam = () => {
         <Grid container spacing={2}>
           {teamSubscription.features.map((feature, index) => (
             <Grid item xs={12} sm={6} md={3} key={index}>
-              <Paper elevation={3} sx={{ p: 2 }}>
-                <Typography variant="body1">
-                  {feature}
-                </Typography>
+              <Paper elevation={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+                <Box sx={{ textAlign: 'center', p: 2 }}>
+                  <Typography variant="body1">
+                    {feature}
+                  </Typography>
+                </Box>
               </Paper>
             </Grid>
           ))}
-          <Grid item xs={12} sm={6} md={3} key={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="body1">
-                Easily add or remove team members.
-              </Typography>
+          <Grid item xs={12} sm={6} md={3}>
+            <Paper elevation={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+              <Box sx={{ textAlign: 'center', p: 2 }}>
+                <Typography variant="body1">
+                  Easily add and remove team members
+                </Typography>
+              </Box>
             </Paper>
           </Grid>
         </Grid>
@@ -131,6 +135,7 @@ const CreateTeam = () => {
           </Button>
         </Paper>
       </Box>
+      <br />
       <Typography variant="body1">
         NOTE: You are creating a separate organization for team members to collaborate. Your personal starter or pro subscription remains unaffected.
       </Typography>

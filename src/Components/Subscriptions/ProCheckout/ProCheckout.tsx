@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Container, Typography } from '@mui/material';
+import { Container, Paper, Typography } from '@mui/material';
 import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { updateUserToProSubscription } from '../../../utils/api/checkout-api';
 import { useBryxUserContext } from '../../../utils/contexts/BryxUserContext';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import logger from '../../../logging/logger';
 import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 
 const ProCheckout = () => {
     const location = useLocation();
@@ -63,17 +64,16 @@ const ProCheckout = () => {
     if (error) return <ErrorMessage dataName='checkout' />;
 
     return (
-        <Container>
-            <Typography variant="h2" color="primary.main">Order Complete</Typography>
-            <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
-                Your subscription has been updated to {proSubscription.name}
-            </Typography>
-            <Typography variant="h4" color="primary.main">You now have access to</Typography>
-            {proSubscription.features.map((feature, index) => (
-                <Typography variant="body1" color="text.primary" key={index}>
-                    {feature}
+        <Container sx={{ mt: 4 }}>
+            <Paper elevation={3} sx={{ p: 4, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <CheckCircleOutlineIcon color="success" sx={{ fontSize: 60, mb: 2 }} />
+                <Typography variant="h4" color="primary" gutterBottom>
+                    Order Complete
                 </Typography>
-            ))}
+                <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
+                    Your subscription has been updated to {proSubscription.name}
+                </Typography>
+            </Paper>
         </Container>
     );
 };

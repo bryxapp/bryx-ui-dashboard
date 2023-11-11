@@ -6,7 +6,8 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
-    DialogContentText
+    DialogContentText,
+    useTheme
 } from "@mui/material";
 import { getOrganizationMembers, removeMemberFromOrg } from "../../../utils/api/org-api";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
@@ -21,6 +22,7 @@ interface RemoveMemberButtonProps {
 
 const RemoveMemberButton = ({ member, setMembers, setInvites }: RemoveMemberButtonProps) => {
     const { getAccessToken } = useAuth0User();
+    const theme = useTheme();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [error, setError] = useState<string | null>(null); // Error state
     const [success, setSuccess] = useState<boolean>(false); // Success state
@@ -73,7 +75,10 @@ const RemoveMemberButton = ({ member, setMembers, setInvites }: RemoveMemberButt
             >
                 <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText 
+                    id="alert-dialog-description"
+                    color = {theme.palette.text.primary}
+                    >
                         Are you sure you want to remove member {member.name} from the organization?
                     </DialogContentText>
                     {error && (

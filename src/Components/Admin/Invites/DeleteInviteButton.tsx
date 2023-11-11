@@ -6,12 +6,14 @@ import {
     DialogContent,
     DialogTitle,
     IconButton,
-    DialogContentText
+    DialogContentText,
+    useTheme
 } from "@mui/material";
 import { deleteInviteToOrg, getOrganizationMembers } from "../../../utils/api/org-api";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { Invite, OrganizationMembers } from "../../../utils/types/OrganizationInterfaces";
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface DeleteInviteButtonProps {
     invite: Invite;
@@ -21,9 +23,11 @@ interface DeleteInviteButtonProps {
 
 const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButtonProps) => {
     const { getAccessToken } = useAuth0User();
+    const theme = useTheme();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [error, setError] = useState<string | null>(null); // Error state
     const [success, setSuccess] = useState<boolean>(false); // Success state
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false); // Loading state
 
     const handleDeleteInvite = () => {
         // Show the confirmation dialog
@@ -38,6 +42,7 @@ const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButt
         if (!token) return;
 
         try {
+            setDeleteLoading(true);
             await deleteInviteToOrg(token, invite.id);
 
             const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
@@ -52,6 +57,7 @@ const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButt
         }
 
         // Close the dialog
+        setDeleteLoading(false);
         setIsDialogOpen(false);
     };
 
@@ -73,7 +79,10 @@ const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButt
             >
                 <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText
+                        id="alert-dialog-description"
+                        color={theme.palette.text.primary}
+                    >
                         Are you sure you want to delete invite to {invite.invitee.email} to join the organization?
                     </DialogContentText>
                     {error && (
@@ -88,11 +97,11 @@ const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButt
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
+                    <Button onClick={handleCloseDialog} color="primary" disabled={deleteLoading}>
                         Cancel
                     </Button>
-                    <Button onClick={handleConfirmDeleteInvite} color="secondary" autoFocus>
-                        Confirm
+                    <Button onClick={handleConfirmDeleteInvite} color="primary" autoFocus>
+                        {deleteLoading ? <CircularProgress size={24} /> : "Confirm"}
                     </Button>
                 </DialogActions>
             </Dialog>

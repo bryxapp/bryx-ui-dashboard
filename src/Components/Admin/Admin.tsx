@@ -80,16 +80,20 @@ const Admin: React.FC = () => {
                         <MemberLineItem key={member.user_id} member={member} setMembers={setMembers} setInvites={setInvites} />
                     ))
                 }
-                <Typography variant="h6" color={theme.palette.text.primary}>
-                    Invites
-                </Typography>
-                <Box sx={{ width: "100%", marginTop: 2 }} />
-                {
-                    invites && invites?.map((invite) => (
-                        <InviteLineItem key={invite.id} invite={invite} setMembers={setMembers} setInvites={setInvites} />
-                    ))
-                }
+                {invites && invites.length > 0 && (
+                    <>
+                        <Typography variant="h6" color={theme.palette.text.primary}>
+                            Invites
+                        </Typography>
+                        <Box sx={{ width: "100%", marginTop: 2 }}>
+                            {invites.map((invite) => (
+                                <InviteLineItem key={invite.id} invite={invite} setMembers={setMembers} setInvites={setInvites} />
+                            ))}
+                        </Box>
+                    </>
+                )}
             </Box>
+
         </>
     );
 };

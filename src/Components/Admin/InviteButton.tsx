@@ -6,12 +6,14 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    useTheme,
 } from "@mui/material";
 import { StyledTextField as TextField } from "../SharedComponents/TextField/TextField";
 import { getOrganizationMembers, inviteMemberToOrg } from "../../utils/api/org-api";
 import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 import { OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
 import AddIcon from '@mui/icons-material/Add';
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface InviteButtonProps {
     disabled?: boolean;
@@ -21,11 +23,13 @@ interface InviteButtonProps {
 
 const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) => {
     const { getAccessToken } = useAuth0User();
+    const theme = useTheme();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [email, setEmail] = useState("");
     const [isValidEmail, setIsValidEmail] = useState(true); // To track email format validity
     const [error, setError] = useState<string | null>(null); // Error state
     const [success, setSuccess] = useState<boolean>(false); // Success state
+    const [inviteLoading, setInviteLoading] = useState<boolean>(false); // Loading state
 
     const handleInviteUser = () => {
         // Show the invite dialog
@@ -42,6 +46,8 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
         if (!token) return;
 
         try {
+            // Send invite
+            setInviteLoading(true);
             await inviteMemberToOrg(token, email);
 
             const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
@@ -50,11 +56,13 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
 
             // Set success state
             setSuccess(true);
+            setEmail(""); // Clear the email field
+            setIsValidEmail(true); // Reset email validity
         } catch (err) {
             // Set error state
             setError("An error occurred while sending the invite. Please try again.");
         }
-
+        setInviteLoading(false);
         // Close the dialog
         setIsDialogOpen(false);
     };
@@ -81,7 +89,10 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
             <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
                 <DialogTitle>Send Invite</DialogTitle>
                 <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText
+                        id="alert-dialog-description"
+                        sx={{ color: theme.palette.text.primary }}
+                    >
                         Enter the email below of the user you want to invite to join your team.
                     </DialogContentText>
                     <TextField
@@ -108,11 +119,11 @@ const InviteButton = ({ disabled, setInvites, setMembers }: InviteButtonProps) =
                     )}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
+                    <Button onClick={handleCloseDialog} color="primary" disabled={inviteLoading}>
                         Cancel
                     </Button>
                     <Button onClick={handleConfirmInvite} color="primary" autoFocus disabled={!isValidEmail || success}>
-                        Send Invite
+                        {inviteLoading ? <CircularProgress size={24} /> : "Send Invite"}
                     </Button>
                 </DialogActions>
             </Dialog>
