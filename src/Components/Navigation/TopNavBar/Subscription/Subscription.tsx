@@ -1,13 +1,25 @@
 import { useState } from 'react';
-import { useTheme, Chip } from '@mui/material';
+import { useTheme, Chip, CircularProgress } from '@mui/material';
 import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
-import { CircularProgress } from '@mui/material';
 import { useBryxUserContext } from '../../../../utils/contexts/BryxUserContext';
+import { useOrganizationContext } from '../../../../utils/contexts/OrganizationContext';
 
 const Subscription = () => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const { bryxUser } = useBryxUserContext();
+    const { organization } = useOrganizationContext();
+
+    // Function to compute label
+    const computeLabel = () => {
+        if (!bryxUser?.subscription) {
+            return <CircularProgress color="secondary" size={20} />;
+        }
+        if (bryxUser.subscription === 'TEAM') {
+            return `${bryxUser.subscription}: ${organization?.bryxOrg.orgDisplayName}`;
+        }
+        return bryxUser.subscription;
+    };
 
     const handleClick = () => {
         setOpen(true);
@@ -16,7 +28,7 @@ const Subscription = () => {
     return (
         <>
             <Chip
-                label={bryxUser?.subscription ? bryxUser?.subscription : <CircularProgress color="secondary" size={20} />}
+                label={computeLabel()}
                 onClick={handleClick}
                 sx={{
                     marginRight: '10px',

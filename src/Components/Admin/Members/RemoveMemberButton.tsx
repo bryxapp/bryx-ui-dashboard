@@ -96,7 +96,7 @@ const RemoveMemberButton = ({ member, setMembers, setInvites }: RemoveMemberButt
                     <Button onClick={handleCloseDialog} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleConfirmRemoveMember} color="secondary" autoFocus>
+                    <Button onClick={handleConfirmRemoveMember} color="primary" autoFocus>
                         Confirm
                     </Button>
                 </DialogActions>
