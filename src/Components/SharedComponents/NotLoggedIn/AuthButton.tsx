@@ -4,23 +4,35 @@ import { lighten } from '@mui/system';
 interface AuthButtonProps {
     onClick: () => void;
     text: string;
+    startIcon?: React.ReactNode;
+    color: 'primary' | 'secondary';
+    fontSize?: number; // Make fontSize optional
 }
 
-const AuthButton: React.FC<AuthButtonProps> = ({ onClick, text }) => {
+const AuthButton: React.FC<AuthButtonProps> = ({ 
+    onClick, 
+    text, 
+    startIcon, 
+    color, 
+    fontSize = 1.5 // Default value for fontSize
+}) => {
     const theme = useTheme();
+    const backgroundColor = theme.palette[color].main; // Simplified
+    const textColor = theme.palette[color].contrastText; // Improved for accessibility
 
     return (
         <Button
             onClick={onClick}
-            color='secondary'
+            startIcon={startIcon}
             sx={{
-                fontSize: '1.5rem',
-                padding: '10px',
-                margin: '10px',
-                minWidth: '200px',
-                backgroundColor: theme.palette.primary.main,
+                fontSize: `${fontSize}rem`,
+                padding: theme.spacing(1), // Using theme's spacing
+                margin: theme.spacing(1),
+                minWidth: `${(fontSize * 100)+50}px`,
+                backgroundColor,
+                color: textColor, // Use textColor for better contrast
                 '&:hover': {
-                    backgroundColor: lighten(theme.palette.primary.main, 0.1),
+                    backgroundColor: lighten(backgroundColor, 0.1),
                 }
             }}
         >

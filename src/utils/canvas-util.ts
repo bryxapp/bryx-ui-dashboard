@@ -161,14 +161,18 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: E
     });
     stage.add(layer);
 
-    let dataUrlSettings = {
+    const pixelRatio = 2;
+
+    const dataUrlSettings = {
         type: "image/png",
         quality: 1,
-        pixelRatio: 1,
-        height: getWebCanvasHeight(),
-        width: getWebCanvasWidth(),
+        pixelRatio: pixelRatio,
+        height: getWebCanvasHeight() * pixelRatio,
+        width: getWebCanvasWidth() * pixelRatio,
         x: 0,
         y: 0,
     };
+    stage.scale({ x: pixelRatio, y: pixelRatio });
+
     return stage.toDataURL(dataUrlSettings);
 }

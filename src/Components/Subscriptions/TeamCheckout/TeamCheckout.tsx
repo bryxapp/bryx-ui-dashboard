@@ -8,6 +8,7 @@ import { LogoutOptions } from '@auth0/auth0-react';
 import logger from '../../../logging/logger';
 import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const TeamCheckout = () => {
     const location = useLocation();
@@ -81,7 +82,7 @@ const TeamCheckout = () => {
                     </Typography>
                 </Box>
                 <Stack direction="row" spacing={2} justifyContent="center">
-                    <AuthButton onClick={handleLogout} text='Log Out' />
+                    <AuthButton onClick={handleLogout} text='Log Out' startIcon={<LogoutIcon />} color='primary' fontSize={1.5}/>
                 </Stack>
             </Paper>
         </Container>

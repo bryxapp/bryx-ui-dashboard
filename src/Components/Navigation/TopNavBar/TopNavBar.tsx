@@ -6,7 +6,9 @@ import logger from '../../../logging/logger';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import Subscription from "./Subscription/Subscription";
 import Logo from "./Logo";
-import AuthButton from "./AuthButton";
+import AuthButton from '../../SharedComponents/NotLoggedIn/AuthButton';
+import LoginIcon from '@mui/icons-material/Login'; // Import Login icon
+import LogoutIcon from '@mui/icons-material/Logout'; // Import Logout icon
 
 const TopNavBar = () => {
   const { auth0User, isLoading, loginWithRedirect, logout } = useAuth0User();
@@ -29,10 +31,10 @@ const TopNavBar = () => {
           {isLoading || auth0User ? (
             <>
               <Subscription />
-              <AuthButton onClick={handleLogout} text={"Logout"} />
+              <AuthButton onClick={handleLogout} text="Logout" startIcon={<LogoutIcon />} color='secondary' fontSize={1}/>
             </>
           ) : (
-            <AuthButton onClick={handleLogin} text={"Login"} />
+            <AuthButton onClick={handleLogin} text="Login" startIcon={<LoginIcon />} color='secondary' fontSize={1}/>
           )}
         </Box>
       </Toolbar>
