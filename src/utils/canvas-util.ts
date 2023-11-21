@@ -161,7 +161,7 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: E
     });
     stage.add(layer);
 
-    const pixelRatio = 1.25;
+    const pixelRatio = 1.4;
 
     const dataUrlSettings = {
         type: "image/png",
