@@ -3,12 +3,12 @@ import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
 import { getTemplates, deleteTemplate } from '../../../../utils/api/templates-api';
 import { Typography } from '@mui/material';
-import NoneFound from '../../../SharedComponents/NoneFound/NoneFound';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import ErrorModal from '../../ErrorModal/ErrorModal';
+import NewTemplateItem from './TemplateItem/NewTemplateItem';
 
 interface TemplatesGridProps {
     setMaxTemplatesReached: ((value: boolean) => void) | null;
@@ -82,8 +82,6 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
 
     if (error) return <ErrorMessage dataName='templates' />;
 
-    if (templates.length === 0) return <NoneFound item='templates' />;
-
     return (
         <>
             <ErrorModal error={deleteError} setError={setDeleteError} />
@@ -98,6 +96,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                         />
                     </Grid>
                 ))}
+                <Grid item xs={12} sm={6} md={4} key="new">
+                    <NewTemplateItem />
+                </Grid>
             </Grid>
         </>
     );
