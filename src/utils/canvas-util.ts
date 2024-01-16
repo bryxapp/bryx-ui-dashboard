@@ -13,21 +13,9 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
     });
 }
 
-
-export async function createStage(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields) {
-    const layer = new Konva.Layer();
-    const rect = new Konva.Rect({
-        x: 0,
-        y: 0,
-        width: getWebCanvasWidth(),
-        height: getWebCanvasHeight(),
-        fill: "white"
-    });
-    layer.add(rect);
-
+export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValues:EstimateFormFields, layer:Konva.Layer){
     for (const shape of canvasDesign.Shapes) {
         let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
-
         switch (shape.type) {
             case 'Rectangle':
                 const rectangle = shape as RectangleObj;
@@ -149,6 +137,21 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: E
         layer.add(konvaShape);
     }
 
+}
+
+export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields) {
+    const layer = new Konva.Layer();
+    const rect = new Konva.Rect({
+        x: 0,
+        y: 0,
+        width: getWebCanvasWidth(),
+        height: getWebCanvasHeight(),
+        fill: "white"
+    });
+    layer.add(rect);
+
+    await AddShapesToLayer(canvasDesign, fieldValues, layer);
+
     //Create container for stage
     const container = document.createElement("div");
     container.id = "container";
@@ -173,6 +176,8 @@ export async function createStage(canvasDesign: CanvasDesignData, fieldValues: E
         y: 0,
     };
     stage.scale({ x: pixelRatio, y: pixelRatio });
-
-    return stage.toDataURL(dataUrlSettings);
+    const stageData = stage.toDataURL(dataUrlSettings);
+    //Remove container
+    document.body.removeChild(container);
+    return stageData;
 }
