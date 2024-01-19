@@ -108,11 +108,13 @@ function App() {
               <Route path="/team-checkout" element={<TeamCheckout />} />
               <Route path="/create-team" element={<CreateTeam />} />
               {(isOwner || isLoading) && <Route path="/admin" element={<Admin />} />}
+              <Route path="/view" element={<ViewEstimate />} />
               <Route path="/auth-redirect" element={<AuthRedirect />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           ) : (
             <Routes>
+              <Route path="/view" element={<ViewEstimate />} />
               <Route path="/auth-redirect" element={<AuthRedirect />} />
               <Route path="*" element={<NotLoggedIn />} />
             </Routes>

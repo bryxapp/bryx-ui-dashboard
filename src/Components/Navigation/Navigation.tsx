@@ -4,6 +4,7 @@ import Container from '@mui/material/Container';
 import TopNavBar from './TopNavBar/TopNavBar';
 import Sidebar from './SideAppDrawer/SideAppDrawer';
 import { useTheme } from '@mui/material/styles';
+import { useAuth0User } from '../../utils/customHooks/useAuth0User';
 
 interface NavigationProps {
     children: ReactNode;
@@ -11,6 +12,7 @@ interface NavigationProps {
 
 const Navigation = ({ children }: NavigationProps) => {
     const theme = useTheme();
+    const { auth0User } = useAuth0User();
 
     return (
         <React.Fragment>
@@ -24,7 +26,9 @@ const Navigation = ({ children }: NavigationProps) => {
                     height: '95vh',
                 }}
             >
-                <Sidebar />
+                {auth0User &&
+                    <Sidebar />
+                }
                 <Box
                     sx={{
                         backgroundColor: theme.palette.background.default,
