@@ -21,7 +21,7 @@ export async function createEstimate(templateData: TemplateData, estimateName: s
     return response.data as EstimateData;
 }
 
-export async function createEstimatePDF(estimate: EstimateData, token: string) {
+export async function createEstimatePDF(estimate: EstimateData) {
     const estimateImgObj = await createImageUrl(estimate.canvasDesign, estimate.fieldValues);
     //Create Body
     const body = {
@@ -30,7 +30,7 @@ export async function createEstimatePDF(estimate: EstimateData, token: string) {
         estimatePDFHeight: getPDFHeight(),
         estimatePDFWidth: getPDFWidth()
     }
-    const response = await axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await axios.post(`${BASE_URL}/pdf`, body, { headers: {} });
     return response.data as EstimateData;
 }
 
@@ -60,8 +60,8 @@ export async function getUsedTemplates(token: string) {
 }
 
 
-export async function getEstimate(id: string, token: string) {
-    const response = await axios.get(`${BASE_URL}/${id}`, { headers: { Authorization: `Bearer ${token}` } });
+export async function getEstimate(id: string) {
+    const response = await axios.get(`${BASE_URL}/${id}`);
     return response.data as EstimateData;
 }
 

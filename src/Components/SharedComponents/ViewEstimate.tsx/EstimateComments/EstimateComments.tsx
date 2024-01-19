@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import List from '@mui/material/List';
 import EstimateComment from './EstimateComment/EstimateComment';
 import { createEstimateComment, getEstimateComments } from '../../../../utils/api/estimate-comments-api';
-import { StyledTextField as TextField } from '../../../SharedComponents/TextField/TextField'
+import { StyledTextField as TextField } from '../../TextField/TextField'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Snackbar from '@mui/material/Snackbar';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { Typography } from '@mui/material';
 import { EstimateCommentData, EstimateData } from '../../../../utils/types/EstimateInterfaces';
-import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import logger from '../../../../logging/logger';
 
 interface EstimateCommentsProps {

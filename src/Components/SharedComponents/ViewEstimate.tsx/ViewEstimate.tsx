@@ -2,26 +2,25 @@ import { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import { useLocation } from 'react-router-dom';
 import useTheme from '@mui/material/styles/useTheme';
-import Loading from '../../SharedComponents/Loading/Loading';
-import EstimateComments from './EstimateComments/EstimateComments';
-import EstimateShareBar from './EstimateShareBar/EstimateShareBar';
+import Loading from '../Loading/Loading';
 import { getEstimate } from '../../../utils/api/estimates-api';
-import { EstimateData } from '../../../utils/types/EstimateInterfaces';
-import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { EstimateData } from '../../../utils/types/EstimateInterfaces'
 import Konva from 'konva';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../utils/page-util';
 import { Stage } from 'react-konva';
 import { AddShapesToLayer } from '../../../utils/canvas-util';
+import EstimateShareBar from './EstimateShareBar/EstimateShareBar';
+import EstimateComments from './EstimateComments/EstimateComments';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 
 const ViewEstimate = () => {
     const { search } = useLocation();
     const theme = useTheme();
-    const { getAccessToken, auth0User } = useAuth0User();
-
     const [estimate, setEstimate] = useState<EstimateData | null>(null);
     const [estimateError, setEstimateError] = useState(false);
     const [loading, setLoading] = useState(true);
     const urlestimateId = new URLSearchParams(search).get('estimateId');
+    const { auth0User } = useAuth0User();
 
     const pageWidth = getWebCanvasWidth();
     const pageHeight = getWebCanvasHeight();
@@ -29,10 +28,8 @@ const ViewEstimate = () => {
     useEffect(() => {
         const fetchEstimate = async (id: string) => {
             if (estimate) return;
-            const token = await getAccessToken();
-            if (!token) return;
             try {
-                const fetchedEstimate = await getEstimate(id, token);
+                const fetchedEstimate = await getEstimate(id);
                 setEstimate(fetchedEstimate);
                 setLoading(false);
             } catch {
@@ -46,7 +43,7 @@ const ViewEstimate = () => {
             setLoading(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [search, auth0User?.sub]);
+    }, [search]);
 
     useEffect(() => {
         const setupCanvas = async () => {
@@ -86,7 +83,7 @@ const ViewEstimate = () => {
             <Typography variant="h3" sx={{ color: theme.palette.text.primary }}>{estimate?.estimateName}</Typography>
             <div style={{ height: 20 }} />
             <EstimateShareBar estimate={estimate} />
-            <div style={{ height: 10 }} />
+            <div style={{ height: 20 }} />
             <div id="containerId"
                 style={{
                     width: pageWidth,
@@ -97,7 +94,7 @@ const ViewEstimate = () => {
             >
                 <Stage width={pageWidth} height={pageHeight} />
             </div>
-            <EstimateComments estimate={estimate} />
+            {auth0User && <EstimateComments estimate={estimate} />}
         </div>
     );
 };

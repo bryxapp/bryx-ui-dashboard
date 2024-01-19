@@ -7,7 +7,6 @@ import NotFound from './Components/SharedComponents/NotFound/NotFound';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
-import ViewEstimate from "./Components/Estimates/ViewEstimate/ViewEstimate";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { themeOptions } from "./theme/themeOptions";
 import NotLoggedIn from "./Components/SharedComponents/NotLoggedIn/NotLoggedIn";
@@ -23,6 +22,7 @@ import { useAuth0User } from "./utils/customHooks/useAuth0User";
 import { getUser } from "./utils/api/user-api";
 import { isEqual } from "lodash";
 import AuthRedirect from "./Components/SharedComponents/NotLoggedIn/AuthRedirect";
+import ViewEstimate from "./Components/SharedComponents/ViewEstimate.tsx/ViewEstimate";
 
 function App() {
   const theme = createTheme(themeOptions);
