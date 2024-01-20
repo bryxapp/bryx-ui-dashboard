@@ -7,6 +7,7 @@ import { createEstimatePDF } from "../../../../utils/api/estimates-api";
 import ShareLinkDialog from "./ShareLinkDialog/ShareLinkDialog";
 import { useState } from "react";
 import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 
 const EstimateButton = styled(Button)`
@@ -33,7 +34,11 @@ const EstimateShareBar = ({ estimate }: EstimateShareBarProps) => {
             setPdfLoading(true);
             try {
                 await createEstimatePDF(estimate).then((res) => {
+                    setTimeout(() => {
+                    }, 3000);
                     setPdfLoading(false);
+                    //wait 2 seconds after api responds
+
                     if (res.estimatePdfUrl) {
                         setPdfUrl(res.estimatePdfUrl);
                         window.open(res.estimatePdfUrl, '_blank');
@@ -55,12 +60,28 @@ const EstimateShareBar = ({ estimate }: EstimateShareBarProps) => {
         <div>
             <Tooltip title="Share Link">
                 <EstimateButton variant="contained" color="primary" onClick={handleOpenShareDialog}>
-                    <LinkIcon />
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        width={30} // Set a fixed width
+                        height={24} // Set a fixed height
+                    >
+                        <LinkIcon />
+                    </Box>
                 </EstimateButton>
             </Tooltip>
             <Tooltip title="Create a PDF">
                 <EstimateButton variant="contained" color="primary" onClick={handlePdfClick}>
-                    {pdfLoading ? <CircularProgress /> : <PDFICON />}
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        width={24} // Set a fixed width
+                        height={24} // Set a fixed height
+                    >
+                        {pdfLoading ? <CircularProgress color="secondary" /> : <PDFICON />}
+                    </Box>
                 </EstimateButton>
             </Tooltip>
             <ShareLinkDialog estimate={estimate} open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} />
