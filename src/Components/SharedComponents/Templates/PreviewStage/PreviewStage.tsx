@@ -53,6 +53,20 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     fill={rectangle.fill}
                     rotation={rectangle.rotation}
                   />)
+              case "RoundedRectangle":
+                const roundedRectangle = shape as RectangleObj;
+                return (
+                  <Rect
+                    key={roundedRectangle.id}
+                    id={roundedRectangle.id}
+                    x={roundedRectangle.x}
+                    y={roundedRectangle.y}
+                    width={roundedRectangle.width}
+                    height={roundedRectangle.height}
+                    fill={roundedRectangle.fill}
+                    rotation={roundedRectangle.rotation}
+                    cornerRadius={roundedRectangle.cornerRadius}
+                  />)
               case "Ellipse":
                 const ellipse = shape as EllipseObj;
                 return (

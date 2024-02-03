@@ -31,7 +31,7 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
                 if (!token || isCancelled) return;
 
                 const response = await getUserImages(token);
-                const results = response.data.userImages;
+                const results = response.userImages;
 
                 const imagePromises = results.map(async (image: any) => {
                     const { width, height } = await getImageDimensions(image.imageBlobUrl);
@@ -42,7 +42,7 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
 
                 if (!isCancelled) {
                     setUserImages(imageData);
-                    setMaxUserImagesReached(response.data.maxUserImagesReached);
+                    setMaxUserImagesReached(response.maxUserImagesReached);
                     setFetchingUserImages(false);
                 }
             } catch (error) {
