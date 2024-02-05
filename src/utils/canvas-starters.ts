@@ -29,8 +29,6 @@ export const CanvasStarters: CanvasStarterData[] = [
                     "fontStyle": "bold",
                     "textDecoration": "",
                     "isDragging": false,
-                    "width": 5,
-                    "height": 5
                 },
                 {
                     "id": "text-field-3eL9",

@@ -106,6 +106,7 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     fontFamily={text.fontFamily}
                     fill={text.fill}
                     rotation={text.rotation}
+                    align={text.align}
                   />)
               case 'Image':
                 const image = shape as ImageObj;

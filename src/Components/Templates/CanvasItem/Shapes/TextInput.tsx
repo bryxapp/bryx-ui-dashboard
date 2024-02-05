@@ -54,6 +54,20 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
     const isParagraph = textInputObj.format === 'paragraph';
     const containerWidth = isParagraph ? textInputObj.fontSize * 15 : textInputObj.fontSize * 10;
     const containerHeight = isParagraph ? textInputObj.fontSize * 4 : textInputObj.fontSize * 2;
+    const fontWidth = textInputObj.displayName.length * 10;
+
+    const getAlignment = () => {
+        switch (textInputObj.align) {
+            case 'left':
+                return 5;
+            case 'right':
+                return (containerWidth - 25) - (fontWidth);
+            case 'center':
+                return (containerWidth / 2) - (fontWidth / 2);
+            default:
+                return 5;
+        }
+    };
 
     return (
         <React.Fragment>
@@ -79,7 +93,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     scaleX={1}
                     scaleY={1}                />
                 <Text
-                    x={5}
+                    x={getAlignment()}
                     y={5}
                     text={`${textInputObj.displayName}`}
                     fontSize={16}

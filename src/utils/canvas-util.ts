@@ -74,7 +74,8 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     fontSize: textInput.fontSize,
                     fontFamily: textInput.fontFamily,
                     fontStyle: textInput.fontStyle,
-                    textDecoration: textInput.textDecoration
+                    textDecoration: textInput.textDecoration,
+                    align: textInput.align
                 });
 
                 const isParagraph = textInput.format === 'paragraph';
@@ -94,7 +95,8 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     rotation: textInput.rotation,
                     fontFamily: textInput.fontFamily,
                     fontStyle: textInput.fontStyle,
-                    textDecoration: textInput.textDecoration
+                    textDecoration: textInput.textDecoration,
+                    align: textInput.align
                 });
                 break;
             case 'TextField':
@@ -108,7 +110,8 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     rotation: textField.rotation,
                     fontFamily: textField.fontFamily,
                     fontStyle: textField.fontStyle,
-                    textDecoration: textField.textDecoration
+                    textDecoration: textField.textDecoration,
+                    align: textField.align
                 });
                 break;
             case 'Image':

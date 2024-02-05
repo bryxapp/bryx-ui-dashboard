@@ -72,6 +72,7 @@ export function createTextInputObj(displayName: string, fontSize: number, fill: 
         fontFamily,
         fontStyle,
         textDecoration,
+        align:"left",
         isDragging: false,
     };
 }
@@ -89,6 +90,7 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
         fontFamily,
         fontStyle,
         textDecoration,
+        align: "left",
         isDragging: false,
     };
 }

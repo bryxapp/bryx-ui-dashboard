@@ -40,6 +40,7 @@ export interface TextObj {
     fontFamily: string;
     fontStyle: string;
     textDecoration: string;
+    align:string;
 }
 
 export interface TextInputObj extends ShapeObj, TextObj {

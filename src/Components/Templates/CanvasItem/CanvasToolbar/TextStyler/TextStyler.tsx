@@ -10,6 +10,7 @@ import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
 import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import InputFormatPicker from './InputFormatPicker';
+import AlignmentPicker from './AlignmentPicker';
 
 interface TextStylerProps {
     isLoading: boolean;
@@ -69,6 +70,7 @@ function TextStyler({ isLoading, canvasDesign, setCanvasDesign }: TextStylerProp
                     <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                 </div>
+                <AlignmentPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             </Menu>
         </>
     );

@@ -82,9 +82,8 @@ const TextField = ({
         whiteSpace: 'pre-wrap',
         width: `${measureWidth(textFieldObj.value, textFieldObj.fontSize, textFieldObj.fontFamily) + 20}px`,
         height: `${measureHeight(textFieldObj.value, textFieldObj.fontSize, textFieldObj.fontFamily) + 20}px`,
+        alignContent: textFieldObj.align,
     };
-
-
 
 
     const onChange = (event: any) => {
@@ -132,6 +131,7 @@ const TextField = ({
                         fontFamily={textFieldObj.fontFamily}
                         fontStyle={textFieldObj.fontStyle}
                         textDecoration={textFieldObj.textDecoration}
+                        align={textFieldObj.align}
                     />
 
                 )}
@@ -145,7 +145,6 @@ const TextField = ({
                             value={textFieldObj.value}
                             autoFocus
                             onFocus={moveCaretToEnd}
-                            
                         />
                     </Html>
                 )}
