@@ -61,3 +61,8 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
 
     setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
 };
+
+// Check if there are differences between the current and the database saved canvas designs
+export const isDesignChanged = (dataBaseCanvasDesign:CanvasDesignData, canvasDesign:CanvasDesignData) => {
+    return JSON.stringify(dataBaseCanvasDesign.Shapes) !== JSON.stringify(canvasDesign.Shapes);
+}

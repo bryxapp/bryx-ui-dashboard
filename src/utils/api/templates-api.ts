@@ -12,7 +12,7 @@ export async function createTemplate(canvasDesign: CanvasDesignData, friendlyNam
         canvasDesign: canvasDesign
     }
     const response = await axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
-    return response.data as TemplateData;
+    return response.data.template as TemplateData;
 }
 
 export async function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
@@ -21,7 +21,7 @@ export async function updateTemplate(templateId: string, canvasDesign: CanvasDes
         canvasDesign: canvasDesign
     };
     const response = await axios.put(`${BASE_URL}/${templateId}`, body, { headers: { Authorization: `Bearer ${token}` } });
-    return response.data as TemplateData;
+    return response.data.template as TemplateData;
 }
 
 export async function getTemplates(token: string) {

@@ -11,6 +11,7 @@ import PublicImagesMenu from './PublicImagesMenu/PublicImagesMenu';
 import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
 import UserImagesMenu from './UserImagesMenu/UserImages';
+import CloseTemplateButton from './CloseButton';
 
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
@@ -18,9 +19,11 @@ interface CanvasToolbarProps {
     color: string;
     setColor: React.SetStateAction<any>;
     friendlyName: string;
+    dataBaseCanvasDesign: any;
+    setDataBaseCanvasDesign: React.SetStateAction<any>;
 }
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendlyName }: CanvasToolbarProps) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendlyName, dataBaseCanvasDesign, setDataBaseCanvasDesign: setdataBaseCanvasDesign }: CanvasToolbarProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
@@ -38,7 +41,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>
-                        <SaveTemplateButton isLoading={isLoading} setIsLoading={setIsLoading} canvasDesign={canvasDesign} friendlyName={friendlyName}/>
+                        <SaveTemplateButton isLoading={isLoading} setIsLoading={setIsLoading} canvasDesign={canvasDesign} dataBaseCanvasDesign={dataBaseCanvasDesign} setdataBaseCanvasDesign={setdataBaseCanvasDesign} friendlyName={friendlyName} />
+                        <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} canvasDesign={canvasDesign} />
                     </div>
                 </Toolbar>
             </AppBar>

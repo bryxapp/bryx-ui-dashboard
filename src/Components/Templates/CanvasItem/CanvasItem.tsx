@@ -21,6 +21,10 @@ const CanvasItem = () => {
         Shapes: [],
         selectedId: null,
     });
+    const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>({
+        Shapes: [],
+        selectedId: null,
+    });
     const [error, setError] = useState(false);
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -33,6 +37,8 @@ const CanvasItem = () => {
                     if (!token) return;
                     const fetchedTemplate = await getTemplate(templateId, token);
                     setCanvasDesign(fetchedTemplate.canvasDesign);
+                    const canvasDesignCopy = JSON.parse(JSON.stringify(fetchedTemplate.canvasDesign));
+                    setdataBaseCanvasDesign(canvasDesignCopy);
                     setFriendlyName(fetchedTemplate.friendlyName);
                     setLoading(false);
                 } catch (error) {
@@ -79,6 +85,8 @@ const CanvasItem = () => {
                     friendlyName={friendlyName}
                     color={color}
                     setColor={setColor}
+                    dataBaseCanvasDesign={dataBaseCanvasDesign}
+                    setDataBaseCanvasDesign={setdataBaseCanvasDesign}
                 />
             </div>
             <Box sx={{ height: '1vh' }} />
