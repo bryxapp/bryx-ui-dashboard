@@ -5,6 +5,7 @@ import logger from '../../../../logging/logger';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../../SharedComponents/ErrorModal/ErrorModal';
 import { isDesignChanged } from '../../../../utils/functions/CanvasFunctions';
+import { Typography } from '@mui/material';
 
 interface SaveTemplateButtonProps {
     isLoading: boolean;
@@ -85,8 +86,21 @@ export default function SaveTemplateButton({
                 color="inherit"
                 onClick={handleSave}
                 disabled={!saveButtonEnabled} // Disable button if design hasn't changed
+                sx={{
+                    padding: '0 10px',
+                    margin: '0 5px',
+                    borderColor: saveButtonEnabled ? 'white' : 'grey', // Change border color based on design change
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    '&:hover': {
+                        borderColor: 'white',
+                        borderWidth: 2,
+                    },
+                }}
             >
-                Save
+                <Typography variant="h6">
+                    Save
+                </Typography>
             </Button>
         </>
     );
