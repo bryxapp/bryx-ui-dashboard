@@ -3,6 +3,7 @@ import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
+import { Typography } from '@mui/material';
 
 interface TextFieldProps {
     textFieldObj: TextFieldObj;
@@ -136,7 +137,18 @@ const TextField = ({
 
                 )}
                 {editing && (
+                    
                     <Html>
+                            <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 100 }}>
+      <input
+        type="color"
+        value={textFieldObj.fill}
+      />
+      <input
+        type="number"
+        value={textFieldObj.fontSize}
+      />
+    </div>
                         <textarea
                             ref={textAreaRef}
                             onChange={onChange}

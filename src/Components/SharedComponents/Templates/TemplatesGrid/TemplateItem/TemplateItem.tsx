@@ -6,16 +6,19 @@ import TemplateDeleteDialog from './TemplateDeleteDialog';
 import TemplateInfoBox from './TemplateInfoBox';
 import { useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
+import TemplateCopyDialog from './TemplateCopyDialog';
 
 interface TemplateItemProps {
   template: TemplateData;
   handleTemplateDelete: any;
+  handleTemplateCopy:any
   baseUrl: string;
   showActions: boolean;
 }
 
-const TemplateItem = ({ template, handleTemplateDelete, baseUrl, showActions }: TemplateItemProps) => {
-  const [open, setOpen] = useState(false);
+const TemplateItem = ({ template, handleTemplateDelete, handleTemplateCopy, baseUrl, showActions }: TemplateItemProps) => {
+  const [openDelete, setOpenDelete] = useState(false);
+  const [openCopy, setOpenCopy] = useState(false);
   const theme = useTheme();
 
   return (
@@ -36,9 +39,10 @@ const TemplateItem = ({ template, handleTemplateDelete, baseUrl, showActions }: 
           <div style={{ height: '1rem' }} />
           <PreviewStage canvasDesign={template.canvasDesign} scale={0.20} />
         </Link>
-        <TemplateInfoBox template={template} setOpen={setOpen} showActions={showActions} />
+        <TemplateInfoBox template={template} setOpenDelete={setOpenDelete} setOpenCopy={setOpenCopy} showActions={showActions} />
       </Paper>
-      <TemplateDeleteDialog template={template} handleTemplateDelete={handleTemplateDelete} open={open} setOpen={setOpen} />
+      <TemplateDeleteDialog template={template} handleTemplateDelete={handleTemplateDelete} open={openDelete} setOpen={setOpenDelete} />
+      <TemplateCopyDialog template={template} handleTemplateCopy={handleTemplateCopy} open={openCopy} setOpen={setOpenCopy} />
     </>
   );
 };

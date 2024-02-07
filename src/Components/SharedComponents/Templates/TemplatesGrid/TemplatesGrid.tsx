@@ -1,7 +1,7 @@
 import React, { useEffect, useState, } from 'react';
 import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
-import { getTemplates, deleteTemplate } from '../../../../utils/api/templates-api';
+import { getTemplates, deleteTemplate, createTemplate } from '../../../../utils/api/templates-api';
 import { Typography } from '@mui/material';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
@@ -21,6 +21,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false);
     const [deleteError, setDeleteError] = useState(false);
+    const [copyError, setCopyError] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
 
     useEffect(() => {
@@ -77,6 +78,30 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
         }
     };
 
+    const handleTemplateCopy = async (templateId: string) => {
+        try {
+            setCopyError(false);
+            const token = await getAccessToken();
+            if (!token) throw new Error('No token found');
+            const template = templates.find(template => template.id === templateId);
+            if (!template) throw new Error('Template not found');
+            await createTemplate(template.canvasDesign, template.friendlyName + ' (copy)', token);
+            const templateData = await getTemplates(token);
+            setTemplates(templateData.templates);
+        } catch (error) {
+            logger.trackException({
+                properties: {
+                    name: "Template Copy Error",
+                    page: "Templates",
+                    description: "Error copying template",
+                    error: error,
+                },
+            });
+            setCopyError(true);
+            console.error('Error copying template:', error);
+        }
+    }
+
     if (!templateRequestCompleted)
         return <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>Loading...</Typography>;
 
@@ -85,12 +110,14 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     return (
         <>
             <ErrorModal error={deleteError} setError={setDeleteError} />
+            <ErrorModal error={copyError} setError={setCopyError} />
             <Grid container spacing={2}>
                 {templates.map(template => (
                     <Grid item xs={12} sm={6} md={4} key={template.id}>
                         <TemplatesListItem
                             template={template}
                             handleTemplateDelete={handleTemplateDelete}
+                            handleTemplateCopy={handleTemplateCopy}
                             baseUrl={baseUrl}
                             showActions={showActions}
                         />
