@@ -5,6 +5,7 @@ import Tooltip from '@mui/material/Tooltip';
 import ColorSelectorIcon from '@mui/icons-material/ColorLens';
 import { ChromePicker } from 'react-color';
 import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useState } from 'react';
 
 interface ColorPickerProps {
     isLoading: boolean;
@@ -16,12 +17,16 @@ interface ColorPickerProps {
 
 
 export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor }: ColorPickerProps) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [tempSelectedId, setTempSelectedId] = useState<string|null>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setTempSelectedId(canvasDesign.selectedId);
+        setCanvasDesign({ ...canvasDesign, selectedId: "ColorPicker" });
         setAnchorEl(event.currentTarget);
     };
     const handleClose = () => {
+        setCanvasDesign({ ...canvasDesign, selectedId: tempSelectedId });
         setAnchorEl(null);
     };
 

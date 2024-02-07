@@ -38,7 +38,7 @@ export const useCanvasKeyboardShortcuts = ({
           break;
         case "v":
           if (event.ctrlKey || event.metaKey) {
-            if (copiedObject) {
+            if (copiedObject && canvasDesign.selectedId !== "ColorPicker") {
               pasteObject(canvasDesign, setCanvasDesign, copiedObject); // Adjust the paste position as needed
             }
           }
