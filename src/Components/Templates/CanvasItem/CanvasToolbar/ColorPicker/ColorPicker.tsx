@@ -79,7 +79,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <ChromePicker color={color} onChange={onColorChange} />
+                <ChromePicker color={color} onChange={onColorChange} disableAlpha={true}/>
             </Menu>
         </>
     );
