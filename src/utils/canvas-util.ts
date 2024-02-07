@@ -25,6 +25,8 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     width: rectangle.width,
                     height: rectangle.height,
                     fill: rectangle.fill,
+                    stroke: rectangle.stroke,
+                    strokeWidth: rectangle.strokeWidth,
                     rotation: rectangle.rotation,
                 });
                 break;
@@ -36,6 +38,8 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     width: roundedRectangle.width,
                     height: roundedRectangle.height,
                     fill: roundedRectangle.fill,
+                    stroke:roundedRectangle.stroke,
+                    strokeWidth: roundedRectangle.strokeWidth,
                     cornerRadius: roundedRectangle.cornerRadius,
                     rotation: roundedRectangle.rotation,
                 });
@@ -48,6 +52,8 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     radiusX: ellipse.radiusX,
                     radiusY: ellipse.radiusY,
                     fill: ellipse.fill,
+                    stroke: ellipse.stroke,
+                    strokeWidth: ellipse.strokeWidth,
                     rotation: ellipse.rotation,
                 });
                 break;

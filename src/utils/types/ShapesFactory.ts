@@ -1,7 +1,7 @@
 import { generateShapeId } from '../shapeid-util';
 import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
 import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from './CanvasInterfaces';
-export function createRectangleObj(width: number, height: number, fill: string): RectangleObj {
+export function createRectangleObj(width: number, height: number, fill: string|undefined, stroke: string|undefined, strokeWidth: number): RectangleObj {
     return {
         id: generateShapeId(),
         type: 'Rectangle',
@@ -11,11 +11,13 @@ export function createRectangleObj(width: number, height: number, fill: string):
         width,
         height,
         fill,
+        stroke, 
+        strokeWidth,
         isDragging: false,
     };
 }
 
-export function createRoundedRectangleObj(width: number, height: number, fill: string, cornerRadius: number): RectangleObj {
+export function createRoundedRectangleObj(width: number, height: number, fill: string|undefined, stroke: string|undefined, strokeWidth: number, cornerRadius: number): RectangleObj {
     return {
         id: generateShapeId(),
         type: 'RoundedRectangle',
@@ -25,12 +27,14 @@ export function createRoundedRectangleObj(width: number, height: number, fill: s
         width,
         height,
         fill,
+        stroke,
+        strokeWidth,
         cornerRadius,
         isDragging: false,
     };
 }
 
-export function createEllipseObj(radiusX: number, radiusY:number, fill: string): EllipseObj {
+export function createEllipseObj(radiusX: number, radiusY:number, fill: string|undefined, stroke: string|undefined, strokeWidth: number): EllipseObj {
     return {
         id: generateShapeId(),
         type: 'Ellipse',
@@ -40,6 +44,8 @@ export function createEllipseObj(radiusX: number, radiusY:number, fill: string):
         radiusX,
         radiusY,
         fill,
+        stroke,
+        strokeWidth,
         isDragging: false,
     };
 }

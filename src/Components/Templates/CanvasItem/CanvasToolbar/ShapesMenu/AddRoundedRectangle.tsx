@@ -7,7 +7,7 @@ import { createRoundedRectangleObj } from "../../../../../utils/types/ShapesFact
 const AddRoundedRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
     const handleAddRoundedRectangle = () => {
         setAnchorEl(null);
-        const newRectangle: RectangleObj = createRoundedRectangleObj(300, 200, '#00fff0',20);
+        const newRectangle: RectangleObj = createRoundedRectangleObj(300, 200, '#00fff0',undefined, 1, 20);
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newRectangle]

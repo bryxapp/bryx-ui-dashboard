@@ -12,18 +12,16 @@ export interface ShapeObj {
     isDragging: boolean;
 }
 
-export interface RectangleObj extends ShapeObj {
+export interface RectangleObj extends ShapeObj, SolidShapeObj {
     width: number;
     height: number;
-    fill: string;
     cornerRadius?: number;
     type: 'Rectangle'|'RoundedRectangle';
 }
 
-export interface EllipseObj extends ShapeObj {
+export interface EllipseObj extends ShapeObj, SolidShapeObj {
     radiusX: number;
     radiusY: number;
-    fill: string;
     type: 'Ellipse';
 }
 
@@ -61,6 +59,17 @@ export interface ImageObj extends ShapeObj {
     type: 'Image';
 }
 
+export interface SolidShapeObj {
+    fill: string | undefined;
+    stroke: string | undefined;
+    strokeWidth: number;
+}
+
+export interface shapeColor {
+    fill: string | undefined;
+    stroke: string | undefined;
+}
+
 export interface ToolBarProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
@@ -70,6 +79,7 @@ export interface CanvasStarterData {
     name: string;
     canvasDesign: CanvasDesignData;
 }
+
 export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';
 
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
