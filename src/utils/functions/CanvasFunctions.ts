@@ -1,4 +1,4 @@
-import { CanvasDesignData, ShapeObj } from '../types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../types/CanvasInterfaces';
 import { generateShapeId } from '../shapeid-util';
 
 export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
@@ -62,7 +62,37 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
     setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
 };
 
+export const toggleTextStyle = (
+    canvasDesign: CanvasDesignData,
+    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    style: 'bold' | 'italic' | 'underline' | 'line-through'
+) => {
+    const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
+
+    const updatedShapes = canvasDesign.Shapes.map((shape) => {
+        if (shape.id === canvasDesign.selectedId && (shape.type === 'TextInput' || shape.type === 'TextField')) {
+            const textShape = shape as TextInputObj | TextFieldObj;
+            const currentStyle = textShape[styleProperty] || '';
+
+            const isStyleApplied = currentStyle.includes(style);
+            textShape[styleProperty] = isStyleApplied
+                ? currentStyle.replace(style, '').trim()
+                : `${currentStyle} ${style}`.trim();
+
+            return { ...textShape, [styleProperty]: textShape[styleProperty] };
+        }
+        return shape;
+    });
+
+    setCanvasDesign({
+        ...canvasDesign,
+        Shapes: updatedShapes,
+    });
+};
+
+
+
 // Check if there are differences between the current and the database saved canvas designs
-export const isDesignChanged = (dataBaseCanvasDesign:CanvasDesignData, canvasDesign:CanvasDesignData) => {
+export const isDesignChanged = (dataBaseCanvasDesign: CanvasDesignData, canvasDesign: CanvasDesignData) => {
     return JSON.stringify(dataBaseCanvasDesign.Shapes) !== JSON.stringify(canvasDesign.Shapes);
 }

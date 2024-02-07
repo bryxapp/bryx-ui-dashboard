@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { deleteShape, moveShape, selectShape, pasteObject } from "../../../utils/functions/CanvasFunctions";
+import { deleteShape, moveShape, selectShape, pasteObject, toggleTextStyle } from "../../../utils/functions/CanvasFunctions";
 import { ShapeObj } from "../../../utils/types/CanvasInterfaces";
 
 export const useCanvasKeyboardShortcuts = ({
@@ -41,6 +41,21 @@ export const useCanvasKeyboardShortcuts = ({
             if (copiedObject) {
               pasteObject(canvasDesign, setCanvasDesign, copiedObject); // Adjust the paste position as needed
             }
+          }
+          break;
+        case "b":
+          if (event.ctrlKey || event.metaKey) {
+            toggleTextStyle(canvasDesign, setCanvasDesign, "bold");
+          }
+          break;
+        case "i":
+          if (event.ctrlKey || event.metaKey) {
+            toggleTextStyle(canvasDesign, setCanvasDesign, "italic");
+          }
+          break;
+        case "u":
+          if (event.ctrlKey || event.metaKey) {
+            toggleTextStyle(canvasDesign, setCanvasDesign, "underline");
           }
           break;
         default:

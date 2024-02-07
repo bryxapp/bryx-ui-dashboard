@@ -4,6 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
 import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { toggleTextStyle } from '../../../../../utils/functions/CanvasFunctions';
 
 interface FontStylePickerProps {
     canvasDesign: CanvasDesignData;
@@ -11,31 +12,7 @@ interface FontStylePickerProps {
 }
 
 const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanvasDesign }) => {
-    const handleFontStyleChange = (event: React.MouseEvent<HTMLElement>, newFontStyle: string[]) => {
-        const fontStyle = newFontStyle.includes('italic') && newFontStyle.includes('bold')
-            ? 'bold italic'
-            : newFontStyle.includes('italic')
-                ? 'italic'
-                : newFontStyle.includes('bold')
-                    ? 'bold'
-                    : 'normal';
-
-        const updatedCanvasDesign = {
-            ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === canvasDesign.selectedId) {
-                    return {
-                        ...shape,
-                        fontStyle: fontStyle,
-                    };
-                }
-                return shape;
-            }),
-        };
-        setCanvasDesign(updatedCanvasDesign);
-    };
     const selectedTextItemFontStyle = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.fontStyle;
-
     const selectedFontStyles = [];
     if (selectedTextItemFontStyle?.includes('italic')) {
         selectedFontStyles.push('italic');
@@ -47,14 +24,15 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanv
     return (
         <ToggleButtonGroup
             value={selectedFontStyles}
-            onChange={handleFontStyleChange}
             aria-label="font style"
             style={{ marginBottom: '1rem', margin: 10 }}
         >
-            <ToggleButton key={'italic'} value={'italic'}>
+            <ToggleButton key={'italic'} value={'italic'}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, 'italic')}>
                 <ItalicIcon />
             </ToggleButton>
-            <ToggleButton key={'bold'} value={'bold'}>
+            <ToggleButton key={'bold'} value={'bold'}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, 'bold')}>
                 <BoldIcon />
             </ToggleButton>
         </ToggleButtonGroup>

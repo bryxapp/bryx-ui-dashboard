@@ -4,6 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
 import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { toggleTextStyle } from '../../../../../utils/functions/CanvasFunctions';
 
 interface FontDecorationPickerProps {
     canvasDesign: CanvasDesignData;
@@ -11,30 +12,6 @@ interface FontDecorationPickerProps {
 }
 
 const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesign, setCanvasDesign }) => {
-    const handleFontDecorationChange = (event: React.MouseEvent<HTMLElement>, newFontDecoration: string[]) => {
-        const fontDecoration = newFontDecoration.includes('line-through') && newFontDecoration.includes('underline')
-            ? 'underline line-through'
-            : newFontDecoration.includes('line-through')
-                ? 'line-through'
-                : newFontDecoration.includes('underline')
-                    ? 'underline'
-                    : '';
-
-        const updatedCanvasDesign = {
-            ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === canvasDesign.selectedId) {
-                    return {
-                        ...shape,
-                        textDecoration: fontDecoration,
-                    };
-                }
-                return shape;
-            }),
-        };
-        setCanvasDesign(updatedCanvasDesign);
-    };
-
     const selectedTextItemFontDecoration = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.textDecoration;
 
     const selectedFontDecorations = [];
@@ -48,14 +25,19 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesig
     return (
         <ToggleButtonGroup
             value={selectedFontDecorations}
-            onChange={handleFontDecorationChange}
             aria-label="font decoration"
             style={{ marginBottom: '1rem', margin: 10 }}
         >
-            <ToggleButton key={'line-through'} value={'line-through'}>
+            <ToggleButton
+                key={'line-through'}
+                value={'line-through'}
+                onClick={() => { toggleTextStyle(canvasDesign, setCanvasDesign, 'line-through') }}
+            >
                 <StrikethroughIcon />
             </ToggleButton>
-            <ToggleButton key={'underline'} value={'underline'}>
+            <ToggleButton key={'underline'} value={'underline'}
+                onClick={() => { toggleTextStyle(canvasDesign, setCanvasDesign, 'underline') }}
+            >
                 <UnderlinedIcon />
             </ToggleButton>
         </ToggleButtonGroup>
