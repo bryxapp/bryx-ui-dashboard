@@ -8,7 +8,7 @@ import SaveTemplateButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
 import PublicImagesMenu from './PublicImagesMenu/PublicImagesMenu';
-import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
 import UserImagesMenu from './UserImagesMenu/UserImages';
 import CloseTemplateButton from './CloseButton';
@@ -16,7 +16,7 @@ import CloseTemplateButton from './CloseButton';
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    color: string;
+    color: ShapeColor;
     setColor: React.SetStateAction<any>;
     friendlyName: string;
     dataBaseCanvasDesign: any;

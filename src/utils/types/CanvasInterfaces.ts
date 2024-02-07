@@ -65,7 +65,7 @@ export interface SolidShapeObj {
     strokeWidth: number;
 }
 
-export interface shapeColor {
+export interface ShapeColor {
     fill: string | undefined;
     stroke: string | undefined;
 }

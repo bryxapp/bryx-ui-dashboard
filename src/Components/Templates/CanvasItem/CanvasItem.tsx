@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, ShapeColor } from "../../../utils/types/CanvasInterfaces";
 import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
@@ -16,7 +16,8 @@ const CanvasItem = () => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");
-    const [color, setColor] = useState('#000000');
+    const [color, setColor] = useState<ShapeColor>({ fill:'#000000', stroke:'#000000'}
+        );
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
         Shapes: [],
         selectedId: null,

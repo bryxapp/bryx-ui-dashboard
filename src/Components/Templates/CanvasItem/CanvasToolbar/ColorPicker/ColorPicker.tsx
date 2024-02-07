@@ -4,14 +4,14 @@ import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import ColorSelectorIcon from '@mui/icons-material/ColorLens';
 import { ChromePicker } from 'react-color';
-import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeColor, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useState } from 'react';
 
 interface ColorPickerProps {
     isLoading: boolean;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    color: string;
+    color: ShapeColor;
     setColor: React.SetStateAction<any>;
 }
 
@@ -30,26 +30,24 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         setAnchorEl(null);
     };
 
-    const onColorChange = (color: any) => {
-        setColor(color.hex);
+    const onColorChange = (colorResult: { hex: string }) => {
+        // Update only the fill property of the color state
+        setColor((prevColor: any) => ({ ...prevColor, fill: colorResult.hex }));
+        
+        // Create a new updated canvas design object
         const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-
-        canvasDesign.Shapes.forEach((shape: ShapeObj) => {
+        updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === canvasDesign.selectedId || shape.id === tempSelectedId) {
-                updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-                    if (shape.id !== canvasDesign.selectedId && shape.id !== tempSelectedId) {
-                        return shape;
-                    }
-                    const updatedShape = {
-                        ...shape,
-                        fill: color.hex,
-                    };
-                    return updatedShape;
-                });
+                // Update only the fill property of the shape, keep other properties unchanged
+                return { ...shape, fill: colorResult.hex };
             }
+            return shape;
         });
+        
+        // Update the canvas design state
         setCanvasDesign(updatedCanvasDesign);
     };
+    
 
     const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type.includes('Image')
 
@@ -79,7 +77,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <ChromePicker color={color} onChange={onColorChange} disableAlpha={true} />
+                <ChromePicker color={color.fill} onChange={onColorChange} disableAlpha={true} />
             </Menu>
         </>
     );

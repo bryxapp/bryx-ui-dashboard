@@ -7,7 +7,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import styled from '@emotion/styled';
 import { getWebCanvasHeight, getWebCanvasWidth } from '../../../../utils/page-util';
-import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
+import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import ImageShape from '../Shapes/ImageShape';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
@@ -50,7 +50,7 @@ type SnappingEdges = {
 interface CanvasStageProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    color: string;
+    color: ShapeColor;
     setColor: React.SetStateAction<any>;
 }
 
@@ -449,7 +449,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             handleDragEnd={handleDragEnd}
                                             isSelected={rectangle.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                setColor(rectangle.fill)
+                                                setColor({ fill: rectangle.fill, stroke: rectangle.stroke })
                                                 selectShape(rectangle.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
@@ -466,7 +466,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             handleDragEnd={handleDragEnd}
                                             isSelected={roundedRectangle.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                setColor(roundedRectangle.fill)
+                                                setColor({ fill: roundedRectangle.fill, stroke: roundedRectangle.stroke })
                                                 selectShape(roundedRectangle.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
@@ -483,7 +483,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             handleDragEnd={handleDragEnd}
                                             isSelected={ellipse.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                setColor(ellipse.fill)
+                                                setColor({ fill: ellipse.fill, stroke: ellipse.stroke })
                                                 selectShape(ellipse.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
@@ -500,7 +500,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                                             handleDragEnd={handleDragEnd}
                                             isSelected={line.id === canvasDesign.selectedId}
                                             onSelect={() => {
-                                                setColor(line.stroke)
+                                                setColor({ fill: line.stroke, stroke: line.stroke })
                                                 selectShape(line.id, canvasDesign, setCanvasDesign);
                                             }}
                                             onTransformEnd={onTransformEnd}
