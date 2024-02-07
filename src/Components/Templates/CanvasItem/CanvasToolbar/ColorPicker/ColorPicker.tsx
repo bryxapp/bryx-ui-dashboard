@@ -18,7 +18,7 @@ interface ColorPickerProps {
 
 export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor }: ColorPickerProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [tempSelectedId, setTempSelectedId] = useState<string|null>(null);
+    const [tempSelectedId, setTempSelectedId] = useState<string | null>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setTempSelectedId(canvasDesign.selectedId);
@@ -30,14 +30,14 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         setAnchorEl(null);
     };
 
-    const onColorChange = (color:any) => {
+    const onColorChange = (color: any) => {
         setColor(color.hex);
         const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
 
         canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-            if (shape.id === canvasDesign.selectedId) {
+            if (shape.id === canvasDesign.selectedId || shape.id === tempSelectedId) {
                 updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-                    if (shape.id !== canvasDesign.selectedId) {
+                    if (shape.id !== canvasDesign.selectedId && shape.id !== tempSelectedId) {
                         return shape;
                     }
                     const updatedShape = {
@@ -79,7 +79,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <ChromePicker color={color} onChange={onColorChange} disableAlpha={true}/>
+                <ChromePicker color={color} onChange={onColorChange} disableAlpha={true} />
             </Menu>
         </>
     );

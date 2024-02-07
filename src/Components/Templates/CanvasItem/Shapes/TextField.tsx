@@ -3,7 +3,6 @@ import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { Typography } from '@mui/material';
 
 interface TextFieldProps {
     textFieldObj: TextFieldObj;
