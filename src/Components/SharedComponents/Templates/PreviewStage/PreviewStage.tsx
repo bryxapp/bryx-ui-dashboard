@@ -51,6 +51,8 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     width={rectangle.width}
                     height={rectangle.height}
                     fill={rectangle.fill}
+                    stroke={rectangle.stroke}
+                    strokeWidth={rectangle.strokeWidth}
                     rotation={rectangle.rotation}
                   />)
               case "RoundedRectangle":
@@ -64,6 +66,8 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     width={roundedRectangle.width}
                     height={roundedRectangle.height}
                     fill={roundedRectangle.fill}
+                    stroke={roundedRectangle.stroke}
+                    strokeWidth={roundedRectangle.strokeWidth}
                     rotation={roundedRectangle.rotation}
                     cornerRadius={roundedRectangle.cornerRadius}
                   />)
@@ -78,6 +82,8 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     radiusX={ellipse.radiusX}
                     radiusY={ellipse.radiusY}
                     fill={ellipse.fill}
+                    stroke={ellipse.stroke}
+                    strokeWidth={ellipse.strokeWidth}
                     rotation={ellipse.rotation}
                   />)
               case "Line":

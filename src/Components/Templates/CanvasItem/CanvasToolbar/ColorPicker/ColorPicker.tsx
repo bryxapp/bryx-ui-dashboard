@@ -1,11 +1,14 @@
 import * as React from 'react';
+import { useState } from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import ColorSelectorIcon from '@mui/icons-material/ColorLens';
 import { ChromePicker } from 'react-color';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { CanvasDesignData, ShapeColor, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
-import { useState } from 'react';
+import { Box, Button, Slider } from '@mui/material';
 
 interface ColorPickerProps {
     isLoading: boolean;
@@ -15,41 +18,64 @@ interface ColorPickerProps {
     setColor: React.SetStateAction<any>;
 }
 
-
 export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, color, setColor }: ColorPickerProps) {
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const [tempSelectedId, setTempSelectedId] = useState<string | null>(null);
+    const [colorChangeMode, setColorChangeMode] = useState<'fill' | 'stroke'>('fill');
+    const [strokeWidth, setStrokeWidth] = useState<number>(1);
     const open = Boolean(anchorEl);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setTempSelectedId(canvasDesign.selectedId);
         setCanvasDesign({ ...canvasDesign, selectedId: "ColorPicker" });
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setCanvasDesign({ ...canvasDesign, selectedId: tempSelectedId });
         setAnchorEl(null);
     };
 
-    const onColorChange = (colorResult: { hex: string }) => {
-        // Update only the fill property of the color state
-        setColor((prevColor: any) => ({ ...prevColor, fill: colorResult.hex }));
-        
-        // Create a new updated canvas design object
+    const handleModeChange = (_: React.MouseEvent<HTMLElement>, newMode: 'fill' | 'stroke') => {
+        if (newMode !== null) {
+            setColorChangeMode(newMode);
+        }
+    };
+
+    const onColorChange = (colorResult: { hex: string | undefined }) => {
+        setColor((prevColor: any) => ({ ...prevColor, [colorChangeMode]: colorResult.hex }));
+
         const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
         updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === canvasDesign.selectedId || shape.id === tempSelectedId) {
-                // Update only the fill property of the shape, keep other properties unchanged
-                return { ...shape, fill: colorResult.hex };
+                return { ...shape, [colorChangeMode]: colorResult.hex };
             }
             return shape;
         });
-        
-        // Update the canvas design state
+        console.log(updatedCanvasDesign)
         setCanvasDesign(updatedCanvasDesign);
     };
-    
 
-    const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type.includes('Image')
+    const handleStrokeWidthChange = (event: Event, newValue: number | number[]) => {
+        const newWidth = Array.isArray(newValue) ? newValue[0] : newValue;
+        setStrokeWidth(newWidth);
+
+        // Update the stroke width of the selected shape immediately
+        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+        updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+            if (shape.id === canvasDesign.selectedId || shape.id === tempSelectedId) {
+                return { ...shape, strokeWidth: newWidth };
+            }
+            return shape;
+        });
+
+        setCanvasDesign(updatedCanvasDesign);
+    };
+
+    const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId)?.type.includes('Image')
+    const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId);
+    const isRectOrEllipse = selectedShape?.type === 'Rectangle' || selectedShape?.type === 'Ellipse' || selectedShape?.type === 'RoundedRectangle';
+    const showColorModeToggle = !isLoading && selectedShape && isRectOrEllipse;
 
     return (
         <>
@@ -77,7 +103,45 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <ChromePicker color={color.fill} onChange={onColorChange} disableAlpha={true} />
+                {showColorModeToggle && (
+                    <Box textAlign="center" my={2}>
+                        <ToggleButtonGroup
+                            color="primary"
+                            value={colorChangeMode}
+                            exclusive
+                            onChange={handleModeChange}
+                            aria-label="color change mode"
+                        >
+                            <ToggleButton value="fill">Fill</ToggleButton>
+                            <ToggleButton value="stroke">Stroke</ToggleButton>
+                        </ToggleButtonGroup>
+                    </Box>)}
+                <ChromePicker
+                    color={colorChangeMode === 'fill' ? color.fill : color.stroke}
+                    onChange={onColorChange}
+                    disableAlpha={false}
+                />
+                {colorChangeMode === 'stroke' && (
+                    <Box textAlign="center">
+                        {/* stroke width slider */}
+                        <Slider
+                            style={{ width: "80%" }}
+                            aria-label="Stroke Width"
+                            value={strokeWidth}
+                            onChange={handleStrokeWidthChange}
+                            min={1}
+                            max={20}
+                            valueLabelDisplay="auto"
+                        />
+                    </Box>)}
+                <Box textAlign="center">
+                    <Button
+                        variant="contained"
+                        style={{ margin: "10px 0 0 0" }}
+                        onClick={() => onColorChange({ hex: undefined })}>
+                        Remove {colorChangeMode}
+                    </Button>
+                </Box>
             </Menu>
         </>
     );
