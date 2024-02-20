@@ -7,11 +7,10 @@ import DeleteButton from './DeleteButton';
 import SaveTemplateButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
 import TextStyler from './TextStyler/TextStyler'
-import PublicImagesMenu from './PublicImagesMenu/PublicImagesMenu';
 import { CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
-import UserImagesMenu from './UserImagesMenu/UserImages';
 import CloseTemplateButton from './CloseButton';
+import ImagesMenu from './ImagesMenu/ImagesMenu';
 
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
@@ -33,10 +32,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <ShapesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <PublicImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <UserImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        <ImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} />
-                        <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <LayerManager isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
@@ -46,6 +43,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                     </div>
                 </Toolbar>
             </AppBar>
+            <TextStyler canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </>
     );
 }

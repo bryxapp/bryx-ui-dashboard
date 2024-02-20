@@ -1,10 +1,10 @@
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
-import logger from "../../../../../logging/logger";
-import { uploadImage, getUserImages, getImageDimensions } from "../../../../../utils/api/user-images-api";
+import logger from "../../../../../../logging/logger";
+import { uploadImage, getUserImages, getImageDimensions } from "../../../../../../utils/api/user-images-api";
 import { useCallback, useState } from "react";
-import { useAuth0User } from "../../../../../utils/customHooks/useAuth0User";
-import ErrorModal from "../../../../SharedComponents/ErrorModal/ErrorModal";
+import { useAuth0User } from "../../../../../../utils/customHooks/useAuth0User";
+import ErrorModal from "../../../../../SharedComponents/ErrorModal/ErrorModal";
 
 interface NewUserImageButtonProps {
     maxUserImagesReached: boolean;

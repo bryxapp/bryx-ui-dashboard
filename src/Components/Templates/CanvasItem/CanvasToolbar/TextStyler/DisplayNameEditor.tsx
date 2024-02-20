@@ -36,7 +36,7 @@ const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCa
 
     return (
         <>
-            <Typography variant="body2" sx={{ paddingLeft: 2, paddingTop: 1 }} >
+            <Typography variant="body1" >
                 Input Name
             </Typography>
             <TextField
@@ -44,7 +44,8 @@ const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCa
                 value={selectedTextInputDisplayName}
                 onChange={(event) => handleDisplayNameChange(event)}
                 variant="outlined"
-                style={{ marginBottom: '1rem', margin: 10 }}
+                style={{ marginBottom: '1rem', margin: 10, minWidth: '7rem' }}
+                size='small'
             />
         </>
     );

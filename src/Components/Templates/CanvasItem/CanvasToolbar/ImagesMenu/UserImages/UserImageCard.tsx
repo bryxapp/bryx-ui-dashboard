@@ -4,11 +4,11 @@ import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia';
 import DeleteIcon from '@mui/icons-material/Clear';
-import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInterfaces';
-import { createImageObj } from '../../../../../utils/types/ShapesFactory';
-import { deleteImage } from '../../../../../utils/api/user-images-api';
+import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
+import { deleteImage } from '../../../../../../utils/api/user-images-api';
 import Box from '@mui/material/Box';
-import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
+import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
 
 interface UserImageProps {
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;

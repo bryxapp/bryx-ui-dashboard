@@ -1,25 +1,20 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState, useRef } from 'react';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
-import Tooltip from '@mui/material/Tooltip';
-import { CanvasDesignData, ImageObj } from '../../../../../utils/types/CanvasInterfaces';
-import { searchUnsplashImages } from '../../../../../utils/api/unsplash-images-api';
+import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { searchUnsplashImages } from '../../../../../../utils/api/unsplash-images-api';
 import TextField from '@mui/material/TextField';
 import { Typography } from '@mui/material';
-import { createImageObj } from '../../../../../utils/types/ShapesFactory';
-import logger from '../../../../../logging/logger';
+import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
+import logger from '../../../../../../logging/logger';
 import PublicImagesGrid from './PublicImagesGrid/PublicImagesGrid';
 
 interface PublicImagesMenuProps {
-    isLoading: boolean;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
+    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 
-export default function PublicImagesMenu({ isLoading, canvasDesign, setCanvasDesign }: PublicImagesMenuProps) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+export default function PublicImages({ canvasDesign, setCanvasDesign, setAnchorEl }: PublicImagesMenuProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [unsplashImages, setUnsplashImages] = useState<Array<{ url: string; width: number; height: number; }>>([]);
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -80,50 +75,24 @@ export default function PublicImagesMenu({ isLoading, canvasDesign, setCanvasDes
     };
 
     return (
-        <>
-            <Tooltip title="Add an image from our library" placement="bottom">
-                <IconButton
-                    id="basic-button"
-                    aria-haspopup="true"
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}
-                    color="inherit"
-                    disabled={isLoading}
-                >
-                    <AddImageIcon />
-                </IconButton>
-            </Tooltip>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
-                PaperProps={{
-                    style: {
-                        maxHeight: '100vh',
-                        width: '600px',
-                        overflow: 'auto',
-                    },
-                }}
-            >
-                <div style={{ 'margin': '1vh' }}>
-                    <TextField
-                        label="Search Images"
-                        variant="outlined"
-                        size="small"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <Typography variant="body2">
-                        Powered by Unsplash
-                    </Typography>
-                    <PublicImagesGrid unsplashImages={unsplashImages} handleImageClick={handleImageClick} error={error} />
-                </div>
-            </Menu>
-        </>
+        <div style={{ 'margin': '1vh' }}>
+            <Typography variant="h6">
+                Search our images
+            </Typography>
+            <Typography variant="body2">
+                Powered by Unsplash
+            </Typography>
+            <TextField
+                label="Search Images"
+                variant="outlined"
+                size="small"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                fullWidth
+                margin="normal"
+            />
+
+            <PublicImagesGrid unsplashImages={unsplashImages} handleImageClick={handleImageClick} error={error} />
+        </div>
     );
 }

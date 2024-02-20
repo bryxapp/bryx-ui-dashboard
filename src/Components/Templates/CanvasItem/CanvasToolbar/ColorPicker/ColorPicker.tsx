@@ -75,6 +75,7 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
     const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId)?.type.includes('Image')
     const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId);
     const isRectOrEllipse = selectedShape?.type === 'Rectangle' || selectedShape?.type === 'Ellipse' || selectedShape?.type === 'RoundedRectangle';
+    const isTextObjectSelected = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId)?.type.includes('Text');
     const showColorModeToggle = !isLoading && selectedShape && isRectOrEllipse;
 
     return (
@@ -134,14 +135,16 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
                             valueLabelDisplay="auto"
                         />
                     </Box>)}
-                <Box textAlign="center">
-                    <Button
-                        variant="contained"
-                        style={{ margin: "10px 0 0 0" }}
-                        onClick={() => onColorChange({ hex: undefined })}>
-                        Remove {colorChangeMode}
-                    </Button>
-                </Box>
+                {!isTextObjectSelected && (
+                    <Box textAlign="center">
+                        <Button
+                            variant="contained"
+                            style={{ margin: "10px 0 0 0" }}
+                            onClick={() => onColorChange({ hex: undefined })}>
+                            Remove {colorChangeMode}
+                        </Button>
+                    </Box>
+                )}
             </Menu>
         </>
     );

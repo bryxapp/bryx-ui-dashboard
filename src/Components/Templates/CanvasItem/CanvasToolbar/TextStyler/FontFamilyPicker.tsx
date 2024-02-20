@@ -48,14 +48,14 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: Font
 
     return (
         <>
-            <Typography variant="body2" sx={{ paddingLeft: 2, paddingTop: 1 }}>
+            <Typography variant="body1">
                 Font
             </Typography>
             <Select
                 value={selectedTextItemFontFamily || ''}
                 onChange={handleFontFamilyChange}
                 variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '10rem', margin: 10 }}
+                style={{ marginBottom: '1rem', minWidth: '7rem', margin: 10 }}
                 MenuProps={{
                     PaperProps: {
                         style: {
@@ -63,6 +63,7 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: Font
                         },
                     },
                 }}
+                size='small'
             >
                 {FONTS.map((fontFamily) => (
                     <MenuItem key={fontFamily} value={fontFamily} style={{ fontFamily: fontFamily }}>

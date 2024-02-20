@@ -15,7 +15,7 @@ export default function FontSizePicker({ canvasDesign, setCanvasDesign }: FontSi
     const handleFontSizeChange = (event: any) => {
         const updatedCanvasDesign = {
             ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((shape:ShapeObj) => {
+            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
                 if (shape.id === canvasDesign.selectedId) {
                     return {
                         ...shape,
@@ -32,14 +32,15 @@ export default function FontSizePicker({ canvasDesign, setCanvasDesign }: FontSi
 
     return (
         <>
-            <Typography variant="body2" sx={{ paddingLeft: 2, paddingTop: 1 }}>
+            <Typography variant="body1">
                 Font Size
             </Typography>
             <Select
                 value={selectedTextItemFontSize || ''}
                 onChange={handleFontSizeChange}
                 variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '10rem', margin: 10 }}
+                style={{ marginBottom: '1rem', minWidth: '4.5rem', margin: 10 }}
+                size='small'
             >
                 {FONT_SIZES.map((fontSize) => (
                     <MenuItem key={fontSize} value={fontSize}>

@@ -25,7 +25,7 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
 
     return (
         <>
-            <Tooltip title="Expand Shape Menu" placement="bottom">
+            <Tooltip title="Add new text item" placement="bottom">
                 <span>
                     <IconButton
                         id="basic-button"

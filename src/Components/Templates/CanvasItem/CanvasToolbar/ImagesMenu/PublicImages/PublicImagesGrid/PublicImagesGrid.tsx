@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import CardActionArea from '@mui/material/CardActionArea';
-import ErrorMessage from '../../../../../SharedComponents/ErrorMessage/ErrorMessage';
+import ErrorMessage from '../../../../../../SharedComponents/ErrorMessage/ErrorMessage';
 
 interface PublicImagesGridProps {
     unsplashImages: Array<{ url: string; width: number; height: number; }>;

@@ -39,14 +39,15 @@ const InputFormatPicker = ({ canvasDesign, setCanvasDesign }: InputFormatPickerP
 
     return (
         <>
-            <Typography variant="body2" sx={{ paddingLeft: 2, paddingTop: 1 }}>
+            <Typography variant="body1">
                 Format
             </Typography>
             <Select
                 value={selectedTextInputFormat}
                 onChange={handleFormatPickerChange}
                 variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '10rem', margin: 10 }}
+                style={{ marginBottom: '1rem', minWidth: '7rem', margin: 10 }}
+                size='small'
             >
                 {formats.map((format) => (
                     <MenuItem key={format} value={format}>

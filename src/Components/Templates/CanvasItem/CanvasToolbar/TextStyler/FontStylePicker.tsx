@@ -26,6 +26,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanv
             value={selectedFontStyles}
             aria-label="font style"
             style={{ marginBottom: '1rem', margin: 10 }}
+            size = "small"
         >
             <ToggleButton key={'italic'} value={'italic'}
                 onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, 'italic')}>

@@ -27,7 +27,7 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
 
     return (
         <>
-            <Tooltip title="Expand Shape Menu" placement="bottom">
+            <Tooltip title="Add new shape" placement="bottom">
                 <IconButton
                     id="basic-button"
                     aria-controls={open ? 'basic-menu' : undefined}

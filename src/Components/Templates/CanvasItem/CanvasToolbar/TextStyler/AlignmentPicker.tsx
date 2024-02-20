@@ -40,6 +40,7 @@ const AlignmentPicker: React.FC<AlignmentPickerProps> = ({ canvasDesign, setCanv
             onChange={handleAlignmentChange}
             aria-label="text alignment"
             style={{ marginBottom: '1rem', margin: 10 }}
+            size="small"
         >
             <ToggleButton key={'left'} value={'left'}>
                 <AlignLeftIcon />

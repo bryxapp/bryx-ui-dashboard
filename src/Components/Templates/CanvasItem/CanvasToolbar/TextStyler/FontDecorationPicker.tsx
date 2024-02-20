@@ -27,6 +27,7 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesig
             value={selectedFontDecorations}
             aria-label="font decoration"
             style={{ marginBottom: '1rem', margin: 10 }}
+            size='small'
         >
             <ToggleButton
                 key={'line-through'}
