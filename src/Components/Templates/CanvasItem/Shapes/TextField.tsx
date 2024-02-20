@@ -69,8 +69,6 @@ const TextField = ({
         return newLines * fontSize;
     };
 
-
-
     const style: React.CSSProperties = {
         background: 'none',
         resize: 'none',
@@ -135,19 +133,8 @@ const TextField = ({
                     />
 
                 )}
-                {editing && (
-                    
+                {editing && (       
                     <Html>
-                            <div style={{ position: 'absolute', top: '10px', left: '10px', zIndex: 100 }}>
-      <input
-        type="color"
-        value={textFieldObj.fill}
-      />
-      <input
-        type="number"
-        value={textFieldObj.fontSize}
-      />
-    </div>
                         <textarea
                             ref={textAreaRef}
                             onChange={onChange}

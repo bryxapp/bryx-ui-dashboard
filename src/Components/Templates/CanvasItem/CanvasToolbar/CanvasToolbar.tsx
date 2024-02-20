@@ -6,7 +6,7 @@ import TextMenu from './TextMenu/TextMenu';
 import DeleteButton from './DeleteButton';
 import SaveTemplateButton from './SaveButton';
 import ColorPicker from './ColorPicker/ColorPicker'
-import TextStyler from './TextStyler/TextStyler'
+import TextStylerMenu from './TextStyler/TextStylerMenu'
 import PublicImagesMenu from './PublicImagesMenu/PublicImagesMenu';
 import { CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
@@ -36,7 +36,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                         <PublicImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <UserImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} />
-                        <TextStyler isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        <TextStylerMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <LayerManager isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
