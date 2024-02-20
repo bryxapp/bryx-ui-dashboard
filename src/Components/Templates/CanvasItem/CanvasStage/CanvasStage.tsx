@@ -7,7 +7,6 @@ import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
 import { selectShape } from '../../../../utils/functions/CanvasFunctions';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
-import TextStyler from '../CanvasToolbar/TextStyler/TextStyler';
 import ShapeRenderer from './ShapeRenderer';
 
 //Page width and height is the same as the paper size. 8.5in x 11in
@@ -57,17 +56,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
         }
     };
 
-    const isTextObjectSelected = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type.includes('Text');
-    const textObjectX = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.x;
-    const textObjectY = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.y;
-
     return (
-        <>
-            {isTextObjectSelected && (
-                <div style={{ position: 'absolute', left: (textObjectX ?? 0) - 100, top: (textObjectY ?? 0) - 10 }}>
-                    <TextStyler canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                </div>
-            )}
             <PiecePaper>
                 <Stage
                     width={pageWidth}
@@ -81,7 +70,6 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                     </Layer>
                 </Stage>
             </PiecePaper>
-        </>
     );
 };
 
