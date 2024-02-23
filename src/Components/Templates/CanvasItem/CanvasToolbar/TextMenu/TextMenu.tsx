@@ -6,6 +6,7 @@ import Tooltip from '@mui/material/Tooltip';
 import AddTextField from './AddTextField';
 import AddTextInput from './AddTextInput';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import AddTextTable from './AddTextTable';
 
 interface TextMenuProps {
     isLoading: boolean;
@@ -51,6 +52,7 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
             >
                 <AddTextField canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddTextInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddTextTable canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );

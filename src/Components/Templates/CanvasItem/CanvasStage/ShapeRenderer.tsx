@@ -1,5 +1,5 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from "../../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/RectangleShape';
 import EllipseShape from '../Shapes/EllipseShape';
@@ -8,6 +8,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import ImageShape from '../Shapes/ImageShape';
 import { selectShape } from '../../../../utils/functions/CanvasFunctions';
+import TextTable from '../Shapes/TextTable';
 
 interface ShapeRendererProps {
     pageWidth: number;
@@ -143,6 +144,23 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 onTransformEnd={onTransformEnd}
                             />
                         );
+                    case 'TextTable':
+                        const textTable = shape as TextTableObj;
+                        return (
+                            <TextTable
+                                key={textTable.id}
+                                textTableObj={textTable}
+                                handleDragStart={handleDragStart}
+                                handleDragEnd={handleDragEnd}
+                                canvasDesign={canvasDesign}
+                                setCanvasDesign={setCanvasDesign}
+                                isSelected={textTable.id === canvasDesign.selectedId}
+                                onSelect={() => {
+                                    selectShape(textTable.id, canvasDesign, setCanvasDesign);
+                                }}
+                                handleDragMove={handleDragMove}
+                            />
+                        )
                     default:
                         return null;
                 }

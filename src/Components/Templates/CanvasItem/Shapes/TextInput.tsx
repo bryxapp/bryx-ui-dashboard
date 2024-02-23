@@ -18,9 +18,10 @@ interface TextInputProps {
     onSelect: any;
     onTransformEnd: any;
     handleDragMove:any;
+    draggable?: boolean;
 }
 
-const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove }: TextInputProps) => {
+const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove,  draggable = true }: TextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
 
@@ -77,7 +78,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                 displayName={textInputObj.displayName}
                 x={textInputObj.x}
                 y={textInputObj.y}
-                draggable
+                draggable = {draggable}
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}

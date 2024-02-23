@@ -16,7 +16,7 @@ export interface RectangleObj extends ShapeObj, SolidShapeObj {
     width: number;
     height: number;
     cornerRadius?: number;
-    type: 'Rectangle'|'RoundedRectangle';
+    type: 'Rectangle' | 'RoundedRectangle';
 }
 
 export interface EllipseObj extends ShapeObj, SolidShapeObj {
@@ -38,7 +38,7 @@ export interface TextObj {
     fontFamily: string;
     fontStyle: string;
     textDecoration: string;
-    align:string;
+    align: string;
 }
 
 export interface TextInputObj extends ShapeObj, TextObj {
@@ -50,6 +50,11 @@ export interface TextInputObj extends ShapeObj, TextObj {
 export interface TextFieldObj extends ShapeObj, TextObj {
     value: string;
     type: 'TextField';
+}
+
+export interface TextTableObj extends ShapeObj {
+    rows: (TextInputObj | TextFieldObj)[][];
+    type: 'TextTable';
 }
 
 export interface ImageObj extends ShapeObj {
@@ -80,6 +85,6 @@ export interface CanvasStarterData {
     canvasDesign: CanvasDesignData;
 }
 
-export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'Image';
+export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'TextTable' | 'Image';
 
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';

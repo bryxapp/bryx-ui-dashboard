@@ -1,28 +1,32 @@
 import { generateShapeId } from '../shapeid-util';
 import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
-import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj } from './CanvasInterfaces';
-export function createRectangleObj(width: number, height: number, fill: string|undefined, stroke: string|undefined, strokeWidth: number): RectangleObj {
+import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj } from './CanvasInterfaces';
+
+const defaultStartX = getWebCanvasWidth() / 4;
+const defaultStartY = getWebCanvasHeight() / 4;
+
+export function createRectangleObj(width: number, height: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number): RectangleObj {
     return {
         id: generateShapeId(),
         type: 'Rectangle',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x: defaultStartX,
+        y: defaultStartY,
         rotation: 0,
         width,
         height,
         fill,
-        stroke, 
+        stroke,
         strokeWidth,
         isDragging: false,
     };
 }
 
-export function createRoundedRectangleObj(width: number, height: number, fill: string|undefined, stroke: string|undefined, strokeWidth: number, cornerRadius: number): RectangleObj {
+export function createRoundedRectangleObj(width: number, height: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number, cornerRadius: number): RectangleObj {
     return {
         id: generateShapeId(),
         type: 'RoundedRectangle',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x: defaultStartX,
+        y: defaultStartY,
         rotation: 0,
         width,
         height,
@@ -34,12 +38,12 @@ export function createRoundedRectangleObj(width: number, height: number, fill: s
     };
 }
 
-export function createEllipseObj(radiusX: number, radiusY:number, fill: string|undefined, stroke: string|undefined, strokeWidth: number): EllipseObj {
+export function createEllipseObj(radiusX: number, radiusY: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number): EllipseObj {
     return {
         id: generateShapeId(),
         type: 'Ellipse',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x: defaultStartX,
+        y: defaultStartY,
         rotation: 0,
         radiusX,
         radiusY,
@@ -54,8 +58,8 @@ export function createLineObj(points: number[], stroke: string, strokeWidth: num
     return {
         id: generateShapeId(),
         type: 'Line',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x: defaultStartX,
+        y: defaultStartY,
         rotation: 0,
         points,
         stroke,
@@ -64,13 +68,19 @@ export function createLineObj(points: number[], stroke: string, strokeWidth: num
     };
 }
 
-export function createTextInputObj(displayName: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string): TextInputObj {
+export function createTextInputObj(displayName: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): TextInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
     return {
         id: generateShapeId(),
         type: 'TextInput',
         format: 'text',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x,
+        y,
         rotation: 0,
         displayName,
         fontSize,
@@ -78,17 +88,24 @@ export function createTextInputObj(displayName: string, fontSize: number, fill: 
         fontFamily,
         fontStyle,
         textDecoration,
-        align:"left",
+        align: "left",
         isDragging: false,
     };
 }
 
-export function createTextFieldObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string): TextFieldObj {
+export function createTextFieldObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): TextFieldObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
     return {
         id: generateShapeId(),
         type: 'TextField',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x,
+        y,
         rotation: 0,
         value,
         fontSize,
@@ -101,12 +118,52 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
     };
 }
 
+export function createTextTableObj(numberOfRows: number, numberOfCols: number): TextTableObj {
+    // Starting position for the table
+    const startX = defaultStartX;
+    const startY = defaultStartY;
+    const rowHeight = 40; // Vertical spacing between rows
+    const columnWidth = 200; // Horizontal spacing between columns
+
+    const rows = [];
+
+    for (let i = 0; i < numberOfRows; i++) {
+        // Calculate the Y position of the current row
+        const currentRowY = startY + i * rowHeight;
+        const row = [];
+
+        if (i === 0) {
+            // First row, create 3 TextField objects
+            for (let j = 0; j < numberOfCols; j++) {
+                row.push(createTextFieldObj(`Field ${j}`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
+            }
+        } else {
+            // Subsequent rows, create 3 TextInput objects
+            for (let j = 0; j < numberOfCols; j++) {
+                row.push(createTextInputObj(`Text ${i}-${j}`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
+            }
+        }
+
+        rows.push(row);
+    }
+
+    return {
+        id: generateShapeId(), 
+        type: 'TextTable',
+        x: startX,
+        y: startY,
+        rotation: 0,
+        rows,
+        isDragging: false,
+    };
+}
+
 export function createImageObj(src: string, width: number, height: number): ImageObj {
     return {
         id: generateShapeId(),
         type: 'Image',
-        x: getWebCanvasWidth() / 2,
-        y: getWebCanvasHeight() / 2,
+        x: defaultStartX,
+        y: defaultStartY,
         rotation: 0,
         src,
         width,
