@@ -135,12 +135,12 @@ export function createTextTableObj(numberOfRows: number, numberOfCols: number): 
         if (i === 0) {
             // First row, create 3 TextField objects
             for (let j = 0; j < numberOfCols; j++) {
-                row.push(createTextFieldObj(`Field ${j}`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
+                row.push(createTextFieldObj(`Text Field`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
             }
         } else {
             // Subsequent rows, create 3 TextInput objects
             for (let j = 0; j < numberOfCols; j++) {
-                row.push(createTextInputObj(`Text ${i}-${j}`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
+                row.push(createTextInputObj(`Text Input`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
             }
         }
 
@@ -155,7 +155,6 @@ export function createTextTableObj(numberOfRows: number, numberOfCols: number): 
         rotation: 0,
         rows,
         isDragging: false,
-        selectedCell: null,
     };
 }
 

@@ -11,6 +11,7 @@ import { CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInte
 import LayerManager from './LayerManager/LayerManager';
 import CloseTemplateButton from './CloseButton';
 import ImagesMenu from './ImagesMenu/ImagesMenu';
+import TableEditor from './TableEditor/TableEditor';
 
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
@@ -44,6 +45,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                 </Toolbar>
             </AppBar>
             <TextStyler canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            <TableEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </>
     );
 }

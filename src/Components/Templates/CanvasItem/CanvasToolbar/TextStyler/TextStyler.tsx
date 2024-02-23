@@ -15,7 +15,7 @@ interface TextStylerProps {
 }
 
 function TextStyler({ canvasDesign, setCanvasDesign }: TextStylerProps) {
-    if (!canvasDesign.selectedId || !isTextObject(findShape(canvasDesign, canvasDesign.selectedId))) return null;
+    if (!isTextObject(findShape(canvasDesign, canvasDesign.selectedId))) return null;
 
     return (
         <AppBar position="static" color='secondary' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', paddingLeft: "1rem" }}>
