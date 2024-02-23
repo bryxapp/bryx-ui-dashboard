@@ -155,6 +155,7 @@ export function createTextTableObj(numberOfRows: number, numberOfCols: number): 
         rotation: 0,
         rows,
         isDragging: false,
+        selectedCell: null,
     };
 }
 

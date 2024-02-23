@@ -155,8 +155,8 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 canvasDesign={canvasDesign}
                                 setCanvasDesign={setCanvasDesign}
                                 isSelected={textTable.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(textTable.id, canvasDesign, setCanvasDesign);
+                                onSelect={(selectedId:string) => {
+                                    selectShape(selectedId, canvasDesign, setCanvasDesign);
                                 }}
                                 handleDragMove={handleDragMove}
                             />

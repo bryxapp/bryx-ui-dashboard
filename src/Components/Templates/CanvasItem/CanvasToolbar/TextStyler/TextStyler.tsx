@@ -1,4 +1,4 @@
-import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import DisplayNameEditor from './DisplayNameEditor'
 import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
@@ -7,6 +7,7 @@ import FontDecorationPicker from './FontDecorationPicker'
 import InputFormatPicker from './InputFormatPicker';
 import AlignmentPicker from './AlignmentPicker';
 import { AppBar } from '@mui/material';
+import { findShape, isTextObject } from '../../../../../utils/canvas-util';
 
 interface TextStylerProps {
     canvasDesign: CanvasDesignData;
@@ -14,11 +15,10 @@ interface TextStylerProps {
 }
 
 function TextStyler({ canvasDesign, setCanvasDesign }: TextStylerProps) {
-    const isTextObjectSelected = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type.includes('Text')
-    if (!isTextObjectSelected) return null;
+    if (!canvasDesign.selectedId || !isTextObject(findShape(canvasDesign, canvasDesign.selectedId))) return null;
 
     return (
-        <AppBar position="static" color='secondary' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', paddingLeft:"1rem" }}>
+        <AppBar position="static" color='secondary' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', paddingLeft: "1rem" }}>
             <DisplayNameEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <InputFormatPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <FontFamilyPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />

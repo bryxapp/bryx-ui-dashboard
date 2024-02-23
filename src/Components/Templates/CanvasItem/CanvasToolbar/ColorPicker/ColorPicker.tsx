@@ -9,6 +9,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { CanvasDesignData, ShapeColor, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Box, Button, Slider } from '@mui/material';
+import { findShape } from '../../../../../utils/canvas-util';
 
 interface ColorPickerProps {
     isLoading: boolean;
@@ -72,10 +73,10 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const isImage = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId)?.type.includes('Image')
-    const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId);
+    const isImage = findShape(canvasDesign, tempSelectedId)?.type.includes('Image')
+    const selectedShape = findShape(canvasDesign,tempSelectedId);
     const isRectOrEllipse = selectedShape?.type === 'Rectangle' || selectedShape?.type === 'Ellipse' || selectedShape?.type === 'RoundedRectangle';
-    const isTextObjectSelected = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === tempSelectedId)?.type.includes('Text');
+    const isTextObjectSelected = findShape(canvasDesign,tempSelectedId)?.type.includes('Text');
     const showColorModeToggle = !isLoading && selectedShape && isRectOrEllipse;
 
     return (

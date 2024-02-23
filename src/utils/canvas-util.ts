@@ -1,6 +1,6 @@
 import Konva from "konva";
 import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, TextFieldObj, TextInputObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
@@ -13,7 +13,7 @@ async function loadImage(src: string): Promise<HTMLImageElement> {
     });
 }
 
-export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValues:EstimateFormFields, layer:Konva.Layer){
+export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields, layer: Konva.Layer) {
     for (const shape of canvasDesign.Shapes) {
         let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
         switch (shape.type) {
@@ -38,7 +38,7 @@ export async function AddShapesToLayer(canvasDesign:CanvasDesignData, fieldValue
                     width: roundedRectangle.width,
                     height: roundedRectangle.height,
                     fill: roundedRectangle.fill,
-                    stroke:roundedRectangle.stroke,
+                    stroke: roundedRectangle.stroke,
                     strokeWidth: roundedRectangle.strokeWidth,
                     cornerRadius: roundedRectangle.cornerRadius,
                     rotation: roundedRectangle.rotation,
@@ -190,3 +190,29 @@ export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues
     document.body.removeChild(container);
     return stageData;
 }
+
+export const findShape = (canvasDesign: CanvasDesignData, id: string|null): ShapeObj | undefined => {
+    if (!id) {
+        return undefined;
+    }
+    for (const shape of canvasDesign.Shapes) {
+        if (shape.id === id) {
+            return shape;
+        }
+        if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            for (const row of textTable.rows) {
+                for (const cell of row) {
+                    if (cell.id === id) {
+                        return cell;
+                    }
+                }
+            }
+        }
+    }
+    return undefined;
+};
+
+export const isTextObject = (shape?: ShapeObj): boolean => {
+    return shape?.type === 'TextInput' || shape?.type === 'TextField';
+};

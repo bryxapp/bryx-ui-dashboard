@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { deleteShape, moveShape, selectShape, pasteObject, toggleTextStyle } from "../../../utils/functions/CanvasFunctions";
-import { ShapeObj } from "../../../utils/types/CanvasInterfaces";
+import { findShape } from "../../../utils/canvas-util";
 
 export const useCanvasKeyboardShortcuts = ({
   canvasDesign,
@@ -33,7 +33,7 @@ export const useCanvasKeyboardShortcuts = ({
           break;
         case "c":
           if (event.ctrlKey || event.metaKey) {
-            setCopiedObject(canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId) || null);
+            setCopiedObject(findShape(canvasDesign,canvasDesign.selectedId) || null);
           }
           break;
         case "v":

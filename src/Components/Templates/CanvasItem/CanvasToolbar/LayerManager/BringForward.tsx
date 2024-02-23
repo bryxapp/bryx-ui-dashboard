@@ -4,6 +4,7 @@ import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInt
 import Tooltip from '@mui/material/Tooltip';
 import ForwardIcon from '@mui/icons-material/ArrowRight';
 import FastForwardIcon from '@mui/icons-material/FastForward';
+import { findShape } from '../../../../../utils/canvas-util';
 
 interface BringForwardProps {
     canvasDesign: CanvasDesignData;
@@ -15,7 +16,7 @@ export default function BringForward({ canvasDesign, setCanvasDesign }: BringFor
     const handleBringToFront = (event: any) => {
         if (!canvasDesign.selectedId) return;
 
-        const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
+        const selectedShape = findShape(canvasDesign, canvasDesign.selectedId);
         const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
 
         const updatedCanvasDesign = {

@@ -4,6 +4,7 @@ import Tooltip from '@mui/material/Tooltip';
 import BackwardIcon from '@mui/icons-material/ArrowLeft';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { IconButton } from '@mui/material';
+import { findShape } from '../../../../../utils/canvas-util';
 
 interface SendBackwardProps {
     canvasDesign: CanvasDesignData;
@@ -15,7 +16,7 @@ export default function SendBackward({ canvasDesign, setCanvasDesign }: SendBack
     const handleSendToBack = (event: any) => {
         if (!canvasDesign.selectedId) return;
 
-        const selectedShape = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
+        const selectedShape = findShape(canvasDesign, canvasDesign.selectedId);
         const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
 
         const updatedCanvasDesign = {

@@ -3,6 +3,7 @@ import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import { CanvasDesignData, ShapeObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { findShape } from '../../../../../utils/canvas-util';
 
 
 interface InputFormatPickerProps {
@@ -14,7 +15,7 @@ const formats: string[] = ['text', 'number', 'date', 'email', 'phone', 'paragrap
 
 const InputFormatPicker = ({ canvasDesign, setCanvasDesign }: InputFormatPickerProps) => {
 
-    const isTextInput: boolean = canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId)?.type?.includes('TextInput') || false;
+    const isTextInput: boolean = findShape(canvasDesign, canvasDesign.selectedId)?.type === 'TextInput' || false;
 
     const handleFormatPickerChange = (event: any) => {
         const updatedCanvasDesign = {
@@ -33,7 +34,7 @@ const InputFormatPicker = ({ canvasDesign, setCanvasDesign }: InputFormatPickerP
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextInputFormat = (canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId) as TextInputObj | undefined)?.format ?? '';
+    const selectedTextInputFormat = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.format ?? '';
 
     if (!isTextInput) return null;
 

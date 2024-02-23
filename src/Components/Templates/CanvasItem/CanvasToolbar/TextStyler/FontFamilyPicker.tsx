@@ -2,6 +2,7 @@ import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { findShape } from '../../../../../utils/canvas-util';
 
 const FONTS = [
     'Arial',
@@ -44,7 +45,7 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: Font
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextItemFontFamily = canvasDesign.Shapes.find((shape: ShapeObj): shape is TextInputObj | TextFieldObj => shape.id === canvasDesign.selectedId)?.fontFamily;
+    const selectedTextItemFontFamily = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.fontFamily
 
     return (
         <>

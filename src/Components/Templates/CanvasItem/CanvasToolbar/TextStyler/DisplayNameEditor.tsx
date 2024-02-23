@@ -2,6 +2,7 @@ import React from 'react';
 import {StyledTextField as TextField} from '../../../../SharedComponents/TextField/TextField'
 import Typography from "@mui/material/Typography";
 import { CanvasDesignData, ShapeObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { findShape } from '../../../../../utils/canvas-util';
 
 
 interface DisplayNameEditorProps {
@@ -11,7 +12,7 @@ interface DisplayNameEditorProps {
 
 const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCanvasDesign }) => {
 
-    const isTextInput: boolean = canvasDesign.Shapes.find((shape:ShapeObj) => shape.id === canvasDesign.selectedId)?.type?.includes('TextInput') || false;
+    const isTextInput: boolean = findShape(canvasDesign, canvasDesign.selectedId)?.type?.includes('TextInput') || false;
 
     const handleDisplayNameChange = (event: any) => {
         const updatedCanvasDesign = {
@@ -30,7 +31,7 @@ const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCa
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const selectedTextInputDisplayName = (canvasDesign.Shapes.find((shape: ShapeObj) => shape.id === canvasDesign.selectedId) as TextInputObj | undefined)?.displayName ?? '';
+    const selectedTextInputDisplayName = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.displayName ?? '';
 
     if (!isTextInput) return null;
 
