@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
-import { ShapeObj, TextInputObj } from '../../../../utils/types/CanvasInterfaces';
+import { FormInputs, ShapeObj, TextInputObj, TextTableObj } from '../../../../utils/types/CanvasInterfaces';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
 import Creating from '../../../SharedComponents/Creating/Creating';
@@ -31,7 +31,7 @@ const EstimateForm = () => {
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
-    const [textInputShapeObjs, setTextInputShapeObjs] = useState<TextInputObj[]>([]);
+    const [formInputs, setFormInputs] = useState<FormInputs>([]);
     const [error, setError] = useState(false); // Error state
     const { getAccessToken } = useAuth0User();
 
@@ -43,18 +43,37 @@ const EstimateForm = () => {
                 if (!token) return;
                 const fetchedTemplate = await getTemplate(templateId, token);
                 setTemplateData(fetchedTemplate);
-                let textInputs: TextInputObj[] = fetchedTemplate.canvasDesign.Shapes.filter(
-                    (shape: ShapeObj) => shape.type === "TextInput"
-                ) as TextInputObj[];
-                setTextInputShapeObjs(textInputs);
+
+                let formInputs: FormInputs = [];
+
+                for (let shape of fetchedTemplate.canvasDesign.Shapes) {
+                    if (shape.type === "TextInput") {
+                        formInputs.push(shape as TextInputObj);
+                    } else if (shape.type === "TextTable") {
+                        formInputs.push(shape as TextTableObj);
+                    }
+                }
+
+                setFormInputs(formInputs);
                 let newFieldValues: EstimateFormFields = {};
-                textInputs.forEach((textInput: TextInputObj) => {
-                    newFieldValues[textInput.id] = "";
+                formInputs.forEach((formInput: ShapeObj) => {
+                    if (formInput.type === "TextInput") {
+                        newFieldValues[formInput.id] = "";
+                    } else if (formInput.type === "TextTable") {
+                        let textTable = formInput as TextTableObj;
+                        textTable.rows.forEach((row, rowIndex) => {
+                            row.forEach((cell, cellIndex) => {
+                                if (cell.type === "TextInput") {
+                                    newFieldValues[cell.id] = "";
+                                }
+                            });
+                        });
+                    }
                 });
                 if (draftId) {
                     await fetchDraft(newFieldValues, token);
                 }
-                else{
+                else {
                     setFieldValues(newFieldValues);
                 }
             }
@@ -123,7 +142,7 @@ const EstimateForm = () => {
                     </Typography>
                     <div style={{ height: 20 }}></div>
                     <EstimateFormTextFieldsList
-                        textInputShapeObjs={textInputShapeObjs}
+                        formInputs={formInputs}
                         fieldValues={fieldValues}
                         setFieldValues={setFieldValues}
                     />

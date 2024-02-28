@@ -1,5 +1,5 @@
-import { Stage, Layer, Rect, Ellipse, Line, Image, Text } from "react-konva";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj } from "../../../../utils/types/CanvasInterfaces"
+import { Stage, Layer, Rect, Ellipse, Line, Image, Text, Group } from "react-konva";
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../utils/page-util";
 import styled from '@emotion/styled';
 
@@ -114,6 +114,35 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     rotation={text.rotation}
                     align={text.align}
                   />)
+              case 'TextTable':
+                const textTable = shape as TextTableObj;
+                return (
+                  <Group key={textTable.id}>
+                    {textTable.rows.map((row, rowIndex) => (
+                      row.map((cell, cellIndex) => {
+                        if (cell.type === "TextField") {
+                          const textField = cell as TextFieldObj;
+                          return (
+                            <Text
+                              key={`${textField.id}-${rowIndex}-${cellIndex}`} // Unique key for each text field
+                              id={textField.id}
+                              x={textField.x}
+                              y={textField.y}
+                              text={textField.value}
+                              fontSize={textField.fontSize}
+                              fontFamily={textField.fontFamily}
+                              fill={textField.fill}
+                              rotation={textField.rotation}
+                              align={textField.align}
+                            />
+                          );
+                        } else {
+                          return null;
+                        }
+                      })
+                    ))}
+                  </Group>
+                );
               case 'Image':
                 const image = shape as ImageObj;
                 const imageSrc = new window.Image();

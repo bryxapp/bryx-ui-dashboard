@@ -120,6 +120,67 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     align: textField.align
                 });
                 break;
+            case 'TextTable':
+                const textTable = shape as TextTableObj;
+                for (const row of textTable.rows) {
+                    for (const cell of row) {
+                        if (cell.type === "TextField") {
+                            const textField = cell as TextFieldObj;
+                            const cellText = new Konva.Text({
+                                x: textField.x,
+                                y: textField.y,
+                                text: textField.value,
+                                fontSize: textField.fontSize,
+                                fill: textField.fill,
+                                rotation: textField.rotation,
+                                fontFamily: textField.fontFamily,
+                                fontStyle: textField.fontStyle,
+                                textDecoration: textField.textDecoration,
+                                align: textField.align
+                            });
+                            layer.add(cellText);
+                        }
+                        else if (cell.type === "TextInput") {
+                            const textInput = cell as TextInputObj;
+                            if (textInput.format === "currency") {
+                                fieldValues[textInput.id] = "$" + fieldValues[textInput.id];
+                            }
+
+                            // Create a Konva.Text object for placeholder to calculate its width and height
+                            const placeholderText = new Konva.Text({
+                                text: textInput.displayName,
+                                fontSize: textInput.fontSize,
+                                fontFamily: textInput.fontFamily,
+                                fontStyle: textInput.fontStyle,
+                                textDecoration: textInput.textDecoration,
+                                align: textInput.align
+                            });
+
+                            const isParagraph = textInput.format === 'paragraph';
+                            //const containerWidth = isParagraph ? textInput.fontSize * 15 : textInput.fontSize * 10;
+                            const containerHeight = isParagraph ? textInput.fontSize * 4 : textInput.fontSize * 2;
+
+                            // Calculate the position to center the text within the TextInput shape
+                            //const x =  + (containerWidth - placeholderText.width()) / 2;
+                            const centered_y = textInput.y + (containerHeight - placeholderText.height()) / 2;
+
+                            const cellText = new Konva.Text({
+                                x: textInput.x,
+                                y: centered_y,
+                                text: fieldValues[textInput.id],
+                                fontSize: textInput.fontSize,
+                                fill: textInput.fill,
+                                rotation: textInput.rotation,
+                                fontFamily: textInput.fontFamily,
+                                fontStyle: textInput.fontStyle,
+                                textDecoration: textInput.textDecoration,
+                                align: textInput.align
+                            });
+                            layer.add(cellText);
+                        }
+                    }
+                }
+                break;
             case 'Image':
                 const imageObj = shape as ImageObj;
                 const image = await loadImage(imageObj.src);
@@ -240,7 +301,7 @@ export const isNested = (canvasDesign: CanvasDesignData, id: string | null): boo
 };
 
 
-export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id:string|null) => {
+export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
     let foundAndUpdated = false;
 
     const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
@@ -257,7 +318,7 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
         else if (shape.type === "TextTable") {
             const textTable = shape as TextTableObj;
             let isCellUpdated = false;
-            const updatedRows = textTable.rows.map(row => 
+            const updatedRows = textTable.rows.map(row =>
                 row.map(cell => {
                     if (cell.id === id && !isCellUpdated) {
                         isCellUpdated = true;

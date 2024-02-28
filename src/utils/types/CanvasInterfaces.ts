@@ -86,6 +86,8 @@ export interface CanvasStarterData {
     canvasDesign: CanvasDesignData;
 }
 
+export type FormInputs = (TextInputObj | TextTableObj)[];
+
 export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'TextTable' | 'Image';
 
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
