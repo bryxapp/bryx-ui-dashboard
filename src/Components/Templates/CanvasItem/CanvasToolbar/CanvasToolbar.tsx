@@ -19,11 +19,13 @@ interface CanvasToolbarProps {
     color: ShapeColor;
     setColor: React.SetStateAction<any>;
     friendlyName: string;
+    databaseFriendlyName: string;
     dataBaseCanvasDesign: any;
     setDataBaseCanvasDesign: React.SetStateAction<any>;
+    setDataBaseFriendlyName: React.SetStateAction<any>;
 }
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendlyName, dataBaseCanvasDesign, setDataBaseCanvasDesign: setdataBaseCanvasDesign }: CanvasToolbarProps) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendlyName, dataBaseCanvasDesign, setDataBaseCanvasDesign, databaseFriendlyName, setDataBaseFriendlyName }: CanvasToolbarProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (
@@ -39,8 +41,8 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                         <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>
-                        <SaveTemplateButton isLoading={isLoading} setIsLoading={setIsLoading} canvasDesign={canvasDesign} dataBaseCanvasDesign={dataBaseCanvasDesign} setdataBaseCanvasDesign={setdataBaseCanvasDesign} friendlyName={friendlyName} />
-                        <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} canvasDesign={canvasDesign} />
+                        <SaveTemplateButton isLoading={isLoading} setIsLoading={setIsLoading} canvasDesign={canvasDesign} dataBaseCanvasDesign={dataBaseCanvasDesign} setDataBaseCanvasDesign={setDataBaseCanvasDesign} friendlyName={friendlyName} databaseFriendlyName={databaseFriendlyName} setDatabaseFriendlyName={setDataBaseFriendlyName} />
+                        <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} canvasDesign={canvasDesign} friendlyName={friendlyName} databaseFriendlyName={databaseFriendlyName} />
                     </div>
                 </Toolbar>
             </AppBar>

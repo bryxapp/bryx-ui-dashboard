@@ -4,8 +4,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import AlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape } from '../../../../../utils/canvas-util';
+import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { findShape, updateShapeProperty } from '../../../../../utils/canvas-util';
 
 interface AlignmentPickerProps {
     canvasDesign: CanvasDesignData;
@@ -16,19 +16,7 @@ const AlignmentPicker: React.FC<AlignmentPickerProps> = ({ canvasDesign, setCanv
 
     const handleAlignmentChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
         if (newAlignment) {
-            const updatedCanvasDesign = {
-                ...canvasDesign,
-                Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                    if (shape.id === canvasDesign.selectedId) {
-                        return {
-                            ...shape,
-                            align: newAlignment,
-                        };
-                    }
-                    return shape;
-                }),
-            };
-            setCanvasDesign(updatedCanvasDesign);
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'align', newAlignment, canvasDesign.selectedId)
         }
     };
 

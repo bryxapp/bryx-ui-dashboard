@@ -2,8 +2,8 @@ import React from 'react';
 import Select from "@mui/material/Select";
 import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
-import { CanvasDesignData, ShapeObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape } from '../../../../../utils/canvas-util';
+import { CanvasDesignData, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { findShape, updateShapeProperty } from '../../../../../utils/canvas-util';
 
 
 interface InputFormatPickerProps {
@@ -18,20 +18,7 @@ const InputFormatPicker = ({ canvasDesign, setCanvasDesign }: InputFormatPickerP
     const isTextInput: boolean = findShape(canvasDesign, canvasDesign.selectedId)?.type === 'TextInput' || false;
 
     const handleFormatPickerChange = (event: any) => {
-        const updatedCanvasDesign = {
-            ...canvasDesign,
-            Shapes: canvasDesign.Shapes.map((shape: ShapeObj) => {
-                if (shape.id === canvasDesign.selectedId) {
-                    return {
-                        ...shape,
-                        format: event.target.value,
-                    };
-                } else {
-                    return shape;
-                }
-            }),
-        };
-        setCanvasDesign(updatedCanvasDesign);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'format', event.target.value, canvasDesign.selectedId)
     };
 
     const selectedTextInputFormat = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.format ?? '';

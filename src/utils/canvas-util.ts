@@ -191,7 +191,7 @@ export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues
     return stageData;
 }
 
-export const findShape = (canvasDesign: CanvasDesignData, id: string|null): ShapeObj | undefined => {
+export const findShape = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
     if (!id) {
         return undefined;
     }
@@ -216,3 +216,72 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string|null): Shap
 export const isTextObject = (shape?: ShapeObj): boolean => {
     return shape?.type === 'TextInput' || shape?.type === 'TextField';
 };
+
+export const isNested = (canvasDesign: CanvasDesignData, id: string | null): boolean => {
+    if (!id) {
+        return false;
+    }
+    for (const shape of canvasDesign.Shapes) {
+        if (shape.id === id) {
+            return false;
+        }
+        if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            for (const row of textTable.rows) {
+                for (const cell of row) {
+                    if (cell.id === id) {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+};
+
+
+export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id:string|null) => {
+    let foundAndUpdated = false;
+
+    const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+        // Skip any further updates after the first match is found and updated
+        if (foundAndUpdated) return shape;
+
+        // Update the matching shape directly
+        if (shape.id === id) {
+            foundAndUpdated = true;
+            return { ...shape, [propertyName]: value };
+        }
+
+        // Handle nested shapes for TextTable
+        else if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            let isCellUpdated = false;
+            const updatedRows = textTable.rows.map(row => 
+                row.map(cell => {
+                    if (cell.id === id && !isCellUpdated) {
+                        isCellUpdated = true;
+                        foundAndUpdated = true; // Mark that the update has occurred
+                        return { ...cell, [propertyName]: value };
+                    }
+                    return cell;
+                })
+            );
+
+            // If any cell was updated, return the updated TextTable shape
+            if (isCellUpdated) {
+                return { ...shape, rows: updatedRows };
+            }
+        }
+
+        // Return the shape unchanged if no conditions are met
+        return shape;
+    });
+
+    // Update the canvasDesign only if an update was made
+    if (foundAndUpdated) {
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+    }
+};
+
+

@@ -1,4 +1,4 @@
-import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj } from '../types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from '../types/CanvasInterfaces';
 import { generateShapeId } from '../shapeid-util';
 
 export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
@@ -70,10 +70,9 @@ export const toggleTextStyle = (
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
     const updatedShapes = canvasDesign.Shapes.map((shape) => {
-        if (shape.id === canvasDesign.selectedId && (shape.type === 'TextInput' || shape.type === 'TextField')) {
+        if (shape.id === canvasDesign.selectedId) {
             const textShape = shape as TextInputObj | TextFieldObj;
             const currentStyle = textShape[styleProperty] || '';
-
             const isStyleApplied = currentStyle.includes(style);
             textShape[styleProperty] = isStyleApplied
                 ? currentStyle.replace(style, '').trim()
@@ -81,9 +80,25 @@ export const toggleTextStyle = (
 
             return { ...textShape, [styleProperty]: textShape[styleProperty] };
         }
+        else if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            const updatedRows = textTable.rows.map(row => 
+                row.map(cell => {
+                    if (cell.id === canvasDesign.selectedId) {
+                        const currentStyle = cell[styleProperty] || '';
+                        const isStyleApplied = currentStyle.includes(style);
+                        cell[styleProperty] = isStyleApplied
+                            ? currentStyle.replace(style, '').trim()
+                            : `${currentStyle} ${style}`.trim();
+                        return { ...cell, [styleProperty]: cell[styleProperty] };
+                    }
+                    return cell;
+                })
+            );
+            return { ...textTable, rows: updatedRows };
+        }
         return shape;
     });
-
     setCanvasDesign({
         ...canvasDesign,
         Shapes: updatedShapes,
@@ -93,6 +108,8 @@ export const toggleTextStyle = (
 
 
 // Check if there are differences between the current and the database saved canvas designs
-export const isDesignChanged = (dataBaseCanvasDesign: CanvasDesignData, canvasDesign: CanvasDesignData) => {
-    return JSON.stringify(dataBaseCanvasDesign.Shapes) !== JSON.stringify(canvasDesign.Shapes);
+export const isTemplateChanged = (dataBaseCanvasDesign: CanvasDesignData, canvasDesign: CanvasDesignData, friendlyName:string, databaseFriendlyName:string) => {
+    const canvasChanged = JSON.stringify(dataBaseCanvasDesign.Shapes) !== JSON.stringify(canvasDesign.Shapes);
+    const friendlyNameChanged = friendlyName !== databaseFriendlyName;
+    return canvasChanged || friendlyNameChanged;
 }

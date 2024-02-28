@@ -1,18 +1,20 @@
 import { useNavigate } from 'react-router-dom';
-import { isDesignChanged } from '../../../../utils/functions/CanvasFunctions';
+import { isTemplateChanged } from '../../../../utils/functions/CanvasFunctions';
 import { Button, Typography } from '@mui/material';
 
 
 interface CloseTemplateButtonProps {
     dataBaseCanvasDesign: any;
     canvasDesign: any;
+    friendlyName: string;
+    databaseFriendlyName: string;
 }
 
-export default function CloseTemplateButton({ dataBaseCanvasDesign, canvasDesign }: CloseTemplateButtonProps) {
+export default function CloseTemplateButton({ dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName }: CloseTemplateButtonProps) {
 
     const navigate = useNavigate();
     const handleClose = async () => {
-        if (isDesignChanged(dataBaseCanvasDesign, canvasDesign)) {
+        if (isTemplateChanged(dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName)) {
             const result = window.confirm("You have unsaved changes. Are you sure you want to close?");
             if (!result) {
                 return;
@@ -22,21 +24,21 @@ export default function CloseTemplateButton({ dataBaseCanvasDesign, canvasDesign
     }
     return (
         <Button color="inherit" onClick={handleClose}
-        sx={{
-            padding: '0 10px',
-            margin: '0 5px',
-            borderColor: 'white',
-            borderWidth: 1,
-            borderStyle: 'solid',
-            '&:hover': {
+            sx={{
+                padding: '0 10px',
+                margin: '0 5px',
                 borderColor: 'white',
-                borderWidth: 2,
-            },
-        }}
-    >
-        <Typography variant="h6">
-        Close
-        </Typography>
+                borderWidth: 1,
+                borderStyle: 'solid',
+                '&:hover': {
+                    borderColor: 'white',
+                    borderWidth: 2,
+                },
+            }}
+        >
+            <Typography variant="h6">
+                Close
+            </Typography>
         </Button>
     );
 }

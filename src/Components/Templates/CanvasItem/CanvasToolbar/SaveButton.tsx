@@ -4,7 +4,7 @@ import { updateTemplate, createTemplate } from '../../../../utils/api/templates-
 import logger from '../../../../logging/logger';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../../SharedComponents/ErrorModal/ErrorModal';
-import { isDesignChanged } from '../../../../utils/functions/CanvasFunctions';
+import { isTemplateChanged } from '../../../../utils/functions/CanvasFunctions';
 import { Typography } from '@mui/material';
 
 interface SaveTemplateButtonProps {
@@ -12,8 +12,10 @@ interface SaveTemplateButtonProps {
     setIsLoading: React.SetStateAction<any>;
     canvasDesign: any;
     dataBaseCanvasDesign: any;
-    setdataBaseCanvasDesign: React.SetStateAction<any>;
+    setDataBaseCanvasDesign: React.SetStateAction<any>;
     friendlyName: string;
+    databaseFriendlyName: string;
+    setDatabaseFriendlyName: React.SetStateAction<any>;
 }
 
 export default function SaveTemplateButton({
@@ -21,8 +23,10 @@ export default function SaveTemplateButton({
     setIsLoading,
     canvasDesign,
     dataBaseCanvasDesign,
-    setdataBaseCanvasDesign,
-    friendlyName
+    setDataBaseCanvasDesign,
+    friendlyName,
+    databaseFriendlyName,
+    setDatabaseFriendlyName
 }: SaveTemplateButtonProps) {
     const { getAccessToken } = useAuth0User();
     const [error, setError] = useState(false); // Error state
@@ -30,8 +34,8 @@ export default function SaveTemplateButton({
 
     useEffect(() => {
         // Effect for updating the save button's enabled state based on design change
-        setSaveButtonEnabled(isDesignChanged(dataBaseCanvasDesign, canvasDesign));
-    }, [dataBaseCanvasDesign, canvasDesign]);
+        setSaveButtonEnabled(isTemplateChanged(dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName));
+    }, [dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName]);
 
     const handleSave = async () => {
         try {
@@ -47,10 +51,12 @@ export default function SaveTemplateButton({
 
             if (templateId) {
                 const updatedTemplate = await updateTemplate(templateId, canvasDesign, friendlyName, token);
-                setdataBaseCanvasDesign(updatedTemplate.canvasDesign);
+                setDataBaseCanvasDesign(updatedTemplate.canvasDesign);
+                setDatabaseFriendlyName(updatedTemplate.friendlyName);
             } else {
                 const newTemplate = await createTemplate(canvasDesign, friendlyName, token);
-                setdataBaseCanvasDesign(newTemplate.canvasDesign);
+                setDataBaseCanvasDesign(newTemplate.canvasDesign);
+                setDatabaseFriendlyName(newTemplate.friendlyName);
                 // Append templateId to URL for subsequent saves
                 window.history.pushState(null, '', `?templateId=${newTemplate.id}`);
             }
@@ -66,7 +72,7 @@ export default function SaveTemplateButton({
             setError(true);
             console.log("Error saving template:", error);
         } finally {
-            setSaveButtonEnabled(isDesignChanged(dataBaseCanvasDesign, canvasDesign));
+            setSaveButtonEnabled(isTemplateChanged(dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName));
             setIsLoading(false); // Ensure loading state is reset whether the try block succeeds or fails
         }
     }

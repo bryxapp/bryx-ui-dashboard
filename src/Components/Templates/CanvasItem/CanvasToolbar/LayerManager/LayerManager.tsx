@@ -7,6 +7,7 @@ import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import SendBackward from './SendBackward';
 import BringForward from './BringForward';
 import Stack from '@mui/material/Stack';
+import { isNested } from '../../../../../utils/canvas-util';
 
 
 interface LayerManagerProps {
@@ -14,6 +15,7 @@ interface LayerManagerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
 }
+
 
 
 export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign }: LayerManagerProps) {
@@ -25,6 +27,7 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign 
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const isNestedShape = isNested(canvasDesign, canvasDesign.selectedId);
 
     return (
         <>
@@ -37,7 +40,7 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign 
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                         color="inherit"
-                        disabled={isLoading || !canvasDesign.selectedId}
+                        disabled={isLoading || !canvasDesign.selectedId || isNestedShape}
                     >
                         <LayerIcon />
                     </IconButton>

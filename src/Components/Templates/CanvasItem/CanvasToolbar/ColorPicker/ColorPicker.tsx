@@ -9,7 +9,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { CanvasDesignData, ShapeColor, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Box, Button, Slider } from '@mui/material';
-import { findShape } from '../../../../../utils/canvas-util';
+import { findShape, updateShapeProperty } from '../../../../../utils/canvas-util';
 
 interface ColorPickerProps {
     isLoading: boolean;
@@ -45,16 +45,18 @@ export default function ColorPicker({ isLoading, canvasDesign, setCanvasDesign, 
 
     const onColorChange = (colorResult: { hex: string | undefined }) => {
         setColor((prevColor: any) => ({ ...prevColor, [colorChangeMode]: colorResult.hex }));
+        
+        updateShapeProperty(canvasDesign, setCanvasDesign, colorChangeMode, colorResult.hex, canvasDesign.selectedId);
+        updateShapeProperty(canvasDesign, setCanvasDesign, colorChangeMode, colorResult.hex, tempSelectedId);
 
-        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-        updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-            if (shape.id === canvasDesign.selectedId || shape.id === tempSelectedId) {
-                return { ...shape, [colorChangeMode]: colorResult.hex };
-            }
-            return shape;
-        });
-        console.log(updatedCanvasDesign)
-        setCanvasDesign(updatedCanvasDesign);
+        // const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+        // updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+        //     if (shape.id === canvasDesign.selectedId || shape.id === tempSelectedId) {
+        //         return { ...shape, [colorChangeMode]: colorResult.hex };
+        //     }
+        //     return shape;
+        // });
+        // setCanvasDesign(updatedCanvasDesign);
     };
 
     const handleStrokeWidthChange = (event: Event, newValue: number | number[]) => {

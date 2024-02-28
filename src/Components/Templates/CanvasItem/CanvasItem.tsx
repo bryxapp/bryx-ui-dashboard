@@ -16,6 +16,7 @@ const CanvasItem = () => {
     const [loading, setLoading] = useState(true);
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");
+    const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
     const [color, setColor] = useState<ShapeColor>({ fill:'#000000', stroke:'#000000'}
         );
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
@@ -41,6 +42,7 @@ const CanvasItem = () => {
                     const canvasDesignCopy = JSON.parse(JSON.stringify(fetchedTemplate.canvasDesign));
                     setdataBaseCanvasDesign(canvasDesignCopy);
                     setFriendlyName(fetchedTemplate.friendlyName);
+                    setDataBaseFriendlyName(fetchedTemplate.friendlyName);
                     setLoading(false);
                 } catch (error) {
                     logger.trackException({
@@ -88,6 +90,8 @@ const CanvasItem = () => {
                     setColor={setColor}
                     dataBaseCanvasDesign={dataBaseCanvasDesign}
                     setDataBaseCanvasDesign={setdataBaseCanvasDesign}
+                    databaseFriendlyName={dataBaseFriendlyName}
+                    setDataBaseFriendlyName={setDataBaseFriendlyName}
                 />
             </div>
             <Box sx={{ height: '1vh' }} />
