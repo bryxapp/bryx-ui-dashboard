@@ -118,29 +118,27 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
     };
 }
 
-export function createTextTableObj(numberOfRows: number, numberOfCols: number): TextTableObj {
+export function createTextTableObj(numberOfRows: number, numberOfCols: number, cellWidth: number, cellHeight: number): TextTableObj {
     // Starting position for the table
     const startX = defaultStartX;
     const startY = defaultStartY;
-    const rowHeight = 40; // Vertical spacing between rows
-    const columnWidth = 200; // Horizontal spacing between columns
 
     const rows = [];
 
     for (let i = 0; i < numberOfRows; i++) {
         // Calculate the Y position of the current row
-        const currentRowY = startY + i * rowHeight;
+        const currentRowY = startY + i * cellHeight;
         const row = [];
 
         if (i === 0) {
             // First row, create 3 TextField objects
             for (let j = 0; j < numberOfCols; j++) {
-                row.push(createTextFieldObj(`Text Field`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
+                row.push(createTextFieldObj(`Text Field`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY));
             }
         } else {
             // Subsequent rows, create 3 TextInput objects
             for (let j = 0; j < numberOfCols; j++) {
-                row.push(createTextInputObj(`Text Input`, 12, 'black', 'Arial', 'normal', 'none', startX + j * columnWidth, currentRowY));
+                row.push(createTextInputObj(`Text Input`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY));
             }
         }
 
@@ -155,6 +153,8 @@ export function createTextTableObj(numberOfRows: number, numberOfCols: number): 
         rotation: 0,
         rows,
         isDragging: false,
+        cellWidth,
+        cellHeight,
     };
 }
 

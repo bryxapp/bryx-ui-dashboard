@@ -6,6 +6,7 @@ import AddCol from './AddCol';
 import RemoveRow from './RemoveRow';
 import RemoveCol from './RemoveCol';
 import TableBorderControl from './TableBorderControl';
+import CellSize from './CellSize';
 
 interface TableEditorProps {
     canvasDesign: CanvasDesignData;
@@ -22,6 +23,7 @@ function TableEditor({ canvasDesign, setCanvasDesign }: TableEditorProps) {
             <AddCol canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <RemoveCol canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <TableBorderControl canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            <CellSize canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </AppBar>
     );
 }

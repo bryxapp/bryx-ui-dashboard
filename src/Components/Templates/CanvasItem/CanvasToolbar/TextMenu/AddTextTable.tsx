@@ -9,7 +9,7 @@ const AddTextTable = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarPro
     const handleAddTextTable = () => {
         setAnchorEl(null);
 
-        const newTextTable: TextTableObj = createTextTableObj(3, 3);
+        const newTextTable: TextTableObj = createTextTableObj(3, 3, 200, 40);
 
         setCanvasDesign({
             ...canvasDesign,

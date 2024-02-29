@@ -55,6 +55,8 @@ export interface TextFieldObj extends ShapeObj, TextObj {
 export interface TextTableObj extends ShapeObj {
     rows: (TextInputObj | TextFieldObj)[][];
     border?: { width: number, color: string };
+    cellWidth: number;
+    cellHeight: number;
     type: 'TextTable';
 }
 
