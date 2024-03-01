@@ -1,8 +1,9 @@
-import { CanvasDesignData, ShapeObj, TextFieldObj } from '../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextFieldObj } from '../../../../utils/types/CanvasInterfaces';
 import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
+import { updateShapeProperty } from '../../../../utils/canvas-util';
 
 interface TextFieldProps {
     textFieldObj: TextFieldObj;
@@ -87,22 +88,7 @@ const TextField = ({
 
 
     const onChange = (event: any) => {
-        const updatedCanvasDesign:  CanvasDesignData = {...canvasDesign};
-
-        canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-            if (shape.id === textFieldObj.id) {
-                updatedCanvasDesign.Shapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-                    if (shape.id === textFieldObj.id) {
-                        return {
-                            ...shape,
-                            value: event.target.value,
-                        };
-                    }
-                    return shape;
-                });
-            }
-        });
-        setCanvasDesign(updatedCanvasDesign);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, textFieldObj.id);
     };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {

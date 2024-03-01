@@ -146,11 +146,10 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     textTableGroup.add(line);
                 });
 
-
                 for (const [rowIndex, row] of textTable.rows.entries()) {
                     for (const [cellIndex, cell] of row.entries()) {
-                        const cellX = cellIndex * textTable.cellWidth; // Position relative to the group
-                        const cellY = rowIndex * textTable.cellHeight; // Position relative to the group
+                        const cellX = cellIndex * textTable.cellWidth + 5; // Position relative to the group plus padding
+                        const cellY = rowIndex * textTable.cellHeight + 5; // Position relative to the group
 
                         if (cell.type === "TextField") {
                             const textField = cell as TextFieldObj;

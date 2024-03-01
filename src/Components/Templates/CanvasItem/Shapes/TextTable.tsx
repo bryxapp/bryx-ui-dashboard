@@ -76,8 +76,8 @@ const TextTable: React.FC<TextTableProps> = ({
                 ))}
                 {textTableObj.rows.map((row, rowIndex) =>
                     row.map((cell, cellIndex) => {
-                        const cellX = cellIndex * textTableObj.cellWidth; // Position relative to the group
-                        const cellY = rowIndex * textTableObj.cellHeight; // Position relative to the group
+                        const cellX = cellIndex * textTableObj.cellWidth + 5; // Position relative to the group plus padding
+                        const cellY = rowIndex * textTableObj.cellHeight + 5; // Position relative to the group
                         if (cell.type === 'TextInput') {
                             let textInput = cell as TextInputObj;
                             return (
