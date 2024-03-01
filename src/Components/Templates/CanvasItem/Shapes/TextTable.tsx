@@ -46,8 +46,10 @@ const TextTable: React.FC<TextTableProps> = ({
         }
         onSelect(id);
     };
-
-
+    //Calculate total table width based on individual cell widths
+    const tableWidth = textTableObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
+    //Calculate total table height based on individual cell heights
+    const tableHeight = textTableObj.rows.reduce((acc, row) => acc + row[0].height, 0);
 
     return (
         <>
@@ -65,8 +67,8 @@ const TextTable: React.FC<TextTableProps> = ({
                 onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
             >
                 <Rect
-                    width={textTableObj.rows[0].length * textTableObj.cellWidth} // Assuming fixed cell width
-                    height={textTableObj.rows.length * textTableObj.cellHeight} // Assuming fixed cell height
+                    width={tableWidth} // Assuming fixed cell width
+                    height={tableHeight} // Assuming fixed cell height
                     fill="transparent" // Using transparent fill to catch click events
                     stroke={textTableObj.border ? textTableObj.border.color : 'transparent'}
                     strokeWidth={textTableObj.border ? textTableObj.border.width : 0}
@@ -76,10 +78,12 @@ const TextTable: React.FC<TextTableProps> = ({
                 ))}
                 {textTableObj.rows.map((row, rowIndex) =>
                     row.map((cell, cellIndex) => {
-                        const cellX = cellIndex * textTableObj.cellWidth + 5; // Position relative to the group plus padding
-                        const cellY = rowIndex * textTableObj.cellHeight + 5; // Position relative to the group
-                        if (cell.type === 'TextInput') {
-                            let textInput = cell as TextInputObj;
+                        // Calculate the X position of the cell based on the widths of all previous cells in the row
+                        const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
+                        // Calculate the Y position of the cell based on the heights of all rows above the current row
+                        const cellY = textTableObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
+                        if (cell.content?.type === 'TextInput') {
+                            let textInput = cell.content as TextInputObj;
                             return (
                                 <TextInput
                                     key={`${rowIndex}-${cellIndex}`}
@@ -94,7 +98,7 @@ const TextTable: React.FC<TextTableProps> = ({
                                 />
                             );
                         } else {
-                            let textField = cell as TextFieldObj;
+                            let textField = cell.content as TextFieldObj;
                             return (
                                 <TextField
                                     key={`${rowIndex}-${cellIndex}`}

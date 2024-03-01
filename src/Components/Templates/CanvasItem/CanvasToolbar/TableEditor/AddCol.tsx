@@ -28,6 +28,7 @@ const AddCol: React.FC<AddColProps> = ({ canvasDesign, setCanvasDesign }) => {
             // Deep clone the last cell in the current row
             let newCell = JSON.parse(JSON.stringify(textTable.rows[i][length]));
             // Generate a new ID for the cloned cell
+            newCell.content.id = generateShapeId();
             newCell.id = generateShapeId();
             // Add the cloned cell to the end of the current row
             textTable.rows[i].push(newCell);

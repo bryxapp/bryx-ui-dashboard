@@ -117,6 +117,10 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                   />)
               case 'TextTable':
                 const textTable = shape as TextTableObj;
+                //Calculate total table width based on individual cell widths
+                const tableWidth = textTable.rows[0].reduce((acc, cell) => acc + cell.width, 0);
+                //Calculate total table height based on individual cell heights
+                const tableHeight = textTable.rows.reduce((acc, row) => acc + row[0].height, 0);
                 return (
                   <>
                     <Group
@@ -125,8 +129,8 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                       y={textTable.y}
                     >
                       <Rect
-                        width={textTable.rows[0].length * textTable.cellWidth} // Assuming fixed cell width
-                        height={textTable.rows.length * textTable.cellHeight} // Assuming fixed cell height
+                        width={tableWidth} 
+                        height={tableHeight}
                         fill="transparent" // Using transparent fill to catch click events
                         stroke={textTable.border ? textTable.border.color : 'transparent'}
                         strokeWidth={textTable.border ? textTable.border.width : 0}
@@ -136,16 +140,18 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                       ))}
                       {textTable.rows.map((row, rowIndex) => (
                         row.map((cell, cellIndex) => {
-                        const cellX = cellIndex * textTable.cellWidth + 5; // Position relative to the group plus padding
-                        const cellY = rowIndex * textTable.cellHeight + 5; // Position relative to the group
-                          if (cell.type === "TextField") {
-                            const textField = cell as TextFieldObj;
+                        // Calculate the X position of the cell based on the widths of all previous cells in the row
+                        const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
+                        // Calculate the Y position of the cell based on the heights of all rows above the current row
+                        const cellY = textTable.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
+                          if (cell.content?.type === "TextField") {
+                            const textField = cell.content as TextFieldObj;
                             return (
                               <Text
                                 key={`${textField.id}-${rowIndex}-${cellIndex}`} // Unique key for each text field
                                 id={textField.id}
-                                x={cellX}
-                                y={cellY}
+                                x={cellX+5}
+                                y={cellY+5}
                                 text={textField.value}
                                 fontSize={textField.fontSize}
                                 fontFamily={textField.fontFamily}
@@ -160,7 +166,6 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                         })
                       ))}
                     </Group>
-
                   </>
                 );
               case 'Image':

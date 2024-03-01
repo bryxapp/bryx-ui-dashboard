@@ -127,11 +127,15 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     y: textTable.y
                 });
 
+                //Calculate total table width based on individual cell widths
+                const tableWidth = textTable.rows[0].reduce((acc, cell) => acc + cell.width, 0);
+                //Calculate total table height based on individual cell heights
+                const tableHeight = textTable.rows.reduce((acc, row) => acc + row[0].height, 0);
                 const tableRect = new Konva.Rect({
-                    width: textTable.rows[0].length * textTable.cellWidth,
-                    height: textTable.rows.length * textTable.cellHeight,
-                    stroke: textTable.border ? textTable.border.color : 'black',
-                    strokeWidth: textTable.border ? textTable.border.width : 1,
+                    width: tableWidth,
+                    height: tableHeight,
+                    stroke: textTable.border ? textTable.border.color : '',
+                    strokeWidth: textTable.border ? textTable.border.width : 0,
                 });
                 textTableGroup.add(tableRect);
 
@@ -148,11 +152,13 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
 
                 for (const [rowIndex, row] of textTable.rows.entries()) {
                     for (const [cellIndex, cell] of row.entries()) {
-                        const cellX = cellIndex * textTable.cellWidth + 5; // Position relative to the group plus padding
-                        const cellY = rowIndex * textTable.cellHeight + 5; // Position relative to the group
+                        // Calculate the X position of the cell based on the widths of all previous cells in the row
+                        const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
+                        // Calculate the Y position of the cell based on the heights of all rows above the current row
+                        const cellY = textTable.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
 
-                        if (cell.type === "TextField") {
-                            const textField = cell as TextFieldObj;
+                        if (cell.content?.type === "TextField") {
+                            const textField = cell.content as TextFieldObj;
                             const cellText = new Konva.Text({
                                 x: cellX,
                                 y: cellY,
@@ -167,8 +173,8 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                             });
                             textTableGroup.add(cellText);
                         }
-                        else if (cell.type === "TextInput") {
-                            const textInput = cell as TextInputObj;
+                        else if (cell.content?.type === "TextInput") {
+                            const textInput = cell.content as TextInputObj;
                             if (textInput.format === "currency") {
                                 fieldValues[textInput.id] = "$" + fieldValues[textInput.id];
                             }
@@ -189,11 +195,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
 
                             // Calculate the position to center the text within the TextInput shape
                             //const x =  + (containerWidth - placeholderText.width()) / 2;
-                            const centered_y = textInput.y + (containerHeight - placeholderText.height()) / 2;
+                            const centeredY = cellY + (containerHeight - placeholderText.height()) / 2;
 
                             const cellText = new Konva.Text({
-                                x: cellX,
-                                y: centered_y,
+                                x: cellX + 5,
+                                y: centeredY + 5,
                                 text: fieldValues[textInput.id],
                                 fontSize: textInput.fontSize,
                                 fill: textInput.fill,
@@ -292,7 +298,7 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
             const textTable = shape as TextTableObj;
             for (const row of textTable.rows) {
                 for (const cell of row) {
-                    if (cell.id === id) {
+                    if (cell.content.id === id) {
                         return cell;
                     }
                 }
@@ -318,7 +324,7 @@ export const isNested = (canvasDesign: CanvasDesignData, id: string | null): boo
             const textTable = shape as TextTableObj;
             for (const row of textTable.rows) {
                 for (const cell of row) {
-                    if (cell.id === id) {
+                    if (cell.content.id === id) {
                         return true;
                     }
                 }
@@ -348,7 +354,7 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
             let isCellUpdated = false;
             const updatedRows = textTable.rows.map(row =>
                 row.map(cell => {
-                    if (cell.id === id && !isCellUpdated) {
+                    if (cell.content.id === id && !isCellUpdated) {
                         isCellUpdated = true;
                         foundAndUpdated = true; // Mark that the update has occurred
                         return { ...cell, [propertyName]: value };
@@ -376,24 +382,28 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
 export const drawBorders = (textTableObj: TextTableObj) => {
     if (!textTableObj.border) return [];
     const bordersProps = [];
-    const tableWidth = textTableObj.rows[0].length * textTableObj.cellWidth;
-    const tableHeight = textTableObj.rows.length * textTableObj.cellHeight;
+    const tableWidth = textTableObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
+    const tableHeight = textTableObj.rows.reduce((acc, row) => acc + row[0].height, 0);
 
     // Vertical lines
     for (let i = 1; i < textTableObj.rows[0].length; i++) {
+        // Calculate the X position of the vertical line after each column
+        const xPos = textTableObj.rows[0].slice(0, i).reduce((acc, cell) => acc + cell.width, 0);
         bordersProps.push({
             key: `v-${i}`,
-            points: [textTableObj.cellWidth * i, 0, textTableObj.cellWidth * i, tableHeight],
+            points: [xPos, 0, xPos, tableHeight],
             stroke: textTableObj.border.color,
             strokeWidth: textTableObj.border.width
         });
     }
 
     // Horizontal lines
+    let accumulatedHeight = 0; // Keep track of the accumulated heights for accurate line positioning
     for (let i = 1; i < textTableObj.rows.length; i++) {
+        accumulatedHeight += textTableObj.rows[i - 1][0].height;
         bordersProps.push({
             key: `h-${i}`,
-            points: [0, textTableObj.cellHeight * i, tableWidth, textTableObj.cellHeight * i],
+            points: [0, accumulatedHeight, tableWidth, accumulatedHeight],
             stroke: textTableObj.border.color,
             strokeWidth: textTableObj.border.width,
         });
@@ -401,5 +411,6 @@ export const drawBorders = (textTableObj: TextTableObj) => {
 
     return bordersProps;
 };
+
 
 

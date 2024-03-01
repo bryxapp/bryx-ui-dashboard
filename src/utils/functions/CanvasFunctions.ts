@@ -84,13 +84,13 @@ export const toggleTextStyle = (
             const textTable = shape as TextTableObj;
             const updatedRows = textTable.rows.map(row => 
                 row.map(cell => {
-                    if (cell.id === canvasDesign.selectedId) {
-                        const currentStyle = cell[styleProperty] || '';
+                    if (cell.content.id === canvasDesign.selectedId) {
+                        const currentStyle = cell.content[styleProperty] || '';
                         const isStyleApplied = currentStyle.includes(style);
-                        cell[styleProperty] = isStyleApplied
+                        cell.content[styleProperty] = isStyleApplied
                             ? currentStyle.replace(style, '').trim()
                             : `${currentStyle} ${style}`.trim();
-                        return { ...cell, [styleProperty]: cell[styleProperty] };
+                        return { ...cell, [styleProperty]: cell.content[styleProperty] };
                     }
                     return cell;
                 })

@@ -1,6 +1,6 @@
 import { generateShapeId } from '../shapeid-util';
 import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
-import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj, TableCellObj } from './CanvasInterfaces';
 
 const defaultStartX = getWebCanvasWidth() / 4;
 const defaultStartY = getWebCanvasHeight() / 4;
@@ -119,44 +119,54 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
 }
 
 export function createTextTableObj(numberOfRows: number, numberOfCols: number, cellWidth: number, cellHeight: number): TextTableObj {
-    // Starting position for the table
-    const startX = defaultStartX;
-    const startY = defaultStartY;
-
-    const rows = [];
+    const startX = defaultStartX; // Assume this is defined elsewhere
+    const startY = defaultStartY; // Assume this is defined elsewhere
+    const rows: TableCellObj[][] = []; // Define rows as an array of arrays of TableCellObj
 
     for (let i = 0; i < numberOfRows; i++) {
-        // Calculate the Y position of the current row
         const currentRowY = startY + i * cellHeight;
-        const row = [];
+        const row: TableCellObj[] = [];
 
-        if (i === 0) {
-            // First row, create 3 TextField objects
-            for (let j = 0; j < numberOfCols; j++) {
-                row.push(createTextFieldObj(`Text Field`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY));
+        for (let j = 0; j < numberOfCols; j++) {
+            const cell: TableCellObj = {
+                id: generateShapeId(),
+                x: startX + j * cellWidth,
+                y: currentRowY,
+                rotation: 0,
+                isDragging: false,
+                width: cellWidth,
+                height: cellHeight,
+                type: 'TableCell',
+                content: {} as TextInputObj | TextFieldObj, // Placeholder for actual content
+            };
+
+            if (i === 0) {
+                // First row, create TextField objects
+                cell.content = createTextFieldObj(`text-field`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY);
+            } else {
+                // Subsequent rows, create TextInput objects
+                cell.content = createTextInputObj(`text-input`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY);
             }
-        } else {
-            // Subsequent rows, create 3 TextInput objects
-            for (let j = 0; j < numberOfCols; j++) {
-                row.push(createTextInputObj(`Text Input`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY));
-            }
+
+            row.push(cell);
         }
 
         rows.push(row);
     }
 
     return {
-        id: generateShapeId(), 
+        id: generateShapeId(), // Assume this function is defined elsewhere
         type: 'TextTable',
         x: startX,
         y: startY,
         rotation: 0,
         rows,
         isDragging: false,
-        cellWidth,
-        cellHeight,
+        // Assuming TextTableObj includes properties for overall width and height
+        // These would need to be calculated if they are dynamic
     };
 }
+
 
 export function createImageObj(src: string, width: number, height: number): ImageObj {
     return {

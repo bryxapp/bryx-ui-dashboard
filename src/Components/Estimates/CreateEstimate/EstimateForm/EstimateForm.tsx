@@ -61,10 +61,10 @@ const EstimateForm = () => {
                         newFieldValues[formInput.id] = "";
                     } else if (formInput.type === "TextTable") {
                         let textTable = formInput as TextTableObj;
-                        textTable.rows.forEach((row, rowIndex) => {
-                            row.forEach((cell, cellIndex) => {
-                                if (cell.type === "TextInput") {
-                                    newFieldValues[cell.id] = "";
+                        textTable.rows.forEach((row) => {
+                            row.forEach((cell) => {
+                                if (cell.content?.type === "TextInput") {
+                                    newFieldValues[cell.content.id] = "";
                                 }
                             });
                         });

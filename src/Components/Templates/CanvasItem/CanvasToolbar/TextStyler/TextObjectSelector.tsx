@@ -56,6 +56,8 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
                         fill
                     };
                 }
+            case "Empty":
+                return null;
             default:
                 return shape;
         }
@@ -107,6 +109,9 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
                 </MenuItem>
                 <MenuItem key={"TextField"} value={"TextField"}>
                     Text Field
+                </MenuItem>
+                <MenuItem key={"Empty"} value={"Empty"}>
+                    Empty
                 </MenuItem>
             </Select>
         </>

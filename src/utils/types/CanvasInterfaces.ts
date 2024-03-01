@@ -52,14 +52,18 @@ export interface TextFieldObj extends ShapeObj, TextObj {
     type: 'TextField';
 }
 
-export interface TextTableObj extends ShapeObj {
-    rows: (TextInputObj | TextFieldObj)[][];
-    border?: { width: number, color: string };
-    cellWidth: number;
-    cellHeight: number;
-    type: 'TextTable';
+export interface TableCellObj extends ShapeObj {
+    width: number;
+    height: number;
+    content: TextInputObj | TextFieldObj;
+    type: 'TableCell';
 }
 
+export interface TextTableObj extends ShapeObj {
+    rows: TableCellObj[][];
+    border?: { width: number, color: string };
+    type: 'TextTable';
+}
 export interface ImageObj extends ShapeObj {
     src: string;
     width: number;
@@ -90,6 +94,6 @@ export interface CanvasStarterData {
 
 export type FormInputs = (TextInputObj | TextTableObj)[];
 
-export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'TextTable' | 'Image';
+export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'TextTable' | 'TableCell' | 'Image';
 
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';

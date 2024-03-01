@@ -21,16 +21,16 @@ const EstimateFormTextTable = ({
                 {textTableObj.rows.map((row, rowIndex) => (
                     <Grid item xs={12} key={rowIndex} container>
                         {row.map((cell, cellIndex) => {
-                            if (cell.type === "TextInput") {
-                                const textInput = cell as TextInputObj;
+                            if (cell.content?.type === "TextInput") {
+                                const textInput = cell.content as TextInputObj;
                                 return (
                                     <Grid item xs={12 / row.length} key={cellIndex}>
                                         <EstimateFormTextField textInputObj={textInput} fieldValues={fieldValues} setFieldValues={setFieldValues} />
                                     </Grid>
                                 );
                             }
-                            else if (cell.type === "TextField") {
-                                const textField = cell as TextFieldObj;
+                            else if (cell.content?.type === "TextField") {
+                                const textField = cell.content as TextFieldObj;
                                 return (
                                     <Grid item xs={12 / row.length} key={cellIndex}>
                                         <Typography>{textField.value}</Typography>
