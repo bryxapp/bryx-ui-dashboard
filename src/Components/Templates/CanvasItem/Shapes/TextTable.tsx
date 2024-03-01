@@ -4,6 +4,7 @@ import { CanvasDesignData, TextTableObj, TextInputObj, TextFieldObj } from '../.
 import TextInput from './TextInput';
 import TextField from './TextField';
 import Konva from 'konva';
+import { drawBorders } from '../../../../utils/canvas-util';
 
 interface TextTableProps {
     textTableObj: TextTableObj;
@@ -46,41 +47,6 @@ const TextTable: React.FC<TextTableProps> = ({
         onSelect(id);
     };
 
-    const drawBorders = () => {
-        if (!textTableObj.border) return null;
-        const cellWidth = 200;
-        const cellHeight = 40;
-        const borders = [];
-        const tableWidth = textTableObj.rows[0].length * cellWidth;
-        const tableHeight = textTableObj.rows.length * cellHeight;
-
-        // Vertical lines
-        for (let i = 1; i < textTableObj.rows[0].length; i++) {
-            borders.push(
-                <Line
-                    key={`v-${i}`}
-                    points={[cellWidth * i, 0, cellWidth * i, tableHeight]}
-                    stroke={textTableObj.border.color}
-                    strokeWidth={textTableObj.border.width}
-                />
-            );
-        }
-
-        // Horizontal lines
-        for (let i = 1; i < textTableObj.rows.length; i++) {
-            borders.push(
-                <Line
-                    key={`h-${i}`}
-                    points={[0, cellHeight * i, tableWidth, cellHeight * i]}
-                    stroke={textTableObj.border.color}
-                    strokeWidth={textTableObj.border.width}
-                />
-            );
-        }
-
-        return borders;
-    };
-
 
 
     return (
@@ -99,17 +65,19 @@ const TextTable: React.FC<TextTableProps> = ({
                 onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
             >
                 <Rect
-                    width={textTableObj.rows[0].length * 200} // Assuming fixed cell width
-                    height={textTableObj.rows.length * 40} // Assuming fixed cell height
+                    width={textTableObj.rows[0].length * textTableObj.cellWidth} // Assuming fixed cell width
+                    height={textTableObj.rows.length * textTableObj.cellHeight} // Assuming fixed cell height
                     fill="transparent" // Using transparent fill to catch click events
                     stroke={textTableObj.border ? textTableObj.border.color : 'transparent'}
                     strokeWidth={textTableObj.border ? textTableObj.border.width : 0}
                 />
-                {drawBorders()}
+                {drawBorders(textTableObj).map((lineProps) => (
+                    <Line {...lineProps} />
+                ))}
                 {textTableObj.rows.map((row, rowIndex) =>
                     row.map((cell, cellIndex) => {
-                        const cellX = cellIndex * 200; // Position relative to the group
-                        const cellY = rowIndex * 40; // Position relative to the group
+                        const cellX = cellIndex * textTableObj.cellWidth; // Position relative to the group
+                        const cellY = rowIndex * textTableObj.cellHeight; // Position relative to the group
                         if (cell.type === 'TextInput') {
                             let textInput = cell as TextInputObj;
                             return (

@@ -2,6 +2,7 @@ import { Stage, Layer, Rect, Ellipse, Line, Image, Text, Group } from "react-kon
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../utils/page-util";
 import styled from '@emotion/styled';
+import { drawBorders } from "../../../../utils/canvas-util";
 
 
 
@@ -117,31 +118,50 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
               case 'TextTable':
                 const textTable = shape as TextTableObj;
                 return (
-                  <Group key={textTable.id}>
-                    {textTable.rows.map((row, rowIndex) => (
-                      row.map((cell, cellIndex) => {
-                        if (cell.type === "TextField") {
-                          const textField = cell as TextFieldObj;
-                          return (
-                            <Text
-                              key={`${textField.id}-${rowIndex}-${cellIndex}`} // Unique key for each text field
-                              id={textField.id}
-                              x={textField.x}
-                              y={textField.y}
-                              text={textField.value}
-                              fontSize={textField.fontSize}
-                              fontFamily={textField.fontFamily}
-                              fill={textField.fill}
-                              rotation={textField.rotation}
-                              align={textField.align}
-                            />
-                          );
-                        } else {
-                          return null;
-                        }
-                      })
-                    ))}
-                  </Group>
+                  <>
+                    <Group
+                      key={textTable.id}
+                      x={textTable.x} // Ensure these are correctly set to position the table group
+                      y={textTable.y}
+                    >
+                      <Rect
+                        width={textTable.rows[0].length * textTable.cellWidth} // Assuming fixed cell width
+                        height={textTable.rows.length * textTable.cellHeight} // Assuming fixed cell height
+                        fill="transparent" // Using transparent fill to catch click events
+                        stroke={textTable.border ? textTable.border.color : 'transparent'}
+                        strokeWidth={textTable.border ? textTable.border.width : 0}
+                      />
+                      {drawBorders(textTable).map((lineProps) => (
+                        <Line {...lineProps} />
+                      ))}
+                      {textTable.rows.map((row, rowIndex) => (
+                        row.map((cell, cellIndex) => {
+                          const cellX = cellIndex * textTable.cellWidth; // Position relative to the group
+                          const cellY = rowIndex * textTable.cellHeight; // Position relative to the group
+                          if (cell.type === "TextField") {
+                            const textField = cell as TextFieldObj;
+                            return (
+                              <Text
+                                key={`${textField.id}-${rowIndex}-${cellIndex}`} // Unique key for each text field
+                                id={textField.id}
+                                x={cellX}
+                                y={cellY}
+                                text={textField.value}
+                                fontSize={textField.fontSize}
+                                fontFamily={textField.fontFamily}
+                                fill={textField.fill}
+                                rotation={textField.rotation}
+                                align={textField.align}
+                              />
+                            );
+                          } else {
+                            return null;
+                          }
+                        })
+                      ))}
+                    </Group>
+
+                  </>
                 );
               case 'Image':
                 const image = shape as ImageObj;

@@ -122,13 +122,41 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                 break;
             case 'TextTable':
                 const textTable = shape as TextTableObj;
-                for (const row of textTable.rows) {
-                    for (const cell of row) {
+                const textTableGroup = new Konva.Group({
+                    x: textTable.x,
+                    y: textTable.y
+                });
+
+                const tableRect = new Konva.Rect({
+                    width: textTable.rows[0].length * textTable.cellWidth,
+                    height: textTable.rows.length * textTable.cellHeight,
+                    stroke: textTable.border ? textTable.border.color : 'black',
+                    strokeWidth: textTable.border ? textTable.border.width : 1,
+                });
+                textTableGroup.add(tableRect);
+
+                const borderProps = drawBorders(textTable);
+                // Iterate over the border properties to create and add lines to the layer
+                borderProps.forEach(border => {
+                    const line = new Konva.Line({
+                        points: border.points,
+                        stroke: border.stroke,
+                        strokeWidth: border.strokeWidth,
+                    });
+                    textTableGroup.add(line);
+                });
+
+
+                for (const [rowIndex, row] of textTable.rows.entries()) {
+                    for (const [cellIndex, cell] of row.entries()) {
+                        const cellX = cellIndex * textTable.cellWidth; // Position relative to the group
+                        const cellY = rowIndex * textTable.cellHeight; // Position relative to the group
+
                         if (cell.type === "TextField") {
                             const textField = cell as TextFieldObj;
                             const cellText = new Konva.Text({
-                                x: textField.x,
-                                y: textField.y,
+                                x: cellX,
+                                y: cellY,
                                 text: textField.value,
                                 fontSize: textField.fontSize,
                                 fill: textField.fill,
@@ -138,7 +166,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                                 textDecoration: textField.textDecoration,
                                 align: textField.align
                             });
-                            layer.add(cellText);
+                            textTableGroup.add(cellText);
                         }
                         else if (cell.type === "TextInput") {
                             const textInput = cell as TextInputObj;
@@ -165,7 +193,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                             const centered_y = textInput.y + (containerHeight - placeholderText.height()) / 2;
 
                             const cellText = new Konva.Text({
-                                x: textInput.x,
+                                x: cellX,
                                 y: centered_y,
                                 text: fieldValues[textInput.id],
                                 fontSize: textInput.fontSize,
@@ -176,10 +204,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                                 textDecoration: textInput.textDecoration,
                                 align: textInput.align
                             });
-                            layer.add(cellText);
+                            textTableGroup.add(cellText);
                         }
                     }
                 }
+                layer.add(textTableGroup);
                 break;
             case 'Image':
                 const imageObj = shape as ImageObj;
@@ -343,6 +372,35 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
     if (foundAndUpdated) {
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     }
+};
+
+export const drawBorders = (textTableObj: TextTableObj) => {
+    if (!textTableObj.border) return [];
+    const bordersProps = [];
+    const tableWidth = textTableObj.rows[0].length * textTableObj.cellWidth;
+    const tableHeight = textTableObj.rows.length * textTableObj.cellHeight;
+
+    // Vertical lines
+    for (let i = 1; i < textTableObj.rows[0].length; i++) {
+        bordersProps.push({
+            key: `v-${i}`,
+            points: [textTableObj.cellWidth * i, 0, textTableObj.cellWidth * i, tableHeight],
+            stroke: textTableObj.border.color,
+            strokeWidth: textTableObj.border.width
+        });
+    }
+
+    // Horizontal lines
+    for (let i = 1; i < textTableObj.rows.length; i++) {
+        bordersProps.push({
+            key: `h-${i}`,
+            points: [0, textTableObj.cellHeight * i, tableWidth, textTableObj.cellHeight * i],
+            stroke: textTableObj.border.color,
+            strokeWidth: textTableObj.border.width,
+        });
+    }
+
+    return bordersProps;
 };
 
 
