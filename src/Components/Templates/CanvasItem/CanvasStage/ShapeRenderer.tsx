@@ -8,7 +8,7 @@ import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import ImageShape from '../Shapes/ImageShape';
 import { selectShape } from '../../../../utils/functions/CanvasFunctions';
-import TextTable from '../Shapes/TextTable';
+import TextTable from '../Shapes/TextTable/TextTable';
 
 interface ShapeRendererProps {
     pageWidth: number;
