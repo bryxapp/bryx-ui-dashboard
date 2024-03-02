@@ -71,6 +71,14 @@ const TextTable: React.FC<TextTableProps> = ({
         setTableObj(newTableObj); // Update state to reflect changes
     }
 
+    const changeCursor = (cursorStyle: string) => {
+        const stage = shapeRef.current?.getStage();
+        if (stage) {
+            const container = stage.container();
+            container.style.cursor = cursorStyle;
+        }
+    };
+
     const addRowResizeHandles = () => {
         const handles = [];
         let accumulatedHeight = 0;
@@ -103,6 +111,8 @@ const TextTable: React.FC<TextTableProps> = ({
                             y: pos.y
                         };
                     }}
+                    onMouseEnter={() => changeCursor('row-resize')}
+                    onMouseLeave={() => changeCursor('default')}
                 />
             );
         }
@@ -141,6 +151,8 @@ const TextTable: React.FC<TextTableProps> = ({
                             y: textTableObj.y
                         };
                     }}
+                    onMouseEnter={() => changeCursor('col-resize')} // Use 'ew-resize' or 'col-resize' for horizontal resizing
+                    onMouseLeave={() => changeCursor('default')}
                 />
             );
         }
