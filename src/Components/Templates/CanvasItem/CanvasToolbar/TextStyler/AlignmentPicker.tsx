@@ -5,7 +5,7 @@ import AlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import AlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, updateShapeProperty } from '../../../../../utils/canvas-util';
+import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 interface AlignmentPickerProps {
     canvasDesign: CanvasDesignData;

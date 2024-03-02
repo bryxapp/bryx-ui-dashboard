@@ -4,7 +4,7 @@ import { updateTemplate, createTemplate } from '../../../../utils/api/templates-
 import logger from '../../../../logging/logger';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../../SharedComponents/ErrorModal/ErrorModal';
-import { isTemplateChanged } from '../../../../utils/functions/CanvasFunctions';
+import { isTemplateChanged } from '../../../../utils/canvasUtils';
 import { Typography } from '@mui/material';
 
 interface SaveTemplateButtonProps {

@@ -1,9 +1,8 @@
 import React from 'react';
 import { CanvasDesignData, ShapeObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape } from '../../../../../utils/canvas-util';
 import { IconButton, Tooltip } from '@mui/material';
-import { generateShapeId } from '../../../../../utils/shapeid-util';
 import ViewColumnIcon from '@mui/icons-material/ViewColumn';
+import { findShape, generateShapeId } from '../../../../../utils/shapeManagementUtils';
 
 interface AddColProps {
     canvasDesign: CanvasDesignData;

@@ -2,8 +2,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
-import { deleteShape } from '../../../../utils/functions/CanvasFunctions';
-import { isNested } from '../../../../utils/canvas-util';
+import { deleteShape, isNested } from '../../../../utils/shapeManagementUtils';
 
 interface DeleteButtonProps {
     isLoading: boolean;

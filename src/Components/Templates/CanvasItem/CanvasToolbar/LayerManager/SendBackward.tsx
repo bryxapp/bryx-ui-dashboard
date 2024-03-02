@@ -4,7 +4,7 @@ import Tooltip from '@mui/material/Tooltip';
 import BackwardIcon from '@mui/icons-material/ArrowLeft';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { IconButton } from '@mui/material';
-import { findShape } from '../../../../../utils/canvas-util';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
 
 interface SendBackwardProps {
     canvasDesign: CanvasDesignData;

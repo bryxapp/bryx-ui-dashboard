@@ -1,9 +1,9 @@
 import React from 'react';
 import Typography from "@mui/material/Typography";
 import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape } from '../../../../../utils/canvas-util';
 import Select from '@mui/material/Select';
 import { MenuItem } from '@mui/material';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
 
 
 interface TextObjectSelectorProps {

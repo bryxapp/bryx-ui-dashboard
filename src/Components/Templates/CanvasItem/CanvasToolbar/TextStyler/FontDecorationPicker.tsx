@@ -4,8 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
 import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { toggleTextStyle } from '../../../../../utils/functions/CanvasFunctions';
-import { findShape } from '../../../../../utils/canvas-util';
+import { findShape, toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontDecorationPickerProps {
     canvasDesign: CanvasDesignData;

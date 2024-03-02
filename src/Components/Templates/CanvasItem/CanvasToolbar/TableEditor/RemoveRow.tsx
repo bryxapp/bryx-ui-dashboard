@@ -1,8 +1,8 @@
 import React from 'react';
 import { CanvasDesignData, ShapeObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape } from '../../../../../utils/canvas-util';
 import { IconButton, Tooltip } from '@mui/material';
 import TableRowsIcon from '@mui/icons-material/TableRows';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
 
 interface RemoveRowProps {
     canvasDesign: CanvasDesignData;

@@ -1,11 +1,11 @@
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import { AppBar } from '@mui/material';
-import { findShape } from '../../../../../utils/canvas-util';
 import AddRow from './AddRow';
 import AddCol from './AddCol';
 import RemoveRow from './RemoveRow';
 import RemoveCol from './RemoveCol';
 import TableBorderControl from './TableBorderControl';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
 
 interface TableEditorProps {
     canvasDesign: CanvasDesignData;

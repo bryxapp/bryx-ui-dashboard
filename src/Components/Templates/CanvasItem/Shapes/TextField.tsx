@@ -3,7 +3,7 @@ import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { updateShapeProperty } from '../../../../utils/canvas-util';
+import { updateShapeProperty } from '../../../../utils/shapeManagementUtils';
 
 interface TextFieldProps {
     textFieldObj: TextFieldObj;

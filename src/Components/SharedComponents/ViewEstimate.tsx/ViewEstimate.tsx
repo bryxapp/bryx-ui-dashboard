@@ -7,10 +7,11 @@ import { getEstimate } from '../../../utils/api/estimates-api';
 import { EstimateData } from '../../../utils/types/EstimateInterfaces';
 import Konva from 'konva';
 import { Stage } from 'react-konva';
-import { AddShapesToLayer, getWebCanvasDimensions } from '../../../utils/canvas-util';
 import EstimateShareBar from './EstimateShareBar/EstimateShareBar';
 import EstimateComments from './EstimateComments/EstimateComments';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
+import { AddShapesToLayer } from '../../../utils/shapeManagementUtils';
 
 const ViewEstimate = () => {
     const { search } = useLocation();

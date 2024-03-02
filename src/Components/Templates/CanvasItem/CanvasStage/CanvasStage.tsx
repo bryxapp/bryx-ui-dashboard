@@ -4,10 +4,10 @@ import styled from '@emotion/styled';
 import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
-import { selectShape } from '../../../../utils/functions/CanvasFunctions';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
 import ShapeRenderer from './ShapeRenderer';
-import { getWebCanvasDimensions } from '../../../../utils/canvas-util';
+import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
+import { selectShape } from '../../../../utils/shapeManagementUtils';
 interface CanvasStageProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: any;

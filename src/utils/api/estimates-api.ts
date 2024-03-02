@@ -3,7 +3,7 @@
 import axios from 'axios';
 import { EstimateData, EstimateFormFields, EstimateResponse, } from '../types/EstimateInterfaces';
 import { TemplateData, EstimateTemplateUsedData } from '../types/TemplateInterfaces';
-import { createImageUrl } from '../canvas-util';
+import { createImageUrl } from '../canvasUtils';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimates";
 

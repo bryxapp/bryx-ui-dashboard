@@ -4,7 +4,7 @@ import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInt
 import Tooltip from '@mui/material/Tooltip';
 import ForwardIcon from '@mui/icons-material/ArrowRight';
 import FastForwardIcon from '@mui/icons-material/FastForward';
-import { findShape } from '../../../../../utils/canvas-util';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
 
 interface BringForwardProps {
     canvasDesign: CanvasDesignData;

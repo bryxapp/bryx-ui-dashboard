@@ -1,4 +1,4 @@
-import { generateShapeId } from '../shapeid-util';
+import { generateShapeId } from '../shapeManagementUtils';
 import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj, TableCellObj, CanvasDesignData } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
@@ -181,7 +181,7 @@ export function createImageObj(src: string, width: number, height: number): Imag
     };
 }
 
-export function createEmptyCanvasDesign(pageWidth: number, pageHeight: number):CanvasDesignData {
+export function createEmptyCanvasDesign(pageWidth: number, pageHeight: number): CanvasDesignData {
     return {
         Shapes: [],
         selectedId: null,

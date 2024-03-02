@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField'
 import Typography from "@mui/material/Typography";
 import { CanvasDesignData, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, updateShapeProperty } from '../../../../../utils/canvas-util';
+import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 
 interface DisplayNameEditorProps {

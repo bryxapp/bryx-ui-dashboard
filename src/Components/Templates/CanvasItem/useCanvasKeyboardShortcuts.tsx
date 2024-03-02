@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { deleteShape, moveShape, selectShape, pasteObject, toggleTextStyle } from "../../../utils/functions/CanvasFunctions";
-import { findShape } from "../../../utils/canvas-util";
+import { findShape, deleteShape, moveShape, selectShape, pasteObject, toggleTextStyle } from "../../../utils/shapeManagementUtils";
 
 export const useCanvasKeyboardShortcuts = ({
   canvasDesign,

@@ -7,7 +7,7 @@ import LineShape from '../Shapes/LineShape';
 import TextInput from '../Shapes/TextInput';
 import TextField from '../Shapes/TextField';
 import ImageShape from '../Shapes/ImageShape';
-import { selectShape } from '../../../../utils/functions/CanvasFunctions';
+import { selectShape } from '../../../../utils/shapeManagementUtils';
 import TextTable from '../Shapes/TextTable/TextTable';
 
 interface ShapeRendererProps {

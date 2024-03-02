@@ -1,9 +1,8 @@
 import { Stage, Layer, Rect, Ellipse, Line, Image, Text, Group } from "react-konva";
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces"
 import styled from '@emotion/styled';
-import { drawBorders, getWebCanvasDimensions } from "../../../../utils/canvas-util";
-
-
+import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
+import { drawBorders } from "../../../../utils/konvaExtensionUtils";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;

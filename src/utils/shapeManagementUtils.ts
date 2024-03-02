@@ -1,24 +1,20 @@
 import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
+import { drawBorders } from "./konvaExtensionUtils";
+import { loadImage } from "./canvasUtils";
 
-export const getWebCanvasDimensions = (canvasDesign: CanvasDesignData, scale: number = 1) => {
-    // Multiplier to display canvas while designing canvas
-    const canvasMultiplier = 96;
-    const pageWidth = canvasDesign.pageWidth * canvasMultiplier * scale;
-    const pageHeight = canvasDesign.pageHeight * canvasMultiplier * scale;
-    return [pageWidth, pageHeight];
-}
+export function generateShapeId(): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const idLength = 4;
+    let id = '';
 
+    for (let i = 0; i < idLength; i++) {
+        const randomIndex = Math.floor(Math.random() * chars.length);
+        id += chars.charAt(randomIndex);
+    }
 
-async function loadImage(src: string): Promise<HTMLImageElement> {
-    return new Promise((resolve, reject) => {
-        const image = new Image();
-        image.crossOrigin = "Anonymous";
-        image.onload = () => resolve(image);
-        image.onerror = reject;
-        image.src = src;
-    });
+    return id;
 }
 
 export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields, layer: Konva.Layer) {
@@ -248,51 +244,6 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
 
         layer.add(konvaShape);
     }
-
-}
-
-export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields) {
-    const layer = new Konva.Layer();
-    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
-    const rect = new Konva.Rect({
-        x: 0,
-        y: 0,
-        width: pageWidth,
-        height: pageHeight,
-        fill: "white"
-    });
-    layer.add(rect);
-
-    await AddShapesToLayer(canvasDesign, fieldValues, layer);
-
-    //Create container for stage
-    const container = document.createElement("div");
-    container.id = "container";
-    document.body.appendChild(container);
-
-    const stage = new Konva.Stage({
-        container: "container",
-        width: pageWidth,
-        height: pageHeight,
-    });
-    stage.add(layer);
-
-    const pixelRatio = 1.4;
-
-    const dataUrlSettings = {
-        type: "image/png",
-        quality: 1,
-        pixelRatio: pixelRatio,
-        height: pageHeight * pixelRatio,
-        width: pageWidth * pixelRatio,
-        x: 0,
-        y: 0,
-    };
-    stage.scale({ x: pixelRatio, y: pixelRatio });
-    const stageData = stage.toDataURL(dataUrlSettings);
-    //Remove container
-    document.body.removeChild(container);
-    return stageData;
 }
 
 export const findShape = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
@@ -389,41 +340,106 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
     }
 };
 
-export const drawBorders = (textTableObj: TextTableObj) => {
-    if (!textTableObj.border) return [];
-    const bordersProps = [];
-    const tableWidth = textTableObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
-    const tableHeight = textTableObj.rows.reduce((acc, row) => acc + row[0].height, 0);
+export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
+    const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+    canvasDesign.Shapes.forEach((shape: ShapeObj) => {
+        if (shape.id === canvasDesign.selectedId) {
+            updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
+        }
+    });
+    canvasDesign.selectedId = null;
+    setCanvasDesign(updatedCanvasDesign);
+    selectShape(null, updatedCanvasDesign, setCanvasDesign);
+}
 
-    // Vertical lines
-    for (let i = 1; i < textTableObj.rows[0].length; i++) {
-        // Calculate the X position of the vertical line after each column
-        const xPos = textTableObj.rows[0].slice(0, i).reduce((acc, cell) => acc + cell.width, 0);
-        bordersProps.push({
-            key: `v-${i}`,
-            points: [xPos, 0, xPos, tableHeight],
-            stroke: textTableObj.border.color,
-            strokeWidth: textTableObj.border.width
-        });
-    }
+export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => {
+    const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
+    canvasDesign.Shapes.forEach((shape: ShapeObj) => {
+        if (shape.id === canvasDesign.selectedId) {
+            switch (direction) {
+                case 'up':
+                    shape.y -= 10;
+                    break;
+                case 'down':
+                    shape.y += 10;
+                    break;
+                case 'left':
+                    shape.x -= 10;
+                    break;
+                case 'right':
+                    shape.x += 10;
+                    break;
+                default:
+                    break;
+            }
+        }
+    });
+    setCanvasDesign(updatedCanvasDesign);
+}
 
-    // Horizontal lines
-    let accumulatedHeight = 0; // Keep track of the accumulated heights for accurate line positioning
-    for (let i = 1; i < textTableObj.rows.length; i++) {
-        accumulatedHeight += textTableObj.rows[i - 1][0].height;
-        bordersProps.push({
-            key: `h-${i}`,
-            points: [0, accumulatedHeight, tableWidth, accumulatedHeight],
-            stroke: textTableObj.border.color,
-            strokeWidth: textTableObj.border.width,
-        });
-    }
-
-    return bordersProps;
+export const selectShape = (id: string | null, canvasDesign: any, setCanvasDesign: any) => {
+    setCanvasDesign({
+        ...canvasDesign,
+        selectedId: id,
+    });
 };
 
 
 
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, copiedObject: any) => {
 
+    const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
 
+    const pastedObject = JSON.parse(JSON.stringify(copiedObject)); // Make a deep copy of the copiedObject
+    pastedObject.id = generateShapeId(); // Generate a unique ID for the pasted object
+    pastedObject.x = copiedObject.x + 20;
+    pastedObject.y = copiedObject.y + 20;
 
+    updatedCanvasDesign.Shapes.push(pastedObject);
+    updatedCanvasDesign.selectedId = pastedObject.id; // Select the pasted object
+
+    setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
+};
+
+export const toggleTextStyle = (
+    canvasDesign: CanvasDesignData,
+    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    style: 'bold' | 'italic' | 'underline' | 'line-through'
+) => {
+    const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
+
+    const updatedShapes = canvasDesign.Shapes.map((shape) => {
+        if (shape.id === canvasDesign.selectedId) {
+            const textShape = shape as TextInputObj | TextFieldObj;
+            const currentStyle = textShape[styleProperty] || '';
+            const isStyleApplied = currentStyle.includes(style);
+            textShape[styleProperty] = isStyleApplied
+                ? currentStyle.replace(style, '').trim()
+                : `${currentStyle} ${style}`.trim();
+
+            return { ...textShape, [styleProperty]: textShape[styleProperty] };
+        }
+        else if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            const updatedRows = textTable.rows.map(row =>
+                row.map(cell => {
+                    if (cell.content.id === canvasDesign.selectedId) {
+                        const currentStyle = cell.content[styleProperty] || '';
+                        const isStyleApplied = currentStyle.includes(style);
+                        cell.content[styleProperty] = isStyleApplied
+                            ? currentStyle.replace(style, '').trim()
+                            : `${currentStyle} ${style}`.trim();
+                        return { ...cell, [styleProperty]: cell.content[styleProperty] };
+                    }
+                    return cell;
+                })
+            );
+            return { ...textTable, rows: updatedRows };
+        }
+        return shape;
+    });
+    setCanvasDesign({
+        ...canvasDesign,
+        Shapes: updatedShapes,
+    });
+};

@@ -2,7 +2,7 @@ import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, updateShapeProperty } from '../../../../../utils/canvas-util';
+import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 const FONTS = [
     'Arial',

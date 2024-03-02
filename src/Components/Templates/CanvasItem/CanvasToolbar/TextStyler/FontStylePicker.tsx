@@ -4,8 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
 import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { toggleTextStyle } from '../../../../../utils/functions/CanvasFunctions';
-import { findShape } from '../../../../../utils/canvas-util';
+import { findShape, toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontStylePickerProps {
     canvasDesign: CanvasDesignData;

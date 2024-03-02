@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { isTemplateChanged } from '../../../../utils/functions/CanvasFunctions';
+import { isTemplateChanged } from '../../../../utils/canvasUtils';
 import { Button, Typography } from '@mui/material';
 
 

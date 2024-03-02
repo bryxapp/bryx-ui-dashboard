@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { CanvasDesignData, ShapeObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape } from '../../../../../utils/canvas-util';
 import { ToggleButton, Tooltip } from '@mui/material';
 import BorderAllIcon from '@mui/icons-material/BorderAll'; // Icon for border control
+import { findShape } from '../../../../../utils/shapeManagementUtils';
 
 interface TableBorderToggleProps {
     canvasDesign: CanvasDesignData;

@@ -7,7 +7,7 @@ import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import SendBackward from './SendBackward';
 import BringForward from './BringForward';
 import Stack from '@mui/material/Stack';
-import { isNested } from '../../../../../utils/canvas-util';
+import { isNested } from '../../../../../utils/shapeManagementUtils';
 
 
 interface LayerManagerProps {

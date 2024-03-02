@@ -7,8 +7,8 @@ import FontDecorationPicker from './FontDecorationPicker'
 import InputFormatPicker from './InputFormatPicker';
 import AlignmentPicker from './AlignmentPicker';
 import { AppBar } from '@mui/material';
-import { findShape, isNested, isTextObject } from '../../../../../utils/canvas-util';
 import TextObjectSelector from './TextObjectSelector';
+import { findShape, isNested, isTextObject } from '../../../../../utils/shapeManagementUtils';
 
 interface TextStylerProps {
     canvasDesign: CanvasDesignData;
