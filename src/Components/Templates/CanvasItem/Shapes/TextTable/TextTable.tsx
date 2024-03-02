@@ -86,7 +86,7 @@ const TextTable: React.FC<TextTableProps> = ({
                     y={handleY}
                     width={tableWidth}
                     height={6}
-                    fill="red"
+                    fill="transparent"
                     draggable
                     onDragMove={(e) => {
                         const delta = e.target.y() - handleY;
@@ -125,7 +125,7 @@ const TextTable: React.FC<TextTableProps> = ({
                     y={0} // Adjust based on your needs
                     width={6}
                     height={tableHeight}
-                    fill="red"
+                    fill="transparent"
                     draggable
                     onDragMove={(e) => {
                         const delta = e.target.x() - handleX;
