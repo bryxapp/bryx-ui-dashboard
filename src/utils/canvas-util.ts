@@ -1,7 +1,15 @@
 import Konva from "konva";
-import { getWebCanvasHeight, getWebCanvasWidth } from "./page-util";
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
+
+export const getWebCanvasDimensions = (canvasDesign: CanvasDesignData, scale: number = 1) => {
+    // Multiplier to display canvas while designing canvas
+    const canvasMultiplier = 96;
+    const pageWidth = canvasDesign.pageWidth * canvasMultiplier * scale;
+    const pageHeight = canvasDesign.pageHeight * canvasMultiplier * scale;
+    return [pageWidth, pageHeight];
+}
+
 
 async function loadImage(src: string): Promise<HTMLImageElement> {
     return new Promise((resolve, reject) => {
@@ -245,11 +253,12 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
 
 export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields) {
     const layer = new Konva.Layer();
+    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
     const rect = new Konva.Rect({
         x: 0,
         y: 0,
-        width: getWebCanvasWidth(),
-        height: getWebCanvasHeight(),
+        width: pageWidth,
+        height: pageHeight,
         fill: "white"
     });
     layer.add(rect);
@@ -263,8 +272,8 @@ export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues
 
     const stage = new Konva.Stage({
         container: "container",
-        width: getWebCanvasWidth(),
-        height: getWebCanvasHeight(),
+        width: pageWidth,
+        height: pageHeight,
     });
     stage.add(layer);
 
@@ -274,8 +283,8 @@ export async function createImageUrl(canvasDesign: CanvasDesignData, fieldValues
         type: "image/png",
         quality: 1,
         pixelRatio: pixelRatio,
-        height: getWebCanvasHeight() * pixelRatio,
-        width: getWebCanvasWidth() * pixelRatio,
+        height: pageHeight * pixelRatio,
+        width: pageWidth * pixelRatio,
         x: 0,
         y: 0,
     };
@@ -412,6 +421,9 @@ export const drawBorders = (textTableObj: TextTableObj) => {
 
     return bordersProps;
 };
+
+
+
 
 
 

@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
+import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 
 const CanvasItem = () => {
     const { getAccessToken } = useAuth0User();
@@ -17,16 +18,9 @@ const CanvasItem = () => {
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
-    const [color, setColor] = useState<ShapeColor>({ fill:'#000000', stroke:'#000000'}
-        );
-    const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>({
-        Shapes: [],
-        selectedId: null,
-    });
-    const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>({
-        Shapes: [],
-        selectedId: null,
-    });
+    const [color, setColor] = useState<ShapeColor>({ fill: '#000000', stroke: '#000000' });
+    const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
+    const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [error, setError] = useState(false);
     useEffect(() => {
         const fetchTemplate = async () => {

@@ -1,9 +1,7 @@
 import { generateShapeId } from '../shapeid-util';
-import { getWebCanvasWidth, getWebCanvasHeight } from '../page-util';
-import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj, TableCellObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj, TableCellObj, CanvasDesignData } from './CanvasInterfaces';
 
-const defaultStartX = getWebCanvasWidth() / 4;
-const defaultStartY = getWebCanvasHeight() / 4;
+const [defaultStartX, defaultStartY] = [100, 100];
 
 export function createRectangleObj(width: number, height: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number): RectangleObj {
     return {
@@ -180,5 +178,14 @@ export function createImageObj(src: string, width: number, height: number): Imag
         width,
         height,
         isDragging: false,
+    };
+}
+
+export function createEmptyCanvasDesign(pageWidth: number, pageHeight: number):CanvasDesignData {
+    return {
+        Shapes: [],
+        selectedId: null,
+        pageWidth,
+        pageHeight,
     };
 }

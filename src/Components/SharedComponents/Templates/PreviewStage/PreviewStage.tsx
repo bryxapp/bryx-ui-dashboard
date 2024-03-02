@@ -1,8 +1,7 @@
 import { Stage, Layer, Rect, Ellipse, Line, Image, Text, Group } from "react-konva";
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces"
-import { getWebCanvasHeight, getWebCanvasWidth } from "../../../../utils/page-util";
 import styled from '@emotion/styled';
-import { drawBorders } from "../../../../utils/canvas-util";
+import { drawBorders, getWebCanvasDimensions } from "../../../../utils/canvas-util";
 
 
 
@@ -13,8 +12,7 @@ interface PreviewStageProps {
 
 const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
   //Page width and height is the same as the paper size. 8.5in x 11in
-  const pageWidth = getWebCanvasWidth() * scale;
-  const pageHeight = getWebCanvasHeight() * scale;
+  const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign, scale);
 
   //Create a styled div to mimic the look of paper. White drop shadow and rounded corners.
 
@@ -129,7 +127,7 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                       y={textTable.y}
                     >
                       <Rect
-                        width={tableWidth} 
+                        width={tableWidth}
                         height={tableHeight}
                         fill="transparent" // Using transparent fill to catch click events
                         stroke={textTable.border ? textTable.border.color : 'transparent'}
@@ -140,18 +138,18 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                       ))}
                       {textTable.rows.map((row, rowIndex) => (
                         row.map((cell, cellIndex) => {
-                        // Calculate the X position of the cell based on the widths of all previous cells in the row
-                        const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
-                        // Calculate the Y position of the cell based on the heights of all rows above the current row
-                        const cellY = textTable.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
+                          // Calculate the X position of the cell based on the widths of all previous cells in the row
+                          const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
+                          // Calculate the Y position of the cell based on the heights of all rows above the current row
+                          const cellY = textTable.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
                           if (cell.content?.type === "TextField") {
                             const textField = cell.content as TextFieldObj;
                             return (
                               <Text
                                 key={`${textField.id}-${rowIndex}-${cellIndex}`} // Unique key for each text field
                                 id={textField.id}
-                                x={cellX+5}
-                                y={cellY+5}
+                                x={cellX + 5}
+                                y={cellY + 5}
                                 text={textField.value}
                                 fontSize={textField.fontSize}
                                 fontFamily={textField.fontFamily}

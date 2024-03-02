@@ -1,6 +1,8 @@
 export interface CanvasDesignData {
     Shapes: (ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj)[];
     selectedId: string | null;
+    pageHeight: number;
+    pageWidth: number;
 }
 
 export interface ShapeObj {

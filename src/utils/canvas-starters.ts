@@ -182,7 +182,9 @@ export const CanvasStarters: CanvasStarterData[] = [
                     "isDragging": false
                 }
             ],
-            "selectedId": ""
+            "selectedId": "",
+            "pageHeight": 11,
+            "pageWidth": 8.5
         }
     },
     {
@@ -371,7 +373,9 @@ export const CanvasStarters: CanvasStarterData[] = [
                     "isDragging": false
                 }
             ],
-            "selectedId": null
+            "selectedId": null,
+            "pageHeight": 11,
+            "pageWidth": 8.5
         }
     },
     {
@@ -518,7 +522,9 @@ export const CanvasStarters: CanvasStarterData[] = [
                     "isDragging": false
                 }
             ],
-            "selectedId": null
+            "selectedId": null,
+            "pageHeight": 11,
+            "pageWidth": 8.5
         },
     }
 

@@ -1,7 +1,6 @@
 //Methods for creating and updating templates using axios
 
 import axios from 'axios';
-import { getPDFHeight, getPDFWidth } from '../page-util';
 import { EstimateData, EstimateFormFields, EstimateResponse, } from '../types/EstimateInterfaces';
 import { TemplateData, EstimateTemplateUsedData } from '../types/TemplateInterfaces';
 import { createImageUrl } from '../canvas-util';
@@ -22,13 +21,14 @@ export async function createEstimate(templateData: TemplateData, estimateName: s
 }
 
 export async function createEstimatePDF(estimate: EstimateData) {
+    const pdfMultiplier = 72;
     const estimateImgObj = await createImageUrl(estimate.canvasDesign, estimate.fieldValues);
     //Create Body
     const body = {
         estimateId: estimate.id,
         estimateImgObj: estimateImgObj,
-        estimatePDFHeight: getPDFHeight(),
-        estimatePDFWidth: getPDFWidth()
+        estimatePDFHeight: estimate.canvasDesign.pageHeight * pdfMultiplier,
+        estimatePDFWidth: estimate.canvasDesign.pageWidth * pdfMultiplier,
     }
     const response = await axios.post(`${BASE_URL}/pdf`, body, { headers: {} });
     return response.data as EstimateData;
