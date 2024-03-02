@@ -8,6 +8,16 @@ import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
 import ShapeRenderer from './ShapeRenderer';
 import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
 import { selectShape } from '../../../../utils/shapeManagementUtils';
+
+const PiecePaper = styled('div')<{ pageWidth: string | number; pageHeight: string | number }>((props) => ({
+    width: props.pageWidth,
+    height: props.pageHeight,
+    boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
+    borderRadius: '0.25in',
+    margin: 'auto',
+    overflow: 'hidden',
+    backgroundColor: 'white',
+}));
 interface CanvasStageProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: any;
@@ -15,18 +25,9 @@ interface CanvasStageProps {
     setColor: any;
 }
 
+
 const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStageProps) => {
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
-
-    const PiecePaper = styled('div')({
-        width: pageWidth,
-        height: pageHeight,
-        boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
-        borderRadius: '0.25in',
-        margin: 'auto',
-        overflow: 'hidden',
-        backgroundColor: 'white',
-    });
 
     //Parse url to get canvas starter name
     const urlParams = new URLSearchParams(window.location.search);
@@ -52,7 +53,10 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
     };
 
     return (
-        <PiecePaper>
+        <PiecePaper
+            pageWidth={pageWidth}
+            pageHeight={pageHeight}
+        >
             <Stage
                 width={pageWidth}
                 height={pageHeight}
