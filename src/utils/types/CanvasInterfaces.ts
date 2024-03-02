@@ -55,6 +55,7 @@ export interface TextFieldObj extends ShapeObj, TextObj {
 export interface TableCellObj extends ShapeObj {
     width: number;
     height: number;
+    verticalAlign: 'top' | 'middle' | 'bottom';
     content: TextInputObj | TextFieldObj;
     type: 'TableCell';
 }

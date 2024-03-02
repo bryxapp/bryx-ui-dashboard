@@ -299,7 +299,7 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
             for (const row of textTable.rows) {
                 for (const cell of row) {
                     if (cell.content.id === id) {
-                        return cell;
+                        return cell.content;
                     }
                 }
             }
@@ -356,8 +356,9 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
                 row.map(cell => {
                     if (cell.content.id === id && !isCellUpdated) {
                         isCellUpdated = true;
-                        foundAndUpdated = true; // Mark that the update has occurred
-                        return { ...cell, [propertyName]: value };
+                        foundAndUpdated = true;
+
+                        return { ...cell, content: { ...cell.content, [propertyName]: value } };
                     }
                     return cell;
                 })

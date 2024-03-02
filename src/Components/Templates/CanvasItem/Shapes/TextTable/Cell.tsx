@@ -13,20 +13,29 @@ interface CellProps {
     setCanvasDesign: any;
 }
 
-
 const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canvasDesign, setCanvasDesign }: CellProps) => {
-
-    // Calculate the X position of the cell based on the widths of all previous cells in the row
     const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
-    // Calculate the Y position of the cell based on the heights of all rows above the current row
     const cellY = textTableObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
+    const cellHeight = cell.height;
+    const verticalAlign = cell.verticalAlign;
+    let contentY = cellY; // Default to top alignment
+
+    const contentHeight = cell.content?.type === 'TextInput' ? (cell.content as TextInputObj).fontSize : (cell.content as TextFieldObj).fontSize;
+
+    // Adjust Y based on vertical alignment
+    if (verticalAlign === 'middle') {
+        contentY += (cellHeight - contentHeight) / 2;
+    } else if (verticalAlign === 'bottom') {
+        contentY += cellHeight - contentHeight;
+    }
+    // For 'top' alignment, contentY remains as cellY
 
     if (cell.content?.type === 'TextInput') {
         let textInput = cell.content as TextInputObj;
         return (
             <TextInput
                 key={`${rowIndex}-${cellIndex}`}
-                textInputObj={{ ...textInput, x: cellX, y: cellY }}
+                textInputObj={{ ...textInput, x: cellX, y: contentY }} // Adjusted Y position
                 handleDragStart={() => { }}
                 handleDragMove={() => { }}
                 handleDragEnd={() => { }}
@@ -41,7 +50,7 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         return (
             <TextField
                 key={`${rowIndex}-${cellIndex}`}
-                textFieldObj={{ ...textField, x: cellX, y: cellY }}
+                textFieldObj={{ ...textField, x: cellX, y: contentY }} // Adjusted Y position
                 handleDragStart={() => { }}
                 handleDragEnd={() => { }}
                 handleDragMove={() => { }}
@@ -55,6 +64,5 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         );
     }
 }
-
 
 export default Cell;

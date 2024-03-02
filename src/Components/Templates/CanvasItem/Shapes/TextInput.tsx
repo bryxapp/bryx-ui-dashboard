@@ -17,11 +17,11 @@ interface TextInputProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
-    handleDragMove:any;
+    handleDragMove: any;
     draggable?: boolean;
 }
 
-const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove,  draggable = true }: TextInputProps) => {
+const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: TextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
 
@@ -78,7 +78,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                 displayName={textInputObj.displayName}
                 x={textInputObj.x}
                 y={textInputObj.y}
-                draggable = {draggable}
+                draggable={draggable}
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
@@ -92,7 +92,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     height={containerHeight}
                     fill='#F5F5F5'
                     scaleX={1}
-                    scaleY={1}                />
+                    scaleY={1} />
                 <Text
                     x={getAlignment()}
                     y={5}
@@ -100,7 +100,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     fontSize={16}
                     fill={textInputObj.fill}
                     scaleX={1}
-                    scaleY={1}                />
+                    scaleY={1} />
                 <Text
                     x={containerWidth - 20}
                     y={5}
@@ -108,7 +108,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     fontSize={16}
                     fill={'gray'}
                     scaleX={1}
-                    scaleY={1}                />
+                    scaleY={1} />
             </Group>
             {isSelected && (
                 <Transformer
