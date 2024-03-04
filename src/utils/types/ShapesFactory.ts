@@ -135,6 +135,7 @@ export function createTextTableObj(numberOfRows: number, numberOfCols: number, c
                 width: cellWidth,
                 height: cellHeight,
                 verticalAlign: 'middle',
+                horizontalAlign: 'center',
                 type: 'TableCell',
                 content: {} as TextInputObj | TextFieldObj, // Placeholder for actual content
             };

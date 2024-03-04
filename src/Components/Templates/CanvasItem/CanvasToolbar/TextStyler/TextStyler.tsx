@@ -9,6 +9,7 @@ import TextAlignmentPicker from './TextAlignmentPicker';
 import { AppBar } from '@mui/material';
 import TextObjectSelector from './TextObjectSelector';
 import { findShape, isNested, isTextObject } from '../../../../../utils/shapeManagementUtils';
+import CellAlignmentPicker from './CellAlignmentPicker';
 
 interface TextStylerProps {
     canvasDesign: CanvasDesignData;
@@ -27,8 +28,16 @@ function TextStyler({ canvasDesign, setCanvasDesign }: TextStylerProps) {
             <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-            <TextAlignmentPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-            {isNestedShape && <TextObjectSelector canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />}
+            {!isNestedShape &&
+                <TextAlignmentPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            }
+            {/*Nested Object is Text Inside of a Table */}
+            {isNestedShape &&
+                <>
+                    <TextObjectSelector canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <CellAlignmentPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                </>
+            }
         </AppBar>
     );
 }
