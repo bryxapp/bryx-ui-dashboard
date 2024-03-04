@@ -7,12 +7,12 @@ import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
 import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
-interface AlignmentPickerProps {
+interface TextAlignmentPickerProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
 }
 
-const AlignmentPicker: React.FC<AlignmentPickerProps> = ({ canvasDesign, setCanvasDesign }) => {
+const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ canvasDesign, setCanvasDesign }) => {
 
     const handleAlignmentChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
         if (newAlignment) {
@@ -44,4 +44,4 @@ const AlignmentPicker: React.FC<AlignmentPickerProps> = ({ canvasDesign, setCanv
     );
 };
 
-export default AlignmentPicker;
+export default TextAlignmentPicker;

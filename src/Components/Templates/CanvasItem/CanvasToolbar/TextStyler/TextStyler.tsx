@@ -5,7 +5,7 @@ import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
 import InputFormatPicker from './InputFormatPicker';
-import AlignmentPicker from './AlignmentPicker';
+import TextAlignmentPicker from './TextAlignmentPicker';
 import { AppBar } from '@mui/material';
 import TextObjectSelector from './TextObjectSelector';
 import { findShape, isNested, isTextObject } from '../../../../../utils/shapeManagementUtils';
@@ -27,7 +27,7 @@ function TextStyler({ canvasDesign, setCanvasDesign }: TextStylerProps) {
             <FontSizePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <FontStylePicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <FontDecorationPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-            <AlignmentPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            <TextAlignmentPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             {isNestedShape && <TextObjectSelector canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />}
         </AppBar>
     );

@@ -268,6 +268,25 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
     return undefined;
 };
 
+export const findCell = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
+    if (!id) {
+        return undefined;
+    }
+    for (const shape of canvasDesign.Shapes) {
+        if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            for (const row of textTable.rows) {
+                for (const cell of row) {
+                    if (cell.content.id === id) {
+                        return cell;
+                    }
+                }
+            }
+        }
+    }
+    return undefined;
+};
+
 export const isTextObject = (shape?: ShapeObj): boolean => {
     return shape?.type === 'TextInput' || shape?.type === 'TextField';
 };
@@ -319,6 +338,42 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
                         foundAndUpdated = true;
 
                         return { ...cell, content: { ...cell.content, [propertyName]: value } };
+                    }
+                    return cell;
+                })
+            );
+
+            // If any cell was updated, return the updated TextTable shape
+            if (isCellUpdated) {
+                return { ...shape, rows: updatedRows };
+            }
+        }
+
+        // Return the shape unchanged if no conditions are met
+        return shape;
+    });
+
+    // Update the canvasDesign only if an update was made
+    if (foundAndUpdated) {
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+    }
+};
+
+export const updateCellProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
+    let foundAndUpdated = false;
+
+    const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+
+        if (shape.type === "TextTable") {
+            const textTable = shape as TextTableObj;
+            let isCellUpdated = false;
+            const updatedRows = textTable.rows.map(row =>
+                row.map(cell => {
+                    if (cell.content.id === id && !isCellUpdated) {
+                        isCellUpdated = true;
+                        foundAndUpdated = true;
+
+                        return { ...cell, [propertyName]: value };
                     }
                     return cell;
                 })
