@@ -48,13 +48,15 @@ const RemoveRow: React.FC<RemoveRowProps> = ({ canvasDesign, setCanvasDesign }) 
 
     return (
         <Tooltip title="Remove Row">
-            <IconButton
-                color="primary"
-                onClick={handleRemoveRow}
-                disabled={isDisabled()}
-            >
-                -<TableRowsIcon />
-            </IconButton>
+            <span>
+                <IconButton
+                    color="primary"
+                    onClick={handleRemoveRow}
+                    disabled={isDisabled()}
+                >
+                    -<TableRowsIcon />
+                </IconButton>
+            </span>
         </Tooltip>
     );
 };

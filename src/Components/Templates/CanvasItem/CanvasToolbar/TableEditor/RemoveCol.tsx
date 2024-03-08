@@ -50,13 +50,15 @@ const RemoveCol: React.FC<RemoveColProps> = ({ canvasDesign, setCanvasDesign }) 
 
     return (
         <Tooltip title="Remove Column">
-            <IconButton
-                color="primary"
-                onClick={handleRemoveCol}
-                disabled={isDisabled()}
-            >
-                -<ViewColumnIcon />
-            </IconButton>
+            <span>
+                <IconButton
+                    color="primary"
+                    onClick={handleRemoveCol}
+                    disabled={isDisabled()}
+                >
+                    -<ViewColumnIcon />
+                </IconButton>
+            </span>
         </Tooltip>
     );
 };
