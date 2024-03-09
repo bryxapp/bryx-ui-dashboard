@@ -25,6 +25,15 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
 
+    const createTempTextKonvaShape = (content: TextInputObj) => new Konva.Text({
+        text: content.displayName,
+        fontSize: content.fontSize,
+        fontFamily: content.fontFamily,
+        fontStyle: content.fontStyle,
+        textDecoration: content.textDecoration,
+        align: content.align,
+    });
+
     useEffect(() => {
         if (isSelected && shapeRef.current) {
             // we need to attach transformer manually
@@ -52,23 +61,29 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
         }
     };
 
-    const isParagraph = textInputObj.format === 'paragraph';
-    const containerWidth = isParagraph ? textInputObj.fontSize * 15 : textInputObj.fontSize * 10;
-    const containerHeight = isParagraph ? textInputObj.fontSize * 4 : textInputObj.fontSize * 2;
-    const fontWidth = textInputObj.displayName.length * 10;
+    const tempTextShape = createTempTextKonvaShape(textInputObj);
 
-    const getAlignment = () => {
+    const textWidth = tempTextShape.width();
+    const textHeight = tempTextShape.height();
+    const containerWidth = textWidth + textWidth * .25;
+    const containerHeight = textHeight + textHeight * .25;
+
+    const getXAlignment = () => {
         switch (textInputObj.align) {
             case 'left':
                 return 5;
-            case 'right':
-                return (containerWidth - 25) - (fontWidth);
             case 'center':
-                return (containerWidth / 2) - (fontWidth / 2);
+                return (containerWidth - textWidth) / 2;
+            case 'right':
+                return 5 + (containerWidth - textWidth) - 5;
             default:
                 return 5;
         }
     };
+
+    const getYAlignment = () => {
+        return (containerHeight - textHeight) / 2;
+    }
 
     return (
         <React.Fragment>
@@ -94,18 +109,20 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     scaleX={1}
                     scaleY={1} />
                 <Text
-                    x={getAlignment()}
-                    y={5}
+                    x={getXAlignment()}
+                    y={getYAlignment()}
                     text={`${textInputObj.displayName}`}
-                    fontSize={16}
+                    fontSize={textInputObj.fontSize}
                     fill={textInputObj.fill}
+                    fontFamily={textInputObj.fontFamily}
+                    fontStyle={textInputObj.fontStyle}
                     scaleX={1}
                     scaleY={1} />
                 <Text
-                    x={containerWidth - 20}
+                    x={containerWidth - textWidth * .22}
                     y={5}
                     text={getIndicator()}
-                    fontSize={16}
+                    fontSize={textInputObj.fontSize * .6}
                     fill={'gray'}
                     scaleX={1}
                     scaleY={1} />
@@ -123,7 +140,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     onTransformEnd={onTransformEnd}
                     rotateEnabled={true}
                     anchorSize={10}
-                    resizeEnabled={false}
+                    resizeEnabled={true}
                     keepRatio={false}
                 />
             )}
