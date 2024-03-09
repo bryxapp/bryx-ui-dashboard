@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Group, Line, Rect, Transformer } from 'react-konva';
-import { CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import Konva from 'konva';
 import CellRow from './CellRow';
 import { drawBorders } from '../../../../../utils/konvaExtensionUtils';
@@ -29,7 +29,6 @@ const TextTable: React.FC<TextTableProps> = ({
 
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
-    const [tableObj, setTableObj] = useState(textTableObj); // Use state to manage dynamic changes
     //Calculate total table width based on individual cell widths
     const tableWidth = textTableObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
     //Calculate total table height based on individual cell heights
@@ -41,7 +40,7 @@ const TextTable: React.FC<TextTableProps> = ({
             trRef.current?.nodes([shapeRef.current]);
             trRef.current?.getLayer()?.batchDraw();
         }
-    }, [isSelected, tableObj]);
+    }, [isSelected]);
 
     const handleSelect = (id: string, type: 'table' | 'item', event?: Konva.KonvaEventObject<MouseEvent>) => {
         // Prevent event propagation if it's an item selection to avoid selecting the table
@@ -52,24 +51,36 @@ const TextTable: React.FC<TextTableProps> = ({
     };
 
     const updateColumnWidth = (columnIndex: number, delta: number) => {
-        // Implement logic to update the specified column's width and adjust the table layout
-        const newTableObj = { ...tableObj };
-        newTableObj.rows.forEach(row => {
-            if (row[columnIndex]) {
-                row[columnIndex].width += delta;
+        const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+            if (shape.id === textTableObj.id) {
+                const newTableObj = shape as TextTableObj;
+                newTableObj.rows.forEach(row => {
+                    if (row[columnIndex]) {
+                        row[columnIndex].width += delta;
+                    }
+                });
+                return newTableObj;
             }
+            return shape;
         });
-        setTableObj(newTableObj); // Update state to reflect changes
+    
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
-
+    
     const updateRowHeight = (rowIndex: number, delta: number) => {
-        // Implement logic to update the specified row's height and adjust the table layout
-        const newTableObj = { ...tableObj };
-        newTableObj.rows[rowIndex].forEach(cell => {
-            cell.height += delta;
+        const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+            if (shape.id === textTableObj.id) {
+                const newTableObj = shape as TextTableObj;
+                newTableObj.rows[rowIndex].forEach(cell => {
+                    cell.height += delta;
+                });
+                return newTableObj;
+            }
+            return shape;
         });
-        setTableObj(newTableObj); // Update state to reflect changes
-    }
+    
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+    };
 
     const changeCursor = (cursorStyle: string) => {
         const stage = shapeRef.current?.getStage();
