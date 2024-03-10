@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState, useRef } from 'react';
 import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { searchUnsplashImages } from '../../../../../../utils/api/unsplash-images-api';
 import TextField from '@mui/material/TextField';
-import { Typography } from '@mui/material';
+import { Typography, useTheme } from '@mui/material';
 import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
 import logger from '../../../../../../logging/logger';
 import PublicImagesGrid from './PublicImagesGrid/PublicImagesGrid';
@@ -20,6 +20,7 @@ export default function PublicImages({ canvasDesign, setCanvasDesign, setAnchorE
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const prevSearchQueryRef = useRef<string>('');
     const [error, setError] = useState(false);
+    const theme = useTheme();
 
     const searchImages = useCallback(async (query: string) => {
         try {
@@ -76,22 +77,23 @@ export default function PublicImages({ canvasDesign, setCanvasDesign, setAnchorE
 
     return (
         <div style={{ 'margin': '1vh' }}>
-            <Typography variant="h6">
-                Search our images
-            </Typography>
-            <Typography variant="body2">
-                Powered by Unsplash
-            </Typography>
+
             <TextField
-                label="Search Images"
+                label="Search Stock Images"
                 variant="outlined"
+                color='secondary'
                 size="small"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 fullWidth
                 margin="normal"
+                InputLabelProps={{
+                    style: { color: theme.palette.primary.main }
+                }}
             />
-
+            <Typography variant="caption">
+                Powered by Unsplash
+            </Typography>
             <PublicImagesGrid unsplashImages={unsplashImages} handleImageClick={handleImageClick} error={error} />
         </div>
     );
