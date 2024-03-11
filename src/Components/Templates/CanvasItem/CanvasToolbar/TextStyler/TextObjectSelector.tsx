@@ -13,7 +13,7 @@ interface TextObjectSelectorProps {
 
 const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelectorProps) => {
 
-    const convertTextObject = (shape: ShapeObj, type: string) => {
+    const convertTextObject = (shape: TextFieldObj | TextInputObj, type: string) => {
         switch (type) {
             case "TextInput":
                 {
@@ -34,7 +34,7 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
                         isDragging,
                         fill,
                         format: "text"
-                    };
+                    } as TextInputObj;
                 }
             case "TextField":
                 {
@@ -54,41 +54,36 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
                         rotation,
                         isDragging,
                         fill
-                    };
+                    } as TextFieldObj;
                 }
-            case "Empty":
-                return null;
             default:
                 return shape;
         }
     };
     const handleTextObjectChange = (event: any) => {
         let foundAndUpdated = false;
-
-        const updateShape = (shape: ShapeObj) => {
-            if (shape.id === canvasDesign.selectedId && !foundAndUpdated) {
-                foundAndUpdated = true;
-                return convertTextObject(shape, event.target.value);
-            }
-            return shape;
-        };
-
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.type === "TextTable") {
                 const textTable = shape as TextTableObj;
                 const updatedRows = textTable.rows.map(row =>
-                    row.map(cell => updateShape(cell))
+                    row.map(cell => {
+                        let cellContent = cell.content;
+                        if (!foundAndUpdated && cellContent.id === canvasDesign.selectedId) {
+                            foundAndUpdated = true;
+                            cell.content = convertTextObject(cellContent, event.target.value);
+                        }
+                        return cell;
+                    })
                 );
                 return { ...shape, rows: updatedRows };
             }
-            return updateShape(shape);
+            return shape;
         });
 
         if (foundAndUpdated) {
             setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
         }
     };
-
 
     const selectedTextObjectType = (findShape(canvasDesign, canvasDesign.selectedId))?.type ?? '';
 
