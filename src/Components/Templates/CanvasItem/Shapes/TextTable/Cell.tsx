@@ -92,15 +92,7 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         let textInput = cell.content as TextInputObj;
         return (
             <>
-                <Rect
-                    x={cellXPosition + 5}
-                    y={cellYPosition + 5}
-                    width={cell.width - 15}
-                    height={cell.height - 15}
-                    fill='transparent'
-                    onClick={handleRectClick}
-                    ref={shapeRef}
-                />
+                <ClickableRectShape cellXPosition={cellXPosition} cellYPosition={cellYPosition} cell={cell} onClick={handleRectClick} shapeRef={shapeRef} isSelected={cell.id === canvasDesign.selectedId} trRef={trRef} />
                 <TextInput
                     key={`${rowIndex}-${cellIndex}`}
                     textInputObj={{ ...textInput, x: contentX, y: contentY }} // Adjusted Y position
@@ -112,20 +104,6 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                     onTransformEnd={() => { }}
                     draggable={false}
                 />
-                {cell.id === canvasDesign.selectedId && (
-                    <Transformer
-                        ref={trRef}
-                        boundBoxFunc={(oldBox, newBox) => {
-                            // limit resize
-                            if (newBox.width < 5 || newBox.height < 5) {
-                                return oldBox;
-                            }
-                            return newBox;
-                        }}
-                        rotateEnabled={false}
-                        resizeEnabled={false}
-                    />
-                )}
             </>
         );
     }
@@ -133,15 +111,7 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         let textField = cell.content as TextFieldObj;
         return (
             <>
-                <Rect
-                    x={cellXPosition + 5}
-                    y={cellYPosition + 5}
-                    width={cell.width - 15}
-                    height={cell.height - 15}
-                    fill='transparent'
-                    onClick={handleRectClick}
-                    ref={shapeRef}
-                />
+                <ClickableRectShape cellXPosition={cellXPosition} cellYPosition={cellYPosition} cell={cell} onClick={handleRectClick} shapeRef={shapeRef} isSelected={cell.id === canvasDesign.selectedId} trRef={trRef} />
                 <TextField
                     key={`${rowIndex}-${cellIndex}`}
                     textFieldObj={{ ...textField, x: contentX, y: contentY }} // Adjusted Y position
@@ -155,51 +125,52 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                     setCanvasDesign={setCanvasDesign}
                     draggable={false}
                 />
-                {cell.id === canvasDesign.selectedId && (
-                    <Transformer
-                        ref={trRef}
-                        boundBoxFunc={(oldBox, newBox) => {
-                            // limit resize
-                            if (newBox.width < 5 || newBox.height < 5) {
-                                return oldBox;
-                            }
-                            return newBox;
-                        }}
-                        rotateEnabled={false}
-                        resizeEnabled={false}
-                    />
-                )}
             </>
         );
     }
     else {
         return (
-            <>
-                <Rect
-                    x={cellXPosition + 5}
-                    y={cellYPosition + 5}
-                    width={cell.width - 15}
-                    height={cell.height - 15}
-                    fill='transparent'
-                    onClick={handleRectClick}
-                    ref={shapeRef}
-                />
-                {cell.id === canvasDesign.selectedId && (
-                    <Transformer
-                        ref={trRef}
-                        boundBoxFunc={(oldBox, newBox) => {
-                            // limit resize
-                            if (newBox.width < 5 || newBox.height < 5) {
-                                return oldBox;
-                            }
-                            return newBox;
-                        }}
-                        rotateEnabled={false}
-                        resizeEnabled={false}
-                    />
-                )}
-            </>)
+            <ClickableRectShape cellXPosition={cellXPosition} cellYPosition={cellYPosition} cell={cell} onClick={handleRectClick} shapeRef={shapeRef} isSelected={cell.id === canvasDesign.selectedId} trRef={trRef} />
+        )
     }
 }
+
+const ClickableRectShape = ({ cellXPosition, cellYPosition, cell, onClick, shapeRef, isSelected, trRef }: any) => {
+    useEffect(() => {
+        if (isSelected && shapeRef.current) {
+            trRef.current.nodes([shapeRef.current]);
+            trRef.current.getLayer().batchDraw();
+        }
+    }, [isSelected, shapeRef, trRef]);
+
+    if (!isSelected) return null;
+
+    return (
+        <>
+            <Rect
+                x={cellXPosition + 5}
+                y={cellYPosition + 5}
+                width={cell.width - 15}
+                height={cell.height - 15}
+                fill='transparent'
+                onClick={onClick}
+                ref={shapeRef}
+            />
+            <Transformer
+                ref={trRef}
+                boundBoxFunc={(oldBox, newBox) => {
+                    // limit resize
+                    if (newBox.width < 5 || newBox.height < 5) {
+                        return oldBox;
+                    }
+                    return newBox;
+                }}
+                rotateEnabled={false}
+                resizeEnabled={false}
+            />
+        </>
+    );
+};
+
 
 export default Cell;
