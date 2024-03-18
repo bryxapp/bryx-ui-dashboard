@@ -100,7 +100,7 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
         }
     };
 
-    const selectedTextObjectType = (getTextShape(canvasDesign, canvasDesign.selectedId))?.type ?? '';
+    const selectedTextObjectType = (getTextShape(canvasDesign, canvasDesign.selectedId))?.type ?? 'Empty';
 
     return (
         <>

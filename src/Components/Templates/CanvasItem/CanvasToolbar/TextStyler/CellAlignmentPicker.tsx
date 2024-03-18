@@ -30,6 +30,7 @@ const CellAlignmentPicker: React.FC<CellAlignmentPickerProps> = ({ canvasDesign,
     };
 
     const selectedShape = findCell(canvasDesign, canvasDesign.selectedId) as TableCellObj;
+    if (!selectedShape.content) return null;
     const selectedHorizontalAlignment = selectedShape?.horizontalAlign;
     const selectedVerticalAlignment = selectedShape?.verticalAlign;
 

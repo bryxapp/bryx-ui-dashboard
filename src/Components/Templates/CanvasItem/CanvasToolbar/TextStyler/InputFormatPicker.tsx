@@ -16,14 +16,14 @@ const formats: string[] = ['text', 'number', 'date', 'email', 'phone', 'paragrap
 const InputFormatPicker = ({ canvasDesign, setCanvasDesign }: InputFormatPickerProps) => {
 
     const isTextInput: boolean = findShape(canvasDesign, canvasDesign.selectedId)?.type === 'TextInput' || false;
+    if (!isTextInput) return null;
 
     const handleFormatPickerChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'format', event.target.value, canvasDesign.selectedId)
     };
 
     const selectedTextInputFormat = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.format ?? '';
-
-    if (!isTextInput) return null;
+    if (!selectedTextInputFormat) return null;
 
     return (
         <>

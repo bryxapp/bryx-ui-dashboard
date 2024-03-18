@@ -34,7 +34,8 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: Font
     };
 
     const selectedTextItemFontFamily = getTextShape(canvasDesign, canvasDesign.selectedId)?.fontFamily
-
+    if (!selectedTextItemFontFamily) return null;
+    
     return (
         <>
             <Typography variant="body1">

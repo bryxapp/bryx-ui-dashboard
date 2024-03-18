@@ -21,6 +21,7 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ canvasDesign,
     };
 
     const selectedTextAlignment = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.align
+    if (!selectedTextAlignment) return null;
 
     return (
         <ToggleButtonGroup

@@ -131,7 +131,17 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         );
     }
     else {
-        return null;
+        return (
+            <>
+                <Rect
+                    x={cellXPosition + 5}
+                    y={cellYPosition + 5}
+                    width={cell.width - 10}
+                    height={cell.height - 10}
+                    fill='transparent'
+                    onClick={handleRectClick}
+                />
+            </>)
     }
 }
 

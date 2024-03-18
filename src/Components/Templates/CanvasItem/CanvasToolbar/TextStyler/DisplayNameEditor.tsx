@@ -13,14 +13,14 @@ interface DisplayNameEditorProps {
 const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCanvasDesign }) => {
 
     const isTextInput: boolean = isTextInputObj(canvasDesign, canvasDesign.selectedId);
+    if (!isTextInput) return null;
 
     const handleDisplayNameChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'displayName', event.target.value, canvasDesign.selectedId)
     };
 
     const selectedTextInputDisplayName = (getTextShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.displayName ?? '';
-
-    if (!isTextInput) return null;
+    if (!selectedTextInputDisplayName) return null;
 
     return (
         <>

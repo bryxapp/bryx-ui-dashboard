@@ -13,11 +13,13 @@ interface FontSizePickerProps {
 
 export default function FontSizePicker({ canvasDesign, setCanvasDesign }: FontSizePickerProps) {
 
+    const selectedTextItemFontSize = (getTextShape(canvasDesign, canvasDesign.selectedId))?.fontSize;
+    if (!selectedTextItemFontSize) return null;
+
     const handleFontSizeChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', event.target.value, canvasDesign.selectedId)
     };
 
-    const selectedTextItemFontSize = (getTextShape(canvasDesign, canvasDesign.selectedId))?.fontSize;
 
     return (
         <>

@@ -13,7 +13,8 @@ interface FontDecorationPickerProps {
 
 const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesign, setCanvasDesign }) => {
     const selectedTextItemFontDecoration = getTextShape(canvasDesign, canvasDesign.selectedId)?.textDecoration;
-
+    if (!selectedTextItemFontDecoration) return null;
+    
     const selectedFontDecorations = [];
     if (selectedTextItemFontDecoration?.includes('underline')) {
         selectedFontDecorations.push('underline');

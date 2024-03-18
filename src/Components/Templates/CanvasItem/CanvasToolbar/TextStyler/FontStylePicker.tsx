@@ -13,7 +13,8 @@ interface FontStylePickerProps {
 
 const FontStylePicker: React.FC<FontStylePickerProps> = ({ canvasDesign, setCanvasDesign }) => {
     const selectedTextItemFontStyle = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.fontStyle;
-
+    if (!selectedTextItemFontStyle) return null;
+    
     const selectedFontStyles = [];
     if (selectedTextItemFontStyle?.includes('italic')) {
         selectedFontStyles.push('italic');
