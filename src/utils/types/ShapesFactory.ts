@@ -66,13 +66,14 @@ export function createLineObj(points: number[], stroke: string, strokeWidth: num
     };
 }
 
-export function createTextInputObj(displayName: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): TextInputObj {
+export function createTextInputObj(displayName: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string,isNestedInTextTable:boolean, x?: number, y?: number): TextInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
     if (y === undefined) {
         y = defaultStartY;
     }
+
     return {
         id: generateShapeId(),
         type: 'TextInput',
@@ -88,10 +89,11 @@ export function createTextInputObj(displayName: string, fontSize: number, fill: 
         textDecoration,
         align: "left",
         isDragging: false,
+        isNestedInTextTable,
     };
 }
 
-export function createTextFieldObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): TextFieldObj {
+export function createTextFieldObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string,isNestedInTextTable:boolean, x?: number, y?: number): TextFieldObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -113,6 +115,7 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
         textDecoration,
         align: "left",
         isDragging: false,
+        isNestedInTextTable,
     };
 }
 
@@ -142,10 +145,10 @@ export function createTextTableObj(numberOfRows: number, numberOfCols: number, c
 
             if (i === 0) {
                 // First row, create TextField objects
-                cell.content = createTextFieldObj(`text-field`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY);
+                cell.content = createTextFieldObj(`text-field`, 12, 'black', 'Arial', 'normal', 'none',true, startX + j * cellWidth, currentRowY);
             } else {
                 // Subsequent rows, create TextInput objects
-                cell.content = createTextInputObj(`text-input`, 12, 'black', 'Arial', 'normal', 'none', startX + j * cellWidth, currentRowY);
+                cell.content = createTextInputObj(`text-input`, 12, 'black', 'Arial', 'normal', 'none',true, startX + j * cellWidth, currentRowY);
             }
 
             row.push(cell);

@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TableCellObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { drawBorders } from "./konvaExtensionUtils";
 import { loadImage } from "./canvasUtils";
@@ -246,7 +246,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
     }
 }
 
-export const findShape = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
+export const findShape = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined  => {
     if (!id) {
         return undefined;
     }
@@ -258,15 +258,27 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
             const textTable = shape as TextTableObj;
             for (const row of textTable.rows) {
                 for (const cell of row) {
-                    if (cell.content.id === id) {
-                        return cell.content;
-                    }
+                    if (cell.id === id)
+                        return cell;
                 }
             }
         }
     }
     return undefined;
 };
+
+export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {
+    const selectedShape = findShape(canvasDesign, canvasDesign.selectedId)
+    if (!selectedShape) return
+    if (selectedShape.type === "TableCell") {
+        const cell = selectedShape as TableCellObj
+        if (cell.content) {
+            return cell.content as TextInputObj | TextFieldObj
+        }
+        return
+    }
+    return (selectedShape as TextInputObj | TextFieldObj)
+}
 
 export const findCell = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
     if (!id) {
@@ -277,9 +289,8 @@ export const findCell = (canvasDesign: CanvasDesignData, id: string | null): Sha
             const textTable = shape as TextTableObj;
             for (const row of textTable.rows) {
                 for (const cell of row) {
-                    if (cell.content.id === id) {
+                    if (cell.id === id)
                         return cell;
-                    }
                 }
             }
         }
@@ -288,10 +299,10 @@ export const findCell = (canvasDesign: CanvasDesignData, id: string | null): Sha
 };
 
 export const isTextObject = (shape?: ShapeObj): boolean => {
-    return shape?.type === 'TextInput' || shape?.type === 'TextField';
+    return shape?.type === 'TextInput' || shape?.type === 'TextField' || shape?.type === 'TableCell';
 };
 
-export const isNested = (canvasDesign: CanvasDesignData, id: string | null): boolean => {
+export const isShapeNested = (canvasDesign: CanvasDesignData, id: string | null): boolean => {
     if (!id) {
         return false;
     }
@@ -303,9 +314,8 @@ export const isNested = (canvasDesign: CanvasDesignData, id: string | null): boo
             const textTable = shape as TextTableObj;
             for (const row of textTable.rows) {
                 for (const cell of row) {
-                    if (cell.content.id === id) {
+                    if (cell.id === id)
                         return true;
-                    }
                 }
             }
         }
@@ -313,6 +323,15 @@ export const isNested = (canvasDesign: CanvasDesignData, id: string | null): boo
     return false;
 };
 
+export const isTextInputObj = (canvasDesign:CanvasDesignData, selectedId:string|null): boolean => {
+   const shape = findShape(canvasDesign, selectedId);
+   if (shape?.type === 'TextInput') return true;
+   if (shape?.type === 'TableCell'){
+         const cell = shape as TableCellObj;
+         if (cell.content?.type === 'TextInput') return true;
+   }
+    return false;
+}
 
 export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
     let foundAndUpdated = false;
@@ -333,11 +352,12 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
             let isCellUpdated = false;
             const updatedRows = textTable.rows.map(row =>
                 row.map(cell => {
-                    if (cell.content.id === id && !isCellUpdated) {
+                    if (cell.id === id && !isCellUpdated) {
                         isCellUpdated = true;
                         foundAndUpdated = true;
-
-                        return { ...cell, content: { ...cell.content, [propertyName]: value } };
+                        if (cell.content){
+                            return { ...cell, content: { ...cell.content, [propertyName]: value } };
+                        }
                     }
                     return cell;
                 })
@@ -369,10 +389,9 @@ export const updateCellProperty = (canvasDesign: CanvasDesignData, setCanvasDesi
             let isCellUpdated = false;
             const updatedRows = textTable.rows.map(row =>
                 row.map(cell => {
-                    if (cell.content.id === id && !isCellUpdated) {
+                    if (cell.id === id && !isCellUpdated) {
                         isCellUpdated = true;
                         foundAndUpdated = true;
-
                         return { ...cell, [propertyName]: value };
                     }
                     return cell;
@@ -478,7 +497,8 @@ export const toggleTextStyle = (
             const textTable = shape as TextTableObj;
             const updatedRows = textTable.rows.map(row =>
                 row.map(cell => {
-                    if (cell.content.id === canvasDesign.selectedId) {
+                    if (cell.id === canvasDesign.selectedId) {
+                        if (!cell.content) return cell;
                         const currentStyle = cell.content[styleProperty] || '';
                         const isStyleApplied = currentStyle.includes(style);
                         cell.content[styleProperty] = isStyleApplied

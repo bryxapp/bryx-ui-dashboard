@@ -9,7 +9,7 @@ const AddTextField = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarPro
     const handleAddTextField = () => {
         setAnchorEl(null);
 
-        const newTextField: TextFieldObj = createTextFieldObj('Text Field ', 20, 'black', 'Arial', 'normal', '');
+        const newTextField: TextFieldObj = createTextFieldObj('Text Field ', 20, 'black', 'Arial', 'normal', '', false);
 
         setCanvasDesign({
             ...canvasDesign,

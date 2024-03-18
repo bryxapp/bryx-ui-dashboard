@@ -1,8 +1,8 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import { getTextShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 
@@ -14,10 +14,10 @@ interface FontSizePickerProps {
 export default function FontSizePicker({ canvasDesign, setCanvasDesign }: FontSizePickerProps) {
 
     const handleFontSizeChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', event.target.value,canvasDesign.selectedId)
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', event.target.value, canvasDesign.selectedId)
     };
 
-    const selectedTextItemFontSize = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.fontSize;
+    const selectedTextItemFontSize = (getTextShape(canvasDesign, canvasDesign.selectedId))?.fontSize;
 
     return (
         <>

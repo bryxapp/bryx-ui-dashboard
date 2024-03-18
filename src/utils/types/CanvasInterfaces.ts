@@ -41,6 +41,7 @@ export interface TextObj {
     fontStyle: string;
     textDecoration: string;
     align: string;
+    isNestedInTextTable: boolean;
 }
 
 export interface TextInputObj extends ShapeObj, TextObj {
@@ -59,7 +60,7 @@ export interface TableCellObj extends ShapeObj {
     height: number;
     verticalAlign: 'top' | 'middle' | 'bottom';
     horizontalAlign: 'left' | 'center' | 'right';
-    content: TextInputObj | TextFieldObj;
+    content: TextInputObj | TextFieldObj | null;
     type: 'TableCell';
 }
 

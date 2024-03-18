@@ -1,8 +1,8 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import { getTextShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 const FONTS = [
     'Arial',
@@ -33,7 +33,7 @@ export default function FontFamilyPicker({ canvasDesign, setCanvasDesign }: Font
         updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', event.target.value, canvasDesign.selectedId)
     };
 
-    const selectedTextItemFontFamily = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.fontFamily
+    const selectedTextItemFontFamily = getTextShape(canvasDesign, canvasDesign.selectedId)?.fontFamily
 
     return (
         <>

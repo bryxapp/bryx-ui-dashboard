@@ -26,7 +26,7 @@ const AddRow: React.FC<AddRowProps> = ({ canvasDesign, setCanvasDesign }) => {
             let newCell = JSON.parse(JSON.stringify(cell));
             // Assign a unique ID to each new cell
             newCell.id = generateShapeId();
-            newCell.content.id = generateShapeId();
+            if (newCell.content) newCell.content.id = generateShapeId();
             return newCell;
         });
 

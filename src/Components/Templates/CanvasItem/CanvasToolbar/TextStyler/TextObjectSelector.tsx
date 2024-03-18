@@ -3,7 +3,8 @@ import Typography from "@mui/material/Typography";
 import { CanvasDesignData, ShapeObj, TextFieldObj, TextInputObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import Select from '@mui/material/Select';
 import { MenuItem } from '@mui/material';
-import { findShape } from '../../../../../utils/shapeManagementUtils';
+import { getTextShape } from '../../../../../utils/shapeManagementUtils';
+import { createTextFieldObj, createTextInputObj } from '../../../../../utils/types/ShapesFactory';
 
 
 interface TextObjectSelectorProps {
@@ -56,21 +57,35 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
                         fill
                     } as TextFieldObj;
                 }
+            case "Empty":
+                return null;
             default:
                 return shape;
         }
     };
+    
     const handleTextObjectChange = (event: any) => {
         let foundAndUpdated = false;
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.type === "TextTable") {
                 const textTable = shape as TextTableObj;
-                const updatedRows = textTable.rows.map(row =>
+                const updatedRows = textTable.rows.map((row, rowIndex) =>
                     row.map(cell => {
-                        let cellContent = cell.content;
-                        if (!foundAndUpdated && cellContent.id === canvasDesign.selectedId) {
+                        if (!foundAndUpdated && cell.id === canvasDesign.selectedId) {
                             foundAndUpdated = true;
-                            cell.content = convertTextObject(cellContent, event.target.value);
+                            const currentRowY = textTable.y + rowIndex * cell.height;
+                            if (cell.content) {
+                                cell.content = convertTextObject(cell.content, event.target.value);
+                            }
+                            else if (event.target.value === "Empty") {
+                                cell.content = null;
+                            }
+                            else if (event.target.value === "TextField") {
+                                cell.content = createTextFieldObj(`text-field`, 12, 'black', 'Arial', 'normal', 'none', true, cell.x, currentRowY);
+                            }
+                            else if (event.target.value === "TextInput") {
+                                cell.content = createTextInputObj(`text-input`, 12, 'black', 'Arial', 'normal', 'none', true, cell.x, currentRowY);
+                            }
                         }
                         return cell;
                     })
@@ -85,7 +100,7 @@ const TextObjectSelector = ({ canvasDesign, setCanvasDesign }: TextObjectSelecto
         }
     };
 
-    const selectedTextObjectType = (findShape(canvasDesign, canvasDesign.selectedId))?.type ?? '';
+    const selectedTextObjectType = (getTextShape(canvasDesign, canvasDesign.selectedId))?.type ?? '';
 
     return (
         <>

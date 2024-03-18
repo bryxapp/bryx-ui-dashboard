@@ -2,7 +2,7 @@ import React from 'react';
 import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField'
 import Typography from "@mui/material/Typography";
 import { CanvasDesignData, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { getTextShape, isTextInputObj, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 
 interface DisplayNameEditorProps {
@@ -12,13 +12,13 @@ interface DisplayNameEditorProps {
 
 const FontStylePicker: React.FC<DisplayNameEditorProps> = ({ canvasDesign, setCanvasDesign }) => {
 
-    const isTextInput: boolean = findShape(canvasDesign, canvasDesign.selectedId)?.type?.includes('TextInput') || false;
+    const isTextInput: boolean = isTextInputObj(canvasDesign, canvasDesign.selectedId);
 
     const handleDisplayNameChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'displayName', event.target.value, canvasDesign.selectedId)
     };
 
-    const selectedTextInputDisplayName = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.displayName ?? '';
+    const selectedTextInputDisplayName = (getTextShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | undefined)?.displayName ?? '';
 
     if (!isTextInput) return null;
 

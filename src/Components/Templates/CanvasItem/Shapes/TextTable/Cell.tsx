@@ -2,6 +2,7 @@ import Konva from 'konva';
 import { TextInputObj, TextFieldObj, TableCellObj, CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextField from '../TextField';
 import TextInput from '../TextInput';
+import { Rect } from 'react-konva';
 
 interface CellProps {
     cell: TableCellObj;
@@ -16,14 +17,29 @@ interface CellProps {
 
 const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canvasDesign, setCanvasDesign }: CellProps) => {
 
-    const createTempTextKonvaShape = (content: TextInputObj | TextFieldObj) => new Konva.Text({
-        text: 'displayName' in content ? content.displayName : content.value,
-        fontSize: content.fontSize,
-        fontFamily: content.fontFamily,
-        fontStyle: content.fontStyle,
-        textDecoration: content.textDecoration,
-        align: content.align,
-    });
+    const handleRectClick = (e: any) => {
+        handleSelect(cell.id, 'item', e);
+    }
+
+    const createTempTextKonvaShape = (content: TextInputObj | TextFieldObj | null) => {
+        if (!content) return new Konva.Text({
+            text: '',
+            fontSize: 0,
+            fontFamily: '',
+            fontStyle: '',
+            textDecoration: '',
+            align: '',
+        });
+
+        return new Konva.Text({
+            text: 'displayName' in content ? content.displayName : content.value,
+            fontSize: content.fontSize,
+            fontFamily: content.fontFamily,
+            fontStyle: content.fontStyle,
+            textDecoration: content.textDecoration,
+            align: content.align,
+        });
+    }
 
     // Calculate the X and Y position of the cell shape    
     const cellXPosition = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
@@ -63,35 +79,59 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
     if (cell.content?.type === 'TextInput') {
         let textInput = cell.content as TextInputObj;
         return (
-            <TextInput
-                key={`${rowIndex}-${cellIndex}`}
-                textInputObj={{ ...textInput, x: contentX, y: contentY }} // Adjusted Y position
-                handleDragStart={() => { }}
-                handleDragMove={() => { }}
-                handleDragEnd={() => { }}
-                isSelected={textInput.id === canvasDesign.selectedId}
-                onSelect={(e: any) => handleSelect(textInput.id, 'item', e)}
-                onTransformEnd={() => { }}
-                draggable={false}
-            />
+            <>
+                <Rect
+                    x={cellXPosition + 5}
+                    y={cellYPosition + 5}
+                    width={cell.width - 10}
+                    height={cell.height - 10}
+                    fill='transparent'
+                    onClick={handleRectClick}
+                />
+                <TextInput
+                    key={`${rowIndex}-${cellIndex}`}
+                    textInputObj={{ ...textInput, x: contentX, y: contentY }} // Adjusted Y position
+                    handleDragStart={() => { }}
+                    handleDragMove={() => { }}
+                    handleDragEnd={() => { }}
+                    isSelected={textInput.id === canvasDesign.selectedId}
+                    onSelect={(e: any) => handleSelect(cell.id, 'item', e)}
+                    onTransformEnd={() => { }}
+                    draggable={false}
+                />
+            </>
         );
-    } else {
+    }
+    else if (cell.content?.type === 'TextField') {
         let textField = cell.content as TextFieldObj;
         return (
-            <TextField
-                key={`${rowIndex}-${cellIndex}`}
-                textFieldObj={{ ...textField, x: contentX, y: contentY }} // Adjusted Y position
-                handleDragStart={() => { }}
-                handleDragEnd={() => { }}
-                handleDragMove={() => { }}
-                isSelected={textField.id === canvasDesign.selectedId}
-                onSelect={(e: any) => handleSelect(textField.id, 'item', e)}
-                onTransformEnd={() => { }}
-                canvasDesign={canvasDesign}
-                setCanvasDesign={setCanvasDesign}
-                draggable={false}
-            />
+            <>
+                <Rect
+                    x={cellXPosition + 5}
+                    y={cellYPosition + 5}
+                    width={cell.width - 10}
+                    height={cell.height - 10}
+                    fill='transparent'
+                    onClick={handleRectClick}
+                />
+                <TextField
+                    key={`${rowIndex}-${cellIndex}`}
+                    textFieldObj={{ ...textField, x: contentX, y: contentY }} // Adjusted Y position
+                    handleDragStart={() => { }}
+                    handleDragEnd={() => { }}
+                    handleDragMove={() => { }}
+                    isSelected={textField.id === canvasDesign.selectedId}
+                    onSelect={(e: any) => handleSelect(cell.id, 'item', e)}
+                    onTransformEnd={() => { }}
+                    canvasDesign={canvasDesign}
+                    setCanvasDesign={setCanvasDesign}
+                    draggable={false}
+                />
+            </>
         );
+    }
+    else {
+        return null;
     }
 }
 

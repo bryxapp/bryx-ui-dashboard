@@ -8,7 +8,7 @@ import InputFormatPicker from './InputFormatPicker';
 import TextAlignmentPicker from './TextAlignmentPicker';
 import { AppBar } from '@mui/material';
 import TextObjectSelector from './TextObjectSelector';
-import { findShape, isNested, isTextObject } from '../../../../../utils/shapeManagementUtils';
+import { findShape, isShapeNested, isTextObject } from '../../../../../utils/shapeManagementUtils';
 import CellAlignmentPicker from './CellAlignmentPicker';
 
 interface TextStylerProps {
@@ -18,7 +18,7 @@ interface TextStylerProps {
 
 function TextStyler({ canvasDesign, setCanvasDesign }: TextStylerProps) {
     if (!isTextObject(findShape(canvasDesign, canvasDesign.selectedId))) return null;
-    const isNestedShape = isNested(canvasDesign, canvasDesign.selectedId);
+    const isNestedShape = isShapeNested(canvasDesign, canvasDesign.selectedId);
 
     return (
         <AppBar position="static" color='secondary' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', paddingLeft: "1rem" }}>

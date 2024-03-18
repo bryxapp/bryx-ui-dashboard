@@ -3,8 +3,8 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
-import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { findShape, toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
+import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import { getTextShape, toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontDecorationPickerProps {
     canvasDesign: CanvasDesignData;
@@ -12,7 +12,7 @@ interface FontDecorationPickerProps {
 }
 
 const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ canvasDesign, setCanvasDesign }) => {
-    const selectedTextItemFontDecoration = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.textDecoration;
+    const selectedTextItemFontDecoration = getTextShape(canvasDesign, canvasDesign.selectedId)?.textDecoration;
 
     const selectedFontDecorations = [];
     if (selectedTextItemFontDecoration?.includes('underline')) {

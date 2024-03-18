@@ -24,7 +24,6 @@ interface TextInputProps {
 const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: TextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
-
     const createTempTextKonvaShape = (content: TextInputObj) => new Konva.Text({
         text: content.displayName,
         fontSize: content.fontSize,
@@ -127,7 +126,7 @@ const TextInput = ({ textInputObj, handleDragStart, handleDragEnd, isSelected, o
                     scaleX={1}
                     scaleY={1} />
             </Group>
-            {isSelected && (
+            {isSelected && !textInputObj.isNestedInTextTable &&(
                 <Transformer
                     ref={trRef}
                     boundBoxFunc={(oldBox, newBox) => {

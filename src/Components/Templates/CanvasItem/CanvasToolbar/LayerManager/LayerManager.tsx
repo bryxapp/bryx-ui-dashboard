@@ -7,7 +7,7 @@ import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import SendBackward from './SendBackward';
 import BringForward from './BringForward';
 import Stack from '@mui/material/Stack';
-import { isNested } from '../../../../../utils/shapeManagementUtils';
+import { isShapeNested } from '../../../../../utils/shapeManagementUtils';
 
 
 interface LayerManagerProps {
@@ -27,7 +27,7 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign 
     const handleClose = () => {
         setAnchorEl(null);
     };
-    const isNestedShape = isNested(canvasDesign, canvasDesign.selectedId);
+    const isNestedShape = isShapeNested(canvasDesign, canvasDesign.selectedId);
 
     return (
         <>

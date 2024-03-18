@@ -2,7 +2,7 @@ import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
-import { deleteShape, isNested } from '../../../../utils/shapeManagementUtils';
+import { deleteShape, isShapeNested } from '../../../../utils/shapeManagementUtils';
 
 interface DeleteButtonProps {
     isLoading: boolean;
@@ -14,7 +14,7 @@ export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign 
     const handleDeleteShape = () => {
         deleteShape({ canvasDesign, setCanvasDesign });
     }
-    const isNestedShape = isNested(canvasDesign, canvasDesign.selectedId);
+    const isNestedShape = isShapeNested(canvasDesign, canvasDesign.selectedId);
 
     return (
         <Tooltip title="Delete Shape" placement="bottom">
