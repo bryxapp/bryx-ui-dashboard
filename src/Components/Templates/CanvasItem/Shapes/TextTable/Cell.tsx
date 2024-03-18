@@ -2,7 +2,8 @@ import Konva from 'konva';
 import { TextInputObj, TextFieldObj, TableCellObj, CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextField from '../TextField';
 import TextInput from '../TextInput';
-import { Rect } from 'react-konva';
+import { Rect, Transformer } from 'react-konva';
+import { useEffect, useRef } from 'react';
 
 interface CellProps {
     cell: TableCellObj;
@@ -76,6 +77,17 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         contentX -= 5;
     }
 
+
+    const shapeRef = useRef<Konva.Rect>(null);
+    const trRef = useRef<Konva.Transformer>(null);
+
+    useEffect(() => {
+        if (cell.id === canvasDesign.selectedId && shapeRef.current) {
+            trRef.current?.nodes([shapeRef.current]);
+            trRef.current?.getLayer()?.batchDraw();
+        }
+    }, [canvasDesign.selectedId, cell.id]);
+
     if (cell.content?.type === 'TextInput') {
         let textInput = cell.content as TextInputObj;
         return (
@@ -83,10 +95,11 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                 <Rect
                     x={cellXPosition + 5}
                     y={cellYPosition + 5}
-                    width={cell.width - 10}
-                    height={cell.height - 10}
+                    width={cell.width - 15}
+                    height={cell.height - 15}
                     fill='transparent'
                     onClick={handleRectClick}
+                    ref={shapeRef}
                 />
                 <TextInput
                     key={`${rowIndex}-${cellIndex}`}
@@ -99,6 +112,20 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                     onTransformEnd={() => { }}
                     draggable={false}
                 />
+                {cell.id === canvasDesign.selectedId && (
+                    <Transformer
+                        ref={trRef}
+                        boundBoxFunc={(oldBox, newBox) => {
+                            // limit resize
+                            if (newBox.width < 5 || newBox.height < 5) {
+                                return oldBox;
+                            }
+                            return newBox;
+                        }}
+                        rotateEnabled={false}
+                        resizeEnabled={false}
+                    />
+                )}
             </>
         );
     }
@@ -109,10 +136,11 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                 <Rect
                     x={cellXPosition + 5}
                     y={cellYPosition + 5}
-                    width={cell.width - 10}
-                    height={cell.height - 10}
+                    width={cell.width - 15}
+                    height={cell.height - 15}
                     fill='transparent'
                     onClick={handleRectClick}
+                    ref={shapeRef}
                 />
                 <TextField
                     key={`${rowIndex}-${cellIndex}`}
@@ -127,6 +155,20 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                     setCanvasDesign={setCanvasDesign}
                     draggable={false}
                 />
+                {cell.id === canvasDesign.selectedId && (
+                    <Transformer
+                        ref={trRef}
+                        boundBoxFunc={(oldBox, newBox) => {
+                            // limit resize
+                            if (newBox.width < 5 || newBox.height < 5) {
+                                return oldBox;
+                            }
+                            return newBox;
+                        }}
+                        rotateEnabled={false}
+                        resizeEnabled={false}
+                    />
+                )}
             </>
         );
     }
@@ -136,11 +178,26 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
                 <Rect
                     x={cellXPosition + 5}
                     y={cellYPosition + 5}
-                    width={cell.width - 10}
-                    height={cell.height - 10}
+                    width={cell.width - 15}
+                    height={cell.height - 15}
                     fill='transparent'
                     onClick={handleRectClick}
+                    ref={shapeRef}
                 />
+                {cell.id === canvasDesign.selectedId && (
+                    <Transformer
+                        ref={trRef}
+                        boundBoxFunc={(oldBox, newBox) => {
+                            // limit resize
+                            if (newBox.width < 5 || newBox.height < 5) {
+                                return oldBox;
+                            }
+                            return newBox;
+                        }}
+                        rotateEnabled={false}
+                        resizeEnabled={false}
+                    />
+                )}
             </>)
     }
 }
