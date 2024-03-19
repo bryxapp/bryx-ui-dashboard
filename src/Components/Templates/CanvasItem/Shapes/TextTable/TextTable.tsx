@@ -12,7 +12,6 @@ interface TextTableProps {
     handleDragMove: (event: Konva.KonvaEventObject<DragEvent>) => void;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: (design: CanvasDesignData) => void;
-    isSelected: boolean;
     onSelect: any;
 }
 
@@ -23,12 +22,12 @@ const TextTable: React.FC<TextTableProps> = ({
     handleDragMove,
     canvasDesign,
     setCanvasDesign,
-    onSelect,
-    isSelected
+    onSelect
 }) => {
 
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const isSelected = textTableObj.id === canvasDesign.selectedId;
     //Calculate total table width based on individual cell widths
     const tableWidth = textTableObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
     //Calculate total table height based on individual cell heights
