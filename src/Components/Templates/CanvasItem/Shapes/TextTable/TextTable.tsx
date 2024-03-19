@@ -27,7 +27,7 @@ const TextTable: React.FC<TextTableProps> = ({
     isSelected
 }) => {
 
-    const shapeRef = useRef<Konva.Group>(null);
+    const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     //Calculate total table width based on individual cell widths
     const tableWidth = textTableObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
@@ -63,10 +63,10 @@ const TextTable: React.FC<TextTableProps> = ({
             }
             return shape;
         });
-    
+
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
-    
+
     const updateRowHeight = (rowIndex: number, delta: number) => {
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === textTableObj.id) {
@@ -78,7 +78,7 @@ const TextTable: React.FC<TextTableProps> = ({
             }
             return shape;
         });
-    
+
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
 
@@ -124,6 +124,8 @@ const TextTable: React.FC<TextTableProps> = ({
                     }}
                     onMouseEnter={() => changeCursor('row-resize')}
                     onMouseLeave={() => changeCursor('default')}
+                    onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
+                    onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
                 />
             );
         }
@@ -164,6 +166,8 @@ const TextTable: React.FC<TextTableProps> = ({
                     }}
                     onMouseEnter={() => changeCursor('col-resize')} // Use 'ew-resize' or 'col-resize' for horizontal resizing
                     onMouseLeave={() => changeCursor('default')}
+                    onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
+                    onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
                 />
             );
         }
@@ -182,9 +186,6 @@ const TextTable: React.FC<TextTableProps> = ({
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
-                ref={shapeRef}
-                onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
-                onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
             >
                 <Rect
                     width={tableWidth} // Assuming fixed cell width
@@ -192,6 +193,9 @@ const TextTable: React.FC<TextTableProps> = ({
                     fill="transparent" // Using transparent fill to catch click events
                     stroke={textTableObj.border ? textTableObj.border.color : 'transparent'}
                     strokeWidth={textTableObj.border ? textTableObj.border.width : 0}
+                    ref={shapeRef}
+                    onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
+                    onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
                 />
                 {drawBorders(textTableObj).map((lineProps) => (
                     <Line {...lineProps} />

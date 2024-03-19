@@ -143,8 +143,6 @@ const ClickableRectShape = ({ cellXPosition, cellYPosition, cell, onClick, shape
         }
     }, [isSelected, shapeRef, trRef]);
 
-    if (!isSelected) return null;
-
     return (
         <>
             <Rect
@@ -156,6 +154,7 @@ const ClickableRectShape = ({ cellXPosition, cellYPosition, cell, onClick, shape
                 onClick={onClick}
                 ref={shapeRef}
             />
+            {isSelected && (
             <Transformer
                 ref={trRef}
                 boundBoxFunc={(oldBox, newBox) => {
@@ -167,7 +166,7 @@ const ClickableRectShape = ({ cellXPosition, cellYPosition, cell, onClick, shape
                 }}
                 rotateEnabled={false}
                 resizeEnabled={false}
-            />
+            />)}
         </>
     );
 };
