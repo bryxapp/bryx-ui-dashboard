@@ -1,8 +1,8 @@
 
 import Konva from 'konva';
-import { TextInputObj, TextFieldObj, CanvasDesignData, TableCellObj } from '../../../../../utils/types/CanvasInterfaces';
-import TextField from '../TextField';
-import TextInput from '../TextInput';
+import { TextInputObj, TextFieldObj, CanvasDesignData, TableCellObj } from '../../../../../../../../utils/types/CanvasInterfaces';
+import TextField from '../../../../TextField';
+import TextInput from '../../../../TextInput';
 
 interface CellContentProps {
     cell: TableCellObj;

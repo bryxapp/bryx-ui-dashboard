@@ -1,8 +1,8 @@
 import Konva from 'konva';
-import { TableCellObj, CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
+import { TableCellObj, CanvasDesignData, TextTableObj } from '../../../../../../../utils/types/CanvasInterfaces';
 import { Rect, Transformer } from 'react-konva';
 import { useEffect, useRef } from 'react';
-import CellContent from './CellContent';
+import CellContent from './CellContent/CellContent';
 
 interface CellProps {
     cell: TableCellObj;

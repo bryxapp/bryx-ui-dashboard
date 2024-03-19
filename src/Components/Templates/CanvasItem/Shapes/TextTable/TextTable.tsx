@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Group, Line, Rect, Transformer } from 'react-konva';
 import { CanvasDesignData, ShapeObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import Konva from 'konva';
-import CellRow from './CellRow';
+import CellRow from './CellRow/CellRow';
 import { drawBorders } from '../../../../../utils/konvaExtensionUtils';
 
 interface TextTableProps {

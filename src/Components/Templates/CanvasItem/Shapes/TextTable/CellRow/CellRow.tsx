@@ -1,5 +1,5 @@
-import { TableCellObj, TextTableObj, CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
-import Cell from './Cell'; // Assuming you have a Cell component
+import { TableCellObj, TextTableObj, CanvasDesignData } from '../../../../../../utils/types/CanvasInterfaces';
+import Cell from './Cell/Cell'; // Assuming you have a Cell component
 
 interface CellRowProps {
     row: TableCellObj[];
