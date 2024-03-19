@@ -52,7 +52,7 @@ const TextTable: React.FC<TextTableProps> = ({
     const updateColumnWidth = (columnIndex: number, delta: number) => {
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === textTableObj.id) {
-                const newTableObj = shape as TextTableObj;
+                const newTableObj = JSON.parse(JSON.stringify(shape)) as TextTableObj;
                 newTableObj.rows.forEach(row => {
                     if (row[columnIndex]) {
                         row[columnIndex].width += delta;
@@ -69,7 +69,7 @@ const TextTable: React.FC<TextTableProps> = ({
     const updateRowHeight = (rowIndex: number, delta: number) => {
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === textTableObj.id) {
-                const newTableObj = shape as TextTableObj;
+                const newTableObj = JSON.parse(JSON.stringify(shape)) as TextTableObj;
                 newTableObj.rows[rowIndex].forEach(cell => {
                     cell.height += delta;
                 });
