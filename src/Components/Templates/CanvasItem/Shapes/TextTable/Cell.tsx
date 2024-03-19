@@ -1,9 +1,8 @@
 import Konva from 'konva';
-import { TextInputObj, TextFieldObj, TableCellObj, CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
-import TextField from '../TextField';
-import TextInput from '../TextInput';
+import { TableCellObj, CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Rect, Transformer } from 'react-konva';
 import { useEffect, useRef } from 'react';
+import CellContent from './CellContent';
 
 interface CellProps {
     cell: TableCellObj;
@@ -18,64 +17,13 @@ interface CellProps {
 
 const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canvasDesign, setCanvasDesign }: CellProps) => {
 
-    const handleRectClick = (e: any) => {
+    const handleClick = (e: any) => {
         handleSelect(cell.id, 'item', e);
-    }
-
-    const createTempTextKonvaShape = (content: TextInputObj | TextFieldObj | null) => {
-        if (!content) return new Konva.Text({
-            text: '',
-            fontSize: 0,
-            fontFamily: '',
-            fontStyle: '',
-            textDecoration: '',
-            align: '',
-        });
-
-        return new Konva.Text({
-            text: 'displayName' in content ? content.displayName : content.value,
-            fontSize: content.fontSize,
-            fontFamily: content.fontFamily,
-            fontStyle: content.fontStyle,
-            textDecoration: content.textDecoration,
-            align: content.align,
-        });
     }
 
     // Calculate the X and Y position of the cell shape    
     const cellXPosition = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
     const cellYPosition = textTableObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
-
-    //Create a temporary Konva Text shape to calculate the width and height of the content
-    const tempText = createTempTextKonvaShape(cell.content);
-    const contentWidth = tempText.width();
-    const contentHeight = tempText.height();
-
-    // Adjust the X and Y position of the content based on the cell's alignment
-    let contentX = cellXPosition + 5; // Add some padding
-    let contentY = cellYPosition + 5; // Add some padding
-
-    // Adjust Y based on vertical alignment
-    if (cell.verticalAlign === 'middle') {
-        // Adjust Y position to center the content by placing half of the remaining space above and below the content
-        contentY += (cell.height - contentHeight) / 2;
-    } else if (cell.verticalAlign === 'bottom') {
-        // Adjust Y position to place the content at the bottom of the cell
-        contentY += cell.height - contentHeight;
-        //Add some padding 
-        contentY -= 5;
-    }
-
-    // Adjust X based on horizontal alignment
-    if (cell.horizontalAlign === 'center') {
-        // Adjust X position to center the content by placing half of the remaining space to the left and right of the content
-        contentX += (cell.width - contentWidth) / 2;
-    } else if (cell.horizontalAlign === 'right') {
-        // Adjust X position to place the content at the right of the cell
-        contentX += cell.width - contentWidth;
-        //Add some padding
-        contentX -= 5;
-    }
 
 
     const shapeRef = useRef<Konva.Rect>(null);
@@ -88,61 +36,6 @@ const Cell = ({ cell, row, rowIndex, cellIndex, textTableObj, handleSelect, canv
         }
     }, [canvasDesign.selectedId, cell.id]);
 
-    if (cell.content?.type === 'TextInput') {
-        let textInput = cell.content as TextInputObj;
-        return (
-            <>
-                <ClickableRectShape cellXPosition={cellXPosition} cellYPosition={cellYPosition} cell={cell} onClick={handleRectClick} shapeRef={shapeRef} isSelected={cell.id === canvasDesign.selectedId} trRef={trRef} />
-                <TextInput
-                    key={`${rowIndex}-${cellIndex}`}
-                    textInputObj={{ ...textInput, x: contentX, y: contentY }} // Adjusted Y position
-                    handleDragStart={() => { }}
-                    handleDragMove={() => { }}
-                    handleDragEnd={() => { }}
-                    isSelected={textInput.id === canvasDesign.selectedId}
-                    onSelect={(e: any) => handleSelect(cell.id, 'item', e)}
-                    onTransformEnd={() => { }}
-                    draggable={false}
-                />
-            </>
-        );
-    }
-    else if (cell.content?.type === 'TextField') {
-        let textField = cell.content as TextFieldObj;
-        return (
-            <>
-                <ClickableRectShape cellXPosition={cellXPosition} cellYPosition={cellYPosition} cell={cell} onClick={handleRectClick} shapeRef={shapeRef} isSelected={cell.id === canvasDesign.selectedId} trRef={trRef} />
-                <TextField
-                    key={`${rowIndex}-${cellIndex}`}
-                    textFieldObj={{ ...textField, x: contentX, y: contentY }} // Adjusted Y position
-                    handleDragStart={() => { }}
-                    handleDragEnd={() => { }}
-                    handleDragMove={() => { }}
-                    isSelected={textField.id === canvasDesign.selectedId}
-                    onSelect={(e: any) => handleSelect(cell.id, 'item', e)}
-                    onTransformEnd={() => { }}
-                    canvasDesign={canvasDesign}
-                    setCanvasDesign={setCanvasDesign}
-                    draggable={false}
-                />
-            </>
-        );
-    }
-    else {
-        return (
-            <ClickableRectShape cellXPosition={cellXPosition} cellYPosition={cellYPosition} cell={cell} onClick={handleRectClick} shapeRef={shapeRef} isSelected={cell.id === canvasDesign.selectedId} trRef={trRef} />
-        )
-    }
-}
-
-const ClickableRectShape = ({ cellXPosition, cellYPosition, cell, onClick, shapeRef, isSelected, trRef }: any) => {
-    useEffect(() => {
-        if (isSelected && shapeRef.current) {
-            trRef.current.nodes([shapeRef.current]);
-            trRef.current.getLayer().batchDraw();
-        }
-    }, [isSelected, shapeRef, trRef]);
-
     return (
         <>
             <Rect
@@ -151,25 +44,33 @@ const ClickableRectShape = ({ cellXPosition, cellYPosition, cell, onClick, shape
                 width={cell.width - 15}
                 height={cell.height - 15}
                 fill='transparent'
-                onClick={onClick}
+                onClick={handleClick}
                 ref={shapeRef}
             />
-            {isSelected && (
-            <Transformer
-                ref={trRef}
-                boundBoxFunc={(oldBox, newBox) => {
-                    // limit resize
-                    if (newBox.width < 5 || newBox.height < 5) {
-                        return oldBox;
-                    }
-                    return newBox;
-                }}
-                rotateEnabled={false}
-                resizeEnabled={false}
-            />)}
+            {cell.id === canvasDesign.selectedId && (
+                <Transformer
+                    ref={trRef}
+                    boundBoxFunc={(oldBox, newBox) => {
+                        // limit resize
+                        if (newBox.width < 5 || newBox.height < 5) {
+                            return oldBox;
+                        }
+                        return newBox;
+                    }}
+                    rotateEnabled={false}
+                    resizeEnabled={false}
+                />)}
+            <CellContent
+                cell={cell}
+                cellXPosition={cellXPosition}
+                cellYPosition={cellYPosition}
+                handleSelect={handleClick}
+                canvasDesign={canvasDesign}
+                setCanvasDesign={setCanvasDesign}
+            />
         </>
     );
-};
+}
 
 
 export default Cell;
