@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { Group, Line, Rect, Transformer } from 'react-konva';
-import { CanvasDesignData, ShapeObj, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextTableObj } from '../../../../../utils/types/CanvasInterfaces';
 import Konva from 'konva';
 import CellRow from './CellRow/CellRow';
-import { drawBorders } from '../../../../../utils/konvaExtensionUtils';
+import { addColumnResizeHandles, addRowResizeHandles, drawBorders } from '../TextTableUtils';
+import TableGrabber from './TableGrabber/TableGrabber';
 
 interface TextTableProps {
     textTableObj: TextTableObj;
@@ -49,131 +50,6 @@ const TextTable: React.FC<TextTableProps> = ({
         onSelect(id);
     };
 
-    const updateColumnWidth = (columnIndex: number, delta: number) => {
-        const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-            if (shape.id === textTableObj.id) {
-                const newTableObj = JSON.parse(JSON.stringify(shape)) as TextTableObj;
-                newTableObj.rows.forEach(row => {
-                    if (row[columnIndex]) {
-                        row[columnIndex].width += delta;
-                    }
-                });
-                return newTableObj;
-            }
-            return shape;
-        });
-
-        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
-    };
-
-    const updateRowHeight = (rowIndex: number, delta: number) => {
-        const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-            if (shape.id === textTableObj.id) {
-                const newTableObj = JSON.parse(JSON.stringify(shape)) as TextTableObj;
-                newTableObj.rows[rowIndex].forEach(cell => {
-                    cell.height += delta;
-                });
-                return newTableObj;
-            }
-            return shape;
-        });
-
-        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
-    };
-
-    const changeCursor = (cursorStyle: string) => {
-        const stage = shapeRef.current?.getStage();
-        if (stage) {
-            const container = stage.container();
-            container.style.cursor = cursorStyle;
-        }
-    };
-
-    const addRowResizeHandles = () => {
-        const handles = [];
-        let accumulatedHeight = 0;
-
-        for (let i = 0; i < textTableObj.rows.length; i++) { // Exclude the last row
-            accumulatedHeight += textTableObj.rows[i][0].height;
-
-            const handleY = accumulatedHeight; // Position at the end of the row
-            handles.push(
-                <Rect
-                    key={`resize-handle-${i}`}
-                    x={0} // Adjust based on your needs
-                    y={handleY}
-                    width={tableWidth}
-                    height={6}
-                    fill="transparent"
-                    draggable
-                    onDragMove={(e) => {
-                        const delta = e.target.y() - handleY;
-                        updateRowHeight(i, delta); // Implement this function to update row height
-                    }}
-                    onDragEnd={(e) => {
-                        // Optionally, adjust the handle position after dragging
-                        e.target.y(handleY);
-                    }}
-                    dragBoundFunc={(pos) => {
-                        // Prevent the handle from being dragged outside the table
-                        return {
-                            x: textTableObj.x,
-                            y: pos.y
-                        };
-                    }}
-                    onMouseEnter={() => changeCursor('row-resize')}
-                    onMouseLeave={() => changeCursor('default')}
-                    onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
-                    onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
-                />
-            );
-        }
-
-        return handles;
-    }
-
-    const addColumnResizeHandles = () => {
-        const handles = [];
-        let accumulatedWidth = 0;
-
-        for (let i = 0; i < textTableObj.rows[0].length; i++) { // Exclude the last column
-            accumulatedWidth += textTableObj.rows[0][i].width;
-
-            const handleX = accumulatedWidth; // Position at the end of the column
-            handles.push(
-                <Rect
-                    key={`resize-handle-${i}`}
-                    x={handleX}
-                    y={0} // Adjust based on your needs
-                    width={6}
-                    height={tableHeight}
-                    fill="transparent"
-                    draggable
-                    onDragMove={(e) => {
-                        const delta = e.target.x() - handleX;
-                        updateColumnWidth(i, delta); // Implement this function to update column width
-                    }}
-                    onDragEnd={(e) => {
-                        e.target.x(handleX);
-                    }}
-                    dragBoundFunc={(pos) => {
-                        // Prevent the handle from being dragged outside the table
-                        return {
-                            x: pos.x,
-                            y: textTableObj.y
-                        };
-                    }}
-                    onMouseEnter={() => changeCursor('col-resize')} // Use 'ew-resize' or 'col-resize' for horizontal resizing
-                    onMouseLeave={() => changeCursor('default')}
-                    onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
-                    onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
-                />
-            );
-        }
-
-        return handles;
-    };
-
     return (
         <>
             <Group
@@ -186,17 +62,18 @@ const TextTable: React.FC<TextTableProps> = ({
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
             >
+                <TableGrabber handleSelect={() => handleSelect(textTableObj.id, 'table')} shapeRef={shapeRef}/>
                 <Rect
-                    width={tableWidth} // Assuming fixed cell width
-                    height={tableHeight} // Assuming fixed cell height
+                    width={tableWidth}
+                    height={tableHeight}
                     fill="transparent" // Using transparent fill to catch click events
-                    stroke={textTableObj.border ? textTableObj.border.color : 'transparent'}
+                    stroke={textTableObj.border ? textTableObj.border.color : 'transparent'} // Border color    
                     strokeWidth={textTableObj.border ? textTableObj.border.width : 0}
                     ref={shapeRef}
                     onClick={(e: any) => handleSelect(textTableObj.id, 'table', e)}
                     onTap={(e: any) => handleSelect(textTableObj.id, 'table', e)}
                 />
-                {drawBorders(textTableObj).map((lineProps) => (
+                {drawBorders(textTableObj, canvasDesign.selectedId === textTableObj.id).map((lineProps) => (
                     <Line {...lineProps} />
                 ))}
                 {textTableObj.rows.map((row, rowIndex) =>
@@ -210,8 +87,8 @@ const TextTable: React.FC<TextTableProps> = ({
                         setCanvasDesign={setCanvasDesign}
                     />
                 )}
-                {addColumnResizeHandles()}
-                {addRowResizeHandles()}
+                {addColumnResizeHandles(textTableObj, tableHeight, shapeRef, canvasDesign, setCanvasDesign, handleSelect)}
+                {addRowResizeHandles(textTableObj, tableWidth, shapeRef, canvasDesign, setCanvasDesign, handleSelect)}
             </Group>
             {isSelected && (
                 <Transformer
@@ -221,6 +98,7 @@ const TextTable: React.FC<TextTableProps> = ({
                     anchorSize={0}
                     resizeEnabled={false}
                     keepRatio={false}
+                    anchorStroke='#00a2ff'
                 />
             )}
         </>

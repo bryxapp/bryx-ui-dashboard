@@ -1,8 +1,8 @@
 import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TableCellObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
-import { drawBorders } from "./konvaExtensionUtils";
 import { loadImage } from "./canvasUtils";
+import { drawBorders } from "../Components/Templates/CanvasItem/Shapes/TextTableUtils";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
