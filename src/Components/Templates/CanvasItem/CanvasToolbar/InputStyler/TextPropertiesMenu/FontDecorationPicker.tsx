@@ -52,8 +52,8 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
         <ToggleButtonGroup
             value={selectedFontDecorations}
             aria-label="font decoration"
-            style={{ marginBottom: '1rem', margin: 10 }}
-            size='small'
+            style={{ marginBottom: '1rem'}}
+            size="small"
         >
             <ToggleButton
                 key={'line-through'}

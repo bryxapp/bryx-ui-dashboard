@@ -39,7 +39,7 @@ export default function FontFamilyPicker({ textObj, itemType, canvasDesign, setC
     if (!selectedTextItemFontFamily) return null;
 
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="body1">
                 Font
             </Typography>
@@ -47,7 +47,7 @@ export default function FontFamilyPicker({ textObj, itemType, canvasDesign, setC
                 value={selectedTextItemFontFamily || ''}
                 onChange={handleFontFamilyChange}
                 variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '7rem', margin: 10 }}
+                style={{minWidth: '7rem'}}
                 MenuProps={{
                     PaperProps: {
                         style: {
@@ -63,6 +63,6 @@ export default function FontFamilyPicker({ textObj, itemType, canvasDesign, setC
                     </MenuItem>
                 ))}
             </Select>
-        </>
+        </div>
     );
 }

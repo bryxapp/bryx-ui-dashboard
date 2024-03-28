@@ -52,7 +52,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, ca
         <ToggleButtonGroup
             value={selectedFontStyles}
             aria-label="font style"
-            style={{ marginBottom: '1rem', margin: 10 }}
+            style={{ marginBottom: '1rem', }}
             size="small"
         >
             <ToggleButton key={'italic'} value={'italic'}

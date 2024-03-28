@@ -21,7 +21,7 @@ export default function FontSizePicker({ textObj, itemType, canvasDesign, setCan
 
 
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', marginLeft:'.5rem' }}>
             <Typography variant="body1">
                 Font Size
             </Typography>
@@ -29,7 +29,7 @@ export default function FontSizePicker({ textObj, itemType, canvasDesign, setCan
                 value={textObj.fontSize || ''}
                 onChange={handleFontSizeChange}
                 variant="outlined"
-                style={{ marginBottom: '1rem', minWidth: '4.5rem', margin: 10 }}
+                style={{ minWidth: '4.5rem' }}
                 size='small'
             >
                 {FONT_SIZES.map((fontSize) => (
@@ -38,6 +38,6 @@ export default function FontSizePicker({ textObj, itemType, canvasDesign, setCan
                     </MenuItem>
                 ))}
             </Select>
-        </>
+        </div>
     );
 }
