@@ -1,5 +1,5 @@
 import { Stage, Layer, Rect, Ellipse, Line, Image, Text } from "react-konva";
-import { CanvasDesignData, EllipseObj, HeadingObj, ImageObj, LineObj, ParagraphObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
 import styled from '@emotion/styled';
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 
