@@ -13,7 +13,7 @@ import TextColorPicker from './TextColorPicker';
 
 interface TextPropertiesMenuProps {
     textObj: TextBase
-    itemType: 'content' | 'label';
+    itemType: 'content' | 'label' | null;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<CanvasDesignData>;
 }
@@ -40,7 +40,7 @@ function TextPropertiesMenu({ textObj, itemType, canvasDesign, setCanvasDesign }
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleOpen}
-                        color="inherit"
+                        style={{ color: textObj.fill }}
                     >
                         <FontSizeSelectorIcon />
                     </IconButton>
@@ -66,7 +66,6 @@ function TextPropertiesMenu({ textObj, itemType, canvasDesign, setCanvasDesign }
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1rem' }}>
                     <TextColorPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} textObj={textObj} itemType={itemType} />
-
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
                     <FontStylePicker textObj={textObj} itemType={itemType} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />

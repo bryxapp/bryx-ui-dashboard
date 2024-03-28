@@ -1,4 +1,4 @@
-import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, InputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { AppBar } from '@mui/material';
 import { findShape, isInputObject } from '../../../../../utils/shapeManagementUtils';
 import LabelEditor from './LabelEditor';
@@ -10,12 +10,14 @@ interface InputStylerProps {
 }
 
 function InputStyler({ canvasDesign, setCanvasDesign }: InputStylerProps) {
-    if (!isInputObject(findShape(canvasDesign, canvasDesign.selectedId))) return null;
+    const shape = findShape(canvasDesign, canvasDesign.selectedId);
+    const isinputObject = isInputObject(shape);
+    if (!isinputObject) return null;
 
     return (
         <AppBar position="static" color='secondary' style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', paddingLeft: "1rem" }}>
-            <LabelEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-            <ContentEditor canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            <LabelEditor inputObj={shape as InputObj} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+            <ContentEditor inputObj={shape as InputObj} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </AppBar>
     );
 }

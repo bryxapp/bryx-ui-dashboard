@@ -3,11 +3,11 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
-import { CanvasDesignData, InputObj, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface FontDecorationPickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label';
+    itemType: 'content' | 'label' | null;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
 }
@@ -30,14 +30,25 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
 
         const updatedShapes = canvasDesign.Shapes.map((shape) => {
             if (shape.id === canvasDesign.selectedId) {
-                const inputObj = shape as InputObj;
-                const currentStyle = inputObj[itemType][styleProperty] || '';
-                const isStyleApplied = currentStyle.includes(style);
-                inputObj[itemType][styleProperty] = isStyleApplied
-                    ? currentStyle.replace(style, '').trim()
-                    : `${currentStyle} ${style}`.trim();
+                if (itemType === null) {
+                    const textObj = shape as TextObj;
+                    const currentStyle = textObj[styleProperty] || '';
+                    const isStyleApplied = currentStyle.includes(style);
+                    textObj[styleProperty] = isStyleApplied
+                        ? currentStyle.replace(style, '').trim()
+                        : `${currentStyle} ${style}`.trim();
+                    return { ...shape, [styleProperty]: textObj[styleProperty] };
+                }
+                else {
+                    const inputObj = shape as InputObj;
+                    const currentStyle = inputObj[itemType][styleProperty] || '';
+                    const isStyleApplied = currentStyle.includes(style);
+                    inputObj[itemType][styleProperty] = isStyleApplied
+                        ? currentStyle.replace(style, '').trim()
+                        : `${currentStyle} ${style}`.trim();
 
-                return { ...inputObj, [styleProperty]: inputObj[itemType][styleProperty] };
+                    return { ...inputObj, [styleProperty]: inputObj[itemType][styleProperty] };
+                }
             }
             return shape;
         });
@@ -52,7 +63,6 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
         <ToggleButtonGroup
             value={selectedFontDecorations}
             aria-label="font decoration"
-            style={{ marginBottom: '1rem'}}
             size="small"
         >
             <ToggleButton

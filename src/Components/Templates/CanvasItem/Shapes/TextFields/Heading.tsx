@@ -4,6 +4,8 @@ import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import TextPropertiesMenu from '../../CanvasToolbar/InputStyler/TextPropertiesMenu/TextPropertiesMenu';
+import DeleteButton from '../../CanvasToolbar/DeleteButton';
 
 interface HeadingProps {
     headingObj: HeadingObj;
@@ -108,7 +110,7 @@ const Heading = ({
     const rectHeight = measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20;
 
     return (
-        <React.Fragment>
+        <>
             <Group
                 key={headingObj.id} id={headingObj.id}
                 x={headingObj.x} y={headingObj.y}
@@ -156,16 +158,39 @@ const Heading = ({
                 )}
             </Group>
             {isSelected && !editing && (
-                <Transformer
-                    ref={trRef}
-                    onTransformEnd={onTransformEnd}
-                    rotateEnabled={true}
-                    anchorSize={10}
-                    resizeEnabled={false}
-                    keepRatio={false}
-                />
+                <>
+                    <Html>
+                        <div
+                            style={{
+                                position: 'absolute',
+                                left: `${headingObj.x + rectWidth + 10}px`, // Adjusted to apply positioning
+                                top: `${headingObj.y - 15}px`,
+                                display: 'flex',
+                                gap: '10px', // Adds space between child components
+                                backgroundColor: '#F3F3F3', // Light gray background, similar to MS Word's menu
+                                padding: '10px', // Adds some padding inside the container for spacing
+                                borderRadius: '5px', // Rounded corners for a softer look
+                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
+                                alignItems: 'center', // Ensures children are aligned in the center vertically
+                                zIndex: 1000 // Ensures the menu appears above other content
+                            }}
+                        >
+                            <TextPropertiesMenu textObj={headingObj} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} itemType={null} />
+                            <DeleteButton isLoading={false} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                        </div>
+
+                    </Html>
+                    <Transformer
+                        ref={trRef}
+                        onTransformEnd={onTransformEnd}
+                        rotateEnabled={true}
+                        anchorSize={10}
+                        resizeEnabled={false}
+                        keepRatio={false}
+                    />
+                </>
             )}
-        </React.Fragment>
+        </>
     );
 };
 

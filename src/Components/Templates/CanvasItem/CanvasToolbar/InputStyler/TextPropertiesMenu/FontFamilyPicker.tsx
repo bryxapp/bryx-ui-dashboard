@@ -2,7 +2,7 @@ import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 
 const FONTS = [
     'Arial',
@@ -24,7 +24,7 @@ const FONTS = [
 ];
 interface FontFamilyPickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label';
+    itemType: 'content' | 'label' | null
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
 }
@@ -32,7 +32,11 @@ interface FontFamilyPickerProps {
 export default function FontFamilyPicker({ textObj, itemType, canvasDesign, setCanvasDesign }: FontFamilyPickerProps) {
 
     const handleFontFamilyChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontFamily', event.target.value, canvasDesign.selectedId);
+        if (itemType === null)
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', event.target.value, canvasDesign.selectedId);
+        else {
+            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontFamily', event.target.value, canvasDesign.selectedId);
+        }
     };
 
     const selectedTextItemFontFamily = textObj.fontFamily
@@ -47,7 +51,6 @@ export default function FontFamilyPicker({ textObj, itemType, canvasDesign, setC
                 value={selectedTextItemFontFamily || ''}
                 onChange={handleFontFamilyChange}
                 variant="outlined"
-                style={{minWidth: '7rem'}}
                 MenuProps={{
                     PaperProps: {
                         style: {

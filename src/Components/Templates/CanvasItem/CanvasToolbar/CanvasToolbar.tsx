@@ -3,10 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import { useState } from 'react';
 import ShapesMenu from './ShapesMenu/ShapesMenu';
 import TextMenu from './TextMenu/TextMenu';
-import DeleteButton from './DeleteButton';
 import SaveTemplateButton from './SaveButton';
-import ColorPicker from './ColorPicker/ColorPicker'
-import TextStyler from './TextStyler/TextStyler'
 import { CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
 import CloseTemplateButton from './CloseButton';
@@ -36,9 +33,7 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                         <ShapesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <TextMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         <ImagesMenu isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <ColorPicker isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} color={color} setColor={setColor} />
                         <LayerManager isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        <DeleteButton isLoading={isLoading} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                     </div>
                     <div>
                         <SaveTemplateButton isLoading={isLoading} setIsLoading={setIsLoading} canvasDesign={canvasDesign} dataBaseCanvasDesign={dataBaseCanvasDesign} setDataBaseCanvasDesign={setDataBaseCanvasDesign} friendlyName={friendlyName} databaseFriendlyName={databaseFriendlyName} setDatabaseFriendlyName={setDataBaseFriendlyName} />
@@ -46,7 +41,6 @@ const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendl
                     </div>
                 </Toolbar>
             </AppBar>
-            <TextStyler canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
             <InputStyler canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
         </>
     );

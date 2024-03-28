@@ -3,11 +3,11 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
-import { CanvasDesignData, InputObj, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface FontStylePickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label';
+    itemType: 'content' | 'label' | null
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
 }
@@ -31,14 +31,23 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, ca
 
         const updatedShapes = canvasDesign.Shapes.map((shape) => {
             if (shape.id === canvasDesign.selectedId) {
-                const inputObj = shape as InputObj;
-                const currentStyle = inputObj[itemType][styleProperty] || '';
-                const isStyleApplied = currentStyle.includes(style);
-                inputObj[itemType][styleProperty] = isStyleApplied
-                    ? currentStyle.replace(style, '').trim()
-                    : `${currentStyle} ${style}`.trim();
-
-                return { ...inputObj, [styleProperty]: inputObj[itemType][styleProperty] };
+                if (itemType === null) {
+                    const textObj = shape as TextObj;
+                    const currentStyle = textObj[styleProperty] || '';
+                    const isStyleApplied = currentStyle.includes(style);
+                    textObj[styleProperty] = isStyleApplied
+                        ? currentStyle.replace(style, '').trim()
+                        : `${currentStyle} ${style}`.trim();
+                }
+                else {
+                    const inputObj = shape as InputObj;
+                    const currentStyle = inputObj[itemType][styleProperty] || '';
+                    const isStyleApplied = currentStyle.includes(style);
+                    inputObj[itemType][styleProperty] = isStyleApplied
+                        ? currentStyle.replace(style, '').trim()
+                        : `${currentStyle} ${style}`.trim();
+                    return { ...shape, [styleProperty]: inputObj[itemType][styleProperty] };
+                }
             }
             return shape;
         });
@@ -52,7 +61,6 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, ca
         <ToggleButtonGroup
             value={selectedFontStyles}
             aria-label="font style"
-            style={{ marginBottom: '1rem', }}
             size="small"
         >
             <ToggleButton key={'italic'} value={'italic'}
