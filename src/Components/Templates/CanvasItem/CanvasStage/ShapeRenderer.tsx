@@ -1,15 +1,16 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj } from "../../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
-import RectangleShape from '../Shapes/RectangleShape';
-import EllipseShape from '../Shapes/EllipseShape';
-import LineShape from '../Shapes/LineShape';
-import ImageShape from '../Shapes/ImageShape';
+import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
+import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
+import LineShape from '../Shapes/SolidShapes/LineShape';
+import ImageShape from '../Shapes/SolidShapes/ImageShape';
 import { selectShape } from '../../../../utils/shapeManagementUtils';
 import PhoneInput from '../Shapes/Inputs/PhoneInput';
 import EmailInput from '../Shapes/Inputs/EmailInput';
 import Heading from '../Shapes/TextFields/Heading';
 import Paragraph from '../Shapes/TextFields/Paragraph';
+import ShortTextInput from '../Shapes/Inputs/ShortTextInput';
 
 interface ShapeRendererProps {
     pageWidth: number;
@@ -139,6 +140,22 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 isSelected={emailInput.id === canvasDesign.selectedId}
                                 onSelect={() => {
                                     selectShape(emailInput.id, canvasDesign, setCanvasDesign);
+                                }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'ShortTextInput':
+                        const shortTextInput = shape as ShortTextInputObj;
+                        return (
+                            <ShortTextInput
+                                key={shortTextInput.id}
+                                shortTextInputObj={shortTextInput}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={shortTextInput.id === canvasDesign.selectedId}
+                                onSelect={() => {
+                                    selectShape(shortTextInput.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}
                             />

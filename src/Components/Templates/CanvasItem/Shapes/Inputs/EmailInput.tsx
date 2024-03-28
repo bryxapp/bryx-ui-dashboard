@@ -1,15 +1,11 @@
-import { Rect, Text, Group, Transformer } from 'react-konva';
-import { styled } from '@mui/material/styles';
-import { EmailInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
+import { Rect, Group } from 'react-konva';
+import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import InputLabel from './InputLabel';
-
-const TextInputContainer = styled(Rect)({
-    borderRadius: '4px',
-    border: '1px solid #C4C4C4',
-    padding: '12px'
-});
+import InputTransformer from './SharedInputComponents/InputTransformer';
+import InputContent from './SharedInputComponents/InputContent';
+import { createTempTextKonvaShape} from './SharedInputComponents/InputHelper';
+import InputLabel from './SharedInputComponents/InputLabel';
 
 interface EmailInputProps {
     emailInputObj: EmailInputObj;
@@ -25,14 +21,6 @@ interface EmailInputProps {
 const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
-    const createTempTextKonvaShape = (content: TextBase) => new Konva.Text({
-        text: content.value,
-        fontSize: content.fontSize,
-        fontFamily: content.fontFamily,
-        fontStyle: content.fontStyle,
-        textDecoration: content.textDecoration,
-        align: content.align,
-    });
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -42,28 +30,32 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected,
         }
     }, [isSelected]);
 
-    const tempTextShape = createTempTextKonvaShape(emailInputObj.content);
-    const textWidth = tempTextShape.width();
-    const textHeight = tempTextShape.height();
-    const containerWidth = textWidth + textWidth * .25;
-    const containerHeight = textHeight + textHeight * .25;
-
-    const getXAlignment = (text: TextBase) => {
-        switch (text.align) {
-            case 'left':
-                return 5;
-            case 'center':
-                return (containerWidth - textWidth) / 2;
-            case 'right':
-                return 5 + (containerWidth - textWidth) - 5;
-            default:
-                return 5;
+    useEffect(() => {
+        // This effect will re-run whenever shortTextInputObj changes.
+        if (shapeRef.current && trRef.current) {
+            // Directly update the size of the Konva elements based on the new shortTextInputObj properties.
+            // You might want to recalculate your sizes here similar to what is done outside useEffect.
+            // Then, update the transformer if it is selected.
+            if (isSelected) {
+                trRef.current.nodes([shapeRef.current]);
+                trRef.current.getLayer()?.batchDraw();
+            }
         }
-    };
+    }, [emailInputObj, isSelected]);
 
-    const getYAlignment = () => {
-        return (containerHeight - textHeight) / 2;
-    }
+    //Create Label Text Shape for measurements
+    const tempTextShapeLabel = createTempTextKonvaShape(emailInputObj.label);
+    const labelShapeWidth = tempTextShapeLabel.width();
+    const labelShapeHeight = tempTextShapeLabel.height();
+
+    //Create Content Text Shape for measurements
+
+    const tempTextShapeContent = createTempTextKonvaShape(emailInputObj.content);
+    const contentShapeWidth = tempTextShapeContent.width();
+    const contentShapeHeight = tempTextShapeContent.height();
+
+    const containerHeight = emailInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
 
     return (
         <React.Fragment>
@@ -82,53 +74,29 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected,
                 onClick={onSelect}
                 onTap={onSelect}
             >
-                <TextInputContainer
-                    width={containerWidth}
+                {/* Background Rectangle for easier selecting and dragging */}
+                <Rect
+                    width={containerWidth + 10}
                     height={containerHeight}
-                    fill='#F5F5F5'
-                    scaleX={1}
-                    scaleY={1} />
+                    fill='transparent'
+                    onClick={onSelect}
+                    onTap={onSelect} />
                 {/* Input Label */}
                 {emailInputObj.hasLabel && (
-                    <InputLabel labelObj={emailInputObj.label} x={getXAlignment(emailInputObj.label)} y={getYAlignment() - 25} />
+                    <InputLabel textObj={emailInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
                 )}
-                {/* Input Placeholder */}
-                <Text
-                    x={getXAlignment(emailInputObj.content)}
-                    y={getYAlignment()}
-                    text={`${emailInputObj.content.value}`}
-                    fontSize={emailInputObj.content.fontSize}
-                    fill={emailInputObj.content.fill}
-                    fontFamily={emailInputObj.content.fontFamily}
-                    fontStyle={emailInputObj.content.fontStyle}
-                    scaleX={1}
-                    scaleY={1} />
-                <Text
-                    x={containerWidth - textWidth * .15}
-                    y={5}
-                    text='@'
-                    fontSize={emailInputObj.content.fontSize * .6}
-                    fill={'gray'}
-                    scaleX={1}
-                    scaleY={1} />
+                {/* Input Content */}
+                <InputContent
+                    textObj={emailInputObj.content}
+                    containerWidth={containerWidth}
+                    contentHeight={contentShapeHeight}
+                    contentWidth={contentShapeWidth}
+                    labelHeight={labelShapeHeight}
+                    labelFontSize={emailInputObj.label.fontSize}
+                    onSelect={onSelect} />
             </Group>
             {isSelected && (
-                <Transformer
-                    ref={trRef}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // limit resize
-                        if (newBox.width < 5 || newBox.height < 5) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }}
-                    onTransformEnd={onTransformEnd}
-                    rotateEnabled={true}
-                    anchorSize={10}
-                    resizeEnabled={false}
-                    keepRatio={false}
-                    rotationSnaps={[0, 90, 180, 270]}
-                />
+                <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
             )}
         </React.Fragment>
     );

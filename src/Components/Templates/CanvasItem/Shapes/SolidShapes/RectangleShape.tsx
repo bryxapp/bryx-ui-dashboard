@@ -1,21 +1,20 @@
-
 import React, { useEffect, useRef } from 'react';
-import { Line, Transformer } from 'react-konva';
+import { Rect, Transformer } from 'react-konva';
 import Konva from 'konva';
-import { LineObj } from '../../../../utils/types/CanvasInterfaces';
+import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 
-interface LineShapeProps {
-    lineObj: LineObj;
+interface RectangleShapeProps {
+    rectangleObj: RectangleObj;
     handleDragStart: any;
     handleDragEnd: any;
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
-    handleDragMove:any;
+    handleDragMove: any;
 }
 
-const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove }: LineShapeProps) => {
-    const shapeRef = useRef<Konva.Line>(null);
+const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove }: RectangleShapeProps) => {
+    const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -27,22 +26,25 @@ const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSele
 
     return (
         <React.Fragment>
-            <Line
-                id={lineObj.id}
+            <Rect
                 onClick={onSelect}
                 onTap={onSelect}
                 ref={shapeRef}
-                x={lineObj.x}
-                y={lineObj.y}
-                points={lineObj.points}
-                stroke={lineObj.stroke}
-                strokeWidth={lineObj.strokeWidth}
-                scaleX={1}
-                scaleY={1}
-                rotation={lineObj.rotation}
-                onDragMove={handleDragMove}
+                id={rectangleObj.id}
+                x={rectangleObj.x}
+                y={rectangleObj.y}
+                width={rectangleObj.width}
+                height={rectangleObj.height}
+                fill={rectangleObj.fill}
+                stroke = {rectangleObj.stroke}
+                strokeWidth={rectangleObj.strokeWidth}
+                scaleX={rectangleObj.isDragging ? 1.0: 1}
+                scaleY={rectangleObj.isDragging ? 1.0: 1}
+                rotation={rectangleObj.rotation}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
+                onDragMove={handleDragMove}
+                cornerRadius={rectangleObj.cornerRadius? rectangleObj.cornerRadius: 0}
                 draggable
             />
             {isSelected && (
@@ -62,4 +64,4 @@ const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSele
     )
 };
 
-export default LineShape;
+export default RectangleShape;

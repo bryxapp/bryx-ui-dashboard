@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
-import { Ellipse, Transformer } from 'react-konva';
-import { EllipseObj } from '../../../../utils/types/CanvasInterfaces';
+import { Image, Transformer } from 'react-konva';
+import { ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 
-interface EllipseShapeProps {
-    ellipseObj: EllipseObj;
+interface ImageShapeProps {
+    imageObj: ImageObj;
     handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
     isSelected: boolean;
@@ -13,16 +13,16 @@ interface EllipseShapeProps {
     handleDragMove:any;
 }
 
-const EllipseShape = ({
-    ellipseObj,
+const ImageShape = ({
+    imageObj,
     handleDragStart,
     handleDragEnd,
     isSelected,
     onSelect,
     onTransformEnd,
     handleDragMove
-}: EllipseShapeProps) => {
-    const shapeRef = useRef<Konva.Ellipse>(null);
+}: ImageShapeProps) => {
+    const shapeRef = useRef<Konva.Image>(null);
     const trRef = useRef<Konva.Transformer>(null);
 
     useEffect(() => {
@@ -33,25 +33,33 @@ const EllipseShape = ({
         }
     }, [isSelected]);
 
+    const image = new window.Image();
+    image.src = imageObj.src;
+    image.onload = () => {
+        shapeRef.current?.image(image);
+        shapeRef.current?.getLayer()?.batchDraw();
+    };
+
+
     return (
         <React.Fragment>
-            <Ellipse
-                id={ellipseObj.id}
+            <Image
+                id={imageObj.id}
                 onClick={onSelect}
                 onTap={onSelect}
                 ref={shapeRef}
-                x={ellipseObj.x}
-                y={ellipseObj.y}
-                radiusX={ellipseObj.radiusX}
-                radiusY={ellipseObj.radiusY}
-                fill={ellipseObj.fill}
+                x={imageObj.x}
+                y={imageObj.y}
+                width={imageObj.width}
+                height={imageObj.height}
                 scaleX={1}
                 scaleY={1}
-                rotation={ellipseObj.rotation}
+                rotation={imageObj.rotation}
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable
+                image={image}
             />
             {isSelected && (
                 <Transformer
@@ -70,4 +78,4 @@ const EllipseShape = ({
     );
 };
 
-export default EllipseShape;
+export default ImageShape;

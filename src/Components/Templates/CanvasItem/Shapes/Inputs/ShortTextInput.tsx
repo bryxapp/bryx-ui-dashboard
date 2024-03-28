@@ -1,14 +1,13 @@
 import { Rect, Group } from 'react-konva';
-import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { ShortTextInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
-import InputContent from './SharedInputComponents/InputContent';
-import InputLabel from './SharedInputComponents/InputLabel';
 import InputTransformer from './SharedInputComponents/InputTransformer';
+import InputLabel from './SharedInputComponents/InputLabel';
+import InputContent from './SharedInputComponents/InputContent';
 
-interface PhoneInputProps {
-    phoneInputObj: PhoneInputObj;
+interface ShortTextInputProps {
+    shortTextInputObj: ShortTextInputObj;
     handleDragStart: any;
     handleDragEnd: any;
     isSelected: boolean;
@@ -18,9 +17,17 @@ interface PhoneInputProps {
     draggable?: boolean;
 }
 
-const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: PhoneInputProps) => {
+const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: ShortTextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const createTempTextKonvaShape = (content: TextBase) => new Konva.Text({
+        text: content.value,
+        fontSize: content.fontSize,
+        fontFamily: content.fontFamily,
+        fontStyle: content.fontStyle,
+        textDecoration: content.textDecoration,
+        align: content.align,
+    });
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -41,58 +48,61 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, isSelected,
                 trRef.current.getLayer()?.batchDraw();
             }
         }
-    }, [phoneInputObj, isSelected]);
+    }, [shortTextInputObj, isSelected]);
 
     //Create Label Text Shape for measurements
-    const tempTextShapeLabel = createTempTextKonvaShape(phoneInputObj.label);
+    const tempTextShapeLabel = createTempTextKonvaShape(shortTextInputObj.label);
     const labelShapeWidth = tempTextShapeLabel.width();
     const labelShapeHeight = tempTextShapeLabel.height();
 
     //Create Content Text Shape for measurements
 
-    const tempTextShapeContent = createTempTextKonvaShape(phoneInputObj.content);
+    const tempTextShapeContent = createTempTextKonvaShape(shortTextInputObj.content);
     const contentShapeWidth = tempTextShapeContent.width();
     const contentShapeHeight = tempTextShapeContent.height();
 
-    const containerHeight = phoneInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
+    const containerHeight = shortTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+
 
     return (
         <React.Fragment>
             <Group
-                key={phoneInputObj.id}
-                id={phoneInputObj.id}
-                displayName={phoneInputObj.label}
-                x={phoneInputObj.x}
-                y={phoneInputObj.y}
+                key={shortTextInputObj.id}
+                id={shortTextInputObj.id}
+                displayName={shortTextInputObj.label}
+                x={shortTextInputObj.x}
+                y={shortTextInputObj.y}
                 draggable={draggable}
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 ref={shapeRef}
-                rotation={phoneInputObj.rotation}
+                rotation={shortTextInputObj.rotation}
                 onClick={onSelect}
                 onTap={onSelect}
             >
                 {/* Background Rectangle for easier selecting and dragging */}
                 <Rect
-                    width={containerWidth + 10}
-                    height={containerHeight}
+                    width={containerWidth}
+                    height={containerHeight - labelShapeHeight}
                     fill='transparent'
                     onClick={onSelect}
                     onTap={onSelect} />
+
                 {/* Input Label */}
-                {phoneInputObj.hasLabel && (
-                    <InputLabel textObj={phoneInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
+                {shortTextInputObj.hasLabel && (
+                    <InputLabel textObj={shortTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
                 )}
+
                 {/* Input Content */}
                 <InputContent
-                    textObj={phoneInputObj.content}
+                    textObj={shortTextInputObj.content}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
                     labelHeight={labelShapeHeight}
-                    labelFontSize={phoneInputObj.label.fontSize}
+                    labelFontSize={shortTextInputObj.label.fontSize}
                     onSelect={onSelect} />
             </Group>
             {isSelected && (
@@ -102,4 +112,4 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, isSelected,
     );
 };
 
-export default PhoneInput;
+export default ShortTextInput;

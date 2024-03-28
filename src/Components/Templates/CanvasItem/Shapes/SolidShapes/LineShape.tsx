@@ -1,30 +1,22 @@
-import React, { useEffect, useRef } from 'react';
-import Konva from 'konva';
-import { Image, Transformer } from 'react-konva';
-import { ImageObj } from '../../../../utils/types/CanvasInterfaces';
 
-interface ImageShapeProps {
-    imageObj: ImageObj;
-    handleDragStart: (e: any) => void;
-    handleDragEnd: (e: any) => void;
+import React, { useEffect, useRef } from 'react';
+import { Line, Transformer } from 'react-konva';
+import Konva from 'konva';
+import { LineObj } from '../../../../../utils/types/CanvasInterfaces';
+
+interface LineShapeProps {
+    lineObj: LineObj;
+    handleDragStart: any;
+    handleDragEnd: any;
     isSelected: boolean;
-    onSelect: () => void;
-    onTransformEnd: (e: any) => void;
+    onSelect: any;
+    onTransformEnd: any;
     handleDragMove:any;
 }
 
-const ImageShape = ({
-    imageObj,
-    handleDragStart,
-    handleDragEnd,
-    isSelected,
-    onSelect,
-    onTransformEnd,
-    handleDragMove
-}: ImageShapeProps) => {
-    const shapeRef = useRef<Konva.Image>(null);
+const LineShape = ({ lineObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove }: LineShapeProps) => {
+    const shapeRef = useRef<Konva.Line>(null);
     const trRef = useRef<Konva.Transformer>(null);
-
     useEffect(() => {
         if (isSelected && shapeRef.current) {
             // we need to attach transformer manually
@@ -33,33 +25,25 @@ const ImageShape = ({
         }
     }, [isSelected]);
 
-    const image = new window.Image();
-    image.src = imageObj.src;
-    image.onload = () => {
-        shapeRef.current?.image(image);
-        shapeRef.current?.getLayer()?.batchDraw();
-    };
-
-
     return (
         <React.Fragment>
-            <Image
-                id={imageObj.id}
+            <Line
+                id={lineObj.id}
                 onClick={onSelect}
                 onTap={onSelect}
                 ref={shapeRef}
-                x={imageObj.x}
-                y={imageObj.y}
-                width={imageObj.width}
-                height={imageObj.height}
+                x={lineObj.x}
+                y={lineObj.y}
+                points={lineObj.points}
+                stroke={lineObj.stroke}
+                strokeWidth={lineObj.strokeWidth}
                 scaleX={1}
                 scaleY={1}
-                rotation={imageObj.rotation}
+                rotation={lineObj.rotation}
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable
-                image={image}
             />
             {isSelected && (
                 <Transformer
@@ -75,7 +59,7 @@ const ImageShape = ({
                 />
             )}
         </React.Fragment>
-    );
+    )
 };
 
-export default ImageShape;
+export default LineShape;

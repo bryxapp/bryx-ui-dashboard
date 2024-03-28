@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -147,6 +147,48 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         isDragging: false,
     };
 }
+
+export function createShortTextInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): ShortTextInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
+    const labelObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: label,
+        align: "left",
+    } as TextBase;
+
+    const contentObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: placeholder,
+        align: "left",
+    } as TextBase;
+
+    return {
+        id: generateShapeId(),
+        type: 'ShortTextInput',
+        x,
+        y,
+        rotation: 0,
+        label: labelObj,
+        hasLabel,
+        content: contentObj,
+        isDragging: false,
+    };
+}
+
 
 export function createHeadingdObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): HeadingObj {
     if (x === undefined) {

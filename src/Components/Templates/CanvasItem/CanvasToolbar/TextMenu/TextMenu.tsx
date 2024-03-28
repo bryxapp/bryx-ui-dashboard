@@ -8,6 +8,7 @@ import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import AddPhoneInput from './Inputs/AddPhoneInput';
 import AddEmailInput from './Inputs/AddEmailInput';
 import AddParagraph from './AddParagraph';
+import AddShortTextInput from './Inputs/AddShortTextInput';
 
 interface TextMenuProps {
     isLoading: boolean;
@@ -55,6 +56,7 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
                 <AddParagraph canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddPhoneInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddEmailInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddShortTextInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );
