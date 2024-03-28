@@ -1,8 +1,7 @@
-import { Stage, Layer, Rect, Ellipse, Line, Image, Text, Group } from "react-konva";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces"
+import { Stage, Layer, Rect, Ellipse, Line, Image, Text } from "react-konva";
+import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj } from "../../../../utils/types/CanvasInterfaces"
 import styled from '@emotion/styled';
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
-import { drawBorders } from "../../../Templates/CanvasItem/Shapes/TextTableUtils";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
@@ -112,59 +111,6 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     rotation={text.rotation}
                     align={text.align}
                   />)
-              case 'TextTable':
-                const textTable = shape as TextTableObj;
-                //Calculate total table width based on individual cell widths
-                const tableWidth = textTable.rows[0].reduce((acc, cell) => acc + cell.width, 0);
-                //Calculate total table height based on individual cell heights
-                const tableHeight = textTable.rows.reduce((acc, row) => acc + row[0].height, 0);
-                return (
-                  <>
-                    <Group
-                      key={textTable.id}
-                      x={textTable.x} // Ensure these are correctly set to position the table group
-                      y={textTable.y}
-                    >
-                      <Rect
-                        width={tableWidth}
-                        height={tableHeight}
-                        fill="transparent" // Using transparent fill to catch click events
-                        stroke={textTable.border ? textTable.border.color : 'transparent'}
-                        strokeWidth={textTable.border ? textTable.border.width : 0}
-                      />
-                      {drawBorders(textTable).map((lineProps) => (
-                        <Line {...lineProps} />
-                      ))}
-                      {textTable.rows.map((row, rowIndex) => (
-                        row.map((cell, cellIndex) => {
-                          // Calculate the X position of the cell based on the widths of all previous cells in the row
-                          const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
-                          // Calculate the Y position of the cell based on the heights of all rows above the current row
-                          const cellY = textTable.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
-                          if (cell.content?.type === "TextField") {
-                            const textField = cell.content as TextFieldObj;
-                            return (
-                              <Text
-                                key={`${textField.id}-${rowIndex}-${cellIndex}`} // Unique key for each text field
-                                id={textField.id}
-                                x={cellX + 5}
-                                y={cellY + 5}
-                                text={textField.value}
-                                fontSize={textField.fontSize}
-                                fontFamily={textField.fontFamily}
-                                fill={textField.fill}
-                                rotation={textField.rotation}
-                                align={textField.align}
-                              />
-                            );
-                          } else {
-                            return null;
-                          }
-                        })
-                      ))}
-                    </Group>
-                  </>
-                );
               case 'Image':
                 const image = shape as ImageObj;
                 const imageSrc = new window.Image();

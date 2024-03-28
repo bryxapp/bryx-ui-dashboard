@@ -5,10 +5,9 @@ import ParagraphIcon from '@mui/icons-material/ViewHeadline';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import TextIcon from '@mui/icons-material/TextFields';
 import NumberIcon from '@mui/icons-material/Numbers';
-import { TextInputFormat } from './types/CanvasInterfaces';
 
-export const getInputProps = (format: TextInputFormat) => {
-    switch (format) {
+export const getInputProps = (inputType: string) => {
+    switch (inputType) {
         case 'number':
             return { type: 'number', startAdornment: <NumberIcon /> };
         case 'date':
@@ -25,11 +24,3 @@ export const getInputProps = (format: TextInputFormat) => {
             return { type: 'text', startAdornment: <TextIcon /> };
     }
 };
-
-export const formatDate = (value: string) => {
-    const date = new Date(value);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const year = date.getFullYear().toString();
-    return `${month}/${day}/${year}`;
-}

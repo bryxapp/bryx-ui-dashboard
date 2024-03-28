@@ -4,7 +4,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import AlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import { CanvasDesignData, TextFieldObj, TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextFieldObj } from '../../../../../utils/types/CanvasInterfaces';
 import { findShape, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 interface TextAlignmentPickerProps {
@@ -20,7 +20,7 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ canvasDesign,
         }
     };
 
-    const selectedTextAlignment = (findShape(canvasDesign, canvasDesign.selectedId) as TextInputObj | TextFieldObj)?.align
+    const selectedTextAlignment = (findShape(canvasDesign, canvasDesign.selectedId) as TextFieldObj)?.align
     if (!selectedTextAlignment) return null;
 
     return (

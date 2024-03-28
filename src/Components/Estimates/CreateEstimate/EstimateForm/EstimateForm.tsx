@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
-import { FormInputs, ShapeObj, TextInputObj, TextTableObj } from '../../../../utils/types/CanvasInterfaces';
+import { EmailInputObj, FormInputs, PhoneInputObj, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
 import Creating from '../../../SharedComponents/Creating/Creating';
@@ -47,28 +47,17 @@ const EstimateForm = () => {
                 let formInputs: FormInputs = [];
 
                 for (let shape of fetchedTemplate.canvasDesign.Shapes) {
-                    if (shape.type === "TextInput") {
-                        formInputs.push(shape as TextInputObj);
-                    } else if (shape.type === "TextTable") {
-                        formInputs.push(shape as TextTableObj);
+                    if (shape.type === "PhoneInput") {
+                        formInputs.push(shape as PhoneInputObj);
+                    } else if (shape.type === "EmailInput") {
+                        formInputs.push(shape as EmailInputObj);
                     }
                 }
 
                 setFormInputs(formInputs);
                 let newFieldValues: EstimateFormFields = {};
                 formInputs.forEach((formInput: ShapeObj) => {
-                    if (formInput.type === "TextInput") {
-                        newFieldValues[formInput.id] = "";
-                    } else if (formInput.type === "TextTable") {
-                        let textTable = formInput as TextTableObj;
-                        textTable.rows.forEach((row) => {
-                            row.forEach((cell) => {
-                                if (cell.content?.type === "TextInput") {
-                                    newFieldValues[cell.content.id] = "";
-                                }
-                            });
-                        });
-                    }
+                    newFieldValues[formInput.id] = "";
                 });
                 if (draftId) {
                     await fetchDraft(newFieldValues, token);

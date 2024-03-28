@@ -1,40 +1,37 @@
 import React from 'react';
-import { TextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
-import {StyledTextField as TextField} from '../../../../SharedComponents/TextField/TextField'
-import { formatDate, getInputProps } from '../../../../../utils/form-utils';
+import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField'
+import { getInputProps } from '../../../../../utils/form-utils';
 
 interface EstimateFormTextFieldProps {
-    textInputObj: TextInputObj;
+    inputObj: InputObj;
     fieldValues: EstimateFormFields;
     setFieldValues: React.Dispatch<React.SetStateAction<EstimateFormFields>>;
 }
 
 const EstimateFormTextField = ({
-    textInputObj,
+    inputObj,
     fieldValues,
     setFieldValues,
 }: EstimateFormTextFieldProps) => {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let { value } = event.target;
-        if (textInputObj.format === 'date') {
-            value = formatDate(value);
-        }
         const updatedFieldValues = {
             ...fieldValues,
-            [textInputObj.id]: value,
-          };
+            [inputObj.id]: value,
+        };
         setFieldValues(updatedFieldValues);
     };
 
-    const inputProps = getInputProps(textInputObj.format);
+    const inputProps = getInputProps(inputObj.type);
 
     return (
         <TextField
-            key={textInputObj.id}
-            label={textInputObj.displayName}
-            name={textInputObj.displayName}
-            value={fieldValues[textInputObj.id]}
+            key={inputObj.id}
+            label={inputObj.label.value} //TODO label should be its own text field
+            name={inputObj.label.value}
+            value={fieldValues[inputObj.id]}
             onChange={handleChange}
             InputProps={inputProps}
             InputLabelProps={{ style: { fontSize: 20 } }} // Set the font size of the label text}

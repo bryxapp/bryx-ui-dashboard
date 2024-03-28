@@ -1,5 +1,6 @@
+
 export interface CanvasDesignData {
-    Shapes: (ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj)[];
+    Shapes: (ShapeObj)[];
     selectedId: string | null;
     pageHeight: number;
     pageWidth: number;
@@ -7,13 +8,14 @@ export interface CanvasDesignData {
 
 export interface ShapeObj {
     id: string;
-    type: ShapeType;
+    type: ShapeType | InputType | TextType | ObsoleteType
     x: number;
     y: number;
     rotation: number;
     isDragging: boolean;
 }
 
+// Solid Shapes
 export interface RectangleObj extends ShapeObj, SolidShapeObj {
     width: number;
     height: number;
@@ -34,41 +36,6 @@ export interface LineObj extends ShapeObj {
     type: 'Line';
 }
 
-export interface TextObj {
-    fontSize: number;
-    fill: string;
-    fontFamily: string;
-    fontStyle: string;
-    textDecoration: string;
-    align: string;
-    isNestedInTextTable: boolean;
-}
-
-export interface TextInputObj extends ShapeObj, TextObj {
-    displayName: string;
-    type: 'TextInput';
-    format: TextInputFormat;
-}
-
-export interface TextFieldObj extends ShapeObj, TextObj {
-    value: string;
-    type: 'TextField';
-}
-
-export interface TableCellObj extends ShapeObj {
-    width: number;
-    height: number;
-    verticalAlign: 'top' | 'middle' | 'bottom';
-    horizontalAlign: 'left' | 'center' | 'right';
-    content: TextInputObj | TextFieldObj | null;
-    type: 'TableCell';
-}
-
-export interface TextTableObj extends ShapeObj {
-    rows: TableCellObj[][];
-    border?: { width: number, color: string };
-    type: 'TextTable';
-}
 export interface ImageObj extends ShapeObj {
     src: string;
     width: number;
@@ -87,6 +54,69 @@ export interface ShapeColor {
     stroke: string | undefined;
 }
 
+// Input Shapes
+
+export interface PhoneInputObj extends InputObj {
+    type: 'PhoneInput';
+}
+
+export interface ShortTextInputObj extends InputObj {
+    type: 'ShortTextInput';
+}
+
+export interface LongTextInputObj extends InputObj {
+    type: 'LongTextInput';
+}
+
+export interface EmailInputObj extends InputObj {
+    type: 'EmailInput';
+}
+
+export interface DateInputObj extends InputObj {
+    type: 'DateInput';
+}
+
+// Text Shapes
+export interface HeadingObj extends TextObjTemp {
+    type: 'Heading';
+}
+
+export interface ParagraphObj extends TextObjTemp {
+    type: 'Paragraph';
+}
+
+export interface TextObjTemp {
+    fontSize: number;
+    fill: string;
+    fontFamily: string;
+    fontStyle: string;
+    textDecoration: string;
+    align: string;
+    value: string;
+}
+
+export interface InputObj extends ShapeObj {
+    hasLabel: boolean;
+    label: TextObjTemp;
+    content: TextObjTemp;
+}
+
+//Obsolete Shapes
+export interface TextFieldObj extends ShapeObj, TextObj {
+    value: string;
+    type: 'TextField';
+}
+
+export interface TextObj {
+    fontSize: number;
+    fill: string;
+    fontFamily: string;
+    fontStyle: string;
+    textDecoration: string;
+    align: string;
+    isNestedInTextTable: boolean;
+}
+
 export interface ToolBarProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
@@ -97,8 +127,13 @@ export interface CanvasStarterData {
     canvasDesign: CanvasDesignData;
 }
 
-export type FormInputs = (TextInputObj | TextTableObj)[];
+export type FormInputs = (ShortTextInputObj | LongTextInputObj | PhoneInputObj | EmailInputObj | DateInputObj)[];
 
-export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'TextTable' | 'TableCell' | 'Image';
+export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'Image';
+export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput';
+export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
+export type TextType = 'Heading' | 'Paragraph'
+export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 
+export type ObsoleteType = 'TextInput' | 'TextField' | 'TextTable' | 'TableCell';
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';

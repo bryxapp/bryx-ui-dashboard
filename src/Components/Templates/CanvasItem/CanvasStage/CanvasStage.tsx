@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import styled from '@emotion/styled';
-import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
+import { ShapeObj, CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
@@ -40,7 +40,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
         }
     }
 
-    const [copiedObject, setCopiedObject] = useState<ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj | null>(null);
+    const [copiedObject, setCopiedObject] = useState<ShapeObj | null>(null);
 
     useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, copiedObject, setCopiedObject });
 

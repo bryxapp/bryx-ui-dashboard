@@ -1,14 +1,13 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/RectangleShape';
 import EllipseShape from '../Shapes/EllipseShape';
 import LineShape from '../Shapes/LineShape';
-import TextInput from '../Shapes/TextInput';
-import TextField from '../Shapes/TextField';
 import ImageShape from '../Shapes/ImageShape';
 import { selectShape } from '../../../../utils/shapeManagementUtils';
-import TextTable from '../Shapes/TextTable/TextTable';
+import PhoneInput from '../Shapes/Inputs/PhoneInput';
+import EmailInput from '../Shapes/Inputs/EmailInput';
 
 interface ShapeRendererProps {
     pageWidth: number;
@@ -94,40 +93,38 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 onTransformEnd={onTransformEnd}
                             />
                         );
-                    case 'TextInput':
-                        const textInput = shape as TextInputObj;
+                    case 'PhoneInput':
+                        const phoneInput = shape as PhoneInputObj;
                         return (
-                            <TextInput
-                                key={textInput.id}
-                                textInputObj={textInput}
+                            <PhoneInput
+                                key={phoneInput.id}
+                                phoneInputObj={phoneInput}
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={textInput.id === canvasDesign.selectedId}
+                                isSelected={phoneInput.id === canvasDesign.selectedId}
                                 onSelect={() => {
-                                    selectShape(textInput.id, canvasDesign, setCanvasDesign);
+                                    selectShape(phoneInput.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
-                    case 'TextField':
-                        const textField = shape as TextFieldObj;
-                        return (
-                            <TextField
-                                key={textField.id}
-                                textFieldObj={textField}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                handleDragMove={handleDragMove}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
-                                isSelected={textField.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(textField.id, canvasDesign, setCanvasDesign);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        );
+                    case 'EmailInput':
+                            const emailInput = shape as EmailInputObj;
+                            return (
+                                <EmailInput
+                                    key={emailInput.id}
+                                    emailInputObj={emailInput}
+                                    handleDragStart={handleDragStart}
+                                    handleDragMove={handleDragMove}
+                                    handleDragEnd={handleDragEnd}
+                                    isSelected={emailInput.id === canvasDesign.selectedId}
+                                    onSelect={() => {
+                                        selectShape(emailInput.id, canvasDesign, setCanvasDesign);
+                                    }}
+                                    onTransformEnd={onTransformEnd}
+                                />
+                            );
                     case 'Image':
                         const image = shape as ImageObj;
                         return (
@@ -144,22 +141,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 onTransformEnd={onTransformEnd}
                             />
                         );
-                    case 'TextTable':
-                        const textTable = shape as TextTableObj;
-                        return (
-                            <TextTable
-                                key={textTable.id}
-                                textTableObj={textTable}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
-                                onSelect={(selectedId:string) => {
-                                    selectShape(selectedId, canvasDesign, setCanvasDesign);
-                                }}
-                                handleDragMove={handleDragMove}
-                            />
-                        )
                     default:
                         return null;
                 }

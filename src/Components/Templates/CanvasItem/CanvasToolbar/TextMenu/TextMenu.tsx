@@ -4,9 +4,9 @@ import Menu from '@mui/material/Menu';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import Tooltip from '@mui/material/Tooltip';
 import AddTextField from './AddTextField';
-import AddTextInput from './AddTextInput';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
-import AddTextTable from './AddTextTable';
+import AddPhoneInput from './AddPhoneInput';
+import AddEmailInput from './AddEmailInput';
 
 interface TextMenuProps {
     isLoading: boolean;
@@ -51,8 +51,8 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
                 }}
             >
                 <AddTextField canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddTextInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddTextTable canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddPhoneInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddEmailInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );
