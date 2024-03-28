@@ -1,6 +1,6 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AddEmailInputIcon from "@mui/icons-material/EmailOutlined";
+import AddEmailInputIcon from "@mui/icons-material/Email";
 import { CanvasDesignData, EmailInputObj } from "../../../../../../utils/types/CanvasInterfaces";
 import { createEmailInputObj } from "../../../../../../utils/types/ShapesFactory";
 

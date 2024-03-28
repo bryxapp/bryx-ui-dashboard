@@ -1,12 +1,12 @@
-import { CanvasDesignData, HeadingObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ParagraphObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Group, Rect, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
-interface HeadingProps {
-    headingObj: HeadingObj;
+interface ParagraphProps {
+    paragraphObj: ParagraphObj;
     handleDragStart: any;
     handleDragEnd: any;
     canvasDesign: CanvasDesignData;
@@ -18,8 +18,8 @@ interface HeadingProps {
     draggable?: boolean;
 }
 
-const Heading = ({
-    headingObj,
+const Paragraph = ({
+    paragraphObj,
     handleDragStart,
     handleDragEnd,
     canvasDesign,
@@ -29,7 +29,7 @@ const Heading = ({
     onTransformEnd,
     handleDragMove,
     draggable = true
-}: HeadingProps) => {
+}: ParagraphProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const shapeRef = useRef<Konva.Group>(null);
@@ -76,16 +76,16 @@ const Heading = ({
         position: 'absolute',
         background: 'none',
         resize: 'none',
-        fontSize: `${headingObj.fontSize / 16}em`,
-        fill: headingObj.fill,
-        fontFamily: headingObj.fontFamily,
-        fontStyle: headingObj.fontStyle,
-        textDecoration: headingObj.textDecoration,
+        fontSize: `${paragraphObj.fontSize / 16}em`,
+        fill: paragraphObj.fill,
+        fontFamily: paragraphObj.fontFamily,
+        fontStyle: paragraphObj.fontStyle,
+        textDecoration: paragraphObj.textDecoration,
         whiteSpace: 'pre-wrap',
-        width: `${measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
-        height: `${measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
-        alignContent: headingObj.align,
-        color: headingObj.fill,
+        width: `${measureWidth(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 10}px`,
+        height: `${measureHeight(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 10}px`,
+        alignContent: paragraphObj.align,
+        color: paragraphObj.fill,
         border: 'none',
         padding: '0px',
         margin: '0px',
@@ -96,7 +96,7 @@ const Heading = ({
 
 
     const onChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, headingObj.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, paragraphObj.id);
     };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -104,19 +104,19 @@ const Heading = ({
         const { value } = target;
         target.setSelectionRange(value.length, value.length);
     };
-    const rectWidth = measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20;
-    const rectHeight = measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20;
+    const rectWidth = measureWidth(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 20;
+    const rectHeight = measureHeight(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 20;
 
     return (
         <React.Fragment>
             <Group
-                key={headingObj.id} id={headingObj.id}
-                x={headingObj.x} y={headingObj.y}
+                key={paragraphObj.id} id={paragraphObj.id}
+                x={paragraphObj.x} y={paragraphObj.y}
                 draggable={draggable}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
-                ref={shapeRef} rotation={headingObj.rotation}>
+                ref={shapeRef} rotation={paragraphObj.rotation}>
                 <Rect
                     width={rectWidth}
                     height={rectHeight}
@@ -126,17 +126,17 @@ const Heading = ({
                 />
                 {!editing && (
                     <Text
-                        text={headingObj.value}
-                        fontSize={headingObj.fontSize}
-                        fill={headingObj.fill}
+                        text={paragraphObj.value}
+                        fontSize={paragraphObj.fontSize}
+                        fill={paragraphObj.fill}
                         onClick={onSelect}
                         onTap={onSelect}
                         onDblClick={() => setEditing(true)}
                         onDblTap={() => setEditing(true)}
-                        fontFamily={headingObj.fontFamily}
-                        fontStyle={headingObj.fontStyle}
-                        textDecoration={headingObj.textDecoration}
-                        align={headingObj.align}
+                        fontFamily={paragraphObj.fontFamily}
+                        fontStyle={paragraphObj.fontStyle}
+                        textDecoration={paragraphObj.textDecoration}
+                        align={paragraphObj.align}
                         draggable={false}
                     />
 
@@ -147,8 +147,8 @@ const Heading = ({
                             ref={textAreaRef}
                             onChange={onChange}
                             style={style}
-                            id={headingObj.id}
-                            value={headingObj.value}
+                            id={paragraphObj.id}
+                            value={paragraphObj.value}
                             autoFocus
                             onFocus={moveCaretToEnd}
                         />
@@ -169,5 +169,5 @@ const Heading = ({
     );
 };
 
-export default Heading;
+export default Paragraph;
 

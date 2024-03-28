@@ -1,5 +1,5 @@
 import { Stage, Layer, Rect, Ellipse, Line, Image, Text } from "react-konva";
-import { CanvasDesignData, EllipseObj, HeadingObj, ImageObj, LineObj, RectangleObj, ShapeObj } from "../../../../utils/types/CanvasInterfaces"
+import { CanvasDesignData, EllipseObj, HeadingObj, ImageObj, LineObj, ParagraphObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
 import styled from '@emotion/styled';
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 
@@ -96,21 +96,6 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     strokeWidth={line.strokeWidth}
                     rotation={line.rotation}
                   />)
-              case 'Heading':
-                const heading = shape as HeadingObj;
-                return (
-                  <Text
-                    key={heading.id}
-                    id={heading.id}
-                    x={heading.x}
-                    y={heading.y}
-                    text={heading.value}
-                    fontSize={heading.fontSize}
-                    fontFamily={heading.fontFamily}
-                    fill={heading.fill}
-                    rotation={heading.rotation}
-                    align={heading.align}
-                  />)
               case 'Image':
                 const image = shape as ImageObj;
                 const imageSrc = new window.Image();
@@ -126,6 +111,23 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     height={image.height}
                     rotation={image.rotation}
                   />)
+              case 'Heading':
+              case 'Paragraph':
+                const textObj = shape as TextObj;
+                return (
+                  <Text
+                    key={textObj.id}
+                    id={textObj.id}
+                    x={textObj.x}
+                    y={textObj.y}
+                    text={textObj.value}
+                    fontSize={textObj.fontSize}
+                    fontFamily={textObj.fontFamily}
+                    fill={textObj.fill}
+                    rotation={textObj.rotation}
+                    align={textObj.align}
+                  />)
+              //TODO add labels for input objects
               default:
                 return null;
             }

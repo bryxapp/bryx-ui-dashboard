@@ -1,15 +1,15 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AddTextFieldIcon from "@mui/icons-material/TitleOutlined";
+import AddHeadingIcon from "@mui/icons-material/Title";
 import { HeadingObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
 import { createHeadingdObj } from "../../../../../utils/types/ShapesFactory";
 
 
 const AddHeading = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
-    const handleAddTextField = () => {
+    const handleAddHeading = () => {
         setAnchorEl(null);
 
-        const newHeading: HeadingObj = createHeadingdObj('Text Field ', 20, 'black', 'Arial', 'normal', '');
+        const newHeading: HeadingObj = createHeadingdObj('Heading', 20, 'black', 'Arial', 'normal', '');
 
         setCanvasDesign({
             ...canvasDesign,
@@ -19,8 +19,8 @@ const AddHeading = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps
 
     return (
         <Tooltip title="Add Heading" placement="right">
-            <MenuItem onClick={handleAddTextField}>
-                <AddTextFieldIcon /> Heading
+            <MenuItem onClick={handleAddHeading}>
+                <AddHeadingIcon /> Heading
             </MenuItem>
         </Tooltip>
     )

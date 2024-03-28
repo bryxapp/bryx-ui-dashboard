@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, LineObj, RectangleObj, ShapeObj, HeadingObj, InputType, InputTypes, TextObj, TextTypes, TextType } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, LineObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 
@@ -71,6 +71,19 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     rotation: line.rotation,
                 });
                 break;
+            case 'Image':
+                const imageObj = shape as ImageObj;
+                const image = await loadImage(imageObj.src);
+                konvaShape = new Konva.Image({
+                    x: imageObj.x,
+                    y: imageObj.y,
+                    image: image,
+                    width: imageObj.width,
+                    height: imageObj.height,
+                    rotation: imageObj.rotation,
+                    draggable: imageObj.isDragging,
+                });
+                break;
             case 'PhoneInput':
             case 'EmailInput':
             case 'ShortTextInput':
@@ -105,34 +118,22 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                 });
                 break;
             case 'Heading':
-                const heading = shape as HeadingObj;
+            case 'Paragraph':
+                const textObj = shape as TextObj;
                 konvaShape = new Konva.Text({
-                    x: heading.x,
-                    y: heading.y,
-                    text: heading.value,
-                    fontSize: heading.fontSize,
-                    fill: heading.fill,
-                    rotation: heading.rotation,
-                    fontFamily: heading.fontFamily,
-                    fontStyle: heading.fontStyle,
-                    textDecoration: heading.textDecoration,
-                    align: heading.align
+                    x: textObj.x,
+                    y: textObj.y,
+                    text: textObj.value,
+                    fontSize: textObj.fontSize,
+                    fill: textObj.fill,
+                    rotation: textObj.rotation,
+                    fontFamily: textObj.fontFamily,
+                    fontStyle: textObj.fontStyle,
+                    textDecoration: textObj.textDecoration,
+                    align: textObj.align
                 });
                 break;
-            case 'Image':
-                const imageObj = shape as ImageObj;
-                const image = await loadImage(imageObj.src);
-                konvaShape = new Konva.Image({
-                    x: imageObj.x,
-                    y: imageObj.y,
-                    image: image,
-                    width: imageObj.width,
-                    height: imageObj.height,
-                    rotation: imageObj.rotation,
-                    draggable: imageObj.isDragging,
-                });
-                break;
-
+            //TODO add labels
             default:
                 break;
         }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj } from "../../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/RectangleShape';
 import EllipseShape from '../Shapes/EllipseShape';
@@ -9,6 +9,7 @@ import { selectShape } from '../../../../utils/shapeManagementUtils';
 import PhoneInput from '../Shapes/Inputs/PhoneInput';
 import EmailInput from '../Shapes/Inputs/EmailInput';
 import Heading from '../Shapes/TextFields/Heading';
+import Paragraph from '../Shapes/TextFields/Paragraph';
 
 interface ShapeRendererProps {
     pageWidth: number;
@@ -94,6 +95,22 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 onTransformEnd={onTransformEnd}
                             />
                         );
+                    case 'Image':
+                        const image = shape as ImageObj;
+                        return (
+                            <ImageShape
+                                key={image.id}
+                                imageObj={image}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={image.id === canvasDesign.selectedId}
+                                onSelect={() => {
+                                    selectShape(image.id, canvasDesign, setCanvasDesign);
+                                }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
                     case 'PhoneInput':
                         const phoneInput = shape as PhoneInputObj;
                         return (
@@ -144,20 +161,22 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 setCanvasDesign={setCanvasDesign}
                             />
                         );
-                    case 'Image':
-                        const image = shape as ImageObj;
+                    case 'Paragraph':
+                        const paragraph = shape as ParagraphObj;
                         return (
-                            <ImageShape
-                                key={image.id}
-                                imageObj={image}
+                            <Paragraph
+                                key={paragraph.id}
+                                paragraphObj={paragraph}
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={image.id === canvasDesign.selectedId}
+                                isSelected={paragraph.id === canvasDesign.selectedId}
                                 onSelect={() => {
-                                    selectShape(image.id, canvasDesign, setCanvasDesign);
+                                    selectShape(paragraph.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}
+                                canvasDesign={canvasDesign}
+                                setCanvasDesign={setCanvasDesign}
                             />
                         );
                     default:

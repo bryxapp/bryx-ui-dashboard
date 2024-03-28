@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -159,6 +159,31 @@ export function createHeadingdObj(value: string, fontSize: number, fill: string,
     return {
         id: generateShapeId(),
         type: 'Heading',
+        x,
+        y,
+        rotation: 0,
+        value,
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        align: "left",
+        isDragging: false,
+    };
+}
+
+export function createParagraphObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): ParagraphObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
+    return {
+        id: generateShapeId(),
+        type: 'Paragraph',
         x,
         y,
         rotation: 0,

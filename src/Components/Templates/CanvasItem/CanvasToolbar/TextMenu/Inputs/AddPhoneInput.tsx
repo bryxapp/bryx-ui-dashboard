@@ -1,6 +1,6 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import AddPhoneInputIcon from "@mui/icons-material/PhoneOutlined";
+import AddPhoneInputIcon from "@mui/icons-material/Phone";
 import { CanvasDesignData, PhoneInputObj } from "../../../../../../utils/types/CanvasInterfaces";
 import { createPhoneInputObj } from "../../../../../../utils/types/ShapesFactory";
 
