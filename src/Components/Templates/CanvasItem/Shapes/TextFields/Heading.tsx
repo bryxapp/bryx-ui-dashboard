@@ -73,6 +73,7 @@ const Heading = ({
     };
 
     const style: React.CSSProperties = {
+        position: 'absolute',
         background: 'none',
         resize: 'none',
         fontSize: `${headingObj.fontSize / 16}em`,
@@ -84,6 +85,13 @@ const Heading = ({
         width: `${measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
         height: `${measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
         alignContent: headingObj.align,
+        color: headingObj.fill,
+        border: 'none',
+        padding: '0px',
+        margin: '0px',
+        overflow: 'hidden',
+        outline: 'none',
+        lineHeight: 'normal',
     };
 
 
