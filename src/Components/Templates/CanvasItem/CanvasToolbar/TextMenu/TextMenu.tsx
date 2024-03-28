@@ -3,10 +3,10 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import Tooltip from '@mui/material/Tooltip';
-import AddTextField from './AddTextField';
+import AddHeading from './AddHeading';
 import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
-import AddPhoneInput from './AddPhoneInput';
-import AddEmailInput from './AddEmailInput';
+import AddPhoneInput from './Inputs/AddPhoneInput';
+import AddEmailInput from './Inputs/AddEmailInput';
 
 interface TextMenuProps {
     isLoading: boolean;
@@ -50,7 +50,7 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <AddTextField canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddHeading canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddPhoneInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
                 <AddEmailInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
             </Menu>

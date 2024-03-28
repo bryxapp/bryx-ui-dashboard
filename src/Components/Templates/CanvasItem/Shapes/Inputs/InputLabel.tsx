@@ -1,8 +1,8 @@
 import { Text } from 'react-konva';
-import { TextObjTemp } from '../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 
 interface InputLabelProps {
-    labelObj: TextObjTemp;
+    labelObj: TextBase;
     x: any;
     y: any;
 }

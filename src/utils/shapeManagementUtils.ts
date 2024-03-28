@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, LineObj, RectangleObj, ShapeObj, TextFieldObj, InputType, InputTypes } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, LineObj, RectangleObj, ShapeObj, HeadingObj, InputType, InputTypes, TextObj, TextTypes, TextType } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 
@@ -104,19 +104,19 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     align: textInput.content.align
                 });
                 break;
-            case 'TextField':
-                const textField = shape as TextFieldObj;
+            case 'Heading':
+                const heading = shape as HeadingObj;
                 konvaShape = new Konva.Text({
-                    x: textField.x,
-                    y: textField.y,
-                    text: textField.value,
-                    fontSize: textField.fontSize,
-                    fill: textField.fill,
-                    rotation: textField.rotation,
-                    fontFamily: textField.fontFamily,
-                    fontStyle: textField.fontStyle,
-                    textDecoration: textField.textDecoration,
-                    align: textField.align
+                    x: heading.x,
+                    y: heading.y,
+                    text: heading.value,
+                    fontSize: heading.fontSize,
+                    fill: heading.fill,
+                    rotation: heading.rotation,
+                    fontFamily: heading.fontFamily,
+                    fontStyle: heading.fontStyle,
+                    textDecoration: heading.textDecoration,
+                    align: heading.align
                 });
                 break;
             case 'Image':
@@ -161,7 +161,7 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
 export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {
     const selectedShape = findShape(canvasDesign, id)
     if (!selectedShape) return
-    return (selectedShape as TextFieldObj)
+    return (selectedShape as TextObj)
 }
 
 export const getInputShape = (canvasDesign: CanvasDesignData, id: string | null) => {
@@ -171,7 +171,7 @@ export const getInputShape = (canvasDesign: CanvasDesignData, id: string | null)
 }
 
 export const isTextObject = (shape?: ShapeObj): boolean => {
-    return shape?.type === 'TextInput' || shape?.type === 'TextField' || shape?.type === 'TableCell';
+    return shape ? TextTypes.includes(shape.type as TextType) : false;
 };
 
 export const isInputObject = (shape?: ShapeObj): boolean => {
@@ -304,7 +304,7 @@ export const toggleTextStyle = (
 
     const updatedShapes = canvasDesign.Shapes.map((shape) => {
         if (shape.id === canvasDesign.selectedId) {
-            const textShape = shape as TextFieldObj;
+            const textShape = shape as TextObj;
             const currentStyle = textShape[styleProperty] || '';
             const isStyleApplied = currentStyle.includes(style);
             textShape[styleProperty] = isStyleApplied

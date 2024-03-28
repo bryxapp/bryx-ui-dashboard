@@ -3,10 +3,10 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
-import { CanvasDesignData, InputObj, TextObjTemp } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, InputObj, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface FontStylePickerProps {
-    textObj: TextObjTemp;
+    textObj: TextBase;
     itemType: 'content' | 'label';
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;

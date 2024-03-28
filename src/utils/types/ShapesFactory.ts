@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, LineObj, TextFieldObj, ImageObj, CanvasDesignData, PhoneInputObj, TextObjTemp, EmailInputObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -82,7 +82,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: label,
         align: "left",
-    } as TextObjTemp;
+    } as TextBase;
 
     const contentObj = {
         fontSize,
@@ -92,7 +92,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextObjTemp;
+    } as TextBase;
 
     return {
         id: generateShapeId(),
@@ -123,7 +123,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: label,
         align: "left",
-    } as TextObjTemp;
+    } as TextBase;
 
     const contentObj = {
         fontSize,
@@ -133,7 +133,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextObjTemp;
+    } as TextBase;
 
     return {
         id: generateShapeId(),
@@ -148,7 +148,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
     };
 }
 
-export function createTextFieldObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): TextFieldObj {
+export function createHeadingdObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): HeadingObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -158,7 +158,7 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
 
     return {
         id: generateShapeId(),
-        type: 'TextField',
+        type: 'Heading',
         x,
         y,
         rotation: 0,
@@ -170,7 +170,6 @@ export function createTextFieldObj(value: string, fontSize: number, fill: string
         textDecoration,
         align: "left",
         isDragging: false,
-        isNestedInTextTable,
     };
 }
 

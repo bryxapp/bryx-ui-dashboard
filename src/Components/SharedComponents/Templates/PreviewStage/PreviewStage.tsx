@@ -1,5 +1,5 @@
 import { Stage, Layer, Rect, Ellipse, Line, Image, Text } from "react-konva";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TextFieldObj } from "../../../../utils/types/CanvasInterfaces"
+import { CanvasDesignData, EllipseObj, HeadingObj, ImageObj, LineObj, RectangleObj, ShapeObj } from "../../../../utils/types/CanvasInterfaces"
 import styled from '@emotion/styled';
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 
@@ -96,20 +96,20 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     strokeWidth={line.strokeWidth}
                     rotation={line.rotation}
                   />)
-              case 'TextField':
-                const text = shape as TextFieldObj;
+              case 'Heading':
+                const heading = shape as HeadingObj;
                 return (
                   <Text
-                    key={text.id}
-                    id={text.id}
-                    x={text.x}
-                    y={text.y}
-                    text={text.value}
-                    fontSize={text.fontSize}
-                    fontFamily={text.fontFamily}
-                    fill={text.fill}
-                    rotation={text.rotation}
-                    align={text.align}
+                    key={heading.id}
+                    id={heading.id}
+                    x={heading.x}
+                    y={heading.y}
+                    text={heading.value}
+                    fontSize={heading.fontSize}
+                    fontFamily={heading.fontFamily}
+                    fill={heading.fill}
+                    rotation={heading.rotation}
+                    align={heading.align}
                   />)
               case 'Image':
                 const image = shape as ImageObj;

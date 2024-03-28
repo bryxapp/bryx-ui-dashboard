@@ -7,10 +7,10 @@ import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
-import { CanvasDesignData, TextObjTemp } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface TextPropertiesMenuProps {
-    textObj: TextObjTemp
+    textObj: TextBase
     itemType: 'content' | 'label';
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<CanvasDesignData>;

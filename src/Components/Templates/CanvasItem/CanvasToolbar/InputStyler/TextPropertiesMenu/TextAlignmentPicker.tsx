@@ -4,11 +4,11 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import AlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import { CanvasDesignData, TextObjTemp } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 
 interface TextAlignmentPickerProps {
-    textObj: TextObjTemp
+    textObj: TextBase
     itemType: 'content' | 'label';
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;

@@ -1,6 +1,6 @@
 import { Rect, Text, Group, Transformer } from 'react-konva';
 import { styled } from '@mui/material/styles';
-import { EmailInputObj, TextObjTemp } from '../../../../../utils/types/CanvasInterfaces';
+import { EmailInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputLabel from './InputLabel';
@@ -25,7 +25,7 @@ interface EmailInputProps {
 const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
-    const createTempTextKonvaShape = (content: TextObjTemp) => new Konva.Text({
+    const createTempTextKonvaShape = (content: TextBase) => new Konva.Text({
         text: content.value,
         fontSize: content.fontSize,
         fontFamily: content.fontFamily,
@@ -48,7 +48,7 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected,
     const containerWidth = textWidth + textWidth * .25;
     const containerHeight = textHeight + textHeight * .25;
 
-    const getXAlignment = (text: TextObjTemp) => {
+    const getXAlignment = (text: TextBase) => {
         switch (text.align) {
             case 'left':
                 return 5;

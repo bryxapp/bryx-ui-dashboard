@@ -1,12 +1,12 @@
-import { CanvasDesignData, TextFieldObj } from '../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, HeadingObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Group, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
-interface TextFieldProps {
-    textFieldObj: TextFieldObj;
+interface HeadingProps {
+    headingObj: HeadingObj;
     handleDragStart: any;
     handleDragEnd: any;
     canvasDesign: CanvasDesignData;
@@ -14,12 +14,12 @@ interface TextFieldProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
-    handleDragMove:any;
-    draggable?:boolean;
+    handleDragMove: any;
+    draggable?: boolean;
 }
 
-const TextField = ({
-    textFieldObj,
+const Heading = ({
+    headingObj,
     handleDragStart,
     handleDragEnd,
     canvasDesign,
@@ -29,7 +29,7 @@ const TextField = ({
     onTransformEnd,
     handleDragMove,
     draggable = true
-}: TextFieldProps) => {
+}: HeadingProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const shapeRef = useRef<Konva.Group>(null);
@@ -75,20 +75,20 @@ const TextField = ({
     const style: React.CSSProperties = {
         background: 'none',
         resize: 'none',
-        fontSize: `${textFieldObj.fontSize / 16}em`,
-        fill: textFieldObj.fill,
-        fontFamily: textFieldObj.fontFamily,
-        fontStyle: textFieldObj.fontStyle,
-        textDecoration: textFieldObj.textDecoration,
+        fontSize: `${headingObj.fontSize / 16}em`,
+        fill: headingObj.fill,
+        fontFamily: headingObj.fontFamily,
+        fontStyle: headingObj.fontStyle,
+        textDecoration: headingObj.textDecoration,
         whiteSpace: 'pre-wrap',
-        width: `${measureWidth(textFieldObj.value, textFieldObj.fontSize, textFieldObj.fontFamily) + 20}px`,
-        height: `${measureHeight(textFieldObj.value, textFieldObj.fontSize, textFieldObj.fontFamily) + 20}px`,
-        alignContent: textFieldObj.align,
+        width: `${measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
+        height: `${measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
+        alignContent: headingObj.align,
     };
 
 
     const onChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, textFieldObj.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, headingObj.id);
     };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -100,54 +100,47 @@ const TextField = ({
     return (
         <React.Fragment>
             <Group
-                key={textFieldObj.id} id={textFieldObj.id}
-                x={textFieldObj.x} y={textFieldObj.y}
-                draggable = {draggable}
+                key={headingObj.id} id={headingObj.id}
+                x={headingObj.x} y={headingObj.y}
+                draggable={draggable}
                 onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd} 
+                onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
-                ref={shapeRef} rotation={textFieldObj.rotation}>
+                ref={shapeRef} rotation={headingObj.rotation}>
                 {!editing && (
                     <Text
-                        text={textFieldObj.value}
-                        fontSize={textFieldObj.fontSize}
-                        fill={textFieldObj.fill}
+                        text={headingObj.value}
+                        fontSize={headingObj.fontSize}
+                        fill={headingObj.fill}
                         onClick={onSelect}
                         onTap={onSelect}
                         onDblClick={() => setEditing(true)}
                         onDblTap={() => setEditing(true)}
-                        fontFamily={textFieldObj.fontFamily}
-                        fontStyle={textFieldObj.fontStyle}
-                        textDecoration={textFieldObj.textDecoration}
-                        align={textFieldObj.align}
+                        fontFamily={headingObj.fontFamily}
+                        fontStyle={headingObj.fontStyle}
+                        textDecoration={headingObj.textDecoration}
+                        align={headingObj.align}
                         draggable={false}
                     />
 
                 )}
-                {editing && (       
+                {editing && (
                     <Html>
                         <textarea
                             ref={textAreaRef}
                             onChange={onChange}
                             style={style}
-                            id={textFieldObj.id}
-                            value={textFieldObj.value}
+                            id={headingObj.id}
+                            value={headingObj.value}
                             autoFocus
                             onFocus={moveCaretToEnd}
                         />
                     </Html>
                 )}
             </Group>
-            {isSelected && (
+            {isSelected && !editing && (
                 <Transformer
                     ref={trRef}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // limit resize
-                        if (newBox.width < 5 || newBox.height < 5) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }}
                     onTransformEnd={onTransformEnd}
                     rotateEnabled={true}
                     anchorSize={10}
@@ -159,5 +152,5 @@ const TextField = ({
     );
 };
 
-export default TextField;
+export default Heading;
 

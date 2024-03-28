@@ -2,12 +2,12 @@ import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
-import { CanvasDesignData, TextObjTemp } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 
 interface FontSizePickerProps {
-    textObj: TextObjTemp;
+    textObj: TextBase;
     itemType: 'content' | 'label';
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;

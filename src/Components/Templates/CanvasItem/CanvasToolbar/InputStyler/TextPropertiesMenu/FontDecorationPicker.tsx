@@ -3,10 +3,10 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
-import { CanvasDesignData, InputObj, TextObjTemp } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, InputObj, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface FontDecorationPickerProps {
-    textObj: TextObjTemp;
+    textObj: TextBase;
     itemType: 'content' | 'label';
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;

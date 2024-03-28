@@ -8,7 +8,7 @@ export interface CanvasDesignData {
 
 export interface ShapeObj {
     id: string;
-    type: ShapeType | InputType | TextType | ObsoleteType
+    type: ShapeType | InputType | TextType
     x: number;
     y: number;
     rotation: number;
@@ -77,15 +77,18 @@ export interface DateInputObj extends InputObj {
 }
 
 // Text Shapes
-export interface HeadingObj extends TextObjTemp {
+export interface HeadingObj extends TextObj {
     type: 'Heading';
 }
 
-export interface ParagraphObj extends TextObjTemp {
+export interface ParagraphObj extends TextObj {
     type: 'Paragraph';
 }
 
-export interface TextObjTemp {
+export interface TextObj extends TextBase, ShapeObj {
+}
+
+export interface TextBase {
     fontSize: number;
     fill: string;
     fontFamily: string;
@@ -97,24 +100,8 @@ export interface TextObjTemp {
 
 export interface InputObj extends ShapeObj {
     hasLabel: boolean;
-    label: TextObjTemp;
-    content: TextObjTemp;
-}
-
-//Obsolete Shapes
-export interface TextFieldObj extends ShapeObj, TextObj {
-    value: string;
-    type: 'TextField';
-}
-
-export interface TextObj {
-    fontSize: number;
-    fill: string;
-    fontFamily: string;
-    fontStyle: string;
-    textDecoration: string;
-    align: string;
-    isNestedInTextTable: boolean;
+    label: TextBase;
+    content: TextBase;
 }
 
 export interface ToolBarProps {
@@ -134,6 +121,4 @@ export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'Ema
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
 export type TextType = 'Heading' | 'Paragraph'
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
-
-export type ObsoleteType = 'TextInput' | 'TextField' | 'TextTable' | 'TableCell';
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';

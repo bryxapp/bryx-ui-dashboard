@@ -1,5 +1,5 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj } from "../../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/RectangleShape';
 import EllipseShape from '../Shapes/EllipseShape';
@@ -8,6 +8,7 @@ import ImageShape from '../Shapes/ImageShape';
 import { selectShape } from '../../../../utils/shapeManagementUtils';
 import PhoneInput from '../Shapes/Inputs/PhoneInput';
 import EmailInput from '../Shapes/Inputs/EmailInput';
+import Heading from '../Shapes/TextFields/Heading';
 
 interface ShapeRendererProps {
     pageWidth: number;
@@ -110,21 +111,39 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                             />
                         );
                     case 'EmailInput':
-                            const emailInput = shape as EmailInputObj;
-                            return (
-                                <EmailInput
-                                    key={emailInput.id}
-                                    emailInputObj={emailInput}
-                                    handleDragStart={handleDragStart}
-                                    handleDragMove={handleDragMove}
-                                    handleDragEnd={handleDragEnd}
-                                    isSelected={emailInput.id === canvasDesign.selectedId}
-                                    onSelect={() => {
-                                        selectShape(emailInput.id, canvasDesign, setCanvasDesign);
-                                    }}
-                                    onTransformEnd={onTransformEnd}
-                                />
-                            );
+                        const emailInput = shape as EmailInputObj;
+                        return (
+                            <EmailInput
+                                key={emailInput.id}
+                                emailInputObj={emailInput}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={emailInput.id === canvasDesign.selectedId}
+                                onSelect={() => {
+                                    selectShape(emailInput.id, canvasDesign, setCanvasDesign);
+                                }}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'Heading':
+                        const heading = shape as HeadingObj;
+                        return (
+                            <Heading
+                                key={heading.id}
+                                headingObj={heading}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                isSelected={heading.id === canvasDesign.selectedId}
+                                onSelect={() => {
+                                    selectShape(heading.id, canvasDesign, setCanvasDesign);
+                                }}
+                                onTransformEnd={onTransformEnd}
+                                canvasDesign={canvasDesign}
+                                setCanvasDesign={setCanvasDesign}
+                            />
+                        );
                     case 'Image':
                         const image = shape as ImageObj;
                         return (

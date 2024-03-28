@@ -1,7 +1,7 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { CanvasDesignData, TextObjTemp } from '../../../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 
 const FONTS = [
@@ -23,7 +23,7 @@ const FONTS = [
     // Add more fonts here
 ];
 interface FontFamilyPickerProps {
-    textObj: TextObjTemp;
+    textObj: TextBase;
     itemType: 'content' | 'label';
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
