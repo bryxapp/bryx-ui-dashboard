@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { CanvasDesignData, ShapeColor } from "../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
 import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
@@ -18,7 +18,6 @@ const CanvasItem = () => {
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
-    const [color, setColor] = useState<ShapeColor>({ fill: '#000000', stroke: '#000000' });
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [error, setError] = useState(false);
@@ -84,8 +83,6 @@ const CanvasItem = () => {
                     canvasDesign={canvasDesign}
                     setCanvasDesign={setCanvasDesign}
                     friendlyName={friendlyName}
-                    color={color}
-                    setColor={setColor}
                     dataBaseCanvasDesign={dataBaseCanvasDesign}
                     setDataBaseCanvasDesign={setdataBaseCanvasDesign}
                     databaseFriendlyName={dataBaseFriendlyName}
@@ -96,9 +93,7 @@ const CanvasItem = () => {
             <div style={{ display: 'flex', flexDirection: 'row' }}>
                 <CanvasStage
                     canvasDesign={canvasDesign}
-                    setCanvasDesign={setCanvasDesign}
-                    color={color}
-                    setColor={setColor} />
+                    setCanvasDesign={setCanvasDesign} />
             </div>
         </div>
     );

@@ -8,7 +8,7 @@ const AddRectangle = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarPro
     const handleAddRectangle = () => {
         setAnchorEl(null);
 
-        const newRectangle: RectangleObj = createRectangleObj(200, 300, '#CDB38B', undefined, 1);
+        const newRectangle: RectangleObj = createRectangleObj(200, 300, '#CDB38B', '', 1);
 
         setCanvasDesign({
             ...canvasDesign,

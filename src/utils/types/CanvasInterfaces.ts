@@ -44,8 +44,8 @@ export interface ImageObj extends ShapeObj {
 }
 
 export interface SolidShapeObj {
-    fill: string | undefined;
-    stroke: string | undefined;
+    fill: string;
+    stroke: string;
     strokeWidth: number;
 }
 

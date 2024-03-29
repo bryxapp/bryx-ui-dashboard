@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import styled from '@emotion/styled';
-import { ShapeObj, CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
+import { ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
@@ -21,12 +21,10 @@ const PiecePaper = styled('div')<{ pageWidth: string | number; pageHeight: strin
 interface CanvasStageProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: any;
-    color: ShapeColor;
-    setColor: any;
 }
 
 
-const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStageProps) => {
+const CanvasStage = ({ canvasDesign, setCanvasDesign }: CanvasStageProps) => {
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
 
     //Parse url to get canvas starter name
@@ -65,7 +63,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
             >
                 <Layer>
                     {/* Place all shapes on the canvas */}
-                    <ShapeRenderer pageWidth={pageWidth} pageHeight={pageHeight} setCanvasDesign={setCanvasDesign} canvasDesign={canvasDesign} setColor={setColor} />
+                    <ShapeRenderer pageWidth={pageWidth} pageHeight={pageHeight} setCanvasDesign={setCanvasDesign} canvasDesign={canvasDesign} />
                 </Layer>
             </Stage>
         </PiecePaper>

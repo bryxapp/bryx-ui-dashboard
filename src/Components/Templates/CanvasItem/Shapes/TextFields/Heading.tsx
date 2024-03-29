@@ -176,9 +176,8 @@ const Heading = ({
                             }}
                         >
                             <TextPropertiesMenu textObj={headingObj} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} itemType={null} />
-                            <DeleteButton isLoading={false} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                            <DeleteButton canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
                         </div>
-
                     </Html>
                     <Transformer
                         ref={trRef}

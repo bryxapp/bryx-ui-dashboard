@@ -5,12 +5,11 @@ import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import { deleteShape } from '../../../../utils/shapeManagementUtils';
 
 interface DeleteButtonProps {
-    isLoading: boolean;
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
 }
 
-export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign }: DeleteButtonProps) {
+export default function DeleteButton({ canvasDesign, setCanvasDesign }: DeleteButtonProps) {
     const handleDeleteShape = () => {
         deleteShape({ canvasDesign, setCanvasDesign });
     }
@@ -18,7 +17,7 @@ export default function DeleteButton({ isLoading, canvasDesign, setCanvasDesign 
     return (
         <Tooltip title="Delete Shape" placement="bottom">
             <span>
-                <IconButton color="inherit" aria-label="menu" onClick={handleDeleteShape} disabled={isLoading || !canvasDesign.selectedId}>
+                <IconButton color="inherit" aria-label="menu" onClick={handleDeleteShape}>
                     <DeleteIcon />
                 </IconButton>
             </span>

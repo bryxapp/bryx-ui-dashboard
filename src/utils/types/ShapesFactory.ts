@@ -3,7 +3,7 @@ import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInp
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
-export function createRectangleObj(width: number, height: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number): RectangleObj {
+export function createRectangleObj(width: number, height: number, fill: string, stroke: string, strokeWidth: number): RectangleObj {
     return {
         id: generateShapeId(),
         type: 'Rectangle',
@@ -19,7 +19,7 @@ export function createRectangleObj(width: number, height: number, fill: string |
     };
 }
 
-export function createRoundedRectangleObj(width: number, height: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number, cornerRadius: number): RectangleObj {
+export function createRoundedRectangleObj(width: number, height: number, fill: string, stroke: string, strokeWidth: number, cornerRadius: number): RectangleObj {
     return {
         id: generateShapeId(),
         type: 'RoundedRectangle',
@@ -36,7 +36,7 @@ export function createRoundedRectangleObj(width: number, height: number, fill: s
     };
 }
 
-export function createEllipseObj(radiusX: number, radiusY: number, fill: string | undefined, stroke: string | undefined, strokeWidth: number): EllipseObj {
+export function createEllipseObj(radiusX: number, radiusY: number, fill: string, stroke: string, strokeWidth: number): EllipseObj {
     return {
         id: generateShapeId(),
         type: 'Ellipse',

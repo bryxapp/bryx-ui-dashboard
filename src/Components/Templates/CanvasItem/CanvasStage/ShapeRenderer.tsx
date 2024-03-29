@@ -17,10 +17,9 @@ interface ShapeRendererProps {
     pageHeight: number;
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
     canvasDesign: CanvasDesignData;
-    setColor: React.SetStateAction<any>;
 }
 
-const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, setColor }: ShapeRendererProps) => {
+const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }: ShapeRendererProps) => {
 
     const { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
 
@@ -34,12 +33,13 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                             <RectangleShape
                                 key={rectangle.id}
                                 rectangleObj={rectangle}
+                                canvasDesign={canvasDesign}
+                                setCanvasDesign={setCanvasDesign}
                                 handleDragMove={handleDragMove}
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 isSelected={rectangle.id === canvasDesign.selectedId}
                                 onSelect={() => {
-                                    setColor({ fill: rectangle.fill, stroke: rectangle.stroke })
                                     selectShape(rectangle.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}
@@ -51,12 +51,13 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                             <RectangleShape
                                 key={roundedRectangle.id}
                                 rectangleObj={roundedRectangle}
+                                canvasDesign={canvasDesign}
+                                setCanvasDesign={setCanvasDesign}
                                 handleDragMove={handleDragMove}
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 isSelected={roundedRectangle.id === canvasDesign.selectedId}
                                 onSelect={() => {
-                                    setColor({ fill: roundedRectangle.fill, stroke: roundedRectangle.stroke })
                                     selectShape(roundedRectangle.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}
@@ -73,7 +74,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 handleDragEnd={handleDragEnd}
                                 isSelected={ellipse.id === canvasDesign.selectedId}
                                 onSelect={() => {
-                                    setColor({ fill: ellipse.fill, stroke: ellipse.stroke })
                                     selectShape(ellipse.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}
@@ -90,7 +90,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 handleDragEnd={handleDragEnd}
                                 isSelected={line.id === canvasDesign.selectedId}
                                 onSelect={() => {
-                                    setColor({ fill: line.stroke, stroke: line.stroke })
                                     selectShape(line.id, canvasDesign, setCanvasDesign);
                                 }}
                                 onTransformEnd={onTransformEnd}

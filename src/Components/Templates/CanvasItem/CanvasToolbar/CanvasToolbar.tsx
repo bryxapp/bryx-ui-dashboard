@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ShapesMenu from './ShapesMenu/ShapesMenu';
 import TextMenu from './TextMenu/TextMenu';
 import SaveTemplateButton from './SaveButton';
-import { CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import LayerManager from './LayerManager/LayerManager';
 import CloseTemplateButton from './CloseButton';
 import ImagesMenu from './ImagesMenu/ImagesMenu';
@@ -13,8 +13,6 @@ import InputStyler from './InputStyler/InputStyler';
 interface CanvasToolbarProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: React.SetStateAction<any>;
-    color: ShapeColor;
-    setColor: React.SetStateAction<any>;
     friendlyName: string;
     databaseFriendlyName: string;
     dataBaseCanvasDesign: any;
@@ -22,7 +20,7 @@ interface CanvasToolbarProps {
     setDataBaseFriendlyName: React.SetStateAction<any>;
 }
 
-const CanvasToolbar = ({ canvasDesign, setCanvasDesign, color, setColor, friendlyName, dataBaseCanvasDesign, setDataBaseCanvasDesign, databaseFriendlyName, setDataBaseFriendlyName }: CanvasToolbarProps) => {
+const CanvasToolbar = ({ canvasDesign, setCanvasDesign, friendlyName, dataBaseCanvasDesign, setDataBaseCanvasDesign, databaseFriendlyName, setDataBaseFriendlyName }: CanvasToolbarProps) => {
     const [isLoading, setIsLoading] = useState(false);
 
     return (

@@ -9,7 +9,7 @@ const AddEllipse = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps
     const handleAddEllipse = () => {
         setAnchorEl(null);
 
-        const newEllipse: EllipseObj = createEllipseObj(100, 100, '#355E3B', undefined, 1);
+        const newEllipse: EllipseObj = createEllipseObj(100, 100, '#355E3B', '', 1);
 
         setCanvasDesign({
             ...canvasDesign,
