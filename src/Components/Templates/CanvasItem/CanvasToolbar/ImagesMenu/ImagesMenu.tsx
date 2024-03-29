@@ -5,14 +5,12 @@ import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import Tooltip from '@mui/material/Tooltip';
 import PublicImages from './PublicImages/PublicImages';
 import UserImages from './UserImages/UserImages';
-import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface ImagesMenuProps {
     isLoading: boolean;
 }
 
 export default function ImagesMenu({ isLoading }: ImagesMenuProps) {
-    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     return (
@@ -44,8 +42,8 @@ export default function ImagesMenu({ isLoading }: ImagesMenuProps) {
                     },
                 }}
             >
-                <PublicImages setAnchorEl={setAnchorEl} setCanvasDesign={setCanvasDesign} canvasDesign={canvasDesign} />
-                <UserImages setAnchorEl={setAnchorEl} setCanvasDesign={setCanvasDesign} canvasDesign={canvasDesign} />
+                <PublicImages setAnchorEl={setAnchorEl} />
+                <UserImages setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );

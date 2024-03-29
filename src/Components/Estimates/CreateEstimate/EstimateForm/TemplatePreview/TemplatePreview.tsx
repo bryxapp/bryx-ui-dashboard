@@ -18,7 +18,7 @@ const TemplatePreview = ({ canvasDesign }: TemplatePreviewProps) => {
         *Does not show preview of input values
       </Typography>
       <div style={{ height: 20 }}></div>
-      <PreviewStage canvasDesign={canvasDesign} scale={.75}/>
+      <PreviewStage canvasDesign={canvasDesign} scale={.75} />
     </>
   );
 };

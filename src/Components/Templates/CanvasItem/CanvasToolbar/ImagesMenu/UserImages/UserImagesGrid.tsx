@@ -21,7 +21,6 @@ export default function UserImagesGrid({ setCanvasDesign, userImages, setUserIma
             {userImages.map((imageData) => (
                 <Grid item xs={6} sm={4} md={3} key={imageData.url}>
                     <UserImageCard
-                        setCanvasDesign={setCanvasDesign}
                         imageData={imageData}
                         userImages={userImages}
                         setUserImages={setUserImages}

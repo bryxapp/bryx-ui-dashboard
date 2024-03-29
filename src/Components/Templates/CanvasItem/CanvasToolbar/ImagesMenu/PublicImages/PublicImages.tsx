@@ -1,20 +1,20 @@
 import * as React from 'react';
 import { useCallback, useEffect, useState, useRef } from 'react';
-import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { searchUnsplashImages } from '../../../../../../utils/api/unsplash-images-api';
 import TextField from '@mui/material/TextField';
 import { Typography, useTheme } from '@mui/material';
 import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
 import logger from '../../../../../../logging/logger';
 import PublicImagesGrid from './PublicImagesGrid/PublicImagesGrid';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface PublicImagesMenuProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 
-export default function PublicImages({ canvasDesign, setCanvasDesign, setAnchorEl }: PublicImagesMenuProps) {
+export default function PublicImages({ setAnchorEl }: PublicImagesMenuProps) {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [searchQuery, setSearchQuery] = useState('');
     const [unsplashImages, setUnsplashImages] = useState<Array<{ url: string; width: number; height: number; }>>([]);
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);

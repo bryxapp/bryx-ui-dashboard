@@ -13,7 +13,7 @@ const useShapeMove = (
     canvasDesign: CanvasDesignData
 ) => {
 
-    const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
+    const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight);
 
     const handleDragStart = (e: any) => {
         const id = e.target.id();

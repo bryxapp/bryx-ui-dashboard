@@ -1,14 +1,11 @@
 import React from 'react';
 import Konva from 'konva';
-import { CanvasDesignData } from '../../../utils/types/CanvasInterfaces';
 
 // Assuming necessary interfaces are imported or defined here
 
 const useCanvasGuides = (
     pageWidth: number,
     pageHeight: number,
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
-    canvasDesign: CanvasDesignData
 ) => {
 
     const GUIDELINE_OFFSET = 5;

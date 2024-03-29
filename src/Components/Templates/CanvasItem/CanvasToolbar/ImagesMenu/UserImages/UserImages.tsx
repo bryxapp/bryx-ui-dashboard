@@ -1,21 +1,20 @@
 import * as React from 'react';
 import { useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { CanvasDesignData } from '../../../../../../utils/types/CanvasInterfaces';
 import Loading from '../../../../../SharedComponents/Loading/Loading';
 import NewUserImageButton from './NewUserImageButton';
 import UserImagesGrid from './UserImagesGrid';
 import { getImageDimensions, getUserImages } from '../../../../../../utils/api/user-images-api';
 import logger from '../../../../../../logging/logger';
 import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface UserImagesMenuProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
     setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
 }
 
-export default function UserImagesMenu({ setCanvasDesign, setAnchorEl }: UserImagesMenuProps) {
+export default function UserImagesMenu({ setAnchorEl }: UserImagesMenuProps) {
+    const {setCanvasDesign} = useCanvasDesignContext();
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
     const [maxUserImagesReached, setMaxUserImagesReached] = useState(false);
