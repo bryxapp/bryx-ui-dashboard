@@ -11,7 +11,7 @@ interface CloseTemplateButtonProps {
 }
 
 export default function CloseTemplateButton({ dataBaseCanvasDesign, friendlyName, databaseFriendlyName }: CloseTemplateButtonProps) {
-    const { canvasDesign } = useCanvasDesignContext();
+    const { canvasDesign, setSelectedId } = useCanvasDesignContext();
     const navigate = useNavigate();
     const handleClose = async () => {
         if (isTemplateChanged(dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName)) {
@@ -20,6 +20,7 @@ export default function CloseTemplateButton({ dataBaseCanvasDesign, friendlyName
                 return;
             }
         }
+        setSelectedId(null);
         navigate("/templates");
     }
     return (

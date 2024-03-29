@@ -21,7 +21,7 @@ const CanvasItem = () => {
     const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [error, setError] = useState(false);
-    const { setCanvasDesign } = useCanvasDesignContext();
+    const { setCanvasDesign, setSelectedId } = useCanvasDesignContext();
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -37,6 +37,7 @@ const CanvasItem = () => {
                     if (!token) return;
                     const fetchedTemplate = await getTemplate(templateId, token);
                     setCanvasDesign(fetchedTemplate.canvasDesign);
+                    setSelectedId(null);
                     const canvasDesignCopy = JSON.parse(JSON.stringify(fetchedTemplate.canvasDesign));
                     setdataBaseCanvasDesign(canvasDesignCopy);
                     setFriendlyName(fetchedTemplate.friendlyName);
