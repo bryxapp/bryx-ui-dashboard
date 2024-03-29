@@ -11,6 +11,7 @@ import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
 
 const CanvasItem = () => {
     const { auth0User, getAccessToken } = useAuth0User();
@@ -18,9 +19,9 @@ const CanvasItem = () => {
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
-    const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [error, setError] = useState(false);
+    const { setCanvasDesign } = useCanvasDesignContext();
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -80,8 +81,6 @@ const CanvasItem = () => {
             <Box sx={{ height: '2vh' }} />
             <div style={{ width: '100%' }}>
                 <CanvasToolbar
-                    canvasDesign={canvasDesign}
-                    setCanvasDesign={setCanvasDesign}
                     friendlyName={friendlyName}
                     dataBaseCanvasDesign={dataBaseCanvasDesign}
                     setDataBaseCanvasDesign={setdataBaseCanvasDesign}
@@ -91,9 +90,7 @@ const CanvasItem = () => {
             </div>
             <Box sx={{ height: '1vh' }} />
             <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <CanvasStage
-                    canvasDesign={canvasDesign}
-                    setCanvasDesign={setCanvasDesign} />
+                <CanvasStage />
             </div>
         </div>
     );

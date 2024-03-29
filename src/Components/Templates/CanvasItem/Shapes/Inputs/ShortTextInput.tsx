@@ -5,21 +5,26 @@ import Konva from 'konva';
 import InputTransformer from './SharedInputComponents/InputTransformer';
 import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import EditMenu from '../EditMenu';
 
 interface ShortTextInputProps {
     shortTextInputObj: ShortTextInputObj;
     handleDragStart: any;
     handleDragEnd: any;
-    isSelected: boolean;
-    onSelect: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: ShortTextInputProps) => {
+const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: ShortTextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const { selectedId, setSelectedId } = useCanvasDesignContext();
+    const isSelected = shortTextInputObj.id === selectedId;
+    const onSelect = () => {
+        setSelectedId(shortTextInputObj.id);
+    }
     const createTempTextKonvaShape = (content: TextBase) => new Konva.Text({
         text: content.value,
         fontSize: content.fontSize,
@@ -106,7 +111,10 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, isS
                     onSelect={onSelect} />
             </Group>
             {isSelected && (
-                <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                <>
+                    <EditMenu shapeObj={shortTextInputObj} width={containerWidth} />
+                    <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                </>
             )}
         </React.Fragment>
     );

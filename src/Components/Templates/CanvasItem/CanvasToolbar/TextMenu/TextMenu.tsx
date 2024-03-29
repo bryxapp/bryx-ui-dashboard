@@ -4,7 +4,6 @@ import Menu from '@mui/material/Menu';
 import AddTextIcon from '@mui/icons-material/TextFields';
 import Tooltip from '@mui/material/Tooltip';
 import AddHeading from './AddHeading';
-import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import AddPhoneInput from './Inputs/AddPhoneInput';
 import AddEmailInput from './Inputs/AddEmailInput';
 import AddParagraph from './AddParagraph';
@@ -12,11 +11,9 @@ import AddShortTextInput from './Inputs/AddShortTextInput';
 
 interface TextMenuProps {
     isLoading: boolean;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: TextMenuProps) {
+export default function TextMenu({ isLoading }: TextMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -52,11 +49,11 @@ export default function TextMenu({ isLoading, canvasDesign, setCanvasDesign }: T
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <AddHeading canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddParagraph canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddPhoneInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddEmailInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddShortTextInput canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddHeading setAnchorEl={setAnchorEl} />
+                <AddParagraph setAnchorEl={setAnchorEl} />
+                <AddPhoneInput setAnchorEl={setAnchorEl} />
+                <AddEmailInput setAnchorEl={setAnchorEl} />
+                <AddShortTextInput setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );

@@ -3,17 +3,16 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
 import Tooltip from '@mui/material/Tooltip';
-import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import PublicImages from './PublicImages/PublicImages';
 import UserImages from './UserImages/UserImages';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface ImagesMenuProps {
     isLoading: boolean;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-export default function ImagesMenu({ isLoading, canvasDesign, setCanvasDesign }: ImagesMenuProps) {
+export default function ImagesMenu({ isLoading }: ImagesMenuProps) {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     return (

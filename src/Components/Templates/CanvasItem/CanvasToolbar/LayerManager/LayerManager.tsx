@@ -3,22 +3,21 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import LayerIcon from '@mui/icons-material/Layers';
-import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 import SendBackward from './SendBackward';
 import BringForward from './BringForward';
 import Stack from '@mui/material/Stack';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 
 interface LayerManagerProps {
     isLoading: boolean;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
 
 
-export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign }: LayerManagerProps) {
+export default function LayerManager({ isLoading }: LayerManagerProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const { selectedId } = useCanvasDesignContext();
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -38,7 +37,7 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign 
                         aria-expanded={open ? 'true' : undefined}
                         onClick={handleClick}
                         color="inherit"
-                        disabled={isLoading || !canvasDesign.selectedId}
+                        disabled={isLoading || !selectedId}
                     >
                         <LayerIcon />
                     </IconButton>
@@ -54,8 +53,8 @@ export default function LayerManager({ isLoading, canvasDesign, setCanvasDesign 
                 }}
             >
                 <Stack spacing={1}>
-                    <SendBackward canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                    <BringForward canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <SendBackward />
+                    <BringForward />
                 </Stack>
             </Menu>
         </>

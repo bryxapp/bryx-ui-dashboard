@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 import ErrorModal from '../../../SharedComponents/ErrorModal/ErrorModal';
 import { isTemplateChanged } from '../../../../utils/canvasUtils';
 import { Typography } from '@mui/material';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
 interface SaveTemplateButtonProps {
     isLoading: boolean;
     setIsLoading: React.SetStateAction<any>;
-    canvasDesign: any;
     dataBaseCanvasDesign: any;
     setDataBaseCanvasDesign: React.SetStateAction<any>;
     friendlyName: string;
@@ -21,7 +21,6 @@ interface SaveTemplateButtonProps {
 export default function SaveTemplateButton({
     isLoading,
     setIsLoading,
-    canvasDesign,
     dataBaseCanvasDesign,
     setDataBaseCanvasDesign,
     friendlyName,
@@ -31,6 +30,7 @@ export default function SaveTemplateButton({
     const { getAccessToken } = useAuth0User();
     const [error, setError] = useState(false); // Error state
     const [saveButtonEnabled, setSaveButtonEnabled] = useState(true); // Disable save button if design hasn't changed
+    const { canvasDesign } = useCanvasDesignContext();
 
     useEffect(() => {
         // Effect for updating the save button's enabled state based on design change

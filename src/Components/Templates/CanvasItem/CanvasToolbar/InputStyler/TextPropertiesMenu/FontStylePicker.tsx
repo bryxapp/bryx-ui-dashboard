@@ -3,16 +3,16 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import BoldIcon from '@mui/icons-material/FormatBold';
 import ItalicIcon from '@mui/icons-material/FormatItalic';
-import { CanvasDesignData, InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface FontStylePickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, canvasDesign, setCanvasDesign }) => {
+const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType}) => {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontStyle = textObj.fontStyle;
     if (!selectedTextItemFontStyle) return null;
 
@@ -30,7 +30,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, ca
         const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
         const updatedShapes = canvasDesign.Shapes.map((shape) => {
-            if (shape.id === canvasDesign.selectedId) {
+            if (shape.id === selectedId) {
                 if (itemType === null) {
                     const textObj = shape as TextObj;
                     const currentStyle = textObj[styleProperty] || '';

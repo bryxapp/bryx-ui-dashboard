@@ -3,20 +3,20 @@ import { Box, Button, IconButton, Menu, Slider, ToggleButton, ToggleButtonGroup,
 import ColorSelectorIcon from '@mui/icons-material/ColorLens';
 import { MuiColorInput } from 'mui-color-input';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
-import { CanvasDesignData, SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 // Define the interface for component props
 interface ColorPickerProps {
     solidShapeObj: SolidShapeObj;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
 }
 
 // ColorPicker component
-export default function ColorPicker({ solidShapeObj, canvasDesign, setCanvasDesign }: ColorPickerProps) {
+export default function ColorPicker({ solidShapeObj }: ColorPickerProps) {
     // State for menu anchor element
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     // State for color change mode (fill or stroke)
     const [colorChangeMode, setColorChangeMode] = useState<'fill' | 'stroke'>('fill');
@@ -48,7 +48,7 @@ export default function ColorPicker({ solidShapeObj, canvasDesign, setCanvasDesi
             setCanvasDesign,
             colorChangeMode,
             newColorValue,
-            canvasDesign.selectedId
+            selectedId
         );
     };
 
@@ -59,7 +59,7 @@ export default function ColorPicker({ solidShapeObj, canvasDesign, setCanvasDesi
         setCanvasDesign(prev => ({
             ...prev,
             Shapes: prev.Shapes.map(shape =>
-                shape.id === canvasDesign.selectedId ? { ...shape, strokeWidth: newWidth } : shape
+                shape.id === selectedId ? { ...shape, strokeWidth: newWidth } : shape
             ),
         }));
     };

@@ -1,16 +1,16 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddPhoneInputIcon from "@mui/icons-material/Phone";
-import { CanvasDesignData, PhoneInputObj } from "../../../../../../utils/types/CanvasInterfaces";
+import { PhoneInputObj } from "../../../../../../utils/types/CanvasInterfaces";
 import { createPhoneInputObj } from "../../../../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../../../../utils/contexts/canvasDesignContext";
 
 interface AddPhoneInputProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
     setAnchorEl: React.SetStateAction<any>;
 }
 
-const AddPhoneInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: AddPhoneInputProps) => {
+const AddPhoneInput = ({ setAnchorEl }: AddPhoneInputProps) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleAddPhoneInput = () => {
         setAnchorEl(null);
         const newPhoneInput: PhoneInputObj = createPhoneInputObj('Phone Number #', true, "(555)555-5555", 20, 'black', 'Arial', 'normal', '', false);

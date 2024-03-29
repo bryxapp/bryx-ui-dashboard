@@ -1,23 +1,21 @@
-import React from 'react';
-import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import Tooltip from '@mui/material/Tooltip';
 import BackwardIcon from '@mui/icons-material/ArrowLeft';
 import FastRewindIcon from '@mui/icons-material/FastRewind';
 import { IconButton } from '@mui/material';
 import { findShape } from '../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
-interface SendBackwardProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
-}
 
-export default function SendBackward({ canvasDesign, setCanvasDesign }: SendBackwardProps) {
+export default function SendBackward() {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleSendToBack = (event: any) => {
-        if (!canvasDesign.selectedId) return;
+        if (!selectedId) return;
 
-        const selectedShape = findShape(canvasDesign, canvasDesign.selectedId);
-        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
+        const selectedShape = findShape(canvasDesign, selectedId);
+        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
+        if (!selectedShape) return;
 
         const updatedCanvasDesign = {
             ...canvasDesign,
@@ -27,9 +25,9 @@ export default function SendBackward({ canvasDesign, setCanvasDesign }: SendBack
     };
 
     const handleSendBackward = (event: any) => {
-        if (!canvasDesign.selectedId) return;
+        if (!selectedId) return;
 
-        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
+        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === selectedId);
         if (selectedIndex === 0) return;
 
         const updatedShapes = [...canvasDesign.Shapes];

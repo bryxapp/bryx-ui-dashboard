@@ -1,20 +1,16 @@
-import { CanvasDesignData, HeadingObj } from '../../../../../utils/types/CanvasInterfaces';
+import { HeadingObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Group, Rect, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
-import TextPropertiesMenu from '../../CanvasToolbar/InputStyler/TextPropertiesMenu/TextPropertiesMenu';
-import DeleteButton from '../../CanvasToolbar/DeleteButton';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import EditMenu from '../EditMenu';
 
 interface HeadingProps {
     headingObj: HeadingObj;
     handleDragStart: any;
     handleDragEnd: any;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: any;
-    isSelected: boolean;
-    onSelect: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
@@ -24,10 +20,6 @@ const Heading = ({
     headingObj,
     handleDragStart,
     handleDragEnd,
-    canvasDesign,
-    setCanvasDesign,
-    isSelected,
-    onSelect,
     onTransformEnd,
     handleDragMove,
     draggable = true
@@ -36,6 +28,11 @@ const Heading = ({
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
+    const isSelected = headingObj.id === selectedId;
+    const onSelect = () => {
+        setSelectedId(headingObj.id);
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -49,6 +46,19 @@ const Heading = ({
             window.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        // This effect will re-run whenever shortTextInputObj changes.
+        if (shapeRef.current && trRef.current) {
+            // Directly update the size of the Konva elements based on the new shortTextInputObj properties.
+            // You might want to recalculate your sizes here similar to what is done outside useEffect.
+            // Then, update the transformer if it is selected.
+            if (isSelected) {
+                trRef.current.nodes([shapeRef.current]);
+                trRef.current.getLayer()?.batchDraw();
+            }
+        }
+    }, [headingObj, isSelected]);
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -159,26 +169,7 @@ const Heading = ({
             </Group>
             {isSelected && !editing && (
                 <>
-                    <Html>
-                        <div
-                            style={{
-                                position: 'absolute',
-                                left: `${headingObj.x + rectWidth + 10}px`, // Adjusted to apply positioning
-                                top: `${headingObj.y - 15}px`,
-                                display: 'flex',
-                                gap: '10px', // Adds space between child components
-                                backgroundColor: '#F3F3F3', // Light gray background, similar to MS Word's menu
-                                padding: '10px', // Adds some padding inside the container for spacing
-                                borderRadius: '5px', // Rounded corners for a softer look
-                                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
-                                alignItems: 'center', // Ensures children are aligned in the center vertically
-                                zIndex: 1000 // Ensures the menu appears above other content
-                            }}
-                        >
-                            <TextPropertiesMenu textObj={headingObj} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} itemType={null} />
-                            <DeleteButton canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                        </div>
-                    </Html>
+                    <EditMenu shapeObj={headingObj} width={rectWidth} />
                     <Transformer
                         ref={trRef}
                         onTransformEnd={onTransformEnd}

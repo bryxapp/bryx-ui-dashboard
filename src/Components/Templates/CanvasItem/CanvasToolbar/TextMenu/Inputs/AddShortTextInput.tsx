@@ -1,16 +1,16 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import ShortTextIcon from '@mui/icons-material/ShortText';
-import { CanvasDesignData, ShortTextInputObj } from "../../../../../../utils/types/CanvasInterfaces";
+import { ShortTextInputObj } from "../../../../../../utils/types/CanvasInterfaces";
 import { createShortTextInputObj } from "../../../../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../../../../utils/contexts/canvasDesignContext";
 
 interface AddShortTextInputProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
     setAnchorEl: React.SetStateAction<any>;
 }
 
-const AddShortTextInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: AddShortTextInputProps) => {
+const AddShortTextInput = ({ setAnchorEl }: AddShortTextInputProps) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleAddShortTextInput = () => {
         setAnchorEl(null);
         const newShortTextInput: ShortTextInputObj = createShortTextInputObj('Input', true, "Short Text", 20, 'black', 'Arial', 'normal', '', false);

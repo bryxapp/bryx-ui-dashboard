@@ -6,21 +6,26 @@ import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputContent from './SharedInputComponents/InputContent';
 import InputLabel from './SharedInputComponents/InputLabel';
 import InputTransformer from './SharedInputComponents/InputTransformer';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import EditMenu from '../EditMenu';
 
 interface PhoneInputProps {
     phoneInputObj: PhoneInputObj;
     handleDragStart: any;
     handleDragEnd: any;
-    isSelected: boolean;
-    onSelect: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: PhoneInputProps) => {
+const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: PhoneInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const { selectedId, setSelectedId } = useCanvasDesignContext();
+    const isSelected = phoneInputObj.id === selectedId;
+    const onSelect = () => {
+        setSelectedId(phoneInputObj.id);
+    }
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -96,7 +101,11 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, isSelected,
                     onSelect={onSelect} />
             </Group>
             {isSelected && (
-                <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                <>
+                    <EditMenu shapeObj={phoneInputObj} width={containerWidth} />
+                    <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                </>
+
             )}
         </React.Fragment>
     );

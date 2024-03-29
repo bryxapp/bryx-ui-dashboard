@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import styled from '@emotion/styled';
-import { ShapeObj, CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
+import { ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
 import ShapeRenderer from './ShapeRenderer';
 import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
-import { selectShape } from '../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
 const PiecePaper = styled('div')<{ pageWidth: string | number; pageHeight: string | number }>((props) => ({
     width: props.pageWidth,
@@ -18,13 +18,10 @@ const PiecePaper = styled('div')<{ pageWidth: string | number; pageHeight: strin
     overflow: 'hidden',
     backgroundColor: 'white',
 }));
-interface CanvasStageProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: any;
-}
 
 
-const CanvasStage = ({ canvasDesign, setCanvasDesign }: CanvasStageProps) => {
+const CanvasStage = () => {
+    const { canvasDesign, setCanvasDesign, setSelectedId } = useCanvasDesignContext();
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
 
     //Parse url to get canvas starter name
@@ -46,7 +43,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: CanvasStageProps) => {
         // deselect when clicked on empty area
         const clickedOnEmpty = e.target === e.target.getStage();
         if (clickedOnEmpty) {
-            selectShape(null, canvasDesign, setCanvasDesign);
+            setSelectedId(null)
         }
     };
 
@@ -63,7 +60,7 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign }: CanvasStageProps) => {
             >
                 <Layer>
                     {/* Place all shapes on the canvas */}
-                    <ShapeRenderer pageWidth={pageWidth} pageHeight={pageHeight} setCanvasDesign={setCanvasDesign} canvasDesign={canvasDesign} />
+                    <ShapeRenderer />
                 </Layer>
             </Stage>
         </PiecePaper>

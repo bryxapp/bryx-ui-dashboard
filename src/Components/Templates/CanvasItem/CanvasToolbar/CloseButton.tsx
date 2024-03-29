@@ -1,17 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import { isTemplateChanged } from '../../../../utils/canvasUtils';
 import { Button, Typography } from '@mui/material';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
 
 interface CloseTemplateButtonProps {
     dataBaseCanvasDesign: any;
-    canvasDesign: any;
     friendlyName: string;
     databaseFriendlyName: string;
 }
 
-export default function CloseTemplateButton({ dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName }: CloseTemplateButtonProps) {
-
+export default function CloseTemplateButton({ dataBaseCanvasDesign, friendlyName, databaseFriendlyName }: CloseTemplateButtonProps) {
+    const { canvasDesign } = useCanvasDesignContext();
     const navigate = useNavigate();
     const handleClose = async () => {
         if (isTemplateChanged(dataBaseCanvasDesign, canvasDesign, friendlyName, databaseFriendlyName)) {

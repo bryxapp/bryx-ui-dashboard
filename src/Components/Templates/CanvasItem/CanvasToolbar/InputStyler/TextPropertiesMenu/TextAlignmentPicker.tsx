@@ -4,23 +4,23 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import AlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import AlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
-import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface TextAlignmentPickerProps {
     textObj: TextBase
     itemType: 'content' | 'label' | null;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, itemType, canvasDesign, setCanvasDesign }) => {
+const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, itemType }) => {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const handleAlignmentChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
         if (newAlignment) {
             if (itemType === null)
-                updateShapeProperty(canvasDesign, setCanvasDesign, 'align', newAlignment, canvasDesign.selectedId);
+                updateShapeProperty(canvasDesign, setCanvasDesign, 'align', newAlignment, selectedId);
             else {
-                updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'align', newAlignment, canvasDesign.selectedId);
+                updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'align', newAlignment, selectedId);
             }
         }
     };

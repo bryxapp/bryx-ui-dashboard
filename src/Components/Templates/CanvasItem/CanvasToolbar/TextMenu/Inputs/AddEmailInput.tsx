@@ -1,16 +1,16 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddEmailInputIcon from "@mui/icons-material/Email";
-import { CanvasDesignData, EmailInputObj } from "../../../../../../utils/types/CanvasInterfaces";
+import { EmailInputObj } from "../../../../../../utils/types/CanvasInterfaces";
 import { createEmailInputObj } from "../../../../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../../../../utils/contexts/canvasDesignContext";
 
 interface AddEmailInputProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
     setAnchorEl: React.SetStateAction<any>;
 }
 
-const AddEmailInput = ({ canvasDesign, setCanvasDesign, setAnchorEl }: AddEmailInputProps) => {
+const AddEmailInput = ({ setAnchorEl }: AddEmailInputProps) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleAddEmailInput = () => {
         setAnchorEl(null);
         const newEmailInput: EmailInputObj = createEmailInputObj('Email', true, "john.doe@email.com", 20, 'black', 'Arial', 'normal', '', false);

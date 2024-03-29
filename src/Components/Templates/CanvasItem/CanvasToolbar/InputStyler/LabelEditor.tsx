@@ -1,25 +1,24 @@
-import React from 'react';
 import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField';
 import Typography from "@mui/material/Typography";
-import { CanvasDesignData, InputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { Checkbox, FormControl, FormLabel, FormGroup, Stack, FormControlLabel } from '@mui/material';
 import TextPropertiesMenu from './TextPropertiesMenu/TextPropertiesMenu';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface LabelEditorProps {
     inputObj: InputObj;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-const LabelEditor = ({ inputObj, canvasDesign, setCanvasDesign }: LabelEditorProps) => {
+const LabelEditor = ({ inputObj }: LabelEditorProps) => {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleLabelValueChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'label', 'value', event.target.value, canvasDesign.selectedId);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'label', 'value', event.target.value, selectedId);
     };
 
     const handleHasLabelChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'hasLabel', event.target.checked, canvasDesign.selectedId);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'hasLabel', event.target.checked, selectedId);
     };
     const selectedInputLabel = inputObj.label.value ?? '';
     const hasLabel = inputObj?.hasLabel ?? false;
@@ -53,7 +52,7 @@ const LabelEditor = ({ inputObj, canvasDesign, setCanvasDesign }: LabelEditorPro
                             }}
                         />
                     } label="Has Label" />
-                    <TextPropertiesMenu textObj={inputObj.label} itemType={'label'} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <TextPropertiesMenu textObj={inputObj.label} itemType={'label'} />
                 </Stack>
             </FormGroup>
         </FormControl>

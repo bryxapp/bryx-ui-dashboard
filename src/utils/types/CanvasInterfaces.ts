@@ -1,14 +1,13 @@
 
 export interface CanvasDesignData {
     Shapes: (ShapeObj)[];
-    selectedId: string | null;
     pageHeight: number;
     pageWidth: number;
 }
 
 export interface ShapeObj {
     id: string;
-    type: ShapeType | InputType | TextType
+    type: ShapeType | InputType | TextType | ImageType;
     x: number;
     y: number;
     rotation: number;
@@ -16,24 +15,17 @@ export interface ShapeObj {
 }
 
 // Solid Shapes
-export interface RectangleObj extends ShapeObj, SolidShapeObj {
+export interface RectangleObj extends SolidShapeObj {
     width: number;
     height: number;
     cornerRadius?: number;
     type: 'Rectangle' | 'RoundedRectangle';
 }
 
-export interface EllipseObj extends ShapeObj, SolidShapeObj {
+export interface EllipseObj extends SolidShapeObj {
     radiusX: number;
     radiusY: number;
     type: 'Ellipse';
-}
-
-export interface LineObj extends ShapeObj {
-    points: number[];
-    stroke: string;
-    strokeWidth: number;
-    type: 'Line';
 }
 
 export interface ImageObj extends ShapeObj {
@@ -43,15 +35,10 @@ export interface ImageObj extends ShapeObj {
     type: 'Image';
 }
 
-export interface SolidShapeObj {
+export interface SolidShapeObj extends ShapeObj {
     fill: string;
     stroke: string;
     strokeWidth: number;
-}
-
-export interface ShapeColor {
-    fill: string | undefined;
-    stroke: string | undefined;
 }
 
 // Input Shapes
@@ -103,12 +90,6 @@ export interface InputObj extends ShapeObj {
     label: TextBase;
     content: TextBase;
 }
-
-export interface ToolBarProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-}
 export interface CanvasStarterData {
     name: string;
     canvasDesign: CanvasDesignData;
@@ -116,7 +97,10 @@ export interface CanvasStarterData {
 
 export type FormInputs = (ShortTextInputObj | LongTextInputObj | PhoneInputObj | EmailInputObj | DateInputObj)[];
 
-export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'Image';
+export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
+export const ShapeTypes: ShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
+export type ImageType = 'Image';
+export const ImageTypes: ImageType[] = ['Image'];
 export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
 export type TextType = 'Heading' | 'Paragraph'

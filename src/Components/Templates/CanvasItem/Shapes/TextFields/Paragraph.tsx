@@ -1,18 +1,16 @@
-import { CanvasDesignData, ParagraphObj } from '../../../../../utils/types/CanvasInterfaces';
+import { ParagraphObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Group, Rect, Text, Transformer } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import EditMenu from '../EditMenu';
 
 interface ParagraphProps {
     paragraphObj: ParagraphObj;
     handleDragStart: any;
     handleDragEnd: any;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: any;
-    isSelected: boolean;
-    onSelect: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
@@ -22,10 +20,6 @@ const Paragraph = ({
     paragraphObj,
     handleDragStart,
     handleDragEnd,
-    canvasDesign,
-    setCanvasDesign,
-    isSelected,
-    onSelect,
     onTransformEnd,
     handleDragMove,
     draggable = true
@@ -34,6 +28,11 @@ const Paragraph = ({
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const { selectedId, setSelectedId, canvasDesign, setCanvasDesign } = useCanvasDesignContext();
+    const isSelected = paragraphObj.id === selectedId;
+    const onSelect = () => {
+        setSelectedId(paragraphObj.id);
+    }
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -47,6 +46,19 @@ const Paragraph = ({
             window.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        // This effect will re-run whenever shortTextInputObj changes.
+        if (shapeRef.current && trRef.current) {
+            // Directly update the size of the Konva elements based on the new shortTextInputObj properties.
+            // You might want to recalculate your sizes here similar to what is done outside useEffect.
+            // Then, update the transformer if it is selected.
+            if (isSelected) {
+                trRef.current.nodes([shapeRef.current]);
+                trRef.current.getLayer()?.batchDraw();
+            }
+        }
+    }, [paragraphObj, isSelected]);
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -156,14 +168,17 @@ const Paragraph = ({
                 )}
             </Group>
             {isSelected && !editing && (
-                <Transformer
-                    ref={trRef}
-                    onTransformEnd={onTransformEnd}
-                    rotateEnabled={true}
-                    anchorSize={10}
-                    resizeEnabled={false}
-                    keepRatio={false}
-                />
+                <>
+                    <EditMenu shapeObj={paragraphObj} width={rectWidth} />
+                    <Transformer
+                        ref={trRef}
+                        onTransformEnd={onTransformEnd}
+                        rotateEnabled={true}
+                        anchorSize={10}
+                        resizeEnabled={false}
+                        keepRatio={false}
+                    />
+                </>
             )}
         </React.Fragment>
     );

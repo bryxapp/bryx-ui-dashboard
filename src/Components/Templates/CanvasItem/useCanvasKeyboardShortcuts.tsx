@@ -1,9 +1,10 @@
 import { useEffect } from "react";
-import { findShape, deleteShape, moveShape, selectShape, pasteObject, toggleTextStyle } from "../../../utils/shapeManagementUtils";
+import { findShape, deleteShape, moveShape, pasteObject, toggleTextStyle } from "../../../utils/shapeManagementUtils";
 
 export const useCanvasKeyboardShortcuts = ({
   canvasDesign,
   setCanvasDesign,
+  selectedId,
   setSelectedId,
   copiedObject,
   setCopiedObject,
@@ -16,7 +17,7 @@ export const useCanvasKeyboardShortcuts = ({
           deleteShape({ canvasDesign, setCanvasDesign });
           break;
         case "Escape":
-          selectShape(null, canvasDesign, setCanvasDesign);
+          setSelectedId(null)
           break;
         case "ArrowUp":
           moveShape({ canvasDesign, setCanvasDesign, direction: "up" });
@@ -32,29 +33,29 @@ export const useCanvasKeyboardShortcuts = ({
           break;
         case "c":
           if (event.ctrlKey || event.metaKey) {
-            setCopiedObject(findShape(canvasDesign,canvasDesign.selectedId) || null);
+            setCopiedObject(findShape(canvasDesign,selectedId) || null);
           }
           break;
         case "v":
           if (event.ctrlKey || event.metaKey) {
-            if (copiedObject && canvasDesign.selectedId !== "ColorPicker") {
-              pasteObject(canvasDesign, setCanvasDesign, copiedObject); // Adjust the paste position as needed
+            if (copiedObject) {
+              pasteObject(canvasDesign, setCanvasDesign, selectedId, copiedObject); // Adjust the paste position as needed
             }
           }
           break;
         case "b":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, "bold");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "bold");
           }
           break;
         case "i":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, "italic");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "italic");
           }
           break;
         case "u":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, "underline");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "underline");
           }
           break;
         default:
@@ -67,5 +68,5 @@ export const useCanvasKeyboardShortcuts = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject]);
+  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject, selectedId]);
 };

@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, LineObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, ShapeType, ShapeTypes } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 
@@ -58,17 +58,6 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     stroke: ellipse.stroke,
                     strokeWidth: ellipse.strokeWidth,
                     rotation: ellipse.rotation,
-                });
-                break;
-            case 'Line':
-                const line = shape as LineObj;
-                konvaShape = new Konva.Line({
-                    x: line.x,
-                    y: line.y,
-                    points: line.points,
-                    stroke: line.stroke,
-                    strokeWidth: line.strokeWidth,
-                    rotation: line.rotation,
                 });
                 break;
             case 'Image':
@@ -179,6 +168,10 @@ export const isInputObject = (shape?: ShapeObj): boolean => {
     return shape ? InputTypes.includes(shape.type as InputType) : false;
 };
 
+export const isSolidShapeObj = (shape?: ShapeObj): boolean => {
+    return shape ? ShapeTypes.includes(shape.type as ShapeType) : false;
+};
+
 export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
     let foundAndUpdated = false;
 
@@ -235,22 +228,21 @@ export const updateInputProperty = (
 };
 
 
-export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
+export const deleteShape = ({ canvasDesign, setCanvasDesign, selectedId, setSelectedId }: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-        if (shape.id === canvasDesign.selectedId) {
-            updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
+        if (shape.id === selectedId) {
+            updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
         }
     });
-    canvasDesign.selectedId = null;
+    setSelectedId(null)
     setCanvasDesign(updatedCanvasDesign);
-    selectShape(null, updatedCanvasDesign, setCanvasDesign);
 }
 
-export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => {
+export const moveShape = ({ canvasDesign, setCanvasDesign, direction, selectedId }: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-        if (shape.id === canvasDesign.selectedId) {
+        if (shape.id === selectedId) {
             switch (direction) {
                 case 'up':
                     shape.y -= 10;
@@ -272,16 +264,8 @@ export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => 
     setCanvasDesign(updatedCanvasDesign);
 }
 
-export const selectShape = (id: string | null, canvasDesign: any, setCanvasDesign: any) => {
-    setCanvasDesign({
-        ...canvasDesign,
-        selectedId: id,
-    });
-};
 
-
-
-export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, copiedObject: any) => {
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, selectedId:string, copiedObject: any) => {
 
     const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
 
@@ -291,7 +275,7 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
     pastedObject.y = copiedObject.y + 20;
 
     updatedCanvasDesign.Shapes.push(pastedObject);
-    updatedCanvasDesign.selectedId = pastedObject.id; // Select the pasted object
+    selectedId = pastedObject.id; // Select the pasted object
 
     setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
 };
@@ -299,12 +283,13 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
 export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    selectedId: string,
     style: 'bold' | 'italic' | 'underline' | 'line-through'
 ) => {
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
     const updatedShapes = canvasDesign.Shapes.map((shape) => {
-        if (shape.id === canvasDesign.selectedId) {
+        if (shape.id === selectedId) {
             const textShape = shape as TextObj;
             const currentStyle = textShape[styleProperty] || '';
             const isStyleApplied = currentStyle.includes(style);

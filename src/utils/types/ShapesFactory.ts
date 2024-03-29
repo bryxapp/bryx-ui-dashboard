@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, LineObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -46,20 +46,6 @@ export function createEllipseObj(radiusX: number, radiusY: number, fill: string,
         radiusX,
         radiusY,
         fill,
-        stroke,
-        strokeWidth,
-        isDragging: false,
-    };
-}
-
-export function createLineObj(points: number[], stroke: string, strokeWidth: number): LineObj {
-    return {
-        id: generateShapeId(),
-        type: 'Line',
-        x: defaultStartX,
-        y: defaultStartY,
-        rotation: 0,
-        points,
         stroke,
         strokeWidth,
         isDragging: false,
@@ -257,7 +243,6 @@ export function createImageObj(src: string, width: number, height: number): Imag
 export function createEmptyCanvasDesign(pageWidth: number, pageHeight: number): CanvasDesignData {
     return {
         Shapes: [],
-        selectedId: null,
         pageWidth,
         pageHeight,
     };

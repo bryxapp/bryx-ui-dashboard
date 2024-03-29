@@ -1,26 +1,22 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from "../../../../utils/types/CanvasInterfaces";
+import { RectangleObj, ShapeObj, EllipseObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
 import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
-import LineShape from '../Shapes/SolidShapes/LineShape';
 import ImageShape from '../Shapes/SolidShapes/ImageShape';
-import { selectShape } from '../../../../utils/shapeManagementUtils';
 import PhoneInput from '../Shapes/Inputs/PhoneInput';
 import EmailInput from '../Shapes/Inputs/EmailInput';
 import Heading from '../Shapes/TextFields/Heading';
 import Paragraph from '../Shapes/TextFields/Paragraph';
 import ShortTextInput from '../Shapes/Inputs/ShortTextInput';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
+import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
 
-interface ShapeRendererProps {
-    pageWidth: number;
-    pageHeight: number;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
-    canvasDesign: CanvasDesignData;
-}
 
-const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }: ShapeRendererProps) => {
-
+const ShapeRenderer = () => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
+    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
+    
     const { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
 
     return (
@@ -33,15 +29,9 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                             <RectangleShape
                                 key={rectangle.id}
                                 rectangleObj={rectangle}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
                                 handleDragMove={handleDragMove}
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={rectangle.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(rectangle.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -51,15 +41,9 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                             <RectangleShape
                                 key={roundedRectangle.id}
                                 rectangleObj={roundedRectangle}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
                                 handleDragMove={handleDragMove}
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={roundedRectangle.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(roundedRectangle.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -72,26 +56,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragMove={handleDragMove}
                                 handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={ellipse.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(ellipse.id, canvasDesign, setCanvasDesign);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        );
-                    case 'Line':
-                        const line = shape as LineObj;
-                        return (
-                            <LineShape
-                                key={line.id}
-                                lineObj={line}
-                                handleDragStart={handleDragStart}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={line.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(line.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -104,10 +68,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={image.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(image.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -120,10 +80,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={phoneInput.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(phoneInput.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -136,10 +92,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={emailInput.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(emailInput.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -152,10 +104,6 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={shortTextInput.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(shortTextInput.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -168,13 +116,7 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={heading.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(heading.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
                             />
                         );
                     case 'Paragraph':
@@ -186,13 +128,7 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign }:
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={paragraph.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(paragraph.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
                             />
                         );
                     default:

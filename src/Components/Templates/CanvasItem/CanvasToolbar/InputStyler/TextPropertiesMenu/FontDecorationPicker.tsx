@@ -3,16 +3,16 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
-import { CanvasDesignData, InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputObj, ShapeObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface FontDecorationPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, itemType, canvasDesign, setCanvasDesign }) => {
+const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, itemType }) => {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontDecoration = textObj.textDecoration;
 
     const selectedFontDecorations = [];
@@ -28,8 +28,8 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
     ) => {
         const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
-        const updatedShapes = canvasDesign.Shapes.map((shape) => {
-            if (shape.id === canvasDesign.selectedId) {
+        const updatedShapes = canvasDesign.Shapes.map((shape:ShapeObj) => {
+            if (shape.id === selectedId) {
                 if (itemType === null) {
                     const textObj = shape as TextObj;
                     const currentStyle = textObj[styleProperty] || '';

@@ -1,15 +1,11 @@
 import Tooltip from '@mui/material/Tooltip';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CanvasDesignData } from '../../../../utils/types/CanvasInterfaces';
 import { deleteShape } from '../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
-interface DeleteButtonProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
-}
-
-export default function DeleteButton({ canvasDesign, setCanvasDesign }: DeleteButtonProps) {
+export default function DeleteButton() {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleDeleteShape = () => {
         deleteShape({ canvasDesign, setCanvasDesign });
     }

@@ -1,23 +1,21 @@
 import React from 'react';
 import IconButton from '@mui/material/IconButton';
-import { CanvasDesignData, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import Tooltip from '@mui/material/Tooltip';
 import ForwardIcon from '@mui/icons-material/ArrowRight';
 import FastForwardIcon from '@mui/icons-material/FastForward';
 import { findShape } from '../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
-interface BringForwardProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
-}
-
-export default function BringForward({ canvasDesign, setCanvasDesign }: BringForwardProps) {
+export default function BringForward() {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleBringToFront = (event: any) => {
-        if (!canvasDesign.selectedId) return;
+        if (!selectedId) return;
 
-        const selectedShape = findShape(canvasDesign, canvasDesign.selectedId);
-        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
+        const selectedShape = findShape(canvasDesign, selectedId);
+        if (!selectedShape) return;
+        const otherShapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
 
         const updatedCanvasDesign = {
             ...canvasDesign,
@@ -27,9 +25,9 @@ export default function BringForward({ canvasDesign, setCanvasDesign }: BringFor
     };
 
     const handleBringForward = (event: any) => {
-        if (!canvasDesign.selectedId) return;
+        if (!selectedId) return;
 
-        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === canvasDesign.selectedId);
+        const selectedIndex = canvasDesign.Shapes.findIndex((shape: ShapeObj) => shape.id === selectedId);
         if (selectedIndex === canvasDesign.Shapes.length - 1) return;
 
         const updatedShapes = [...canvasDesign.Shapes];

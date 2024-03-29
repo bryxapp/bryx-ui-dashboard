@@ -5,17 +5,13 @@ import Tooltip from '@mui/material/Tooltip';
 import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
 import AddEllipse from './AddEllipse';
 import AddRectangle from './AddRectangle';
-import AddLine from './AddLine';
 import AddRoundedRectangle from './AddRoundedRectangle';
-import { CanvasDesignData } from '../../../../../utils/types/CanvasInterfaces';
 
 interface ShapesMenuProps {
     isLoading: boolean;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }: ShapesMenuProps) {
+export default function ShapesMenu({ isLoading }: ShapesMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,10 +45,9 @@ export default function ShapesMenu({ isLoading, canvasDesign, setCanvasDesign }:
                     'aria-labelledby': 'basic-button',
                 }}
             >
-                <AddLine canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddRoundedRectangle canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
-                <AddEllipse canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} setAnchorEl={setAnchorEl} />
+                <AddRectangle setAnchorEl={setAnchorEl} />
+                <AddRoundedRectangle setAnchorEl={setAnchorEl} />
+                <AddEllipse setAnchorEl={setAnchorEl} />
             </Menu>
         </>
     );

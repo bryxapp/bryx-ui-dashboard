@@ -1,21 +1,20 @@
-import React from 'react';
 import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField';
 import Typography from "@mui/material/Typography";
-import { CanvasDesignData, InputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
 import { FormControl, FormLabel, FormGroup, Stack } from '@mui/material';
 import TextPropertiesMenu from './TextPropertiesMenu/TextPropertiesMenu';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface ContentEditorProps {
     inputObj: InputObj;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-const ContentEditor = ({ inputObj, canvasDesign, setCanvasDesign }: ContentEditorProps) => {
+const ContentEditor = ({ inputObj }: ContentEditorProps) => {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleLabelValueChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, canvasDesign.selectedId);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
     const selectedInputContent = inputObj.content.value ?? '';
@@ -40,7 +39,7 @@ const ContentEditor = ({ inputObj, canvasDesign, setCanvasDesign }: ContentEdito
                         variant="outlined"
                         size='small'
                     />
-                    <TextPropertiesMenu textObj={inputObj.content} itemType={'content'} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <TextPropertiesMenu textObj={inputObj.content} itemType={'content'} />
                 </Stack>
             </FormGroup>
         </FormControl>

@@ -1,22 +1,21 @@
-import * as React from 'react';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
-import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { Typography } from '@mui/material';
 import { MuiColorInput } from 'mui-color-input'
 
 interface ColorPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-export default function TextColorPicker({ textObj, itemType, canvasDesign, setCanvasDesign }: ColorPickerProps) {
+export default function TextColorPicker({ textObj, itemType }: ColorPickerProps) {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const onColorChange = (newColorValue: string) => {
         if (itemType === null)
-            updateShapeProperty(canvasDesign, setCanvasDesign, 'fill', newColorValue, canvasDesign.selectedId);
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'fill', newColorValue, selectedId);
         else {
-            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fill', newColorValue, canvasDesign.selectedId);
+            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fill', newColorValue, selectedId);
         }
     };
 

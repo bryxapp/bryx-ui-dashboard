@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navigation from './Components/Navigation/Navigation';
 import Templates from './Components/Templates/Templates';
-import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import NotFound from './Components/SharedComponents/NotFound/NotFound';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
@@ -23,6 +22,8 @@ import { getUser } from "./utils/api/user-api";
 import { isEqual } from "lodash";
 import AuthRedirect from "./Components/SharedComponents/NotLoggedIn/AuthRedirect";
 import ViewEstimate from "./Components/SharedComponents/ViewEstimate.tsx/ViewEstimate";
+import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
+import { CanvasDesignProvider } from "./utils/contexts/canvasDesignContext";
 
 function App() {
   const theme = createTheme(themeOptions);
@@ -94,33 +95,36 @@ function App() {
     <>
       <ThemeProvider theme={theme}>
         <Navigation>
-          {isLoading || auth0User ? (
-            <Routes>
-              <Route path="/" element={<Estimates />} />
-              <Route path="/templates" element={<Templates />} />
-              <Route path="/create-template" element={<CanvasItem />} />
-              <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
-              <Route path="/edit-template" element={<CanvasItem />} />
-              <Route path="/select-template" element={<SelectTemplate />} />
-              <Route path="/form" element={<EstimateForm />} />
-              <Route path="/view-estimate" element={<ViewEstimate />} />
-              <Route path="/pro-checkout" element={<ProCheckout />} />
-              <Route path="/team-checkout" element={<TeamCheckout />} />
-              <Route path="/create-team" element={<CreateTeam />} />
-              {(isOwner || isLoading) && <Route path="/admin" element={<Admin />} />}
-              <Route path="/view" element={<ViewEstimate />} />
-              <Route path="/auth-redirect" element={<AuthRedirect />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          ) : (
-            <Routes>
-              <Route path="/view" element={<ViewEstimate />} />
-              <Route path="/auth-redirect" element={<AuthRedirect />} />
-              <Route path="*" element={<NotLoggedIn />} />
-            </Routes>
-          )}
+          <CanvasDesignProvider>
+            {isLoading || auth0User ? (
+              <Routes>
+                <Route path="/" element={<Estimates />} />
+                <Route path="/templates" element={<Templates />} />
+                <Route path="/create-template" element={<CanvasItem />} />
+                <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
+                <Route path="/edit-template" element={<CanvasItem />} />
+                <Route path="/select-template" element={<SelectTemplate />} />
+                <Route path="/form" element={<EstimateForm />} />
+                <Route path="/view-estimate" element={<ViewEstimate />} />
+                <Route path="/pro-checkout" element={<ProCheckout />} />
+                <Route path="/team-checkout" element={<TeamCheckout />} />
+                <Route path="/create-team" element={<CreateTeam />} />
+                {(isOwner || isLoading) && <Route path="/admin" element={<Admin />} />}
+                <Route path="/view" element={<ViewEstimate />} />
+                <Route path="/auth-redirect" element={<AuthRedirect />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            ) : (
+              <Routes>
+                <Route path="/view" element={<ViewEstimate />} />
+                <Route path="/auth-redirect" element={<AuthRedirect />} />
+                <Route path="*" element={<NotLoggedIn />} />
+              </Routes>
+            )}
+          </CanvasDesignProvider>
         </Navigation>
       </ThemeProvider>
+
     </>
   );
 }

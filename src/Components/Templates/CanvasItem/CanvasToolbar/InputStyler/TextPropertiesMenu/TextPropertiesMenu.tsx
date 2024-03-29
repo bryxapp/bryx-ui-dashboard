@@ -7,18 +7,16 @@ import FontSizePicker from './FontSizePicker'
 import FontFamilyPicker from './FontFamilyPicker'
 import FontStylePicker from './FontStylePicker'
 import FontDecorationPicker from './FontDecorationPicker'
-import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import TextAlignmentPicker from './TextAlignmentPicker';
 import TextColorPicker from './TextColorPicker';
 
 interface TextPropertiesMenuProps {
     textObj: TextBase
     itemType: 'content' | 'label' | null;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<CanvasDesignData>;
 }
 
-function TextPropertiesMenu({ textObj, itemType, canvasDesign, setCanvasDesign }: TextPropertiesMenuProps) {
+function TextPropertiesMenu({ textObj, itemType }: TextPropertiesMenuProps) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
 
@@ -61,18 +59,18 @@ function TextPropertiesMenu({ textObj, itemType, canvasDesign, setCanvasDesign }
                 }}
             >
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '.5rem', justifyContent: 'space-evenly' }}>
-                    <FontFamilyPicker textObj={textObj} itemType={itemType} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                    <FontSizePicker textObj={textObj} itemType={itemType} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <FontFamilyPicker textObj={textObj} itemType={itemType} />
+                    <FontSizePicker textObj={textObj} itemType={itemType} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1rem' }}>
-                    <TextColorPicker canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} textObj={textObj} itemType={itemType} />
+                    <TextColorPicker textObj={textObj} itemType={itemType} />
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                    <FontStylePicker textObj={textObj} itemType={itemType} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
-                    <FontDecorationPicker textObj={textObj} itemType={itemType} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <FontStylePicker textObj={textObj} itemType={itemType} />
+                    <FontDecorationPicker textObj={textObj} itemType={itemType} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', flexDirection: 'row' }}>
-                    <TextAlignmentPicker textObj={textObj} itemType={itemType} canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} />
+                    <TextAlignmentPicker textObj={textObj} itemType={itemType} />
                 </div>
             </Menu>
         </>

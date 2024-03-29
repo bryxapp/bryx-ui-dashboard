@@ -1,11 +1,13 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddParagraphIcon from "@mui/icons-material/ViewHeadline";
-import { ParagraphObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
+import { ParagraphObj } from "../../../../../utils/types/CanvasInterfaces";
 import { createParagraphObj } from "../../../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../../../utils/contexts/canvasDesignContext";
 
 
-const AddParagraph = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
+const AddParagraph = ({ setAnchorEl }: any) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleAddParagraph = () => {
         setAnchorEl(null);
 

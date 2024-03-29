@@ -2,13 +2,12 @@ import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
 import { Ellipse, Transformer } from 'react-konva';
 import { EllipseObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface EllipseShapeProps {
     ellipseObj: EllipseObj;
     handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
-    isSelected: boolean;
-    onSelect: () => void;
     onTransformEnd: (e: any) => void;
     handleDragMove:any;
 }
@@ -17,13 +16,17 @@ const EllipseShape = ({
     ellipseObj,
     handleDragStart,
     handleDragEnd,
-    isSelected,
-    onSelect,
     onTransformEnd,
     handleDragMove
 }: EllipseShapeProps) => {
+    
     const shapeRef = useRef<Konva.Ellipse>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const { selectedId, setSelectedId } = useCanvasDesignContext();
+    const isSelected = ellipseObj.id === selectedId;
+    const onSelect = () => {
+        setSelectedId(ellipseObj.id);
+    }
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {

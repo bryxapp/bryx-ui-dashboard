@@ -4,21 +4,26 @@ import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputTransformer from './SharedInputComponents/InputTransformer';
 import InputContent from './SharedInputComponents/InputContent';
-import { createTempTextKonvaShape} from './SharedInputComponents/InputHelper';
+import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import EditMenu from '../EditMenu';
 
 interface EmailInputProps {
     emailInputObj: EmailInputObj;
     handleDragStart: any;
     handleDragEnd: any;
-    isSelected: boolean;
-    onSelect: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
+const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
+    const { selectedId, setSelectedId } = useCanvasDesignContext();
+    const isSelected = emailInputObj.id === selectedId;
+    const onSelect = () => {
+        setSelectedId(emailInputObj.id);
+    }
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
 
@@ -96,7 +101,10 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, isSelected,
                     onSelect={onSelect} />
             </Group>
             {isSelected && (
-                <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                <>
+                    <EditMenu shapeObj={emailInputObj} width={containerWidth} />
+                    <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                </>
             )}
         </React.Fragment>
     );

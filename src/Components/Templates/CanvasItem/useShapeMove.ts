@@ -1,6 +1,6 @@
 import React from 'react';
 import Konva from 'konva';
-import { CanvasDesignData, EllipseObj, LineObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
 import { isInputObject, isTextObject } from '../../../utils/shapeManagementUtils';
 
@@ -81,15 +81,6 @@ const useShapeMove = (
                         radiusY: Math.max(5, node.radiusY() * scaleY),
                         rotation: node.rotation(),
                     } as EllipseObj;
-                } else if (shape.type === "Line") {
-                    updatedCanvasDesign.Shapes[index] = {
-                        ...shape,
-                        x: node.x(),
-                        y: node.y(),
-                        points: node.points().map((point: number) => point * scaleX),
-                        strokeWidth: Math.max(5, node.strokeWidth() * scaleX),
-                        rotation: node.rotation(),
-                    } as LineObj;
                 } else if (shape.type === "Rectangle" || shape.type === "RoundedRectangle" || isTextObject(shape) || isInputObject(shape) || shape.type === "Image") {
                     updatedCanvasDesign.Shapes[index] = {
                         ...shape,

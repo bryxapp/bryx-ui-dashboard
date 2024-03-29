@@ -1,8 +1,9 @@
 import Select from '@mui/material/Select'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
-import { CanvasDesignData, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 const FONTS = [
     'Arial',
@@ -25,17 +26,16 @@ const FONTS = [
 interface FontFamilyPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.SetStateAction<any>;
 }
 
-export default function FontFamilyPicker({ textObj, itemType, canvasDesign, setCanvasDesign }: FontFamilyPickerProps) {
+export default function FontFamilyPicker({ textObj, itemType }: FontFamilyPickerProps) {
+    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleFontFamilyChange = (event: any) => {
         if (itemType === null)
-            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', event.target.value, canvasDesign.selectedId);
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', event.target.value, selectedId);
         else {
-            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontFamily', event.target.value, canvasDesign.selectedId);
+            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontFamily', event.target.value, selectedId);
         }
     };
 

@@ -1,11 +1,13 @@
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AddEllipseIcon from "@mui/icons-material/CircleOutlined";
-import { EllipseObj, ToolBarProps } from "../../../../../utils/types/CanvasInterfaces";
+import { EllipseObj } from "../../../../../utils/types/CanvasInterfaces";
 import { createEllipseObj } from "../../../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../../../utils/contexts/canvasDesignContext";
 
 
-const AddEllipse = ({ canvasDesign, setCanvasDesign, setAnchorEl }: ToolBarProps) => {
+const AddEllipse = ({ setAnchorEl }: any) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleAddEllipse = () => {
         setAnchorEl(null);
 

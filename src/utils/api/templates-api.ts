@@ -7,7 +7,6 @@ const BASE_URL = "https://bryx-api.azurewebsites.net/api/templates";
 
 
 export async function createTemplate(canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
-    canvasDesign.selectedId = null;
     const body = {
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
@@ -17,7 +16,6 @@ export async function createTemplate(canvasDesign: CanvasDesignData, friendlyNam
 }
 
 export async function updateTemplate(templateId: string, canvasDesign: CanvasDesignData, friendlyName: string, token: string) {
-    canvasDesign.selectedId = null;
     const body = {
         friendlyName: friendlyName,
         canvasDesign: canvasDesign
