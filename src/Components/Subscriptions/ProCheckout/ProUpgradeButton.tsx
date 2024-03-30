@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Button } from "@mui/material";
+import { Button, Spin } from "antd";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { createProCheckoutSession } from "../../../utils/api/checkout-api";
 import { loadStripe } from "@stripe/stripe-js";
-import { CircularProgress } from "@mui/material";
 import logger from "../../../logging/logger";
 import ErrorModal from "../../SharedComponents/ErrorModal/ErrorModal";
 const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
@@ -34,7 +33,7 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
             if (!session) {
                 throw new Error("Session creation failed.");
             }
-            //redirect to stripe checkout
+            // Redirect to stripe checkout
             const result = await stripe.redirectToCheckout({
                 sessionId: session.id,
             });
@@ -61,8 +60,8 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
     return (
         <>
             <ErrorModal error={error} setError={setError} />
-            <Button variant="contained" color="primary" size="large" onClick={handleCheckout} disabled={loading}>
-                {loading ? <CircularProgress color="secondary" size={20} /> : "Upgrade to Pro"}
+            <Button type="primary" size="large" onClick={handleCheckout} disabled={loading}>
+                {loading ? <Spin size="small" /> : "Upgrade to Pro"}
             </Button>
         </>
     );

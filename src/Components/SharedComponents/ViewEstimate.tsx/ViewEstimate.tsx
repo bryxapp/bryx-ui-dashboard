@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import Typography from '@mui/material/Typography';
+import { Typography } from 'antd';
 import { useLocation } from 'react-router-dom';
-import useTheme from '@mui/material/styles/useTheme';
 import Loading from '../Loading/Loading';
 import { getEstimate } from '../../../utils/api/estimates-api';
 import { EstimateData } from '../../../utils/types/EstimateInterfaces';
@@ -13,13 +12,14 @@ import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
 import { AddShapesToLayer } from '../../../utils/shapeManagementUtils';
 
+const { Title } = Typography;
+
 const ViewEstimate = () => {
     const { search } = useLocation();
-    const theme = useTheme();
     const [estimate, setEstimate] = useState<EstimateData | null>(null);
     const [estimateError, setEstimateError] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [canvasDimensions, setCanvasDimensions] = useState({ width: 0, height: 0 }); // State to store canvas dimensions
+    const [canvasDimensions, setCanvasDimensions] = useState({ width: 0, height: 0 });
     const urlestimateId = new URLSearchParams(search).get('estimateId');
     const { auth0User } = useAuth0User();
 
@@ -47,16 +47,16 @@ const ViewEstimate = () => {
         const setupCanvas = async () => {
             if (estimate && estimate.canvasDesign && estimate.fieldValues) {
                 const [pageWidth, pageHeight] = getWebCanvasDimensions(estimate.canvasDesign);
-                setCanvasDimensions({ width: pageWidth, height: pageHeight }); // Update state with new dimensions
+                setCanvasDimensions({ width: pageWidth, height: pageHeight });
 
                 const rect = new Konva.Rect({
                     x: 0,
                     y: 0,
                     width: pageWidth,
                     height: pageHeight,
-                    fill: "white",
+                    fill: 'white',
                 });
-                // Create a new layer
+
                 const newLayer = new Konva.Layer();
                 newLayer.add(rect);
 
@@ -71,29 +71,31 @@ const ViewEstimate = () => {
             }
         };
         setupCanvas();
-    }, [estimate]); // Depend only on `estimate`
+    }, [estimate]);
 
     if (loading) return <Loading />;
-    if (estimateError) return <Typography variant="h3" color="primary">Error loading estimate</Typography>;
-    if (!estimate) return <Typography variant="h3" color="primary">No estimate found</Typography>;
+    if (estimateError) return <Title level={3}>Error loading estimate</Title>;
+    if (!estimate) return <Title level={3}>No estimate found</Title>;
 
     return (
-        <div>
-            <Typography variant="h3" sx={{ color: theme.palette.text.primary }}>{estimate?.estimateName}</Typography>
-            <div style={{ height: 20 }} />
-            <EstimateShareBar estimate={estimate} />
-            <div style={{ height: 20 }} />
-            <div id="containerId"
-                style={{
-                    width: canvasDimensions.width,
-                    height: canvasDimensions.height,
-                    backgroundColor: 'gray',
-                    padding: '3px',
-                }}
-            >
-                <Stage width={canvasDimensions.width} height={canvasDimensions.height} />
+        <div style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
+            <div style={{ width: canvasDimensions.width, display: 'flex', flexDirection: "column", alignItems: "flex-start" }}>
+                <Title level={3}>{estimate?.estimateName}</Title>
+                <EstimateShareBar estimate={estimate} />
+                <div style={{ height: 20 }} />
+                <div
+                    id="containerId"
+                    style={{
+                        width: canvasDimensions.width,
+                        height: canvasDimensions.height,
+                        backgroundColor: 'gray',
+                        padding: '3px',
+                    }}
+                >
+                    <Stage width={canvasDimensions.width} height={canvasDimensions.height} />
+                </div>
+                {auth0User && <EstimateComments estimate={estimate} />}
             </div>
-            {auth0User && <EstimateComments estimate={estimate} />}
         </div>
     );
 };

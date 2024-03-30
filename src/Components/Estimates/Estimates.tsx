@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Typography, Tabs, Button } from "antd";
+import { Typography, Tabs } from "antd";
 import PastEstimates from "./PastEstimates/PastEstimates";
 import EstimateDrafts from "./EstimateDrafts/EstimateDrafts";
+import NewEstimateButton from "./NewEstimateButton";
 
 const { TabPane } = Tabs;
 
@@ -31,9 +32,7 @@ const Estimates: React.FC = () => {
   return (
     <React.Fragment>
       <Typography.Title level={4}>Estimates</Typography.Title>
-      <Button type="primary" disabled={maxEstimatesReached}>
-        New Estimate
-      </Button>
+      <NewEstimateButton maxEstimatesReached={maxEstimatesReached} />
       <Tabs activeKey={activeTab} onChange={handleTabChange}>
         <TabPane tab="Estimates" key="1">
           <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached} />

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 interface Props {
@@ -10,13 +10,14 @@ const CreateTeamButton = ({ closeDialog }: Props) => {
 
     const handleClick = async () => {
         closeDialog();
-        navigate('/create-team');        
+        navigate('/create-team');
     };
     return (
-        <Button variant="contained" color="primary" size="large" onClick={handleClick}>
+        <Button type="primary" size="large" onClick={handleClick}>
             Create Team
         </Button>
     );
 }
 
 export default CreateTeamButton;
+

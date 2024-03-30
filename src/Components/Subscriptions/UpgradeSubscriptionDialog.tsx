@@ -1,14 +1,6 @@
 import React from 'react';
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    Box,
-    Typography,
-    useTheme,
-    IconButton,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close'; // Import the Close icon
+import { Modal, Typography, Space } from 'antd';
+import { CloseOutlined } from '@ant-design/icons';
 import SubscriptionTile from './SubscriptionTile';
 import {
     SubscriptionEnum,
@@ -26,6 +18,8 @@ interface Props {
     onClose: () => void;
 }
 
+const { Text, Title } = Typography;
+
 const packages: SubscriptionInfo[] = [
     starterSubscription,
     proSubscription,
@@ -33,32 +27,28 @@ const packages: SubscriptionInfo[] = [
 ];
 
 const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
-    const theme = useTheme();
     const { bryxUser } = useBryxUserContext();
     const { isOwner } = useOrganizationContext();
 
     const getContent = () => {
         if (bryxUser?.subscription === SubscriptionEnum.STARTER || !bryxUser?.subscription) {
             return (
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'nowrap', overflowX: 'auto' }}>
+                <Space direction="horizontal" wrap>
                     {packages.map((pkg, index) => (
-                        <Box sx={{ minWidth: '220px', marginRight: index === packages.length - 1 ? 0 : '15px' }} key={pkg.name}>
-                            <SubscriptionTile subscriptionInfo={pkg} closeDialog={onClose} />
-                        </Box>
+                        <SubscriptionTile key={pkg.name} subscriptionInfo={pkg} closeDialog={onClose} />
                     ))}
-                </Box>
+                </Space>
             );
         }
 
         if (bryxUser?.subscription === SubscriptionEnum.PRO) {
             return (
                 <>
-                    <Typography variant='h6' color="secondary.main">You are currently subscribed to the Pro plan. To create a new Team plan, simply click the button below.</Typography>
-                    <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'nowrap', overflowX: 'auto' }}>
-                        <SubscriptionTile subscriptionInfo={teamSubscription} closeDialog={onClose} />
-                    </Box>
+                    <Text strong>You are currently subscribed to the Pro plan. To create a new Team plan, simply click the button below.</Text>
                     <br />
-                    <Typography variant='h6' color="secondary.main">To manage your billing, click the button below.</Typography>
+                    <SubscriptionTile subscriptionInfo={teamSubscription} closeDialog={onClose} />
+                    <br />
+                    <Text strong>To manage your billing, click the button below.</Text>
                     <br />
                     <BillingButton onClose={onClose} />
                 </>
@@ -66,52 +56,36 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
         }
 
         if (bryxUser?.subscription === SubscriptionEnum.TEAM) {
-            return <>
-                <Typography variant='h6' color="secondary.main">You have a team subscription.</Typography>
-
-                {isOwner &&
-                    (<>
-                        <Typography variant='h6' color="secondary.main">To manage your billing, click the button below.</Typography>
-                        <br />
-                        <BillingButton onClose={onClose} />
-                    </>)}
-            </>;
+            return (
+                <>
+                    <Text strong>You have a team subscription.</Text>
+                    {isOwner && (
+                        <>
+                            <Text strong>To manage your billing, click the button below.</Text>
+                            <br />
+                            <BillingButton onClose={onClose} />
+                        </>
+                    )}
+                </>
+            );
         }
     };
 
     return (
-        <Dialog
+        <Modal
             open={open}
-            onClose={onClose}
-            aria-labelledby="subscription-dialog-title"
-            fullWidth
-            maxWidth="md"
+            onCancel={onClose}
+            footer={null}
+            width={750}
+            centered
+            closeIcon={<CloseOutlined/>}
+            title={<Title level={4}>Upgrade Subscription</Title>}
         >
-            <DialogTitle
-                id="subscription-dialog-title"
-                sx={{
-                    background: theme.palette.primary.main,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center', // Align the close icon vertically
-                }}
-            >
-                <Typography variant="h4" color="secondary.main">
-                    Upgrade Subscription
-                </Typography>
-                <IconButton
-                    edge="end"
-                    color="secondary"
-                    onClick={onClose}
-                    aria-label="close"
-                >
-                    <CloseIcon /> {/* Close icon (X) */}
-                </IconButton>
-            </DialogTitle>
-            <DialogContent sx={{ background: theme.palette.primary.main }}>
-                {getContent()}
-            </DialogContent>
-        </Dialog>
+            {/* Centered Div */}
+            <div style={{ display:"flex", justifyContent: 'center' }}>
+            {getContent()}
+            </div>
+        </Modal>
     );
 };
 

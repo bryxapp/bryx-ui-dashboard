@@ -1,13 +1,14 @@
-import {StyledTextField as TextField} from '../../../../SharedComponents/TextField/TextField'
+import { Input } from 'antd';
 
 interface EstimateNameProps {
   estimateName: string;
   setEstimateName: (newEstimateName: string) => void;
 }
+
 const EstimateName = ({ estimateName, setEstimateName }: EstimateNameProps) => {
   return (
-    <TextField
-      label="Estimate Name"
+    <Input
+      placeholder="Estimate Name"
       value={estimateName}
       onChange={(event) => setEstimateName(event.target.value)}
     />
