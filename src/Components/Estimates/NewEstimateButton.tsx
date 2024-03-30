@@ -26,7 +26,7 @@ const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
 
     return (
         <Tooltip title={tooltipTitle}>
-            <span> {/* span is added because disabled buttons don't trigger tooltips */}
+            <span>
                 <Button
                     onClick={handleNewEstimateClick}
                     variant='contained'

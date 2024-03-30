@@ -1,28 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import Typography from "@mui/material/Typography";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import { Typography, Tabs, Button } from "antd";
 import PastEstimates from "./PastEstimates/PastEstimates";
 import EstimateDrafts from "./EstimateDrafts/EstimateDrafts";
-import useTheme from "@mui/material/styles/useTheme";
-import NewEstimateButton from "./NewEstimateButton";
+
+const { TabPane } = Tabs;
 
 const Estimates: React.FC = () => {
-  const theme = useTheme();
-  const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeTab, setActiveTab] = useState<string>("1");
   const [maxEstimatesReached, setMaxEstimatesReached] = useState(false);
   const location = useLocation();
 
-
-  const handleTabChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setActiveTab(newValue);
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
   };
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-    const tabValue = parseInt(searchParams.get("tab") || "0", 10);
+    const tabValue = searchParams.get("tab") || "1";
     setActiveTab(tabValue);
   }, []);
 
@@ -35,48 +30,18 @@ const Estimates: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Typography variant="h4" color={theme.palette.text.primary}>
-        Estimates
-      </Typography>
-      <br />
-      <NewEstimateButton maxEstimatesReached={maxEstimatesReached} />
-      <Box sx={{ width: "100%", marginTop: 2 }}>
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          textColor="primary"
-          indicatorColor="primary"
-        >
-          <Tab
-            label="Estimates"
-            sx={{
-              color: activeTab === 0 ? theme.palette.primary.main : theme.palette.text.primary
-            }}
-          />
-          <Tab
-            label="Drafts"
-            sx={{
-              color: activeTab === 1 ? theme.palette.primary.main : theme.palette.text.primary
-            }}
-          />
-        </Tabs>
-        <Box
-          role="tabpanel"
-          hidden={activeTab !== 0}
-          id="past-estimates-tabpanel"
-          sx={{ marginTop: 2 }}
-        >
-          {activeTab === 0 && <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached}/>}
-        </Box>
-        <Box
-          role="tabpanel"
-          hidden={activeTab !== 1}
-          id="draft-estimates-tabpanel"
-          sx={{ marginTop: 2 }}
-        >
-          {activeTab === 1 && <EstimateDrafts />}
-        </Box>
-      </Box>
+      <Typography.Title level={4}>Estimates</Typography.Title>
+      <Button type="primary" disabled={maxEstimatesReached}>
+        New Estimate
+      </Button>
+      <Tabs activeKey={activeTab} onChange={handleTabChange}>
+        <TabPane tab="Estimates" key="1">
+          <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached} />
+        </TabPane>
+        <TabPane tab="Drafts" key="2">
+          <EstimateDrafts />
+        </TabPane>
+      </Tabs>
     </React.Fragment>
   );
 };

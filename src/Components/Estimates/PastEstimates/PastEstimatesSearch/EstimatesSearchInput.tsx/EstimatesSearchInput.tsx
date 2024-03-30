@@ -1,5 +1,5 @@
-import TextField from "@mui/material/TextField";
-import { useTheme } from "@mui/material";
+import React from "react";
+import { Input } from "antd";
 
 interface EstimatesSearchInputProps {
     disabled: boolean;
@@ -7,30 +7,24 @@ interface EstimatesSearchInputProps {
     setSearchTerm: (searchTerm: string) => void;
 }
 
-const EstimatesSearchInput = ({ disabled, searchTerm, setSearchTerm, }: EstimatesSearchInputProps) => {
+const EstimatesSearchInput: React.FC<EstimatesSearchInputProps> = ({ disabled, searchTerm, setSearchTerm }) => {
 
-    const theme = useTheme();
-
-    const handleSearch = (event: any) => {
+    const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
     return (
-            <div style={{ flex: "1" }}>
-                <TextField
-                    id="outlined-search"
-                    disabled={disabled}
-                    label="Search Estimates"
-                    type="search"
-                    variant="outlined"
-                    value={searchTerm}
-                    onChange={handleSearch}
-                    style={{ width: "100%" }} // make search box wider
-                    InputLabelProps={{
-                        style: { color: !disabled ? theme.palette.text.primary : theme.palette.text.secondary } // change the color to your desired color
-                    }}
-                />
-            </div>
+        <div style={{ flex: "1" }}>
+            <Input
+                id="outlined-search"
+                disabled={disabled}
+                placeholder="Search Estimates"
+                type="search"
+                value={searchTerm}
+                onChange={handleSearch}
+                style={{ width: "100%" }} // make search box wider
+            />
+        </div>
     );
 };
 

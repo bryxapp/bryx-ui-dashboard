@@ -1,8 +1,5 @@
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import React from 'react';
+import { Modal, Typography, Button } from 'antd';
 import { useTheme } from '@mui/material';
 import { EstimateData, EstimateDraftData } from '../../../utils/types/EstimateInterfaces';
 
@@ -14,7 +11,7 @@ interface EstimatesDeleteDialogProps {
     itemName: string;
 }
 
-const EstimatesDeleteDialog = ({ setOpen, open, estimate, handleEstimateDelete, itemName }: EstimatesDeleteDialogProps) => {
+const EstimatesDeleteDialog: React.FC<EstimatesDeleteDialogProps> = ({ setOpen, open, estimate, handleEstimateDelete, itemName }) => {
     const theme = useTheme();
 
     const handleConfirmDelete = () => {
@@ -27,20 +24,22 @@ const EstimatesDeleteDialog = ({ setOpen, open, estimate, handleEstimateDelete, 
     };
 
     return (
-        <Dialog open={open} onClose={handleCancelDelete}>
-            <DialogTitle>Delete {itemName}</DialogTitle>
-            <Typography
-                variant="body1"
-                component="div"
-                sx={{ flexGrow: 1, padding: 2, color: theme.palette.text.primary }}
-            >
+        <Modal
+            open={open}
+            onCancel={handleCancelDelete}
+            footer={[
+                <Button key="cancel" onClick={handleCancelDelete}>
+                    Cancel
+                </Button>,
+                <Button key="delete" type="primary" danger onClick={handleConfirmDelete}>
+                    Delete
+                </Button>,
+            ]}
+        >
+            <Typography.Text style={{ flexGrow: 1, padding: 2, color: theme.palette.text.primary }}>
                 Are you sure you want to permanently delete this {itemName}?
-            </Typography>
-            <DialogActions>
-                <Button onClick={handleCancelDelete}>Cancel</Button>
-                <Button onClick={handleConfirmDelete}>Delete</Button>
-            </DialogActions>
-        </Dialog>
+            </Typography.Text>
+        </Modal>
     );
 };
 

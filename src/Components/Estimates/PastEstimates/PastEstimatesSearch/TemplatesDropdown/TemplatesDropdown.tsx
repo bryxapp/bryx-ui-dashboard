@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
-import FormControl from "@mui/material/FormControl";
+import React, { useEffect, useState } from "react";
+import { Select } from "antd";
 import { EstimateTemplateUsedData } from "../../../../../utils/types/TemplateInterfaces";
-import { useTheme } from "@mui/material";
 import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
 import { getUsedTemplates } from "../../../../../utils/api/estimates-api";
+
+const { Option } = Select;
 
 interface PastEstimatesSearchProps {
     disabled: boolean;
@@ -14,16 +12,15 @@ interface PastEstimatesSearchProps {
     setSelectedTemplateId: (templateId: string) => void;
 }
 
-const TemplatesDropdown = ({ disabled, selectedTemplateId, setSelectedTemplateId }: PastEstimatesSearchProps) => {
+const TemplatesDropdown: React.FC<PastEstimatesSearchProps> = ({ disabled, selectedTemplateId, setSelectedTemplateId }) => {
 
-    const theme = useTheme();
     const { auth0User, getAccessToken } = useAuth0User();
     const [templatesUsed, setTemplatesUsed] = useState<EstimateTemplateUsedData[]>([]);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
     const [errorRetrievingTemplates, setErrorRetrievingTemplates] = useState(false);
 
-    const handleTemplateIdFilter = (event: any) => {
-        setSelectedTemplateId(event.target.value);
+    const handleTemplateIdFilter = (value: string) => {
+        setSelectedTemplateId(value);
     };
 
     useEffect(() => {
@@ -48,50 +45,29 @@ const TemplatesDropdown = ({ disabled, selectedTemplateId, setSelectedTemplateId
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [auth0User?.sub]);
 
-
-
     return (
-        <div style={{ paddingLeft: "16px" }}> {/* add padding */}
-            <FormControl variant="outlined" sx={{ minWidth: 120 }}>
-                <InputLabel
-                    id="templateId-label"
-                    sx={{ color: !disabled ? theme.palette.text.primary : theme.palette.text.secondary }}>
-                    Template ID
-                </InputLabel>
-                <Select
-                    disabled={disabled}
-                    labelId="templateId-label"
-                    id="templateId"
-                    value={selectedTemplateId}
-                    onChange={handleTemplateIdFilter}
-                    label="Template ID"
-                    style={{
-                        width: "10em",
-                        color: !disabled ? theme.palette.text.primary : theme.palette.text.secondary
-                    }}
-                >
-
-                    <MenuItem value="">
-                        <em>All</em>
-                    </MenuItem>
-                    {!templateRequestCompleted && (
-                        <MenuItem value="" disabled>
-                            Loading...
-                        </MenuItem>
-                    )}
-                    {errorRetrievingTemplates ? (
-                        <MenuItem value="" disabled>
-                            Error loading templates
-                        </MenuItem>
-                    ) : (
-                        templatesUsed.map(({ templateId, templateFriendlyName }) => (
-                            <MenuItem key={templateId} value={templateId}>
-                                {templateFriendlyName}
-                            </MenuItem>
-                        ))
-                    )}
-                </Select>
-            </FormControl>
+        <div style={{ paddingLeft: "16px" }}>
+            <Select
+                disabled={disabled}
+                placeholder="Template ID"
+                value={selectedTemplateId}
+                onChange={handleTemplateIdFilter}
+                style={{ width: "10em" }}
+            >
+                <Option value="">All</Option>
+                {!templateRequestCompleted && (
+                    <Option value="" disabled>Loading...</Option>
+                )}
+                {errorRetrievingTemplates ? (
+                    <Option value="" disabled>Error loading templates</Option>
+                ) : (
+                    templatesUsed.map(({ templateId, templateFriendlyName }) => (
+                        <Option key={templateId} value={templateId}>
+                            {templateFriendlyName}
+                        </Option>
+                    ))
+                )}
+            </Select>
         </div>
     );
 };

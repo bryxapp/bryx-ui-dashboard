@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { List } from "@mui/material";
+import { List } from "antd";
 import _ from "lodash";
+
 
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { deleteEstimate, getEstimates } from "../../../../utils/api/estimates-api";
@@ -113,8 +114,10 @@ const PastEstimatesList = ({ searchTerm, selectedTemplateId, setNoEstimatesAvail
     return (
         <>
             <ErrorModal error={deleteError} setError={setDeleteError} />
-            <List>
-                {estimates.map((estimate) => (
+            <List
+                size="large"
+                dataSource={estimates}
+                renderItem={(estimate:EstimateData) => (
                     <EstimateListItem
                         key={estimate.id}
                         estimate={estimate}
@@ -123,8 +126,8 @@ const PastEstimatesList = ({ searchTerm, selectedTemplateId, setNoEstimatesAvail
                         itemName="Estimate"
                         type="estimate"
                     />
-                ))}
-            </List>
+                )}
+            />
             <EstimatesPagingControls
                 estimates={estimates}
                 pageNumber={pageNumber}

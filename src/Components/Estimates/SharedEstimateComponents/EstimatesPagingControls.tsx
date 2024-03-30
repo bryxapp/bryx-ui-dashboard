@@ -1,7 +1,5 @@
-
-import Tooltip from "@mui/material/Tooltip";
-import Button from "@mui/material/Button";
-import { Typography, useTheme } from "@mui/material";
+import React from "react";
+import { Tooltip, Button, Typography } from "antd";
 import { EstimateData } from "../../../utils/types/EstimateInterfaces";
 
 interface EstimatesPagingControlsProps {
@@ -11,8 +9,7 @@ interface EstimatesPagingControlsProps {
     PAGE_SIZE: number;
 }
 
-const EstimatesPagingControls = ({ estimates, pageNumber, setPageNumber, PAGE_SIZE }: EstimatesPagingControlsProps) => {
-    const theme = useTheme();
+const EstimatesPagingControls: React.FC<EstimatesPagingControlsProps> = ({ estimates, pageNumber, setPageNumber, PAGE_SIZE }) => {
 
     const handlePageChange = (newPageNumber: number) => {
         setPageNumber(newPageNumber);
@@ -24,42 +21,27 @@ const EstimatesPagingControls = ({ estimates, pageNumber, setPageNumber, PAGE_SI
     if (!hasPreviousPage && !hasNextPage) {
         return null;
     }
-    
-    return (
-            <div>
-                <Tooltip title={hasPreviousPage ? "Go to previous page" : "No previous pages"}>
-                    <span>
-                        <Button
-                            disabled={!hasPreviousPage}
-                            onClick={() => handlePageChange(pageNumber - 1)}
-                            sx={{
-                                color: theme.palette.secondary.main
-                            }}
-                        >
-                            {"<"}
-                        </Button>
-                    </span>
-                </Tooltip>
-                <Typography variant="body1" component='span' sx={{
-                    color: theme.palette.secondary.main
-                }}>
-                    {pageNumber}
-                </Typography>
 
-                <Tooltip title={hasNextPage ? "Go to next page" : "No additional pages"}>
-                    <span>
-                        <Button
-                            disabled={!hasNextPage}
-                            onClick={() => handlePageChange(pageNumber + 1)}
-                            sx={{
-                                color: theme.palette.secondary.main
-                            }}
-                        >
-                            {">"}
-                        </Button>
-                    </span>
-                </Tooltip>
-            </div>
+    return (
+        <div>
+            <Tooltip title={hasPreviousPage ? "Go to previous page" : "No previous pages"}>
+                <Button
+                    disabled={!hasPreviousPage}
+                    onClick={() => handlePageChange(pageNumber - 1)}
+                >
+                    {"<"}
+                </Button>
+            </Tooltip>
+            <Typography.Text type="secondary">{pageNumber}</Typography.Text>
+            <Tooltip title={hasNextPage ? "Go to next page" : "No additional pages"}>
+                <Button
+                    disabled={!hasNextPage}
+                    onClick={() => handlePageChange(pageNumber + 1)}
+                >
+                    {">"}
+                </Button>
+            </Tooltip>
+        </div>
     );
 };
 

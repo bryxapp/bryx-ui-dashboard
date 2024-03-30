@@ -1,11 +1,10 @@
-import { useState } from 'react';
-import { useTheme, Chip, CircularProgress } from '@mui/material';
+import React, { useState } from 'react';
+import { Tag, Spin } from 'antd';
 import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
 import { useBryxUserContext } from '../../../../utils/contexts/BryxUserContext';
 import { useOrganizationContext } from '../../../../utils/contexts/OrganizationContext';
 
 const Subscription = () => {
-    const theme = useTheme();
     const [open, setOpen] = useState(false);
     const { bryxUser } = useBryxUserContext();
     const { organization } = useOrganizationContext();
@@ -13,7 +12,7 @@ const Subscription = () => {
     // Function to compute label
     const computeLabel = () => {
         if (!bryxUser?.subscription) {
-            return <CircularProgress color="secondary" size={20} />;
+            return <Spin size="small" />;
         }
         if (bryxUser.subscription === 'TEAM') {
             return `${bryxUser.subscription}: ${organization?.bryxOrg.orgDisplayName}`;
@@ -27,15 +26,9 @@ const Subscription = () => {
 
     return (
         <>
-            <Chip
-                label={computeLabel()}
-                onClick={handleClick}
-                sx={{
-                    marginRight: '10px',
-                    color: theme.palette.text.secondary,
-                    fontWeight: "bold",
-                }}
-            />
+            <Tag onClick={handleClick} style={{ marginRight: '10px', cursor: 'pointer', fontWeight: "bold" }}>
+                {computeLabel()}
+            </Tag>
             <UpgradeSubscriptionDialog open={open} onClose={() => setOpen(false)} />
         </>
     );

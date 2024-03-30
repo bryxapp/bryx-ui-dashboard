@@ -4,7 +4,7 @@ import Loading from "../../SharedComponents/Loading/Loading";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
 import { EstimateDraftData } from "../../../utils/types/EstimateInterfaces";
-import { List } from "@mui/material";
+import { List } from "antd";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
@@ -80,8 +80,10 @@ const EstimateDrafts = () => {
   return (
     <>
       <ErrorModal error={deleteError} setError={setDeleteError} />
-      <List>
-        {estimateDrafts.map((estimateDraft: EstimateDraftData) => (
+      <List
+        size="large"
+        dataSource={estimateDrafts}
+        renderItem={(estimateDraft: EstimateDraftData) => (
           <EstimateListItem
             key={estimateDraft.id}
             estimate={estimateDraft}
@@ -89,8 +91,8 @@ const EstimateDrafts = () => {
             editLink={'/form?templateId=' + estimateDraft.templateId + '&draftId=' + estimateDraft.id}
             itemName='Estimate Draft'
             type="draft" />
-        ))}
-      </List>
+        )}
+      />
       <EstimatesPagingControls
         estimates={estimateDrafts}
         pageNumber={pageNumber}
