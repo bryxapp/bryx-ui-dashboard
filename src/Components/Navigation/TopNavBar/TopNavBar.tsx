@@ -1,14 +1,12 @@
 import React from 'react';
-import { Layout, Button } from 'antd';
+import { Button } from 'antd';
 import { LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 import logger from '../../../logging/logger';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import Subscription from "./Subscription/Subscription";
 import Logo from "./Logo";
 import { LogoutOptions } from '@auth0/auth0-react';
-// AuthButton might need adjustments to be used with Ant Design Button or be replaced by inline Ant Design Button component.
-
-const { Header } = Layout;
+import { Header } from 'antd/es/layout/layout';
 
 const TopNavBar = () => {
   const { auth0User, isLoading, loginWithRedirect, logout } = useAuth0User();

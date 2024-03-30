@@ -1,18 +1,41 @@
-import FeedOutlined from '@mui/icons-material/FeedOutlined';
-import LayersIcon from '@mui/icons-material/Layers';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-import MenuItem from './MenuItem.tsx/MenuItem'; // Ensure path is correct
-import List from '@mui/material/List';
+import { Menu } from 'antd';
+import {
+    ReadOutlined,
+    AppstoreOutlined,
+    UserOutlined,
+} from '@ant-design/icons';
+import { Link, useLocation } from 'react-router-dom';
+import React from 'react';
 
 interface MenuItemsProps {
     isAdmin: boolean;
 }
-const MenuItems = ({isAdmin}:MenuItemsProps) => (
-    <List component="nav" sx={{ alignItems: 'center' }}>
-        <MenuItem title="Estimates" link="/" icon={<FeedOutlined />} />
-        <MenuItem title="Templates" link="/templates" icon={<LayersIcon />} />
-        {isAdmin && <MenuItem title="Admin" link="/admin" icon={<SupervisorAccountIcon />} />}
-    </List>
-);
+
+const MenuItems = ({ isAdmin }: MenuItemsProps) => {
+    const location = useLocation();
+
+    // Determine the current route to set the selected key
+    const getSelectedKeys = () => {
+        const paths = ["/", "/templates", "/admin"];
+        return paths.filter(path => location.pathname === path);
+    };
+
+    return (
+        <Menu selectedKeys={getSelectedKeys()}
+            theme='dark'>
+            <Menu.Item key="/" icon={<ReadOutlined />}>
+                <Link to="/">Estimates</Link>
+            </Menu.Item>
+            <Menu.Item key="/templates" icon={<AppstoreOutlined />}>
+                <Link to="/templates">Templates</Link>
+            </Menu.Item>
+            {isAdmin && (
+                <Menu.Item key="/admin" icon={<UserOutlined />}>
+                    <Link to="/admin">Admin</Link>
+                </Menu.Item>
+            )}
+        </Menu>
+    );
+};
 
 export default MenuItems;
