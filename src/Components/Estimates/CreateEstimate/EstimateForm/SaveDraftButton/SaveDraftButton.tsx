@@ -51,7 +51,7 @@ const SaveAsDraftButton = ({ templateData, estimateName, fieldValues, draftId, s
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} />
+            <ErrorModal error={error} setError={setError} content = "Error saving draft" />
             <Button variant="contained" size="large" onClick={handleSaveAsDraft}>
                 {draftId ? 'Update Draft' : 'Save As Draft'}
             </Button>

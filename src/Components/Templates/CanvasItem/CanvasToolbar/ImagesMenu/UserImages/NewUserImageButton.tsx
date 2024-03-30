@@ -69,7 +69,7 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} />
+            <ErrorModal error={error} setError={setError} content = "Error uploading image" />
             <Tooltip title={tooltipTitle}>
                 <span> {/* span is added because disabled buttons don't trigger tooltips */}
                     <Button variant="contained" component="label" disabled={maxUserImagesReached}>

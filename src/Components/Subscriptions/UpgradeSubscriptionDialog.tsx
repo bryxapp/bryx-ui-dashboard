@@ -35,7 +35,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
             return (
                 <Space direction="horizontal" wrap>
                     {packages.map((pkg, index) => (
-                        <SubscriptionTile key={pkg.name} subscriptionInfo={pkg} closeDialog={onClose} />
+                        <SubscriptionTile key={pkg.name} subscriptionInfo={pkg} closeDialog={onClose} currentSubscription={SubscriptionEnum.STARTER} />
                     ))}
                 </Space>
             );
@@ -43,15 +43,14 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
 
         if (bryxUser?.subscription === SubscriptionEnum.PRO) {
             return (
-                <>
-                    <Text strong>You are currently subscribed to the Pro plan. To create a new Team plan, simply click the button below.</Text>
-                    <br />
-                    <SubscriptionTile subscriptionInfo={teamSubscription} closeDialog={onClose} />
-                    <br />
-                    <Text strong>To manage your billing, click the button below.</Text>
-                    <br />
+                <Space direction="vertical" wrap>
+                    <Space direction="horizontal" wrap>
+                        {packages.map((pkg, index) => (
+                            <SubscriptionTile key={pkg.name} subscriptionInfo={pkg} closeDialog={onClose} currentSubscription={SubscriptionEnum.PRO} />
+                        ))}
+                    </Space>
                     <BillingButton onClose={onClose} />
-                </>
+                </Space>
             );
         }
 
@@ -60,11 +59,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
                 <>
                     <Text strong>You have a team subscription.</Text>
                     {isOwner && (
-                        <>
-                            <Text strong>To manage your billing, click the button below.</Text>
-                            <br />
-                            <BillingButton onClose={onClose} />
-                        </>
+                        <BillingButton onClose={onClose} />
                     )}
                 </>
             );
@@ -78,12 +73,12 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
             footer={null}
             width={750}
             centered
-            closeIcon={<CloseOutlined/>}
+            closeIcon={<CloseOutlined />}
             title={<Title level={4}>Upgrade Subscription</Title>}
         >
             {/* Centered Div */}
-            <div style={{ display:"flex", justifyContent: 'center' }}>
-            {getContent()}
+            <div style={{ display: "flex", justifyContent: 'center' }}>
+                {getContent()}
             </div>
         </Modal>
     );

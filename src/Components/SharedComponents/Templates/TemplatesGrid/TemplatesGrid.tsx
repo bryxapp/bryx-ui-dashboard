@@ -109,8 +109,8 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
 
     return (
         <>
-            <ErrorModal error={deleteError} setError={setDeleteError} />
-            <ErrorModal error={copyError} setError={setCopyError} />
+            <ErrorModal error={deleteError} setError={setDeleteError} content = "Error deleting template" />
+            <ErrorModal error={copyError} setError={setCopyError} content = "Error copying template" />
             <Grid container spacing={2}>
                 {templates.map(template => (
                     <Grid item xs={12} sm={6} md={4} key={template.id}>

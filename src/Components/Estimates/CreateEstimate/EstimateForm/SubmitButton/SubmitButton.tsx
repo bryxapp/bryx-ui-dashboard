@@ -48,7 +48,7 @@ const SubmitButton = ({ templateData, estimateName, fieldValues, draftId, setCre
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} />
+            <ErrorModal error={error} setError={setError} content="Error creating estimate" />
             <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
         </>
     );

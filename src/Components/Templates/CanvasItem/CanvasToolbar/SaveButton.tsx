@@ -87,7 +87,7 @@ export default function SaveTemplateButton({
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} />
+            <ErrorModal error={error} setError={setError} content="Error saving template" />
             <Button
                 color="inherit"
                 onClick={handleSave}

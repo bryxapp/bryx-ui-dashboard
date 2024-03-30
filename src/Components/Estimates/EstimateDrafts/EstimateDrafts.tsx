@@ -79,7 +79,7 @@ const EstimateDrafts = () => {
 
   return (
     <>
-      <ErrorModal error={deleteError} setError={setDeleteError} />
+      <ErrorModal error={deleteError} setError={setDeleteError} content="Error deleting draft" />
       <List
         size="large"
         dataSource={estimateDrafts}

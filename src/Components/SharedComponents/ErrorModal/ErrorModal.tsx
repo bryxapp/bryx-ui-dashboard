@@ -1,19 +1,25 @@
-import Alert from "@mui/material/Alert";
-import Snackbar from "@mui/material/Snackbar";
+import { useEffect } from 'react';
+import { message } from 'antd';
 
 interface Props {
     error: boolean;
-    setError: any;
+    setError: (error: boolean) => void;
+    content: string | null
 }
 
-const ErrorModal = ({ error, setError }: Props) => {
-    return (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError(null)}>
-            <Alert severity="error" onClose={() => setError(false)}>
-                There was an issue
-            </Alert>
-        </Snackbar>
-    );
-}
+const ErrorModal = ({ error, setError, content }: Props) => {
+    useEffect(() => {
+        if (error) {
+            // Display the error message
+            message.error({
+                content: content ? content : 'An error occurred.',
+                duration: 6, // Duration in seconds
+                onClose: () => setError(false), // Reset the error state when the message is closed
+            });
+        }
+    }, [content, error, setError]);
+
+    return null; // This component doesn't render anything itself
+};
 
 export default ErrorModal;

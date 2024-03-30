@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { Button, Spin } from "antd";
-import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
-import { createProCheckoutSession } from "../../../utils/api/checkout-api";
-import { loadStripe } from "@stripe/stripe-js";
-import logger from "../../../logging/logger";
+import React, { useState } from 'react';
+import { Button, Spin } from 'antd';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { createProCheckoutSession } from '../../../utils/api/checkout-api';
+import { loadStripe } from '@stripe/stripe-js';
+import logger from '../../../logging/logger';
 import ErrorModal from "../../SharedComponents/ErrorModal/ErrorModal";
+
 const stripePromise = process.env.REACT_APP_STRIPE_KEY ? loadStripe(process.env.REACT_APP_STRIPE_KEY) : null;
 
 interface Props {
@@ -33,7 +34,7 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
             if (!session) {
                 throw new Error("Session creation failed.");
             }
-            // Redirect to stripe checkout
+            // Redirect to Stripe checkout
             const result = await stripe.redirectToCheckout({
                 sessionId: session.id,
             });
@@ -51,7 +52,7 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
                     error: error,
                 },
             });
-            setError(true);
+            setError(true); // Set error state to trigger modal
             console.error("An error occurred during the checkout process:", error);
         }
         setLoading(false);
@@ -59,7 +60,7 @@ const ProUpgradeButton = ({ closeDialog }: Props) => {
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} />
+            <ErrorModal error={error} setError={setError} content="An error occurred during the checkout process. Please try again." />
             <Button type="primary" size="large" onClick={handleCheckout} disabled={loading}>
                 {loading ? <Spin size="small" /> : "Upgrade to Pro"}
             </Button>

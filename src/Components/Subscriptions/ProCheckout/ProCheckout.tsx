@@ -1,19 +1,23 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Container, Paper, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Card, Typography, Layout, Button } from 'antd';
+import { CheckCircleOutlined } from '@ant-design/icons';
 import { proSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { updateUserToProSubscription } from '../../../utils/api/checkout-api';
 import { useBryxUserContext } from '../../../utils/contexts/BryxUserContext';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import logger from '../../../logging/logger';
 import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+
+const { Content } = Layout;
+const { Title, Text } = Typography;
 
 const ProCheckout = () => {
     const location = useLocation();
     const { auth0User, isLoading } = useAuth0User();
     const [error, setError] = useState(false);
     const { bryxUser, setBryxUser } = useBryxUserContext();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,25 +60,32 @@ const ProCheckout = () => {
             }
         };
 
-        // Fetch data on component mount
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search, isLoading, bryxUser]);
+    }, [location.search, isLoading, auth0User, bryxUser, setBryxUser]);
+
+    const handleClick = () => {
+        navigate('/');
+    };
 
     if (error) return <ErrorMessage dataName='checkout' />;
 
     return (
-        <Container sx={{ mt: 4 }}>
-            <Paper elevation={3} sx={{ p: 4, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <CheckCircleOutlineIcon color="success" sx={{ fontSize: 60, mb: 2 }} />
-                <Typography variant="h4" color="primary" gutterBottom>
-                    Order Complete
-                </Typography>
-                <Typography variant="h6" fontWeight={'bold'} color="text.primary" sx={{ fontSize: '1.1rem', marginBottom: '15px' }}>
-                    Your subscription has been updated to {proSubscription.name}
-                </Typography>
-            </Paper>
-        </Container>
+        <Layout>
+            <Content style={{ padding: '24px', maxWidth: '600px', margin: '24px auto' }}>
+                <Card style={{ textAlign: 'center', padding: '24px' }}>
+                    <CheckCircleOutlined style={{ color: 'green', fontSize: '60px', marginBottom: '12px' }} />
+                    <Title level={4}>
+                        Order Complete
+                    </Title>
+                    <Text strong style={{ fontSize: '18px', marginBottom: '15px', display: 'block' }}>
+                        Your subscription has been updated to {proSubscription.name}
+                    </Text>
+                    <Button type='primary' onClick={handleClick} size='large' style={{ marginTop: 20 }}>
+                        Go To Estimates
+                    </Button>
+                </Card>
+            </Content>
+        </Layout>
     );
 };
 

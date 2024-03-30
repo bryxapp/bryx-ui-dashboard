@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Typography, Button } from 'antd';
-import { SubscriptionInfo } from '../../utils/types/SubscriptionInterfaces';
+import { SubscriptionEnum, SubscriptionInfo } from '../../utils/types/SubscriptionInterfaces';
 import ProUpgradeButton from './ProCheckout/ProUpgradeButton';
 import CreateTeamButton from './TeamCheckout/CreateTeamButton';
 
@@ -8,20 +8,32 @@ const { Meta } = Card;
 
 interface Props {
     subscriptionInfo: SubscriptionInfo;
+    currentSubscription: SubscriptionEnum;
     closeDialog: () => void;
 }
 
-const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog }) => {
+const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, currentSubscription, closeDialog }) => {
 
     const renderActionButton = () => {
         switch (subscriptionInfo.name) {
             case "STARTER":
-                
-                return  <Button type="primary" size="large" disabled>
-                    Current Subscription
-                </Button>
+                if (currentSubscription === SubscriptionEnum.STARTER) {
+                    return (
+                        <Button type="primary" size="large" disabled>
+                            Current Subscription
+                        </Button>
+                    )
+                }
+                return null;
             case "PRO":
-                return <ProUpgradeButton closeDialog={closeDialog} />;
+                if (currentSubscription === SubscriptionEnum.PRO) {
+                    return (
+                        <Button type="primary" size="large" disabled>
+                            Current Subscription
+                        </Button>
+                    )
+                }
+                return <ProUpgradeButton closeDialog={closeDialog} />
             case "TEAM":
                 return <CreateTeamButton closeDialog={closeDialog} />;
             default:
@@ -36,6 +48,7 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, closeDialog }) =>
         >
             <Card
                 title={subscriptionInfo.name}
+                style={{ height: "15rem" }}
             >
                 <Meta
                     title={<Typography>${subscriptionInfo.monthlyPriceInt} /mo</Typography>}

@@ -113,7 +113,7 @@ const PastEstimatesList = ({ searchTerm, selectedTemplateId, setNoEstimatesAvail
 
     return (
         <>
-            <ErrorModal error={deleteError} setError={setDeleteError} />
+            <ErrorModal error={deleteError} setError={setDeleteError} content="Error deleting estimate" />
             <List
                 size="large"
                 dataSource={estimates}
