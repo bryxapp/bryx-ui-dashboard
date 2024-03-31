@@ -1,26 +1,23 @@
 import { useState } from 'react';
-import { Typography, useTheme } from '@mui/material';
+import { Typography } from 'antd';
 import TemplatesGrid from '../SharedComponents/Templates/TemplatesGrid/TemplatesGrid';
 import NewTemplateButton from './NewTemplateButton';
 
-
 const Templates = () => {
   const [maxTemplatesReached, setMaxTemplatesReached] = useState(false);
-  const theme = useTheme();
 
   return (
     <>
-      <Typography color={theme.palette.text.primary} variant="h4">
+      <Typography.Title level={2}>
         Templates
-      </Typography>
-      <br />
+      </Typography.Title>
       <NewTemplateButton maxTemplatesReached={maxTemplatesReached} />
-      <br />
-      <br />
-      <TemplatesGrid
-        setMaxTemplatesReached={setMaxTemplatesReached}
-        baseUrl='/edit-template?templateId='
-        showActions={true} />
+      <div style={{ margin: '20px 0' }}>
+        <TemplatesGrid
+          setMaxTemplatesReached={setMaxTemplatesReached}
+          baseUrl='/edit-template?templateId='
+          showActions={true} />
+      </div>
     </>
   );
 };

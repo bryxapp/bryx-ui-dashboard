@@ -1,15 +1,12 @@
 import React, { useEffect, useState, } from 'react';
-import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
 import { getTemplates, deleteTemplate, createTemplate } from '../../../../utils/api/templates-api';
-import { Typography } from '@mui/material';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import ErrorModal from '../../ErrorModal/ErrorModal';
-import NewTemplateItem from './TemplateItem/NewTemplateItem';
-
+import { Col, Row, Typography } from 'antd';
 interface TemplatesGridProps {
     setMaxTemplatesReached: ((value: boolean) => void) | null;
     baseUrl: string;
@@ -103,7 +100,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     }
 
     if (!templateRequestCompleted)
-        return <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>Loading...</Typography>;
+    return <Typography.Title level={4} style={{ textAlign: 'center' }}>Loading...</Typography.Title>;
 
     if (error) return <ErrorMessage dataName='templates' />;
 
@@ -111,9 +108,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
         <>
             <ErrorModal error={deleteError} setError={setDeleteError} content = "Error deleting template" />
             <ErrorModal error={copyError} setError={setCopyError} content = "Error copying template" />
-            <Grid container spacing={2}>
+            <Row gutter={[16, 16]}>
                 {templates.map(template => (
-                    <Grid item xs={12} sm={6} md={4} key={template.id}>
+                    <Col xs={24} sm={12} md={8} key={template.id}>
                         <TemplatesListItem
                             template={template}
                             handleTemplateDelete={handleTemplateDelete}
@@ -121,12 +118,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                             baseUrl={baseUrl}
                             showActions={showActions}
                         />
-                    </Grid>
+                    </Col>
                 ))}
-                <Grid item xs={12} sm={6} md={4} key="new">
-                    <NewTemplateItem />
-                </Grid>
-            </Grid>
+            </Row>
         </>
     );
 };
