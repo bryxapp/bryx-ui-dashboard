@@ -1,11 +1,10 @@
-import Button from '@mui/material/Button';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import { updateTemplate, createTemplate } from '../../../../utils/api/templates-api';
 import logger from '../../../../logging/logger';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../../SharedComponents/ErrorModal/ErrorModal';
 import { isTemplateChanged } from '../../../../utils/canvasUtils';
-import { Typography } from '@mui/material';
+import { Button } from 'antd';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
 interface SaveTemplateButtonProps {
@@ -77,36 +76,16 @@ export default function SaveTemplateButton({
         }
     }
 
-    if (isLoading) {
-        return (
-            <Button color="inherit" aria-label="save" disabled>
-                Loading...
-            </Button>
-        );
-    }
-
     return (
         <>
             <ErrorModal error={error} setError={setError} content="Error saving template" />
             <Button
-                color="inherit"
+                type="primary"
                 onClick={handleSave}
-                disabled={!saveButtonEnabled} // Disable button if design hasn't changed
-                sx={{
-                    padding: '0 10px',
-                    margin: '0 5px',
-                    borderColor: saveButtonEnabled ? 'white' : 'grey', // Change border color based on design change
-                    borderWidth: 1,
-                    borderStyle: 'solid',
-                    '&:hover': {
-                        borderColor: 'white',
-                        borderWidth: 2,
-                    },
-                }}
+                disabled={!saveButtonEnabled || isLoading}
+                loading={isLoading}
             >
-                <Typography variant="h6">
-                    Save
-                </Typography>
+                Save
             </Button>
         </>
     );

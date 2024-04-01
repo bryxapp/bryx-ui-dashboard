@@ -5,8 +5,7 @@ import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
 import TemplateName from "./../TemplateName/TemplateName";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Typography, Layout } from "antd";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
@@ -67,9 +66,9 @@ const CanvasItem = () => {
     if (loading) {
         // show loading message while data is being fetched
         return (
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            <Typography.Title level={2}>
                 Loading...
-            </Typography>
+            </Typography.Title>
         );
     }
 
@@ -77,23 +76,21 @@ const CanvasItem = () => {
 
     // render canvas components when data is available
     return (
-        <div>
+        <Layout>
             <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
-            <Box sx={{ height: '2vh' }} />
-            <div style={{ width: '100%' }}>
-                <CanvasToolbar
-                    friendlyName={friendlyName}
-                    dataBaseCanvasDesign={dataBaseCanvasDesign}
-                    setDataBaseCanvasDesign={setdataBaseCanvasDesign}
-                    databaseFriendlyName={dataBaseFriendlyName}
-                    setDataBaseFriendlyName={setDataBaseFriendlyName}
-                />
-            </div>
-            <Box sx={{ height: '1vh' }} />
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <br />
+            <CanvasToolbar
+                friendlyName={friendlyName}
+                dataBaseCanvasDesign={dataBaseCanvasDesign}
+                setDataBaseCanvasDesign={setdataBaseCanvasDesign}
+                databaseFriendlyName={dataBaseFriendlyName}
+                setDataBaseFriendlyName={setDataBaseFriendlyName}
+            />
+            <br />
+            <Layout.Content style={{ display: 'flex', flexDirection: 'row' }}>
                 <CanvasStage />
-            </div>
-        </div>
+            </Layout.Content>
+        </Layout>
     );
 };
 

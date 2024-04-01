@@ -1,4 +1,5 @@
-import {StyledTextField as TextField} from '../../SharedComponents/TextField/TextField'
+import { Input } from "antd";
+
 
 interface TemplateNameProps {
   friendlyName: string;
@@ -7,13 +8,15 @@ interface TemplateNameProps {
 
 const TemplateName = ({ friendlyName, setFriendlyName }: TemplateNameProps) => {
   return (
-    <TextField
-      label='Template Name'
+    <Input
+    addonBefore="Template Name"
+    size="large"
       value={friendlyName}
       onChange={(event) => setFriendlyName(event.target.value)}
-      sx={{ width: '20%' }}
+      style={{ width: '30%' }}
+      placeholder="Template Name" // Placeholder used to mimic the label behavior
     />
-  );
+  )
 };
 
 export default TemplateName;

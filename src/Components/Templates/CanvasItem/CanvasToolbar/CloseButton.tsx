@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { isTemplateChanged } from '../../../../utils/canvasUtils';
-import { Button, Typography } from '@mui/material';
+import { Button } from 'antd';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
-
 
 interface CloseTemplateButtonProps {
     dataBaseCanvasDesign: any;
@@ -24,22 +23,13 @@ export default function CloseTemplateButton({ dataBaseCanvasDesign, friendlyName
         navigate("/templates");
     }
     return (
-        <Button color="inherit" onClick={handleClose}
-            sx={{
-                padding: '0 10px',
-                margin: '0 5px',
-                borderColor: 'white',
-                borderWidth: 1,
-                borderStyle: 'solid',
-                '&:hover': {
-                    borderColor: 'white',
-                    borderWidth: 2,
-                },
-            }}
+
+        <Button
+            type="primary"
+            onClick={handleClose}
         >
-            <Typography variant="h6">
-                Close
-            </Typography>
+            Close
         </Button>
+
     );
 }

@@ -1,54 +1,86 @@
-import * as React from 'react';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import Tooltip from '@mui/material/Tooltip';
-import AddShapeIcon from '@mui/icons-material/ShapeLineOutlined';
-import AddEllipse from './AddEllipse';
-import AddRectangle from './AddRectangle';
-import AddRoundedRectangle from './AddRoundedRectangle';
+import { useState } from 'react';
+import { Dropdown, Tooltip, Button, MenuProps } from 'antd';
+import { AppstoreOutlined } from '@ant-design/icons';
+import { EllipseObj, RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
+import { createEllipseObj, createRectangleObj, createRoundedRectangleObj } from '../../../../../utils/types/ShapesFactory';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import AddRectangleIcon from "@mui/icons-material/RectangleOutlined";
+import AddRoundedRectangleIcon from "@mui/icons-material/Crop75Outlined";
+import AddEllipseIcon from "@mui/icons-material/CircleOutlined";
 
 interface ShapesMenuProps {
     isLoading: boolean;
 }
 
 export default function ShapesMenu({ isLoading }: ShapesMenuProps) {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    // Ant Design's Dropdown does not require manual handling of anchor elements
+    const [open, setOpen] = useState(false);
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
+
+    const handleAddRectangle = () => {
+        setOpen(false);
+
+        const newRectangle: RectangleObj = createRectangleObj(200, 300, '#CDB38B', '', 1);
+
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newRectangle]
+        });
+    }
+
+    const handleAddRoundedRectangle = () => {
+        setOpen(false);
+        const newRectangle: RectangleObj = createRoundedRectangleObj(300, 200, '#00fff0', '', 1, 20);
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newRectangle]
+        });
+    }
+
+    const handleAddEllipse = () => {
+        setOpen(false);
+
+        const newEllipse: EllipseObj = createEllipseObj(100, 100, '#355E3B', '', 1);
+
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newEllipse]
+        });
+    }
+
+    const items: MenuProps['items'] = [
+        {
+            key: 'rectangle',
+            onClick: handleAddRectangle,
+            icon: <AddRectangleIcon />,
+            label: 'Rectangle'
+        },
+        {
+            key: 'roundedRectangle',
+            onClick: handleAddRoundedRectangle,
+            icon: <AddRoundedRectangleIcon />,
+            label: 'Rounded Rectangle'
+        },
+        {
+            key: 'ellipse',
+            onClick: handleAddEllipse,
+            icon: <AddEllipseIcon />,
+            label: 'Ellipse'
+        },
+    ];
 
     return (
-        <>
-            <Tooltip title="Add new shape" placement="bottom">
-                <IconButton
-                    id="basic-button"
-                    aria-controls={open ? 'basic-menu' : undefined}
-                    aria-haspopup="true"
-                    aria-expanded={open ? 'true' : undefined}
-                    onClick={handleClick}
-                    color="inherit"
-                    disabled={isLoading}
-                >
-                    <AddShapeIcon />
-                </IconButton>
-            </Tooltip>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
+        <Tooltip title="Add new shape" placement="bottom">
+            <Dropdown
+
+                menu={{ items }}
+                trigger={['click']}
+                onOpenChange={(flag) => setOpen(flag)}
                 open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
+                disabled={isLoading}
             >
-                <AddRectangle setAnchorEl={setAnchorEl} />
-                <AddRoundedRectangle setAnchorEl={setAnchorEl} />
-                <AddEllipse setAnchorEl={setAnchorEl} />
-            </Menu>
-        </>
+                <Button size="large" icon={<AppstoreOutlined />} />
+            </Dropdown>
+        </Tooltip>
     );
 }
