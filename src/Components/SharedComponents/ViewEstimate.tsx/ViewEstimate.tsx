@@ -86,7 +86,7 @@ const ViewEstimate = () => {
         margin: 'auto',
         overflow: 'hidden',
         backgroundColor: 'white',
-      });
+    });
 
     return (
         <div style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
@@ -95,8 +95,8 @@ const ViewEstimate = () => {
                 <EstimateShareBar estimate={estimate} />
                 <div style={{ height: 20 }} />
                 <PiecePaper
-                                  id="containerId"
-                                  >
+                    id="containerId"
+                >
                     <Stage width={canvasDimensions.width} height={canvasDimensions.height} />
                 </PiecePaper>
                 {auth0User && <EstimateComments estimate={estimate} />}

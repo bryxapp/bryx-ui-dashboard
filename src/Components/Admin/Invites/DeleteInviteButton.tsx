@@ -1,19 +1,11 @@
 import { useState } from "react";
-import {
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
-    DialogContentText,
-    useTheme
-} from "@mui/material";
+import { Button, Modal, Typography, Spin, Space } from "antd";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import { deleteInviteToOrg, getOrganizationMembers } from "../../../utils/api/org-api";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import { Invite, OrganizationMembers } from "../../../utils/types/OrganizationInterfaces";
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import CircularProgress from "@mui/material/CircularProgress";
+
+const { Text } = Typography;
 
 interface DeleteInviteButtonProps {
     invite: Invite;
@@ -23,16 +15,13 @@ interface DeleteInviteButtonProps {
 
 const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButtonProps) => {
     const { getAccessToken } = useAuth0User();
-    const theme = useTheme();
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [error, setError] = useState<string | null>(null); // Error state
-    const [success, setSuccess] = useState<boolean>(false); // Success state
-    const [deleteLoading, setDeleteLoading] = useState<boolean>(false); // Loading state
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState<boolean>(false);
+    const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
 
     const handleDeleteInvite = () => {
-        // Show the confirmation dialog
-        setIsDialogOpen(true);
-        // Reset error and success states
+        setIsModalVisible(true);
         setError(null);
         setSuccess(false);
     };
@@ -49,62 +38,43 @@ const DeleteInviteButton = ({ invite, setMembers, setInvites }: DeleteInviteButt
             setMembers(fetchedMembers.members.data);
             setInvites(fetchedMembers.invites.data);
 
-            // Set success state
             setSuccess(true);
         } catch (err) {
-            // Set error state
             setError("An error occurred while deleting the invite. Please try again.");
         }
 
-        // Close the dialog
         setDeleteLoading(false);
-        setIsDialogOpen(false);
+        setIsModalVisible(false);
     };
 
-    const handleCloseDialog = () => {
-        // Close the dialog without removing the user
-        setIsDialogOpen(false);
+    const handleCloseModal = () => {
+        setIsModalVisible(false);
     };
 
     return (
         <>
-            <IconButton onClick={handleDeleteInvite} color="primary">
-                <HighlightOffIcon />
-            </IconButton>
-            <Dialog
-                open={isDialogOpen}
-                onClose={handleCloseDialog}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">Confirm Removal</DialogTitle>
-                <DialogContent>
-                    <DialogContentText
-                        id="alert-dialog-description"
-                        color={theme.palette.text.primary}
-                    >
-                        Are you sure you want to delete invite to {invite.invitee.email} to join the organization?
-                    </DialogContentText>
-                    {error && (
-                        <DialogContentText color="error">
-                            Error deleting invite
-                        </DialogContentText>
-                    )}
-                    {success && (
-                        <DialogContentText color="success">
-                            Invite deleted successfully!
-                        </DialogContentText>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary" disabled={deleteLoading}>
+            <Button onClick={handleDeleteInvite} type="link" icon={<CloseCircleOutlined />} />
+            <Modal
+                title="Confirm Removal"
+                open={isModalVisible}
+                onCancel={handleCloseModal}
+                footer={[
+                    <Button key="cancel" onClick={handleCloseModal}>
                         Cancel
-                    </Button>
-                    <Button onClick={handleConfirmDeleteInvite} color="primary" autoFocus>
-                        {deleteLoading ? <CircularProgress size={24} /> : "Confirm"}
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                    </Button>,
+                    <Button key="remove" type="primary" danger onClick={handleConfirmDeleteInvite} disabled={deleteLoading}>
+                        {deleteLoading ? <Spin /> : "Confirm"}
+                    </Button>,
+                ]}
+            >
+                <Space direction="vertical">
+                    <Text>
+                        Are you sure you want to delete invite to {invite.invitee.email} to join the organization?
+                    </Text>
+                    {error && <Text type="danger">{error}</Text>}
+                    {success && <Text type="success">Invite deleted successfully!</Text>}
+                </Space>
+            </Modal>
         </>
     );
 };

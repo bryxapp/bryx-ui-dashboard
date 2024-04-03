@@ -1,8 +1,9 @@
-import Typography from "@mui/material/Typography";
+import { Typography, Tooltip, List, Card } from "antd";
 import { Member } from "../../../utils/types/OrganizationInterfaces";
 import { useOrganizationContext } from "../../../utils/contexts/OrganizationContext";
-import { ListItem, Paper, Tooltip } from "@mui/material";
 import RemoveMemberButton from "./RemoveMemberButton";
+
+const { Text } = Typography;
 
 interface MemberItemProps {
     member: Member;
@@ -15,26 +16,22 @@ const MemberLineItem = ({ member, setInvites, setMembers }: MemberItemProps) => 
     const lineItemIsOwner = member.user_id === organization?.bryxOrg.ownerUserId;
 
     return (
-        <Paper sx={{ width: 500, marginBottom: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <ListItem>
-                <Typography variant="h5" color="textPrimary" style={{ flex: 1 }}>
-                    {member.name}
-                </Typography>
-                <div>
-                    {!lineItemIsOwner ? (
-                        <Tooltip title="Delete Invite">
-                            <div>
+        <List.Item>
+            <Card style={{ width: 500, marginBottom: 2 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text strong>{member.name}</Text>
+                    <div>
+                        {!lineItemIsOwner ? (
+                            <Tooltip title="Delete Member">
                                 <RemoveMemberButton member={member} setInvites={setInvites} setMembers={setMembers} />
-                            </div>
-                        </Tooltip>
-                    ) : (
-                        <Typography variant="h5" color="textPrimary">
-                            Owner
-                        </Typography>
-                    )}
+                            </Tooltip>
+                        ) : (
+                            <Text strong>Owner</Text>
+                        )}
+                    </div>
                 </div>
-            </ListItem>
-        </Paper>
+            </Card>
+        </List.Item>
     );
 };
 

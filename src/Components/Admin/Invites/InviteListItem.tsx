@@ -1,7 +1,9 @@
-import Typography from "@mui/material/Typography";
+import React from "react";
+import { Typography, Tooltip, List, Card } from "antd";
 import { Invite } from "../../../utils/types/OrganizationInterfaces";
-import { ListItem, Paper, Tooltip } from "@mui/material";
 import DeleteInviteButton from "./DeleteInviteButton";
+
+const { Text } = Typography;
 
 interface InviteItemProps {
     invite: Invite;
@@ -11,20 +13,18 @@ interface InviteItemProps {
 
 const InviteLineItem = ({ invite, setInvites, setMembers }: InviteItemProps) => {
     return (
-        <Paper sx={{ width: 500, marginBottom: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <ListItem>
-                <div style={{ flex: 1 }}>
-                    <Typography variant="h5" color="textPrimary">
-                        {invite.invitee.email}
-                    </Typography>
-                </div>
-                <Tooltip title="Delete Invite">
+        <List.Item>
+            <Card style={{ width: 500, marginBottom: 2 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text strong>{invite.invitee.email}</Text>
                     <div>
-                        <DeleteInviteButton invite={invite} setInvites={setInvites} setMembers={setMembers} />
+                        <Tooltip title="Delete Invite">
+                            <DeleteInviteButton invite={invite} setInvites={setInvites} setMembers={setMembers} />
+                        </Tooltip>
                     </div>
-                </Tooltip>
-            </ListItem>
-        </Paper>
+                </div>
+            </Card>
+        </List.Item>
     );
 };
 
