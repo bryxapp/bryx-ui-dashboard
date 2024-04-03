@@ -1,12 +1,11 @@
-import { CircularProgress, Typography } from "@mui/material";
-
+import { Spin, Typography } from 'antd';
 
 const Saving = () => {
     return (
-        <div>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-                Saving... <CircularProgress />
-            </Typography>
+        <div style={{ textAlign: 'center' }}>
+            <Typography.Title level={4}>
+                Saving... <Spin />
+            </Typography.Title>
         </div>
     );
 }

@@ -11,6 +11,7 @@ import EstimateComments from './EstimateComments/EstimateComments';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
 import { AddShapesToLayer } from '../../../utils/shapeManagementUtils';
+import styled from '@emotion/styled';
 
 const { Title } = Typography;
 
@@ -77,23 +78,27 @@ const ViewEstimate = () => {
     if (estimateError) return <Title level={3}>Error loading estimate</Title>;
     if (!estimate) return <Title level={3}>No estimate found</Title>;
 
+    const PiecePaper = styled('div')({
+        width: canvasDimensions.width,
+        height: canvasDimensions.height,
+        boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
+        borderRadius: '0.1in',
+        margin: 'auto',
+        overflow: 'hidden',
+        backgroundColor: 'white',
+      });
+
     return (
         <div style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
             <div style={{ width: canvasDimensions.width, display: 'flex', flexDirection: "column", alignItems: "flex-start" }}>
                 <Title level={3}>{estimate?.estimateName}</Title>
                 <EstimateShareBar estimate={estimate} />
                 <div style={{ height: 20 }} />
-                <div
-                    id="containerId"
-                    style={{
-                        width: canvasDimensions.width,
-                        height: canvasDimensions.height,
-                        backgroundColor: 'gray',
-                        padding: '3px',
-                    }}
-                >
+                <PiecePaper
+                                  id="containerId"
+                                  >
                     <Stage width={canvasDimensions.width} height={canvasDimensions.height} />
-                </div>
+                </PiecePaper>
                 {auth0User && <EstimateComments estimate={estimate} />}
             </div>
         </div>

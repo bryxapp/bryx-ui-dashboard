@@ -21,14 +21,13 @@ const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
 
     const tooltipTitle = maxEstimatesReached 
         ? 'Maximum number of estimates reached'
-        : 'Create a new estimate';
+        : '';
 
     return (
         <Tooltip title={tooltipTitle}>
             <Button
                 type="primary"
                 size="large"
-                style={{ borderRadius: 1 }}
                 onClick={handleNewEstimateClick}
                 disabled={maxEstimatesReached}
             >

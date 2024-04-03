@@ -1,15 +1,16 @@
-import { useTheme } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Typography } from 'antd';
+
 interface NoneFoundProps {
     item: string;
 }
 
 const NoneFound = ({ item }: NoneFoundProps) => {
-    const theme = useTheme();
     return (
-        <Typography color={theme.palette.text.primary} variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            No {item} found
-        </Typography>
+        <div style={{ textAlign: 'center' }}>
+            <Typography.Text>
+                No {item} found
+            </Typography.Text>
+        </div>
     );
 }
 

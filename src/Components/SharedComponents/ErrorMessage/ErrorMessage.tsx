@@ -1,4 +1,4 @@
-import Alert from "@mui/material/Alert";
+import { Alert } from 'antd';
 
 interface Props {
     dataName: string;
@@ -6,7 +6,10 @@ interface Props {
 
 const ErrorMessage = ({ dataName }: Props) => {
     return (
-        <Alert severity="error">There was an error retrieving {dataName} data. Please refresh to try again.</Alert>
+        <Alert
+            type="error"
+            message={`There was an error retrieving ${dataName} data. Please refresh to try again.`}
+        />
     );
 }
 
