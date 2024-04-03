@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Typography, Button } from 'antd';
-import { useTheme } from '@mui/material';
 import { EstimateData, EstimateDraftData } from '../../../utils/types/EstimateInterfaces';
 
 interface EstimatesDeleteDialogProps {
@@ -12,8 +11,6 @@ interface EstimatesDeleteDialogProps {
 }
 
 const EstimatesDeleteDialog: React.FC<EstimatesDeleteDialogProps> = ({ setOpen, open, estimate, handleEstimateDelete, itemName }) => {
-    const theme = useTheme();
-
     const handleConfirmDelete = () => {
         handleEstimateDelete(estimate.id);
         setOpen(false);
@@ -36,7 +33,7 @@ const EstimatesDeleteDialog: React.FC<EstimatesDeleteDialogProps> = ({ setOpen, 
                 </Button>,
             ]}
         >
-            <Typography.Text style={{ flexGrow: 1, padding: 2, color: theme.palette.text.primary }}>
+            <Typography.Text style={{ flexGrow: 1, padding: 2 }}>
                 Are you sure you want to permanently delete this {itemName}?
             </Typography.Text>
         </Modal>

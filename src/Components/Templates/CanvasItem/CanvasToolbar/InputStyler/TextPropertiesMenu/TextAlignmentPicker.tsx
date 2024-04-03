@@ -1,21 +1,19 @@
 import React from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import AlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
-import AlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
-import AlignRightIcon from '@mui/icons-material/FormatAlignRight';
+import { Button } from 'antd';
+import { AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined } from '@ant-design/icons';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface TextAlignmentPickerProps {
-    textObj: TextBase
+    textObj: TextBase;
     itemType: 'content' | 'label' | null;
 }
 
 const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, itemType }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    const handleAlignmentChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string) => {
+    
+    const handleAlignmentChange = (newAlignment: string) => {
         if (newAlignment) {
             if (itemType === null)
                 updateShapeProperty(canvasDesign, setCanvasDesign, 'align', newAlignment, selectedId);
@@ -24,24 +22,28 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, item
             }
         }
     };
+
     return (
-        <ToggleButtonGroup
-            value={textObj.align}
-            exclusive
-            onChange={handleAlignmentChange}
-            aria-label="text alignment"
-            size="small"
-        >
-            <ToggleButton key={'left'} value={'left'}>
-                <AlignLeftIcon />
-            </ToggleButton>
-            <ToggleButton key={'center'} value={'center'}>
-                <AlignCenterIcon />
-            </ToggleButton>
-            <ToggleButton key={'right'} value={'right'}>
-                <AlignRightIcon />
-            </ToggleButton>
-        </ToggleButtonGroup>
+        <>
+            <Button
+                type={textObj.align === 'left' ? 'primary' : 'default'}
+                icon={<AlignLeftOutlined />}
+                onClick={() => handleAlignmentChange('left')}
+                size="small"
+            />
+            <Button
+                type={textObj.align === 'center' ? 'primary' : 'default'}
+                icon={<AlignCenterOutlined />}
+                onClick={() => handleAlignmentChange('center')}
+                size="small"
+            />
+            <Button
+                type={textObj.align === 'right' ? 'primary' : 'default'}
+                icon={<AlignRightOutlined />}
+                onClick={() => handleAlignmentChange('right')}
+                size="small"
+            />
+        </>
     );
 };
 

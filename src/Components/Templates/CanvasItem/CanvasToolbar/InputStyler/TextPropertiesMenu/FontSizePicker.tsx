@@ -1,9 +1,9 @@
-import Select from '@mui/material/Select'
-import Typography from '@mui/material/Typography'
-import MenuItem from '@mui/material/MenuItem'
+import { Select, Typography } from 'antd';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+
+const { Option } = Select;
 
 const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 
@@ -22,23 +22,21 @@ export default function FontSizePicker({ textObj, itemType }: FontSizePickerProp
         }
     };
 
-
     return (
         <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '.5rem' }}>
-            <Typography variant="body1">
+            <Typography.Text>
                 Font Size
-            </Typography>
+            </Typography.Text>
             <Select
                 value={textObj.fontSize || ''}
                 onChange={handleFontSizeChange}
-                variant="outlined"
                 style={{ minWidth: '4.5rem' }}
                 size='small'
             >
                 {FONT_SIZES.map((fontSize) => (
-                    <MenuItem key={fontSize} value={fontSize}>
+                    <Option key={fontSize} value={fontSize}>
                         {fontSize}
-                    </MenuItem>
+                    </Option>
                 ))}
             </Select>
         </div>

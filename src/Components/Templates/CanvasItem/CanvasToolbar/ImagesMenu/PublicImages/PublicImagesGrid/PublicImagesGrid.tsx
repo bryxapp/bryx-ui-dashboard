@@ -1,8 +1,5 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardMedia from '@mui/material/CardMedia';
-import CardActionArea from '@mui/material/CardActionArea';
+import React from 'react';
+import { Col, Row } from 'antd';
 import ErrorMessage from '../../../../../../SharedComponents/ErrorMessage/ErrorMessage';
 
 interface PublicImagesGridProps {
@@ -11,20 +8,18 @@ interface PublicImagesGridProps {
     error: boolean;
 }
 
-export default function PublicImagesGrid({ error, unsplashImages, handleImageClick }: PublicImagesGridProps) {
+const PublicImagesGrid: React.FC<PublicImagesGridProps> = ({ error, unsplashImages, handleImageClick }) => {
     if (error) return <ErrorMessage dataName="Unpsplash Images" />;
+
     return (
-        <Grid container spacing={2} sx={{ p: 2 }}>
-            {unsplashImages.map((imageData) => (
-                <Grid item xs={6} sm={4} md={3} key={imageData.url}>
-                    <Card>
-                        <CardActionArea onClick={() => handleImageClick(imageData)}>
-                            <CardMedia component="img" src={imageData.url} alt="Image thumbnail" />
-                        </CardActionArea>
-                    </Card>
-                </Grid>
+        <Row gutter={[16, 16]} style={{ padding: '16px' }}>
+            {unsplashImages.map((imageData, index) => (
+                <Col key={index} xs={24} sm={12} md={8} lg={6} xl={4}>
+                    <img onClick={() => handleImageClick(imageData)} src={imageData.url} alt="thumbnail" style={{ width: '100%' }} />
+                </Col>
             ))}
-        </Grid>
+        </Row>
     );
 }
 
+export default PublicImagesGrid;

@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button } from 'antd';
 import { createEstimate } from '../../../../../utils/api/estimates-api';
 import { deleteEstimateDraft } from '../../../../../utils/api/estimate-drafts-api';
 import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
@@ -49,7 +49,7 @@ const SubmitButton = ({ templateData, estimateName, fieldValues, draftId, setCre
     return (
         <>
             <ErrorModal error={error} setError={setError} content="Error creating estimate" />
-            <Button variant="contained" size="large" onClick={() => handleSubmit()}>Submit</Button>
+            <Button type="primary" size="large" onClick={() => handleSubmit()}>Submit</Button>
         </>
     );
 };

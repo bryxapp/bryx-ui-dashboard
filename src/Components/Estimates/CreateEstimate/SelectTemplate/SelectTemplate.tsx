@@ -1,29 +1,21 @@
-import React from "react";
-import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
+import { Typography, Card } from 'antd';
 import TemplatesGrid from "../../../SharedComponents/Templates/TemplatesGrid/TemplatesGrid";
-import useTheme from '@mui/material/styles/useTheme';
+
+const { Title } = Typography;
 
 const SelectTemplate = () => {
-    const theme = useTheme();
     return (
-        <React.Fragment>
-            <Typography variant="h3" color={theme.palette.text.primary}>
+        <>
+            <Title level={3}>
                 Select a Template
-            </Typography>
+            </Title>
             <div style={{ height: 50 }} />
-            <Paper
-                sx={{
-                    p: 2,
-                    display: 'flex',
-                    flexDirection: 'column',
-                }}
-            >
+            <Card>
                 <TemplatesGrid
                     setMaxTemplatesReached={null}
                     baseUrl='/form?templateId=' />
-            </Paper>
-        </React.Fragment>
+            </Card>
+        </>
     )
 }
 

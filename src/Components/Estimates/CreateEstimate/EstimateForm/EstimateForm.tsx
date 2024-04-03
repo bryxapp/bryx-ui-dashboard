@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
+import { Typography } from 'antd';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
 import { EmailInputObj, FormInputs, PhoneInputObj, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
@@ -118,17 +118,17 @@ const EstimateForm = () => {
 
     return (
         <>
-            <Typography variant="h3" color="primary">
+            <Typography.Title level={3}>
                 Create Estimate
-            </Typography>
+            </Typography.Title>
             <div style={{ height: 20 }}></div>
             <div style={{ display: "flex" }}>
                 <div style={{ flex: 3 }}>
                     <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
                     <div style={{ height: 10 }}></div>
-                    <Typography variant="h6" color="gray">
+                    < Typography.Title level={5} color="gray">
                         Template: {templateData.friendlyName}
-                    </Typography>
+                    </Typography.Title>
                     <div style={{ height: 20 }}></div>
                     <EstimateFormTextFieldsList
                         formInputs={formInputs}

@@ -1,8 +1,5 @@
-import React from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import UnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-import StrikethroughIcon from '@mui/icons-material/StrikethroughS';
+import { Button } from 'antd';
+import { UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
 import { InputObj, ShapeObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
@@ -60,24 +57,20 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
 
 
     return (
-        <ToggleButtonGroup
-            value={selectedFontDecorations}
-            aria-label="font decoration"
-            size="small"
-        >
-            <ToggleButton
-                key={'line-through'}
-                value={'line-through'}
-                onClick={() => { toggleTextStyle('line-through') }}
-            >
-                <StrikethroughIcon />
-            </ToggleButton>
-            <ToggleButton key={'underline'} value={'underline'}
-                onClick={() => { toggleTextStyle('underline') }}
-            >
-                <UnderlinedIcon />
-            </ToggleButton>
-        </ToggleButtonGroup>
+        <>
+            <Button
+                type={selectedFontDecorations.includes('line-through') ? 'primary' : 'default'}
+                icon={<StrikethroughOutlined />}
+                onClick={() => toggleTextStyle('line-through')}
+                size="small"
+            />
+            <Button
+                type={selectedFontDecorations.includes('underline') ? 'primary' : 'default'}
+                icon={<UnderlineOutlined />}
+                onClick={() => toggleTextStyle('underline')}
+                size="small"
+            />
+        </>
     );
 };
 

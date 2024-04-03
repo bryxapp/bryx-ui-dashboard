@@ -1,15 +1,16 @@
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import React from 'react';
+import { Typography, ColorPicker } from 'antd';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
-import { Typography } from '@mui/material';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import { MuiColorInput } from 'mui-color-input'
 
 interface ColorPickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label' | null
+    itemType: 'content' | 'label' | null;
 }
 
-export default function TextColorPicker({ textObj, itemType }: ColorPickerProps) {
+const TextColorPicker: React.FC<ColorPickerProps> = ({ textObj, itemType }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const onColorChange = (newColorValue: string) => {
         if (itemType === null)
@@ -21,11 +22,11 @@ export default function TextColorPicker({ textObj, itemType }: ColorPickerProps)
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="body1">
-                Font Color
-            </Typography>
+            <Typography.Text strong style={{ marginBottom: '8px' }}>Font Color</Typography.Text>
+            <ColorPicker defaultValue={textObj.fill} onChangeComplete={(color) => {onColorChange(color.toHexString())}} />
             <MuiColorInput format="hex" value={textObj.fill} onChange={onColorChange} sx={{ width: '8em' }} />
         </div>
-
     );
-}
+};
+
+export default TextColorPicker;

@@ -1,9 +1,9 @@
-import Select from '@mui/material/Select'
-import Typography from '@mui/material/Typography'
-import MenuItem from '@mui/material/MenuItem'
+import { Select, Typography } from 'antd';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+
+const { Option } = Select;
 
 const FONTS = [
     'Arial',
@@ -23,19 +23,20 @@ const FONTS = [
     'Century Gothic',
     // Add more fonts here
 ];
+
 interface FontFamilyPickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label' | null
+    itemType: 'content' | 'label' | null;
 }
 
 export default function FontFamilyPicker({ textObj, itemType }: FontFamilyPickerProps) {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    const handleFontFamilyChange = (event: any) => {
+    const handleFontFamilyChange = (value: string) => {
         if (itemType === null)
-            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', event.target.value, selectedId);
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', value, selectedId);
         else {
-            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontFamily', event.target.value, selectedId);
+            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontFamily', value, selectedId);
         }
     };
 
@@ -44,26 +45,20 @@ export default function FontFamilyPicker({ textObj, itemType }: FontFamilyPicker
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant="body1">
+            <Typography.Text>
                 Font
-            </Typography>
+            </Typography.Text>
             <Select
                 value={selectedTextItemFontFamily || ''}
                 onChange={handleFontFamilyChange}
-                variant="outlined"
-                MenuProps={{
-                    PaperProps: {
-                        style: {
-                            maxHeight: 250, // Adjust as needed
-                        },
-                    },
-                }}
                 size='small'
+                dropdownMatchSelectWidth={false}
+                dropdownStyle={{ maxHeight: 250 }}
             >
                 {FONTS.map((fontFamily) => (
-                    <MenuItem key={fontFamily} value={fontFamily} style={{ fontFamily: fontFamily }}>
+                    <Option key={fontFamily} value={fontFamily} style={{ fontFamily: fontFamily }}>
                         {fontFamily}
-                    </MenuItem>
+                    </Option>
                 ))}
             </Select>
         </div>

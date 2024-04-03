@@ -1,10 +1,10 @@
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import logger from "../../../../../../logging/logger";
-import { uploadImage, getUserImages, getImageDimensions } from "../../../../../../utils/api/user-images-api";
-import { useCallback, useState } from "react";
-import { useAuth0User } from "../../../../../../utils/customHooks/useAuth0User";
-import ErrorModal from "../../../../../SharedComponents/ErrorModal/ErrorModal";
+import React, { useCallback, useState } from 'react';
+import { Button, Tooltip, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import logger from '../../../../../../logging/logger';
+import { uploadImage, getUserImages, getImageDimensions } from '../../../../../../utils/api/user-images-api';
+import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
+import ErrorModal from '../../../../../SharedComponents/ErrorModal/ErrorModal';
 
 interface NewUserImageButtonProps {
     maxUserImagesReached: boolean;
@@ -17,14 +17,11 @@ type ImageApiResponse = {
     id: string;
 };
 
-const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUserImages }: NewUserImageButtonProps) => {
-    const { auth0User, getAccessToken, } = useAuth0User();
+const NewUserImageButton: React.FC<NewUserImageButtonProps> = ({ maxUserImagesReached, setFetchingUserImages, setUserImages }) => {
+    const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false); // Error state
 
-    const handleImageUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files?.[0];
-        if (!file) return;
-
+    const handleImageUpload = useCallback(async (file: File) => {
         try {
             setError(false);
             setFetchingUserImages(true);
@@ -65,22 +62,22 @@ const NewUserImageButton = ({ maxUserImagesReached, setFetchingUserImages, setUs
 
     const tooltipTitle = maxUserImagesReached
         ? "Maximum number of user images reached"
-        : "upload a new user image";
+        : "Upload a new user image";
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} content = "Error uploading image" />
+            <ErrorModal error={error} setError={setError} content="Error uploading image" />
             <Tooltip title={tooltipTitle}>
-                <span> {/* span is added because disabled buttons don't trigger tooltips */}
-                    <Button variant="contained" component="label" disabled={maxUserImagesReached}>
-                        Upload File
-                        <input
-                            type="file"
-                            hidden
-                            onChange={handleImageUpload}
-                        />
-                    </Button>
-                </span>
+                <Upload
+                    beforeUpload={(file) => {
+                        handleImageUpload(file);
+                        return false;
+                    }}
+                    showUploadList={false}
+                    disabled={maxUserImagesReached}
+                >
+                    <Button icon={<UploadOutlined />} disabled={maxUserImagesReached}>Upload File</Button>
+                </Upload>
             </Tooltip>
         </>
     );

@@ -1,17 +1,15 @@
 import React from 'react';
-import ToggleButton from '@mui/material/ToggleButton';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import BoldIcon from '@mui/icons-material/FormatBold';
-import ItalicIcon from '@mui/icons-material/FormatItalic';
+import { Button } from 'antd';
+import { ItalicOutlined, BoldOutlined } from '@ant-design/icons';
 import { InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface FontStylePickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label' | null
+    itemType: 'content' | 'label' | null;
 }
 
-const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType}) => {
+const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontStyle = textObj.fontStyle;
     if (!selectedTextItemFontStyle) return null;
@@ -58,20 +56,20 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType}) =
     };
 
     return (
-        <ToggleButtonGroup
-            value={selectedFontStyles}
-            aria-label="font style"
-            size="small"
-        >
-            <ToggleButton key={'italic'} value={'italic'}
-                onClick={() => toggleTextStyle('italic')}>
-                <ItalicIcon />
-            </ToggleButton>
-            <ToggleButton key={'bold'} value={'bold'}
-                onClick={() => toggleTextStyle('bold')}>
-                <BoldIcon />
-            </ToggleButton>
-        </ToggleButtonGroup>
+        <>
+            <Button
+                type={selectedFontStyles.includes('italic') ? 'primary' : 'default'}
+                icon={<ItalicOutlined />}
+                onClick={() => toggleTextStyle('italic')}
+                size="small"
+            />
+            <Button
+                type={selectedFontStyles.includes('bold') ? 'primary' : 'default'}
+                icon={<BoldOutlined />}
+                onClick={() => toggleTextStyle('bold')}
+                size="small"
+            />
+        </>
     );
 };
 

@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { useState } from 'react';
-import Typography from '@mui/material/Typography';
+import { useState, useEffect } from 'react';
+import { Typography } from 'antd';
 import Loading from '../../../../../SharedComponents/Loading/Loading';
 import NewUserImageButton from './NewUserImageButton';
 import UserImagesGrid from './UserImagesGrid';
@@ -14,7 +13,7 @@ interface UserImagesMenuProps {
 }
 
 export default function UserImagesMenu({ setAnchorEl }: UserImagesMenuProps) {
-    const {setCanvasDesign} = useCanvasDesignContext();
+    const { setCanvasDesign } = useCanvasDesignContext();
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
     const [maxUserImagesReached, setMaxUserImagesReached] = useState(false);
@@ -23,7 +22,7 @@ export default function UserImagesMenu({ setAnchorEl }: UserImagesMenuProps) {
     const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false);
 
-    React.useEffect(() => {
+    useEffect(() => {
         let isCancelled = false; // Cancellation token
 
         const fetchUserImages = async () => {
@@ -72,9 +71,9 @@ export default function UserImagesMenu({ setAnchorEl }: UserImagesMenuProps) {
 
     return (
         <div style={{ 'margin': '1vh' }}>
-            <Typography variant="body2">
+            <Typography.Text>
                 Use your own images
-            </Typography>
+            </Typography.Text>
             {fetchingUserImages ? (
                 <Loading />
             ) : (

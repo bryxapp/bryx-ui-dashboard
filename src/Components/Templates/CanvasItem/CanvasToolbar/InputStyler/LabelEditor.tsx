@@ -1,37 +1,36 @@
-import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField';
-import Typography from "@mui/material/Typography";
-import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
-import { Checkbox, FormControl, FormLabel, FormGroup, Stack, FormControlLabel } from '@mui/material';
+import React from 'react';
+import { Form, Input, Typography, Checkbox } from 'antd';
 import TextPropertiesMenu from './TextPropertiesMenu/TextPropertiesMenu';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface LabelEditorProps {
     inputObj: InputObj;
 }
 
-const LabelEditor = ({ inputObj }: LabelEditorProps) => {
+const LabelEditor: React.FC<LabelEditorProps> = ({ inputObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    const handleLabelValueChange = (event: any) => {
+    const handleLabelValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'label', 'value', event.target.value, selectedId);
     };
 
-    const handleHasLabelChange = (event: any) => {
+    const handleHasLabelChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'hasLabel', event.target.checked, selectedId);
     };
+
     const selectedInputLabel = inputObj.label.value ?? '';
     const hasLabel = inputObj?.hasLabel ?? false;
 
     return (
-        <FormControl component="fieldset" variant="standard">
-            <FormLabel component="legend" sx={{ color: 'primary.main' }}>Input Label</FormLabel>
-            <FormGroup>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="body1">
-                        Value
-                    </Typography>
-                    <TextField
+        <Form
+            component="fieldset"
+        >
+            <Form.Item  label={<Typography.Text>Input Label</Typography.Text>}>
+                <Input.Group>
+                    <Typography.Text>Value</Typography.Text>
+                    <Input
                         id={'labelValueEditor'}
                         value={selectedInputLabel}
                         onChange={handleLabelValueChange}
@@ -39,23 +38,16 @@ const LabelEditor = ({ inputObj }: LabelEditorProps) => {
                         size='small'
                         disabled={!hasLabel}
                     />
-                    <FormControlLabel control={
-                        <Checkbox
-                            checked={hasLabel}
-                            onChange={handleHasLabelChange}
-                            name="hasLabel"
-                            sx={{
-                                color: 'primary.main', // Color when unchecked
-                                '&.Mui-checked': {
-                                    color: 'primary.main', // Color when checked
-                                },
-                            }}
-                        />
-                    } label="Has Label" />
+                    <Checkbox
+                        checked={hasLabel}
+                        onChange={(e:any) => {handleHasLabelChange(e)}}
+                    >
+                        Has Label
+                    </Checkbox>
                     <TextPropertiesMenu textObj={inputObj.label} itemType={'label'} />
-                </Stack>
-            </FormGroup>
-        </FormControl>
+                </Input.Group>
+            </Form.Item>
+        </Form>
     );
 };
 

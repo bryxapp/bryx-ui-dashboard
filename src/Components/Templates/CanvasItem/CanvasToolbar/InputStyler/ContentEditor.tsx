@@ -1,48 +1,43 @@
-import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField';
-import Typography from "@mui/material/Typography";
-import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
-import { FormControl, FormLabel, FormGroup, Stack } from '@mui/material';
+import React from 'react';
+import { Form, Input, Typography } from 'antd';
 import TextPropertiesMenu from './TextPropertiesMenu/TextPropertiesMenu';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 
 interface ContentEditorProps {
     inputObj: InputObj;
 }
 
-const ContentEditor = ({ inputObj }: ContentEditorProps) => {
+const ContentEditor: React.FC<ContentEditorProps> = ({ inputObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    const handleLabelValueChange = (event: any) => {
+    const handleLabelValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
     const selectedInputContent = inputObj.content.value ?? '';
 
     return (
-        <FormControl
+        <Form
             component="fieldset"
-            variant="standard"
-            sx={{
-                paddingLeft: '1rem'
-            }}>
-            <FormLabel component="legend" sx={{ color: 'primary.main' }}>Input Content</FormLabel>
-            <FormGroup>
-                <Stack direction="row" spacing={2} alignItems="center">
-                    <Typography variant="body1">
-                        Place Holder
-                    </Typography>
-                    <TextField
+            style={{ paddingLeft: '1rem' }}
+        >
+            <Form.Item
+                label={<Typography.Text>Input Content</Typography.Text>}
+            >
+                <Input.Group>
+                    <Typography.Text>Place Holder</Typography.Text>
+                    <Input
                         id={'contentValueEditor'}
                         value={selectedInputContent}
                         onChange={handleLabelValueChange}
-                        variant="outlined"
                         size='small'
                     />
                     <TextPropertiesMenu textObj={inputObj.content} itemType={'content'} />
-                </Stack>
-            </FormGroup>
-        </FormControl>
+                </Input.Group>
+            </Form.Item>
+        </Form>
     );
 };
 

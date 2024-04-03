@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button } from 'antd';
 import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -51,8 +51,8 @@ const SaveAsDraftButton = ({ templateData, estimateName, fieldValues, draftId, s
 
     return (
         <>
-            <ErrorModal error={error} setError={setError} content = "Error saving draft" />
-            <Button variant="contained" size="large" onClick={handleSaveAsDraft}>
+            <ErrorModal error={error} setError={setError} content="Error saving draft" />
+            <Button type="primary" size="large" onClick={handleSaveAsDraft}>
                 {draftId ? 'Update Draft' : 'Save As Draft'}
             </Button>
         </>
