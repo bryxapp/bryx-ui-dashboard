@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from 'antd';
 import { LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 import logger from '../../../logging/logger';
@@ -32,6 +31,7 @@ const TopNavBar = () => {
               onClick={handleLogout}
               icon={<LogoutOutlined />}
               type="primary"
+              size = "large"
               style={{ marginLeft: 12 }}
             >
               Logout
@@ -42,6 +42,7 @@ const TopNavBar = () => {
             onClick={handleLogin}
             icon={<LoginOutlined />}
             type="primary"
+            size = "large"
             style={{ marginLeft: 12 }}
           >
             Login

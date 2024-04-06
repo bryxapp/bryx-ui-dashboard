@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Tag, Spin } from 'antd';
+import { useState } from 'react';
+import { Spin, Button } from 'antd';
 import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
 import { useBryxUserContext } from '../../../../utils/contexts/BryxUserContext';
 import { useOrganizationContext } from '../../../../utils/contexts/OrganizationContext';
@@ -26,9 +26,9 @@ const Subscription = () => {
 
     return (
         <>
-            <Tag onClick={handleClick} style={{ marginRight: '10px', cursor: 'pointer', fontWeight: "bold" }}>
-                {computeLabel()}
-            </Tag>
+            <Button onClick={handleClick} size="large">
+                <strong>{computeLabel()}</strong>
+            </Button>
             <UpgradeSubscriptionDialog open={open} onClose={() => setOpen(false)} />
         </>
     );

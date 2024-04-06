@@ -121,14 +121,14 @@ const EstimateForm = () => {
             <Typography.Title level={3}>
                 Create Estimate
             </Typography.Title>
-            <div style={{ height: 20 }}></div>
             <div style={{ display: "flex" }}>
                 <div style={{ flex: 3 }}>
+                    <div>
                     <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
-                    <div style={{ height: 10 }}></div>
-                    < Typography.Title level={5} color="gray">
+                    </div>
+                    < Typography.Text type="secondary">
                         Template: {templateData.friendlyName}
-                    </Typography.Title>
+                    </Typography.Text>
                     <div style={{ height: 20 }}></div>
                     <EstimateFormTextFieldsList
                         formInputs={formInputs}

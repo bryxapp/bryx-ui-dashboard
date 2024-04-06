@@ -1,5 +1,15 @@
 import { useEffect } from "react";
 import { findShape, deleteShape, moveShape, pasteObject, toggleTextStyle } from "../../../utils/shapeManagementUtils";
+import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
+
+interface CanvasKeyboardShortcutsProps {
+  canvasDesign: CanvasDesignData;
+  setCanvasDesign: any;
+  selectedId: string | null;
+  setSelectedId: any;
+  copiedObject: any;
+  setCopiedObject: any;
+}
 
 export const useCanvasKeyboardShortcuts = ({
   canvasDesign,
@@ -8,28 +18,32 @@ export const useCanvasKeyboardShortcuts = ({
   setSelectedId,
   copiedObject,
   setCopiedObject,
-}: any) => {
+}: CanvasKeyboardShortcutsProps) => {
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
       switch (event.key) {
         case "Delete":
-          deleteShape({ canvasDesign, setCanvasDesign });
+          deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
           break;
         case "Escape":
           setSelectedId(null)
           break;
         case "ArrowUp":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "up" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "up", selectedId);
           break;
         case "ArrowDown":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "down" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "down", selectedId);
           break;
         case "ArrowLeft":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "left" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "left", selectedId);
           break;
         case "ArrowRight":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "right" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "right", selectedId);
           break;
         case "c":
           if (event.ctrlKey || event.metaKey) {

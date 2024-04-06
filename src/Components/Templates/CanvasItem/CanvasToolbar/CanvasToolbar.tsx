@@ -12,7 +12,7 @@ interface CanvasToolbarProps {
 const CanvasToolbar = ({ isLoading }: CanvasToolbarProps) => {
     return (
         <>
-            <Header style={{ display: 'flex', alignItems: 'center', justifyContent: 'start', gap:"10px" }}>
+            <Header style={{backgroundColor: "#1677ff", display: 'flex', alignItems: 'center', justifyContent: 'start', gap:"10px" }}>
                         <ShapesMenu isLoading={isLoading} />
                         <TextMenu isLoading={isLoading} />
                         <ImagesMenu isLoading={isLoading} />

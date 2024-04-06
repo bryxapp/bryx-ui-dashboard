@@ -11,7 +11,7 @@ const TemplatePreview = ({ canvasDesign }: TemplatePreviewProps) => {
 
   return (
     <>
-      <Typography.Title level={4}>
+      <Typography.Title level={4} style={{margin:0}}>
         Template Snapshot
       </Typography.Title>
       <Typography.Text>

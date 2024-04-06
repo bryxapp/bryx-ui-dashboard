@@ -11,7 +11,7 @@ import PiecePaper from '../../../SharedComponents/PiecePaper/PiecePaper';
 
 
 const CanvasStage = () => {
-    const { canvasDesign, setCanvasDesign, setSelectedId } = useCanvasDesignContext();
+    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
 
     //Parse url to get canvas starter name
@@ -27,7 +27,7 @@ const CanvasStage = () => {
 
     const [copiedObject, setCopiedObject] = useState<ShapeObj | null>(null);
 
-    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, copiedObject, setCopiedObject });
+    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, selectedId, setSelectedId, copiedObject, setCopiedObject });
 
     const checkDeselect = (e: any) => {
         // deselect when clicked on empty area

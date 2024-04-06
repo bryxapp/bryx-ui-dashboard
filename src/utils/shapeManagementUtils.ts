@@ -228,7 +228,7 @@ export const updateInputProperty = (
 };
 
 
-export const deleteShape = ({ canvasDesign, setCanvasDesign, selectedId, setSelectedId }: any) => {
+export const deleteShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, selectedId: string | null, setSelectedId: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
         if (shape.id === selectedId) {
@@ -239,7 +239,7 @@ export const deleteShape = ({ canvasDesign, setCanvasDesign, selectedId, setSele
     setCanvasDesign(updatedCanvasDesign);
 }
 
-export const moveShape = ({ canvasDesign, setCanvasDesign, direction, selectedId }: any) => {
+export const moveShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, direction:string, selectedId: string|null) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
         if (shape.id === selectedId) {
@@ -265,7 +265,7 @@ export const moveShape = ({ canvasDesign, setCanvasDesign, direction, selectedId
 }
 
 
-export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, selectedId:string, copiedObject: any) => {
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, selectedId: string|null, copiedObject: any) => {
 
     const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
 
@@ -283,7 +283,7 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
 export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
-    selectedId: string,
+    selectedId: string|null,
     style: 'bold' | 'italic' | 'underline' | 'line-through'
 ) => {
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';

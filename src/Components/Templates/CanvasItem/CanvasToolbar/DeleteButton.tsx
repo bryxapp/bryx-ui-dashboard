@@ -4,17 +4,17 @@ import { deleteShape } from '../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
 export default function DeleteButton() {
-    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
+    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
     const handleDeleteShape = () => {
-        deleteShape({ canvasDesign, setCanvasDesign });
+        deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
     }
 
     return (
         <Tooltip title="Delete Shape" placement="bottom">
-            <Button 
-                type="text" 
-                icon={<DeleteOutlined />} 
-                onClick={handleDeleteShape} 
+            <Button
+                type="text"
+                icon={<DeleteOutlined />}
+                onClick={handleDeleteShape}
             />
         </Tooltip>
     );
