@@ -8,6 +8,7 @@ import ErrorModal from '../../../../../SharedComponents/ErrorModal/ErrorModal';
 
 interface NewUserImageButtonProps {
     maxUserImagesReached: boolean;
+    setMaxUserImagesReached: React.Dispatch<React.SetStateAction<boolean>>;
     setFetchingUserImages: React.Dispatch<React.SetStateAction<boolean>>;
     setUserImages: React.Dispatch<React.SetStateAction<{ url: string; width: number; height: number; imageDbId: string }[]>>;
 }
@@ -17,7 +18,7 @@ type ImageApiResponse = {
     id: string;
 };
 
-const NewUserImageButton: React.FC<NewUserImageButtonProps> = ({ maxUserImagesReached, setFetchingUserImages, setUserImages }) => {
+const NewUserImageButton: React.FC<NewUserImageButtonProps> = ({ maxUserImagesReached, setMaxUserImagesReached, setFetchingUserImages, setUserImages }) => {
     const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false); // Error state
 
@@ -30,7 +31,8 @@ const NewUserImageButton: React.FC<NewUserImageButtonProps> = ({ maxUserImagesRe
 
             await uploadImage(file, token);
             const response = await getUserImages(token);
-            const results = response.data.userImages;
+            const results = response.userImages;
+            setMaxUserImagesReached(response.maxUserImagesReached);
 
             const imagePromises = results.map(async (image: ImageApiResponse) => {
                 const { width, height } = await getImageDimensions(image.imageBlobUrl);
@@ -62,7 +64,7 @@ const NewUserImageButton: React.FC<NewUserImageButtonProps> = ({ maxUserImagesRe
 
     const tooltipTitle = maxUserImagesReached
         ? "Maximum number of user images reached"
-        : "Upload a new user image";
+        : "";
 
     return (
         <>
@@ -76,7 +78,7 @@ const NewUserImageButton: React.FC<NewUserImageButtonProps> = ({ maxUserImagesRe
                     showUploadList={false}
                     disabled={maxUserImagesReached}
                 >
-                    <Button icon={<UploadOutlined />} disabled={maxUserImagesReached}>Upload File</Button>
+                    <Button icon={<UploadOutlined />} disabled={maxUserImagesReached}>Upload Image</Button>
                 </Upload>
             </Tooltip>
         </>

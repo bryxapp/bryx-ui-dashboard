@@ -1,39 +1,47 @@
 import { useState } from 'react';
-import { Button, Dropdown, MenuProps } from 'antd'
-import {MdAddPhotoAlternate as AddImageIcon} from 'react-icons/md';
+import { Menu } from 'antd'
+import { MdAddPhotoAlternate as AddImageIcon } from 'react-icons/md';
+import { MdImageSearch } from "react-icons/md";
 import PublicImages from './PublicImages/PublicImages';
 import UserImages from './UserImages/UserImages';
+import { FaRegImages } from "react-icons/fa";
 
-interface ImagesMenuProps {
-    isLoading: boolean;
-}
+export default function ImagesMenu() {
+    const [openStockImages, setOpenStockImages] = useState(false);
+    const [openUserImages, setOpenUserImages] = useState(false);
 
-export default function ImagesMenu({ isLoading }: ImagesMenuProps) {
-    const [open, setOpen] = useState<boolean>(false);
+    const handleStockImagesClick = () => {
+        setOpenStockImages(true);
+    }
 
-    const handleVisibleChange = (open: boolean) => {
-        if (!isLoading) {
-            setOpen(open);
-        }
-    };
-    const items: MenuProps['items'] = [
-        {
-            key: 'public-images',
-            label: (<PublicImages setOpen={setOpen} />)
-        },
-        {
-            key: 'user-images',
-            label: (<UserImages setOpen={setOpen} />)
-        },
-    ]
+    const handleUserImagesClick = () => {
+        setOpenUserImages(true);
+    }
 
     return (
-        <Dropdown
-            menu={{ items }}
-            onOpenChange={handleVisibleChange}
-            open={open} trigger={['click']}
-            disabled={isLoading}>
-            <Button size="large" icon={<AddImageIcon />} />
-        </Dropdown>
+        <>
+            <Menu.SubMenu
+                key="images"
+                icon={<AddImageIcon />}
+                title="Images"
+            >
+                <Menu.Item
+                    key="stock-images"
+                    onClick={handleStockImagesClick}
+                    icon={<MdImageSearch />}
+                >
+                    Stock Images
+                </Menu.Item>
+                <Menu.Item
+                    key="user-images"
+                    onClick={handleUserImagesClick}
+                    icon={<FaRegImages />}
+                >
+                    User Images
+                </Menu.Item>
+            </Menu.SubMenu>
+            <PublicImages open={openStockImages} setOpen={setOpenStockImages} />
+            <UserImages open={openUserImages} setOpen={setOpenUserImages} />
+        </>
     );
 }

@@ -13,22 +13,27 @@ interface UserImagesMenuProps {
 }
 
 const UserImagesGrid: React.FC<UserImagesMenuProps> = ({ setCanvasDesign, userImages, setUserImages, setOpen, error }) => {
-
     if (error) return <ErrorMessage dataName='user images' />;
 
+    // Calculate the height based on the item's height, assuming each row height is 150px and there's a 16px gap.
+    // Adjust the height accordingly if your items have different heights or if you have more/less padding.
+    const containerHeight = 3 * (150 + 16) - 16 + 'px'; // for 3 rows, adjust '150' based on your actual item height
+
     return (
-        <Row gutter={[16, 16]} style={{ padding: '16px' }}>
-            {userImages.map((imageData) => (
-                <Col key={imageData.url}>
-                    <UserImageCard
-                        imageData={imageData}
-                        userImages={userImages}
-                        setUserImages={setUserImages}
-                        setOpen={setOpen}
-                    />
-                </Col>
-            ))}
-        </Row>
+        <div style={{ height: containerHeight, overflowY: 'auto', padding: '16px' }}>
+            <Row gutter={[16, 16]}>
+                {userImages.map((imageData) => (
+                    <Col key={imageData.url} span={8}> {/* Assuming each Col spans 8 units for 3 items per row */}
+                        <UserImageCard
+                            imageData={imageData}
+                            userImages={userImages}
+                            setUserImages={setUserImages}
+                            setOpen={setOpen}
+                        />
+                    </Col>
+                ))}
+            </Row>
+        </div>
     );
 };
 

@@ -1,27 +1,15 @@
-import React, { useState } from 'react';
-import { Button, Dropdown, MenuProps } from 'antd';
-import {MdTextFields as TextFieldsIcon} from 'react-icons/md';
+import { Menu } from 'antd';
+import { MdTextFields as TextFieldsIcon } from 'react-icons/md';
 import { EmailInputObj, HeadingObj, ParagraphObj, PhoneInputObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { createEmailInputObj, createHeadingdObj, createParagraphObj, createPhoneInputObj, createShortTextInputObj } from '../../../../../utils/types/ShapesFactory';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { PlusOutlined } from '@ant-design/icons';
 
-interface TextMenuProps {
-    isLoading: boolean;
-}
 
-const TextMenu: React.FC<TextMenuProps> = ({ isLoading }) => {
-    const [open, setOpen] = useState<boolean>(false);
+const TextMenu = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
 
-    const handleVisibleChange = (open: boolean) => {
-        if (!isLoading) {
-            setOpen(open);
-        }
-    };
-
     const handleAddHeading = () => {
-        setOpen(false);
         const newHeading: HeadingObj = createHeadingdObj('Heading', 20, 'black', 'Arial', 'normal', '');
         setCanvasDesign({
             ...canvasDesign,
@@ -30,7 +18,6 @@ const TextMenu: React.FC<TextMenuProps> = ({ isLoading }) => {
     };
 
     const handleAddParagraph = () => {
-        setOpen(false);
         const newParagraph: ParagraphObj = createParagraphObj('Paragraph', 12, 'black', 'Arial', 'normal', '');
         setCanvasDesign({
             ...canvasDesign,
@@ -39,7 +26,6 @@ const TextMenu: React.FC<TextMenuProps> = ({ isLoading }) => {
     };
 
     const handleAddEmailInput = () => {
-        setOpen(false);
         const newEmailInput: EmailInputObj = createEmailInputObj(
             'Email',
             true,
@@ -58,7 +44,6 @@ const TextMenu: React.FC<TextMenuProps> = ({ isLoading }) => {
     };
 
     const handleAddPhoneInput = () => {
-        setOpen(false);
         const newPhoneInput: PhoneInputObj = createPhoneInputObj(
             'Phone Number #',
             true,
@@ -77,7 +62,6 @@ const TextMenu: React.FC<TextMenuProps> = ({ isLoading }) => {
     };
 
     const handleAddShortTextInput = () => {
-        setOpen(false);
         const newShortTextInput: ShortTextInputObj = createShortTextInputObj(
             'Input',
             true,
@@ -95,49 +79,49 @@ const TextMenu: React.FC<TextMenuProps> = ({ isLoading }) => {
         });
     };
 
-
-
-    const items: MenuProps['items'] = [
-        {
-            key: 'heading',
-            label: 'Heading',
-            icon: <PlusOutlined />,
-            onClick: handleAddHeading,
-        },
-        {
-            key: 'paragraph',
-            label: 'Paragraph',
-            icon: <PlusOutlined />,
-            onClick: handleAddParagraph,
-        },
-        {
-            key: 'emailInput',
-            label: 'Email Input',
-            icon: <PlusOutlined />,
-            onClick: handleAddEmailInput,
-        },
-        {
-            key: 'phoneInput',
-            label: 'Phone Input',
-            icon: <PlusOutlined />,
-            onClick: handleAddPhoneInput,
-        },
-        {
-            key: 'shortTextInput',
-            label: 'Short Text Input',
-            icon: <PlusOutlined />,
-            onClick: handleAddShortTextInput,
-        },
-    ];
-
     return (
-        <Dropdown
-            menu={{ items }}
-            onOpenChange={handleVisibleChange}
-            open={open} trigger={['click']}
-            disabled={isLoading}>
-            <Button size="large" icon={<TextFieldsIcon />} />
-        </Dropdown>
+
+        <Menu.SubMenu
+            key="text"
+            icon={<TextFieldsIcon />}
+            title="Text"
+        >
+            <Menu.Item
+                key="heading"
+                onClick={handleAddHeading}
+                icon={<PlusOutlined />}
+            >
+                Heading
+            </Menu.Item>
+            <Menu.Item
+                key="paragraph"
+                onClick={handleAddParagraph}
+                icon={<PlusOutlined />}
+            >
+                Paragraph
+            </Menu.Item>
+            <Menu.Item
+                key="emailInput"
+                onClick={handleAddEmailInput}
+                icon={<PlusOutlined />}
+            >
+                Email Input
+            </Menu.Item>
+            <Menu.Item
+                key="phoneInput"
+                onClick={handleAddPhoneInput}
+                icon={<PlusOutlined />}
+            >
+                Phone Input
+            </Menu.Item>
+            <Menu.Item
+                key="shortTextInput"
+                onClick={handleAddShortTextInput}
+                icon={<PlusOutlined />}
+            >
+                Short Text Input
+            </Menu.Item>
+        </Menu.SubMenu>
     );
 };
 

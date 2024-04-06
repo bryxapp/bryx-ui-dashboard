@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Typography } from 'antd';
+import { Modal, Typography } from 'antd';
 import Loading from '../../../../../SharedComponents/Loading/Loading';
 import NewUserImageButton from './NewUserImageButton';
 import UserImagesGrid from './UserImagesGrid';
@@ -9,10 +9,11 @@ import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface UserImagesMenuProps {
+    open: boolean;
     setOpen: any;
 }
 
-export default function UserImagesMenu({ setOpen }: UserImagesMenuProps) {
+export default function UserImagesMenu({ open, setOpen }: UserImagesMenuProps) {
     const { setCanvasDesign } = useCanvasDesignContext();
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
@@ -70,9 +71,15 @@ export default function UserImagesMenu({ setOpen }: UserImagesMenuProps) {
     }, [auth0User?.sub]);
 
     return (
-        <div style={{ 'margin': '1vh' }}>
+        <Modal
+            open={open}
+            title="Use your own images"
+            onCancel={() => setOpen(false)}
+            footer={null}
+            width={800}
+        >
             <Typography.Text>
-                Use your own images
+
             </Typography.Text>
             {fetchingUserImages ? (
                 <Loading />
@@ -85,8 +92,8 @@ export default function UserImagesMenu({ setOpen }: UserImagesMenuProps) {
                     error={error}
                 />
             )}
-            <NewUserImageButton maxUserImagesReached={maxUserImagesReached} setFetchingUserImages={setFetchingUserImages} setUserImages={setUserImages} />
-        </div>
+            <NewUserImageButton maxUserImagesReached={maxUserImagesReached} setMaxUserImagesReached={setMaxUserImagesReached} setFetchingUserImages={setFetchingUserImages} setUserImages={setUserImages} />
+        </Modal>
     );
 }
 

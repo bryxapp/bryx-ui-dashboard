@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
 import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
-import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
-import { Typography, Layout, Input } from "antd";
+import { Typography, Layout, Input, theme, Menu } from "antd";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
@@ -12,6 +11,11 @@ import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
 import SaveTemplateButton from "./CanvasToolbar/SaveButton";
 import CloseTemplateButton from "./CanvasToolbar/CloseButton";
+import Sider from "antd/es/layout/Sider";
+import { Content } from "antd/es/layout/layout";
+import ShapesMenu  from "./CanvasToolbar/ShapesMenu/ShapesMenu";
+import TextMenu from "./CanvasToolbar/TextMenu/TextMenu";
+import ImagesMenu from "./CanvasToolbar/ImagesMenu/ImagesMenu";
 
 const CanvasItem = () => {
     const { auth0User, getAccessToken } = useAuth0User();
@@ -23,6 +27,10 @@ const CanvasItem = () => {
     const [error, setError] = useState(false);
     const { setCanvasDesign, setSelectedId } = useCanvasDesignContext();
     const [isLoading, setIsLoading] = useState(false);
+
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -65,6 +73,10 @@ const CanvasItem = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search, auth0User?.sub]);
 
+    // const items2: MenuProps['items'] = ShapesMenu()
+
+
+
     if (loading) {
         // show loading message while data is being fetched
         return (
@@ -104,11 +116,25 @@ const CanvasItem = () => {
                         <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} friendlyName={friendlyName} databaseFriendlyName={dataBaseFriendlyName} />
                     </div>
                 </div>
-                <CanvasToolbar isLoading={isLoading} />
-                <Layout.Content style={{ display: 'flex', flexDirection: 'row' }}>
-                    <CanvasStage />
-                </Layout.Content>
             </Layout.Content>
+            <Layout
+                style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
+            >
+                <Sider style={{ background: colorBgContainer }} width={200}>
+                    <Menu
+                        mode="inline"
+                        defaultSelectedKeys={['1']}
+                        defaultOpenKeys={['sub1']}
+                        style={{ height: '100%' }}
+                        disabled={isLoading}
+                    >
+                        <ShapesMenu />
+                        <TextMenu />
+                        <ImagesMenu />
+                    </Menu>
+                </Sider>
+                <Content style={{ padding: '0 24px', minHeight: 280 }}><CanvasStage /></Content>
+            </Layout>
         </Layout>
     );
 };

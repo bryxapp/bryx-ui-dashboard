@@ -14,7 +14,7 @@ const PublicImagesGrid: React.FC<PublicImagesGridProps> = ({ error, unsplashImag
     return (
         <Row gutter={[16, 16]} style={{ padding: '16px' }}>
             {unsplashImages.map((imageData, index) => (
-                <Col key={index} xs={24} sm={12} md={8} lg={6} xl={4}>
+                <Col key={index} xs={27} sm={18} md={12} lg={9} xl={6} style={{alignContent:"center"} }>
                     <img onClick={() => handleImageClick(imageData)} src={imageData.url} alt="thumbnail" style={{ width: '100%' }} />
                 </Col>
             ))}

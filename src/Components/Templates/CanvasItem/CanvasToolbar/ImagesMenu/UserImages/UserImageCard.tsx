@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
-import { Image } from 'antd';
-import { DeleteOutlined } from '@ant-design/icons';
+import { Image, Modal } from 'antd';
+import { MdCancel } from "react-icons/md";
 import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
 import { deleteImage } from '../../../../../../utils/api/user-images-api';
@@ -37,25 +37,31 @@ export default function UserImageCard({ imageData, setOpen, userImages, setUserI
     }, [url, imgheight, setCanvasDesign, setOpen]);
 
     const handleImageDelete = useCallback(async () => {
-        try {
-            const imageDBIdToDelete = userImages.find(image => image.url === imageData.url)?.imageDbId;
-            if (!imageDBIdToDelete) return;
+        const imageDBIdToDelete = userImages.find(image => image.url === imageData.url)?.imageDbId;
+        if (!imageDBIdToDelete) return;
 
-            const token = await getAccessToken();
-            if (!token) return;
-
-            await deleteImage(imageDBIdToDelete, token);
-
-            setUserImages(prevImages => prevImages.filter(image => image.url !== imageData.url));
-        } catch (error) {
-            console.error(error);
-        }
+        // Use Ant Design's Modal for confirmation
+        Modal.confirm({
+            title: 'Are you sure you want to delete this image?',
+            okText: 'Delete',
+            okType: 'danger',
+            cancelText: 'Cancel',
+            onOk: async () => {
+                try {
+                    const token = await getAccessToken();
+                    if (!token) return;
+                    await deleteImage(imageDBIdToDelete, token);
+                    setUserImages(prevImages => prevImages.filter(image => image.url !== imageData.url));
+                } catch (error) {
+                    console.error(error);
+                }
+            },
+        });
     }, [getAccessToken, imageData, setUserImages, userImages]);
-
     return (
         <div>
             <Image
-                width={150}
+                width={200}
                 src={imageData.url}
                 alt="Image thumbnail"
                 onClick={handleImageClick}
@@ -67,17 +73,15 @@ export default function UserImageCard({ imageData, setOpen, userImages, setUserI
                     position: 'absolute',
                     top: 0,
                     right: 0,
-                    backgroundColor: 'rgba(128, 128, 128, 0.7)',
                     padding: 4,
-                    borderRadius: '50%',
                 }}
                 onClick={event => {
                     event.stopPropagation();
                     handleImageDelete();
                 }}
             >
-                <DeleteOutlined />
+                <MdCancel />
             </div>
-            </div>
+        </div>
     );
 }

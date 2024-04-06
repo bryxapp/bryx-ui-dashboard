@@ -1,85 +1,65 @@
-import { useState } from 'react';
-import { Dropdown, Tooltip, Button, MenuProps } from 'antd';
 import { AppstoreOutlined } from '@ant-design/icons';
-import { EllipseObj, RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
-import { createEllipseObj, createRectangleObj, createRoundedRectangleObj } from '../../../../../utils/types/ShapesFactory';
+import { Menu } from 'antd';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import {MdOutlineRectangle as AddRectangleIcon} from 'react-icons/md';
-import {MdOutlineCrop75 as AddRoundedRectangleIcon} from 'react-icons/md';
-import {MdOutlineCircle as AddEllipseIcon} from 'react-icons/md';;
+import { createEllipseObj, createRectangleObj, createRoundedRectangleObj } from '../../../../../utils/types/ShapesFactory';
+import { MdOutlineRectangle as AddRectangleIcon, MdOutlineCrop75 as AddRoundedRectangleIcon, MdOutlineCircle as AddEllipseIcon } from 'react-icons/md';
 
-interface ShapesMenuProps {
-    isLoading: boolean;
-}
-
-export default function ShapesMenu({ isLoading }: ShapesMenuProps) {
-    // Ant Design's Dropdown does not require manual handling of anchor elements
-    const [open, setOpen] = useState(false);
+function ShapesMenu() {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
 
     const handleAddRectangle = () => {
-        setOpen(false);
-
-        const newRectangle: RectangleObj = createRectangleObj(200, 300, '#CDB38B', '', 1);
-
+        const newRectangle = createRectangleObj(200, 300, '#CDB38B', '', 1);
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newRectangle]
         });
-    }
+    };
 
     const handleAddRoundedRectangle = () => {
-        setOpen(false);
-        const newRectangle: RectangleObj = createRoundedRectangleObj(300, 200, '#00fff0', '', 1, 20);
+        const newRoundedRectangle = createRoundedRectangleObj(300, 200, '#00fff0', '', 1, 20);
         setCanvasDesign({
             ...canvasDesign,
-            Shapes: [...canvasDesign.Shapes, newRectangle]
+            Shapes: [...canvasDesign.Shapes, newRoundedRectangle]
         });
-    }
+    };
 
     const handleAddEllipse = () => {
-        setOpen(false);
-
-        const newEllipse: EllipseObj = createEllipseObj(100, 100, '#355E3B', '', 1);
-
+        const newEllipse = createEllipseObj(100, 100, '#355E3B', '', 1);
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newEllipse]
         });
-    }
-
-    const items: MenuProps['items'] = [
-        {
-            key: 'rectangle',
-            onClick: handleAddRectangle,
-            icon: <AddRectangleIcon />,
-            label: 'Rectangle'
-        },
-        {
-            key: 'roundedRectangle',
-            onClick: handleAddRoundedRectangle,
-            icon: <AddRoundedRectangleIcon />,
-            label: 'Rounded Rectangle'
-        },
-        {
-            key: 'ellipse',
-            onClick: handleAddEllipse,
-            icon: <AddEllipseIcon />,
-            label: 'Ellipse'
-        },
-    ];
+    };
 
     return (
-        <Tooltip title="Add new shape" placement="bottom">
-            <Dropdown
-                menu={{ items }}
-                trigger={['click']}
-                onOpenChange={(flag) => setOpen(flag)}
-                open={open}
-                disabled={isLoading}
+        <Menu.SubMenu
+            key="shapes"
+            icon={<AppstoreOutlined />}
+            title="Shapes"
+        >
+            <Menu.Item
+                key="rectangle"
+                onClick={handleAddRectangle}
+                icon={<AddRectangleIcon />}
             >
-                <Button size="large" icon={<AppstoreOutlined />} />
-            </Dropdown>
-        </Tooltip>
+                Rectangle
+            </Menu.Item>
+            <Menu.Item
+                key="roundedRectangle"
+                onClick={handleAddRoundedRectangle}
+                icon={<AddRoundedRectangleIcon />}
+            >
+                Rounded Rectangle
+            </Menu.Item>
+            <Menu.Item
+                key="ellipse"
+                onClick={handleAddEllipse}
+                icon={<AddEllipseIcon />}
+            >
+                Ellipse
+            </Menu.Item>
+        </Menu.SubMenu>
     );
-}
+};
+
+export default ShapesMenu;
