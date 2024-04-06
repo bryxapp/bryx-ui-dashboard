@@ -1,11 +1,10 @@
 import { Menu } from 'antd';
 import {
-    ReadOutlined,
-    AppstoreOutlined,
+    FileTextOutlined,
     UserOutlined,
 } from '@ant-design/icons';
+import { FaPencilRuler } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
-import React from 'react';
 
 interface MenuItemsProps {
     isAdmin: boolean;
@@ -23,14 +22,18 @@ const MenuItems = ({ isAdmin }: MenuItemsProps) => {
     return (
         <Menu selectedKeys={getSelectedKeys()}
             theme='dark'>
-            <Menu.Item key="/" icon={<ReadOutlined />}>
+            <Menu.Item
+                key="/"
+                icon={<FileTextOutlined style={{ fontSize: '24px' }} />}
+                style={{ fontSize: '24px', marginTop: '15px' }}
+            >
                 <Link to="/">Estimates</Link>
             </Menu.Item>
-            <Menu.Item key="/templates" icon={<AppstoreOutlined />}>
+            <Menu.Item key="/templates" icon={<FaPencilRuler style={{ fontSize: '24px' }} />} style={{ fontSize: '24px', marginTop: '15px' }}>
                 <Link to="/templates">Templates</Link>
             </Menu.Item>
             {isAdmin && (
-                <Menu.Item key="/admin" icon={<UserOutlined />}>
+                <Menu.Item key="/admin" icon={<UserOutlined style={{ fontSize: '24px' }} />} style={{ fontSize: '24px', marginTop: '15px' }}>
                     <Link to="/admin">Admin</Link>
                 </Menu.Item>
             )}

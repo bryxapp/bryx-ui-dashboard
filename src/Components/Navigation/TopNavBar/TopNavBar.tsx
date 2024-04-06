@@ -21,7 +21,7 @@ const TopNavBar = () => {
   };
 
   return (
-    <Header style={{ display: "flex", justifyContent: "space-between", alignItems: 'center', padding: '0 50px' }}>
+    <Header style={{ display: "flex", justifyContent: "space-between", alignItems: 'center', padding: '0 10px 0 10px' }}>
       <Logo />
       <div style={{ display: 'flex', alignItems: 'center' }}>
         {isLoading || auth0User ? (

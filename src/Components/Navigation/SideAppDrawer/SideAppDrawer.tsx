@@ -7,15 +7,15 @@ import Sider from 'antd/es/layout/Sider';
 
 const SideAppDrawer = () => {
     const { isOwner } = useOrganizationContext();
-    const [visible, setVisible] = useState(false);
+    const [open, setOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     const showDrawer = () => {
-        setVisible(true);
+        setOpen(true);
     };
 
     const onClose = () => {
-        setVisible(false);
+        setOpen(false);
     };
 
     // Handle window resize
@@ -41,7 +41,7 @@ const SideAppDrawer = () => {
                         placement="left"
                         closable={false}
                         onClose={onClose}
-                        visible={visible}
+                        open={open}
                         extra={
                             <Button type="text" onClick={onClose}>
                                 <CloseOutlined />

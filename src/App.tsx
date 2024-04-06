@@ -22,6 +22,7 @@ import AuthRedirect from "./Components/SharedComponents/NotLoggedIn/AuthRedirect
 import ViewEstimate from "./Components/SharedComponents/ViewEstimate.tsx/ViewEstimate";
 import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import { CanvasDesignProvider } from "./utils/contexts/canvasDesignContext";
+import { ConfigProvider } from "antd";
 
 function App() {
   const { organization, setOrganization, isOwner, setIsOwner } = useOrganizationContext();
@@ -89,37 +90,51 @@ function App() {
 
 
   return (
-    <>
-        <Navigation>
-          <CanvasDesignProvider>
-            {isLoading || auth0User ? (
-              <Routes>
-                <Route path="/" element={<Estimates />} />
-                <Route path="/templates" element={<Templates />} />
-                <Route path="/create-template" element={<CanvasItem />} />
-                <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
-                <Route path="/edit-template" element={<CanvasItem />} />
-                <Route path="/select-template" element={<SelectTemplate />} />
-                <Route path="/form" element={<EstimateForm />} />
-                <Route path="/view-estimate" element={<ViewEstimate />} />
-                <Route path="/pro-checkout" element={<ProCheckout />} />
-                <Route path="/team-checkout" element={<TeamCheckout />} />
-                <Route path="/create-team" element={<CreateTeam />} />
-                {(isOwner || isLoading) && <Route path="/admin" element={<Admin />} />}
-                <Route path="/view" element={<ViewEstimate />} />
-                <Route path="/auth-redirect" element={<AuthRedirect />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            ) : (
-              <Routes>
-                <Route path="/view" element={<ViewEstimate />} />
-                <Route path="/auth-redirect" element={<AuthRedirect />} />
-                <Route path="*" element={<NotLoggedIn />} />
-              </Routes>
-            )}
-          </CanvasDesignProvider>
-        </Navigation>
-    </>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontSize: 16
+          // colorPrimary: data.colorPrimary,
+          // borderRadius: data.borderRadius,
+        },
+        components: {
+          // Button: {
+          //   colorPrimary: data.Button?.colorPrimary,
+          //   algorithm: data.Button?.algorithm,
+          // },
+        },
+      }}
+    >
+      <Navigation>
+        <CanvasDesignProvider>
+          {isLoading || auth0User ? (
+            <Routes>
+              <Route path="/" element={<Estimates />} />
+              <Route path="/templates" element={<Templates />} />
+              <Route path="/create-template" element={<CanvasItem />} />
+              <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
+              <Route path="/edit-template" element={<CanvasItem />} />
+              <Route path="/select-template" element={<SelectTemplate />} />
+              <Route path="/form" element={<EstimateForm />} />
+              <Route path="/view-estimate" element={<ViewEstimate />} />
+              <Route path="/pro-checkout" element={<ProCheckout />} />
+              <Route path="/team-checkout" element={<TeamCheckout />} />
+              <Route path="/create-team" element={<CreateTeam />} />
+              {(isOwner || isLoading) && <Route path="/admin" element={<Admin />} />}
+              <Route path="/view" element={<ViewEstimate />} />
+              <Route path="/auth-redirect" element={<AuthRedirect />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          ) : (
+            <Routes>
+              <Route path="/view" element={<ViewEstimate />} />
+              <Route path="/auth-redirect" element={<AuthRedirect />} />
+              <Route path="*" element={<NotLoggedIn />} />
+            </Routes>
+          )}
+        </CanvasDesignProvider>
+      </Navigation>
+    </ConfigProvider>
   );
 }
 
