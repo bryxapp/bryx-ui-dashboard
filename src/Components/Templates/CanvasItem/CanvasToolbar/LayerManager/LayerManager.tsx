@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { Button, Dropdown, MenuProps, Tooltip } from 'antd';
+import { Button, Dropdown, MenuProps } from 'antd';
 import { findShape } from '../../../../../utils/shapeManagementUtils';
 import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
-import ForwardIcon from '@mui/icons-material/ArrowRight';
-import FastForwardIcon from '@mui/icons-material/FastForward';
-import BackwardIcon from '@mui/icons-material/ArrowLeft';
-import FastRewindIcon from '@mui/icons-material/FastRewind';
-import LayerIcon from '@mui/icons-material/Layers';
+import {MdArrowRight as ForwardIcon} from 'react-icons/md';
+import {MdArrowLeft as BackwardIcon} from 'react-icons/md';
+import {MdFastForward as FastForwardIcon} from 'react-icons/md';
+import {MdFastRewind as FastRewindIcon} from 'react-icons/md';
+import {MdLayers as LayerIcon} from 'react-icons/md';
 
 interface LayerManagerProps {
     isLoading: boolean;
@@ -113,19 +113,15 @@ export default function LayerManager({ isLoading }: LayerManagerProps) {
     ];
 
     return (
-        <>
-            <Tooltip title="Expand Layer Manager" placement="bottom">
-                <Dropdown
-                    menu={{ items }}
-                    trigger={['click']}
-                    onOpenChange={(flag) => setOpen(flag)}
-                    open={open}
-                    disabled={isLoading}
-                >
+        <Dropdown
+            menu={{ items }}
+            trigger={['click']}
+            onOpenChange={(flag) => setOpen(flag)}
+            open={open}
+            disabled={isLoading}
+        >
 
-                    <Button size="large" icon={<LayerIcon />} />
-                </Dropdown>
-            </Tooltip>
-        </>
+            <Button size="large" icon={<LayerIcon />} />
+        </Dropdown>
     );
 }

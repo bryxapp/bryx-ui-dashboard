@@ -81,6 +81,7 @@ export default function SaveTemplateButton({
             <ErrorModal error={error} setError={setError} content="Error saving template" />
             <Button
                 type="primary"
+                size = "large"
                 onClick={handleSave}
                 disabled={!saveButtonEnabled || isLoading}
                 loading={isLoading}

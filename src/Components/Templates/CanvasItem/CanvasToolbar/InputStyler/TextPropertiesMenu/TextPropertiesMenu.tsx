@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dropdown, Menu, Tooltip } from 'antd';
-import FontSizeSelectorIcon from '@mui/icons-material/FormatColorText';
+import {MdFormatColorText as FontSizeSelectorIcon} from 'react-icons/md';
 import FontSizePicker from './FontSizePicker';
 import FontFamilyPicker from './FontFamilyPicker';
 import FontStylePicker from './FontStylePicker';

@@ -1,137 +1,87 @@
 import React, { useState } from 'react';
-import { Box, Button, IconButton, Menu, Slider, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
-import ColorSelectorIcon from '@mui/icons-material/ColorLens';
-import { MuiColorInput } from 'mui-color-input';
+import { Button, Slider, Tooltip, Popover } from 'antd';
+import { SketchPicker } from 'react-color'; // Assuming use of react-color for color picking as Ant Design doesn't have a built-in color picker
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import {MdColorLens as ColorSelectorIcon} from 'react-icons/md';
 
-// Define the interface for component props
 interface ColorPickerProps {
-    solidShapeObj: SolidShapeObj;
+  solidShapeObj: SolidShapeObj;
 }
 
-// ColorPicker component
-export default function ColorPicker({ solidShapeObj }: ColorPickerProps) {
-    // State for menu anchor element
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
+const ColorPicker: React.FC<ColorPickerProps> = ({ solidShapeObj }) => {
+  const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    // State for color change mode (fill or stroke)
-    const [colorChangeMode, setColorChangeMode] = useState<'fill' | 'stroke'>('fill');
+  // State for color change mode (fill or stroke)
+  const [colorChangeMode, setColorChangeMode] = useState<'fill' | 'stroke'>('fill');
+  // State for stroke width
+  const [strokeWidth, setStrokeWidth] = useState<number>(1);
 
-    // State for stroke width
-    const [strokeWidth, setStrokeWidth] = useState<number>(1);
-
-    // Handle opening the color picker menu
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    // Handle closing the color picker menu
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    // Handle changing the color mode (fill or stroke)
-    const handleModeChange = (_: React.MouseEvent<HTMLElement>, newMode: 'fill' | 'stroke') => {
-        if (newMode !== null) {
-            setColorChangeMode(newMode);
-        }
-    };
-
-    // Handle changing the color of the selected shape
-    const onColorChange = (newColorValue: string) => {
-        updateShapeProperty(
-            canvasDesign,
-            setCanvasDesign,
-            colorChangeMode,
-            newColorValue,
-            selectedId
-        );
-    };
-
-    // Handle changing the stroke width
-    const handleStrokeWidthChange = (event: Event, newValue: number | number[]) => {
-        const newWidth = Array.isArray(newValue) ? newValue[0] : newValue;
-        setStrokeWidth(newWidth);
-        setCanvasDesign(prev => ({
-            ...prev,
-            Shapes: prev.Shapes.map(shape =>
-                shape.id === selectedId ? { ...shape, strokeWidth: newWidth } : shape
-            ),
-        }));
-    };
-
-    return (
-        <>
-            <IconButton
-                id="color-picker-button"
-                aria-controls={open ? 'color-picker-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-                onClick={handleClick}
-                color="inherit"
-            >
-                <ColorSelectorIcon />
-            </IconButton>
-            <Menu
-                id="color-picker-menu"
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                MenuListProps={{
-                    'aria-labelledby': 'color-picker-button',
-                }}
-            >
-                <Box sx={{ textAlign: 'center', width: '12em' }}>
-                    <Box sx={{ textAlign: 'center', mt: 1 }}>
-                        <ToggleButtonGroup
-                            color="primary"
-                            value={colorChangeMode}
-                            exclusive
-                            onChange={handleModeChange}
-                            aria-label="color change mode"
-                        >
-                            <ToggleButton value="fill">Fill</ToggleButton>
-                            <ToggleButton value="stroke">Stroke</ToggleButton>
-                        </ToggleButtonGroup>
-                    </Box>
-                    <Box sx={{ textAlign: 'center', mt: 1 }}>
-                        <MuiColorInput
-                            format="hex"
-                            value={colorChangeMode === 'fill' ? solidShapeObj.fill : solidShapeObj.stroke}
-                            onChange={onColorChange}
-                            sx={{ width: '8em', mx: 'auto' }}
-                        />
-                    </Box>
-                    {colorChangeMode === 'stroke' && (
-                        <Box sx={{ textAlign: 'center', mt: 1 }}>
-                            <Tooltip title="Stroke Width" placement="bottom">
-                                <Slider
-                                    sx={{ width: '80%', mx: 'auto' }}
-                                    aria-label="Stroke Width"
-                                    value={strokeWidth}
-                                    onChange={handleStrokeWidthChange}
-                                    min={1}
-                                    max={20}
-                                    valueLabelDisplay="auto"
-                                />
-                            </Tooltip>
-                        </Box>
-                    )}
-                    <Box sx={{ textAlign: 'center', mt: 1 }}>
-                        <Button
-                            variant="contained"
-                            onClick={() => onColorChange('')}
-                            sx={{ width: '12em' }}
-                        >
-                            Remove {colorChangeMode}
-                        </Button>
-                    </Box>
-                </Box>
-            </Menu>
-        </>
+  // Handle changing the color of the selected shape
+  const onColorChange = (color: { hex: string }) => {
+    updateShapeProperty(
+      canvasDesign,
+      setCanvasDesign,
+      colorChangeMode,
+      color.hex,
+      selectedId
     );
-}
+  };
+
+  // ColorPicker popover content
+  const content = (
+    <div>
+      <div style={{ marginBottom: 16 }}>
+        <Button.Group>
+          <Button 
+            type={colorChangeMode === 'fill' ? 'primary' : 'default'} 
+            onClick={() => setColorChangeMode('fill')}
+          >
+            Fill
+          </Button>
+          <Button 
+            type={colorChangeMode === 'stroke' ? 'primary' : 'default'} 
+            onClick={() => setColorChangeMode('stroke')}
+          >
+            Stroke
+          </Button>
+        </Button.Group>
+      </div>
+      <SketchPicker
+        color={colorChangeMode === 'fill' ? solidShapeObj.fill : solidShapeObj.stroke}
+        onChangeComplete={onColorChange}
+      />
+      {colorChangeMode === 'stroke' && (
+        <div>
+          <Tooltip title="Stroke Width">
+            <Slider
+              min={1}
+              max={20}
+              onChange={(value) => setStrokeWidth(value)}
+              value={typeof strokeWidth === 'number' ? strokeWidth : 0}
+              marks={{1: '1', 20: '20'}}
+            />
+          </Tooltip>
+        </div>
+      )}
+      <div style={{ marginTop: 16 }}>
+        <Button block onClick={() => onColorChange({ hex: '' })}>
+          Remove {colorChangeMode}
+        </Button>
+      </div>
+    </div>
+  );
+
+  return (
+    <Popover
+      content={content}
+      title="Color Picker"
+      trigger="click"
+    >
+      <Button icon={<ColorSelectorIcon />} />
+    </Popover>
+  );
+};
+
+export default ColorPicker;

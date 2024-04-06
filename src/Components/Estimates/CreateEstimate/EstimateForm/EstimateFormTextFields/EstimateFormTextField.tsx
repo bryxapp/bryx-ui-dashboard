@@ -1,8 +1,8 @@
 import React from 'react';
 import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
-import { StyledTextField as TextField } from '../../../../SharedComponents/TextField/TextField'
-import { getInputProps } from '../../../../../utils/form-utils';
+// import { getInputProps } from '../../../../../utils/form-utils';
+import { Input, Typography } from 'antd';
 
 interface EstimateFormTextFieldProps {
     inputObj: InputObj;
@@ -24,18 +24,20 @@ const EstimateFormTextField = ({
         setFieldValues(updatedFieldValues);
     };
 
-    const inputProps = getInputProps(inputObj.type);
+   // const inputProps = getInputProps(inputObj.type);
 
     return (
-        <TextField
+        <>
+        <Typography.Text>
+            {inputObj.label.value}
+        </Typography.Text>
+            
+        <Input
             key={inputObj.id}
-            label={inputObj.label.value} //TODO label should be its own text field
-            name={inputObj.label.value}
             value={fieldValues[inputObj.id]}
             onChange={handleChange}
-            InputProps={inputProps}
-            InputLabelProps={{ style: { fontSize: 20 } }} // Set the font size of the label text}
         />
+        </>
     );
 };
 

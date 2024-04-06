@@ -26,6 +26,7 @@ export default function CloseTemplateButton({ dataBaseCanvasDesign, friendlyName
 
         <Button
             type="primary"
+            size = "large"
             onClick={handleClose}
         >
             Close

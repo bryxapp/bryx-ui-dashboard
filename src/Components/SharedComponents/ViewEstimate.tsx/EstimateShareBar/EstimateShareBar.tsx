@@ -1,15 +1,10 @@
 import { Button, Tooltip } from 'antd';
 import { LinkOutlined, FilePdfOutlined } from '@ant-design/icons';
-import styled from '@emotion/styled';
 import { createEstimatePDF } from '../../../../utils/api/estimates-api';
 import ShareLinkDialog from './ShareLinkDialog/ShareLinkDialog';
 import { useState } from 'react';
 import { Spin } from 'antd';
 import { useEffect } from 'react';
-
-const EstimateButton = styled(Button)`
-    margin-right: 10px;
-`;
 
 const EstimateShareBar = ({ estimate }: any) => {
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
@@ -51,14 +46,14 @@ const EstimateShareBar = ({ estimate }: any) => {
     return (
         <div>
             <Tooltip title="Share Link">
-                <EstimateButton onClick={handleOpenShareDialog}>
+                <Button onClick={handleOpenShareDialog}>
                     <LinkOutlined />
-                </EstimateButton>
+                </Button>
             </Tooltip>
             <Tooltip title="Create a PDF">
-                <EstimateButton onClick={handlePdfClick}>
+                <Button onClick={handlePdfClick}>
                     {pdfLoading ? <Spin /> : <FilePdfOutlined />}
-                </EstimateButton>
+                </Button>
             </Tooltip>
             <ShareLinkDialog estimate={estimate} open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} />
         </div>

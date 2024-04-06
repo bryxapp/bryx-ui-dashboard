@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import AddImageIcon from '@mui/icons-material/AddPhotoAlternate';
-import Tooltip from '@mui/material/Tooltip';
+import { Button, Dropdown, MenuProps } from 'antd'
+import {MdAddPhotoAlternate as AddImageIcon} from 'react-icons/md';
 import PublicImages from './PublicImages/PublicImages';
 import UserImages from './UserImages/UserImages';
 
@@ -11,40 +9,31 @@ interface ImagesMenuProps {
 }
 
 export default function ImagesMenu({ isLoading }: ImagesMenuProps) {
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [open, setOpen] = useState<boolean>(false);
+
+    const handleVisibleChange = (open: boolean) => {
+        if (!isLoading) {
+            setOpen(open);
+        }
+    };
+    const items: MenuProps['items'] = [
+        {
+            key: 'public-images',
+            label: (<PublicImages setOpen={setOpen} />)
+        },
+        {
+            key: 'user-images',
+            label: (<UserImages setOpen={setOpen} />)
+        },
+    ]
 
     return (
-        <>
-            <Tooltip title="Add an image from our library" placement="bottom">
-                <IconButton
-                    id="basic-button"
-                    aria-haspopup="true"
-                    onClick={(event: React.MouseEvent<HTMLButtonElement>) => setAnchorEl(event.currentTarget)}
-                    color="inherit"
-                    disabled={isLoading}
-                >
-                    <AddImageIcon />
-                </IconButton>
-            </Tooltip>
-            <Menu
-                id="basic-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={() => setAnchorEl(null)}
-                MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                }}
-                PaperProps={{
-                    style: {
-                        maxHeight: '100vh',
-                        width: '600px',
-                        overflow: 'auto',
-                    },
-                }}
-            >
-                <PublicImages setAnchorEl={setAnchorEl} />
-                <UserImages setAnchorEl={setAnchorEl} />
-            </Menu>
-        </>
+        <Dropdown
+            menu={{ items }}
+            onOpenChange={handleVisibleChange}
+            open={open} trigger={['click']}
+            disabled={isLoading}>
+            <Button size="large" icon={<AddImageIcon />} />
+        </Dropdown>
     );
 }

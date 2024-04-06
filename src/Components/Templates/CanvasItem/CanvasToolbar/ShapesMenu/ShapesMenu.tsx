@@ -4,9 +4,9 @@ import { AppstoreOutlined } from '@ant-design/icons';
 import { EllipseObj, RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 import { createEllipseObj, createRectangleObj, createRoundedRectangleObj } from '../../../../../utils/types/ShapesFactory';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import AddRectangleIcon from "@mui/icons-material/RectangleOutlined";
-import AddRoundedRectangleIcon from "@mui/icons-material/Crop75Outlined";
-import AddEllipseIcon from "@mui/icons-material/CircleOutlined";
+import {MdOutlineRectangle as AddRectangleIcon} from 'react-icons/md';
+import {MdOutlineCrop75 as AddRoundedRectangleIcon} from 'react-icons/md';
+import {MdOutlineCircle as AddEllipseIcon} from 'react-icons/md';;
 
 interface ShapesMenuProps {
     isLoading: boolean;
@@ -72,7 +72,6 @@ export default function ShapesMenu({ isLoading }: ShapesMenuProps) {
     return (
         <Tooltip title="Add new shape" placement="bottom">
             <Dropdown
-
                 menu={{ items }}
                 trigger={['click']}
                 onOpenChange={(flag) => setOpen(flag)}

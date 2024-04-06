@@ -9,10 +9,10 @@ import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface UserImagesMenuProps {
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+    setOpen: any;
 }
 
-export default function UserImagesMenu({ setAnchorEl }: UserImagesMenuProps) {
+export default function UserImagesMenu({ setOpen }: UserImagesMenuProps) {
     const { setCanvasDesign } = useCanvasDesignContext();
 
     const [userImages, setUserImages] = useState<Array<{ url: string; width: number; height: number; imageDbId: string }>>([]);
@@ -81,7 +81,7 @@ export default function UserImagesMenu({ setAnchorEl }: UserImagesMenuProps) {
                     setCanvasDesign={setCanvasDesign}
                     userImages={userImages}
                     setUserImages={setUserImages}
-                    setAnchorEl={setAnchorEl}
+                    setOpen={setOpen}
                     error={error}
                 />
             )}

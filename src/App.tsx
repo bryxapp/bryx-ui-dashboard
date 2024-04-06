@@ -6,8 +6,6 @@ import NotFound from './Components/SharedComponents/NotFound/NotFound';
 import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
-import { createTheme, ThemeProvider } from "@mui/material";
-import { themeOptions } from "./theme/themeOptions";
 import NotLoggedIn from "./Components/SharedComponents/NotLoggedIn/NotLoggedIn";
 import Estimates from "./Components/Estimates/Estimates";
 import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
@@ -26,7 +24,6 @@ import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import { CanvasDesignProvider } from "./utils/contexts/canvasDesignContext";
 
 function App() {
-  const theme = createTheme(themeOptions);
   const { organization, setOrganization, isOwner, setIsOwner } = useOrganizationContext();
   const { bryxUser, setBryxUser } = useBryxUserContext();
   const { auth0User, isLoading, getAccessToken } = useAuth0User();
@@ -93,7 +90,6 @@ function App() {
 
   return (
     <>
-      <ThemeProvider theme={theme}>
         <Navigation>
           <CanvasDesignProvider>
             {isLoading || auth0User ? (
@@ -123,8 +119,6 @@ function App() {
             )}
           </CanvasDesignProvider>
         </Navigation>
-      </ThemeProvider>
-
     </>
   );
 }

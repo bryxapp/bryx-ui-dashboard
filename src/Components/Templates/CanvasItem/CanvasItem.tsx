@@ -4,13 +4,14 @@ import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
 import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
-import TemplateName from "./../TemplateName/TemplateName";
-import { Typography, Layout } from "antd";
+import { Typography, Layout, Input } from "antd";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
+import SaveTemplateButton from "./CanvasToolbar/SaveButton";
+import CloseTemplateButton from "./CanvasToolbar/CloseButton";
 
 const CanvasItem = () => {
     const { auth0User, getAccessToken } = useAuth0User();
@@ -21,6 +22,7 @@ const CanvasItem = () => {
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [error, setError] = useState(false);
     const { setCanvasDesign, setSelectedId } = useCanvasDesignContext();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -77,18 +79,35 @@ const CanvasItem = () => {
     // render canvas components when data is available
     return (
         <Layout>
-            <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
-            <br />
-            <CanvasToolbar
-                friendlyName={friendlyName}
-                dataBaseCanvasDesign={dataBaseCanvasDesign}
-                setDataBaseCanvasDesign={setdataBaseCanvasDesign}
-                databaseFriendlyName={dataBaseFriendlyName}
-                setDataBaseFriendlyName={setDataBaseFriendlyName}
-            />
-            <br />
-            <Layout.Content style={{ display: 'flex', flexDirection: 'row' }}>
-                <CanvasStage />
+            <Layout.Content>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+                    <div>
+                        <Input
+                            addonBefore="Template Name"
+                            size="large"
+                            value={friendlyName}
+                            onChange={(event) => setFriendlyName(event.target.value)}
+                            style={{ flex: 1, marginRight: '20px' }} // Adjusted width to use flex
+                            placeholder="Template Name"
+                        />
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <SaveTemplateButton
+                            isLoading={isLoading}
+                            setIsLoading={setIsLoading}
+                            dataBaseCanvasDesign={dataBaseCanvasDesign}
+                            setDataBaseCanvasDesign={setdataBaseCanvasDesign}
+                            friendlyName={friendlyName}
+                            databaseFriendlyName={dataBaseFriendlyName}
+                            setDatabaseFriendlyName={setDataBaseFriendlyName}
+                        />
+                        <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} friendlyName={friendlyName} databaseFriendlyName={dataBaseFriendlyName} />
+                    </div>
+                </div>
+                <CanvasToolbar isLoading={isLoading} />
+                <Layout.Content style={{ display: 'flex', flexDirection: 'row' }}>
+                    <CanvasStage />
+                </Layout.Content>
             </Layout.Content>
         </Layout>
     );

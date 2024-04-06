@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Card, Image } from 'antd';
+import { Image } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
@@ -11,63 +11,56 @@ interface UserImageProps {
     imageData: ImageData;
     userImages: Array<ImageData>;
     setUserImages: React.Dispatch<React.SetStateAction<Array<ImageData>>>;
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+    setOpen: any;
 }
 
-type ImageData = {
+interface ImageData {
     url: string;
     width: number;
     height: number;
     imageDbId: string;
-};
+}
 
-
-export default function UserImageCard({ imageData, setAnchorEl, userImages, setUserImages }: UserImageProps) {
+export default function UserImageCard({ imageData, setOpen, userImages, setUserImages }: UserImageProps) {
     const { setCanvasDesign } = useCanvasDesignContext();
-    const { auth0User, getAccessToken } = useAuth0User();
+    const { getAccessToken } = useAuth0User();
+    const { url, width, height } = imageData;
+    const imgheight = height / width * 300;
 
-    const handleImageClick = useCallback((imageData: ImageData) => {
-        //Create a canvas image object
-        const newCanvasImage: ImageObj = createImageObj(imageData.url, imageData.width / 15, imageData.height / 15);
-        //Add it to the canvas
+    const handleImageClick = useCallback(() => {
+        const newCanvasImage: ImageObj = createImageObj(url, 300, imgheight);
         setCanvasDesign((prevCanvasDesign: CanvasDesignData) => ({
             ...prevCanvasDesign,
             Shapes: [...prevCanvasDesign.Shapes, newCanvasImage]
         }));
+        setOpen(false);
+    }, [url, imgheight, setCanvasDesign, setOpen]);
 
-        setAnchorEl(null);
-    }, [setCanvasDesign, setAnchorEl]);
+    const handleImageDelete = useCallback(async () => {
+        try {
+            const imageDBIdToDelete = userImages.find(image => image.url === imageData.url)?.imageDbId;
+            if (!imageDBIdToDelete) return;
 
-    const handleImageDelete = useCallback(
-        async (selectedToDeleteImageUrl: string) => {
-            try {
-                // Find the image database ID to delete
-                const imageDBIdToDelete = userImages.find((image) => image.url === selectedToDeleteImageUrl)?.imageDbId;
+            const token = await getAccessToken();
+            if (!token) return;
 
-                if (!imageDBIdToDelete) return;
+            await deleteImage(imageDBIdToDelete, token);
 
-                // Get the access token
-                const token = await getAccessToken();
-                if (!token) return;
+            setUserImages(prevImages => prevImages.filter(image => image.url !== imageData.url));
+        } catch (error) {
+            console.error(error);
+        }
+    }, [getAccessToken, imageData, setUserImages, userImages]);
 
-                // Delete the image using the API utility
-                await deleteImage(imageDBIdToDelete, token);
-
-                // Remove the deleted image from the local state
-                setUserImages((prevImages) =>
-                    prevImages.filter((imageData) => imageData.url !== selectedToDeleteImageUrl)
-                );
-            } catch (error) {
-                // Handle error as needed
-                console.error(error);
-            }
-        },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        [auth0User?.sub, userImages]
-    );
     return (
-        <Card onClick={() => handleImageClick(imageData)}>
-            <Image src={imageData.url} alt="Image thumbnail" />
+        <div>
+            <Image
+                width={150}
+                src={imageData.url}
+                alt="Image thumbnail"
+                onClick={handleImageClick}
+                preview={false}
+            />
             <div
                 style={{
                     cursor: 'pointer',
@@ -78,13 +71,13 @@ export default function UserImageCard({ imageData, setAnchorEl, userImages, setU
                     padding: 4,
                     borderRadius: '50%',
                 }}
-                onClick={(event) => {
-                    event.stopPropagation(); // Prevent click event from propagating to the Card
-                    handleImageDelete(imageData.url);
+                onClick={event => {
+                    event.stopPropagation();
+                    handleImageDelete();
                 }}
             >
                 <DeleteOutlined />
             </div>
-        </Card>
+            </div>
     );
-};
+}

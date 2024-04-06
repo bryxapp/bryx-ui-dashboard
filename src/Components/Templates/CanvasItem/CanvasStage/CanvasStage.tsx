@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
-import styled from '@emotion/styled';
 import { ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
@@ -8,16 +7,7 @@ import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
 import ShapeRenderer from './ShapeRenderer';
 import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
-
-const PiecePaper = styled('div')<{ pageWidth: string | number; pageHeight: string | number }>((props) => ({
-    width: props.pageWidth,
-    height: props.pageHeight,
-    boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
-    borderRadius: '0.25in',
-    margin: 'auto',
-    overflow: 'hidden',
-    backgroundColor: 'white',
-}));
+import PiecePaper from '../../../SharedComponents/PiecePaper/PiecePaper';
 
 
 const CanvasStage = () => {

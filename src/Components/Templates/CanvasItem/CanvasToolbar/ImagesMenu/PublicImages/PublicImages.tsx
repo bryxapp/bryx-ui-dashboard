@@ -2,25 +2,23 @@ import * as React from 'react';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { searchUnsplashImages } from '../../../../../../utils/api/unsplash-images-api';
-import TextField from '@mui/material/TextField';
-import { Typography, useTheme } from '@mui/material';
+import { Input, Typography } from 'antd';
 import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
 import logger from '../../../../../../logging/logger';
 import PublicImagesGrid from './PublicImagesGrid/PublicImagesGrid';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface PublicImagesMenuProps {
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
+    setOpen: any
 }
 
-export default function PublicImages({ setAnchorEl }: PublicImagesMenuProps) {
+export default function PublicImages({ setOpen }: PublicImagesMenuProps) {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [searchQuery, setSearchQuery] = useState('');
     const [unsplashImages, setUnsplashImages] = useState<Array<{ url: string; width: number; height: number; }>>([]);
     const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
     const prevSearchQueryRef = useRef<string>('');
     const [error, setError] = useState(false);
-    const theme = useTheme();
 
     const searchImages = useCallback(async (query: string) => {
         try {
@@ -72,28 +70,23 @@ export default function PublicImages({ setAnchorEl }: PublicImagesMenuProps) {
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newImage]
         });
-        setAnchorEl(null);
+        setOpen(false);
     };
 
     return (
         <div style={{ 'margin': '1vh' }}>
-
-            <TextField
-                label="Search Stock Images"
-                variant="outlined"
-                color='secondary'
-                size="small"
+            <Typography.Title level={5} style={{ margin: 0 }}>
+                Search Stock Images
+            </Typography.Title>
+            <Input
                 value={searchQuery}
+                placeholder='dogs'
                 onChange={(e) => setSearchQuery(e.target.value)}
-                fullWidth
-                margin="normal"
-                InputLabelProps={{
-                    style: { color: theme.palette.primary.main }
-                }}
+                size="small"
             />
-            <Typography variant="caption">
+            <Typography.Text>
                 Powered by Unsplash
-            </Typography>
+            </Typography.Text>
             <PublicImagesGrid unsplashImages={unsplashImages} handleImageClick={handleImageClick} error={error} />
         </div>
     );

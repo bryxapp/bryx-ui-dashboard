@@ -1,7 +1,7 @@
 import { Stage, Layer, Rect, Ellipse, Image, Text } from "react-konva";
 import { CanvasDesignData, EllipseObj, ImageObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
-import styled from '@emotion/styled';
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
+import PiecePaper from "../../PiecePaper/PiecePaper";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
@@ -15,19 +15,9 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
   //Create a styled div to mimic the look of paper. White drop shadow and rounded corners.
 
 
-  const PiecePaper = styled('div')({
-    width: pageWidth,
-    height: pageHeight,
-    boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
-    borderRadius: '0.1in',
-    margin: 'auto',
-    overflow: 'hidden',
-    backgroundColor: 'white',
-  });
-
   return (
 
-    <PiecePaper>
+    <PiecePaper pageHeight={pageHeight} pageWidth={pageWidth}>
       <Stage
         width={pageWidth}
         height={pageHeight}
