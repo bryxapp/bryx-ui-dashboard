@@ -1,4 +1,3 @@
-import { AppstoreOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { createEllipseObj, createRectangleObj, createRoundedRectangleObj } from '../../../../../utils/types/ShapesFactory';
@@ -32,33 +31,29 @@ function ShapesMenu() {
     };
 
     return (
-        <Menu.SubMenu
-            key="shapes"
-            icon={<AppstoreOutlined />}
-            title="Shapes"
+        <>
+        <Menu.Item
+            key="rectangle"
+            onClick={handleAddRectangle}
+            icon={<AddRectangleIcon />}
         >
-            <Menu.Item
-                key="rectangle"
-                onClick={handleAddRectangle}
-                icon={<AddRectangleIcon />}
-            >
-                Rectangle
-            </Menu.Item>
-            <Menu.Item
-                key="roundedRectangle"
-                onClick={handleAddRoundedRectangle}
-                icon={<AddRoundedRectangleIcon />}
-            >
-                Rounded Rectangle
-            </Menu.Item>
-            <Menu.Item
-                key="ellipse"
-                onClick={handleAddEllipse}
-                icon={<AddEllipseIcon />}
-            >
-                Ellipse
-            </Menu.Item>
-        </Menu.SubMenu>
+            Rectangle
+        </Menu.Item>
+        <Menu.Item
+            key="roundedRectangle"
+            onClick={handleAddRoundedRectangle}
+            icon={<AddRoundedRectangleIcon />}
+        >
+            Rounded Rectangle
+        </Menu.Item>
+        <Menu.Item
+            key="ellipse"
+            onClick={handleAddEllipse}
+            icon={<AddEllipseIcon />}
+        >
+            Ellipse
+        </Menu.Item>
+        </>
     );
 };
 

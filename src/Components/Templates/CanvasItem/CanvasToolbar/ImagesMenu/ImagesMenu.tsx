@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Menu } from 'antd'
-import { MdAddPhotoAlternate as AddImageIcon } from 'react-icons/md';
 import { MdImageSearch } from "react-icons/md";
 import PublicImages from './PublicImages/PublicImages';
 import UserImages from './UserImages/UserImages';
@@ -20,11 +19,6 @@ export default function ImagesMenu() {
 
     return (
         <>
-            <Menu.SubMenu
-                key="images"
-                icon={<AddImageIcon />}
-                title="Images"
-            >
                 <Menu.Item
                     key="stock-images"
                     onClick={handleStockImagesClick}
@@ -39,7 +33,6 @@ export default function ImagesMenu() {
                 >
                     User Images
                 </Menu.Item>
-            </Menu.SubMenu>
             <PublicImages open={openStockImages} setOpen={setOpenStockImages} />
             <UserImages open={openUserImages} setOpen={setOpenUserImages} />
         </>

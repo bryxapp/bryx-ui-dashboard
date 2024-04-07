@@ -3,19 +3,17 @@ import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
 import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
 import CanvasStage from "./CanvasStage/CanvasStage";
-import { Typography, Layout, Input, theme, Menu } from "antd";
+import { Typography, Layout, theme } from "antd";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
-import SaveTemplateButton from "./CanvasToolbar/SaveButton";
-import CloseTemplateButton from "./CanvasToolbar/CloseButton";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
-import ShapesMenu  from "./CanvasToolbar/ShapesMenu/ShapesMenu";
-import TextMenu from "./CanvasToolbar/TextMenu/TextMenu";
-import ImagesMenu from "./CanvasToolbar/ImagesMenu/ImagesMenu";
+import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
+import CanvasHeader from "./CanvasHeader/CanvasHeader";
+
 
 const CanvasItem = () => {
     const { auth0User, getAccessToken } = useAuth0User();
@@ -31,6 +29,7 @@ const CanvasItem = () => {
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
+
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -73,10 +72,6 @@ const CanvasItem = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search, auth0User?.sub]);
 
-    // const items2: MenuProps['items'] = ShapesMenu()
-
-
-
     if (loading) {
         // show loading message while data is being fetched
         return (
@@ -91,49 +86,25 @@ const CanvasItem = () => {
     // render canvas components when data is available
     return (
         <Layout>
-            <Layout.Content>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                    <div>
-                        <Input
-                            addonBefore="Template Name"
-                            size="large"
-                            value={friendlyName}
-                            onChange={(event) => setFriendlyName(event.target.value)}
-                            style={{ flex: 1, marginRight: '20px' }} // Adjusted width to use flex
-                            placeholder="Template Name"
-                        />
-                    </div>
-                    <div style={{ display: 'flex', gap: '10px' }}>
-                        <SaveTemplateButton
-                            isLoading={isLoading}
-                            setIsLoading={setIsLoading}
-                            dataBaseCanvasDesign={dataBaseCanvasDesign}
-                            setDataBaseCanvasDesign={setdataBaseCanvasDesign}
-                            friendlyName={friendlyName}
-                            databaseFriendlyName={dataBaseFriendlyName}
-                            setDatabaseFriendlyName={setDataBaseFriendlyName}
-                        />
-                        <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} friendlyName={friendlyName} databaseFriendlyName={dataBaseFriendlyName} />
-                    </div>
-                </div>
-            </Layout.Content>
-            <Layout
-                style={{ padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}
-            >
+            <Content>
+                <CanvasHeader 
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
+                    friendlyName={friendlyName}
+                    setFriendlyName={setFriendlyName}
+                    dataBaseCanvasDesign={dataBaseCanvasDesign}
+                    setDataBaseCanvasDesign={setdataBaseCanvasDesign}
+                    dataBaseFriendlyName={dataBaseFriendlyName}
+                    setDataBaseFriendlyName={setDataBaseFriendlyName}
+                />
+            </Content>
+            <Layout style={{ padding: '20px 0 15px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}>
                 <Sider style={{ background: colorBgContainer }} width={200}>
-                    <Menu
-                        mode="inline"
-                        defaultSelectedKeys={['1']}
-                        defaultOpenKeys={['sub1']}
-                        style={{ height: '100%' }}
-                        disabled={isLoading}
-                    >
-                        <ShapesMenu />
-                        <TextMenu />
-                        <ImagesMenu />
-                    </Menu>
+                    <CanvasToolbar isLoading={isLoading} />
                 </Sider>
-                <Content style={{ padding: '0 24px', minHeight: 280 }}><CanvasStage /></Content>
+                <Content>
+                    <CanvasStage />
+                </Content>
             </Layout>
         </Layout>
     );

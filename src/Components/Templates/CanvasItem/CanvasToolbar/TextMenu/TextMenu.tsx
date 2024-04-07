@@ -1,5 +1,4 @@
 import { Menu } from 'antd';
-import { MdTextFields as TextFieldsIcon } from 'react-icons/md';
 import { EmailInputObj, HeadingObj, ParagraphObj, PhoneInputObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { createEmailInputObj, createHeadingdObj, createParagraphObj, createPhoneInputObj, createShortTextInputObj } from '../../../../../utils/types/ShapesFactory';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
@@ -81,11 +80,7 @@ const TextMenu = () => {
 
     return (
 
-        <Menu.SubMenu
-            key="text"
-            icon={<TextFieldsIcon />}
-            title="Text"
-        >
+        <>
             <Menu.Item
                 key="heading"
                 onClick={handleAddHeading}
@@ -121,7 +116,7 @@ const TextMenu = () => {
             >
                 Short Text Input
             </Menu.Item>
-        </Menu.SubMenu>
+        </>
     );
 };
 
