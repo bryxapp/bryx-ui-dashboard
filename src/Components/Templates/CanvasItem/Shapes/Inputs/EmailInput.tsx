@@ -6,7 +6,7 @@ import InputContent from './SharedInputComponents/InputContent';
 import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu';
+import EditMenu from '../EditMenu/EditMenu';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface EmailInputProps {

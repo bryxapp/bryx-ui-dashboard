@@ -1,9 +1,9 @@
 import React from 'react';
 import { Form, Input, Typography, Checkbox } from 'antd';
 import TextPropertiesMenu from './TextPropertiesMenu/TextPropertiesMenu';
-import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
-import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface LabelEditorProps {
     inputObj: InputObj;

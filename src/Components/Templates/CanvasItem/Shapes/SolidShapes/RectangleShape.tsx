@@ -3,7 +3,7 @@ import { Rect } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu';
+import EditMenu from '../EditMenu/EditMenu';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface RectangleShapeProps {

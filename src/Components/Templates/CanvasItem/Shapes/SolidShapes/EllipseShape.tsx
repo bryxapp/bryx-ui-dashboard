@@ -4,13 +4,14 @@ import { Ellipse } from 'react-konva';
 import { EllipseObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../ShapeTransformer';
+import EditMenu from '../EditMenu/EditMenu';
 
 interface EllipseShapeProps {
     ellipseObj: EllipseObj;
     handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
     onTransformEnd: (e: any) => void;
-    handleDragMove:any;
+    handleDragMove: any;
 }
 
 const EllipseShape = ({
@@ -20,7 +21,7 @@ const EllipseShape = ({
     onTransformEnd,
     handleDragMove
 }: EllipseShapeProps) => {
-    
+
     const shapeRef = useRef<Konva.Ellipse>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
@@ -58,13 +59,16 @@ const EllipseShape = ({
                 draggable
             />
             {isSelected && (
-               <ShapeTransformer
-               trRef={trRef}
-               onTransformEnd={onTransformEnd}
-               rotationEnabled={true}
-               resizeEnabled={true}
-               keepRatio={false}
-           />
+                <>
+                    <EditMenu shapeObj={ellipseObj} width={ellipseObj.radiusX} />
+                    <ShapeTransformer
+                        trRef={trRef}
+                        onTransformEnd={onTransformEnd}
+                        rotationEnabled={true}
+                        resizeEnabled={true}
+                        keepRatio={false}
+                    />
+                </>
             )}
         </React.Fragment>
     );

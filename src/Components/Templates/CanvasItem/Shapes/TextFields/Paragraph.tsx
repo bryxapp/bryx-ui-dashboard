@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu';
+import EditMenu from '../EditMenu/EditMenu';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface ParagraphProps {

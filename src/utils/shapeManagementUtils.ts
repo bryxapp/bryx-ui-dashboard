@@ -172,6 +172,10 @@ export const isSolidShapeObj = (shape?: ShapeObj): boolean => {
     return shape ? ShapeTypes.includes(shape.type as ShapeType) : false;
 };
 
+export const isImageObject = (shape?: ShapeObj): boolean => {
+    return shape ? shape.type === 'Image' : false;
+}
+
 export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
     let foundAndUpdated = false;
 

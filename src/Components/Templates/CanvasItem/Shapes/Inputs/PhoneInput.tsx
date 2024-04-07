@@ -6,7 +6,7 @@ import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputContent from './SharedInputComponents/InputContent';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu';
+import EditMenu from '../EditMenu/EditMenu';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface PhoneInputProps {

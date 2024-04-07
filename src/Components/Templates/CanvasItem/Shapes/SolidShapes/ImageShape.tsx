@@ -4,6 +4,7 @@ import { Image } from 'react-konva';
 import { ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../ShapeTransformer';
+import EditMenu from '../EditMenu/EditMenu';
 
 interface ImageShapeProps {
     imageObj: ImageObj;
@@ -65,13 +66,16 @@ const ImageShape = ({
                 image={image}
             />
             {isSelected && (
-               <ShapeTransformer
-               trRef={trRef}
-               onTransformEnd={onTransformEnd}
-               rotationEnabled={true}
-               resizeEnabled={true}
-               keepRatio={false}
-           />
+                <>
+                    <EditMenu shapeObj={imageObj} width={imageObj.width} />
+                    <ShapeTransformer
+                        trRef={trRef}
+                        onTransformEnd={onTransformEnd}
+                        rotationEnabled={true}
+                        resizeEnabled={true}
+                        keepRatio={false}
+                    />
+                </>
             )}
         </React.Fragment>
     );

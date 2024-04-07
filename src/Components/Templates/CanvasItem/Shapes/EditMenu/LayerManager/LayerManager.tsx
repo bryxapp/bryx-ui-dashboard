@@ -1,20 +1,13 @@
-import { useState } from 'react';
-import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { Button, Dropdown, MenuProps } from 'antd';
-import { findShape } from '../../../../../utils/shapeManagementUtils';
-import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { Menu } from 'antd';
+import { findShape } from '../../../../../../utils/shapeManagementUtils';
+import { ShapeObj } from '../../../../../../utils/types/CanvasInterfaces';
 import {MdArrowRight as ForwardIcon} from 'react-icons/md';
 import {MdArrowLeft as BackwardIcon} from 'react-icons/md';
 import {MdFastForward as FastForwardIcon} from 'react-icons/md';
 import {MdFastRewind as FastRewindIcon} from 'react-icons/md';
-import {MdLayers as LayerIcon} from 'react-icons/md';
 
-interface LayerManagerProps {
-    isLoading: boolean;
-}
-
-export default function LayerManager({ isLoading }: LayerManagerProps) {
-    const [open, setOpen] = useState(false);
+export default function LayerManager() {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleSendToBack = () => {
@@ -77,51 +70,29 @@ export default function LayerManager({ isLoading }: LayerManagerProps) {
         setCanvasDesign(updatedCanvasDesign);
     };
 
-    const items: MenuProps['items'] = [
-        {
-            key: 'sendBackward',
-            onClick: () => {
-                handleSendBackward();
-            },
-            icon: <BackwardIcon />,
-            label: 'Send Backward',
-        },
-        {
-            key: 'sendToBack',
-            onClick: () => {
-                handleSendToBack();
-            },
-            icon: <FastRewindIcon />,
-            label: 'Send to Back',
-        },
-        {
-            key: 'bringForward',
-            onClick: () => {
-                handleBringForward();
-            },
-            icon: <ForwardIcon />,
-            label: 'Bring Forward',
-        },
-        {
-            key: 'bringToFront',
-            onClick: () => {
-                handleBringToFront();
-            },
-            icon: <FastForwardIcon />,
-            label: 'Bring to Front',
-        },
-    ];
-
     return (
-        <Dropdown
-            menu={{ items }}
-            trigger={['click']}
-            onOpenChange={(flag) => setOpen(flag)}
-            open={open}
-            disabled={isLoading}
-        >
-
-            <Button size="large" icon={<LayerIcon />} />
-        </Dropdown>
+        <>
+        <Menu.Item key="sendBackward" onClick={handleSendBackward} icon={<BackwardIcon />}>
+            Send Backward
+        </Menu.Item>
+        <Menu.Item key="sendToBack" onClick={handleSendToBack} icon={<FastRewindIcon />}>
+            Send to Back
+        </Menu.Item>
+        <Menu.Item key="bringForward" onClick={handleBringForward} icon={<ForwardIcon />}>
+            Bring Forward
+        </Menu.Item>
+        <Menu.Item key="bringToFront" onClick={handleBringToFront} icon={<FastForwardIcon />}>
+            Bring to Front
+        </Menu.Item>
+        </>
+        // <Menu.SubMenu
+        //     menu={{ items }}
+        //     trigger={['click']}
+        //     onOpenChange={(flag) => setOpen(flag)}
+        //     open={open}
+        //     disabled={isLoading}
+        // >
+        //     <Button size="large" icon={<LayerIcon />} />
+        // </Dropdown>
     );
 }

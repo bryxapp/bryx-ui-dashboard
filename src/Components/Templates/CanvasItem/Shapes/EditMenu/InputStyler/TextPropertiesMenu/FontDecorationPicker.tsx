@@ -1,25 +1,23 @@
-import React from 'react';
 import { Button } from 'antd';
-import { ItalicOutlined, BoldOutlined } from '@ant-design/icons';
-import { InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
+import { InputObj, ShapeObj, TextBase, TextObj } from '../../../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../../utils/contexts/canvasDesignContext';
 
-interface FontStylePickerProps {
+interface FontDecorationPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
 }
 
-const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) => {
+const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, itemType }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    const selectedTextItemFontStyle = textObj.fontStyle;
-    if (!selectedTextItemFontStyle) return null;
+    const selectedTextItemFontDecoration = textObj.textDecoration;
 
-    const selectedFontStyles = [];
-    if (selectedTextItemFontStyle?.includes('italic')) {
-        selectedFontStyles.push('italic');
+    const selectedFontDecorations = [];
+    if (selectedTextItemFontDecoration?.includes('underline')) {
+        selectedFontDecorations.push('underline');
     }
-    if (selectedTextItemFontStyle?.includes('bold')) {
-        selectedFontStyles.push('bold');
+    if (selectedTextItemFontDecoration?.includes('line-through')) {
+        selectedFontDecorations.push('line-through');
     }
 
     const toggleTextStyle = (
@@ -27,7 +25,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) 
     ) => {
         const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
-        const updatedShapes = canvasDesign.Shapes.map((shape) => {
+        const updatedShapes = canvasDesign.Shapes.map((shape:ShapeObj) => {
             if (shape.id === selectedId) {
                 if (itemType === null) {
                     const textObj = shape as TextObj;
@@ -36,6 +34,7 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) 
                     textObj[styleProperty] = isStyleApplied
                         ? currentStyle.replace(style, '').trim()
                         : `${currentStyle} ${style}`.trim();
+                    return { ...shape, [styleProperty]: textObj[styleProperty] };
                 }
                 else {
                     const inputObj = shape as InputObj;
@@ -44,7 +43,8 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) 
                     inputObj[itemType][styleProperty] = isStyleApplied
                         ? currentStyle.replace(style, '').trim()
                         : `${currentStyle} ${style}`.trim();
-                    return { ...shape, [styleProperty]: inputObj[itemType][styleProperty] };
+
+                    return { ...inputObj, [styleProperty]: inputObj[itemType][styleProperty] };
                 }
             }
             return shape;
@@ -55,22 +55,23 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) 
         });
     };
 
+
     return (
         <>
             <Button
-                type={selectedFontStyles.includes('italic') ? 'primary' : 'default'}
-                icon={<ItalicOutlined />}
-                onClick={() => toggleTextStyle('italic')}
+                type={selectedFontDecorations.includes('line-through') ? 'primary' : 'default'}
+                icon={<StrikethroughOutlined />}
+                onClick={() => toggleTextStyle('line-through')}
                 size="small"
             />
             <Button
-                type={selectedFontStyles.includes('bold') ? 'primary' : 'default'}
-                icon={<BoldOutlined />}
-                onClick={() => toggleTextStyle('bold')}
+                type={selectedFontDecorations.includes('underline') ? 'primary' : 'default'}
+                icon={<UnderlineOutlined />}
+                onClick={() => toggleTextStyle('underline')}
                 size="small"
             />
         </>
     );
 };
 
-export default FontStylePicker;
+export default FontDecorationPicker;
