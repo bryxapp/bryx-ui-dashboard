@@ -2,11 +2,11 @@ import { Rect, Group } from 'react-konva';
 import { ShortTextInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import InputTransformer from './SharedInputComponents/InputTransformer';
 import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import EditMenu from '../EditMenu';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface ShortTextInputProps {
     shortTextInputObj: ShortTextInputObj;
@@ -113,7 +113,13 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
             {isSelected && (
                 <>
                     <EditMenu shapeObj={shortTextInputObj} width={containerWidth} />
-                    <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                    <ShapeTransformer
+                        trRef={trRef}
+                        onTransformEnd={onTransformEnd}
+                        rotationEnabled={true}
+                        resizeEnabled={false}
+                        keepRatio={true}
+                    />
                 </>
             )}
         </React.Fragment>

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Rect, Transformer } from 'react-konva';
+import { Rect } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface RoundedRectangleShapeProps {
     roundedRectangleObj: RectangleObj;
@@ -10,10 +11,10 @@ interface RoundedRectangleShapeProps {
     isSelected: boolean;
     onSelect: any;
     onTransformEnd: any;
-    handleDragMove:any
+    handleDragMove: any
 }
 
-const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd,handleDragMove }: RoundedRectangleShapeProps) => {
+const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDragEnd, isSelected, onSelect, onTransformEnd, handleDragMove }: RoundedRectangleShapeProps) => {
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
     useEffect(() => {
@@ -36,10 +37,10 @@ const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDra
                 width={roundedRectangleObj.width}
                 height={roundedRectangleObj.height}
                 fill={roundedRectangleObj.fill}
-                stroke = {roundedRectangleObj.stroke}
+                stroke={roundedRectangleObj.stroke}
                 strokeWidth={roundedRectangleObj.strokeWidth}
-                scaleX={roundedRectangleObj.isDragging ? 1.0: 1}
-                scaleY={roundedRectangleObj.isDragging ? 1.0: 1}
+                scaleX={roundedRectangleObj.isDragging ? 1.0 : 1}
+                scaleY={roundedRectangleObj.isDragging ? 1.0 : 1}
                 rotation={roundedRectangleObj.rotation}
                 onDragMove={handleDragMove}
                 onDragStart={handleDragStart}
@@ -48,16 +49,12 @@ const RoundedRectangleShape = ({ roundedRectangleObj, handleDragStart, handleDra
                 draggable
             />
             {isSelected && (
-                <Transformer
-                    ref={trRef}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // limit resize
-                        if (newBox.width < 5 || newBox.height < 5) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }}
+                <ShapeTransformer
+                    trRef={trRef}
                     onTransformEnd={onTransformEnd}
+                    rotationEnabled={true}
+                    resizeEnabled={true}
+                    keepRatio={false}
                 />
             )}
         </React.Fragment>

@@ -1,11 +1,12 @@
 import { HeadingObj } from '../../../../../utils/types/CanvasInterfaces';
-import { Group, Rect, Text, Transformer } from 'react-konva';
+import { Group, Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import EditMenu from '../EditMenu';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface HeadingProps {
     headingObj: HeadingObj;
@@ -170,13 +171,12 @@ const Heading = ({
             {isSelected && !editing && (
                 <>
                     <EditMenu shapeObj={headingObj} width={rectWidth} />
-                    <Transformer
-                        ref={trRef}
+                    <ShapeTransformer
+                        trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotateEnabled={true}
-                        anchorSize={10}
+                        rotationEnabled={true}
                         resizeEnabled={false}
-                        keepRatio={false}
+                        keepRatio={true}
                     />
                 </>
             )}

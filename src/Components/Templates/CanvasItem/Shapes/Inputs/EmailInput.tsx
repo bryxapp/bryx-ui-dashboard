@@ -2,12 +2,12 @@ import { Rect, Group } from 'react-konva';
 import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import InputTransformer from './SharedInputComponents/InputTransformer';
 import InputContent from './SharedInputComponents/InputContent';
 import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import EditMenu from '../EditMenu';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface EmailInputProps {
     emailInputObj: EmailInputObj;
@@ -103,7 +103,13 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransform
             {isSelected && (
                 <>
                     <EditMenu shapeObj={emailInputObj} width={containerWidth} />
-                    <InputTransformer trRef={trRef} onTransformEnd={onTransformEnd} />
+                    <ShapeTransformer
+                        trRef={trRef}
+                        onTransformEnd={onTransformEnd}
+                        rotationEnabled={true}
+                        resizeEnabled={false}
+                        keepRatio={true}
+                    />
                 </>
             )}
         </React.Fragment>

@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
-import { Image, Transformer } from 'react-konva';
+import { Image } from 'react-konva';
 import { ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface ImageShapeProps {
     imageObj: ImageObj;
@@ -64,17 +65,13 @@ const ImageShape = ({
                 image={image}
             />
             {isSelected && (
-                <Transformer
-                    ref={trRef}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // limit resize
-                        if (newBox.width < 5 || newBox.height < 5) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }}
-                    onTransformEnd={onTransformEnd}
-                />
+               <ShapeTransformer
+               trRef={trRef}
+               onTransformEnd={onTransformEnd}
+               rotationEnabled={true}
+               resizeEnabled={true}
+               keepRatio={false}
+           />
             )}
         </React.Fragment>
     );

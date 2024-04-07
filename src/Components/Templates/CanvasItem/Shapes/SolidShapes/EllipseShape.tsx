@@ -1,8 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import Konva from 'konva';
-import { Ellipse, Transformer } from 'react-konva';
+import { Ellipse } from 'react-konva';
 import { EllipseObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface EllipseShapeProps {
     ellipseObj: EllipseObj;
@@ -57,17 +58,13 @@ const EllipseShape = ({
                 draggable
             />
             {isSelected && (
-                <Transformer
-                    ref={trRef}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // limit resize
-                        if (newBox.width < 5 || newBox.height < 5) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }}
-                    onTransformEnd={onTransformEnd}
-                />
+               <ShapeTransformer
+               trRef={trRef}
+               onTransformEnd={onTransformEnd}
+               rotationEnabled={true}
+               resizeEnabled={true}
+               keepRatio={false}
+           />
             )}
         </React.Fragment>
     );

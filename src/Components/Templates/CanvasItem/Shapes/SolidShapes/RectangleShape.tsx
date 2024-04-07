@@ -1,9 +1,10 @@
 import React, { useEffect, useRef } from 'react';
-import { Rect, Transformer } from 'react-konva';
+import { Rect } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import EditMenu from '../EditMenu';
+import ShapeTransformer from '../ShapeTransformer';
 
 interface RectangleShapeProps {
     rectangleObj: RectangleObj;
@@ -56,16 +57,12 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, onTransf
             {isSelected && (
                 <>
                     <EditMenu shapeObj={rectangleObj} width={rectangleObj.width} />
-                    <Transformer
-                        ref={trRef}
-                        boundBoxFunc={(oldBox, newBox) => {
-                            // limit resize
-                            if (newBox.width < 5 || newBox.height < 5) {
-                                return oldBox;
-                            }
-                            return newBox;
-                        }}
+                    <ShapeTransformer
+                        trRef={trRef}
                         onTransformEnd={onTransformEnd}
+                        rotationEnabled={true}
+                        resizeEnabled={true}
+                        keepRatio={false}
                     />
                 </>
             )}
