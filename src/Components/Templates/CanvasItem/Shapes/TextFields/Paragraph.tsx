@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu/EditMenu';
+import ShapePopUp from '../ShapePopUp';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface ParagraphProps {
@@ -170,7 +170,7 @@ const Paragraph = ({
             </Group>
             {isSelected && !editing && (
                 <>
-                    <EditMenu shapeObj={paragraphObj} width={rectWidth} />
+                    <ShapePopUp shapeObj={paragraphObj} width={rectWidth} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

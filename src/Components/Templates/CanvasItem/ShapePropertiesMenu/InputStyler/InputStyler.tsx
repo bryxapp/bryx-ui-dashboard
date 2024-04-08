@@ -1,8 +1,8 @@
-import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { findShape, isInputObject } from '../../../../../../utils/shapeManagementUtils';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { findShape, isInputObject } from '../../../../../utils/shapeManagementUtils';
 import LabelEditor from './LabelEditor';
 import ContentEditor from './ContentEditor';
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { Header } from 'antd/es/layout/layout';
 
 function InputStyler() {

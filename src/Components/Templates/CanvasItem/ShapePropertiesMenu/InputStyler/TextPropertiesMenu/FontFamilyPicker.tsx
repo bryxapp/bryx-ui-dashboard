@@ -1,7 +1,7 @@
 import { Select, Typography } from 'antd';
-import { TextBase } from '../../../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty, updateShapeProperty } from '../../../../../../../utils/shapeManagementUtils';
-import { useCanvasDesignContext } from '../../../../../../../utils/contexts/canvasDesignContext';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 const { Option } = Select;
 

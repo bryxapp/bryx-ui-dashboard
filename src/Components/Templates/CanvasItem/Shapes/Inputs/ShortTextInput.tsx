@@ -5,7 +5,7 @@ import Konva from 'konva';
 import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu/EditMenu';
+import ShapePopUp from '../ShapePopUp';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface ShortTextInputProps {
@@ -112,7 +112,7 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
             </Group>
             {isSelected && (
                 <>
-                    <EditMenu shapeObj={shortTextInputObj} width={containerWidth} />
+                    <ShapePopUp shapeObj={shortTextInputObj} width={containerWidth} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

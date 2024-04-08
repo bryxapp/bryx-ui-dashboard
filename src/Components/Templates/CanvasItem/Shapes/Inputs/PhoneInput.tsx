@@ -6,7 +6,7 @@ import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputContent from './SharedInputComponents/InputContent';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import EditMenu from '../EditMenu/EditMenu';
+import ShapePopUp from '../ShapePopUp';
 import ShapeTransformer from '../ShapeTransformer';
 
 interface PhoneInputProps {
@@ -102,7 +102,7 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransform
             </Group>
             {isSelected && (
                 <>
-                    <EditMenu shapeObj={phoneInputObj} width={containerWidth} />
+                    <ShapePopUp shapeObj={phoneInputObj} width={containerWidth} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Slider, Typography } from 'antd';
-import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
-import { SolidShapeObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { ColorPicker } from "antd";
 import type { ColorPickerProps } from 'antd';
 import { Color } from 'antd/es/color-picker';
@@ -17,13 +17,32 @@ const BorderColorPicker: React.FC<BorderColorPickerProps> = ({ solidShapeObj }) 
     const [value, setValue] = useState<ColorPickerProps['value']>(solidShapeObj.stroke);
     const [strokeWidth, setStrokeWidth] = useState<number>(solidShapeObj.strokeWidth);
 
+    const isTransparent = (hexString: string) => {
+        if (hexString === 'transparent') {
+            return true;
+        }
+
+        if (
+            hexString.length === 9 &&
+            hexString[7] === '0' &&
+            hexString[8] === '0') {
+            return true;
+        }
+    }
+
     const handleColorChange = (color: Color) => {
         setValue(color);
+        const hexString = color.toHexString();
+        let strokeColor = hexString;
+        if (isTransparent(hexString)) {
+            strokeColor = 'transparent';
+        }
+
         updateShapeProperty(
             canvasDesign,
             setCanvasDesign,
             'stroke',
-            color.toHexString(),
+            strokeColor,
             selectedId
         );
     };
@@ -63,7 +82,7 @@ const BorderColorPicker: React.FC<BorderColorPickerProps> = ({ solidShapeObj }) 
                 </div>
             )}
         >
-            <Button icon={<MdBorderColor style={{ color: solidShapeObj.stroke }} />} />
+            <Button icon={<MdBorderColor style={{ color: isTransparent(solidShapeObj.stroke) ? 'black' : solidShapeObj.stroke }} />} />
         </ColorPicker>
     );
 };

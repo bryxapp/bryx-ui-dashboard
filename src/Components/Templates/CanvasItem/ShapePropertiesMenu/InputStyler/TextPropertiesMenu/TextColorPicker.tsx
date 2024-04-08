@@ -1,8 +1,8 @@
 import React from 'react';
 import { Typography, ColorPicker } from 'antd';
-import { updateInputProperty, updateShapeProperty } from '../../../../../../../utils/shapeManagementUtils';
-import { TextBase } from '../../../../../../../utils/types/CanvasInterfaces';
-import { useCanvasDesignContext } from '../../../../../../../utils/contexts/canvasDesignContext';
+import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface ColorPickerProps {
     textObj: TextBase;

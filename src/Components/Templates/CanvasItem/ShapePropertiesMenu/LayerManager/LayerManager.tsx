@@ -1,7 +1,7 @@
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { Menu } from 'antd';
-import { findShape } from '../../../../../../utils/shapeManagementUtils';
-import { ShapeObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
+import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import {MdArrowRight as ForwardIcon} from 'react-icons/md';
 import {MdArrowLeft as BackwardIcon} from 'react-icons/md';
 import {MdFastForward as FastForwardIcon} from 'react-icons/md';
@@ -85,14 +85,5 @@ export default function LayerManager() {
             Bring to Front
         </Menu.Item>
         </>
-        // <Menu.SubMenu
-        //     menu={{ items }}
-        //     trigger={['click']}
-        //     onOpenChange={(flag) => setOpen(flag)}
-        //     open={open}
-        //     disabled={isLoading}
-        // >
-        //     <Button size="large" icon={<LayerIcon />} />
-        // </Dropdown>
     );
 }

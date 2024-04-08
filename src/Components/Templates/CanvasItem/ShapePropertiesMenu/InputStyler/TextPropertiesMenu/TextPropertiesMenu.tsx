@@ -7,7 +7,7 @@ import FontStylePicker from './FontStylePicker';
 import FontDecorationPicker from './FontDecorationPicker';
 import TextAlignmentPicker from './TextAlignmentPicker';
 import TextColorPicker from './TextColorPicker';
-import { TextBase } from '../../../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface TextPropertiesMenuProps {
     textObj: TextBase;

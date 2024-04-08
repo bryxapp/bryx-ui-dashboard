@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from 'antd';
 import { AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined } from '@ant-design/icons';
-import { TextBase } from '../../../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty, updateShapeProperty } from '../../../../../../../utils/shapeManagementUtils';
-import { useCanvasDesignContext } from '../../../../../../../utils/contexts/canvasDesignContext';
+import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface TextAlignmentPickerProps {
     textObj: TextBase;
