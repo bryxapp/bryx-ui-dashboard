@@ -45,11 +45,3 @@ export const CanvasDesignProvider: React.FC<Props> = ({ children }) => {
         </CanvasDesignContext.Provider>
     );
 };
-
-export const PassInCanvasDesignProvider = ({ children, canvasDesign, setCanvasDesign, selectedId, setSelectedId }:any) => {
-    return (
-        <CanvasDesignContext.Provider value={{ canvasDesign, setCanvasDesign, selectedId, setSelectedId }}>
-            {children}
-        </CanvasDesignContext.Provider>
-    );
-};

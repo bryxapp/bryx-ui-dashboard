@@ -3,8 +3,8 @@ import Konva from 'konva';
 import { Image } from 'react-konva';
 import { ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapeTransformer from '../ShapeTransformer';
-import ShapePopUp from '../ShapePopUp';
+import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
 
 interface ImageShapeProps {
     imageObj: ImageObj;

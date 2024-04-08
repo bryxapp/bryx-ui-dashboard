@@ -3,8 +3,8 @@ import { Rect } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapePopUp from '../ShapePopUp';
-import ShapeTransformer from '../ShapeTransformer';
+import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
+import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface RectangleShapeProps {
     rectangleObj: RectangleObj;

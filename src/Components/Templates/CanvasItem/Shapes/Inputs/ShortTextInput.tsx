@@ -5,8 +5,8 @@ import Konva from 'konva';
 import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapePopUp from '../ShapePopUp';
-import ShapeTransformer from '../ShapeTransformer';
+import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
+import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface ShortTextInputProps {
     shortTextInputObj: ShortTextInputObj;

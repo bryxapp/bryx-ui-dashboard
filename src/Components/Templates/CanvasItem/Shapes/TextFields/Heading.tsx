@@ -5,8 +5,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapePopUp from '../ShapePopUp';
-import ShapeTransformer from '../ShapeTransformer';
+import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
+import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface HeadingProps {
     headingObj: HeadingObj;

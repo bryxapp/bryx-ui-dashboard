@@ -1,7 +1,7 @@
 import { Html } from 'react-konva-utils';
-import { deleteShape } from '../../../../utils/shapeManagementUtils';
-import { ShapeObj } from '../../../../utils/types/CanvasInterfaces';
-import { PassInCanvasDesignProvider, useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
+import { deleteShape } from '../../../../../utils/shapeManagementUtils';
+import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { Menu } from 'antd';
 import { DeleteOutlined, SettingOutlined } from '@ant-design/icons';
 
@@ -15,16 +15,17 @@ const ShapePopUp = ({
     width,
 }: ShapePopUpProps) => {
     const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
+    
     const handleDeleteShape = () => {
         deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
     }
+
     const handleOpenProperties = () => {
         console.log('Open properties');
     }
 
     return (
         <Html>
-            <PassInCanvasDesignProvider canvasDesign={canvasDesign} setCanvasDesign={setCanvasDesign} selectedId={selectedId} setSelectedId={setSelectedId}>
                 <Menu
                     style={{
                         position: 'absolute',
@@ -54,7 +55,6 @@ const ShapePopUp = ({
                         Delete
                     </Menu.Item>
                 </Menu>
-            </PassInCanvasDesignProvider>
         </Html>
     );
 };

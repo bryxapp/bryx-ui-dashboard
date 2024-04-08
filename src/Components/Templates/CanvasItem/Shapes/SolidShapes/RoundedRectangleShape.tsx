@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Rect } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
-import ShapeTransformer from '../ShapeTransformer';
+import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface RoundedRectangleShapeProps {
     roundedRectangleObj: RectangleObj;
