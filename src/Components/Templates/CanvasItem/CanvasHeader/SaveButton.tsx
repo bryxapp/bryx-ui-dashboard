@@ -15,6 +15,8 @@ interface SaveTemplateButtonProps {
     friendlyName: string;
     databaseFriendlyName: string;
     setDatabaseFriendlyName: React.SetStateAction<any>;
+    templateId: string | null;
+    setTemplateId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function SaveTemplateButton({
@@ -24,7 +26,9 @@ export default function SaveTemplateButton({
     setDataBaseCanvasDesign,
     friendlyName,
     databaseFriendlyName,
-    setDatabaseFriendlyName
+    setDatabaseFriendlyName,
+    templateId,
+    setTemplateId
 }: SaveTemplateButtonProps) {
     const { getAccessToken } = useAuth0User();
     const [error, setError] = useState(false); // Error state
@@ -45,9 +49,6 @@ export default function SaveTemplateButton({
                 return;
             }
 
-            const params = new URLSearchParams(window.location.search);
-            const templateId = params.get('templateId');
-
             if (templateId) {
                 const updatedTemplate = await updateTemplate(templateId, canvasDesign, friendlyName, token);
                 setDataBaseCanvasDesign(updatedTemplate.canvasDesign);
@@ -56,6 +57,7 @@ export default function SaveTemplateButton({
                 const newTemplate = await createTemplate(canvasDesign, friendlyName, token);
                 setDataBaseCanvasDesign(newTemplate.canvasDesign);
                 setDatabaseFriendlyName(newTemplate.friendlyName);
+                setTemplateId(newTemplate.id);
                 // Append templateId to URL for subsequent saves
                 window.history.pushState(null, '', `?templateId=${newTemplate.id}`);
             }

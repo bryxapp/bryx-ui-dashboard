@@ -5,7 +5,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface HeadingProps {
@@ -117,8 +116,8 @@ const Heading = ({
         const { value } = target;
         target.setSelectionRange(value.length, value.length);
     };
-    const rectWidth = measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20;
-    const rectHeight = measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20;
+    const rectWidth = measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily);
+    const rectHeight = measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily);
 
     return (
         <>
@@ -170,7 +169,6 @@ const Heading = ({
             </Group>
             {isSelected && !editing && (
                 <>
-                    <ShapePopUp shapeObj={headingObj} width={rectWidth} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

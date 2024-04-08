@@ -1,13 +1,14 @@
-import React from 'react';
 
 interface PiecePaperProps {
     pageWidth: string | number;
     pageHeight: string | number;
+    refProp?: React.RefObject<HTMLDivElement>;
     id?: string;
     children: React.ReactNode;
 }
 
-const PiecePaper: React.FC<PiecePaperProps> = ({ pageWidth, pageHeight, id, children }) => {
+const PiecePaper: React.FC<PiecePaperProps> = ({ pageWidth, pageHeight, refProp, id, children }) => {
+    
     const style = {
         width: pageWidth,
         height: pageHeight,
@@ -18,7 +19,7 @@ const PiecePaper: React.FC<PiecePaperProps> = ({ pageWidth, pageHeight, id, chil
         backgroundColor: 'white',
     };
 
-    return <div id= {id? id: "id"} style={style}>{children}</div>;
+    return <div id={id ? id : "id"} style={style} ref={refProp}>{children}</div>;
 };
 
 export default PiecePaper;

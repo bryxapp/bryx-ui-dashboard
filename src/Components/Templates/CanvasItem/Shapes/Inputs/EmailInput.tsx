@@ -6,7 +6,6 @@ import InputContent from './SharedInputComponents/InputContent';
 import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface EmailInputProps {
@@ -81,7 +80,7 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransform
             >
                 {/* Background Rectangle for easier selecting and dragging */}
                 <Rect
-                    width={containerWidth + 10}
+                    width={containerWidth}
                     height={containerHeight}
                     fill='transparent'
                     onClick={onSelect}
@@ -102,7 +101,6 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransform
             </Group>
             {isSelected && (
                 <>
-                    <ShapePopUp shapeObj={emailInputObj} width={containerWidth} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

@@ -72,6 +72,12 @@ export const useCanvasKeyboardShortcuts = ({
             toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "underline");
           }
           break;
+        case "s":
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            //TODO Save the canvas design
+          }
+          break;
         default:
           break;
       }

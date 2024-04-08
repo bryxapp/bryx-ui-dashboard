@@ -2,6 +2,7 @@ import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, ShapeType, ShapeTypes } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
+import { createTempTextKonvaShape } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -146,6 +147,32 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
         }
     }
     return undefined;
+};
+
+export const getShapeWidth = (shape:ShapeObj): number => {
+    switch (shape.type) {
+        case 'Rectangle':
+        case 'RoundedRectangle':
+            return (shape as RectangleObj).width;
+        case 'Ellipse':
+            return (shape as EllipseObj).radiusX * 2;
+        case 'Image':
+            return (shape as ImageObj).width;
+        case 'Heading':
+        case 'Paragraph':
+            const paragraphObj = shape as TextObj;
+            const tempTextShape = createTempTextKonvaShape(paragraphObj);
+            return tempTextShape.width();
+        case 'PhoneInput':
+        case 'EmailInput':
+        case 'ShortTextInput':
+            const inputObj = shape as InputObj;
+            const tempTextShapeLabel = createTempTextKonvaShape(inputObj.label);
+            const tempTextShapeContent = createTempTextKonvaShape(inputObj.content);
+            return Math.max(tempTextShapeContent.width(), tempTextShapeLabel.width());
+        default:
+            return 0;
+    }
 };
 
 export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {
@@ -310,3 +337,4 @@ export const toggleTextStyle = (
         Shapes: updatedShapes,
     });
 };
+

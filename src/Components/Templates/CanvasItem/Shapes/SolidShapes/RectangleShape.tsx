@@ -3,7 +3,6 @@ import { Rect } from 'react-konva';
 import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface RectangleShapeProps {
@@ -56,7 +55,6 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, onTransf
             />
             {isSelected && (
                 <>
-                    <ShapePopUp shapeObj={rectangleObj} width={rectangleObj.width} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

@@ -1,5 +1,5 @@
 import { Rect, Text } from 'react-konva';
-import { PADDING, FILL_COLOR, getXAlignment, getYAlignment } from './InputHelper'
+import { FILL_COLOR, getXAlignment, getYAlignment } from './InputHelper'
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface InputContentProps {
@@ -19,7 +19,7 @@ const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, conta
             <Rect
                 x={0}
                 y={getYAlignment(contentHeight) + labelHeight + (labelFontSize/10)}
-                width={contentWidth + PADDING}
+                width={contentWidth}
                 height={contentHeight}
                 fill={FILL_COLOR}
                 onClick={onSelect}

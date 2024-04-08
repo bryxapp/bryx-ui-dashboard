@@ -22,6 +22,7 @@ const CanvasItem = () => {
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
+    const [templateId, setTemplateId] = useState<string | null>(null);
     const [error, setError] = useState(false);
     const { setCanvasDesign, setSelectedId } = useCanvasDesignContext();
     const [isLoading, setIsLoading] = useState(false);
@@ -50,6 +51,7 @@ const CanvasItem = () => {
                     setdataBaseCanvasDesign(canvasDesignCopy);
                     setFriendlyName(fetchedTemplate.friendlyName);
                     setDataBaseFriendlyName(fetchedTemplate.friendlyName);
+                    setTemplateId(fetchedTemplate.id);
                     setLoading(false);
                 } catch (error) {
                     logger.trackException({
@@ -96,6 +98,8 @@ const CanvasItem = () => {
                     setDataBaseCanvasDesign={setdataBaseCanvasDesign}
                     dataBaseFriendlyName={dataBaseFriendlyName}
                     setDataBaseFriendlyName={setDataBaseFriendlyName}
+                    templateId={templateId}
+                    setTemplateId={setTemplateId}
                 />
             </Content>
             <Layout style={{ padding: '20px 0 15px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}>

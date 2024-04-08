@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import { ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
@@ -8,11 +8,13 @@ import ShapeRenderer from './ShapeRenderer';
 import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import PiecePaper from '../../../SharedComponents/PiecePaper/PiecePaper';
+import ShapePopUp from '../ShapePopUp';
 
 
 const CanvasStage = () => {
     const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
+    const stageRef = useRef(null); // Create a ref here
 
     //Parse url to get canvas starter name
     const urlParams = new URLSearchParams(window.location.search);
@@ -41,18 +43,20 @@ const CanvasStage = () => {
         <PiecePaper
             pageWidth={pageWidth}
             pageHeight={pageHeight}
-        >
+            refProp={stageRef}
+        > 
             <Stage
                 width={pageWidth}
                 height={pageHeight}
                 onMouseDown={checkDeselect}
                 onTouchStart={checkDeselect}
             >
-                <Layer>
+                <Layer >
                     {/* Place all shapes on the canvas */}
                     <ShapeRenderer />
                 </Layer>
             </Stage>
+            <ShapePopUp stageRef={stageRef}/>
         </PiecePaper>
     );
 };

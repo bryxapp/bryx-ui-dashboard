@@ -4,7 +4,6 @@ import { Image } from 'react-konva';
 import { ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
-import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
 
 interface ImageShapeProps {
     imageObj: ImageObj;
@@ -67,7 +66,6 @@ const ImageShape = ({
             />
             {isSelected && (
                 <>
-                    <ShapePopUp shapeObj={imageObj} width={imageObj.width} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

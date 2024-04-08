@@ -4,7 +4,6 @@ import { Ellipse } from 'react-konva';
 import { EllipseObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
-import ShapePopUp from '../SharedShapeComponents/ShapePopUp';
 
 interface EllipseShapeProps {
     ellipseObj: EllipseObj;
@@ -60,7 +59,6 @@ const EllipseShape = ({
             />
             {isSelected && (
                 <>
-                    <ShapePopUp shapeObj={ellipseObj} width={ellipseObj.radiusX} />
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}

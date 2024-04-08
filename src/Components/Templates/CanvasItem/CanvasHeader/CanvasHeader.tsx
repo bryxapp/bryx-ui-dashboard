@@ -12,6 +12,8 @@ interface CanvasHeaderProps {
     setDataBaseCanvasDesign: (dataBaseCanvasDesign: CanvasDesignData) => void;
     dataBaseFriendlyName: string;
     setDataBaseFriendlyName: (dataBaseFriendlyName: string) => void;
+    templateId: string | null;
+    setTemplateId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 
@@ -23,7 +25,9 @@ const CanvasHeader = ({
     dataBaseCanvasDesign,
     setDataBaseCanvasDesign,
     dataBaseFriendlyName,
-    setDataBaseFriendlyName
+    setDataBaseFriendlyName,
+    templateId,
+    setTemplateId
 }: CanvasHeaderProps) => {
 
     return (
@@ -47,6 +51,8 @@ const CanvasHeader = ({
                     friendlyName={friendlyName}
                     databaseFriendlyName={dataBaseFriendlyName}
                     setDatabaseFriendlyName={setDataBaseFriendlyName}
+                    templateId={templateId}
+                    setTemplateId={setTemplateId}
                 />
                 <CloseTemplateButton dataBaseCanvasDesign={dataBaseCanvasDesign} friendlyName={friendlyName} databaseFriendlyName={dataBaseFriendlyName} />
             </div>
