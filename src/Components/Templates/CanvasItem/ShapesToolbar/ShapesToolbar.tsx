@@ -6,11 +6,14 @@ import ImagesMenu from "./ImagesMenu/ImagesMenu";
 import { FaShapes } from "react-icons/fa";
 import { MdTextFields } from 'react-icons/md';
 import { MdAddPhotoAlternate } from 'react-icons/md';
+import { LuTextCursorInput } from "react-icons/lu";
+import InputMenu from "./InputMenu/InputMenu";
+
 interface CanvasToolbarProps {
     isLoading: boolean;
 }
 
-const CanvasToolbar = ({ isLoading }: CanvasToolbarProps) => {
+const ShapesToolbar = ({ isLoading }: CanvasToolbarProps) => {
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const selectedKeys: string[] = [];
 
@@ -40,6 +43,13 @@ const CanvasToolbar = ({ isLoading }: CanvasToolbarProps) => {
                 <TextMenu />
             </Menu.SubMenu>
             <Menu.SubMenu
+                key="input"
+                icon={<LuTextCursorInput />}
+                title="Input"
+            >
+                <InputMenu />
+            </Menu.SubMenu>
+            <Menu.SubMenu
                 key="images"
                 icon={<MdAddPhotoAlternate />}
                 title="Images"
@@ -50,4 +60,4 @@ const CanvasToolbar = ({ isLoading }: CanvasToolbarProps) => {
     );
 };
 
-export default CanvasToolbar;
+export default ShapesToolbar;

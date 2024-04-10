@@ -11,7 +11,7 @@ import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
-import ShapesToolbar from "./ShapesToolbar/CanvasToolbar";
+import ShapesToolbar from "./ShapesToolbar/ShapesToolbar";
 import CanvasHeader from "./CanvasHeader/CanvasHeader";
 import ShapePropertiesMenu from "./ShapePropertiesMenu/ShapePropertiesMenu";
 

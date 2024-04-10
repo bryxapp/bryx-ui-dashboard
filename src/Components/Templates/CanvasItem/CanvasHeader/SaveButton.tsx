@@ -4,7 +4,7 @@ import logger from '../../../../logging/logger';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../../SharedComponents/ErrorModal/ErrorModal';
 import { isTemplateChanged } from '../../../../utils/canvasUtils';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 
 interface SaveTemplateButtonProps {
@@ -61,6 +61,11 @@ export default function SaveTemplateButton({
                 // Append templateId to URL for subsequent saves
                 window.history.pushState(null, '', `?templateId=${newTemplate.id}`);
             }
+            message.success({
+                content: 'Template saved successfully',
+                duration: 3, // Duration in seconds
+            });
+
         } catch (error) {
             logger.trackException({
                 properties: {
@@ -83,7 +88,7 @@ export default function SaveTemplateButton({
             <ErrorModal error={error} setError={setError} content="Error saving template" />
             <Button
                 type="primary"
-                size = "large"
+                size="large"
                 onClick={handleSave}
                 disabled={!saveButtonEnabled || isLoading}
                 loading={isLoading}
