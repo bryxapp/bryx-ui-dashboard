@@ -1,4 +1,4 @@
-import { Select, Typography } from 'antd';
+import { Select } from 'antd';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
@@ -24,9 +24,6 @@ export default function FontSizePicker({ textObj, itemType }: FontSizePickerProp
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '.5rem' }}>
-            <Typography.Text>
-                Font Size
-            </Typography.Text>
             <Select
                 value={textObj.fontSize || ''}
                 onChange={handleFontSizeChange}

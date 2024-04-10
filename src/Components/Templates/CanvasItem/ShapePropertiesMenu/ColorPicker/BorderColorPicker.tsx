@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Slider, Typography } from 'antd';
+import { Slider, Typography } from 'antd';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { ColorPicker } from "antd";
 import type { ColorPickerProps } from 'antd';
 import { Color } from 'antd/es/color-picker';
-import { MdBorderColor } from "react-icons/md";
 
 interface BorderColorPickerProps {
     solidShapeObj: SolidShapeObj;
@@ -59,31 +58,31 @@ const BorderColorPicker: React.FC<BorderColorPickerProps> = ({ solidShapeObj }) 
     }
 
     return (
-        <ColorPicker
-            value={value}
-            onChangeComplete={(color: Color) => {
-                handleColorChange(color);
-            }}
-            allowClear={true}
-            disabledAlpha={true}
-            panelRender={(panel) => (
-                <div>
-                    <Typography.Text style={{ marginRight: 8 }}>Stroke Color:</Typography.Text>
-                    {panel}
-                    <div style={{ height: 16 }} />
-                    <Typography.Text style={{ marginRight: 8 }}>Stroke Width:</Typography.Text>
-                    <Slider
-                        min={1}
-                        max={20}
-                        onChange={(value) => handleStrokeWidthChange(value)}
-                        value={typeof strokeWidth === 'number' ? strokeWidth : 0}
-                        marks={{ 1: '1', 20: '20' }}
-                    />
-                </div>
-            )}
-        >
-            <Button icon={<MdBorderColor style={{ color: isTransparent(solidShapeObj.stroke) ? 'black' : solidShapeObj.stroke }} />} />
-        </ColorPicker>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Typography.Text style={{ marginRight: '1rem', width: '4rem' }}>Border</Typography.Text>
+            <ColorPicker
+                value={value}
+                onChangeComplete={(color: Color) => {
+                    handleColorChange(color);
+                }}
+                allowClear={true}
+                disabledAlpha={true}
+                panelRender={(panel) => (
+                    <div>
+                        {panel}
+                        <div style={{ height: 16 }} />
+                        <Typography.Text style={{ marginRight: 8 }}>Stroke Width:</Typography.Text>
+                        <Slider
+                            min={1}
+                            max={20}
+                            onChange={(value) => handleStrokeWidthChange(value)}
+                            value={typeof strokeWidth === 'number' ? strokeWidth : 0}
+                            marks={{ 1: '1', 20: '20' }}
+                        />
+                    </div>
+                )}
+            />
+        </div>
     );
 };
 

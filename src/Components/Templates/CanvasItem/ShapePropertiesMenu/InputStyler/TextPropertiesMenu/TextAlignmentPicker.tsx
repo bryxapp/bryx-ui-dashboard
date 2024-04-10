@@ -24,7 +24,7 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, item
     };
 
     return (
-        <>
+        <div style={{display:"flex"}}>
             <Button
                 type={textObj.align === 'left' ? 'primary' : 'default'}
                 icon={<AlignLeftOutlined />}
@@ -43,7 +43,7 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, item
                 onClick={() => handleAlignmentChange('right')}
                 size="small"
             />
-        </>
+        </div>
     );
 };
 

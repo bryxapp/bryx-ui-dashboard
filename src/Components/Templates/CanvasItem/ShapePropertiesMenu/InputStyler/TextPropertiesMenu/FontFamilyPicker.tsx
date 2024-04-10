@@ -1,4 +1,4 @@
-import { Select, Typography } from 'antd';
+import { Select } from 'antd';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
@@ -45,14 +45,11 @@ export default function FontFamilyPicker({ textObj, itemType }: FontFamilyPicker
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography.Text>
-                Font
-            </Typography.Text>
             <Select
                 value={selectedTextItemFontFamily || ''}
                 onChange={handleFontFamilyChange}
                 size='small'
-                dropdownMatchSelectWidth={false}
+                popupMatchSelectWidth={false}
                 dropdownStyle={{ maxHeight: 250 }}
             >
                 {FONTS.map((fontFamily) => (

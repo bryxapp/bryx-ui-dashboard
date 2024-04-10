@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Typography } from 'antd';
+import { Typography } from 'antd';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { ColorPicker } from "antd";
 import type { ColorPickerProps } from 'antd';
 import { Color } from 'antd/es/color-picker';
-import { MdFormatColorFill } from "react-icons/md";
 
 interface FillColorPickerProps {
     solidShapeObj: SolidShapeObj;
@@ -50,22 +49,17 @@ const FillColorPicker: React.FC<FillColorPickerProps> = ({ solidShapeObj }) => {
 
     // ColorPicker popover content
     return (
-        <ColorPicker
-            value={value}
-            onChangeComplete={(color: Color) => {
-                handleColorChange(color);
-            }}
-            allowClear={true}
-            disabledAlpha={true}
-            panelRender={(panel) => (
-                <div>
-                    <Typography.Text style={{ marginRight: 8 }}>Fill Color:</Typography.Text>
-                    {panel}
-                </div>
-            )}
-        >
-            <Button icon={<MdFormatColorFill style={{ color: isTransparent(solidShapeObj.fill) ? 'black' : solidShapeObj.fill }} />} />
-        </ColorPicker>
+        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <Typography.Text style={{ marginRight: '1rem', width: '4rem' }}>Fill</Typography.Text>
+            <ColorPicker
+                value={value}
+                onChangeComplete={(color: Color) => {
+                    handleColorChange(color);
+                }}
+                allowClear={true}
+                disabledAlpha={true}
+            />
+        </div>
     );
 };
 

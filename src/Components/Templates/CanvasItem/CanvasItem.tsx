@@ -11,9 +11,9 @@ import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
 import Sider from "antd/es/layout/Sider";
 import { Content } from "antd/es/layout/layout";
-import CanvasToolbar from "./ShapesToolbar/CanvasToolbar";
+import ShapesToolbar from "./ShapesToolbar/CanvasToolbar";
 import CanvasHeader from "./CanvasHeader/CanvasHeader";
-
+import ShapePropertiesMenu from "./ShapePropertiesMenu/ShapePropertiesMenu";
 
 const CanvasItem = () => {
     const { auth0User, getAccessToken } = useAuth0User();
@@ -24,13 +24,12 @@ const CanvasItem = () => {
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [templateId, setTemplateId] = useState<string | null>(null);
     const [error, setError] = useState(false);
-    const { setCanvasDesign, setSelectedId } = useCanvasDesignContext();
+    const { setCanvasDesign,selectedId, setSelectedId } = useCanvasDesignContext();
     const [isLoading, setIsLoading] = useState(false);
 
     const {
         token: { colorBgContainer, borderRadiusLG },
     } = theme.useToken();
-
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -89,7 +88,7 @@ const CanvasItem = () => {
     return (
         <Layout>
             <Content>
-                <CanvasHeader 
+                <CanvasHeader
                     isLoading={isLoading}
                     setIsLoading={setIsLoading}
                     friendlyName={friendlyName}
@@ -104,7 +103,11 @@ const CanvasItem = () => {
             </Content>
             <Layout style={{ padding: '20px 0 15px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}>
                 <Sider style={{ background: colorBgContainer }} width={200}>
-                    <CanvasToolbar isLoading={isLoading} />
+                    {selectedId ?
+                        <ShapePropertiesMenu />
+                        :
+                        <ShapesToolbar isLoading={isLoading} />
+                    }
                 </Sider>
                 <Content>
                     <CanvasStage />
