@@ -1,5 +1,5 @@
 import { deleteShape, findShape, isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../../utils/shapeManagementUtils';
-import { Card, Menu } from 'antd';
+import { Card, Divider, Menu, Typography } from 'antd';
 import { MdLayers as LayerIcon } from 'react-icons/md';
 import { DeleteOutlined } from '@ant-design/icons';
 import BorderColorPicker from './ColorPicker/BorderColorPicker';
@@ -40,6 +40,8 @@ const PropertiesMenu = () => {
         //     setOpenKeys(keys as string[]);
         // }}
         >
+            <Typography.Text style={{ display:"flex", justifyContent:"center"}}><strong>Properties</strong></Typography.Text>
+            <Divider style={{ margin:0 }} />
             {istextObj &&
                 (
                     <Menu.SubMenu

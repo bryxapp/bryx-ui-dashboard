@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Menu } from "antd";
+import { Divider, Menu, Typography } from "antd";
 import ShapesMenu from "./ShapesMenu/ShapesMenu";
 import TextMenu from "./TextMenu/TextMenu";
 import ImagesMenu from "./ImagesMenu/ImagesMenu";
@@ -28,6 +28,8 @@ const ShapesToolbar = ({ isLoading }: CanvasToolbarProps) => {
                 setOpenKeys(keys as string[]);
             }}
         >
+            <Typography.Text style={{ display:"flex", justifyContent:"center"}}><strong>Add To Your Template</strong></Typography.Text>
+            <Divider style={{ margin:0 }} />
             <Menu.SubMenu
                 key="shapes"
                 icon={<FaShapes />}
