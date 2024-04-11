@@ -71,7 +71,7 @@ const UpgradeSubscriptionDialog: React.FC<Props> = ({ open, onClose }) => {
             open={open}
             onCancel={onClose}
             footer={null}
-            width={750}
+            width={800}
             centered
             closeIcon={<CloseOutlined />}
             title={<Title level={4}>Upgrade Subscription</Title>}

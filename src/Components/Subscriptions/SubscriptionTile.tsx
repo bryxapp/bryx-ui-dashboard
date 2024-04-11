@@ -48,7 +48,7 @@ const SubscriptionTile: React.FC<Props> = ({ subscriptionInfo, currentSubscripti
         >
             <Card
                 title={subscriptionInfo.name}
-                style={{ height: "15rem" }}
+                style={{ height: "16rem" }}
             >
                 <Meta
                     title={<Typography>${subscriptionInfo.monthlyPriceInt} /mo</Typography>}
