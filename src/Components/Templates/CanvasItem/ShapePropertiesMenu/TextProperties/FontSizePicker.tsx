@@ -10,9 +10,10 @@ const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 interface FontSizePickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
+    disabled?: boolean;
 }
 
-export default function FontSizePicker({ textObj, itemType }: FontSizePickerProps) {
+export default function FontSizePicker({ textObj, itemType, disabled }: FontSizePickerProps) {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const handleFontSizeChange = (event: any) => {
         if (itemType === null)
@@ -29,6 +30,7 @@ export default function FontSizePicker({ textObj, itemType }: FontSizePickerProp
                 onChange={handleFontSizeChange}
                 style={{ minWidth: '4.5rem' }}
                 size='small'
+                disabled={disabled}
             >
                 {FONT_SIZES.map((fontSize) => (
                     <Option key={fontSize} value={fontSize}>

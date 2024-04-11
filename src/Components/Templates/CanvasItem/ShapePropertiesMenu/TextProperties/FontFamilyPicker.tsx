@@ -27,9 +27,10 @@ const FONTS = [
 interface FontFamilyPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
+    disabled?: boolean;
 }
 
-export default function FontFamilyPicker({ textObj, itemType }: FontFamilyPickerProps) {
+export default function FontFamilyPicker({ textObj, itemType, disabled }: FontFamilyPickerProps) {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleFontFamilyChange = (value: string) => {
@@ -51,6 +52,7 @@ export default function FontFamilyPicker({ textObj, itemType }: FontFamilyPicker
                 size='small'
                 popupMatchSelectWidth={false}
                 dropdownStyle={{ maxHeight: 250 }}
+                disabled={disabled}
             >
                 {FONTS.map((fontFamily) => (
                     <Option key={fontFamily} value={fontFamily} style={{ fontFamily: fontFamily }}>

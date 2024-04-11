@@ -5,7 +5,7 @@ import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesi
 import { MdOutlineEmail } from "react-icons/md";
 import { MdLocalPhone } from "react-icons/md";
 import { MdShortText } from "react-icons/md";
-import { MdOutlineSegment } from "react-icons/md";
+import { MdNotes } from "react-icons/md";
 import { MdCalendarMonth } from "react-icons/md";
 import { TableOutlined } from "@ant-design/icons";
 
@@ -146,7 +146,7 @@ const InputMenu = () => {
             <Menu.Item
                 key="longTextInput"
                 onClick={handleAddLongTextInput}
-                icon={<MdOutlineSegment />}
+                icon={<MdNotes />}
             >
                 Long Text
             </Menu.Item>

@@ -35,6 +35,12 @@ const InputProperties = ({ inputObj }: InputPropertiesProps) => {
                 title="Label"
                 icon={<MdFormatColorText />}
             >
+                <Checkbox
+                    checked={hasLabel}
+                    onChange={(e: any) => { handleHasLabelChange(e) }}
+                >
+                    Has Label
+                </Checkbox>
                 <Input
                     id={'labelValueEditor'}
                     value={selectedInputLabel}
@@ -43,13 +49,7 @@ const InputProperties = ({ inputObj }: InputPropertiesProps) => {
                     size='small'
                     disabled={!hasLabel}
                 />
-                <Checkbox
-                    checked={hasLabel}
-                    onChange={(e: any) => { handleHasLabelChange(e) }}
-                >
-                    Has Label
-                </Checkbox>
-                <TextProperties textObj={inputObj.label as TextObj} itemType={'label'} />
+                <TextProperties textObj={inputObj.label as TextObj} itemType={'label'} disabled={!hasLabel} />
             </Menu.SubMenu>
             <Menu.SubMenu
                 key="contentProperties"

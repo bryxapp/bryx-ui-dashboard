@@ -8,9 +8,10 @@ import { updateInputProperty, updateShapeProperty } from '../../../../../utils/s
 interface TextAlignmentPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
+    disabled?: boolean;
 }
 
-const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, itemType }) => {
+const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, itemType, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     
     const handleAlignmentChange = (newAlignment: string) => {
@@ -30,18 +31,21 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, item
                 icon={<AlignLeftOutlined />}
                 onClick={() => handleAlignmentChange('left')}
                 size="small"
+                disabled={disabled}
             />
             <Button
                 type={textObj.align === 'center' ? 'primary' : 'default'}
                 icon={<AlignCenterOutlined />}
                 onClick={() => handleAlignmentChange('center')}
                 size="small"
+                disabled={disabled}
             />
             <Button
                 type={textObj.align === 'right' ? 'primary' : 'default'}
                 icon={<AlignRightOutlined />}
                 onClick={() => handleAlignmentChange('right')}
                 size="small"
+                disabled={disabled}
             />
         </div>
     );

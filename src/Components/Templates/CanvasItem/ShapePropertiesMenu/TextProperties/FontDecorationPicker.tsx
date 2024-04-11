@@ -6,9 +6,10 @@ import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesi
 interface FontDecorationPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
+    disabled?: boolean;
 }
 
-const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, itemType }) => {
+const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, itemType, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontDecoration = textObj.textDecoration;
 
@@ -63,12 +64,14 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
                 icon={<StrikethroughOutlined />}
                 onClick={() => toggleTextStyle('line-through')}
                 size="small"
+                disabled={disabled}
             />
             <Button
                 type={selectedFontDecorations.includes('underline') ? 'primary' : 'default'}
                 icon={<UnderlineOutlined />}
                 onClick={() => toggleTextStyle('underline')}
                 size="small"
+                disabled={disabled}
             />
         </>
     );

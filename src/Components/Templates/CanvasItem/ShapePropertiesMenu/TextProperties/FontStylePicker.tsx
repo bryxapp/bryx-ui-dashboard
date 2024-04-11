@@ -7,9 +7,10 @@ import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesi
 interface FontStylePickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
+    disabled?: boolean;
 }
 
-const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) => {
+const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontStyle = textObj.fontStyle;
     if (!selectedTextItemFontStyle) return null;
@@ -62,12 +63,14 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType }) 
                 icon={<ItalicOutlined />}
                 onClick={() => toggleTextStyle('italic')}
                 size="small"
+                disabled={disabled}
             />
             <Button
                 type={selectedFontStyles.includes('bold') ? 'primary' : 'default'}
                 icon={<BoldOutlined />}
                 onClick={() => toggleTextStyle('bold')}
                 size="small"
+                disabled={disabled}
             />
         </>
     );

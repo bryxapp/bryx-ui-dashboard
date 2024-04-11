@@ -7,9 +7,10 @@ import { updateInputProperty, updateShapeProperty } from '../../../../../utils/s
 interface ColorPickerProps {
     textObj: TextBase;
     itemType: 'content' | 'label' | null;
+    disabled?: boolean;
 }
 
-const TextColorPicker: React.FC<ColorPickerProps> = ({ textObj, itemType }) => {
+const TextColorPicker: React.FC<ColorPickerProps> = ({ textObj, itemType, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const onColorChange = (newColorValue: string) => {
         if (itemType === null)
@@ -20,7 +21,7 @@ const TextColorPicker: React.FC<ColorPickerProps> = ({ textObj, itemType }) => {
     };
 
     return (
-            <ColorPicker defaultValue={textObj.fill} onChangeComplete={(color) => {onColorChange(color.toHexString())}} />
+            <ColorPicker defaultValue={textObj.fill} onChangeComplete={(color) => {onColorChange(color.toHexString())}} disabled={disabled} />
     );
 };
 
