@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Slider, Typography } from 'antd';
-import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
-import { SolidShapeObj } from '../../../../../utils/types/CanvasInterfaces';
-import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { SolidShapeObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import { ColorPicker } from "antd";
 import type { ColorPickerProps } from 'antd';
 import { Color } from 'antd/es/color-picker';

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'antd';
 import { ItalicOutlined, BoldOutlined } from '@ant-design/icons';
-import { InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { InputObj, TextBase, TextObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface FontStylePickerProps {
     textObj: TextBase;

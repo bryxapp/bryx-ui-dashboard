@@ -1,20 +1,15 @@
 import { deleteShape, findShape, isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../../utils/shapeManagementUtils';
-import { Card, Divider, Menu, Typography } from 'antd';
+import { Divider, Menu, Typography } from 'antd';
 import { MdLayers as LayerIcon } from 'react-icons/md';
 import { DeleteOutlined } from '@ant-design/icons';
-import BorderColorPicker from './ColorPicker/BorderColorPicker';
-import { SolidShapeObj, TextObj } from '../../../../utils/types/CanvasInterfaces';
+import { InputObj, SolidShapeObj, TextObj } from '../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
-import FillColorPicker from './ColorPicker/FillColorPicker';
 import LayerManager from './LayerManager/LayerManager';
-import FontSizePicker from './InputStyler/TextPropertiesMenu/FontSizePicker';
-import FontFamilyPicker from './InputStyler/TextPropertiesMenu/FontFamilyPicker';
-import TextColorPicker from './InputStyler/TextPropertiesMenu/TextColorPicker';
-import FontStylePicker from './InputStyler/TextPropertiesMenu/FontStylePicker';
-import FontDecorationPicker from './InputStyler/TextPropertiesMenu/FontDecorationPicker';
-import TextAlignmentPicker from './InputStyler/TextPropertiesMenu/TextAlignmentPicker';
 import { MdFormatColorText } from 'react-icons/md';
 import { IoMdColorPalette } from "react-icons/io";
+import TextProperties from './TextProperties/TextProperties';
+import SolidShapesProperties from './SolidShapesProperties/SolidShapesProperties';
+import InputProperties from './InputProperties/InputProperties';
 
 const PropertiesMenu = () => {
     const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
@@ -40,8 +35,8 @@ const PropertiesMenu = () => {
         //     setOpenKeys(keys as string[]);
         // }}
         >
-            <Typography.Text style={{ display:"flex", justifyContent:"center"}}><strong>Properties</strong></Typography.Text>
-            <Divider style={{ margin:0 }} />
+            <Typography.Text style={{ display: "flex", justifyContent: "center" }}><strong>Properties</strong></Typography.Text>
+            <Divider style={{ margin: 0 }} />
             {istextObj &&
                 (
                     <Menu.SubMenu
@@ -49,20 +44,7 @@ const PropertiesMenu = () => {
                         title="Text"
                         icon={<MdFormatColorText />}
                     >
-                        <Card >
-                            <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '.5rem', justifyContent: 'center', alignItems: 'center' }}>
-                                <FontFamilyPicker textObj={shapeObj as TextObj} itemType={'content'} />
-                                <FontSizePicker textObj={shapeObj as TextObj} itemType={'content'} />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1rem', justifyContent: 'space-evenly', alignItems: 'center' }}>
-                                <TextColorPicker textObj={shapeObj as TextObj} itemType={'content'} />
-                                <TextAlignmentPicker textObj={shapeObj as TextObj} itemType={'content'} />
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                                <FontStylePicker textObj={shapeObj as TextObj} itemType={'content'} />
-                                <FontDecorationPicker textObj={shapeObj as TextObj} itemType={'content'} />
-                            </div>
-                        </Card>
+                        <TextProperties textObj={shapeObj as TextObj} itemType={null} />
                     </Menu.SubMenu>
                 )
             }
@@ -73,12 +55,12 @@ const PropertiesMenu = () => {
                         title="Color"
                         icon={<IoMdColorPalette />}
                     >
-                        <Card >
-                            <FillColorPicker solidShapeObj={shapeObj as SolidShapeObj} />
-                            <BorderColorPicker solidShapeObj={shapeObj as SolidShapeObj} />
-                        </Card>
+                        <SolidShapesProperties solidShapeObj={shapeObj as SolidShapeObj} />
                     </Menu.SubMenu>
                 )
+            }
+            {isinputObj &&
+                <InputProperties inputObj={shapeObj as InputObj} />
             }
             {isinputObj && isImageObj && (<div></div>)}
             <Menu.SubMenu key="layerManager" title="Layer" icon={<LayerIcon />}>

@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
-import { InputObj, ShapeObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import { InputObj, ShapeObj, TextBase, TextObj } from '../../../../../utils/types/CanvasInterfaces';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface FontDecorationPickerProps {
     textObj: TextBase;
