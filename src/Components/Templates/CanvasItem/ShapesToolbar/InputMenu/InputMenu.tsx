@@ -1,12 +1,13 @@
 import { Menu } from 'antd';
-import { EmailInputObj, PhoneInputObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { createEmailInputObj, createPhoneInputObj, createShortTextInputObj } from '../../../../../utils/types/ShapesFactory';
+import { DateInputObj, EmailInputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj, TableInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { createDateInputObj, createEmailInputObj, createLongTextInputObj, createPhoneInputObj, createShortTextInputObj, createTableInputObj } from '../../../../../utils/types/ShapesFactory';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { MdOutlineEmail } from "react-icons/md";
 import { MdLocalPhone } from "react-icons/md";
 import { MdShortText } from "react-icons/md";
-
-
+import { MdOutlineSegment } from "react-icons/md";
+import { MdCalendarMonth } from "react-icons/md";
+import { TableOutlined } from "@ant-design/icons";
 
 const InputMenu = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
@@ -65,6 +66,60 @@ const InputMenu = () => {
         });
     };
 
+    const handleAddLongTextInput = () => {
+        const newLongTextInput: LongTextInputObj = createLongTextInputObj(
+            'Input',
+            true,
+            'Long Text',
+            20,
+            'black',
+            'Arial',
+            'normal',
+            '',
+            false
+        );
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newLongTextInput],
+        });
+    }
+
+    const handleAddDateInput = () => {
+        const newDateInput: DateInputObj = createDateInputObj(
+            'Date',
+            true,
+            'mm/dd/yyyy',
+            20,
+            'black',
+            'Arial',
+            'normal',
+            '',
+            false
+        );
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newDateInput],
+        });
+    }
+
+    const handleAddTableInput = () => {
+        const newTableInput: TableInputObj = createTableInputObj(
+            'Table',
+            true,
+            'Table',
+            20,
+            'black',
+            'Arial',
+            'normal',
+            '',
+            false
+        );
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newTableInput],
+        });
+    }
+
     return (
         <>
             <Menu.Item
@@ -87,6 +142,27 @@ const InputMenu = () => {
                 icon={<MdShortText />}
             >
                 Short Text
+            </Menu.Item>
+            <Menu.Item
+                key="longTextInput"
+                onClick={handleAddLongTextInput}
+                icon={<MdOutlineSegment />}
+            >
+                Long Text
+            </Menu.Item>
+            <Menu.Item
+                key="dateInput"
+                onClick={handleAddDateInput}
+                icon={<MdCalendarMonth />}
+            >
+                Date
+            </Menu.Item>
+            <Menu.Item
+                key="tableInput"
+                onClick={handleAddTableInput}
+                icon={<TableOutlined />}
+            >
+                Table
             </Menu.Item>
         </>
     );

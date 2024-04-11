@@ -1,5 +1,5 @@
 import { Stage, Layer, Rect, Ellipse, Image, Text } from "react-konva";
-import { CanvasDesignData, EllipseObj, ImageObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
 
@@ -104,7 +104,29 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
                     rotation={textObj.rotation}
                     align={textObj.align}
                   />)
-              //TODO add labels for input objects
+              case 'PhoneInput':
+              case 'EmailInput':
+              case 'ShortTextInput':
+              case 'LongTextInput':
+              case 'DateInput':
+                const inputObj = shape as InputObj;
+                const labelTextObj = inputObj.label;
+                return (
+                  <Text
+                    key={inputObj.id}
+                    id={inputObj.id}
+                    x={inputObj.x}
+                    y={inputObj.y}
+                    text={labelTextObj.value}
+                    fontSize={labelTextObj.fontSize}
+                    fontFamily={labelTextObj.fontFamily}
+                    fill={labelTextObj.fill}
+                    rotation={inputObj.rotation}
+                    align={labelTextObj.align}
+                  />)
+              case 'TableInput':
+                //TODO: Implement TableInput
+                return null;
               default:
                 return null;
             }

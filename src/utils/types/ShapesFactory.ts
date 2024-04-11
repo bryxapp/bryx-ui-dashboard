@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -174,6 +174,118 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         isDragging: false,
     };
 }
+
+export function createLongTextInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): LongTextInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
+    const labelObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: label,
+        align: "left",
+    } as TextBase;
+
+    const contentObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: placeholder,
+        align: "left",
+    } as TextBase;
+
+    return {
+        id: generateShapeId(),
+        type: 'LongTextInput',
+        x,
+        y,
+        rotation: 0,
+        label: labelObj,
+        hasLabel,
+        content: contentObj,
+        isDragging: false,
+    };
+}
+
+export function createDateInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
+    const labelObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: label,
+        align: "left",
+    } as TextBase;
+
+    const contentObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: placeholder,
+        align: "left",
+    } as TextBase;
+
+    return {
+        id: generateShapeId(),
+        type: 'DateInput',
+        x,
+        y,
+        rotation: 0,
+        label: labelObj,
+        hasLabel,
+        content: contentObj,
+        isDragging: false,
+    };
+}
+
+export function createTableInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): TableInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
+    const contentObj = {
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value: placeholder,
+        align: "left",
+    } as TextBase;
+
+    return {
+        id: generateShapeId(),
+        type: 'TableInput',
+        x,
+        y,
+        rotation: 0,
+        content: contentObj,
+        isDragging: false,
+    };
+}
+
 
 
 export function createHeadingdObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): HeadingObj {

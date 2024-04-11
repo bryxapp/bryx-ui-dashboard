@@ -1,5 +1,5 @@
 import React from 'react';
-import { RectangleObj, ShapeObj, EllipseObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj } from "../../../../utils/types/CanvasInterfaces";
+import { RectangleObj, ShapeObj, EllipseObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
 import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
@@ -11,12 +11,15 @@ import Paragraph from '../Shapes/TextFields/Paragraph';
 import ShortTextInput from '../Shapes/Inputs/ShortTextInput';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
+import LongTextInput from '../Shapes/Inputs/LongTextInput';
+import DateInput from '../Shapes/Inputs/DateInput';
+import TableInput from '../Shapes/Inputs/TableInput/TableInput';
 
 
 const ShapeRenderer = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
-    
+
     const { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
 
     return (
@@ -101,6 +104,42 @@ const ShapeRenderer = () => {
                             <ShortTextInput
                                 key={shortTextInput.id}
                                 shortTextInputObj={shortTextInput}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'LongTextInput':
+                        const longTextInput = shape as LongTextInputObj;
+                        return (
+                            <LongTextInput
+                                key={longTextInput.id}
+                                longTextInputObj={longTextInput}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'DateInput':
+                        const dateInput = shape as DateInputObj;
+                        return (
+                            <DateInput
+                                key={dateInput.id}
+                                dateInputObj={dateInput}
+                                handleDragStart={handleDragStart}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'TableInput':
+                        const tableInput = shape as TableInputObj;
+                        return (
+                            <TableInput
+                                key={tableInput.id}
+                                tableInputObj={tableInput}
                                 handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}

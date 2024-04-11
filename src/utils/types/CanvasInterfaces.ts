@@ -63,6 +63,10 @@ export interface DateInputObj extends InputObj {
     type: 'DateInput';
 }
 
+export interface TableInputObj extends TableObj {
+    type: 'TableInput';
+}
+
 // Text Shapes
 export interface HeadingObj extends TextObj {
     type: 'Heading';
@@ -90,6 +94,11 @@ export interface InputObj extends ShapeObj {
     label: TextBase;
     content: TextBase;
 }
+
+export interface TableObj extends ShapeObj {
+    content: TextBase;
+}
+
 export interface CanvasStarterData {
     name: string;
     canvasDesign: CanvasDesignData;
@@ -101,7 +110,7 @@ export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
 export const ShapeTypes: ShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
 export type ImageType = 'Image';
 export const ImageTypes: ImageType[] = ['Image'];
-export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput';
+export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput' | 'TableInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
 export type TextType = 'Heading' | 'Paragraph'
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
