@@ -4,7 +4,7 @@ import PreviewStage from '../../../../SharedComponents/Templates/PreviewStage/Pr
 import TemplateDeleteDialog from './TemplateDeleteDialog';
 import { Link, useNavigate } from 'react-router-dom';
 import TemplateCopyDialog from './TemplateCopyDialog';
-import { Card } from 'antd';
+import { Card, Tooltip } from 'antd';
 import Meta from 'antd/es/card/Meta';
 import { convertEpochTime } from '../../../../../utils/time-util';
 import { EditOutlined, CopyOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -27,6 +27,17 @@ const TemplateItem = ({ template, handleTemplateDelete, handleTemplateCopy, base
     navigate(`/edit-template?templateId=${template.id}`)
   }
 
+  const actions = [
+    <Tooltip title={"Edit Template"} placement="bottom">
+      <EditOutlined key='edit' onClick={handleEditClick} />
+    </Tooltip>,
+    <Tooltip title={"Copy Template"} placement="bottom">
+      <CopyOutlined key='copy' onClick={() => { setOpenCopy(true) }} /></Tooltip>,
+    <Tooltip title={"Delete Template"} placement="bottom">
+      <DeleteOutlined key='delete' onClick={() => { setOpenDelete(true) }} />
+    </Tooltip>
+  ];
+
   return (
     <>
       <Card
@@ -38,11 +49,7 @@ const TemplateItem = ({ template, handleTemplateDelete, handleTemplateCopy, base
             </Link>
           </div>
         }
-        actions={showActions ? [
-          <EditOutlined key='edit' onClick={handleEditClick} />,
-          <CopyOutlined key='copy' onClick={() => { setOpenCopy(true) }} />,
-          <DeleteOutlined key='delete' onClick={() => { setOpenDelete(true) }} />
-        ] : []}
+        actions={showActions ? actions : []}
       >
         <Meta
           title={template.friendlyName}
