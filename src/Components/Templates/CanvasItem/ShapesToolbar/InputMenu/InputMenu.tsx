@@ -32,7 +32,7 @@ const InputMenu = () => {
 
     const handleAddPhoneInput = () => {
         const newPhoneInput: PhoneInputObj = createPhoneInputObj(
-            'Phone Number #',
+            'Phone',
             true,
             '(555)555-5555',
             20,
