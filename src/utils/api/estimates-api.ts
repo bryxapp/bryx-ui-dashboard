@@ -7,14 +7,14 @@ import { createImageUrl } from '../canvasUtils';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimates";
 
-export async function createEstimate(templateData: TemplateData, estimateName: string, fieldValues: EstimateFormFields, token: string) {
+export async function createEstimate(templateData: TemplateData, estimateName: string, formInputs: EstimateFormFields, token: string) {
     //Create Body
     const body = {
         templateId: templateData.id,
         templateFriendlyName: templateData.friendlyName,
         estimateName: estimateName,
         canvasDesign: templateData.canvasDesign,
-        fieldValues: fieldValues,
+        formInputs: formInputs,
     }
     const response = await axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
     return response.data as EstimateData;

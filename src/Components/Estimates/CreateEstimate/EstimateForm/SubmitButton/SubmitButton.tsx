@@ -6,16 +6,17 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import logger from '../../../../../logging/logger';
 import ErrorModal from '../../../../SharedComponents/ErrorModal/ErrorModal';
+import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
 
 interface SubmitButtonProps {
     templateData: any;
     estimateName: string;
-    fieldValues: any;
+    formInputs: EstimateFormFields;
     draftId: string;
     setCreating: any;
 }
 
-const SubmitButton = ({ templateData, estimateName, fieldValues, draftId, setCreating }: SubmitButtonProps) => {
+const SubmitButton = ({ templateData, estimateName, formInputs, draftId, setCreating }: SubmitButtonProps) => {
     const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const SubmitButton = ({ templateData, estimateName, fieldValues, draftId, setCre
             if (!templateData) return;
             const token = await getAccessToken()
             if (!token) return;
-            const createdEstimate = await createEstimate(templateData, estimateName, fieldValues, token);
+            const createdEstimate = await createEstimate(templateData, estimateName, formInputs, token);
             if (draftId) deleteEstimateDraft(draftId, token); //delete the draft if it exists
             navigate("/view-estimate?estimateId=" + createdEstimate.id);
         } catch (error) {

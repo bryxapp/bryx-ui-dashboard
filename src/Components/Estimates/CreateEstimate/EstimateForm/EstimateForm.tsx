@@ -5,7 +5,7 @@ import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
 import { InputObj, InputType, InputTypes, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
-import { EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
+import { EstimateFormField, EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import EstimateName from './EstimateName/EstimateName';
 import Loading from '../../../SharedComponents/Loading/Loading';
@@ -30,8 +30,8 @@ const EstimateForm = () => {
     const [saving, setSaving] = useState(false);
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
-    const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
-    const [formInputs, setFormInputs] = useState<InputObj[]>([]);
+    const [formInputs, setFormInputs] = useState<EstimateFormFields>({});
+    const [inputObjects, setInputObjects] = useState<InputObj[]>([]);
     const [error, setError] = useState(false); // Error state
     const { getAccessToken } = useAuth0User();
 
@@ -43,24 +43,28 @@ const EstimateForm = () => {
                 if (!token) return;
                 const fetchedTemplate = await getTemplate(templateId, token);
                 setTemplateData(fetchedTemplate);
-                let formInputs: InputObj[] = [];
+                let tempInputObjects: InputObj[] = [];
+                let tempFormInputs: { [id: string]: EstimateFormField } = {};
                 fetchedTemplate.canvasDesign.Shapes.forEach((shape: ShapeObj) => {
                     // Check if the shape's type is a key in the InputTypes object.
                     if (InputTypes.includes(shape.type as InputType)) {
                         // Cast shape to InputObj and add to formInputs array.
-                        formInputs.push(shape as InputObj);
+                        tempInputObjects.push(shape as InputObj);
+                        // Create a new EstimateFormField object and add to formInputs dictionary.
+                        tempFormInputs[shape.id] = {
+                            inputObjId: shape.id,
+                            type: shape.type as InputType,
+                            value: ""
+                        };
                     }
                 });
-                setFormInputs(formInputs);
+                setInputObjects(tempInputObjects);
                 let newFieldValues: EstimateFormFields = {};
-                formInputs.forEach((formInput: ShapeObj) => {
-                    newFieldValues[formInput.id] = "";
-                });
                 if (draftId) {
                     await fetchDraft(newFieldValues, token);
                 }
                 else {
-                    setFieldValues(newFieldValues);
+                    setFormInputs(tempFormInputs);
                 }
             }
             catch (error) {
@@ -80,21 +84,21 @@ const EstimateForm = () => {
             }
         }
 
-        const fetchDraft = async (newFieldValues: EstimateFormFields, token: string) => {
+        const fetchDraft = async (currentFormFields: EstimateFormFields, token: string) => {
             const fetchedEstimateDraft = await getEstimateDraft(draftId, token);
             setEstimateName(fetchedEstimateDraft.estimateName);
             const draftFieldValues = fetchedEstimateDraft.filledFields; //fieldvalues object saved from the last draft
             //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
             let missingKeys: string[] = [];
             Object.keys(draftFieldValues).forEach((key) => {
-                if (!newFieldValues.hasOwnProperty(key)) {
+                if (!currentFormFields.hasOwnProperty(key)) {
                     missingKeys.push(key);
                 }
                 else {
-                    newFieldValues[key] = draftFieldValues[key];
+                    currentFormFields[key] = draftFieldValues[key];
                 }
             });
-            setFieldValues(newFieldValues);
+            setFormInputs(currentFormFields);
             if (missingKeys.length > 0) {
                 alert("There were fields in the draft that are no longer in the template.")
             }
@@ -129,14 +133,14 @@ const EstimateForm = () => {
                             Template: {templateData.friendlyName}
                         </Typography.Text>
                         <EstimateFormTextFieldsList
+                            inputObjects={inputObjects}
                             formInputs={formInputs}
-                            fieldValues={fieldValues}
-                            setFieldValues={setFieldValues}
+                            setFormInputs={setFormInputs}
                         />
                         <div style={{ display: 'flex' }}>
-                            <SubmitButton templateData={templateData} estimateName={estimateName} fieldValues={fieldValues} draftId={draftId} setCreating={setCreating} />
+                            <SubmitButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setCreating={setCreating} />
                             <span style={{ width: 20 }}></span>
-                            <SaveAsDraftButton templateData={templateData} estimateName={estimateName} fieldValues={fieldValues} draftId={draftId} setSaving={setSaving} />
+                            <SaveAsDraftButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setSaving={setSaving} />
                         </div>
                     </Form>
                 </div>

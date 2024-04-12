@@ -1,37 +1,28 @@
 import React from 'react';
 import { ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
 import { Form, Input } from 'antd';
 
 interface EstimateFormShortTextFieldProps {
     shortTextInputObj: ShortTextInputObj;
-    fieldValues: EstimateFormFields;
-    setFieldValues: React.Dispatch<React.SetStateAction<EstimateFormFields>>;
+    fieldValue: string;
+    handleChange: (event: any, inputObjId: string) => void;
 }
 
-const EstimateFormShortTextField = ({
+const EstimateFormShortTextField: React.FC<EstimateFormShortTextFieldProps> = ({
     shortTextInputObj,
-    fieldValues,
-    setFieldValues,
-}: EstimateFormShortTextFieldProps) => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let { value } = event.target;
-        const updatedFieldValues = {
-            ...fieldValues,
-            [shortTextInputObj.id]: value,
-        };
-        setFieldValues(updatedFieldValues);
-    };
+    fieldValue,
+    handleChange
+}) => {
 
     return (
         <Form.Item
             key={shortTextInputObj.id}
-            label={shortTextInputObj.label.value}
+            label={shortTextInputObj.hasLabel ? shortTextInputObj.label.value : null}
             style={{ marginBottom: '5px' }}
         >
             <Input
-                value={fieldValues[shortTextInputObj.id]}
-                onChange={handleChange}
+                value={fieldValue}
+                onChange={(event) => handleChange(event, shortTextInputObj.id)}
                 placeholder={shortTextInputObj.content.value}
             />
         </Form.Item>

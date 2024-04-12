@@ -5,16 +5,17 @@ import { useState } from 'react';
 import { createEstimateDraft, updateEstimateDraft } from '../../../../../utils/api/estimate-drafts-api';
 import logger from '../../../../../logging/logger';
 import ErrorModal from '../../../../SharedComponents/ErrorModal/ErrorModal';
+import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
 
 interface SaveAsDraftButtonProps {
     templateData: any;
     estimateName: string;
-    fieldValues: any;
+    formInputs: EstimateFormFields;
     draftId: string;
     setSaving: any;
 }
 
-const SaveAsDraftButton = ({ templateData, estimateName, fieldValues, draftId, setSaving }: SaveAsDraftButtonProps) => {
+const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, setSaving }: SaveAsDraftButtonProps) => {
     const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
@@ -25,8 +26,8 @@ const SaveAsDraftButton = ({ templateData, estimateName, fieldValues, draftId, s
             if (!templateData) return;
             const token = await getAccessToken()
             if (!token) return;
-            if (!draftId) await createEstimateDraft(templateData.id, estimateName, fieldValues, token);
-            else await updateEstimateDraft(templateData.id, estimateName, fieldValues, draftId, token);
+            if (!draftId) await createEstimateDraft(templateData.id, estimateName, formInputs, token);
+            else await updateEstimateDraft(templateData.id, estimateName, formInputs, draftId, token);
             setError(false);
             navigate("/?tab=1");
         } catch (error) {

@@ -1,4 +1,4 @@
-import { CanvasDesignData } from "./CanvasInterfaces";
+import { CanvasDesignData, InputType } from "./CanvasInterfaces";
 
 export interface EstimateData {
     user: string;
@@ -21,7 +21,13 @@ export interface EstimateDraftData {
 }
 
 export interface EstimateFormFields {
-    [key: string]: string;
+    [inputObjId: string]: EstimateFormField
+}
+
+export interface EstimateFormField {
+    inputObjId: string;
+    type: InputType;
+    value: string;
 }
 
 export interface EstimateResponse {

@@ -1,38 +1,27 @@
-import React from 'react';
 import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
 import { Form, Input } from 'antd';
 
 interface EstimateFormEmailFieldProps {
     emailInputObj: EmailInputObj;
-    fieldValues: EstimateFormFields;
-    setFieldValues: React.Dispatch<React.SetStateAction<EstimateFormFields>>;
+    fieldValue: string;
+    handleChange: (event: any, inputObjId: string) => void;
 }
 
 const EstimateFormEmailField = ({
     emailInputObj,
-    fieldValues,
-    setFieldValues,
+    fieldValue,
+    handleChange
 }: EstimateFormEmailFieldProps) => {
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let { value } = event.target;
-        const updatedFieldValues = {
-            ...fieldValues,
-            [emailInputObj.id]: value,
-        };
-        setFieldValues(updatedFieldValues);
-    }
-
     return (
         <Form.Item
             key={emailInputObj.id}
-            label={emailInputObj.label.value}
+            label={emailInputObj.hasLabel ? emailInputObj.label.value : null}
             rules={[{ type: 'email' }]}
             style={{ marginBottom: '5px' }}
         >
             <Input
-                value={fieldValues[emailInputObj.id]}
-                onChange={handleChange}
+                value={fieldValue}
+                onChange={(event) => handleChange(event, emailInputObj.id)}
                 placeholder={emailInputObj.content.value}
             />
         </Form.Item>
