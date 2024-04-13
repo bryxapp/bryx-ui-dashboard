@@ -15,11 +15,12 @@ interface FontSizePickerProps {
 
 export default function FontSizePicker({ textObj, itemType, disabled }: FontSizePickerProps) {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    const handleFontSizeChange = (event: any) => {
+    const handleFontSizeChange = (value: string | number) => {
+        if (value === null) return;
         if (itemType === null)
-            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', event.target.value, selectedId);
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', value, selectedId);
         else {
-            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontSize', event.target.value, selectedId);
+            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontSize', value, selectedId);
         }
     };
 

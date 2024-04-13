@@ -19,6 +19,7 @@ const InputLabel = ({ textObj, contentHeight, containerWidth }: InputContentProp
             fill={textObj.fill}
             fontFamily={textObj.fontFamily}
             fontStyle={textObj.fontStyle}
+            textDecoration={textObj.textDecoration}
             scaleX={1}
             scaleY={1} />
     );

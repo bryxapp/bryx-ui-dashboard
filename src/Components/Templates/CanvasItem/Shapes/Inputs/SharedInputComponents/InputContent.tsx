@@ -33,6 +33,7 @@ const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, conta
                 fill={textObj.fill}
                 fontFamily={textObj.fontFamily}
                 fontStyle={textObj.fontStyle}
+                textDecoration={textObj.textDecoration}
                 scaleX={1}
                 scaleY={1}
             />

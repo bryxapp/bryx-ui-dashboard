@@ -47,7 +47,7 @@ export const useCanvasKeyboardShortcuts = ({
           break;
         case "c":
           if (event.ctrlKey || event.metaKey) {
-            setCopiedObject(findShape(canvasDesign,selectedId) || null);
+            setCopiedObject(findShape(canvasDesign, selectedId) || null);
           }
           break;
         case "v":
@@ -59,17 +59,17 @@ export const useCanvasKeyboardShortcuts = ({
           break;
         case "b":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "bold");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "bold");
           }
           break;
         case "i":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "italic");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "italic");
           }
           break;
         case "u":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "underline");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "underline");
           }
           break;
         case "s":

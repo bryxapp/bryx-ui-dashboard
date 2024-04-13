@@ -326,20 +326,30 @@ export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
     selectedId: string | null,
+    itemType: 'content' | 'label' | null,
     style: 'bold' | 'italic' | 'underline' | 'line-through'
 ) => {
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
     const updatedShapes = canvasDesign.Shapes.map((shape) => {
         if (shape.id === selectedId) {
-            const textShape = shape as TextObj;
-            const currentStyle = textShape[styleProperty] || '';
-            const isStyleApplied = currentStyle.includes(style);
-            textShape[styleProperty] = isStyleApplied
-                ? currentStyle.replace(style, '').trim()
-                : `${currentStyle} ${style}`.trim();
-
-            return { ...textShape, [styleProperty]: textShape[styleProperty] };
+            if (itemType === null) {
+                const textObj = shape as TextObj;
+                const currentStyle = textObj[styleProperty] || '';
+                const isStyleApplied = currentStyle.includes(style);
+                textObj[styleProperty] = isStyleApplied
+                    ? currentStyle.replace(style, '').trim()
+                    : `${currentStyle} ${style}`.trim();
+            }
+            else {
+                const inputObj = shape as InputObj;
+                const currentStyle = inputObj[itemType][styleProperty] || '';
+                const isStyleApplied = currentStyle.includes(style);
+                inputObj[itemType][styleProperty] = isStyleApplied
+                    ? currentStyle.replace(style, '').trim()
+                    : `${currentStyle} ${style}`.trim();
+                return { ...shape, [styleProperty]: inputObj[itemType][styleProperty] };
+            }
         }
         return shape;
     });

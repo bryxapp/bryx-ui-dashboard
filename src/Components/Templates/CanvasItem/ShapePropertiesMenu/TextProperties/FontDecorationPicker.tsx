@@ -1,7 +1,8 @@
 import { Button } from 'antd';
 import { UnderlineOutlined, StrikethroughOutlined } from '@ant-design/icons';
-import { InputObj, ShapeObj, TextBase, TextObj } from '../../../../../utils/types/CanvasInterfaces';
+import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import { toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontDecorationPickerProps {
     textObj: TextBase;
@@ -20,56 +21,20 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
     if (selectedTextItemFontDecoration?.includes('line-through')) {
         selectedFontDecorations.push('line-through');
     }
-
-    const toggleTextStyle = (
-        style: 'bold' | 'italic' | 'underline' | 'line-through'
-    ) => {
-        const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
-
-        const updatedShapes = canvasDesign.Shapes.map((shape:ShapeObj) => {
-            if (shape.id === selectedId) {
-                if (itemType === null) {
-                    const textObj = shape as TextObj;
-                    const currentStyle = textObj[styleProperty] || '';
-                    const isStyleApplied = currentStyle.includes(style);
-                    textObj[styleProperty] = isStyleApplied
-                        ? currentStyle.replace(style, '').trim()
-                        : `${currentStyle} ${style}`.trim();
-                    return { ...shape, [styleProperty]: textObj[styleProperty] };
-                }
-                else {
-                    const inputObj = shape as InputObj;
-                    const currentStyle = inputObj[itemType][styleProperty] || '';
-                    const isStyleApplied = currentStyle.includes(style);
-                    inputObj[itemType][styleProperty] = isStyleApplied
-                        ? currentStyle.replace(style, '').trim()
-                        : `${currentStyle} ${style}`.trim();
-
-                    return { ...inputObj, [styleProperty]: inputObj[itemType][styleProperty] };
-                }
-            }
-            return shape;
-        });
-        setCanvasDesign({
-            ...canvasDesign,
-            Shapes: updatedShapes,
-        });
-    };
-
-
+    
     return (
         <>
             <Button
                 type={selectedFontDecorations.includes('line-through') ? 'primary' : 'default'}
                 icon={<StrikethroughOutlined />}
-                onClick={() => toggleTextStyle('line-through')}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, itemType, 'line-through')}
                 size="small"
                 disabled={disabled}
             />
             <Button
                 type={selectedFontDecorations.includes('underline') ? 'primary' : 'default'}
                 icon={<UnderlineOutlined />}
-                onClick={() => toggleTextStyle('underline')}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, itemType, 'underline')}
                 size="small"
                 disabled={disabled}
             />
