@@ -60,10 +60,9 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
     const labelShapeHeight = tempTextShapeLabel.height();
 
     //Create Content Text Shape for measurements
-
     const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content);
-    const contentShapeWidth = tempTextShapeContent.width();
-    const contentShapeHeight = tempTextShapeContent.height();
+    const contentShapeWidth = Math.max(tempTextShapeContent.width(), 200);
+    const contentShapeHeight = Math.max(tempTextShapeContent.height(), 100);
 
     const containerHeight = longTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);

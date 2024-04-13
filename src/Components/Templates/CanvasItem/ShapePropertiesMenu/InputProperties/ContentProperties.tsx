@@ -11,7 +11,7 @@ interface InputContentPropertiesProps {
 const InputContentProperties = ({ inputObj }: InputContentPropertiesProps) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    const handleContentValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleContentValueChange = (event: any) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
@@ -20,14 +20,22 @@ const InputContentProperties = ({ inputObj }: InputContentPropertiesProps) => {
     return (
         <Card>
             <Typography.Text>Place Holder</Typography.Text>
-            <Input
-                id={'contentValueEditor'}
-                value={selectedInputContent}
-                onChange={handleContentValueChange}
-                size='small'
-            />
+            {inputObj.type === "LongTextInput" &&
+                <Input.TextArea
+                    id={'contentValueEditor'}
+                    value={selectedInputContent}
+                    onChange={handleContentValueChange}
+                    size='small'
+                />}
+            {inputObj.type !== "LongTextInput" &&
+                <Input
+                    id={'contentValueEditor'}
+                    value={selectedInputContent}
+                    onChange={handleContentValueChange}
+                    size='small'
+                />}
             <div style={{ height: '10px' }} />
-            <TextProperties textObj={inputObj.content as TextObj} itemType={'content'}/>
+            <TextProperties textObj={inputObj.content as TextObj} itemType={'content'} />
         </Card>
     );
 };
