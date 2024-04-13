@@ -1,4 +1,4 @@
-import { deleteShape, findShape, isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../../utils/shapeManagementUtils';
+import { deleteShape, findShape, isInputObject, isSolidShapeObj, isTextObject } from '../../../../utils/shapeManagementUtils';
 import { Divider, Menu, Typography } from 'antd';
 import { MdLayers as LayerIcon } from 'react-icons/md';
 import { DeleteOutlined } from '@ant-design/icons';
@@ -7,9 +7,12 @@ import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignC
 import LayerManager from './LayerManager/LayerManager';
 import { MdFormatColorText } from 'react-icons/md';
 import { IoMdColorPalette } from "react-icons/io";
-import TextProperties from './TextProperties/TextProperties';
 import SolidShapesProperties from './SolidShapesProperties/SolidShapesProperties';
-import InputProperties from './InputProperties/InputProperties';
+import InputLabelProperties from './InputProperties/InputLabelProperties';
+import InputContentProperties from './InputProperties/ContentProperties';
+import TextPropertiesCard from './TextProperties/TextPropertiesCard';
+import { GoTag } from "react-icons/go";
+import { BsTextareaResize } from "react-icons/bs";
 
 const PropertiesMenu = () => {
     const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
@@ -19,7 +22,6 @@ const PropertiesMenu = () => {
     const istextObj = isTextObject(shapeObj);
     const issolidShapeObj = isSolidShapeObj(shapeObj);
     const isinputObj = isInputObject(shapeObj);
-    const isImageObj = isImageObject(shapeObj);
 
     const handleDeleteShape = () => {
         deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
@@ -29,11 +31,6 @@ const PropertiesMenu = () => {
         <Menu
             mode="inline"
             style={{ height: '100%' }}
-        // selectedKeys={selectedKeys}
-        // openKeys={openKeys}
-        // onOpenChange={(keys) => {
-        //     setOpenKeys(keys as string[]);
-        // }}
         >
             <Typography.Text style={{ display: "flex", justifyContent: "center" }}><strong>Properties</strong></Typography.Text>
             <Divider style={{ margin: 0 }} />
@@ -44,7 +41,7 @@ const PropertiesMenu = () => {
                         title="Text"
                         icon={<MdFormatColorText />}
                     >
-                        <TextProperties textObj={shapeObj as TextObj} itemType={null} />
+                        <TextPropertiesCard textObj={shapeObj as TextObj} itemType={null} />
                     </Menu.SubMenu>
                 )
             }
@@ -60,9 +57,24 @@ const PropertiesMenu = () => {
                 )
             }
             {isinputObj &&
-                <InputProperties inputObj={shapeObj as InputObj} />
-            }
-            {isinputObj && isImageObj && (<div></div>)}
+                (
+                    <>
+                        <Menu.SubMenu
+                            key="labelProperties"
+                            title="Label"
+                            icon={<GoTag />}
+                        >
+                            <InputLabelProperties inputObj={shapeObj as InputObj} />
+                        </Menu.SubMenu>
+                        <Menu.SubMenu
+                            key="contentProperties"
+                            title="Content"
+                            icon={<BsTextareaResize />}
+                        >
+                            <InputContentProperties inputObj={shapeObj as InputObj} />
+                        </Menu.SubMenu>
+                    </>
+                )}
             <Menu.SubMenu key="layerManager" title="Layer" icon={<LayerIcon />}>
                 <LayerManager />
             </Menu.SubMenu>

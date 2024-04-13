@@ -1,4 +1,3 @@
-import { Card } from 'antd';
 import FontFamilyPicker from './FontFamilyPicker';
 import FontSizePicker from './FontSizePicker';
 import TextColorPicker from './TextColorPicker';
@@ -13,25 +12,23 @@ interface TextPropertiesProps {
     disabled?: boolean;
 }
 
-
-const TextProperties = ({ textObj, itemType, disabled }: TextPropertiesProps) => {
+const TextProperties = ({ textObj, itemType, disabled}: TextPropertiesProps) => {
     return (
-        <Card >
+        <>
             <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '.5rem', justifyContent: 'center', alignItems: 'center' }}>
                 <FontFamilyPicker textObj={textObj} itemType={itemType} disabled={disabled} />
-                <FontSizePicker textObj={textObj} itemType={itemType} disabled={disabled}/>
+                <FontSizePicker textObj={textObj} itemType={itemType} disabled={disabled} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '1rem', justifyContent: 'space-evenly', alignItems: 'center' }}>
-                <TextColorPicker textObj={textObj} itemType={itemType} disabled={disabled}/>
-                <TextAlignmentPicker textObj={textObj} itemType={itemType}disabled={disabled}/>
+                <TextColorPicker textObj={textObj} itemType={itemType} disabled={disabled} />
+                <TextAlignmentPicker textObj={textObj} itemType={itemType} disabled={disabled} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <FontStylePicker textObj={textObj} itemType={itemType} disabled={disabled}/>
-                <FontDecorationPicker textObj={textObj} itemType={itemType} disabled={disabled}/>
+                <FontStylePicker textObj={textObj} itemType={itemType} disabled={disabled} />
+                <FontDecorationPicker textObj={textObj} itemType={itemType} disabled={disabled} />
             </div>
-        </Card>
+        </>
     );
 };
 
 export default TextProperties;
-

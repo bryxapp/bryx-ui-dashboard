@@ -2,7 +2,7 @@ import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, ShapeType, ShapeTypes } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { createTempTextKonvaShape } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -17,13 +17,12 @@ export function generateShapeId(): string {
     return id;
 }
 
-export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields, layer: Konva.Layer) {
+export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInputs: EstimateFormFields, layer: Konva.Layer) {
     for (const shape of canvasDesign.Shapes) {
-        let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
         switch (shape.type) {
             case 'Rectangle':
                 const rectangle = shape as RectangleObj;
-                konvaShape = new Konva.Rect({
+                layer.add(new Konva.Rect({
                     x: rectangle.x,
                     y: rectangle.y,
                     width: rectangle.width,
@@ -32,11 +31,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     stroke: rectangle.stroke,
                     strokeWidth: rectangle.strokeWidth,
                     rotation: rectangle.rotation,
-                });
+                }))
                 break;
             case 'RoundedRectangle':
                 const roundedRectangle = shape as RectangleObj;
-                konvaShape = new Konva.Rect({
+                layer.add(new Konva.Rect({
                     x: roundedRectangle.x,
                     y: roundedRectangle.y,
                     width: roundedRectangle.width,
@@ -46,11 +45,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     strokeWidth: roundedRectangle.strokeWidth,
                     cornerRadius: roundedRectangle.cornerRadius,
                     rotation: roundedRectangle.rotation,
-                });
+                }))
                 break;
             case 'Ellipse':
                 const ellipse = shape as EllipseObj;
-                konvaShape = new Konva.Ellipse({
+                layer.add(new Konva.Ellipse({
                     x: ellipse.x,
                     y: ellipse.y,
                     radiusX: ellipse.radiusX,
@@ -59,12 +58,12 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     stroke: ellipse.stroke,
                     strokeWidth: ellipse.strokeWidth,
                     rotation: ellipse.rotation,
-                });
+                }))
                 break;
             case 'Image':
                 const imageObj = shape as ImageObj;
                 const image = await loadImage(imageObj.src);
-                konvaShape = new Konva.Image({
+                layer.add(new Konva.Image({
                     x: imageObj.x,
                     y: imageObj.y,
                     image: image,
@@ -72,45 +71,64 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     height: imageObj.height,
                     rotation: imageObj.rotation,
                     draggable: imageObj.isDragging,
-                });
+                }))
                 break;
             case 'PhoneInput':
             case 'EmailInput':
             case 'ShortTextInput':
-                const textInput = shape as InputObj;
-                // Create a Konva.Text object for placeholder to calculate its width and height
-                const placeholderText = new Konva.Text({
-                    text: textInput.content.value,
-                    fontSize: textInput.content.fontSize,
-                    fontFamily: textInput.content.fontFamily,
-                    fontStyle: textInput.content.fontStyle,
-                    textDecoration: textInput.content.textDecoration,
-                    align: textInput.content.align
+            case 'LongTextInput':
+            case 'DateInput':
+                const inputObj = shape as InputObj;
+                //Create Group
+                const group = new Konva.Group({
+                    x: inputObj.x,
+                    y: inputObj.y,
+                    rotation: inputObj.rotation,
                 });
-
-                const containerHeight = textInput.content.fontSize * 2;
-
-                // Calculate the position to center the text within the TextInput shape
-                //const x =  + (containerWidth - placeholderText.width()) / 2;
-                const centered_y = textInput.y + (containerHeight - placeholderText.height()) / 2;
-
-                konvaShape = new Konva.Text({
-                    x: textInput.x,
-                    y: centered_y,
-                    text: fieldValues[textInput.id],
-                    fontSize: textInput.content.fontSize,
-                    fill: textInput.content.fill,
-                    rotation: textInput.rotation,
-                    fontFamily: textInput.content.fontFamily,
-                    fontStyle: textInput.content.fontStyle,
-                    textDecoration: textInput.content.textDecoration,
-                    align: textInput.content.align
-                });
+                //Create Label Text Shape for measurements
+                const inputLabel = inputObj.label;
+                const tempTextShapeLabel = createTempTextKonvaShape(inputLabel);
+                const labelShapeWidth = tempTextShapeLabel.width();
+                const labelShapeHeight = tempTextShapeLabel.height();
+                // Create Content Text Shape for measurements
+                const inputContent = inputObj.content;
+                const tempTextShapeContent = createTempTextKonvaShape(inputContent);
+                const contentShapeWidth = tempTextShapeContent.width();
+                const contentShapeHeight = tempTextShapeContent.height();
+                //Container Measurements 
+                const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+                if (inputObj.hasLabel) {
+                    group.add(new Konva.Text({
+                        x: getXAlignment(inputLabel, containerWidth),
+                        y: getYAlignment(contentShapeHeight),
+                        text: inputLabel.value,
+                        fontSize: inputLabel.fontSize,
+                        fill: inputLabel.fill,
+                        fontFamily: inputLabel.fontFamily,
+                        fontStyle: inputLabel.fontStyle,
+                        textDecoration: inputLabel.textDecoration,
+                        align: inputLabel.align
+                    }))
+                }
+                //Add Content
+                const value = formInputs[inputObj.id].value;
+                group.add(new Konva.Text({
+                    x: getXAlignment(inputContent, containerWidth),
+                    y: getYAlignment(contentShapeHeight) + labelShapeHeight + (inputLabel.fontSize / 10),
+                    text: value,
+                    fontSize: inputContent.fontSize,
+                    fill: inputContent.fill,
+                    fontFamily: inputContent.fontFamily,
+                    fontStyle: inputContent.fontStyle,
+                    textDecoration: inputContent.textDecoration,
+                    align: inputContent.align
+                }))
+                layer.add(group);
                 break;
             case 'Heading':
             case 'Paragraph':
                 const textObj = shape as TextObj;
-                konvaShape = new Konva.Text({
+                layer.add(new Konva.Text({
                     x: textObj.x,
                     y: textObj.y,
                     text: textObj.value,
@@ -121,19 +139,12 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     fontStyle: textObj.fontStyle,
                     textDecoration: textObj.textDecoration,
                     align: textObj.align
-                });
+                }))
                 break;
             //TODO add labels
             default:
                 break;
         }
-
-        konvaShape?.setAttrs({
-            id: shape.id,
-            draggable: shape.isDragging
-        });
-
-        layer.add(konvaShape);
     }
 }
 
@@ -149,7 +160,7 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
     return undefined;
 };
 
-export const getShapeWidth = (shape:ShapeObj): number => {
+export const getShapeWidth = (shape: ShapeObj): number => {
     switch (shape.type) {
         case 'Rectangle':
         case 'RoundedRectangle':
@@ -270,7 +281,7 @@ export const deleteShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any
     setCanvasDesign(updatedCanvasDesign);
 }
 
-export const moveShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, direction:string, selectedId: string|null) => {
+export const moveShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, direction: string, selectedId: string | null) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
         if (shape.id === selectedId) {
@@ -296,7 +307,7 @@ export const moveShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, 
 }
 
 
-export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, selectedId: string|null, copiedObject: any) => {
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, selectedId: string | null, copiedObject: any) => {
 
     const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
 
@@ -314,7 +325,7 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
 export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
     setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
-    selectedId: string|null,
+    selectedId: string | null,
     style: 'bold' | 'italic' | 'underline' | 'line-through'
 ) => {
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';

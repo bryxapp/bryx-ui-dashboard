@@ -1,4 +1,4 @@
-import { Rect, Group, Text } from 'react-konva';
+import { Rect, Group } from 'react-konva';
 import { LongTextInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
@@ -98,19 +98,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
                 {longTextInputObj.hasLabel && (
                     <InputLabel textObj={longTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
                 )}
-
                 {/* Input Content */}
-                <Text
-                    text={longTextInputObj.content.value}
-                    fontSize={longTextInputObj.content.fontSize}
-                    fontFamily={longTextInputObj.content.fontFamily}
-                    fontStyle={longTextInputObj.content.fontStyle}
-                    textDecoration={longTextInputObj.content.textDecoration}
-                    align={longTextInputObj.content.align}
-                    width={containerWidth}
-                    wrap='word'
-                    lineHeight={1.2}
-                />
                 <InputContent
                     textObj={longTextInputObj.content}
                     containerWidth={containerWidth}
