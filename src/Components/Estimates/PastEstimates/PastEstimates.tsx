@@ -20,7 +20,6 @@ const PastEstimates = ({ setMaxEstimatesReached }: PastEstimatesProps) => {
         selectedTemplateId={selectedTemplateId}
         setSelectedTemplateId={setSelectedTemplateId}
       />
-      <br />
       <PastEstimatesList
         searchTerm={searchTerm}
         selectedTemplateId={selectedTemplateId}

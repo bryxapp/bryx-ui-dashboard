@@ -4,7 +4,7 @@ import Loading from "../../SharedComponents/Loading/Loading";
 import NoneFound from "../../SharedComponents/NoneFound/NoneFound";
 import EstimatesPagingControls from "../SharedEstimateComponents/EstimatesPagingControls";
 import { EstimateDraftData } from "../../../utils/types/EstimateInterfaces";
-import { List } from "antd";
+import { Divider, List } from "antd";
 import EstimateListItem from "../SharedEstimateComponents/EstimateListItem";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
@@ -80,6 +80,7 @@ const EstimateDrafts = () => {
   return (
     <>
       <ErrorModal error={deleteError} setError={setDeleteError} content="Error deleting draft" />
+      <Divider style={{marginBottom:0}} />
       <List
         size="large"
         dataSource={estimateDrafts}

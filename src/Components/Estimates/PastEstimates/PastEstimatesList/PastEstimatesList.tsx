@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { List } from "antd";
+import { Divider, List } from "antd";
 import _ from "lodash";
 
 
@@ -113,6 +113,7 @@ const PastEstimatesList = ({ searchTerm, selectedTemplateId, setNoEstimatesAvail
 
     return (
         <>
+            <Divider style={{marginBottom:0}} />
             <ErrorModal error={deleteError} setError={setDeleteError} content="Error deleting estimate" />
             <List
                 size="large"
@@ -126,6 +127,7 @@ const PastEstimatesList = ({ searchTerm, selectedTemplateId, setNoEstimatesAvail
                         itemName="Estimate"
                         type="estimate"
                     />
+                    
                 )}
             />
             <EstimatesPagingControls
