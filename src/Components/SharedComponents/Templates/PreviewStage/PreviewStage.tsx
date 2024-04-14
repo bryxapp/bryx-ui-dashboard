@@ -74,7 +74,8 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                     strokeWidth={ellipse.strokeWidth}
                     rotation={ellipse.rotation}
                   />)
-              case 'Image':
+              case 'UserImage':
+              case 'StockImage':
                 const image = shape as ImageObj;
                 const imageSrc = new window.Image();
                 imageSrc.src = image.src;

@@ -2,8 +2,7 @@ import { Menu } from 'antd';
 import { HeadingObj, ParagraphObj } from '../../../../../utils/types/CanvasInterfaces';
 import { createHeadingdObj, createParagraphObj } from '../../../../../utils/types/ShapesFactory';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { FaHeading } from "react-icons/fa6";
-import { BsTextParagraph } from "react-icons/bs";
+import { mapTypeToIcon, mapTypeToTitle } from '../../../../../utils/iconUtils';
 
 
 const TextMenu = () => {
@@ -31,16 +30,16 @@ const TextMenu = () => {
             <Menu.Item
                 key="heading"
                 onClick={handleAddHeading}
-                icon={<FaHeading />}
+                icon={mapTypeToIcon('Heading')}
             >
-                Heading
+                {mapTypeToTitle('Heading')}
             </Menu.Item>
             <Menu.Item
                 key="paragraph"
                 onClick={handleAddParagraph}
-                icon={<BsTextParagraph />}
+                icon={mapTypeToIcon('Paragraph')}
             >
-                Paragraph
+                {mapTypeToTitle('Paragraph')}
             </Menu.Item>
         </>
     );

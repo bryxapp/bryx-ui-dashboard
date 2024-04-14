@@ -338,10 +338,24 @@ export function createParagraphObj(value: string, fontSize: number, fill: string
     };
 }
 
-export function createImageObj(src: string, width: number, height: number): ImageObj {
+export function createUserImageObj(src: string, width: number, height: number): ImageObj {
     return {
         id: generateShapeId(),
-        type: 'Image',
+        type: 'UserImage',
+        x: defaultStartX,
+        y: defaultStartY,
+        rotation: 0,
+        src,
+        width,
+        height,
+        isDragging: false,
+    };
+}
+
+export function createStockImageObj(src: string, width: number, height: number): ImageObj {
+    return {
+        id: generateShapeId(),
+        type: 'StockImage',
         x: defaultStartX,
         y: defaultStartY,
         rotation: 0,

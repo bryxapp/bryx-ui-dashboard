@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { Image, Modal } from 'antd';
 import { MdCancel } from "react-icons/md";
 import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
+import { createUserImageObj } from '../../../../../../utils/types/ShapesFactory';
 import { deleteImage } from '../../../../../../utils/api/user-images-api';
 import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
@@ -28,7 +28,7 @@ export default function UserImageCard({ imageData, setOpen, userImages, setUserI
     const imgheight = height / width * 300;
 
     const handleImageClick = useCallback(() => {
-        const newCanvasImage: ImageObj = createImageObj(url, 300, imgheight);
+        const newCanvasImage: ImageObj = createUserImageObj(url, 300, imgheight);
         setCanvasDesign((prevCanvasDesign: CanvasDesignData) => ({
             ...prevCanvasDesign,
             Shapes: [...prevCanvasDesign.Shapes, newCanvasImage]

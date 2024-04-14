@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { searchUnsplashImages } from '../../../../../../utils/api/unsplash-images-api';
 import { Button, Input, Modal, Typography } from 'antd';
-import { createImageObj } from '../../../../../../utils/types/ShapesFactory';
+import { createStockImageObj } from '../../../../../../utils/types/ShapesFactory';
 import logger from '../../../../../../logging/logger';
 import PublicImagesGrid from './PublicImagesGrid/PublicImagesGrid';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
@@ -60,7 +60,7 @@ export default function PublicImages({ open, setOpen }: PublicImagesMenuProps) {
     };
 
     const handleImageClick = (imageData: { url: string; width: number; height: number; }) => {
-        const newImage: ImageObj = createImageObj(imageData.url, imageData.width / 15, imageData.height / 15);
+        const newImage: ImageObj = createStockImageObj(imageData.url, imageData.width / 15, imageData.height / 15);
 
         setCanvasDesign({
             ...canvasDesign,

@@ -1,7 +1,7 @@
 import { Menu } from 'antd';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { createEllipseObj, createRectangleObj, createRoundedRectangleObj } from '../../../../../utils/types/ShapesFactory';
-import { MdOutlineRectangle as AddRectangleIcon, MdOutlineCrop75 as AddRoundedRectangleIcon, MdOutlineCircle as AddEllipseIcon } from 'react-icons/md';
+import { mapTypeToIcon, mapTypeToTitle } from '../../../../../utils/iconUtils';
 
 function ShapesMenu() {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
@@ -32,27 +32,27 @@ function ShapesMenu() {
 
     return (
         <>
-        <Menu.Item
-            key="rectangle"
-            onClick={handleAddRectangle}
-            icon={<AddRectangleIcon />}
-        >
-            Rectangle
-        </Menu.Item>
-        <Menu.Item
-            key="roundedRectangle"
-            onClick={handleAddRoundedRectangle}
-            icon={<AddRoundedRectangleIcon />}
-        >
-            Rounded Rectangle
-        </Menu.Item>
-        <Menu.Item
-            key="ellipse"
-            onClick={handleAddEllipse}
-            icon={<AddEllipseIcon />}
-        >
-            Ellipse
-        </Menu.Item>
+            <Menu.Item
+                key="rectangle"
+                onClick={handleAddRectangle}
+                icon={mapTypeToIcon('Rectangle')}
+            >
+                {mapTypeToTitle('Rectangle')}
+            </Menu.Item>
+            <Menu.Item
+                key="roundedRectangle"
+                onClick={handleAddRoundedRectangle}
+                icon={mapTypeToIcon('RoundedRectangle')}
+            >
+                {mapTypeToTitle('RoundedRectangle')}
+            </Menu.Item>
+            <Menu.Item
+                key="ellipse"
+                onClick={handleAddEllipse}
+                icon={mapTypeToIcon('Ellipse')}
+            >
+                {mapTypeToTitle('Ellipse')}
+            </Menu.Item>
         </>
     );
 };

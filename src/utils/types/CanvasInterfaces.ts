@@ -7,7 +7,7 @@ export interface CanvasDesignData {
 
 export interface ShapeObj {
     id: string;
-    type: ShapeType | InputType | TextType | ImageType;
+    type: ShapeType;
     x: number;
     y: number;
     rotation: number;
@@ -32,7 +32,14 @@ export interface ImageObj extends ShapeObj {
     src: string;
     width: number;
     height: number;
-    type: 'Image';
+}
+
+export interface UserImageObj extends ImageObj {
+    type: 'UserImage';
+}
+
+export interface StockImageObj extends ImageObj {  
+    type: 'StockImage';
 }
 
 export interface SolidShapeObj extends ShapeObj {
@@ -106,12 +113,13 @@ export interface CanvasStarterData {
 
 export type FormInputs = (ShortTextInputObj | LongTextInputObj | PhoneInputObj | EmailInputObj | DateInputObj)[];
 
-export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
-export const ShapeTypes: ShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
-export type ImageType = 'Image';
-export const ImageTypes: ImageType[] = ['Image'];
+export type SolidShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
+export const SolidShapeTypes: SolidShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
+export type ImageType = 'UserImage' | 'StockImage';
+export const ImageTypes: ImageType[] = ['UserImage', 'StockImage'];
 export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput' | 'TableInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
 export type TextType = 'Heading' | 'Paragraph'
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
+export type ShapeType  = SolidShapeType | InputType | TextType | ImageType;

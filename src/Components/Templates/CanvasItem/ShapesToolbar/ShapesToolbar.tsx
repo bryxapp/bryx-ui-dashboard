@@ -7,7 +7,10 @@ import { FaShapes } from "react-icons/fa";
 import { MdTextFields } from 'react-icons/md';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { LuTextCursorInput } from "react-icons/lu";
+import { TableOutlined } from "@ant-design/icons";
 import InputMenu from "./InputMenu/InputMenu";
+import TableMenu from "./TableMenu/TableMenu";
+import { MdNoteAdd } from "react-icons/md";
 
 interface CanvasToolbarProps {
     isLoading: boolean;
@@ -28,8 +31,20 @@ const ShapesToolbar = ({ isLoading }: CanvasToolbarProps) => {
                 setOpenKeys(keys as string[]);
             }}
         >
-            <Typography.Text style={{ display:"flex", justifyContent:"center"}}><strong>Add To Your Template</strong></Typography.Text>
-            <Divider style={{ margin:0 }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent:"center" }}>
+                <div style={{ marginRight: 20, fontSize:24 }}>
+                    <MdNoteAdd/>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems:"center", width: "8rem" }}>
+                    <Typography.Text>
+                        <strong>Add To</strong>
+                    </Typography.Text>
+                    <Typography.Text>
+                        <strong>Your Template</strong>
+                    </Typography.Text>
+                </div>
+            </div>
+            <Divider style={{ margin: 0 }} />
             <Menu.SubMenu
                 key="shapes"
                 icon={<FaShapes />}
@@ -52,12 +67,20 @@ const ShapesToolbar = ({ isLoading }: CanvasToolbarProps) => {
                 <InputMenu />
             </Menu.SubMenu>
             <Menu.SubMenu
+                key="table"
+                icon={<TableOutlined />}
+                title="Table"
+            >
+                <TableMenu />
+            </Menu.SubMenu>
+            <Menu.SubMenu
                 key="images"
                 icon={<MdAddPhotoAlternate />}
                 title="Images"
             >
                 <ImagesMenu />
             </Menu.SubMenu>
+
         </Menu>
     );
 };

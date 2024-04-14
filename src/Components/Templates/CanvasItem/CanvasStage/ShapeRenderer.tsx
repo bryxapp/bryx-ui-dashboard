@@ -62,7 +62,8 @@ const ShapeRenderer = () => {
                                 onTransformEnd={onTransformEnd}
                             />
                         );
-                    case 'Image':
+                    case 'UserImage':
+                    case 'StockImage':
                         const image = shape as ImageObj;
                         return (
                             <ImageShape

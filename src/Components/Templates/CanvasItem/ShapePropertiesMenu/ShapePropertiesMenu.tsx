@@ -13,6 +13,8 @@ import InputContentProperties from './InputProperties/ContentProperties';
 import TextPropertiesCard from './TextProperties/TextPropertiesCard';
 import { GoTag } from "react-icons/go";
 import { BsTextareaResize } from "react-icons/bs";
+import { mapTypeToIcon, mapTypeToTitle } from '../../../../utils/iconUtils';
+
 
 const PropertiesMenu = () => {
     const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
@@ -32,7 +34,19 @@ const PropertiesMenu = () => {
             mode="inline"
             style={{ height: '100%' }}
         >
-            <Typography.Text style={{ display: "flex", justifyContent: "center" }}><strong>Properties</strong></Typography.Text>
+            <div style={{ display: "flex", alignItems: "center", justifyContent:"center" }}>
+                <div style={{ marginRight: 20, fontSize:24 }}>
+                    {mapTypeToIcon(shapeObj.type)}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems:"center", width: "8rem"}}>
+                    <Typography.Text>
+                        <strong>{mapTypeToTitle(shapeObj.type)}</strong>
+                    </Typography.Text>
+                    <Typography.Text>
+                        <strong>Properties</strong>
+                    </Typography.Text>
+                </div>
+            </div>
             <Divider style={{ margin: 0 }} />
             {istextObj &&
                 (

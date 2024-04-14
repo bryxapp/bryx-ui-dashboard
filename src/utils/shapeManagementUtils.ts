@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, ShapeType, ShapeTypes } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -60,7 +60,8 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     rotation: ellipse.rotation,
                 }))
                 break;
-            case 'Image':
+            case 'UserImage':
+            case 'StockImage':
                 const imageObj = shape as ImageObj;
                 const image = await loadImage(imageObj.src);
                 layer.add(new Konva.Image({
@@ -167,7 +168,8 @@ export const getShapeWidth = (shape: ShapeObj): number => {
             return (shape as RectangleObj).width;
         case 'Ellipse':
             return (shape as EllipseObj).radiusX * 2;
-        case 'Image':
+        case 'UserImage':
+        case 'StockImage':
             return (shape as ImageObj).width;
         case 'Heading':
         case 'Paragraph':
@@ -207,11 +209,11 @@ export const isInputObject = (shape?: ShapeObj): boolean => {
 };
 
 export const isSolidShapeObj = (shape?: ShapeObj): boolean => {
-    return shape ? ShapeTypes.includes(shape.type as ShapeType) : false;
+    return shape ? SolidShapeTypes.includes(shape.type as SolidShapeType) : false;
 };
 
 export const isImageObject = (shape?: ShapeObj): boolean => {
-    return shape ? shape.type === 'Image' : false;
+    return shape ? ImageTypes.includes(shape.type as ImageType) : false;
 }
 
 export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {

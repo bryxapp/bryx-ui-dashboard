@@ -2,7 +2,7 @@ import React from 'react';
 import Konva from 'konva';
 import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
-import { isInputObject, isTextObject } from '../../../utils/shapeManagementUtils';
+import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../utils/shapeManagementUtils';
 
 // Assuming necessary interfaces are imported or defined here
 
@@ -81,7 +81,7 @@ const useShapeMove = (
                         radiusY: Math.max(5, node.radiusY() * scaleY),
                         rotation: node.rotation(),
                     } as EllipseObj;
-                } else if (shape.type === "Rectangle" || shape.type === "RoundedRectangle" || isTextObject(shape) || isInputObject(shape) || shape.type === "Image") {
+                } else if (isSolidShapeObj(shape) || isTextObject(shape) || isInputObject(shape) || isImageObject(shape)) {
                     updatedCanvasDesign.Shapes[index] = {
                         ...shape,
                         x: node.x(),
