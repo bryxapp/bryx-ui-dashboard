@@ -6,7 +6,7 @@ export interface EstimateData {
     estimateName: string;
     estimatePdfUrl: string;
     canvasDesign: CanvasDesignData;
-    fieldValues: EstimateFormFields;
+    formInputs: EstimateFormFields;
     _ts: number;
     id: string;
 };
@@ -17,7 +17,7 @@ export interface EstimateDraftData {
     estimateName: string,
     _ts: number,
     id: string,
-    filledFields: EstimateFormFields
+    formInputs: EstimateFormFields
 }
 
 export interface EstimateFormFields {

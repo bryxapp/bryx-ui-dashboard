@@ -135,8 +135,6 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                   >
                     {inputObj.hasLabel &&
                       <Text
-                        key={inputObj.id}
-                        id={inputObj.id}
                         x={getXAlignment(labelInputObj, containerWidth)}
                         y={getYAlignment(contentShapeHeight)}
                         text={labelInputObj.value}
@@ -147,8 +145,6 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                       />
                     }
                     <Text
-                      key={inputObj.id}
-                      id={inputObj.id}
                       x={getXAlignment(contentInputObj, containerWidth)}
                       y={getYAlignment(contentShapeHeight) + labelShapeHeight + (labelInputObj.fontSize / 10)}
                       text={value}

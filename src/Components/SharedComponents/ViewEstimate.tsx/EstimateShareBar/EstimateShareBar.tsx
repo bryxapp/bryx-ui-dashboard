@@ -44,14 +44,14 @@ const EstimateShareBar = ({ estimate }: any) => {
     }, [pdfUrl]);
 
     return (
-        <div>
-            <Tooltip title="Share Link">
-                <Button onClick={handleOpenShareDialog}>
+        <div style = {{display: 'flex', justifyContent: 'space-between', width: '7rem'}}>
+            <Tooltip title="Share Link" placement='bottom'>
+                <Button onClick={handleOpenShareDialog} size='large'>
                     <LinkOutlined />
                 </Button>
             </Tooltip>
-            <Tooltip title="Create a PDF">
-                <Button onClick={handlePdfClick}>
+            <Tooltip title="Create a PDF" placement='bottom'>
+                <Button onClick={handlePdfClick} size='large'>
                     {pdfLoading ? <Spin /> : <FilePdfOutlined />}
                 </Button>
             </Tooltip>

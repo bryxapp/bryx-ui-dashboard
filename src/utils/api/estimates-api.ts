@@ -22,7 +22,7 @@ export async function createEstimate(templateData: TemplateData, estimateName: s
 
 export async function createEstimatePDF(estimate: EstimateData) {
     const pdfMultiplier = 72;
-    const estimateImgObj = await createImageUrl(estimate.canvasDesign, estimate.fieldValues);
+    const estimateImgObj = await createImageUrl(estimate.canvasDesign, estimate.formInputs);
     //Create Body
     const body = {
         estimateId: estimate.id,

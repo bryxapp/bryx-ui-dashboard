@@ -63,7 +63,8 @@ const EstimateComment = ({ estimateComment, setEstimateComments }: EstimateComme
                                 {estimateComment.userPic ? <Avatar size="large" src={estimateComment.userPic} /> : <Avatar>{estimateComment.userName.charAt(0).toUpperCase()}</Avatar>}
                             </Space>
                             <div style={{ marginLeft: 12 }}>
-                                <Typography.Title level={5} style={{ margin: 0 }}>{estimateComment.userName}</Typography.Title>
+                                <Typography.Text>{estimateComment.userName}</Typography.Text>
+                                <br />
                                 <Typography.Text type="secondary">{displayDate}</Typography.Text>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Form, Typography } from 'antd';
+import { Form, Typography, notification } from 'antd';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
 import { InputObj, InputType, InputTypes, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
@@ -38,6 +38,7 @@ const EstimateForm = () => {
     useEffect(() => {
         const fetchTemplate = async () => {
             try {
+                setLoading(true);
                 if (!templateId) return;
                 const token = await getAccessToken();
                 if (!token) return;
@@ -59,9 +60,8 @@ const EstimateForm = () => {
                     }
                 });
                 setInputObjects(tempInputObjects);
-                let newFieldValues: EstimateFormFields = {};
                 if (draftId) {
-                    await fetchDraft(newFieldValues, token);
+                    await fetchDraft(tempFormInputs, token);
                 }
                 else {
                     setFormInputs(tempFormInputs);
@@ -87,20 +87,23 @@ const EstimateForm = () => {
         const fetchDraft = async (currentFormFields: EstimateFormFields, token: string) => {
             const fetchedEstimateDraft = await getEstimateDraft(draftId, token);
             setEstimateName(fetchedEstimateDraft.estimateName);
-            const draftFieldValues = fetchedEstimateDraft.filledFields; //fieldvalues object saved from the last draft
+            const draftFieldValues = fetchedEstimateDraft.formInputs; //fieldvalues object saved from the last draft
             //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
             let missingKeys: string[] = [];
             Object.keys(draftFieldValues).forEach((key) => {
-                if (!currentFormFields.hasOwnProperty(key)) {
-                    missingKeys.push(key);
+                if (currentFormFields.hasOwnProperty(key)) {
+                    currentFormFields[key] = draftFieldValues[key];
                 }
                 else {
-                    currentFormFields[key] = draftFieldValues[key];
+                    missingKeys.push(key);
                 }
             });
             setFormInputs(currentFormFields);
             if (missingKeys.length > 0) {
-                alert("There were fields in the draft that are no longer in the template.")
+                notification.warning({
+                    message: 'Missing Fields',
+                    description: 'There were fields in the draft that are no longer in the template.'
+                });
             }
         }
 

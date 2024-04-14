@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { List, Typography, Avatar } from 'antd';
-import { FileTextOutlined } from '@ant-design/icons';
+import { Typography, Avatar, Space, theme } from 'antd';
 import { convertEpochTime } from '../../../utils/time-util';
 import EstimatesDeleteDialog from './EstimatesDeleteDialog';
 import EstimatesActionPanel from './EstimatesActionPanel';
 import { EstimateData, EstimateDraftData } from '../../../utils/types/EstimateInterfaces';
 import { Link } from 'react-router-dom';
+import { FaFileInvoice } from "react-icons/fa6";
 
 interface EstimateListItemProps {
     estimate: EstimateData | EstimateDraftData;
@@ -18,40 +18,36 @@ interface EstimateListItemProps {
 const EstimateListItem: React.FC<EstimateListItemProps> = ({ estimate, handleEstimateDelete, editLink, itemName, type }) => {
     const displayDate = convertEpochTime(estimate._ts);
     const [open, setOpen] = useState(false);
+    const {
+        token: { colorPrimary },
+    } = theme.useToken();
+
 
     return (
-
-        <List.Item
-            actions={[
-                <EstimatesActionPanel
-                    estimate={estimate}
-                    setOpen={setOpen}
-                    editLink={editLink}
-                    type={type}
-                />
-            ]}
-        >
-
-            <List.Item.Meta
-                avatar={
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
+            <Space>
+                <Link to={editLink}>
+                    <Avatar style={{ backgroundColor: colorPrimary, alignItems: "center", justifyContent: "center" }} size="large" icon={<FaFileInvoice />}>
+                    </Avatar>
+                </Link>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <Link to={editLink}>
-                        <Avatar icon={<FileTextOutlined />} />
-                    </Link>}
-                title={
-                    <Link to={editLink}>
-                        <Typography.Text style={{ flexGrow: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        <Typography.Title level={4}
+                            style={{ margin: 0 }}>
                             {(type === "draft" ? "[DRAFT] " : "") + estimate.estimateName}
-                        </Typography.Text>
+                        </Typography.Title>
                     </Link>
-
-                }
-                description={
-                    <Typography.Text style={{ flexGrow: 1, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <Typography.Text type="secondary">
                         {displayDate}
                     </Typography.Text>
-                }
+                </div>
+            </Space>
+            <EstimatesActionPanel
+                estimate={estimate}
+                setOpen={setOpen}
+                editLink={editLink}
+                type={type}
             />
-
             <EstimatesDeleteDialog
                 open={open}
                 setOpen={setOpen}
@@ -59,8 +55,7 @@ const EstimateListItem: React.FC<EstimateListItemProps> = ({ estimate, handleEst
                 handleEstimateDelete={handleEstimateDelete}
                 itemName={itemName}
             />
-
-        </List.Item>
+        </div>
     );
 };
 

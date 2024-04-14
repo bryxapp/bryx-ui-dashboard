@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Typography, Tabs } from "antd";
 import PastEstimates from "./PastEstimates/PastEstimates";
 import EstimateDrafts from "./EstimateDrafts/EstimateDrafts";
 import NewEstimateButton from "./NewEstimateButton";
-
-const { TabPane } = Tabs;
 
 const Estimates: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1");
@@ -29,19 +27,29 @@ const Estimates: React.FC = () => {
     window.history.replaceState(null, "", newUrl);
   }, [activeTab, location.pathname]);
 
+  // Define tabs using items prop structure
+  const tabItems = [
+    {
+      label: "Estimates",
+      key: "1",
+      children: <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached} />
+    },
+    {
+      label: "Drafts",
+      key: "2",
+      children: <EstimateDrafts />
+    }
+  ];
+
   return (
-    <React.Fragment>
-      <Typography.Title level={4}>Estimates</Typography.Title>
+    <>
+      <Typography.Title level={2}>Estimates</Typography.Title>
       <NewEstimateButton maxEstimatesReached={maxEstimatesReached} />
-      <Tabs activeKey={activeTab} onChange={handleTabChange}>
-        <TabPane tab="Estimates" key="1">
-          <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached} />
-        </TabPane>
-        <TabPane tab="Drafts" key="2">
-          <EstimateDrafts />
-        </TabPane>
-      </Tabs>
-    </React.Fragment>
+      <Tabs
+        activeKey={activeTab}
+        onChange={handleTabChange}
+        items={tabItems} />
+    </>
   );
 };
 

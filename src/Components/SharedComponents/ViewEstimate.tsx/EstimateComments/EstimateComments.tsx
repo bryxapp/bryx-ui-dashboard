@@ -85,7 +85,9 @@ const EstimateComments = ({ estimate }: EstimateCommentsProps) => {
     if (error) return <ErrorMessage dataName='comments' />;
 
     return (
-        <>
+        <div style={{ width: "100%" }}>
+            <Typography.Title level={4} style={{ marginBottom: 0 }}>Comments</Typography.Title>
+            <Typography.Text type='secondary'>Your comments are visible only to registered team members</Typography.Text>
             {!loading && estimateComments.slice().reverse().map((estimateComment: EstimateCommentData) => (
                 <EstimateComment
                     key={estimateComment.id}
@@ -106,7 +108,7 @@ const EstimateComments = ({ estimate }: EstimateCommentsProps) => {
                 Add Comment
             </Button>
             <ErrorModal error={error} setError={setError} content="Error creating comment" />
-        </>
+        </div>
     );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import MenuItems from '../MenuItems/MenuItems';
 import { Drawer, Button } from 'antd';
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons';

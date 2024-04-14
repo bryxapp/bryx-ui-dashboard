@@ -29,7 +29,7 @@ const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, se
             if (!draftId) await createEstimateDraft(templateData.id, estimateName, formInputs, token);
             else await updateEstimateDraft(templateData.id, estimateName, formInputs, draftId, token);
             setError(false);
-            navigate("/?tab=1");
+            navigate("/?tab=2");
         } catch (error) {
             handleSaveError(error);
         } finally {

@@ -46,7 +46,7 @@ const ViewEstimate = () => {
 
     useEffect(() => {
         const setupCanvas = async () => {
-            if (estimate && estimate.canvasDesign && estimate.fieldValues) {
+            if (estimate && estimate.canvasDesign && estimate.formInputs) {
                 const [pageWidth, pageHeight] = getWebCanvasDimensions(estimate.canvasDesign);
                 setCanvasDimensions({ width: pageWidth, height: pageHeight });
 
@@ -61,7 +61,7 @@ const ViewEstimate = () => {
                 const newLayer = new Konva.Layer();
                 newLayer.add(rect);
 
-                await AddShapesToLayer(estimate.canvasDesign, estimate.fieldValues, newLayer);
+                await AddShapesToLayer(estimate.canvasDesign, estimate.formInputs, newLayer);
 
                 const newStage = new Konva.Stage({
                     width: pageWidth,
