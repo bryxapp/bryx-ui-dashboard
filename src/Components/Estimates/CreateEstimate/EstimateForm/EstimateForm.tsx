@@ -123,10 +123,10 @@ const EstimateForm = () => {
                 Create Estimate
             </Typography.Title>
             <div style={{ display: "flex" }}>
-                <div style={{ flex: 3 }}>
+                <div style={{ flex: 2 }}>
                     <Form
                         layout="vertical"
-                        style={{ width: "60%" }}
+                        style={{ width: "80%" }}
                     >
                         <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
                         < Typography.Text type="secondary">
@@ -146,7 +146,7 @@ const EstimateForm = () => {
                 </div>
 
                 <div style={{ flex: 1 }}>
-                    <PreviewStage canvasDesign={templateData.canvasDesign} />
+                    <PreviewStage canvasDesign={templateData.canvasDesign} formInputs={formInputs} />
                 </div>
             </div>
         </>

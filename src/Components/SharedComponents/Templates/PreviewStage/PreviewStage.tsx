@@ -1,22 +1,23 @@
-import { Stage, Layer, Rect, Ellipse, Image, Text } from "react-konva";
+import { Stage, Layer, Rect, Ellipse, Image, Text, Group } from "react-konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
+import { EstimateFormFields } from "../../../../utils/types/EstimateInterfaces";
+import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
   scale: number;
+  formInputs?: EstimateFormFields;
 }
 
-const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
+const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) => {
   //Page width and height is the same as the paper size. 8.5in x 11in
   const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign, scale);
 
   //Create a styled div to mimic the look of paper. White drop shadow and rounded corners.
 
-
   return (
-
     <PiecePaper pageHeight={pageHeight} pageWidth={pageWidth}>
       <Stage
         width={pageWidth}
@@ -110,20 +111,54 @@ const PreviewStage = ({ canvasDesign, scale }: PreviewStageProps) => {
               case 'LongTextInput':
               case 'DateInput':
                 const inputObj = shape as InputObj;
-                const labelTextObj = inputObj.label;
+                const labelInputObj = inputObj.label;
+                const contentInputObj = inputObj.content;
+                const value = formInputs ? formInputs[inputObj.id].value : '';
+
+                //Create Label Text Shape for measurements
+                const tempTextShapeLabel = createTempTextKonvaShape(labelInputObj);
+                const labelShapeWidth = tempTextShapeLabel.width();
+                const labelShapeHeight = tempTextShapeLabel.height();
+                // Create Content Text Shape for measurements
+                const tempTextShapeContent = createTempTextKonvaShape(contentInputObj);
+                const contentShapeWidth = tempTextShapeContent.width();
+                const contentShapeHeight = tempTextShapeContent.height();
+                //Container Measurements 
+                const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 return (
-                  <Text
+                  <Group
                     key={inputObj.id}
                     id={inputObj.id}
                     x={inputObj.x}
                     y={inputObj.y}
-                    text={labelTextObj.value}
-                    fontSize={labelTextObj.fontSize}
-                    fontFamily={labelTextObj.fontFamily}
-                    fill={labelTextObj.fill}
                     rotation={inputObj.rotation}
-                    align={labelTextObj.align}
-                  />)
+                  >
+                    {inputObj.hasLabel &&
+                      <Text
+                        key={inputObj.id}
+                        id={inputObj.id}
+                        x={getXAlignment(labelInputObj, containerWidth)}
+                        y={getYAlignment(contentShapeHeight)}
+                        text={labelInputObj.value}
+                        fontSize={labelInputObj.fontSize}
+                        fontFamily={labelInputObj.fontFamily}
+                        fill={labelInputObj.fill}
+                        align={labelInputObj.align}
+                      />
+                    }
+                    <Text
+                      key={inputObj.id}
+                      id={inputObj.id}
+                      x={getXAlignment(contentInputObj, containerWidth)}
+                      y={getYAlignment(contentShapeHeight) + labelShapeHeight + (labelInputObj.fontSize / 10)}
+                      text={value}
+                      fontSize={contentInputObj.fontSize}
+                      fontFamily={contentInputObj.fontFamily}
+                      fill={contentInputObj.fill}
+                      align={contentInputObj.align}
+                    />
+                  </Group>
+                );
               case 'TableInput':
                 //TODO: Implement TableInput
                 return null;
