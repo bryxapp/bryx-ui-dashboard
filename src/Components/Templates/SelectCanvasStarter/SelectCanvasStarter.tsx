@@ -22,7 +22,7 @@ const SelectCanvasStarter = () => {
                 <Card>
                     <CanvasStarterList />
                 </Card>
-                <Button type="primary" onClick={handleButtonClick}>Start From Scratch</Button>
+                <Button type="primary" size="large" onClick={handleButtonClick}>Start From Scratch</Button>
             </Space>
         </React.Fragment>
     )

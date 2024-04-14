@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Form, Typography, notification } from 'antd';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
-import { InputObj, InputType, InputTypes, ShapeObj } from '../../../../utils/types/CanvasInterfaces';
+import { InputObj, InputType } from '../../../../utils/types/CanvasInterfaces';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateFormField, EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
 import Creating from '../../../SharedComponents/Creating/Creating';
@@ -17,6 +17,8 @@ import SaveAsDraftButton from './SaveDraftButton/SaveDraftButton';
 import EstimateFormTextFieldsList from './EstimateFormTextFields/EstimateFromTextFieldsList';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
+import { findShape } from '../../../../utils/shapeManagementUtils';
 
 const EstimateForm = () => {
 
@@ -31,7 +33,7 @@ const EstimateForm = () => {
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [formInputs, setFormInputs] = useState<EstimateFormFields>({});
-    const [inputObjects, setInputObjects] = useState<InputObj[]>([]);
+    const { setCanvasDesign } = useCanvasDesignContext();
     const [error, setError] = useState(false); // Error state
     const { getAccessToken } = useAuth0User();
 
@@ -44,22 +46,18 @@ const EstimateForm = () => {
                 if (!token) return;
                 const fetchedTemplate = await getTemplate(templateId, token);
                 setTemplateData(fetchedTemplate);
-                let tempInputObjects: InputObj[] = [];
+                setCanvasDesign(fetchedTemplate.canvasDesign);
                 let tempFormInputs: { [id: string]: EstimateFormField } = {};
-                fetchedTemplate.canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-                    // Check if the shape's type is a key in the InputTypes object.
-                    if (InputTypes.includes(shape.type as InputType)) {
-                        // Cast shape to InputObj and add to formInputs array.
-                        tempInputObjects.push(shape as InputObj);
-                        // Create a new EstimateFormField object and add to formInputs dictionary.
-                        tempFormInputs[shape.id] = {
-                            inputObjId: shape.id,
-                            type: shape.type as InputType,
-                            value: ""
-                        };
-                    }
-                });
-                setInputObjects(tempInputObjects);
+                fetchedTemplate.canvasDesign.inputOrder.forEach((inputObjId: string) => {
+                    // Create a new EstimateFormField object and add to formInputs dictionary.
+                    const inputShape = findShape(fetchedTemplate.canvasDesign, inputObjId) as InputObj;
+                    tempFormInputs[inputShape.id] = {
+                        inputObjId: inputShape.id,
+                        type: inputShape.type as InputType,
+                        value: ""
+                    };
+                }
+                );
                 if (draftId) {
                     await fetchDraft(tempFormInputs, token);
                 }
@@ -108,7 +106,7 @@ const EstimateForm = () => {
         }
 
         fetchTemplate();
-    }, [draftId, templateId, getAccessToken]);
+    }, [draftId, templateId, getAccessToken, setCanvasDesign]);
 
     if (loading) return <Loading />
 
@@ -129,14 +127,12 @@ const EstimateForm = () => {
                 <div style={{ flex: 2 }}>
                     <Form
                         layout="vertical"
-                        style={{ width: "80%" }}
-                    >
+                        style={{ width: "80%" }}>
                         <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
                         < Typography.Text type="secondary">
                             Template: {templateData.friendlyName}
                         </Typography.Text>
                         <EstimateFormTextFieldsList
-                            inputObjects={inputObjects}
                             formInputs={formInputs}
                             setFormInputs={setFormInputs}
                         />
@@ -147,7 +143,6 @@ const EstimateForm = () => {
                         </div>
                     </Form>
                 </div>
-
                 <div style={{ flex: 1 }}>
                     <PreviewStage canvasDesign={templateData.canvasDesign} formInputs={formInputs} />
                 </div>

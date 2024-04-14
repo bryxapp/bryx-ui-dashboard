@@ -8,6 +8,7 @@ const InputMenu = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
 
     const handleAddEmailInput = () => {
+        console.log(canvasDesign)
         const newEmailInput: EmailInputObj = createEmailInputObj(
             'Email',
             true,
@@ -22,6 +23,7 @@ const InputMenu = () => {
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newEmailInput],
+            inputOrder: [...canvasDesign.inputOrder, newEmailInput.id],
         });
     };
 
@@ -40,6 +42,7 @@ const InputMenu = () => {
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newPhoneInput],
+            inputOrder: [...canvasDesign.inputOrder, newPhoneInput.id],
         });
     };
 
@@ -58,6 +61,7 @@ const InputMenu = () => {
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newShortTextInput],
+            inputOrder: [...canvasDesign.inputOrder, newShortTextInput.id],
         });
     };
 
@@ -76,6 +80,7 @@ const InputMenu = () => {
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newLongTextInput],
+            inputOrder: [...canvasDesign.inputOrder, newLongTextInput.id],
         });
     }
 
@@ -94,6 +99,7 @@ const InputMenu = () => {
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newDateInput],
+            inputOrder: [...canvasDesign.inputOrder, newDateInput.id],
         });
     }
 

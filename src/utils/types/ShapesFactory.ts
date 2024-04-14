@@ -369,6 +369,7 @@ export function createStockImageObj(src: string, width: number, height: number):
 export function createEmptyCanvasDesign(pageWidth: number, pageHeight: number): CanvasDesignData {
     return {
         Shapes: [],
+        inputOrder: [],
         pageWidth,
         pageHeight,
     };

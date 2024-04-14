@@ -21,6 +21,7 @@ const TableMenu = () => {
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newTableInput],
+            inputOrder: [...canvasDesign.inputOrder, newTableInput.id],
         });
     }
 

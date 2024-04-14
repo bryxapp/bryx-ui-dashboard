@@ -1,6 +1,7 @@
 
 export interface CanvasDesignData {
     Shapes: (ShapeObj)[];
+    inputOrder: string[];
     pageHeight: number;
     pageWidth: number;
 }

@@ -6,18 +6,19 @@ import EstimateFormEmailField from './EstimateFormEmailField';
 import EstimateFormLongTextField from './EstimateFormLongTextField';
 import EstimateFormPhoneField from './EstimateFormPhoneField';
 import EstimateFormTextField from './EstimateFormShortTextField';
+import { findShape } from '../../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface EstimateFormTextFieldsListProps {
-    inputObjects: InputObj[];
     formInputs: EstimateFormFields;
     setFormInputs: React.Dispatch<React.SetStateAction<EstimateFormFields>>;
 }
 
 const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
-    inputObjects,
     formInputs,
-    setFormInputs
+    setFormInputs,
 }) => {
+    const {canvasDesign} = useCanvasDesignContext();
     const handleFieldChange = (event: any, inputObjId: string) => {
         let { value } = event.target;
         const updatedFormInputs = {
@@ -30,11 +31,12 @@ const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
         setFormInputs(updatedFormInputs);
     };
 
-    if (!inputObjects) return null;
+    if (!canvasDesign) return null;
     if (!formInputs) return null;
     return (
         <>
-            {inputObjects.map((inputObj: InputObj) => {
+            {canvasDesign.inputOrder.map((inputObjId: string) => {
+                const inputObj = findShape(canvasDesign, inputObjId) as InputObj;
                 const fieldValue = formInputs[inputObj.id].value;
                 switch (inputObj.type) {
                     case "ShortTextInput":
