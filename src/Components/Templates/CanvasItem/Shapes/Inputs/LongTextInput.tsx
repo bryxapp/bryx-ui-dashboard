@@ -95,7 +95,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
 
                 {/* Input Label */}
                 {longTextInputObj.hasLabel && (
-                    <InputLabel textObj={longTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
+                    <InputLabel textObj={longTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={longTextInputObj.id}/>
                 )}
                 {/* Input Content */}
                 <InputContent
@@ -103,8 +103,8 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight}
-                    labelFontSize={longTextInputObj.label.fontSize}
+                    labelHeight={longTextInputObj.hasLabel ? labelShapeHeight : 0}
+                    labelFontSize={longTextInputObj.hasLabel ? longTextInputObj.label.fontSize : 0}
                     onSelect={onSelect} />
             </Group>
             {isSelected && (

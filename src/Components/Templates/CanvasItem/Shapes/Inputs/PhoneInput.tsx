@@ -87,7 +87,7 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransform
                     onTap={onSelect} />
                 {/* Input Label */}
                 {phoneInputObj.hasLabel && (
-                    <InputLabel textObj={phoneInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
+                    <InputLabel textObj={phoneInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={phoneInputObj.id}/>
                 )}
                 {/* Input Content */}
                 <InputContent
@@ -95,8 +95,8 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransform
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight}
-                    labelFontSize={phoneInputObj.label.fontSize}
+                    labelHeight={phoneInputObj.hasLabel ? labelShapeHeight : 0}
+                    labelFontSize={phoneInputObj.hasLabel ? phoneInputObj.label.fontSize : 0}
                     onSelect={onSelect} />
             </Group>
             {isSelected && (

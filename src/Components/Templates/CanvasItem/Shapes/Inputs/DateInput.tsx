@@ -59,7 +59,7 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
     const contentShapeHeight = tempTextShapeContent.height();
 
     const containerHeight = dateInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+    const containerWidth = dateInputObj.hasLabel ? Math.max(labelShapeWidth, contentShapeWidth) : contentShapeWidth;
 
     return (
         <React.Fragment>
@@ -87,7 +87,7 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
                     onTap={onSelect} />
                 {/* Input Label */}
                 {dateInputObj.hasLabel && (
-                    <InputLabel textObj={dateInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} />
+                    <InputLabel textObj={dateInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={dateInputObj.id} />
                 )}
                 {/* Input Content */}
                 <InputContent
@@ -95,8 +95,8 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight}
-                    labelFontSize={dateInputObj.label.fontSize}
+                    labelHeight={dateInputObj.hasLabel ? labelShapeHeight : 0}
+                    labelFontSize={dateInputObj.hasLabel ? dateInputObj.label.fontSize : 0}
                     onSelect={onSelect} />
             </Group>
             {isSelected && (
