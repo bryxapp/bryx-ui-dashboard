@@ -15,7 +15,7 @@ import EstimateFormLongTextField from '../EstimateFormLongTextField';
 import EstimateFormPhoneField from '../EstimateFormPhoneField';
 import EstimateFormTextField from '../EstimateFormShortTextField';
 import { DateInputObj, EmailInputObj, InputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj } from "../../../../../../utils/types/CanvasInterfaces";
-import { Button, Card } from "antd";
+import { Button, Card, Tooltip } from "antd";
 
 interface Props {
     id: UniqueIdentifier;
@@ -56,10 +56,10 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
         transform: CSS.Translate.toString(transform),
         transition,
         padding: 0,
-        paddingLeft:"15px",
-        paddingTop:"5px",
-        paddingBottom:"5px",
-        paddingRight:"15px",
+        paddingLeft: "15px",
+        paddingTop: "5px",
+        paddingBottom: "5px",
+        paddingRight: "15px",
     };
 
     const { canvasDesign } = useCanvasDesignContext();
@@ -90,9 +90,11 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
                     alignItems: "center"
                 }}>
                     {renderInputField()}
-                    <Button className="DragHandle" {...attributes} {...listeners} type="text">
-                        <GoGrabber />
-                    </Button>
+                    <Tooltip title="Drag to reorder" placement="right">
+                        <Button className="DragHandle" {...attributes} {...listeners} type="text">
+                            <GoGrabber />
+                        </Button>
+                    </Tooltip>
                 </div>
             </Card>
         </SortableItemContext.Provider>

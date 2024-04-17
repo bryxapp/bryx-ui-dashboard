@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Button, Form, Typography, notification } from 'antd';
+import { Button, Form, Tooltip, Typography, notification } from 'antd';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
 import { InputObj, InputType } from '../../../../utils/types/CanvasInterfaces';
@@ -20,10 +20,11 @@ import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import { findShape } from '../../../../utils/shapeManagementUtils';
 import { TbEdit } from "react-icons/tb";
-import EditingEstimateFormTextFieldsList from './EstimateFormTextFields/EditingList/EditingEstimateFromTextFieldsList';
+import { SortableList } from './EstimateFormTextFields/EditingList/SortableList';
+
+const { Title, Text } = Typography;
 
 const EstimateForm = () => {
-
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const templateId = params.get('templateId');
@@ -35,9 +36,10 @@ const EstimateForm = () => {
     const [templateData, setTemplateData] = useState<TemplateData>();
     const [estimateName, setEstimateName] = useState("New Estimate");
     const [formInputs, setFormInputs] = useState<EstimateFormFields>({});
-    const { setCanvasDesign } = useCanvasDesignContext();
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [error, setError] = useState(false); // Error state
     const { getAccessToken } = useAuth0User();
+    const [items, setItems] = useState(canvasDesign.inputOrder.map((id) => ({ id })));
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -58,8 +60,7 @@ const EstimateForm = () => {
                         type: inputShape.type as InputType,
                         value: ""
                     };
-                }
-                );
+                });
                 if (draftId) {
                     await fetchDraft(tempFormInputs, token);
                 }
@@ -82,7 +83,7 @@ const EstimateForm = () => {
             finally {
                 setLoading(false);
             }
-        }
+        };
 
         const fetchDraft = async (currentFormFields: EstimateFormFields, token: string) => {
             const fetchedEstimateDraft = await getEstimateDraft(draftId, token);
@@ -105,7 +106,7 @@ const EstimateForm = () => {
                     description: 'There were fields in the draft that are no longer in the template.'
                 });
             }
-        }
+        };
 
         fetchTemplate();
     }, [draftId, templateId, getAccessToken, setCanvasDesign]);
@@ -113,33 +114,48 @@ const EstimateForm = () => {
     const [editing, setEditing] = useState(false);
     const handleEnableOrderEditing = () => {
         setEditing(true);
+    };
+
+    const handeSaveOrder = () => {
+        //Save new order of inputs to canvasDesign
+        // Then make update call to the template api
+        // Then set editing to false
+
+        setCanvasDesign((prevCanvasDesign) => {
+            let newCanvasDesign = { ...prevCanvasDesign };
+            newCanvasDesign.inputOrder = items.map((item) => item.id);
+            return newCanvasDesign;
+        });
+
+        setEditing(false);
+
     }
 
-    if (loading) return <Loading />
+    if (loading) return <Loading />;
 
-    if (creating) return <Creating />
+    if (creating) return <Creating />;
 
-    if (saving) return <Saving />
+    if (saving) return <Saving />;
 
-    if (error) return <ErrorMessage dataName="Template" />
+    if (error) return <ErrorMessage dataName="Template" />;
 
-    if (!templateData) return (<div>Template not found</div>);
+    if (!templateData) return <div>Template not found</div>;
 
     return (
         <>
-            <Typography.Title level={3}>
-                Create Estimate
-            </Typography.Title>
-            <div style={{ display: "flex" }}>
+            <Title level={3}>Create Estimate</Title>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                 <div style={{ flex: 2 }}>
-                    <Button type="link" onClick={handleEnableOrderEditing}><TbEdit /></Button>
-                    <Form
-                        layout="vertical"
-                        style={{ width: "80%" }}>
-                        <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} disabled={editing} />
-                        < Typography.Text type="secondary">
-                            Template: {templateData.friendlyName}
-                        </Typography.Text>
+                    <Form layout="vertical" style={{ width: "80%" }}>
+                        <div style={{ flex: 2, display: "flex", justifyContent: "space-between" }}>
+                            <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} disabled={editing} />
+                            {!editing && (
+                                <Tooltip title="Edit Order of Inputs">
+                                    <Button size="large" type="link" onClick={handleEnableOrderEditing}><TbEdit /></Button>
+                                </Tooltip>
+                            )}
+                        </div>
+                        <Text type="secondary">Template: {templateData.friendlyName}</Text>
                         {!editing && (
                             <EstimateFormTextFieldsList
                                 formInputs={formInputs}
@@ -147,7 +163,24 @@ const EstimateForm = () => {
                             />
                         )}
                         {editing && (
-                            <EditingEstimateFormTextFieldsList />
+                            <div>
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <Button type="primary" onClick={handeSaveOrder}>Save</Button>
+                                    <div style={{ width: '5px' }} />
+                                    <Button type="primary" danger onClick={() => setEditing(false)}>Cancel</Button>
+                                </div>
+                                <div style={{ height: '10px' }} />
+                                <div>
+                                    <SortableList
+                                        items={items}
+                                        onChange={setItems}
+                                        renderItem={(item) => (
+                                            <SortableList.Item id={item.id} />
+                                        )}
+                                    />
+                                    <div style={{ height: '10px' }} />
+                                </div>
+                            </div>
                         )}
                         <div style={{ display: 'flex' }}>
                             <SubmitButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setCreating={setCreating} disabled={editing} />
