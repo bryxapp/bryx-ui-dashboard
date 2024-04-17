@@ -53,7 +53,7 @@ const EstimateForm = ({
                     setFormInputs={setFormInputs}
                 />
             )}
-            {editing && (<EditFormOrder setEditing={setEditing} />)}
+            {editing && (<EditFormOrder setEditing={setEditing} templateId={templateData.id} friendlyName={templateData.friendlyName} />)}
             <div style={{ display: 'flex' }}>
                 <SubmitEstimate
                     templateData={templateData}
