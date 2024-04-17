@@ -48,7 +48,7 @@ const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
                     case "PhoneInput":
                         return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} />);
                     case "DateInput":
-                        return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} />)
+                        return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} setFormInputs={setFormInputs} formInputs={formInputs} fieldValue={fieldValue} key={"parent" + inputObj.id} />)
                     default:
                         return null;
                 }

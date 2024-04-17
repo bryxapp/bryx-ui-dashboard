@@ -4,6 +4,7 @@ import { useState } from "react";
 import { SortableList } from "./SortableList";
 import { useAuth0User } from "../../../../../utils/customHooks/useAuth0User";
 import { updateTemplate } from "../../../../../utils/api/templates-api";
+import { SortableItem } from "./SortableItem";
 
 interface IEstimateFormProps {
     setEditing: any;
@@ -61,7 +62,7 @@ const EditFormOrder = ({ setEditing, templateId, friendlyName }: IEstimateFormPr
                     items={items}
                     onChange={handleOrderChange}
                     renderItem={(item: { id: any; }) => (
-                        <SortableList.Item id={item.id} />
+                        <SortableItem id={item.id} />
                     )}
                 />
                 <div style={{ height: '10px' }} />

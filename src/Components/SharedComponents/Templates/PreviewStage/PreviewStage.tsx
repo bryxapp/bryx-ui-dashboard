@@ -1,9 +1,10 @@
 import { Stage, Layer, Rect, Ellipse, Image, Text, Group } from "react-konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
+import { CanvasDesignData, DateInputObj, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
 import { EstimateFormFields } from "../../../../utils/types/EstimateInterfaces";
 import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { format } from "date-fns";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
@@ -110,7 +111,6 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
               case 'EmailInput':
               case 'ShortTextInput':
               case 'LongTextInput':
-              case 'DateInput':
                 const inputObj = shape as InputObj;
                 const labelInputObj = inputObj.label;
                 const contentInputObj = inputObj.content;
@@ -153,6 +153,53 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                       fontFamily={contentInputObj.fontFamily}
                       fill={contentInputObj.fill}
                       align={contentInputObj.align}
+                    />
+                  </Group>
+                );
+              case 'DateInput':
+                const dateInputObj = shape as DateInputObj;
+                const dateLabelInputObj = dateInputObj.label;
+                const dateContentInputObj = dateInputObj.content;
+                const dateString = formInputs ? formInputs[dateInputObj.id].value : '';
+                const val = dateString ? format(new Date(dateString), dateInputObj.dateFormat) : '';
+                dateContentInputObj.value = val;
+                //Create Label Text Shape for measurements
+                const tempDateTextShapeLabel = createTempTextKonvaShape(dateLabelInputObj);
+                const datelabelShapeWidth = tempDateTextShapeLabel.width();
+                const datelabelShapeHeight = tempDateTextShapeLabel.height();
+                // Create Content Text Shape for measurements
+                const datetempTextShapeContent = createTempTextKonvaShape(dateContentInputObj);
+                const datecontentShapeWidth = datetempTextShapeContent.width();
+                const datecontentShapeHeight = datetempTextShapeContent.height();
+                //Container Measurements 
+                const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
+                return (
+                  <Group
+                    key={dateInputObj.id}
+                    id={dateInputObj.id}
+                    x={dateInputObj.x}
+                    y={dateInputObj.y}
+                    rotation={dateInputObj.rotation}
+                  >
+                    {dateInputObj.hasLabel &&
+                      <Text
+                        x={getXAlignment(dateLabelInputObj, datecontainerWidth)}
+                        y={getYAlignment(datecontentShapeHeight)}
+                        text={dateLabelInputObj.value}
+                        fontSize={dateLabelInputObj.fontSize}
+                        fontFamily={dateLabelInputObj.fontFamily}
+                        fill={dateLabelInputObj.fill}
+                        align={dateLabelInputObj.align}
+                      />
+                    }
+                    <Text
+                      x={getXAlignment(dateContentInputObj, datecontainerWidth)}
+                      y={getYAlignment(datecontentShapeHeight) + datelabelShapeHeight + (dateLabelInputObj.fontSize / 10)}
+                      text={val}
+                      fontSize={dateContentInputObj.fontSize}
+                      fontFamily={dateContentInputObj.fontFamily}
+                      fill={dateContentInputObj.fill}
+                      align={dateContentInputObj.align}
                     />
                   </Group>
                 );

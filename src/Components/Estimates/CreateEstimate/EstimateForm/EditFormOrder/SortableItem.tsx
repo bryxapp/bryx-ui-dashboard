@@ -75,7 +75,7 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
             case "PhoneInput":
                 return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />);
             case "DateInput":
-                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />)
+                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} formInputs={null} setFormInputs={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />)
             default:
                 return null;
         }

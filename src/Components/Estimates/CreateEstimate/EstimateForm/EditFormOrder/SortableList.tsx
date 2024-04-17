@@ -16,7 +16,6 @@ import {
 
 
 import { SortableOverlay } from "./SortableOverlay";
-import { SortableItem } from "./SortableItem";
 
 interface BaseItem {
   id: UniqueIdentifier;
@@ -75,5 +74,3 @@ export function SortableList<T extends BaseItem>({
     </DndContext>
   );
 }
-
-SortableList.Item = SortableItem;
