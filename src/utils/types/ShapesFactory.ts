@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -216,7 +216,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
     };
 }
 
-export function createDateInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
+export function createDateInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat:DateFormatOption, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -253,6 +253,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         label: labelObj,
         hasLabel,
         content: contentObj,
+        dateFormat: dateFormat,
         isDragging: false,
     };
 }

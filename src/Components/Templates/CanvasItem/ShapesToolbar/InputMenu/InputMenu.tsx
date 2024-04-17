@@ -12,7 +12,7 @@ const InputMenu = () => {
         const newEmailInput: EmailInputObj = createEmailInputObj(
             'Email',
             true,
-            'john.doe@email.com',
+            '',
             20,
             'black',
             'Arial',
@@ -31,7 +31,7 @@ const InputMenu = () => {
         const newPhoneInput: PhoneInputObj = createPhoneInputObj(
             'Phone',
             true,
-            '(555)555-5555',
+            '',
             20,
             'black',
             'Arial',
@@ -88,13 +88,14 @@ const InputMenu = () => {
         const newDateInput: DateInputObj = createDateInputObj(
             'Date',
             true,
-            'mm/dd/yyyy',
+            '',
             20,
             'black',
             'Arial',
             'normal',
             '',
-            false
+            'MM/dd/yy',
+            false,
         );
         setCanvasDesign({
             ...canvasDesign,
@@ -120,6 +121,13 @@ const InputMenu = () => {
                 {mapTypeToTitle('PhoneInput')}
             </Menu.Item>
             <Menu.Item
+                key="dateInput"
+                onClick={handleAddDateInput}
+                icon={mapTypeToIcon('DateInput')}
+            >
+                {mapTypeToTitle('DateInput')}
+            </Menu.Item>
+            <Menu.Item
                 key="shortTextInput"
                 onClick={handleAddShortTextInput}
                 icon={mapTypeToIcon('ShortTextInput')}
@@ -132,13 +140,6 @@ const InputMenu = () => {
                 icon={mapTypeToIcon('LongTextInput')}
             >
                 {mapTypeToTitle('LongTextInput')}
-            </Menu.Item>
-            <Menu.Item
-                key="dateInput"
-                onClick={handleAddDateInput}
-                icon={mapTypeToIcon('DateInput')}
-            >
-                {mapTypeToTitle('DateInput')}
             </Menu.Item>
         </>
     );

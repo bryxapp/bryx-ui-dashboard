@@ -1,5 +1,5 @@
 import { Rect, Group } from 'react-konva';
-import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { EmailInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
@@ -8,6 +8,7 @@ import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
+const EMAIL_LENGTH = 20;
 interface EmailInputProps {
     emailInputObj: EmailInputObj;
     handleDragStart: any;
@@ -53,8 +54,15 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransform
     const labelShapeHeight = tempTextShapeLabel.height();
 
     //Create Content Text Shape for measurements
-
-    const tempTextShapeContent = createTempTextKonvaShape(emailInputObj.content);
+    const tempTextBase = {
+        value: 'X'.repeat(EMAIL_LENGTH),
+        fontSize: emailInputObj.content.fontSize,
+        fill: emailInputObj.content.fill,
+        fontFamily: emailInputObj.content.fontFamily,
+        fontStyle: emailInputObj.content.fontStyle,
+        textDecoration: emailInputObj.content.textDecoration
+    };
+    const tempTextShapeContent = createTempTextKonvaShape(tempTextBase as TextBase);
     const contentShapeWidth = tempTextShapeContent.width();
     const contentShapeHeight = tempTextShapeContent.height();
 

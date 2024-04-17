@@ -1,5 +1,5 @@
 import { Rect, Group } from 'react-konva';
-import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { PhoneInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
@@ -8,6 +8,7 @@ import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
+const PHONE_NUMBER_LENGTH = 10;
 interface PhoneInputProps {
     phoneInputObj: PhoneInputObj;
     handleDragStart: any;
@@ -53,8 +54,15 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransform
     const labelShapeHeight = tempTextShapeLabel.height();
 
     //Create Content Text Shape for measurements
-
-    const tempTextShapeContent = createTempTextKonvaShape(phoneInputObj.content);
+    const tempTextBase = {
+        value: 'X'.repeat(PHONE_NUMBER_LENGTH),
+        fontSize: phoneInputObj.content.fontSize,
+        fill: phoneInputObj.content.fill,
+        fontFamily: phoneInputObj.content.fontFamily,
+        fontStyle: phoneInputObj.content.fontStyle,
+        textDecoration: phoneInputObj.content.textDecoration
+    }
+    const tempTextShapeContent = createTempTextKonvaShape(tempTextBase as TextBase);
     const contentShapeWidth = tempTextShapeContent.width();
     const contentShapeHeight = tempTextShapeContent.height();
 

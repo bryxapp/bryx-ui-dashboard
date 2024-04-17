@@ -1,5 +1,5 @@
 import { Rect, Group } from 'react-konva';
-import { DateInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { DateInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
@@ -7,6 +7,7 @@ import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import { format } from 'date-fns';
 
 interface DateInputProps {
     dateInputObj: DateInputObj;
@@ -52,9 +53,18 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
     const labelShapeWidth = tempTextShapeLabel.width();
     const labelShapeHeight = tempTextShapeLabel.height();
 
+    const formattedDate = format(new Date(), dateInputObj.dateFormat);
     //Create Content Text Shape for measurements
+    const tempTextBase = {
+        value: formattedDate,
+        fontSize: dateInputObj.content.fontSize,
+        fill: dateInputObj.content.fill,
+        fontFamily: dateInputObj.content.fontFamily,
+        fontStyle: dateInputObj.content.fontStyle,
+        textDecoration: dateInputObj.content.textDecoration
+    };
 
-    const tempTextShapeContent = createTempTextKonvaShape(dateInputObj.content);
+    const tempTextShapeContent = createTempTextKonvaShape(tempTextBase as TextBase);
     const contentShapeWidth = tempTextShapeContent.width();
     const contentShapeHeight = tempTextShapeContent.height();
 
@@ -91,7 +101,7 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
                 )}
                 {/* Input Content */}
                 <InputContent
-                    textObj={dateInputObj.content}
+                    textObj={tempTextBase as TextBase}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}

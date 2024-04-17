@@ -39,7 +39,7 @@ export interface UserImageObj extends ImageObj {
     type: 'UserImage';
 }
 
-export interface StockImageObj extends ImageObj {  
+export interface StockImageObj extends ImageObj {
     type: 'StockImage';
 }
 
@@ -69,6 +69,7 @@ export interface EmailInputObj extends InputObj {
 
 export interface DateInputObj extends InputObj {
     type: 'DateInput';
+    dateFormat: DateFormatOption
 }
 
 export interface TableInputObj extends TableObj {
@@ -123,4 +124,13 @@ export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTex
 export type TextType = 'Heading' | 'Paragraph'
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
-export type ShapeType  = SolidShapeType | InputType | TextType | ImageType;
+export type ShapeType = SolidShapeType | InputType | TextType | ImageType;
+
+export type DateFormatOption =
+    'MM/dd/yy' |
+    'MM/dd/yyyy' |
+    'MMMM d, yyyy' |
+    'MMM d, yyyy';
+
+export const DateFormatOptions: DateFormatOption[] = ['MM/dd/yy', 'MM/dd/yyyy', 'MMMM d, yyyy', 'MMM d, yyyy'];
+
