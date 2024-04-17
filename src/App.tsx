@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import Navigation from './Components/Navigation/Navigation';
 import Templates from './Components/Templates/Templates';
 import NotFound from './Components/SharedComponents/NotFound/NotFound';
-import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
 import NotLoggedIn from "./Components/SharedComponents/NotLoggedIn/NotLoggedIn";
@@ -23,6 +22,7 @@ import ViewEstimate from "./Components/SharedComponents/ViewEstimate.tsx/ViewEst
 import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import { CanvasDesignProvider } from "./utils/contexts/canvasDesignContext";
 import { ConfigProvider } from "antd";
+import CreateEstimate from "./Components/Estimates/CreateEstimate/EstimateForm/CreateEstimate";
 
 function App() {
   const { organization, setOrganization, isOwner, setIsOwner } = useOrganizationContext();
@@ -115,7 +115,7 @@ function App() {
               <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
               <Route path="/edit-template" element={<CanvasItem />} />
               <Route path="/select-template" element={<SelectTemplate />} />
-              <Route path="/form" element={<EstimateForm />} />
+              <Route path="/form" element={<CreateEstimate />} />
               <Route path="/view-estimate" element={<ViewEstimate />} />
               <Route path="/pro-checkout" element={<ProCheckout />} />
               <Route path="/team-checkout" element={<TeamCheckout />} />

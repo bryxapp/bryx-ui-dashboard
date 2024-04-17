@@ -1,11 +1,11 @@
 import { Button } from 'antd';
-import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
+import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { createEstimateDraft, updateEstimateDraft } from '../../../../../utils/api/estimate-drafts-api';
-import logger from '../../../../../logging/logger';
-import ErrorModal from '../../../../SharedComponents/ErrorModal/ErrorModal';
-import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
+import { createEstimateDraft, updateEstimateDraft } from '../../../../../../utils/api/estimate-drafts-api';
+import logger from '../../../../../../logging/logger';
+import ErrorModal from '../../../../../SharedComponents/ErrorModal/ErrorModal';
+import { EstimateFormFields } from '../../../../../../utils/types/EstimateInterfaces';
 
 interface SaveAsDraftButtonProps {
     templateData: any;
@@ -16,7 +16,7 @@ interface SaveAsDraftButtonProps {
     disabled?: boolean;
 }
 
-const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, setSaving, disabled }: SaveAsDraftButtonProps) => {
+const SaveEstimateDraftButton = ({ templateData, estimateName, formInputs, draftId, setSaving, disabled }: SaveAsDraftButtonProps) => {
     const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
@@ -61,4 +61,4 @@ const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, se
     );
 };
 
-export default SaveAsDraftButton;
+export default SaveEstimateDraftButton;

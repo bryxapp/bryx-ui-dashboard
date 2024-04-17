@@ -1,12 +1,12 @@
 import { Button } from 'antd';
-import { createEstimate } from '../../../../../utils/api/estimates-api';
-import { deleteEstimateDraft } from '../../../../../utils/api/estimate-drafts-api';
-import { useAuth0User } from '../../../../../utils/customHooks/useAuth0User';
+import { createEstimate } from '../../../../../../utils/api/estimates-api';
+import { deleteEstimateDraft } from '../../../../../../utils/api/estimate-drafts-api';
+import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import logger from '../../../../../logging/logger';
-import ErrorModal from '../../../../SharedComponents/ErrorModal/ErrorModal';
-import { EstimateFormFields } from '../../../../../utils/types/EstimateInterfaces';
+import logger from '../../../../../../logging/logger';
+import ErrorModal from '../../../../../SharedComponents/ErrorModal/ErrorModal';
+import { EstimateFormFields } from '../../../../../../utils/types/EstimateInterfaces';
 
 interface SubmitButtonProps {
     templateData: any;
@@ -17,7 +17,7 @@ interface SubmitButtonProps {
     disabled?: boolean;
 }
 
-const SubmitButton = ({ templateData, estimateName, formInputs, draftId, setCreating, disabled }: SubmitButtonProps) => {
+const SaveEstimateButton = ({ templateData, estimateName, formInputs, draftId, setCreating, disabled }: SubmitButtonProps) => {
     const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
@@ -56,4 +56,4 @@ const SubmitButton = ({ templateData, estimateName, formInputs, draftId, setCrea
     );
 };
 
-export default SubmitButton;
+export default SaveEstimateButton;

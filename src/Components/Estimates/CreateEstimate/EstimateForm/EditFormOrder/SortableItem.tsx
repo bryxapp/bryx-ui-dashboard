@@ -7,14 +7,14 @@ import type {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { GoGrabber } from "react-icons/go";
-import { useCanvasDesignContext } from "../../../../../../utils/contexts/canvasDesignContext";
-import { findShape } from "../../../../../../utils/shapeManagementUtils";
-import EstimateFormDateField from '../EstimateFormDateField';
-import EstimateFormEmailField from '../EstimateFormEmailField';
-import EstimateFormLongTextField from '../EstimateFormLongTextField';
-import EstimateFormPhoneField from '../EstimateFormPhoneField';
-import EstimateFormTextField from '../EstimateFormShortTextField';
-import { DateInputObj, EmailInputObj, InputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj } from "../../../../../../utils/types/CanvasInterfaces";
+import { useCanvasDesignContext } from "../../../../../utils/contexts/canvasDesignContext";
+import { findShape } from "../../../../../utils/shapeManagementUtils";
+import EstimateFormDateField from '../EstimateFormTextFields/EstimateFormDateField';
+import EstimateFormEmailField from '../EstimateFormTextFields/EstimateFormEmailField';
+import EstimateFormLongTextField from '../EstimateFormTextFields/EstimateFormLongTextField';
+import EstimateFormPhoneField from '../EstimateFormTextFields/EstimateFormPhoneField';
+import EstimateFormTextField from '../EstimateFormTextFields/EstimateFormShortTextField';
+import { DateInputObj, EmailInputObj, InputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { Button, Card, Tooltip } from "antd";
 
 interface Props {
