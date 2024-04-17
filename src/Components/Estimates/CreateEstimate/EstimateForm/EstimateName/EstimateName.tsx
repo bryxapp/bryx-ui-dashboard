@@ -3,9 +3,10 @@ import { Form, Input, Typography } from 'antd';
 interface EstimateNameProps {
   estimateName: string;
   setEstimateName: (newEstimateName: string) => void;
+  disabled?: boolean;
 }
 
-const EstimateName = ({ estimateName, setEstimateName }: EstimateNameProps) => {
+const EstimateName = ({ estimateName, setEstimateName, disabled }: EstimateNameProps) => {
   return (
     <Form.Item
       style={{ margin: 0 }}
@@ -17,6 +18,7 @@ const EstimateName = ({ estimateName, setEstimateName }: EstimateNameProps) => {
         onChange={(event) => setEstimateName(event.target.value)}
         style={{ width: '80%' }}
         size="large"
+        disabled={disabled}
       />
     </Form.Item>
   );

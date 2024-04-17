@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo } from "react";
+import React, { createContext, useMemo } from "react";
 import type { CSSProperties, PropsWithChildren } from "react";
 import type {
     DraggableSyntheticListeners,
@@ -54,7 +54,12 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
     const style: CSSProperties = {
         opacity: isDragging ? 0.4 : undefined,
         transform: CSS.Translate.toString(transform),
-        transition
+        transition,
+        padding: 0,
+        paddingLeft:"15px",
+        paddingTop:"5px",
+        paddingBottom:"5px",
+        paddingRight:"15px",
     };
 
     const { canvasDesign } = useCanvasDesignContext();
@@ -78,21 +83,18 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
 
     return (
         <SortableItemContext.Provider value={context}>
-            <li className="SortableItem" ref={setNodeRef} style={style}>
-                <Card>
+            <Card ref={setNodeRef} style={style}>
+                <div style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}>
                     {renderInputField()}
-                    <DragHandle />
-                </Card>
-            </li>
+                    <Button className="DragHandle" {...attributes} {...listeners} type="text">
+                        <GoGrabber />
+                    </Button>
+                </div>
+            </Card>
         </SortableItemContext.Provider>
-    );
-}
-
-export function DragHandle() {
-    const { attributes, listeners, ref } = useContext(SortableItemContext);
-    return (
-        <Button className="DragHandle" {...attributes} {...listeners} ref={ref}>
-            <GoGrabber />
-        </Button>
     );
 }

@@ -14,9 +14,10 @@ interface SubmitButtonProps {
     formInputs: EstimateFormFields;
     draftId: string;
     setCreating: any;
+    disabled?: boolean;
 }
 
-const SubmitButton = ({ templateData, estimateName, formInputs, draftId, setCreating }: SubmitButtonProps) => {
+const SubmitButton = ({ templateData, estimateName, formInputs, draftId, setCreating, disabled }: SubmitButtonProps) => {
     const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
@@ -50,7 +51,7 @@ const SubmitButton = ({ templateData, estimateName, formInputs, draftId, setCrea
     return (
         <>
             <ErrorModal error={error} setError={setError} content="Error creating estimate" />
-            <Button type="primary" size="large" onClick={() => handleSubmit()}>Submit</Button>
+            <Button type="primary" size="large" onClick={() => handleSubmit()} disabled={disabled}>Submit</Button>
         </>
     );
 };

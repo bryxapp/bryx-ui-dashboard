@@ -13,9 +13,10 @@ interface SaveAsDraftButtonProps {
     formInputs: EstimateFormFields;
     draftId: string;
     setSaving: any;
+    disabled?: boolean;
 }
 
-const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, setSaving }: SaveAsDraftButtonProps) => {
+const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, setSaving, disabled }: SaveAsDraftButtonProps) => {
     const [error, setError] = useState(false);
     const { getAccessToken } = useAuth0User();
     const navigate = useNavigate();
@@ -53,7 +54,7 @@ const SaveAsDraftButton = ({ templateData, estimateName, formInputs, draftId, se
     return (
         <>
             <ErrorModal error={error} setError={setError} content="Error saving draft" />
-            <Button type="primary" size="large" onClick={handleSaveAsDraft}>
+            <Button type="primary" size="large" onClick={handleSaveAsDraft} disabled={disabled}>
                 {draftId ? 'Update Draft' : 'Save As Draft'}
             </Button>
         </>

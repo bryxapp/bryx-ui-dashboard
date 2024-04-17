@@ -136,7 +136,7 @@ const EstimateForm = () => {
                     <Form
                         layout="vertical"
                         style={{ width: "80%" }}>
-                        <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
+                        <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} disabled={editing} />
                         < Typography.Text type="secondary">
                             Template: {templateData.friendlyName}
                         </Typography.Text>
@@ -150,9 +150,9 @@ const EstimateForm = () => {
                             <EditingEstimateFormTextFieldsList />
                         )}
                         <div style={{ display: 'flex' }}>
-                            <SubmitButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setCreating={setCreating} />
+                            <SubmitButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setCreating={setCreating} disabled={editing} />
                             <span style={{ width: 20 }}></span>
-                            <SaveAsDraftButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setSaving={setSaving} />
+                            <SaveAsDraftButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setSaving={setSaving} disabled={editing} />
                         </div>
                     </Form>
                 </div>
