@@ -5,12 +5,14 @@ interface EstimateFormLongTextFieldProps {
     longTextInputObj: LongTextInputObj;
     fieldValue: string;
     handleChange: (event: any, inputObjId: string) => void;
+    disabled?: boolean;
 }
 
 const EstimateFormLongTextField = ({
     longTextInputObj,
     fieldValue,
-    handleChange
+    handleChange,
+    disabled
 }: EstimateFormLongTextFieldProps) => {
 
     return (
@@ -23,6 +25,7 @@ const EstimateFormLongTextField = ({
                 value={fieldValue}
                 onChange={(event) => handleChange(event, longTextInputObj.id)}
                 placeholder={longTextInputObj.content.value}
+                disabled={disabled}
             />
         </Form.Item>
     );

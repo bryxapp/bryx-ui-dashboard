@@ -6,12 +6,14 @@ interface EstimateFormShortTextFieldProps {
     shortTextInputObj: ShortTextInputObj;
     fieldValue: string;
     handleChange: (event: any, inputObjId: string) => void;
+    disabled?: boolean;
 }
 
 const EstimateFormShortTextField: React.FC<EstimateFormShortTextFieldProps> = ({
     shortTextInputObj,
     fieldValue,
-    handleChange
+    handleChange,
+    disabled
 }) => {
 
     return (
@@ -24,6 +26,7 @@ const EstimateFormShortTextField: React.FC<EstimateFormShortTextFieldProps> = ({
                 value={fieldValue}
                 onChange={(event) => handleChange(event, shortTextInputObj.id)}
                 placeholder={shortTextInputObj.content.value}
+                disabled={disabled}
             />
         </Form.Item>
     );

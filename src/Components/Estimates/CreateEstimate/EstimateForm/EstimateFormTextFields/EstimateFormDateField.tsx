@@ -8,12 +8,14 @@ interface EstimateFormDateFieldProps {
     dateInputObj: DateInputObj;
     fieldValue: string;
     handleChange: (event: any, inputObjId: string) => void;
+    disabled?: boolean;
 }
 
 const EstimateFormDateField = ({
     dateInputObj,
     fieldValue,
-    handleChange
+    handleChange,
+    disabled
 }: EstimateFormDateFieldProps) => {
     const [date, setDate] = useState<Dayjs | null>(null); // Ensure this is properly typed as Dayjs | null
     useEffect(() => {
@@ -34,6 +36,7 @@ const EstimateFormDateField = ({
                 onChange={(date) => handleChange(date.toString(), dateInputObj.id)} // Pass the date and id to the handleChange function
                 value={date} // Set value instead of defaultValue to control component
                 format="YYYY-MM-DD" // Specify the display format
+                disabled={disabled}
             />
         </Form.Item>
     );

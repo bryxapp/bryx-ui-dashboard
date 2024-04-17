@@ -5,12 +5,14 @@ interface EstimateFormPhoneFieldProps {
     phoneInputObj: PhoneInputObj;
     fieldValue: string;
     handleChange: (event: any, inputObjId: string) => void;
+    disabled?: boolean;
 }
 
 const EstimateFormPhoneField = ({
     phoneInputObj,
     fieldValue,
-    handleChange
+    handleChange,
+    disabled
 }: EstimateFormPhoneFieldProps) => {
 
     return (
@@ -24,6 +26,7 @@ const EstimateFormPhoneField = ({
                 value={fieldValue}
                 onChange={(event) => handleChange(event, phoneInputObj.id)}
                 placeholder={phoneInputObj.content.value}
+                disabled={disabled}
             />
         </Form.Item>
     );

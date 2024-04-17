@@ -5,12 +5,14 @@ interface EstimateFormEmailFieldProps {
     emailInputObj: EmailInputObj;
     fieldValue: string;
     handleChange: (event: any, inputObjId: string) => void;
+    disabled?: boolean;
 }
 
 const EstimateFormEmailField = ({
     emailInputObj,
     fieldValue,
-    handleChange
+    handleChange,
+    disabled
 }: EstimateFormEmailFieldProps) => {
     return (
         <Form.Item
@@ -23,6 +25,7 @@ const EstimateFormEmailField = ({
                 value={fieldValue}
                 onChange={(event) => handleChange(event, emailInputObj.id)}
                 placeholder={emailInputObj.content.value}
+                disabled={disabled}
             />
         </Form.Item>
     );

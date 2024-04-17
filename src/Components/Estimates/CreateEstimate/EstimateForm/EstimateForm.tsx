@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Form, Typography, notification } from 'antd';
+import { Button, Form, Typography, notification } from 'antd';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
 import { InputObj, InputType } from '../../../../utils/types/CanvasInterfaces';
@@ -19,6 +19,8 @@ import logger from '../../../../logging/logger';
 import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import { findShape } from '../../../../utils/shapeManagementUtils';
+import { TbEdit } from "react-icons/tb";
+import EditingEstimateFormTextFieldsList from './EstimateFormTextFields/EditingList/EditingEstimateFromTextFieldsList';
 
 const EstimateForm = () => {
 
@@ -108,6 +110,11 @@ const EstimateForm = () => {
         fetchTemplate();
     }, [draftId, templateId, getAccessToken, setCanvasDesign]);
 
+    const [editing, setEditing] = useState(false);
+    const handleEnableOrderEditing = () => {
+        setEditing(true);
+    }
+
     if (loading) return <Loading />
 
     if (creating) return <Creating />
@@ -125,6 +132,7 @@ const EstimateForm = () => {
             </Typography.Title>
             <div style={{ display: "flex" }}>
                 <div style={{ flex: 2 }}>
+                    <Button type="link" onClick={handleEnableOrderEditing}><TbEdit /></Button>
                     <Form
                         layout="vertical"
                         style={{ width: "80%" }}>
@@ -132,10 +140,15 @@ const EstimateForm = () => {
                         < Typography.Text type="secondary">
                             Template: {templateData.friendlyName}
                         </Typography.Text>
-                        <EstimateFormTextFieldsList
-                            formInputs={formInputs}
-                            setFormInputs={setFormInputs}
-                        />
+                        {!editing && (
+                            <EstimateFormTextFieldsList
+                                formInputs={formInputs}
+                                setFormInputs={setFormInputs}
+                            />
+                        )}
+                        {editing && (
+                            <EditingEstimateFormTextFieldsList />
+                        )}
                         <div style={{ display: 'flex' }}>
                             <SubmitButton templateData={templateData} estimateName={estimateName} formInputs={formInputs} draftId={draftId} setCreating={setCreating} />
                             <span style={{ width: 20 }}></span>
