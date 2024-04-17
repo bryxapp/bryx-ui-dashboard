@@ -3,8 +3,9 @@ import { CanvasDesignData, DateInputObj, EllipseObj, ImageObj, InputObj, Rectang
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
 import { EstimateFormFields } from "../../../../utils/types/EstimateInterfaces";
-import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getXAlignment, getYAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { format } from "date-fns";
+import { getTextWidthAndHeight } from "../../../../utils/shapeManagementUtils";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
@@ -115,15 +116,8 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                 const labelInputObj = inputObj.label;
                 const contentInputObj = inputObj.content;
                 const value = formInputs ? formInputs[inputObj.id].value : '';
-
-                //Create Label Text Shape for measurements
-                const tempTextShapeLabel = createTempTextKonvaShape(labelInputObj);
-                const labelShapeWidth = tempTextShapeLabel.width();
-                const labelShapeHeight = tempTextShapeLabel.height();
-                // Create Content Text Shape for measurements
-                const tempTextShapeContent = createTempTextKonvaShape(contentInputObj);
-                const contentShapeWidth = tempTextShapeContent.width();
-                const contentShapeHeight = tempTextShapeContent.height();
+                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(labelInputObj);
+                const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(contentInputObj);
                 //Container Measurements 
                 const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 return (
@@ -162,16 +156,8 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                 const dateContentInputObj = dateInputObj.content;
                 const dateString = formInputs ? formInputs[dateInputObj.id].value : '';
                 const val = dateString ? format(new Date(dateString), dateInputObj.dateFormat) : '';
-                dateContentInputObj.value = val;
-                //Create Label Text Shape for measurements
-                const tempDateTextShapeLabel = createTempTextKonvaShape(dateLabelInputObj);
-                const datelabelShapeWidth = tempDateTextShapeLabel.width();
-                const datelabelShapeHeight = tempDateTextShapeLabel.height();
-                // Create Content Text Shape for measurements
-                const datetempTextShapeContent = createTempTextKonvaShape(dateContentInputObj);
-                const datecontentShapeWidth = datetempTextShapeContent.width();
-                const datecontentShapeHeight = datetempTextShapeContent.height();
-                //Container Measurements 
+                const [datelabelShapeWidth, datelabelShapeHeight] = getTextWidthAndHeight(dateLabelInputObj);
+                const [datecontentShapeWidth, datecontentShapeHeight] = getTextWidthAndHeight(dateContentInputObj);
                 const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
                 return (
                   <Group

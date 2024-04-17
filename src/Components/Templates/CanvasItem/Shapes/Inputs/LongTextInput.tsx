@@ -6,6 +6,7 @@ import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
 interface ShortTextInputProps {
     longTextInputObj: LongTextInputObj;
@@ -55,9 +56,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
     }, [longTextInputObj, isSelected]);
 
     //Create Label Text Shape for measurements
-    const tempTextShapeLabel = createTempTextKonvaShape(longTextInputObj.label);
-    const labelShapeWidth = tempTextShapeLabel.width();
-    const labelShapeHeight = tempTextShapeLabel.height();
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(longTextInputObj.label);
 
     //Create Content Text Shape for measurements
     const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content);
@@ -66,7 +65,6 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
 
     const containerHeight = longTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
-
 
     return (
         <React.Fragment>

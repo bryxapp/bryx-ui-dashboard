@@ -1,11 +1,12 @@
 import { Rect, Group } from 'react-konva';
-import { ShortTextInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
+import { ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
 interface ShortTextInputProps {
     shortTextInputObj: ShortTextInputObj;
@@ -24,14 +25,6 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
     const onSelect = () => {
         setSelectedId(shortTextInputObj.id);
     }
-    const createTempTextKonvaShape = (content: TextBase) => new Konva.Text({
-        text: content.value,
-        fontSize: content.fontSize,
-        fontFamily: content.fontFamily,
-        fontStyle: content.fontStyle,
-        textDecoration: content.textDecoration,
-        align: content.align,
-    });
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -54,20 +47,10 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
         }
     }, [shortTextInputObj, isSelected]);
 
-    //Create Label Text Shape for measurements
-    const tempTextShapeLabel = createTempTextKonvaShape(shortTextInputObj.label);
-    const labelShapeWidth = tempTextShapeLabel.width();
-    const labelShapeHeight = tempTextShapeLabel.height();
-
-    //Create Content Text Shape for measurements
-
-    const tempTextShapeContent = createTempTextKonvaShape(shortTextInputObj.content);
-    const contentShapeWidth = tempTextShapeContent.width();
-    const contentShapeHeight = tempTextShapeContent.height();
-
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(shortTextInputObj.label);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content);
     const containerHeight = shortTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
-
 
     return (
         <React.Fragment>

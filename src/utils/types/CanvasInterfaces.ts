@@ -102,6 +102,12 @@ export interface InputObj extends ShapeObj {
     hasLabel: boolean;
     label: TextBase;
     content: TextBase;
+    inputContentShape: InputContentShape;
+}
+
+export interface InputContentShape {
+    width: number;
+    height: number;
 }
 
 export interface TableObj extends ShapeObj {

@@ -1,5 +1,5 @@
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentShape } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -80,6 +80,11 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         align: "left",
     } as TextBase;
 
+    const inputContentShape = {
+        width: 100,
+        height: 50,
+    } as InputContentShape;
+
     return {
         id: generateShapeId(),
         type: 'PhoneInput',
@@ -89,6 +94,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         label: labelObj,
         hasLabel,
         content: contentObj,
+        inputContentShape,
         isDragging: false,
     };
 }
@@ -121,6 +127,11 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         align: "left",
     } as TextBase;
 
+    const inputContentShape = {
+        width: 100,
+        height: 50,
+    } as InputContentShape;
+
     return {
         id: generateShapeId(),
         type: 'EmailInput',
@@ -130,6 +141,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         label: labelObj,
         hasLabel,
         content: contentObj,
+        inputContentShape,
         isDragging: false,
     };
 }
@@ -162,6 +174,11 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         align: "left",
     } as TextBase;
 
+    const inputContentShape = {
+        width: 100,
+        height: 50,
+    } as InputContentShape;
+
     return {
         id: generateShapeId(),
         type: 'ShortTextInput',
@@ -171,6 +188,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         label: labelObj,
         hasLabel,
         content: contentObj,
+        inputContentShape,
         isDragging: false,
     };
 }
@@ -203,6 +221,11 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         align: "left",
     } as TextBase;
 
+    const inputContentShape = {
+        width: 100,
+        height: 50,
+    } as InputContentShape;
+
     return {
         id: generateShapeId(),
         type: 'LongTextInput',
@@ -212,11 +235,12 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         label: labelObj,
         hasLabel,
         content: contentObj,
+        inputContentShape,
         isDragging: false,
     };
 }
 
-export function createDateInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat:DateFormatOption, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
+export function createDateInputObj(label: string, hasLabel: boolean, placeholder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -244,6 +268,11 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         align: "left",
     } as TextBase;
 
+    const inputContentShape = {
+        width: 100,
+        height: 50,
+    } as InputContentShape;
+
     return {
         id: generateShapeId(),
         type: 'DateInput',
@@ -254,6 +283,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         hasLabel,
         content: contentObj,
         dateFormat: dateFormat,
+        inputContentShape,
         isDragging: false,
     };
 }

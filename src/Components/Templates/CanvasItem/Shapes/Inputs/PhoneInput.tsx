@@ -1,12 +1,12 @@
 import { Rect, Group } from 'react-konva';
-import { PhoneInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
+import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputContent from './SharedInputComponents/InputContent';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
 const PHONE_NUMBER_LENGTH = 10;
 interface PhoneInputProps {
@@ -48,24 +48,8 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransform
         }
     }, [phoneInputObj, isSelected]);
 
-    //Create Label Text Shape for measurements
-    const tempTextShapeLabel = createTempTextKonvaShape(phoneInputObj.label);
-    const labelShapeWidth = tempTextShapeLabel.width();
-    const labelShapeHeight = tempTextShapeLabel.height();
-
-    //Create Content Text Shape for measurements
-    const tempTextBase = {
-        value: 'X'.repeat(PHONE_NUMBER_LENGTH),
-        fontSize: phoneInputObj.content.fontSize,
-        fill: phoneInputObj.content.fill,
-        fontFamily: phoneInputObj.content.fontFamily,
-        fontStyle: phoneInputObj.content.fontStyle,
-        textDecoration: phoneInputObj.content.textDecoration
-    }
-    const tempTextShapeContent = createTempTextKonvaShape(tempTextBase as TextBase);
-    const contentShapeWidth = tempTextShapeContent.width();
-    const contentShapeHeight = tempTextShapeContent.height();
-
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(phoneInputObj.label);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(phoneInputObj.content, 'X'.repeat(PHONE_NUMBER_LENGTH));
     const containerHeight = phoneInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
 

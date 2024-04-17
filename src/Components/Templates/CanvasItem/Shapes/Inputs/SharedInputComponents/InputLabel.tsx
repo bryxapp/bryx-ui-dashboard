@@ -3,7 +3,7 @@ import { getXAlignment, getYAlignment } from './InputHelper';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
-import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { getTextWidthAndHeight, updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface InputContentProps {
@@ -42,23 +42,7 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         };
     }, []);
 
-
-
-    const measureWidth = (text: string, fontSize: number, fontFamily: string) => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        if (context) {
-            context.font = `${fontSize}px ${fontFamily}`;
-            return context.measureText(text).width;
-        }
-        return 0;
-    };
-
-    const measureHeight = (text: string, fontSize: number, fontFamily: string) => {
-        //Calculate new lines 
-        const newLines = text.split('\n').length;
-        return newLines * fontSize;
-    };
+    const [labelWidth, labelHeight] = getTextWidthAndHeight(textObj)
 
     const style: React.CSSProperties = {
         position: 'absolute',
@@ -70,8 +54,8 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         fontStyle: textObj.fontStyle,
         textDecoration: textObj.textDecoration,
         whiteSpace: 'pre-wrap',
-        width: `${measureWidth(textObj.value, textObj.fontSize, textObj.fontFamily) + 20}px`,
-        height: `${measureHeight(textObj.value, textObj.fontSize, textObj.fontFamily) + 20}px`,
+        width: `${labelWidth + 20}px`,
+        height: `${labelHeight + 20}px`,
         alignContent: textObj.align,
         color: textObj.fill,
         border: 'none',

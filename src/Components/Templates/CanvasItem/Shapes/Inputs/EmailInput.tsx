@@ -1,12 +1,12 @@
 import { Rect, Group } from 'react-konva';
-import { EmailInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
+import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
-import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
 const EMAIL_LENGTH = 20;
 interface EmailInputProps {
@@ -48,24 +48,8 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransform
         }
     }, [emailInputObj, isSelected]);
 
-    //Create Label Text Shape for measurements
-    const tempTextShapeLabel = createTempTextKonvaShape(emailInputObj.label);
-    const labelShapeWidth = tempTextShapeLabel.width();
-    const labelShapeHeight = tempTextShapeLabel.height();
-
-    //Create Content Text Shape for measurements
-    const tempTextBase = {
-        value: 'X'.repeat(EMAIL_LENGTH),
-        fontSize: emailInputObj.content.fontSize,
-        fill: emailInputObj.content.fill,
-        fontFamily: emailInputObj.content.fontFamily,
-        fontStyle: emailInputObj.content.fontStyle,
-        textDecoration: emailInputObj.content.textDecoration
-    };
-    const tempTextShapeContent = createTempTextKonvaShape(tempTextBase as TextBase);
-    const contentShapeWidth = tempTextShapeContent.width();
-    const contentShapeHeight = tempTextShapeContent.height();
-
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(emailInputObj.label);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(emailInputObj.content, 'X'.repeat(EMAIL_LENGTH));
     const containerHeight = emailInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
 

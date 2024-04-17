@@ -1,13 +1,13 @@
 import { Rect, Group } from 'react-konva';
-import { DateInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
+import { DateInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
-import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 import { format } from 'date-fns';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
 interface DateInputProps {
     dateInputObj: DateInputObj;
@@ -48,29 +48,12 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
         }
     }, [dateInputObj, isSelected]);
 
-    //Create Label Text Shape for measurements
-    const tempTextShapeLabel = createTempTextKonvaShape(dateInputObj.label);
-    const labelShapeWidth = tempTextShapeLabel.width();
-    const labelShapeHeight = tempTextShapeLabel.height();
-
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(dateInputObj.label);
     const formattedDate = format(new Date(), dateInputObj.dateFormat);
-    //Create Content Text Shape for measurements
-    const tempTextBase = {
-        value: formattedDate,
-        fontSize: dateInputObj.content.fontSize,
-        fill: dateInputObj.content.fill,
-        fontFamily: dateInputObj.content.fontFamily,
-        fontStyle: dateInputObj.content.fontStyle,
-        textDecoration: dateInputObj.content.textDecoration
-    };
-
-    const tempTextShapeContent = createTempTextKonvaShape(tempTextBase as TextBase);
-    const contentShapeWidth = tempTextShapeContent.width();
-    const contentShapeHeight = tempTextShapeContent.height();
-
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj.content, formattedDate);
     const containerHeight = dateInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = dateInputObj.hasLabel ? Math.max(labelShapeWidth, contentShapeWidth) : contentShapeWidth;
-
+    dateInputObj.content.value = formattedDate;
     return (
         <React.Fragment>
             <Group
@@ -101,7 +84,7 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
                 )}
                 {/* Input Content */}
                 <InputContent
-                    textObj={tempTextBase as TextBase}
+                    textObj={dateInputObj.content}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}

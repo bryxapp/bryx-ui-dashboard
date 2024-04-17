@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -88,14 +88,10 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 });
                 //Create Label Text Shape for measurements
                 const inputLabel = inputObj.label;
-                const tempTextShapeLabel = createTempTextKonvaShape(inputLabel);
-                const labelShapeWidth = tempTextShapeLabel.width();
-                const labelShapeHeight = tempTextShapeLabel.height();
+                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel);
                 // Create Content Text Shape for measurements
                 const inputContent = inputObj.content;
-                const tempTextShapeContent = createTempTextKonvaShape(inputContent);
-                const contentShapeWidth = tempTextShapeContent.width();
-                const contentShapeHeight = tempTextShapeContent.height();
+                const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
                 //Container Measurements 
                 const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 if (inputObj.hasLabel) {
@@ -161,7 +157,7 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
     return undefined;
 };
 
-export const getShapeWidth = (shape: ShapeObj): number => {
+export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
     switch (shape.type) {
         case 'Rectangle':
         case 'RoundedRectangle':
@@ -171,21 +167,14 @@ export const getShapeWidth = (shape: ShapeObj): number => {
         case 'UserImage':
         case 'StockImage':
             return (shape as ImageObj).width;
-        case 'Heading':
-        case 'Paragraph':
-            const paragraphObj = shape as TextObj;
-            const tempTextShape = createTempTextKonvaShape(paragraphObj);
-            return tempTextShape.width();
-        case 'PhoneInput':
-        case 'EmailInput':
-        case 'ShortTextInput':
-            const inputObj = shape as InputObj;
-            const tempTextShapeLabel = createTempTextKonvaShape(inputObj.label);
-            const tempTextShapeContent = createTempTextKonvaShape(inputObj.content);
-            return Math.max(tempTextShapeContent.width(), tempTextShapeLabel.width());
         default:
             return 0;
     }
+};
+
+export const getTextWidthAndHeight = (textObj: TextBase, value?:string): [number, number] => {
+    const tempTextShape = createTempTextKonvaShape(textObj, value);
+    return [tempTextShape.width(), tempTextShape.height()];
 };
 
 export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {
