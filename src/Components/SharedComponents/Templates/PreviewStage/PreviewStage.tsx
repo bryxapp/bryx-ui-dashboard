@@ -3,7 +3,7 @@ import { CanvasDesignData, DateInputObj, EllipseObj, ImageObj, InputObj, Rectang
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
 import { EstimateFormFields } from "../../../../utils/types/EstimateInterfaces";
-import { getXAlignment, getYAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getXAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { format } from "date-fns";
 import { getTextWidthAndHeight } from "../../../../utils/shapeManagementUtils";
 
@@ -117,7 +117,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                 const contentInputObj = inputObj.content;
                 const value = formInputs ? formInputs[inputObj.id].value : '';
                 const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(labelInputObj);
-                const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(contentInputObj);
+                const [contentShapeWidth,] = getTextWidthAndHeight(contentInputObj);
                 //Container Measurements 
                 const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 return (
@@ -131,7 +131,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                     {inputObj.hasLabel &&
                       <Text
                         x={getXAlignment(labelInputObj, containerWidth)}
-                        y={getYAlignment(contentShapeHeight)}
+                        y={0}
                         text={labelInputObj.value}
                         fontSize={labelInputObj.fontSize}
                         fontFamily={labelInputObj.fontFamily}
@@ -141,7 +141,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                     }
                     <Text
                       x={getXAlignment(contentInputObj, containerWidth)}
-                      y={getYAlignment(contentShapeHeight) + labelShapeHeight + (labelInputObj.fontSize / 10)}
+                      y={inputObj.hasLabel? labelShapeHeight + (labelInputObj.fontSize / 10):0}
                       text={value}
                       fontSize={contentInputObj.fontSize}
                       fontFamily={contentInputObj.fontFamily}
@@ -157,7 +157,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                 const dateString = formInputs ? formInputs[dateInputObj.id].value : '';
                 const val = dateString ? format(new Date(dateString), dateInputObj.dateFormat) : '';
                 const [datelabelShapeWidth, datelabelShapeHeight] = getTextWidthAndHeight(dateLabelInputObj);
-                const [datecontentShapeWidth, datecontentShapeHeight] = getTextWidthAndHeight(dateContentInputObj);
+                const [datecontentShapeWidth,] = getTextWidthAndHeight(dateContentInputObj);
                 const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
                 return (
                   <Group
@@ -170,7 +170,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                     {dateInputObj.hasLabel &&
                       <Text
                         x={getXAlignment(dateLabelInputObj, datecontainerWidth)}
-                        y={getYAlignment(datecontentShapeHeight)}
+                        y={0}
                         text={dateLabelInputObj.value}
                         fontSize={dateLabelInputObj.fontSize}
                         fontFamily={dateLabelInputObj.fontFamily}
@@ -180,7 +180,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
                     }
                     <Text
                       x={getXAlignment(dateContentInputObj, datecontainerWidth)}
-                      y={getYAlignment(datecontentShapeHeight) + datelabelShapeHeight + (dateLabelInputObj.fontSize / 10)}
+                      y={dateInputObj.hasLabel? datelabelShapeHeight + (dateLabelInputObj.fontSize / 10) : 0}
                       text={val}
                       fontSize={dateContentInputObj.fontSize}
                       fontFamily={dateContentInputObj.fontFamily}

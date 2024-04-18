@@ -5,6 +5,7 @@ import { InputContentShape, TextBase } from '../../../../../../utils/types/Canva
 interface InputContentProps {
     textObj: TextBase;
     inputContentShape?: InputContentShape;
+    verticalAlign?: string;
     contentHeight: number;
     contentWidth: number;
     labelHeight: number;
@@ -13,22 +14,24 @@ interface InputContentProps {
     onSelect: any;
 }
 
-const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, containerWidth, labelFontSize, onSelect, inputContentShape }: InputContentProps) => {
-
+const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, labelFontSize, onSelect, inputContentShape, verticalAlign }: InputContentProps) => {
+    const rectangleWidth = inputContentShape ? inputContentShape.width : contentWidth;
+    const rectangleHeight = inputContentShape ? inputContentShape.height : contentHeight;
+    const yalign = verticalAlign ? getYAlignment(textObj, contentHeight, verticalAlign) : 0;
     return (
         <>
             <Rect
                 x={0}
-                y={getYAlignment(contentHeight) + labelHeight + (labelFontSize/10)}
-                width={inputContentShape? inputContentShape.width : contentWidth}
-                height={inputContentShape? inputContentShape.height : contentHeight}
+                y={yalign + labelHeight + (labelFontSize / 10)}
+                width={rectangleWidth}
+                height={rectangleHeight}
                 fill={FILL_COLOR}
                 onClick={onSelect}
                 onTap={onSelect}
             />
             <Text
-                x={getXAlignment(textObj, containerWidth)}
-                y={getYAlignment(contentHeight) + labelHeight + (labelFontSize/10)}
+                x={getXAlignment(textObj, rectangleWidth)}
+                y={yalign + labelHeight + (labelFontSize / 10)}
                 text={`${textObj.value}`}
                 fontSize={textObj.fontSize}
                 fill={textObj.fill}

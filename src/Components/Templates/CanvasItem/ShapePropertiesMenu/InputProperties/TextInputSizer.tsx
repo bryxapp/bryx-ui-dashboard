@@ -14,6 +14,7 @@ export default function TextInputSizer({ inputObj, disabled }: TextInputSizerPro
         let foundAndUpdated = false;
 
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+            const value = Math.round(event.target.value);
             // Skip any further updates after the first match is found and updated
             if (foundAndUpdated) return shape;
 
@@ -21,7 +22,7 @@ export default function TextInputSizer({ inputObj, disabled }: TextInputSizerPro
             if (shape.id === selectedId) {
                 foundAndUpdated = true;
                 const foundInputObj = shape as InputObj;
-                const updatedInputObj = { ...foundInputObj, inputContentShape: { ...foundInputObj.inputContentShape, [dimension]: event.target.value } };
+                const updatedInputObj = { ...foundInputObj, inputContentShape: { ...foundInputObj.inputContentShape, [dimension]: value } };
                 return { ...updatedInputObj };
             }
             // Return the shape unchanged if no conditions are met

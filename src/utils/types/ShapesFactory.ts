@@ -238,6 +238,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         content: contentObj,
         inputContentShape,
         isDragging: false,
+        verticalAlign: "top",
     };
 }
 

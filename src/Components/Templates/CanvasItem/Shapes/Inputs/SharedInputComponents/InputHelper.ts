@@ -1,6 +1,7 @@
 // utils/konvaHelpers.ts
 import Konva from 'konva';
 import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { getTextWidthAndHeight } from '../../../../../../utils/shapeManagementUtils';
 
 // constants.ts
 export const MIN_BOX_SIZE = 5;
@@ -17,16 +18,30 @@ export const createTempTextKonvaShape = (shapeProperties: TextBase, value?: stri
 });
 
 export const getXAlignment = (text: TextBase, containerWidth: number): number => {
+    const [textWidth,] = getTextWidthAndHeight(text);
     switch (text.align) {
         case 'left':
             return 0;
         case 'center':
-            return containerWidth / 2;
+            return (containerWidth - textWidth) / 2;
         case 'right':
-            return containerWidth;
+            return containerWidth - textWidth;
         default:
             return 0;
     }
 };
 
-export const getYAlignment = (contentHeight: number): number => 0;
+export const getYAlignment = (text: TextBase, contentHeight: number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text); // Ignoring the first value
+    switch (verticalAlign) {
+        case 'top':
+            return 0;
+        case 'center':
+            return (contentHeight - textHeight) / 2;
+        case 'bottom':
+            return contentHeight - textHeight;
+        default:
+            return 0;
+    }
+}
+

@@ -16,7 +16,7 @@ const ShapeTransformer = ({ trRef, onTransformEnd, rotationEnabled, resizeEnable
         <Transformer
             ref={trRef}
             boundBoxFunc={(oldBox, newBox) => {
-                // limit resize
+                // limit minimum box size
                 if (newBox.width < MIN_BOX_SIZE || newBox.height < MIN_BOX_SIZE) {
                     return oldBox;
                 }

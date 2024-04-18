@@ -36,21 +36,18 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
 
     useEffect(() => {
         // This effect will re-run whenever shortTextInputObj changes.
-        if (shapeRef.current && trRef.current) {
-            // Directly update the size of the Konva elements based on the new shortTextInputObj properties.
-            // You might want to recalculate your sizes here similar to what is done outside useEffect.
-            // Then, update the transformer if it is selected.
-            if (isSelected) {
-                trRef.current.nodes([shapeRef.current]);
-                trRef.current.getLayer()?.batchDraw();
-            }
+        // This is necessary to update the transformer's nodes when the shape is selected.
+        if (shapeRef.current && trRef.current && isSelected) {
+            const shapeRefCurrent = shapeRef.current;
+            trRef.current.nodes([shapeRefCurrent]);
+            trRef.current.getLayer()?.batchDraw();
         }
-    }, [shortTextInputObj, isSelected]);
+    }, [shortTextInputObj.content,shortTextInputObj.label,shortTextInputObj.hasLabel, isSelected]);
 
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(shortTextInputObj.label);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content);
     const containerHeight = shortTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, shortTextInputObj.inputContentShape.width);
 
     return (
         <React.Fragment>
@@ -68,6 +65,8 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
                 rotation={shortTextInputObj.rotation}
                 onClick={onSelect}
                 onTap={onSelect}
+                width={containerWidth}
+                height={containerHeight}
             >
                 {/* Background Rectangle for easier selecting and dragging */}
                 <Rect
@@ -81,9 +80,9 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
                 {shortTextInputObj.hasLabel && (
                     <InputLabel textObj={shortTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={shortTextInputObj.id} />
                 )}
-
                 {/* Input Content */}
                 <InputContent
+                    inputContentShape={shortTextInputObj.inputContentShape}
                     textObj={shortTextInputObj.content}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}

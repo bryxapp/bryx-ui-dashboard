@@ -2,7 +2,7 @@ import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { createTempTextKonvaShape, getXAlignment, getYAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { createTempTextKonvaShape, getXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -91,13 +91,13 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel);
                 // Create Content Text Shape for measurements
                 const inputContent = inputObj.content;
-                const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
+                const [contentShapeWidth,] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
                 //Container Measurements 
                 const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 if (inputObj.hasLabel) {
                     group.add(new Konva.Text({
                         x: getXAlignment(inputLabel, containerWidth),
-                        y: getYAlignment(contentShapeHeight),
+                        y: 0,
                         text: inputLabel.value,
                         fontSize: inputLabel.fontSize,
                         fill: inputLabel.fill,
@@ -111,7 +111,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 const value = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
                     x: getXAlignment(inputContent, containerWidth),
-                    y: getYAlignment(contentShapeHeight) + labelShapeHeight + (inputLabel.fontSize / 10),
+                    y: inputObj.hasLabel? labelShapeHeight + (inputLabel.fontSize / 10): 0,
                     text: value,
                     fontSize: inputContent.fontSize,
                     fill: inputContent.fill,

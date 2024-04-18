@@ -60,6 +60,7 @@ export interface ShortTextInputObj extends InputObj {
 }
 
 export interface LongTextInputObj extends InputObj {
+    verticalAlign: string;
     type: 'LongTextInput';
 }
 
