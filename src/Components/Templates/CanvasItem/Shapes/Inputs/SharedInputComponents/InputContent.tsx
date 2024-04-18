@@ -1,9 +1,10 @@
 import { Rect, Text } from 'react-konva';
 import { FILL_COLOR, getXAlignment, getYAlignment } from './InputHelper'
-import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputContentShape, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface InputContentProps {
     textObj: TextBase;
+    inputContentShape?: InputContentShape;
     contentHeight: number;
     contentWidth: number;
     labelHeight: number;
@@ -12,15 +13,15 @@ interface InputContentProps {
     onSelect: any;
 }
 
-const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, containerWidth, labelFontSize, onSelect }: InputContentProps) => {
+const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, containerWidth, labelFontSize, onSelect, inputContentShape }: InputContentProps) => {
 
     return (
         <>
             <Rect
                 x={0}
                 y={getYAlignment(contentHeight) + labelHeight + (labelFontSize/10)}
-                width={contentWidth}
-                height={contentHeight}
+                width={inputContentShape? inputContentShape.width : contentWidth}
+                height={inputContentShape? inputContentShape.height : contentHeight}
                 fill={FILL_COLOR}
                 onClick={onSelect}
                 onTap={onSelect}

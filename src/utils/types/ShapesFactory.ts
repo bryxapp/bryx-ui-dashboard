@@ -1,4 +1,4 @@
-import { generateShapeId } from '../shapeManagementUtils';
+import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
 import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentShape } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
@@ -174,9 +174,10 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         align: "left",
     } as TextBase;
 
+    const [width, height] = getTextWidthAndHeight(contentObj)
     const inputContentShape = {
-        width: 100,
-        height: 50,
+        width: width,
+        height: height,
     } as InputContentShape;
 
     return {

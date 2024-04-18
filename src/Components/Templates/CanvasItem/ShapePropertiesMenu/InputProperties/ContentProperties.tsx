@@ -4,6 +4,7 @@ import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
 import DateInputContentProperties from './DateInputContentProperties';
+import TextInputSizer from './TextInputSizer';
 
 interface InputContentPropertiesProps {
     inputObj: InputObj;
@@ -40,6 +41,9 @@ const InputContentProperties = ({ inputObj }: InputContentPropertiesProps) => {
                     placeholder='Optional'
                 />}
             <div style={{ height: '10px' }} />
+            {(inputObj.type === "ShortTextInput" || inputObj.type === "LongTextInput") && (
+                <TextInputSizer inputObj={inputObj} />
+            )}
             <TextProperties textObj={inputObj.content as TextObj} itemType={'content'} />
         </Card>
     );
