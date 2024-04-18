@@ -2,13 +2,17 @@ import React from "react";
 import { Typography, Card, Button, Space } from 'antd';
 import CanvasStarterList from "./CanvasStarterList/CanvasStarterList";
 import { useNavigate } from 'react-router-dom';
+import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
+import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
 
 const { Title, Paragraph } = Typography;
 
 const SelectCanvasStarter = () => {
     const navigate = useNavigate();
+    const {setCanvasDesign} = useCanvasDesignContext();
 
     const handleButtonClick = () => {
+        setCanvasDesign(createEmptyCanvasDesign(8.5,11));
         navigate('/create-template')
     }
 

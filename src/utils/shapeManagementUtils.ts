@@ -111,7 +111,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 const value = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
                     x: getXAlignment(inputContent, containerWidth),
-                    y: inputObj.hasLabel? labelShapeHeight + (inputLabel.fontSize / 10): 0,
+                    y: inputObj.hasLabel ? labelShapeHeight + (inputLabel.fontSize / 10) : 0,
                     text: value,
                     fontSize: inputContent.fontSize,
                     fill: inputContent.fill,
@@ -172,7 +172,7 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
     }
 };
 
-export const getTextWidthAndHeight = (textObj: TextBase, value?:string): [number, number] => {
+export const getTextWidthAndHeight = (textObj: TextBase, value?: string): [number, number] => {
     const tempTextShape = createTempTextKonvaShape(textObj, value);
     return [tempTextShape.width(), tempTextShape.height()];
 };
@@ -247,7 +247,7 @@ export const updateInputProperty = (
             let inputObj = shape as InputObj;
             // Correct way to dynamically update nested properties
             const updatedItem = { ...inputObj[itemName], [propertyName]: value };
-            if(itemName === 'content' && inputObj.type !== "LongTextInput") {
+            if (itemName === 'content' && inputObj.type !== "LongTextInput") {
                 const [height] = getTextWidthAndHeight(inputObj.content);
                 inputObj.inputContentShape.height = height;
             }
@@ -270,6 +270,7 @@ export const deleteShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
         if (shape.id === selectedId) {
             updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
+            updatedCanvasDesign.inputOrder = updatedCanvasDesign.inputOrder.filter((id: string) => id !== selectedId);
         }
     });
     setSelectedId(null)
