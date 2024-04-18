@@ -82,8 +82,8 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
                 )}
                 {/* Input Content */}
                 <InputContent
-                    inputContentShape={shortTextInputObj.inputContentShape}
                     textObj={shortTextInputObj.content}
+                    inputContentShape={shortTextInputObj.inputContentShape}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
