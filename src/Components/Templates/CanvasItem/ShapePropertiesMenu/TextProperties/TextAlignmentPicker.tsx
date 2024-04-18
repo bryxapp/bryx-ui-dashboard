@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
-import { AlignLeftOutlined, AlignCenterOutlined, AlignRightOutlined } from '@ant-design/icons';
+import { MdAlignHorizontalLeft, MdAlignHorizontalCenter, MdAlignHorizontalRight } from "react-icons/md";
 import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
@@ -28,21 +28,21 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, item
         <div style={{display:"flex"}}>
             <Button
                 type={textObj.align === 'left' ? 'primary' : 'default'}
-                icon={<AlignLeftOutlined />}
+                icon={<MdAlignHorizontalLeft />}
                 onClick={() => handleAlignmentChange('left')}
                 size="small"
                 disabled={disabled}
             />
             <Button
                 type={textObj.align === 'center' ? 'primary' : 'default'}
-                icon={<AlignCenterOutlined />}
+                icon={<MdAlignHorizontalCenter />}
                 onClick={() => handleAlignmentChange('center')}
                 size="small"
                 disabled={disabled}
             />
             <Button
                 type={textObj.align === 'right' ? 'primary' : 'default'}
-                icon={<AlignRightOutlined />}
+                icon={<MdAlignHorizontalRight />}
                 onClick={() => handleAlignmentChange('right')}
                 size="small"
                 disabled={disabled}

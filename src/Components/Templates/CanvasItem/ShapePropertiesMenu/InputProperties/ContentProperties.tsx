@@ -1,5 +1,5 @@
 import { Card, Input, Typography } from 'antd';
-import { DateInputObj, InputObj, TextObj } from '../../../../../utils/types/CanvasInterfaces';
+import { DateInputObj, InputObj, LongTextInputObj, TextObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
@@ -21,6 +21,12 @@ const InputContentProperties = ({ inputObj }: InputContentPropertiesProps) => {
 
     if (inputObj.type === "DateInput") return (<DateInputContentProperties dateInputObj={inputObj as DateInputObj} />);
 
+    let verticalAlign = '';
+    if(inputObj.type==="LongTextInput"){
+        const longInputObj = inputObj as LongTextInputObj;
+        verticalAlign = longInputObj.verticalAlign;
+    }
+
     return (
         <Card>
             <Typography.Text>Place Holder</Typography.Text>
@@ -40,11 +46,14 @@ const InputContentProperties = ({ inputObj }: InputContentPropertiesProps) => {
                     size='small'
                     placeholder='Optional'
                 />}
-            <div style={{ height: '10px' }} />
+                <div style={{ height: '.5rem' }} />
             {(inputObj.type === "ShortTextInput" || inputObj.type === "LongTextInput") && (
+                <>
                 <TextInputSizer inputObj={inputObj} />
+                <div style={{ height: '.5rem' }} />
+                </>
             )}
-            <TextProperties textObj={inputObj.content as TextObj} itemType={'content'} />
+            <TextProperties textObj={inputObj.content as TextObj} itemType={'content'} verticalAlign={verticalAlign} />
         </Card>
     );
 };
