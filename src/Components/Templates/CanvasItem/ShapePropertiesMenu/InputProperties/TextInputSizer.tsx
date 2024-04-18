@@ -1,3 +1,4 @@
+import React from 'react';
 import { Input, Typography } from 'antd';
 import { InputObj, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
@@ -7,32 +8,23 @@ interface TextInputSizerProps {
     disabled?: boolean;
 }
 
-export default function TextInputSizer({ inputObj, disabled }: TextInputSizerProps) {
+const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    const updateShapeProperty = (dimension: 'width' | 'height', event: any) => {
-        let foundAndUpdated = false;
-
+    const updateShapeProperty = (dimension: 'width' | 'height', event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Math.round(parseFloat(event.target.value)); // Parse float value for accuracy
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-            const value = Math.round(event.target.value);
-            // Skip any further updates after the first match is found and updated
-            if (foundAndUpdated) return shape;
-
-            // Update the matching shape directly
             if (shape.id === selectedId) {
-                foundAndUpdated = true;
                 const foundInputObj = shape as InputObj;
-                const updatedInputObj = { ...foundInputObj, inputContentShape: { ...foundInputObj.inputContentShape, [dimension]: value } };
-                return { ...updatedInputObj };
+                const updatedInputObj = {
+                    ...foundInputObj,
+                    inputContentShape: { ...foundInputObj.inputContentShape, [dimension]: value },
+                };
+                return updatedInputObj;
             }
-            // Return the shape unchanged if no conditions are met
             return shape;
         });
-
-        // Update the canvasDesign only if an update was made
-        if (foundAndUpdated) {
-            setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
-        }
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
 
     const selectedWidth = Math.round(inputObj.inputContentShape.width);
@@ -44,20 +36,22 @@ export default function TextInputSizer({ inputObj, disabled }: TextInputSizerPro
             <Input
                 value={selectedWidth}
                 onChange={(event) => updateShapeProperty('width', event)}
-                size='small'
+                size="small"
                 disabled={disabled}
             />
-            {inputObj.type === "LongTextInput" && (
+            {inputObj.type === 'LongTextInput' && (
                 <>
                     <Typography.Text>Input Height</Typography.Text>
                     <Input
                         value={selectedHeight}
                         onChange={(event) => updateShapeProperty('height', event)}
-                        size='small'
+                        size="small"
                         disabled={disabled}
                     />
                 </>
             )}
         </div>
     );
-}
+};
+
+export default TextInputSizer;

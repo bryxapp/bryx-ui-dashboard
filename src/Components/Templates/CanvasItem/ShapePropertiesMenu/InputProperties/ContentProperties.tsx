@@ -1,3 +1,4 @@
+import React from 'react';
 import { Card, Input, Typography } from 'antd';
 import { DateInputObj, InputObj, LongTextInputObj, TextObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
@@ -10,53 +11,56 @@ interface InputContentPropertiesProps {
     inputObj: InputObj;
 }
 
-const InputContentProperties = ({ inputObj }: InputContentPropertiesProps) => {
+const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
+    const selectedInputContent = inputObj.content.value ?? '';
+    const isLongTextInput = inputObj.type === 'LongTextInput';
 
-    const handleContentValueChange = (event: any) => {
+    const handleContentValueChange = (event: React.ChangeEvent<any>) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
-    const selectedInputContent = inputObj.content.value ?? '';
-
-    if (inputObj.type === "DateInput") return (<DateInputContentProperties dateInputObj={inputObj as DateInputObj} />);
-
     let verticalAlign = '';
-    if(inputObj.type==="LongTextInput"){
-        const longInputObj = inputObj as LongTextInputObj;
-        verticalAlign = longInputObj.verticalAlign;
+    if (isLongTextInput) {
+        verticalAlign = (inputObj as LongTextInputObj).verticalAlign;
     }
 
     return (
         <Card>
             <Typography.Text>Place Holder</Typography.Text>
-            {inputObj.type === "LongTextInput" &&
-                <Input.TextArea
-                    id={'contentValueEditor'}
-                    value={selectedInputContent}
-                    onChange={handleContentValueChange}
-                    size='small'
-                    placeholder='Optional'
-                />}
-            {inputObj.type !== "LongTextInput" &&
-                <Input
-                    id={'contentValueEditor'}
-                    value={selectedInputContent}
-                    onChange={handleContentValueChange}
-                    size='small'
-                    placeholder='Optional'
-                />}
-                <div style={{ height: '.5rem' }} />
-            {(inputObj.type === "ShortTextInput" || inputObj.type === "LongTextInput") && (
+            {inputObj.type === "DateInput" ? (
+                <DateInputContentProperties dateInputObj={inputObj as DateInputObj} />
+            ) : (
                 <>
-                <TextInputSizer inputObj={inputObj} />
-                <div style={{ height: '.5rem' }} />
+                    {isLongTextInput ? (
+                        <Input.TextArea
+                            id="contentValueEditor"
+                            value={selectedInputContent}
+                            onChange={handleContentValueChange}
+                            size="small"
+                            placeholder="Optional"
+                        />
+                    ) : (
+                        <Input
+                            id="contentValueEditor"
+                            value={selectedInputContent}
+                            onChange={handleContentValueChange}
+                            size="small"
+                            placeholder="Optional"
+                        />
+                    )}
+                    <div style={{ height: '.5rem' }} />
+                    {(inputObj.type === "ShortTextInput" || isLongTextInput) && (
+                        <>
+                            <TextInputSizer inputObj={inputObj} />
+                            <div style={{ height: '.5rem' }} />
+                        </>
+                    )}
                 </>
             )}
-            <TextProperties textObj={inputObj.content as TextObj} itemType={'content'} verticalAlign={verticalAlign} />
+            <TextProperties textObj={inputObj.content as TextObj} itemType="content" verticalAlign={verticalAlign} />
         </Card>
     );
 };
 
 export default InputContentProperties;
-
