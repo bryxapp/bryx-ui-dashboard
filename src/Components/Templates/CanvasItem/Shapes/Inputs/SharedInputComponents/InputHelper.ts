@@ -6,7 +6,7 @@ import { getTextWidthAndHeight } from '../../../../../../utils/shapeManagementUt
 // constants.ts
 export const MIN_BOX_SIZE = 5;
 export const ROTATION_SNAPS = [0, 90, 180, 270];
-export const FILL_COLOR = '#999999';
+export const FILL_COLOR = '#F2F2F2';
 
 export const createTempTextKonvaShape = (shapeProperties: TextBase, value?: string,): Konva.Text => new Konva.Text({
     text: value || shapeProperties.value,
