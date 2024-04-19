@@ -22,7 +22,7 @@ const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, label
         <>
             <Rect
                 x={0}
-                y={yalign + labelHeight + (labelFontSize / 10)}
+                y={labelHeight + (labelFontSize / 10)}
                 width={rectangleWidth}
                 height={rectangleHeight}
                 fill={FILL_COLOR}

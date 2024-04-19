@@ -102,6 +102,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragStart, handleDragEnd, onTr
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
+                    verticalAlign={longTextInputObj.verticalAlign}
                     labelHeight={longTextInputObj.hasLabel ? labelShapeHeight : 0}
                     labelFontSize={longTextInputObj.hasLabel ? longTextInputObj.label.fontSize : 0}
                     onSelect={onSelect} />

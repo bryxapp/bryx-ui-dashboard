@@ -49,7 +49,7 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
                             placeholder="Optional"
                         />
                     )}
-                            <Divider style={{margin:".5rem"}}/>
+                    <Divider style={{ margin: ".5rem" }} />
                     {(inputObj.type === "ShortTextInput" || isLongTextInput) && (
                         <>
                             <TextInputSizer inputObj={inputObj} />

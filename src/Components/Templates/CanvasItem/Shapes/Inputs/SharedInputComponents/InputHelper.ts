@@ -36,7 +36,7 @@ export const getYAlignment = (text: TextBase, contentHeight: number, verticalAli
     switch (verticalAlign) {
         case 'top':
             return 0;
-        case 'center':
+        case 'middle':
             return (contentHeight - textHeight) / 2;
         case 'bottom':
             return contentHeight - textHeight;
