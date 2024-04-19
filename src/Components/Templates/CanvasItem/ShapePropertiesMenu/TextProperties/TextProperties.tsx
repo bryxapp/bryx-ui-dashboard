@@ -6,6 +6,7 @@ import FontStylePicker from './FontStylePicker';
 import FontDecorationPicker from './FontDecorationPicker';
 import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import TextVerticalAlignmentPicker from './TextVerticalAlignmentPicker';
+import { Divider, Typography } from 'antd';
 
 interface TextPropertiesProps {
     textObj: TextBase;
@@ -17,6 +18,8 @@ interface TextPropertiesProps {
 const TextProperties = ({ textObj, itemType, verticalAlign, disabled }: TextPropertiesProps) => {
     return (
         <>
+            <Divider style={{ margin: ".3rem" }} />
+            <Typography.Text>Style</Typography.Text>
             <div style={{ display: 'flex', flexDirection: 'row', marginBottom: '.5rem', justifyContent: 'center', alignItems: 'center' }}>
                 <FontFamilyPicker textObj={textObj} itemType={itemType} disabled={disabled} />
                 <FontSizePicker textObj={textObj} itemType={itemType} disabled={disabled} />

@@ -31,26 +31,35 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
     const selectedHeight = Math.round(inputObj.inputContentShape.height);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography.Text>Input Width</Typography.Text>
-            <Input
-                value={selectedWidth}
-                onChange={(event) => updateShapeProperty('width', event)}
-                size="small"
-                disabled={disabled}
-            />
-            {inputObj.type === 'LongTextInput' && (
-                <>
-                    <Typography.Text>Input Height</Typography.Text>
+        <>
+            <Typography.Text>Size</Typography.Text>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: "flex-start" }}>
+                    <Typography.Text style={{ marginRight: '.2em' }}>w:</Typography.Text>
                     <Input
-                        value={selectedHeight}
-                        onChange={(event) => updateShapeProperty('height', event)}
+                        value={selectedWidth}
+                        onChange={(event) => updateShapeProperty('width', event)}
                         size="small"
+                        style={{ width: '4em' }}
                         disabled={disabled}
                     />
-                </>
-            )}
-        </div>
+                </div>
+                {inputObj.type === 'LongTextInput' && (
+                    <>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: "flex-start" }}>
+                            <Typography.Text style={{ marginRight: '.2em' }}>h:</Typography.Text>
+                            <Input
+                                value={selectedHeight}
+                                onChange={(event) => updateShapeProperty('height', event)}
+                                size="small"
+                                style={{ width: '4em' }}
+                                disabled={disabled}
+                            />
+                        </div>
+                    </>
+                )}
+            </div>
+        </>
     );
 };
 

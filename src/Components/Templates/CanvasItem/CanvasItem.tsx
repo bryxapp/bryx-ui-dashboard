@@ -102,7 +102,7 @@ const CanvasItem = () => {
                 />
             </Content>
             <Layout style={{ padding: '20px 0 15px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}>
-                <Sider style={{ background: colorBgContainer }} width={200}>
+                <Sider style={{ background: colorBgContainer }} width={225}>
                     {selectedId ?
                         <ShapePropertiesMenu />
                         :
