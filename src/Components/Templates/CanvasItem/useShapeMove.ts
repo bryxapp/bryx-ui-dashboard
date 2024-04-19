@@ -9,7 +9,7 @@ import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../
 const useShapeMove = (
     pageWidth: number,
     pageHeight: number,
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    setCanvasDesign: (newDesign: CanvasDesignData) => void,
     canvasDesign: CanvasDesignData
 ) => {
 

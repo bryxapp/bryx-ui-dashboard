@@ -302,7 +302,7 @@ export const moveShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, 
 }
 
 
-export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, selectedId: string | null, copiedObject: any) => {
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: (newDesign: CanvasDesignData) => void, selectedId: string | null, copiedObject: any) => {
 
     const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
 
@@ -319,7 +319,7 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
 
 export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    setCanvasDesign: (newDesign: CanvasDesignData) => void,
     selectedId: string | null,
     itemType: 'content' | 'label' | null,
     style: 'bold' | 'italic' | 'underline' | 'line-through'

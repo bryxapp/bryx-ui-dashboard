@@ -5,7 +5,7 @@ import UserImageCard from './UserImageCard';
 import ErrorMessage from '../../../../../SharedComponents/ErrorMessage/ErrorMessage';
 
 interface UserImagesMenuProps {
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
+    setCanvasDesign: (newDesign: CanvasDesignData) => void;
     userImages: Array<{ url: string; width: number; height: number; imageDbId: string }>;
     setUserImages: React.Dispatch<React.SetStateAction<Array<{ url: string; width: number; height: number; imageDbId: string }>>>;
     setOpen: any;

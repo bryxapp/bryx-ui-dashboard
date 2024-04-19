@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Image, Modal } from 'antd';
 import { MdCancel } from "react-icons/md";
-import { CanvasDesignData, ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { ImageObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { createUserImageObj } from '../../../../../../utils/types/ShapesFactory';
 import { deleteImage } from '../../../../../../utils/api/user-images-api';
 import { useAuth0User } from '../../../../../../utils/customHooks/useAuth0User';
@@ -22,19 +22,20 @@ interface ImageData {
 }
 
 export default function UserImageCard({ imageData, setOpen, userImages, setUserImages }: UserImageProps) {
-    const { setCanvasDesign } = useCanvasDesignContext();
+    const { setCanvasDesign, canvasDesign } = useCanvasDesignContext();
     const { getAccessToken } = useAuth0User();
     const { url, width, height } = imageData;
     const imgheight = height / width * 300;
 
     const handleImageClick = useCallback(() => {
         const newCanvasImage: ImageObj = createUserImageObj(url, 300, imgheight);
-        setCanvasDesign((prevCanvasDesign: CanvasDesignData) => ({
-            ...prevCanvasDesign,
-            Shapes: [...prevCanvasDesign.Shapes, newCanvasImage]
-        }));
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newCanvasImage]
+        });
         setOpen(false);
-    }, [url, imgheight, setCanvasDesign, setOpen]);
+    }, [url, imgheight, setCanvasDesign, canvasDesign, setOpen]);
+
 
     const handleImageDelete = useCallback(async () => {
         const imageDBIdToDelete = userImages.find(image => image.url === imageData.url)?.imageDbId;

@@ -9,6 +9,7 @@ interface CanvasKeyboardShortcutsProps {
   setSelectedId: any;
   copiedObject: any;
   setCopiedObject: any;
+  undoLastChange: any;
 }
 
 export const useCanvasKeyboardShortcuts = ({
@@ -18,6 +19,7 @@ export const useCanvasKeyboardShortcuts = ({
   setSelectedId,
   copiedObject,
   setCopiedObject,
+  undoLastChange,
 }: CanvasKeyboardShortcutsProps) => {
 
   useEffect(() => {
@@ -78,6 +80,12 @@ export const useCanvasKeyboardShortcuts = ({
             //TODO Save the canvas design
           }
           break;
+        case "z":
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            undoLastChange();
+          }
+          break;
         default:
           break;
       }
@@ -88,5 +96,5 @@ export const useCanvasKeyboardShortcuts = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject, selectedId]);
+  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject, selectedId, undoLastChange]);
 };
