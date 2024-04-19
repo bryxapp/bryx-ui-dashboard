@@ -7,13 +7,12 @@ import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface RectangleShapeProps {
     rectangleObj: RectangleObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
 }
 
-const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove }: RectangleShapeProps) => {
+const RectangleShape = ({ rectangleObj, handleDragEnd, onTransformEnd, handleDragMove }: RectangleShapeProps) => {
     const { selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = rectangleObj.id === selectedId;
     const shapeRef = useRef<Konva.Rect>(null);
@@ -44,10 +43,9 @@ const RectangleShape = ({ rectangleObj, handleDragStart, handleDragEnd, onTransf
                 fill={rectangleObj.fill}
                 stroke={rectangleObj.stroke}
                 strokeWidth={rectangleObj.strokeWidth}
-                scaleX={rectangleObj.isDragging ? 1.0 : 1}
-                scaleY={rectangleObj.isDragging ? 1.0 : 1}
+                scaleX={1}
+                scaleY={1}
                 rotation={rectangleObj.rotation}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
                 cornerRadius={rectangleObj.cornerRadius ? rectangleObj.cornerRadius : 0}

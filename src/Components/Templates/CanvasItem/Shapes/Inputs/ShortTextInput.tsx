@@ -10,14 +10,13 @@ import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils
 
 interface ShortTextInputProps {
     shortTextInputObj: ShortTextInputObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: ShortTextInputProps) => {
+const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: ShortTextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
@@ -59,7 +58,6 @@ const ShortTextInput = ({ shortTextInputObj, handleDragStart, handleDragEnd, onT
                 y={shortTextInputObj.y}
                 draggable={draggable}
                 onDragMove={handleDragMove}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 ref={shapeRef}
                 rotation={shortTextInputObj.rotation}

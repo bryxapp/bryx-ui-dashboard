@@ -20,7 +20,7 @@ const ShapeRenderer = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
 
-    const { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
 
     return (
         <>
@@ -33,7 +33,6 @@ const ShapeRenderer = () => {
                                 key={rectangle.id}
                                 rectangleObj={rectangle}
                                 handleDragMove={handleDragMove}
-                                handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
                             />
@@ -45,7 +44,6 @@ const ShapeRenderer = () => {
                                 key={roundedRectangle.id}
                                 rectangleObj={roundedRectangle}
                                 handleDragMove={handleDragMove}
-                                handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
                             />
@@ -57,7 +55,6 @@ const ShapeRenderer = () => {
                                 key={ellipse.id}
                                 ellipseObj={ellipse}
                                 handleDragMove={handleDragMove}
-                                handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
                             />
@@ -69,7 +66,6 @@ const ShapeRenderer = () => {
                             <ImageShape
                                 key={image.id}
                                 imageObj={image}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -81,7 +77,6 @@ const ShapeRenderer = () => {
                             <PhoneInput
                                 key={phoneInput.id}
                                 phoneInputObj={phoneInput}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -93,7 +88,6 @@ const ShapeRenderer = () => {
                             <EmailInput
                                 key={emailInput.id}
                                 emailInputObj={emailInput}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -105,7 +99,6 @@ const ShapeRenderer = () => {
                             <ShortTextInput
                                 key={shortTextInput.id}
                                 shortTextInputObj={shortTextInput}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -117,7 +110,6 @@ const ShapeRenderer = () => {
                             <LongTextInput
                                 key={longTextInput.id}
                                 longTextInputObj={longTextInput}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -129,7 +121,6 @@ const ShapeRenderer = () => {
                             <DateInput
                                 key={dateInput.id}
                                 dateInputObj={dateInput}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -141,7 +132,6 @@ const ShapeRenderer = () => {
                             <TableInput
                                 key={tableInput.id}
                                 tableInputObj={tableInput}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -153,7 +143,6 @@ const ShapeRenderer = () => {
                             <Heading
                                 key={heading.id}
                                 headingObj={heading}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}
@@ -165,7 +154,6 @@ const ShapeRenderer = () => {
                             <Paragraph
                                 key={paragraph.id}
                                 paragraphObj={paragraph}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
                                 onTransformEnd={onTransformEnd}

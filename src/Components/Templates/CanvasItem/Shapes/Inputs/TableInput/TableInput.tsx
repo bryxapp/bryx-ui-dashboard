@@ -7,14 +7,13 @@ import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 
 interface TableInputProps {
     tableInputObj: TableInputObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const TableInput = ({ tableInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: TableInputProps) => {
+const TableInput = ({ tableInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: TableInputProps) => {
     const { selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = tableInputObj.id === selectedId;
     const onSelect = () => {
@@ -51,7 +50,6 @@ const TableInput = ({ tableInputObj, handleDragStart, handleDragEnd, onTransform
                 x={tableInputObj.x}
                 y={tableInputObj.y}
                 draggable={draggable}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onTransformEnd={onTransformEnd}
                 onDragMove={handleDragMove}

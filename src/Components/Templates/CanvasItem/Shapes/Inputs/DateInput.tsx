@@ -11,14 +11,13 @@ import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils
 
 interface DateInputProps {
     dateInputObj: DateInputObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: DateInputProps) => {
+const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: DateInputProps) => {
     const { selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = dateInputObj.id === selectedId;
     const onSelect = () => {
@@ -64,7 +63,6 @@ const DateInput = ({ dateInputObj, handleDragStart, handleDragEnd, onTransformEn
                 y={dateInputObj.y}
                 draggable={draggable}
                 onDragMove={handleDragMove}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 ref={shapeRef}
                 rotation={dateInputObj.rotation}

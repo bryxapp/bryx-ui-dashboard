@@ -9,7 +9,6 @@ import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface HeadingProps {
     headingObj: HeadingObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
@@ -18,7 +17,6 @@ interface HeadingProps {
 
 const Heading = ({
     headingObj,
-    handleDragStart,
     handleDragEnd,
     onTransformEnd,
     handleDragMove,
@@ -125,7 +123,6 @@ const Heading = ({
                 key={headingObj.id} id={headingObj.id}
                 x={headingObj.x} y={headingObj.y}
                 draggable={draggable}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
                 ref={shapeRef} rotation={headingObj.rotation}>

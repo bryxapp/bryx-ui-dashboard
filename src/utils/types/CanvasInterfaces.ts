@@ -12,7 +12,6 @@ export interface ShapeObj {
     x: number;
     y: number;
     rotation: number;
-    isDragging: boolean;
 }
 
 // Solid Shapes

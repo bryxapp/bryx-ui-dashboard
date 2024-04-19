@@ -11,14 +11,13 @@ import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils
 const PHONE_NUMBER_LENGTH = 10;
 interface PhoneInputProps {
     phoneInputObj: PhoneInputObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: PhoneInputProps) => {
+const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: PhoneInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
@@ -63,7 +62,6 @@ const PhoneInput = ({ phoneInputObj, handleDragStart, handleDragEnd, onTransform
                 y={phoneInputObj.y}
                 draggable={draggable}
                 onDragMove={handleDragMove}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 ref={shapeRef}
                 rotation={phoneInputObj.rotation}

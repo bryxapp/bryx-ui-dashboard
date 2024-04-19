@@ -15,25 +15,6 @@ const useShapeMove = (
 
     const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight);
 
-    const handleDragStart = (e: any) => {
-        const id = e.target.id();
-        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
-            if (shape.id === id) {
-                updatedCanvasDesign.Shapes[index] = {
-                    ...shape,
-                    isDragging: true,
-                };
-            } else {
-                updatedCanvasDesign.Shapes[index] = {
-                    ...shape,
-                    isDragging: false,
-                };
-            }
-        });
-        setCanvasDesign(updatedCanvasDesign);
-    };
-
     const handleDragEnd = (e: any) => {
         // clear all guide lines on the screen
         const layer = e.target.getLayer();
@@ -49,12 +30,10 @@ const useShapeMove = (
                     ...shape,
                     x: e.target.x(),
                     y: e.target.y(),
-                    isDragging: false,
                 };
             } else {
                 updatedCanvasDesign.Shapes[index] = {
                     ...shape,
-                    isDragging: false,
                 };
             }
         });
@@ -166,7 +145,7 @@ const useShapeMove = (
         [drawGuides, getGuides, getLineGuideStops, getObjectSnappingEdges]
     );
 
-    return { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove };
+    return { handleDragEnd, onTransformEnd, handleDragMove };
 };
 
 export default useShapeMove;

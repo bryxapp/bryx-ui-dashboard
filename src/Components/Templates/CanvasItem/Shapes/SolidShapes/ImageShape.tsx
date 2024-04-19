@@ -7,7 +7,6 @@ import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface ImageShapeProps {
     imageObj: ImageObj;
-    handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
     onTransformEnd: (e: any) => void;
     handleDragMove: any;
@@ -15,7 +14,6 @@ interface ImageShapeProps {
 
 const ImageShape = ({
     imageObj,
-    handleDragStart,
     handleDragEnd,
     onTransformEnd,
     handleDragMove
@@ -59,7 +57,6 @@ const ImageShape = ({
                 scaleY={1}
                 rotation={imageObj.rotation}
                 onDragMove={handleDragMove}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable
                 image={image}

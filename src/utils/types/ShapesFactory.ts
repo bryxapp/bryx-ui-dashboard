@@ -15,7 +15,6 @@ export function createRectangleObj(width: number, height: number, fill: string, 
         fill,
         stroke,
         strokeWidth,
-        isDragging: false,
     };
 }
 
@@ -32,7 +31,6 @@ export function createRoundedRectangleObj(width: number, height: number, fill: s
         stroke,
         strokeWidth,
         cornerRadius,
-        isDragging: false,
     };
 }
 
@@ -48,7 +46,6 @@ export function createEllipseObj(radiusX: number, radiusY: number, fill: string,
         fill,
         stroke,
         strokeWidth,
-        isDragging: false,
     };
 }
 
@@ -95,7 +92,6 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         hasLabel,
         content: contentObj,
         inputContentShape,
-        isDragging: false,
     };
 }
 
@@ -142,7 +138,6 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         hasLabel,
         content: contentObj,
         inputContentShape,
-        isDragging: false,
     };
 }
 
@@ -190,7 +185,6 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         hasLabel,
         content: contentObj,
         inputContentShape,
-        isDragging: false,
     };
 }
 
@@ -237,7 +231,6 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         hasLabel,
         content: contentObj,
         inputContentShape,
-        isDragging: false,
         verticalAlign: "top",
     };
 }
@@ -286,7 +279,6 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         content: contentObj,
         dateFormat: dateFormat,
         inputContentShape,
-        isDragging: false,
     };
 }
 
@@ -315,7 +307,6 @@ export function createTableInputObj(label: string, hasLabel: boolean, placeholde
         y,
         rotation: 0,
         content: contentObj,
-        isDragging: false,
     };
 }
 
@@ -342,7 +333,6 @@ export function createHeadingdObj(value: string, fontSize: number, fill: string,
         fontStyle,
         textDecoration,
         align: "left",
-        isDragging: false,
     };
 }
 
@@ -367,7 +357,6 @@ export function createParagraphObj(value: string, fontSize: number, fill: string
         fontStyle,
         textDecoration,
         align: "left",
-        isDragging: false,
     };
 }
 
@@ -381,7 +370,6 @@ export function createUserImageObj(src: string, width: number, height: number): 
         src,
         width,
         height,
-        isDragging: false,
     };
 }
 
@@ -395,7 +383,6 @@ export function createStockImageObj(src: string, width: number, height: number):
         src,
         width,
         height,
-        isDragging: false,
     };
 }
 

@@ -11,14 +11,13 @@ import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils
 const EMAIL_LENGTH = 20;
 interface EmailInputProps {
     emailInputObj: EmailInputObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
     draggable?: boolean;
 }
 
-const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
+const EmailInput = ({ emailInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
     const { selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = emailInputObj.id === selectedId;
     const onSelect = () => {
@@ -63,7 +62,6 @@ const EmailInput = ({ emailInputObj, handleDragStart, handleDragEnd, onTransform
                 y={emailInputObj.y}
                 draggable={draggable}
                 onDragMove={handleDragMove}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 ref={shapeRef}
                 rotation={emailInputObj.rotation}

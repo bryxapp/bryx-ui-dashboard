@@ -7,7 +7,6 @@ import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface EllipseShapeProps {
     ellipseObj: EllipseObj;
-    handleDragStart: (e: any) => void;
     handleDragEnd: (e: any) => void;
     onTransformEnd: (e: any) => void;
     handleDragMove: any;
@@ -15,7 +14,6 @@ interface EllipseShapeProps {
 
 const EllipseShape = ({
     ellipseObj,
-    handleDragStart,
     handleDragEnd,
     onTransformEnd,
     handleDragMove
@@ -53,7 +51,6 @@ const EllipseShape = ({
                 scaleY={1}
                 rotation={ellipseObj.rotation}
                 onDragMove={handleDragMove}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 draggable
             />

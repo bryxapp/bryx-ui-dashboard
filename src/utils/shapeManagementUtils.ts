@@ -71,7 +71,6 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     width: imageObj.width,
                     height: imageObj.height,
                     rotation: imageObj.rotation,
-                    draggable: imageObj.isDragging,
                 }))
                 break;
             case 'PhoneInput':

@@ -9,7 +9,6 @@ import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 
 interface ParagraphProps {
     paragraphObj: ParagraphObj;
-    handleDragStart: any;
     handleDragEnd: any;
     onTransformEnd: any;
     handleDragMove: any;
@@ -18,7 +17,6 @@ interface ParagraphProps {
 
 const Paragraph = ({
     paragraphObj,
-    handleDragStart,
     handleDragEnd,
     onTransformEnd,
     handleDragMove,
@@ -125,7 +123,6 @@ const Paragraph = ({
                 key={paragraphObj.id} id={paragraphObj.id}
                 x={paragraphObj.x} y={paragraphObj.y}
                 draggable={draggable}
-                onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
                 ref={shapeRef} rotation={paragraphObj.rotation}>
