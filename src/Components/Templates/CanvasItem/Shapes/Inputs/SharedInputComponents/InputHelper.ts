@@ -31,15 +31,15 @@ export const getXAlignment = (text: TextBase, containerWidth: number): number =>
     }
 };
 
-export const getYAlignment = (text: TextBase, contentHeight: number, verticalAlign: string): number => {
+export const getYAlignment = (text: TextBase, containerHeight: number, verticalAlign: string): number => {
     const [, textHeight] = getTextWidthAndHeight(text); // Ignoring the first value
     switch (verticalAlign) {
         case 'top':
             return 0;
         case 'middle':
-            return (contentHeight - textHeight) / 2;
+            return (containerHeight - textHeight) / 2;
         case 'bottom':
-            return contentHeight - textHeight;
+            return containerHeight - textHeight;
         default:
             return 0;
     }

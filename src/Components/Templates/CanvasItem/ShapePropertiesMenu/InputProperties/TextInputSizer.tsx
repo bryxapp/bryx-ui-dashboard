@@ -12,6 +12,7 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const updateShapeProperty = (dimension: 'width' | 'height', event: React.ChangeEvent<HTMLInputElement>) => {
+        //handle empty string
         const value = Math.round(parseFloat(event.target.value)); // Parse float value for accuracy
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === selectedId) {
@@ -27,8 +28,8 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
 
-    const selectedWidth = Math.round(inputObj.inputContentShape.width);
-    const selectedHeight = Math.round(inputObj.inputContentShape.height);
+    const selectedWidth = inputObj.inputContentShape.width ? Math.round(inputObj.inputContentShape.width): '';
+    const selectedHeight = inputObj.inputContentShape.height ? Math.round(inputObj.inputContentShape.height): '';
 
     return (
         <>

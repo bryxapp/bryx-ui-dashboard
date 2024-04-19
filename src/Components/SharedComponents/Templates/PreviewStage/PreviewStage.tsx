@@ -1,11 +1,18 @@
-import { Stage, Layer, Rect, Ellipse, Image, Text, Group } from "react-konva";
-import { CanvasDesignData, DateInputObj, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, TextObj } from "../../../../utils/types/CanvasInterfaces"
+import { Stage, Layer } from "react-konva";
+import { CanvasDesignData, DateInputObj, EllipseObj, EmailInputObj, HeadingObj, ImageObj, LongTextInputObj, ParagraphObj, PhoneInputObj, RectangleObj, ShapeObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
 import { EstimateFormFields } from "../../../../utils/types/EstimateInterfaces";
-import { getXAlignment } from "../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
-import { format } from "date-fns";
-import { getTextWidthAndHeight } from "../../../../utils/shapeManagementUtils";
+import PreviewRectangle from "./PreviewShapes/PreviewRectangle";
+import PreviewRoundedRectangle from "./PreviewShapes/PreviewRoundedRectangle";
+import PreviewEllipse from "./PreviewShapes/PreviewEllipse";
+import PreviewImage from "./PreviewShapes/PreviewImage";
+import PreviewHeading from "./PreviewShapes/PreviewHeading";
+import PreviewParagraph from "./PreviewShapes/PreviewParagraph";
+import PreviewPhoneInput from "./PreviewShapes/PreviewPhoneInput";
+import PreviewEmailInput from "./PreviewShapes/PreviewEmailInput";
+import PreviewDateInput from "./PreviewShapes/PreviewDateInput";
+import PreviewLongTextInput from "./PreviewShapes/PreviewLongTextInput";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
@@ -31,164 +38,27 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
           {canvasDesign.Shapes.map((shape: ShapeObj) => {
             switch (shape.type) {
               case "Rectangle":
-                const rectangle = shape as RectangleObj;
-                return (
-                  <Rect
-                    key={rectangle.id}
-                    id={rectangle.id}
-                    x={rectangle.x}
-                    y={rectangle.y}
-                    width={rectangle.width}
-                    height={rectangle.height}
-                    fill={rectangle.fill}
-                    stroke={rectangle.stroke}
-                    strokeWidth={rectangle.strokeWidth}
-                    rotation={rectangle.rotation}
-                  />)
+                return <PreviewRectangle rectangleObj={shape as RectangleObj} />
               case "RoundedRectangle":
-                const roundedRectangle = shape as RectangleObj;
-                return (
-                  <Rect
-                    key={roundedRectangle.id}
-                    id={roundedRectangle.id}
-                    x={roundedRectangle.x}
-                    y={roundedRectangle.y}
-                    width={roundedRectangle.width}
-                    height={roundedRectangle.height}
-                    fill={roundedRectangle.fill}
-                    stroke={roundedRectangle.stroke}
-                    strokeWidth={roundedRectangle.strokeWidth}
-                    rotation={roundedRectangle.rotation}
-                    cornerRadius={roundedRectangle.cornerRadius}
-                  />)
+                return <PreviewRoundedRectangle roundedRectangleObj={shape as RectangleObj} />
               case "Ellipse":
-                const ellipse = shape as EllipseObj;
-                return (
-                  <Ellipse
-                    key={ellipse.id}
-                    id={ellipse.id}
-                    x={ellipse.x}
-                    y={ellipse.y}
-                    radiusX={ellipse.radiusX}
-                    radiusY={ellipse.radiusY}
-                    fill={ellipse.fill}
-                    stroke={ellipse.stroke}
-                    strokeWidth={ellipse.strokeWidth}
-                    rotation={ellipse.rotation}
-                  />)
+                return <PreviewEllipse EllipseObj={shape as EllipseObj} />
               case 'UserImage':
               case 'StockImage':
-                const image = shape as ImageObj;
-                const imageSrc = new window.Image();
-                imageSrc.src = image.src;
-                return (
-                  <Image
-                    key={image.id}
-                    id={image.id}
-                    x={image.x}
-                    y={image.y}
-                    image={imageSrc}
-                    width={image.width}
-                    height={image.height}
-                    rotation={image.rotation}
-                  />)
+                return <PreviewImage ImageObj={shape as ImageObj} />
               case 'Heading':
+                return <PreviewHeading HeadingObj={shape as HeadingObj} />
               case 'Paragraph':
-                const textObj = shape as TextObj;
-                return (
-                  <Text
-                    key={textObj.id}
-                    id={textObj.id}
-                    x={textObj.x}
-                    y={textObj.y}
-                    text={textObj.value}
-                    fontSize={textObj.fontSize}
-                    fontFamily={textObj.fontFamily}
-                    fill={textObj.fill}
-                    rotation={textObj.rotation}
-                    align={textObj.align}
-                  />)
+                return <PreviewParagraph ParagraphObj={shape as ParagraphObj} />
               case 'PhoneInput':
+                return <PreviewPhoneInput PhoneInputObj={shape as PhoneInputObj} formInputs={formInputs} />
               case 'EmailInput':
+                return <PreviewEmailInput EmailInputObj={shape as EmailInputObj} formInputs={formInputs} />
               case 'ShortTextInput':
               case 'LongTextInput':
-                const inputObj = shape as InputObj;
-                const labelInputObj = inputObj.label;
-                const contentInputObj = inputObj.content;
-                const value = formInputs ? formInputs[inputObj.id].value : '';
-                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(labelInputObj);
-                const [contentShapeWidth,] = getTextWidthAndHeight(contentInputObj);
-                //Container Measurements 
-                const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
-                return (
-                  <Group
-                    key={inputObj.id}
-                    id={inputObj.id}
-                    x={inputObj.x}
-                    y={inputObj.y}
-                    rotation={inputObj.rotation}
-                  >
-                    {inputObj.hasLabel &&
-                      <Text
-                        x={getXAlignment(labelInputObj, containerWidth)}
-                        y={0}
-                        text={labelInputObj.value}
-                        fontSize={labelInputObj.fontSize}
-                        fontFamily={labelInputObj.fontFamily}
-                        fill={labelInputObj.fill}
-                        align={labelInputObj.align}
-                      />
-                    }
-                    <Text
-                      x={getXAlignment(contentInputObj, containerWidth)}
-                      y={inputObj.hasLabel? labelShapeHeight + (labelInputObj.fontSize / 10):0}
-                      text={value}
-                      fontSize={contentInputObj.fontSize}
-                      fontFamily={contentInputObj.fontFamily}
-                      fill={contentInputObj.fill}
-                      align={contentInputObj.align}
-                    />
-                  </Group>
-                );
+                return <PreviewLongTextInput LongTextInputObj={shape as LongTextInputObj} formInputs={formInputs} />
               case 'DateInput':
-                const dateInputObj = shape as DateInputObj;
-                const dateLabelInputObj = dateInputObj.label;
-                const dateContentInputObj = dateInputObj.content;
-                const dateString = formInputs ? formInputs[dateInputObj.id].value : '';
-                const val = dateString ? format(new Date(dateString), dateInputObj.dateFormat) : '';
-                const [datelabelShapeWidth, datelabelShapeHeight] = getTextWidthAndHeight(dateLabelInputObj);
-                const [datecontentShapeWidth,] = getTextWidthAndHeight(dateContentInputObj);
-                const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
-                return (
-                  <Group
-                    key={dateInputObj.id}
-                    id={dateInputObj.id}
-                    x={dateInputObj.x}
-                    y={dateInputObj.y}
-                    rotation={dateInputObj.rotation}
-                  >
-                    {dateInputObj.hasLabel &&
-                      <Text
-                        x={getXAlignment(dateLabelInputObj, datecontainerWidth)}
-                        y={0}
-                        text={dateLabelInputObj.value}
-                        fontSize={dateLabelInputObj.fontSize}
-                        fontFamily={dateLabelInputObj.fontFamily}
-                        fill={dateLabelInputObj.fill}
-                        align={dateLabelInputObj.align}
-                      />
-                    }
-                    <Text
-                      x={getXAlignment(dateContentInputObj, datecontainerWidth)}
-                      y={dateInputObj.hasLabel? datelabelShapeHeight + (dateLabelInputObj.fontSize / 10) : 0}
-                      text={val}
-                      fontSize={dateContentInputObj.fontSize}
-                      fontFamily={dateContentInputObj.fontFamily}
-                      fill={dateContentInputObj.fill}
-                      align={dateContentInputObj.align}
-                    />
-                  </Group>
-                );
+                return <PreviewDateInput DateInputObj={shape as DateInputObj} formInputs={formInputs} />
               case 'TableInput':
                 //TODO: Implement TableInput
                 return null;
