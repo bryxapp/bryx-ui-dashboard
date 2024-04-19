@@ -248,7 +248,7 @@ export const updateInputProperty = (
             // Correct way to dynamically update nested properties
             const updatedItem = { ...inputObj[itemName], [propertyName]: value };
             if (itemName === 'content' && inputObj.type !== "LongTextInput") {
-                const [height] = getTextWidthAndHeight(inputObj.content);
+                const [,height] = getTextWidthAndHeight(inputObj.content);
                 inputObj.inputContentShape.height = height;
             }
             return { ...inputObj, [itemName]: updatedItem };
