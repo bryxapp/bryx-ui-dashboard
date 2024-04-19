@@ -8,12 +8,13 @@ import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import ErrorModal from '../../ErrorModal/ErrorModal';
 import { Col, Row, Typography } from 'antd';
 interface TemplatesGridProps {
-    setMaxTemplatesReached: ((value: boolean) => void) | null;
+    setMaxTemplatesReached?: ((value: boolean) => void);
+    setTemplatesCount?: ((value: number) => void);
     baseUrl: string;
     showActions?: boolean;
 }
 
-const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, baseUrl, showActions = false }) => {
+const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, setTemplatesCount, baseUrl, showActions = false }) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false);
@@ -33,6 +34,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                 setTemplates(templateData.templates);
                 if (setMaxTemplatesReached) {
                     setMaxTemplatesReached(templateData.maxTemplatesReached);
+                }
+                if (setTemplatesCount) {
+                    setTemplatesCount(templateData.templates.length);
                 }
             } catch (error) {
                 logger.trackException({
@@ -100,14 +104,14 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     }
 
     if (!templateRequestCompleted)
-    return <Typography.Title level={4} style={{ textAlign: 'center' }}>Loading...</Typography.Title>;
+        return <Typography.Title level={4} style={{ textAlign: 'center' }}>Loading...</Typography.Title>;
 
     if (error) return <ErrorMessage dataName='templates' />;
 
     return (
         <>
-            <ErrorModal error={deleteError} setError={setDeleteError} content = "Error deleting template" />
-            <ErrorModal error={copyError} setError={setCopyError} content = "Error copying template" />
+            <ErrorModal error={deleteError} setError={setDeleteError} content="Error deleting template" />
+            <ErrorModal error={copyError} setError={setCopyError} content="Error copying template" />
             <Row gutter={[16, 16]}>
                 {templates.map(template => (
                     <Col xs={24} sm={12} md={8} key={template.id}>

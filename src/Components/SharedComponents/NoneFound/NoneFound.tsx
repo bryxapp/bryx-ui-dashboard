@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { Empty, Typography } from 'antd';
 
 interface NoneFoundProps {
     item: string;
@@ -6,11 +6,16 @@ interface NoneFoundProps {
 
 const NoneFound = ({ item }: NoneFoundProps) => {
     return (
-        <div style={{ textAlign: 'center' }}>
-            <Typography.Text>
-                No {item} found
-            </Typography.Text>
-        </div>
+        <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{ height: 100 }}
+            description={
+                <Typography.Title level={5}>
+                    No {item} found
+                </Typography.Title>
+            }
+        >
+        </Empty>
     );
 }
 

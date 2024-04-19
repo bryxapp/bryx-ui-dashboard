@@ -11,9 +11,7 @@ const SelectTemplate = () => {
             </Title>
             <div style={{ height: 50 }} />
             <Card>
-                <TemplatesGrid
-                    setMaxTemplatesReached={null}
-                    baseUrl='/form?templateId=' />
+                <TemplatesGrid baseUrl='/form?templateId=' />
             </Card>
         </>
     )
