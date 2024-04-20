@@ -27,21 +27,21 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ textObj, item
     return (
         <div style={{display:"flex"}}>
             <Button
-                type={textObj.align === 'left' ? 'primary' : 'default'}
+                type={textObj.horizontalAlign === 'left' ? 'primary' : 'default'}
                 icon={<MdAlignHorizontalLeft />}
                 onClick={() => handleAlignmentChange('left')}
                 size="small"
                 disabled={disabled}
             />
             <Button
-                type={textObj.align === 'center' ? 'primary' : 'default'}
+                type={textObj.horizontalAlign === 'center' ? 'primary' : 'default'}
                 icon={<MdAlignHorizontalCenter />}
                 onClick={() => handleAlignmentChange('center')}
                 size="small"
                 disabled={disabled}
             />
             <Button
-                type={textObj.align === 'right' ? 'primary' : 'default'}
+                type={textObj.horizontalAlign === 'right' ? 'primary' : 'default'}
                 icon={<MdAlignHorizontalRight />}
                 onClick={() => handleAlignmentChange('right')}
                 size="small"

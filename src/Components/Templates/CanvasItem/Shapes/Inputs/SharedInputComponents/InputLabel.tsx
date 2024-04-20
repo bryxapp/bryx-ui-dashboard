@@ -56,7 +56,7 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         whiteSpace: 'pre-wrap',
         width: `${labelWidth + 20}px`,
         height: `${labelHeight + 20}px`,
-        alignContent: textObj.align,
+        alignContent: textObj.horizontalAlign,
         color: textObj.fill,
         border: 'none',
         padding: '0px',

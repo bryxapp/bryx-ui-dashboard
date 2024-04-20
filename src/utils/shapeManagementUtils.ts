@@ -103,7 +103,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                         fontFamily: inputLabel.fontFamily,
                         fontStyle: inputLabel.fontStyle,
                         textDecoration: inputLabel.textDecoration,
-                        align: inputLabel.align
+                        horizontalAlign: inputLabel.horizontalAlign
                     }))
                 }
                 //Add Content
@@ -117,7 +117,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     fontFamily: inputContent.fontFamily,
                     fontStyle: inputContent.fontStyle,
                     textDecoration: inputContent.textDecoration,
-                    align: inputContent.align
+                    horizontalAlign: inputContent.horizontalAlign
                 }))
                 layer.add(group);
                 break;
@@ -134,7 +134,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     fontFamily: textObj.fontFamily,
                     fontStyle: textObj.fontStyle,
                     textDecoration: textObj.textDecoration,
-                    align: textObj.align
+                    horizontalAlign: textObj.horizontalAlign
                 }))
                 break;
             //TODO add labels

@@ -94,7 +94,7 @@ export interface TextBase {
     fontFamily: string;
     fontStyle: string;
     textDecoration: string;
-    align: string;
+    horizontalAlign: string;
 }
 
 export interface TextValueObj extends TextBase {

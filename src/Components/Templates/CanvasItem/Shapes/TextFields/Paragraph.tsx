@@ -94,7 +94,7 @@ const Paragraph = ({
         whiteSpace: 'pre-wrap',
         width: `${measureWidth(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 10}px`,
         height: `${measureHeight(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 10}px`,
-        alignContent: paragraphObj.align,
+        alignContent: paragraphObj.horizontalAlign,
         color: paragraphObj.fill,
         border: 'none',
         padding: '0px',
@@ -145,7 +145,7 @@ const Paragraph = ({
                         fontFamily={paragraphObj.fontFamily}
                         fontStyle={paragraphObj.fontStyle}
                         textDecoration={paragraphObj.textDecoration}
-                        align={paragraphObj.align}
+                        align={paragraphObj.horizontalAlign}
                         draggable={false}
                     />
 

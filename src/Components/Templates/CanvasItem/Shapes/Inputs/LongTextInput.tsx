@@ -30,7 +30,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
         fontFamily: content.fontFamily,
         fontStyle: content.fontStyle,
         textDecoration: content.textDecoration,
-        align: content.align,
+        horizontalAlign: content.horizontalAlign,
     });
 
     useEffect(() => {

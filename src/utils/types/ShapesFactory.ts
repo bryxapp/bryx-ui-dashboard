@@ -64,7 +64,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         fontStyle,
         textDecoration,
         value: label,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const contentObj = {
@@ -74,7 +74,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         fontStyle,
         textDecoration,
         value: placeholder,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const inputContentShape = {
@@ -110,7 +110,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         fontStyle,
         textDecoration,
         value: label,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const contentObj = {
@@ -120,7 +120,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         fontStyle,
         textDecoration,
         value: placeholder,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const inputContentShape = {
@@ -156,7 +156,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         fontStyle,
         textDecoration,
         value: label,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const contentObj = {
@@ -166,7 +166,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         fontStyle,
         textDecoration,
         value: placeholder,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const [width, height] = getTextWidthAndHeight(contentObj, contentObj.value)
@@ -203,7 +203,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         fontStyle,
         textDecoration,
         value: label,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const contentObj = {
@@ -213,7 +213,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         fontStyle,
         textDecoration,
         value: placeholder,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const inputContentShape = {
@@ -250,7 +250,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         fontStyle,
         textDecoration,
         value: label,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const contentObj = {
@@ -260,7 +260,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         fontStyle,
         textDecoration,
         value: placeholder,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     const inputContentShape = {
@@ -297,7 +297,7 @@ export function createTableInputObj(label: string, hasLabel: boolean, placeholde
         fontStyle,
         textDecoration,
         value: placeholder,
-        align: "left",
+        horizontalAlign: "left",
     } as TextValueObj;
 
     return {
@@ -332,7 +332,7 @@ export function createHeadingdObj(value: string, fontSize: number, fill: string,
         fontFamily,
         fontStyle,
         textDecoration,
-        align: "left",
+        horizontalAlign: "left",
     };
 }
 
@@ -356,7 +356,7 @@ export function createParagraphObj(value: string, fontSize: number, fill: string
         fontFamily,
         fontStyle,
         textDecoration,
-        align: "left",
+        horizontalAlign: "left",
     };
 }
 

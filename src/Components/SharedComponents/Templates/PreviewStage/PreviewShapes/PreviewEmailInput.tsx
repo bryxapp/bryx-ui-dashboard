@@ -32,7 +32,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
                     fontSize={EmailInputObj.label.fontSize}
                     fontFamily={EmailInputObj.label.fontFamily}
                     fill={EmailInputObj.label.fill}
-                    align={EmailInputObj.label.align}
+                    align={EmailInputObj.label.horizontalAlign}
                 />
             }
             <Text
@@ -42,7 +42,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
                 fontSize={EmailInputObj.content.fontSize}
                 fontFamily={EmailInputObj.content.fontFamily}
                 fill={EmailInputObj.content.fill}
-                align={EmailInputObj.content.align}
+                align={EmailInputObj.content.horizontalAlign}
             />
         </Group>
     );

@@ -32,7 +32,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
                     fontSize={ShortTextInputObj.label.fontSize}
                     fontFamily={ShortTextInputObj.label.fontFamily}
                     fill={ShortTextInputObj.label.fill}
-                    align={ShortTextInputObj.label.align}
+                    align={ShortTextInputObj.label.horizontalAlign}
                 />
             }
             <Text
@@ -42,7 +42,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
                 fontSize={ShortTextInputObj.content.fontSize}
                 fontFamily={ShortTextInputObj.content.fontFamily}
                 fill={ShortTextInputObj.content.fill}
-                align={ShortTextInputObj.content.align}
+                align={ShortTextInputObj.content.horizontalAlign}
             />
         </Group>
     );

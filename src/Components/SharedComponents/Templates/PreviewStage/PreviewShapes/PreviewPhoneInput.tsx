@@ -33,7 +33,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
                     fontSize={PhoneInputObj.label.fontSize}
                     fontFamily={PhoneInputObj.label.fontFamily}
                     fill={PhoneInputObj.label.fill}
-                    align={PhoneInputObj.label.align}
+                    align={PhoneInputObj.label.horizontalAlign}
                 />
             }
             <Text
@@ -43,7 +43,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
                 fontSize={PhoneInputObj.content.fontSize}
                 fontFamily={PhoneInputObj.content.fontFamily}
                 fill={PhoneInputObj.content.fill}
-                align={PhoneInputObj.content.align}
+                align={PhoneInputObj.content.horizontalAlign}
             />
         </Group>
     );

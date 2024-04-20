@@ -17,7 +17,7 @@ const PreviewParagraph= ({ ParagraphObj }: PreviewParagraphProps) => {
             fontFamily={ParagraphObj.fontFamily}
             fill={ParagraphObj.fill}
             rotation={ParagraphObj.rotation}
-            align={ParagraphObj.align}
+            align={ParagraphObj.horizontalAlign}
         />
     );
 };

@@ -33,7 +33,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
                     fontSize={DateInputObj.label.fontSize}
                     fontFamily={DateInputObj.label.fontFamily}
                     fill={DateInputObj.label.fill}
-                    align={DateInputObj.label.align}
+                    align={DateInputObj.label.horizontalAlign}
                 />
             }
             <Text
@@ -43,7 +43,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
                 fontSize={DateInputObj.content.fontSize}
                 fontFamily={DateInputObj.content.fontFamily}
                 fill={DateInputObj.content.fill}
-                align={DateInputObj.content.align}
+                align={DateInputObj.content.horizontalAlign}
             />
         </Group>
     );

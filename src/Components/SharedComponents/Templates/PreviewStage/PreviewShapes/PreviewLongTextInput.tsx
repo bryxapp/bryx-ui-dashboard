@@ -34,7 +34,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
                     fontSize={LongTextInputObj.label.fontSize}
                     fontFamily={LongTextInputObj.label.fontFamily}
                     fill={LongTextInputObj.label.fill}
-                    align={LongTextInputObj.label.align}
+                    align={LongTextInputObj.label.horizontalAlign}
                 />
             }
             <Text
@@ -44,7 +44,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
                 fontSize={LongTextInputObj.content.fontSize}
                 fontFamily={LongTextInputObj.content.fontFamily}
                 fill={LongTextInputObj.content.fill}
-                align={LongTextInputObj.content.align}
+                align={LongTextInputObj.content.horizontalAlign}
             />
         </Group>
     );
