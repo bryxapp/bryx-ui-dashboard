@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { LongTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getXAlignment, getYAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment, getInputYAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewLongTextInputProps {
@@ -11,12 +11,12 @@ interface PreviewLongTextInputProps {
 
 const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id].value : '';
-    LongTextInputObj.content.value = value;
+    LongTextInputObj.content.placeHolder = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(LongTextInputObj.label,LongTextInputObj.label.value);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj.content, LongTextInputObj.content.value);
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, LongTextInputObj.inputContentShape.width)
-    const containerHeight = Math.max(labelShapeHeight, contentShapeHeight, LongTextInputObj.inputContentShape.height);
-    const yalign = getYAlignment(LongTextInputObj.content, containerHeight, LongTextInputObj.verticalAlign);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj.content, LongTextInputObj.content.placeHolder);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, LongTextInputObj.content.width)
+    const containerHeight = Math.max(labelShapeHeight, contentShapeHeight, LongTextInputObj.content.height);
+    const yalign = getInputYAlignment(LongTextInputObj.content, value, containerHeight, LongTextInputObj.verticalAlign);
 
     return (
         <Group
@@ -28,7 +28,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
         >
             {LongTextInputObj.hasLabel &&
                 <Text
-                    x={getXAlignment(LongTextInputObj.label, containerWidth)}
+                    x={getTextXAlignment(LongTextInputObj.label, containerWidth)}
                     y={0}
                     text={LongTextInputObj.label.value}
                     fontSize={LongTextInputObj.label.fontSize}
@@ -38,7 +38,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
                 />
             }
             <Text
-                x={getXAlignment(LongTextInputObj.content, containerWidth)}
+                x={getInputXAlignment(LongTextInputObj.content, value, containerWidth)}
                 y={yalign + labelShapeHeight + (LongTextInputObj.label.fontSize / 10)}
                 text={value}
                 fontSize={LongTextInputObj.content.fontSize}

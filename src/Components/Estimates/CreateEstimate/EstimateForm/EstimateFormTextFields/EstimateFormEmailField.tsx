@@ -24,7 +24,7 @@ const EstimateFormEmailField = ({
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, emailInputObj.id)}
-                placeholder={emailInputObj.content.value}
+                placeholder={emailInputObj.content.placeHolder}
                 disabled={disabled}
             />
         </Form.Item>

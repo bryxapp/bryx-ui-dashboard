@@ -1,5 +1,5 @@
 import { Rect, Group } from 'react-konva';
-import { LongTextInputObj, TextValueObj } from '../../../../../utils/types/CanvasInterfaces';
+import { LongTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputLabel from './SharedInputComponents/InputLabel';
@@ -7,6 +7,7 @@ import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
+import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 
 interface ShortTextInputProps {
     longTextInputObj: LongTextInputObj;
@@ -24,14 +25,6 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
     const onSelect = () => {
         setSelectedId(longTextInputObj.id);
     }
-    const createTempTextKonvaShape = (content: TextValueObj) => new Konva.Text({
-        text: content.value,
-        fontSize: content.fontSize,
-        fontFamily: content.fontFamily,
-        fontStyle: content.fontStyle,
-        textDecoration: content.textDecoration,
-        horizontalAlign: content.horizontalAlign,
-    });
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -58,12 +51,12 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(longTextInputObj.label, longTextInputObj.label.value);
 
     //Create Content Text Shape for measurements
-    const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content);
-    const contentShapeWidth = Math.max(tempTextShapeContent.width(), longTextInputObj.inputContentShape.width);
-    const contentShapeHeight = Math.max(tempTextShapeContent.height(), longTextInputObj.inputContentShape.height);
+    const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content, longTextInputObj.content.placeHolder);
+    const contentShapeWidth = Math.max(tempTextShapeContent.width(), longTextInputObj.content.width);
+    const contentShapeHeight = Math.max(tempTextShapeContent.height(), longTextInputObj.content.height);
 
     const containerHeight = longTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, longTextInputObj.inputContentShape.width);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, longTextInputObj.content.width);
 
     return (
         <React.Fragment>
@@ -96,7 +89,6 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
                 {/* Input Content */}
                 <InputContent
                     textObj={longTextInputObj.content}
-                    inputContentShape={longTextInputObj.inputContentShape}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}

@@ -103,12 +103,17 @@ export interface TextValueObj extends TextBase {
 
 export interface InputObj extends ShapeObj {
     hasLabel: boolean;
-    label: TextValueObj;
-    content: TextValueObj;
-    inputContentShape: InputContentShape;
+    label: InputLabelObj;
+    content: InputContentObj;
+}
+ 
+export interface InputLabelObj extends TextValueObj {
+    horizontalAlign: string;
 }
 
-export interface InputContentShape {
+export interface InputContentObj extends TextBase {
+    horizontalAlign: string;
+    placeHolder: string;
     width: number;
     height: number;
 }

@@ -17,7 +17,7 @@ export const createTempTextKonvaShape = (shapeProperties: TextBase, value: strin
     horizontalAlign: shapeProperties.horizontalAlign,
 });
 
-export const getXAlignment = (text: TextValueObj, containerWidth: number): number => {
+export const getTextXAlignment = (text: TextValueObj, containerWidth: number): number => {
     const [textWidth,] = getTextWidthAndHeight(text, text.value);
     switch (text.horizontalAlign) {
         case 'left':
@@ -31,8 +31,36 @@ export const getXAlignment = (text: TextValueObj, containerWidth: number): numbe
     }
 };
 
-export const getYAlignment = (text: TextValueObj, containerHeight: number, verticalAlign: string): number => {
-    const [, textHeight] = getTextWidthAndHeight(text, text.value); // Ignoring the first value
+export const getTextYAlignment = (text: TextValueObj, containerHeight: number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text, text.value);
+    switch (verticalAlign) {
+        case 'top':
+            return 0;
+        case 'middle':
+            return (containerHeight - textHeight) / 2;
+        case 'bottom':
+            return containerHeight - textHeight;
+        default:
+            return 0;
+    }
+}
+
+export const getInputXAlignment = (text: TextBase, value: string, containerWidth: number): number => {
+    const [textWidth,] = getTextWidthAndHeight(text, value);
+    switch (text.horizontalAlign) {
+        case 'left':
+            return 0;
+        case 'center':
+            return (containerWidth - textWidth) / 2;
+        case 'right':
+            return containerWidth - textWidth;
+        default:
+            return 0;
+    }
+}
+
+export const getInputYAlignment = (text: TextBase, value:string, containerHeight: number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text, value);
     switch (verticalAlign) {
         case 'top':
             return 0;

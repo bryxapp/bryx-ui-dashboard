@@ -1,10 +1,9 @@
 import { Rect, Text } from 'react-konva';
-import { FILL_COLOR, getXAlignment, getYAlignment } from './InputHelper'
-import { InputContentShape, TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from './InputHelper'
+import { InputContentObj } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface InputContentProps {
-    textObj: TextValueObj;
-    inputContentShape?: InputContentShape;
+    textObj: InputContentObj;
     verticalAlign?: string;
     contentHeight: number;
     contentWidth: number;
@@ -14,25 +13,23 @@ interface InputContentProps {
     onSelect: any;
 }
 
-const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, labelFontSize, onSelect, inputContentShape, verticalAlign }: InputContentProps) => {
-    const rectangleWidth = inputContentShape ? inputContentShape.width : contentWidth;
-    const rectangleHeight = inputContentShape ? inputContentShape.height : contentHeight;
-    const yalign = verticalAlign ? getYAlignment(textObj, contentHeight, verticalAlign) : 0;
+const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, labelFontSize, onSelect, verticalAlign }: InputContentProps) => {
+    const yalign = verticalAlign ? getInputYAlignment(textObj, textObj.placeHolder, contentHeight, verticalAlign) : 0;
     return (
         <>
             <Rect
                 x={0}
                 y={labelHeight + (labelFontSize / 10)}
-                width={rectangleWidth}
-                height={rectangleHeight}
+                width={textObj.width}
+                height={textObj.height}
                 fill={FILL_COLOR}
                 onClick={onSelect}
                 onTap={onSelect}
             />
             <Text
-                x={getXAlignment(textObj, rectangleWidth)}
+                x={getInputXAlignment(textObj,textObj.placeHolder, textObj.width)}
                 y={yalign + labelHeight + (labelFontSize / 10)}
-                text={`${textObj.value}`}
+                text={`${textObj.placeHolder}`}
                 fontSize={textObj.fontSize}
                 fill={textObj.fill}
                 fontFamily={textObj.fontFamily}

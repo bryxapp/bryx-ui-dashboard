@@ -52,7 +52,7 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj.content, formattedDate);
     const containerHeight = dateInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = dateInputObj.hasLabel ? Math.max(labelShapeWidth, contentShapeWidth) : contentShapeWidth;
-    dateInputObj.content.value = formattedDate;
+    dateInputObj.content.placeHolder = formattedDate;
     return (
         <React.Fragment>
             <Group

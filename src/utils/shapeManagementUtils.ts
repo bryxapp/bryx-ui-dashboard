@@ -2,7 +2,7 @@ import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { createTempTextKonvaShape, getXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -95,7 +95,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 if (inputObj.hasLabel) {
                     group.add(new Konva.Text({
-                        x: getXAlignment(inputLabel, containerWidth),
+                        x: getTextXAlignment(inputLabel, containerWidth),
                         y: 0,
                         text: inputLabel.value,
                         fontSize: inputLabel.fontSize,
@@ -109,7 +109,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 //Add Content
                 const value = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
-                    x: getXAlignment(inputContent, containerWidth),
+                    x: getInputXAlignment(inputContent, value, containerWidth),
                     y: inputObj.hasLabel ? labelShapeHeight + (inputLabel.fontSize / 10) : 0,
                     text: value,
                     fontSize: inputContent.fontSize,
@@ -247,8 +247,8 @@ export const updateInputProperty = (
             // Correct way to dynamically update nested properties
             const updatedItem = { ...inputObj[itemName], [propertyName]: value };
             if (itemName === 'content' && inputObj.type !== "LongTextInput") {
-                const [,height] = getTextWidthAndHeight(inputObj.content, inputObj.content.value);
-                inputObj.inputContentShape.height = height;
+                const [,height] = getTextWidthAndHeight(inputObj.content, inputObj.content.placeHolder);
+                inputObj.content.height = height;
             }
             return { ...inputObj, [itemName]: updatedItem };
         }

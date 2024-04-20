@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { PhoneInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewPhoneInputProps {
@@ -11,9 +11,9 @@ interface PreviewPhoneInputProps {
 
 const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps) => {
     const value = formInputs ? formInputs[PhoneInputObj.id].value : '';
-    PhoneInputObj.content.value = value;
+    PhoneInputObj.content.placeHolder = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(PhoneInputObj.label, PhoneInputObj.label.value);
-    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj.content, PhoneInputObj.content.value);
+    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj.content, PhoneInputObj.content.placeHolder);
 
     //Container Measurements 
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
@@ -27,7 +27,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
         >
             {PhoneInputObj.hasLabel &&
                 <Text
-                    x={getXAlignment(PhoneInputObj.label, containerWidth)}
+                    x={getTextXAlignment(PhoneInputObj.label, containerWidth)}
                     y={0}
                     text={PhoneInputObj.label.value}
                     fontSize={PhoneInputObj.label.fontSize}
@@ -37,7 +37,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
                 />
             }
             <Text
-                x={getXAlignment(PhoneInputObj.content, containerWidth)}
+                x={getInputXAlignment(PhoneInputObj.content, value, containerWidth)}
                 y={PhoneInputObj.hasLabel ? labelShapeHeight + (PhoneInputObj.label.fontSize / 10) : 0}
                 text={value}
                 fontSize={PhoneInputObj.content.fontSize}

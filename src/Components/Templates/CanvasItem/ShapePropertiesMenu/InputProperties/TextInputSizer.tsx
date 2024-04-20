@@ -19,7 +19,7 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
                 const foundInputObj = shape as InputObj;
                 const updatedInputObj = {
                     ...foundInputObj,
-                    inputContentShape: { ...foundInputObj.inputContentShape, [dimension]: value },
+                    inputContentShape: { ...foundInputObj.content, [dimension]: value },
                 };
                 return updatedInputObj;
             }
@@ -28,8 +28,8 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
 
-    const selectedWidth = inputObj.inputContentShape.width ? Math.round(inputObj.inputContentShape.width): '';
-    const selectedHeight = inputObj.inputContentShape.height ? Math.round(inputObj.inputContentShape.height): '';
+    const selectedWidth = inputObj.content.width ? Math.round(inputObj.content.width): '';
+    const selectedHeight = inputObj.content.height ? Math.round(inputObj.content.height): '';
 
     return (
         <>

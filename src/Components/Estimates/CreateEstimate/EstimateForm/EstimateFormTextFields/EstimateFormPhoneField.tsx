@@ -25,7 +25,7 @@ const EstimateFormPhoneField = ({
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, phoneInputObj.id)}
-                placeholder={phoneInputObj.content.value}
+                placeholder={phoneInputObj.content.placeHolder}
                 disabled={disabled}
             />
         </Form.Item>

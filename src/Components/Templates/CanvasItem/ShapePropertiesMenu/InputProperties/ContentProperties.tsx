@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, Divider, Input, Typography } from 'antd';
-import { DateInputObj, InputObj, LongTextInputObj, TextObj } from '../../../../../utils/types/CanvasInterfaces';
+import { DateInputObj, InputObj, LongTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
@@ -13,7 +13,7 @@ interface InputContentPropertiesProps {
 
 const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    const selectedInputContent = inputObj.content.value ?? '';
+    const selectedInputContent = inputObj.content.placeHolder ?? '';
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
@@ -58,7 +58,7 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
                     )}
                 </>
             )}
-            <TextProperties textObj={inputObj.content as TextObj} itemType="content" verticalAlign={verticalAlign} />
+            <TextProperties textObj={inputObj.content} itemType="content" verticalAlign={verticalAlign} />
         </Card>
     );
 };

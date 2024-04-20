@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { DateInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 import { format } from "date-fns";
 
@@ -13,9 +13,9 @@ interface PreviewDateInputProps {
 const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) => {
     const dateString = formInputs ? formInputs[DateInputObj.id].value : '';
     const val = dateString ? format(new Date(dateString), DateInputObj.dateFormat) : '';
-    DateInputObj.content.value = val;
+    DateInputObj.content.placeHolder = val;
     const [datelabelShapeWidth, datelabelShapeHeight] = getTextWidthAndHeight(DateInputObj.label, DateInputObj.label.value);
-    const [datecontentShapeWidth,] = getTextWidthAndHeight(DateInputObj.content, DateInputObj.content.value);
+    const [datecontentShapeWidth,] = getTextWidthAndHeight(DateInputObj.content, DateInputObj.content.placeHolder);
     const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
     return (
         <Group
@@ -27,7 +27,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
         >
             {DateInputObj.hasLabel &&
                 <Text
-                    x={getXAlignment(DateInputObj.label, datecontainerWidth)}
+                    x={getTextXAlignment(DateInputObj.label, datecontainerWidth)}
                     y={0}
                     text={DateInputObj.label.value}
                     fontSize={DateInputObj.label.fontSize}
@@ -37,7 +37,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
                 />
             }
             <Text
-                x={getXAlignment(DateInputObj.content, datecontainerWidth)}
+                x={getInputXAlignment(DateInputObj.content, val, datecontainerWidth)}
                 y={DateInputObj.hasLabel ? datelabelShapeHeight + (DateInputObj.label.fontSize / 10) : 0}
                 text={val}
                 fontSize={DateInputObj.content.fontSize}

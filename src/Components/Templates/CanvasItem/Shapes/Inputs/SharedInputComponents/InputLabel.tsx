@@ -1,5 +1,5 @@
 import { Text } from 'react-konva';
-import { getXAlignment } from './InputHelper';
+import { getTextXAlignment } from './InputHelper';
 import { TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
@@ -70,7 +70,7 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         <>
             {!editing && (
                 <Text
-                    x={getXAlignment(textObj, containerWidth)}
+                    x={getTextXAlignment(textObj, containerWidth)}
                     y={0}
                     onDblClick={() => setEditing(true)}
                     onDblTap={() => setEditing(true)}

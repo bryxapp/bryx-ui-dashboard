@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { EmailInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewEmailInputProps {
@@ -11,9 +11,9 @@ interface PreviewEmailInputProps {
 
 const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
-    EmailInputObj.content.value = value;
+    EmailInputObj.content.placeHolder = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(EmailInputObj.label, EmailInputObj.label.value);
-    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj.content, EmailInputObj.content.value);
+    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj.content, EmailInputObj.content.placeHolder);
     //Container Measurements 
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
     return (
@@ -26,7 +26,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
         >
             {EmailInputObj.hasLabel &&
                 <Text
-                    x={getXAlignment(EmailInputObj.label, containerWidth)}
+                    x={getTextXAlignment(EmailInputObj.label, containerWidth)}
                     y={0}
                     text={EmailInputObj.label.value}
                     fontSize={EmailInputObj.label.fontSize}
@@ -36,7 +36,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
                 />
             }
             <Text
-                x={getXAlignment(EmailInputObj.content, containerWidth)}
+                x={getInputXAlignment(EmailInputObj.content, value, containerWidth)}
                 y={EmailInputObj.hasLabel ? labelShapeHeight + (EmailInputObj.label.fontSize / 10) : 0}
                 text={value}
                 fontSize={EmailInputObj.content.fontSize}

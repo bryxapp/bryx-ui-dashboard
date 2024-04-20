@@ -44,9 +44,9 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
     }, [shortTextInputObj.content,shortTextInputObj.label,shortTextInputObj.hasLabel, isSelected]);
 
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(shortTextInputObj.label, shortTextInputObj.label.value);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content, shortTextInputObj.content.value);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content, shortTextInputObj.content.placeHolder);
     const containerHeight = shortTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, shortTextInputObj.inputContentShape.width);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, shortTextInputObj.content.width);
 
     return (
         <React.Fragment>
@@ -81,7 +81,6 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
                 {/* Input Content */}
                 <InputContent
                     textObj={shortTextInputObj.content}
-                    inputContentShape={shortTextInputObj.inputContentShape}
                     containerWidth={containerWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}

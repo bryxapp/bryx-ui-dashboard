@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { ShortTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewShortTextInputProps {
@@ -11,10 +11,10 @@ interface PreviewShortTextInputProps {
 
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
-    ShortTextInputObj.content.value = value;
+    ShortTextInputObj.content.placeHolder = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(ShortTextInputObj.label, ShortTextInputObj.label.value);
-    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj.content, ShortTextInputObj.content.value);
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, ShortTextInputObj.inputContentShape.width)
+    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj.content, ShortTextInputObj.content.placeHolder);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, ShortTextInputObj.content.width)
 
     return (
         <Group
@@ -26,7 +26,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
         >
             {ShortTextInputObj.hasLabel &&
                 <Text
-                    x={getXAlignment(ShortTextInputObj.label, containerWidth)}
+                    x={getTextXAlignment(ShortTextInputObj.label, containerWidth)}
                     y={0}
                     text={ShortTextInputObj.label.value}
                     fontSize={ShortTextInputObj.label.fontSize}
@@ -36,7 +36,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
                 />
             }
             <Text
-                x={getXAlignment(ShortTextInputObj.content, containerWidth)}
+                x={getInputXAlignment(ShortTextInputObj.content, value, containerWidth)}
                 y={labelShapeHeight + (ShortTextInputObj.label.fontSize / 10)}
                 text={value}
                 fontSize={ShortTextInputObj.content.fontSize}
