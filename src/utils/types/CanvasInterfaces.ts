@@ -72,10 +72,6 @@ export interface DateInputObj extends InputObj {
     dateFormat: DateFormatOption
 }
 
-export interface TableInputObj extends TableObj {
-    type: 'TableInput';
-}
-
 // Text Shapes
 export interface HeadingObj extends TextObj {
     type: 'Heading';
@@ -118,8 +114,16 @@ export interface InputContentObj extends TextBase {
     height: number;
 }
 
-export interface TableObj extends ShapeObj {
-    content: TextBase;
+export interface TableInputObj extends ShapeObj {
+    cells: TableCellObj[][];
+    type: 'TableInput';
+}
+
+export interface TableCellObj {
+    content: InputContentObj | TextValueObj | null;
+    width: number;
+    height: number;
+    type: 'TableCell';
 }
 
 export interface CanvasStarterData {

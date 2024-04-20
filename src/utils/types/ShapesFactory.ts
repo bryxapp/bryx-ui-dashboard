@@ -1,5 +1,5 @@
 import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TextValueObj, InputContentObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TextValueObj, InputContentObj, TableCellObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -284,13 +284,18 @@ export function createTableInputObj(label: string, hasLabel: boolean, placeHolde
         height: 50,
     } as InputContentObj;
 
+    const cells = [
+        [{ content: contentObj, width: 100, height: 50 }],
+        [{ content: contentObj, width: 100, height: 50 }],
+    ] as TableCellObj[][];
+
     return {
         id: generateShapeId(),
         type: 'TableInput',
         x,
         y,
         rotation: 0,
-        content: contentObj,
+        cells,
     };
 }
 
