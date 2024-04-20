@@ -1,5 +1,5 @@
 import { Rect, Group } from 'react-konva';
-import { LongTextInputObj, TextBase } from '../../../../../utils/types/CanvasInterfaces';
+import { LongTextInputObj, TextValueObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputLabel from './SharedInputComponents/InputLabel';
@@ -24,7 +24,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
     const onSelect = () => {
         setSelectedId(longTextInputObj.id);
     }
-    const createTempTextKonvaShape = (content: TextBase) => new Konva.Text({
+    const createTempTextKonvaShape = (content: TextValueObj) => new Konva.Text({
         text: content.value,
         fontSize: content.fontSize,
         fontFamily: content.fontFamily,
@@ -55,7 +55,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
     }, [longTextInputObj, isSelected]);
 
     //Create Label Text Shape for measurements
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(longTextInputObj.label);
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(longTextInputObj.label, longTextInputObj.label.value);
 
     //Create Content Text Shape for measurements
     const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content);

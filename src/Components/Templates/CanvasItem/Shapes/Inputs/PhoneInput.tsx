@@ -47,7 +47,7 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
         }
     }, [phoneInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(phoneInputObj.label);
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(phoneInputObj.label, phoneInputObj.label.value);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(phoneInputObj.content, 'X'.repeat(PHONE_NUMBER_LENGTH));
     const containerHeight = phoneInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);

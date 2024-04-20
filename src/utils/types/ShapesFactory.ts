@@ -1,5 +1,5 @@
 import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, TextBase, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentShape } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentShape, TextValueObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -65,7 +65,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: label,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const contentObj = {
         fontSize,
@@ -75,7 +75,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const inputContentShape = {
         width: 100,
@@ -111,7 +111,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: label,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const contentObj = {
         fontSize,
@@ -121,7 +121,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const inputContentShape = {
         width: 100,
@@ -157,7 +157,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         textDecoration,
         value: label,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const contentObj = {
         fontSize,
@@ -167,9 +167,9 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeh
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
-    const [width, height] = getTextWidthAndHeight(contentObj)
+    const [width, height] = getTextWidthAndHeight(contentObj, contentObj.value)
     const inputContentShape = {
         width: width,
         height: height,
@@ -204,7 +204,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         textDecoration,
         value: label,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const contentObj = {
         fontSize,
@@ -214,7 +214,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeho
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const inputContentShape = {
         width: 100,
@@ -251,7 +251,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         textDecoration,
         value: label,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const contentObj = {
         fontSize,
@@ -261,7 +261,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeholder
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     const inputContentShape = {
         width: 100,
@@ -298,7 +298,7 @@ export function createTableInputObj(label: string, hasLabel: boolean, placeholde
         textDecoration,
         value: placeholder,
         align: "left",
-    } as TextBase;
+    } as TextValueObj;
 
     return {
         id: generateShapeId(),

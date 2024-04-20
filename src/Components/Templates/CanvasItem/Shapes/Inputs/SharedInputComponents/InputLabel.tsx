@@ -1,13 +1,13 @@
 import { Text } from 'react-konva';
 import { getXAlignment } from './InputHelper';
-import { TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
 import { getTextWidthAndHeight, updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface InputContentProps {
-    textObj: TextBase;
+    textObj: TextValueObj;
     inputObjId: string;
     contentHeight: number;
     containerWidth: number;
@@ -42,7 +42,7 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         };
     }, []);
 
-    const [labelWidth, labelHeight] = getTextWidthAndHeight(textObj)
+    const [labelWidth, labelHeight] = getTextWidthAndHeight(textObj,textObj.value)
 
     const style: React.CSSProperties = {
         position: 'absolute',

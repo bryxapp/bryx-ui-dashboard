@@ -12,8 +12,8 @@ interface PreviewPhoneInputProps {
 const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps) => {
     const value = formInputs ? formInputs[PhoneInputObj.id].value : '';
     PhoneInputObj.content.value = value;
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(PhoneInputObj.label);
-    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj.content);
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(PhoneInputObj.label, PhoneInputObj.label.value);
+    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj.content, PhoneInputObj.content.value);
 
     //Container Measurements 
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);

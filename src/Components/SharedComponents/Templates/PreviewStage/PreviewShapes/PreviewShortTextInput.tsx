@@ -12,8 +12,8 @@ interface PreviewShortTextInputProps {
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
     ShortTextInputObj.content.value = value;
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(ShortTextInputObj.content);
-    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj.content);
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(ShortTextInputObj.label, ShortTextInputObj.label.value);
+    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj.content, ShortTextInputObj.content.value);
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, ShortTextInputObj.inputContentShape.width)
 
     return (

@@ -47,7 +47,7 @@ const EmailInput = ({ emailInputObj, handleDragEnd, onTransformEnd, handleDragMo
         }
     }, [emailInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(emailInputObj.label);
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(emailInputObj.label, emailInputObj.label.value);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(emailInputObj.content, 'X'.repeat(EMAIL_LENGTH));
     const containerHeight = emailInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);

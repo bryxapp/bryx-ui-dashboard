@@ -85,7 +85,7 @@ export interface ParagraphObj extends TextObj {
     type: 'Paragraph';
 }
 
-export interface TextObj extends TextBase, ShapeObj {
+export interface TextObj extends TextValueObj, ShapeObj {
 }
 
 export interface TextBase {
@@ -95,13 +95,16 @@ export interface TextBase {
     fontStyle: string;
     textDecoration: string;
     align: string;
+}
+
+export interface TextValueObj extends TextBase {
     value: string;
 }
 
 export interface InputObj extends ShapeObj {
     hasLabel: boolean;
-    label: TextBase;
-    content: TextBase;
+    label: TextValueObj;
+    content: TextValueObj;
     inputContentShape: InputContentShape;
 }
 

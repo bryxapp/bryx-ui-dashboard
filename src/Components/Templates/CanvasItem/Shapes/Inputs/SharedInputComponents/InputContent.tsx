@@ -1,9 +1,9 @@
 import { Rect, Text } from 'react-konva';
 import { FILL_COLOR, getXAlignment, getYAlignment } from './InputHelper'
-import { InputContentShape, TextBase } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputContentShape, TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface InputContentProps {
-    textObj: TextBase;
+    textObj: TextValueObj;
     inputContentShape?: InputContentShape;
     verticalAlign?: string;
     contentHeight: number;

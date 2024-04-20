@@ -87,7 +87,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 });
                 //Create Label Text Shape for measurements
                 const inputLabel = inputObj.label;
-                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel);
+                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel,inputLabel.value);
                 // Create Content Text Shape for measurements
                 const inputContent = inputObj.content;
                 const [contentShapeWidth,] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
@@ -171,7 +171,7 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
     }
 };
 
-export const getTextWidthAndHeight = (textObj: TextBase, value?: string): [number, number] => {
+export const getTextWidthAndHeight = (textObj: TextBase, value: string): [number, number] => {
     const tempTextShape = createTempTextKonvaShape(textObj, value);
     return [tempTextShape.width(), tempTextShape.height()];
 };
@@ -247,7 +247,7 @@ export const updateInputProperty = (
             // Correct way to dynamically update nested properties
             const updatedItem = { ...inputObj[itemName], [propertyName]: value };
             if (itemName === 'content' && inputObj.type !== "LongTextInput") {
-                const [,height] = getTextWidthAndHeight(inputObj.content);
+                const [,height] = getTextWidthAndHeight(inputObj.content, inputObj.content.value);
                 inputObj.inputContentShape.height = height;
             }
             return { ...inputObj, [itemName]: updatedItem };

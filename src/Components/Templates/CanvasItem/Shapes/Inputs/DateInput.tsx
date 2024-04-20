@@ -47,7 +47,7 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
         }
     }, [dateInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(dateInputObj.label);
+    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(dateInputObj.label, dateInputObj.label.value);
     const formattedDate = format(new Date(), dateInputObj.dateFormat);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj.content, formattedDate);
     const containerHeight = dateInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
