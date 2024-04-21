@@ -24,7 +24,7 @@ const EstimateFormLongTextField = ({
             <Input.TextArea
                 value={fieldValue}
                 onChange={(event) => handleChange(event, longTextInputObj.id)}
-                placeholder={longTextInputObj.content.placeHolder}
+                placeholder={longTextInputObj.content.value}
                 disabled={disabled}
             />
         </Form.Item>

@@ -49,7 +49,7 @@ export function createEllipseObj(radiusX: number, radiusY: number, fill: string,
     };
 }
 
-export function createPhoneInputObj(label: string, hasLabel: boolean, placeHolder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): PhoneInputObj {
+export function createPhoneInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): PhoneInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -73,7 +73,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeHolde
         fontFamily,
         fontStyle,
         textDecoration,
-        placeHolder,
+        value,
         horizontalAlign: "left",
         width: 100,
         height: 50,
@@ -91,7 +91,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeHolde
     };
 }
 
-export function createEmailInputObj(label: string, hasLabel: boolean, placeHolder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): EmailInputObj {
+export function createEmailInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): EmailInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -115,7 +115,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeHolde
         fontFamily,
         fontStyle,
         textDecoration,
-        placeHolder,
+        value,
         horizontalAlign: "left",
         width: 100,
         height: 50,
@@ -133,7 +133,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeHolde
     };
 }
 
-export function createShortTextInputObj(label: string, hasLabel: boolean, placeHolder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): ShortTextInputObj {
+export function createShortTextInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): ShortTextInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -152,7 +152,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
     } as InputLabelObj;
 
 
-    const [width,] = getTextWidthAndHeight(labelObj, placeHolder)
+    const [width,] = getTextWidthAndHeight(labelObj, value)
 
     const contentObj = {
         fontSize,
@@ -160,7 +160,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
         fontFamily,
         fontStyle,
         textDecoration,
-        placeHolder,
+        value,
         horizontalAlign: "left",
     } as InputContentObj;
 
@@ -177,7 +177,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
     };
 }
 
-export function createLongTextInputObj(label: string, hasLabel: boolean, placeHolder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): LongTextInputObj {
+export function createLongTextInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): LongTextInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -201,11 +201,11 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeHo
         fontFamily,
         fontStyle,
         textDecoration,
-        placeHolder,
+        value,
         horizontalAlign: "left",
     } as InputContentObj;
 
-    const [width,height] = getTextWidthAndHeight(labelObj, placeHolder)
+    const [width,height] = getTextWidthAndHeight(labelObj, value)
 
     return {
         id: generateShapeId(),
@@ -222,7 +222,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeHo
     };
 }
 
-export function createDateInputObj(label: string, hasLabel: boolean, placeHolder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
+export function createDateInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -246,7 +246,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeHolder
         fontFamily,
         fontStyle,
         textDecoration,
-        placeHolder,
+        value,
         horizontalAlign: "left",
     } as InputContentObj;
 
@@ -263,7 +263,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeHolder
     };
 }
 
-export function createTableInputObj(label: string, hasLabel: boolean, placeHolder: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): TableInputObj {
+export function createTableInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): TableInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -277,7 +277,7 @@ export function createTableInputObj(label: string, hasLabel: boolean, placeHolde
         fontFamily,
         fontStyle,
         textDecoration,
-        placeHolder,
+        value,
         horizontalAlign: "left",
     } as InputContentObj;
 

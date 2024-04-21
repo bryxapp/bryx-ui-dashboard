@@ -14,7 +14,7 @@ interface InputContentProps {
 }
 
 const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, labelFontSize, onSelect, verticalAlign }: InputContentProps) => {
-    const yalign = verticalAlign ? getInputYAlignment(textObj, textObj.placeHolder, contentHeight, verticalAlign) : 0;
+    const yalign = verticalAlign ? getInputYAlignment(textObj, textObj.value, contentHeight, verticalAlign) : 0;
     return (
         <>
             <Rect
@@ -27,9 +27,9 @@ const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, label
                 onTap={onSelect}
             />
             <Text
-                x={getInputXAlignment(textObj,textObj.placeHolder, contentWidth)}
+                x={getInputXAlignment(textObj,textObj.value, contentWidth)}
                 y={yalign + labelHeight + (labelFontSize / 10)}
-                text={`${textObj.placeHolder}`}
+                text={`${textObj.value}`}
                 fontSize={textObj.fontSize}
                 fill={textObj.fill}
                 fontFamily={textObj.fontFamily}

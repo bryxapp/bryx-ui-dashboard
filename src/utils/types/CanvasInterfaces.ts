@@ -106,13 +106,12 @@ export interface InputObj extends ShapeObj {
     content: InputContentObj;
 }
 
-export interface InputLabelObj extends TextValueObj {
-    horizontalAlign: HorizontalAlign
-}
+export interface InputLabelObj extends InputTextObj { }
 
-export interface InputContentObj extends TextBase {
+export interface InputContentObj extends InputTextObj { }
+
+export interface InputTextObj extends TextValueObj {
     horizontalAlign: HorizontalAlign;
-    placeHolder: string;
 }
 
 export interface TableInputObj extends ShapeObj {

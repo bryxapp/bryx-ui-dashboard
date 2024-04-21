@@ -15,9 +15,9 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
     const dateInputContent = DateInputObj.content;
     const dateString = formInputs ? formInputs[DateInputObj.id].value : '';
     const val = dateString ? format(new Date(dateString), DateInputObj.dateFormat) : '';
-    dateInputContent.placeHolder = val;
+    dateInputContent.value = val;
     const [datelabelShapeWidth, datelabelShapeHeight] = getTextWidthAndHeight(dateInputLabel, dateInputLabel.value);
-    const [datecontentShapeWidth,] = getTextWidthAndHeight(dateInputContent, dateInputContent.placeHolder);
+    const [datecontentShapeWidth,] = getTextWidthAndHeight(dateInputContent, dateInputContent.value);
     const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
     return (
         <Group

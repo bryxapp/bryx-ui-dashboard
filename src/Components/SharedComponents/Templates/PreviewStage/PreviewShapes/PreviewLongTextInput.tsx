@@ -11,9 +11,9 @@ interface PreviewLongTextInputProps {
 
 const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id].value : '';
-    LongTextInputObj.content.placeHolder = value;
+    LongTextInputObj.content.value = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(LongTextInputObj.label,LongTextInputObj.label.value);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj.content, LongTextInputObj.content.placeHolder);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj.content, LongTextInputObj.content.value);
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, LongTextInputObj.inputWidth)
     const containerHeight = Math.max(labelShapeHeight, contentShapeHeight, LongTextInputObj.inputHeight);
     const yalign = getInputYAlignment(LongTextInputObj.content, value, containerHeight, LongTextInputObj.verticalAlign);

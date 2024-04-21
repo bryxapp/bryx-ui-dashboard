@@ -51,7 +51,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(longTextInputObj.label, longTextInputObj.label.value);
 
     //Create Content Text Shape for measurements
-    const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content, longTextInputObj.content.placeHolder);
+    const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content, longTextInputObj.content.value);
     const contentShapeWidth = Math.max(tempTextShapeContent.width(), longTextInputObj.inputWidth);
     const contentShapeHeight = Math.max(tempTextShapeContent.height(), longTextInputObj.inputHeight);
 

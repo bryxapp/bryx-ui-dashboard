@@ -11,9 +11,9 @@ interface PreviewEmailInputProps {
 
 const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
-    EmailInputObj.content.placeHolder = value;
+    EmailInputObj.content.value = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(EmailInputObj.label, EmailInputObj.label.value);
-    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj.content, EmailInputObj.content.placeHolder);
+    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj.content, EmailInputObj.content.value);
     //Container Measurements 
     const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
     return (
