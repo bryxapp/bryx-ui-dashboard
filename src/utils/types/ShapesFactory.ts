@@ -306,10 +306,11 @@ export function createTableInputObj(numberOfRows: number, numberOfCols: number, 
                 content: null,
             };
             if (i === 0) {
-                cell.content = createInputCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y)
+                cell.content = createParagraphObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);
             }
             else {
-                cell.content = createParagraphObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);
+                cell.content = createInputCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y)
+
             }
             row.push(cell);
         }

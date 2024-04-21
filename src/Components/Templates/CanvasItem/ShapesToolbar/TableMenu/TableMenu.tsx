@@ -8,10 +8,10 @@ const TableMenu = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const handleAddTableInput = () => {
         const newTableInput: TableInputObj = createTableInputObj(
-            canvasDesign.pageWidth / 2 - 100,
-            canvasDesign.pageHeight / 2 - 100,
-            200,
-            200,
+            3,
+            3,
+            100,
+            50,
         );
         setCanvasDesign({
             ...canvasDesign,
