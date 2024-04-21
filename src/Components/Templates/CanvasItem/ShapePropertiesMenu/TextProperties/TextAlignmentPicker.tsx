@@ -16,9 +16,9 @@ const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ horizontalAli
     const handleAlignmentChange = (newAlignment: string) => {
         if (newAlignment) {
             if (itemType === null)
-                updateShapeProperty(canvasDesign, setCanvasDesign, 'align', newAlignment, selectedId);
+                updateShapeProperty(canvasDesign, setCanvasDesign, 'horizontalAlign', newAlignment, selectedId);
             else {
-                updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'align', newAlignment, selectedId);
+                updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'horizontalAlign', newAlignment, selectedId);
             }
         }
     };

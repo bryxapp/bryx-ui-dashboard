@@ -150,7 +150,6 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     horizontalAlign: paragraphObj.horizontalAlign
                 }))
                 break;
-            //TODO add labels
             default:
                 break;
         }

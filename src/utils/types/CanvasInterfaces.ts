@@ -62,7 +62,7 @@ export interface ShortTextInputObj extends InputObj {
 export interface LongTextInputObj extends InputObj {
     inputWidth: number;
     inputHeight: number;
-    verticalAlign: string;
+    verticalAlign: VerticalAlign;
     type: 'LongTextInput';
 }
 
@@ -81,7 +81,7 @@ export interface HeadingObj extends TextObj {
 }
 
 export interface ParagraphObj extends TextObj {
-    horizontalAlign: string;
+    horizontalAlign: HorizontalAlign
     type: 'Paragraph';
 }
 
@@ -105,13 +105,13 @@ export interface InputObj extends ShapeObj {
     label: InputLabelObj;
     content: InputContentObj;
 }
- 
+
 export interface InputLabelObj extends TextValueObj {
-    horizontalAlign: string;
+    horizontalAlign: HorizontalAlign
 }
 
 export interface InputContentObj extends TextBase {
-    horizontalAlign: string;
+    horizontalAlign: HorizontalAlign;
     placeHolder: string;
 }
 
@@ -131,6 +131,9 @@ export interface CanvasStarterData {
     name: string;
     canvasDesign: CanvasDesignData;
 }
+
+export type HorizontalAlign = 'left' | 'center' | 'right';
+export type VerticalAlign = 'top' | 'middle' | 'bottom';
 
 export type FormInputs = (ShortTextInputObj | LongTextInputObj | PhoneInputObj | EmailInputObj | DateInputObj)[];
 

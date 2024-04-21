@@ -48,7 +48,6 @@ export const getTextYAlignment = (text: TextValueObj, containerHeight: number, v
 export const getInputXAlignment = (text: InputContentObj, value: string, containerWidth: number): number => {
     const [textWidth,] = getTextWidthAndHeight(text, value);
     switch (text.horizontalAlign) {
-        case '':
         case 'left':
             return 0;
         case 'center':

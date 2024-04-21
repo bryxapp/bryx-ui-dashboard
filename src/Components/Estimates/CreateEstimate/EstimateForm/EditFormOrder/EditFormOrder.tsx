@@ -21,17 +21,16 @@ const EditFormOrder = ({ setEditing, templateId, friendlyName }: IEstimateFormPr
     const handeSaveOrder = async () => {
         try {
             setLoading(true);
-            //TODO save to database
             const token = await getAccessToken()
             if (!token) return;
             await updateTemplate(templateId, canvasDesign, friendlyName, token);
             message.success({
-                content: "Input order saved",
+                content: "Form order saved",
                 duration: 3, // Duration in seconds
             });
         } catch (error) {
             message.error({
-                content: "Error saving input order",
+                content: "Error saving form order",
                 duration: 3, // Duration in seconds
             });
         }

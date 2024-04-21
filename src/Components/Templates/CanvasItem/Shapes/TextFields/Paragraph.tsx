@@ -1,11 +1,12 @@
 import { ParagraphObj } from '../../../../../utils/types/CanvasInterfaces';
-import { Group, Rect, Text } from 'react-konva';
+import { Group, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { getTextWidthAndHeight, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import { createTempTextKonvaShape } from '../Inputs/SharedInputComponents/InputHelper';
 
 interface ParagraphProps {
     paragraphObj: ParagraphObj;
@@ -28,6 +29,7 @@ const Paragraph = ({
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId, canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const isSelected = paragraphObj.id === selectedId;
+    let [paragraphWidth, paragraphHeight] = getTextWidthAndHeight(paragraphObj, paragraphObj.value)
     const onSelect = () => {
         setSelectedId(paragraphObj.id);
     }
@@ -66,35 +68,19 @@ const Paragraph = ({
         }
     }, [isSelected]);
 
-    const measureWidth = (text: string, fontSize: number, fontFamily: string) => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-        if (context) {
-            context.font = `${fontSize}px ${fontFamily}`;
-            return context.measureText(text).width;
-        }
-        return 0;
-    };
-
-    const measureHeight = (text: string, fontSize: number, fontFamily: string) => {
-        //Calculate new lines 
-        const newLines = text.split('\n').length;
-        return newLines * fontSize;
-    };
-
     const style: React.CSSProperties = {
         position: 'absolute',
         background: 'none',
         resize: 'none',
-        fontSize: `${paragraphObj.fontSize / 16}em`,
+        fontSize: paragraphObj.fontSize,
         fill: paragraphObj.fill,
         fontFamily: paragraphObj.fontFamily,
         fontStyle: paragraphObj.fontStyle,
         textDecoration: paragraphObj.textDecoration,
         whiteSpace: 'pre-wrap',
-        width: `${measureWidth(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 10}px`,
-        height: `${measureHeight(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 10}px`,
-        alignContent: paragraphObj.horizontalAlign,
+        width: paragraphWidth,
+        height: paragraphHeight+20,
+        textAlign: paragraphObj.horizontalAlign,
         color: paragraphObj.fill,
         border: 'none',
         padding: '0px',
@@ -114,8 +100,6 @@ const Paragraph = ({
         const { value } = target;
         target.setSelectionRange(value.length, value.length);
     };
-    const rectWidth = measureWidth(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 20;
-    const rectHeight = measureHeight(paragraphObj.value, paragraphObj.fontSize, paragraphObj.fontFamily) + 20;
 
     return (
         <React.Fragment>
@@ -126,13 +110,6 @@ const Paragraph = ({
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
                 ref={shapeRef} rotation={paragraphObj.rotation}>
-                <Rect
-                    width={rectWidth}
-                    height={rectHeight}
-                    fill='transparent'
-                    onClick={onSelect}
-                    onTap={onSelect}
-                />
                 {!editing && (
                     <Text
                         text={paragraphObj.value}
@@ -160,6 +137,7 @@ const Paragraph = ({
                             value={paragraphObj.value}
                             autoFocus
                             onFocus={moveCaretToEnd}
+                            key="paragraphTextArea"
                         />
                     </Html>
                 )}

@@ -55,7 +55,7 @@ const PropertiesMenu = () => {
                         title="Text"
                         icon={<MdFormatColorText />}
                     >
-                        <TextPropertiesCard textObj={shapeObj as TextObj} itemType={null} />
+                        <TextPropertiesCard textObj={shapeObj as TextObj} />
                     </Menu.SubMenu>
                 )
             }
@@ -99,19 +99,6 @@ const PropertiesMenu = () => {
             >
                 Delete
             </Menu.Item>
-
-            {
-//TODO
-/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-<TextAlignmentPicker textObj={textObj} itemType={itemType} disabled={disabled} />
-{verticalAlign &&
-    (
-        <>
-            <div style={{ width: '1rem' }} />
-            <TextVerticalAlignmentPicker verticalAlign={verticalAlign} disabled={disabled} />
-        </>
-    )}
-</div> */}
         </Menu>
     );
 };

@@ -6,6 +6,8 @@ import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesi
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
 import DateInputContentProperties from './DateInputContentProperties';
 import TextInputSizer from './TextInputSizer';
+import TextAlignmentPicker from '../TextProperties/TextAlignmentPicker';
+import TextVerticalAlignmentPicker from '../TextProperties/TextVerticalAlignmentPicker';
 
 interface InputContentPropertiesProps {
     inputObj: InputObj;
@@ -17,7 +19,7 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'placeHolder', event.target.value, selectedId);
     };
 
     let verticalAlign = '';
@@ -64,7 +66,18 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
                     )}
                 </>
             )}
+
             <TextProperties textObj={inputObj.content} itemType="content" verticalAlign={verticalAlign} />
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+                <TextAlignmentPicker horizontalAlign={inputObj.content.horizontalAlign} itemType="content" />
+                {verticalAlign &&
+                    (
+                        <>
+                            <div style={{ width: '1rem' }} />
+                            <TextVerticalAlignmentPicker verticalAlign={verticalAlign} />
+                        </>
+                    )}
+            </div>
         </Card>
     );
 };

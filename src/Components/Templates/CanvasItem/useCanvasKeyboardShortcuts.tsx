@@ -24,6 +24,7 @@ export const useCanvasKeyboardShortcuts = ({
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
+      if (event.target.tagName === "TEXTAREA") return;
       switch (event.key) {
         case "Delete":
           deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
