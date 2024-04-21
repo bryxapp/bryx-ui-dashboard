@@ -55,10 +55,13 @@ export interface PhoneInputObj extends InputObj {
 }
 
 export interface ShortTextInputObj extends InputObj {
+    inputWidth: number;
     type: 'ShortTextInput';
 }
 
 export interface LongTextInputObj extends InputObj {
+    inputWidth: number;
+    inputHeight: number;
     verticalAlign: string;
     type: 'LongTextInput';
 }
@@ -110,8 +113,6 @@ export interface InputLabelObj extends TextValueObj {
 export interface InputContentObj extends TextBase {
     horizontalAlign: string;
     placeHolder: string;
-    width: number;
-    height: number;
 }
 
 export interface TableInputObj extends ShapeObj {

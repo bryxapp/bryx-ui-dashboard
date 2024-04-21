@@ -46,7 +46,7 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(shortTextInputObj.label, shortTextInputObj.label.value);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content, shortTextInputObj.content.placeHolder);
     const containerHeight = shortTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, shortTextInputObj.content.width);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, shortTextInputObj.inputWidth);
 
     return (
         <React.Fragment>

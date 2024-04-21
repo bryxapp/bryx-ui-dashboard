@@ -14,8 +14,8 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
     LongTextInputObj.content.placeHolder = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(LongTextInputObj.label,LongTextInputObj.label.value);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj.content, LongTextInputObj.content.placeHolder);
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, LongTextInputObj.content.width)
-    const containerHeight = Math.max(labelShapeHeight, contentShapeHeight, LongTextInputObj.content.height);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, LongTextInputObj.inputWidth)
+    const containerHeight = Math.max(labelShapeHeight, contentShapeHeight, LongTextInputObj.inputHeight);
     const yalign = getInputYAlignment(LongTextInputObj.content, value, containerHeight, LongTextInputObj.verticalAlign);
 
     return (

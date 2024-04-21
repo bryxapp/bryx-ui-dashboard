@@ -152,7 +152,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
     } as InputLabelObj;
 
 
-    const [width, height] = getTextWidthAndHeight(labelObj, placeHolder)
+    const [width,] = getTextWidthAndHeight(labelObj, placeHolder)
 
     const contentObj = {
         fontSize,
@@ -162,8 +162,6 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
         textDecoration,
         placeHolder,
         horizontalAlign: "left",
-        width: width,
-        height: height,
     } as InputContentObj;
 
     return {
@@ -175,6 +173,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
         label: labelObj,
         hasLabel,
         content: contentObj,
+        inputWidth: width + 20,
     };
 }
 
@@ -204,9 +203,9 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeHo
         textDecoration,
         placeHolder,
         horizontalAlign: "left",
-        width: 100,
-        height: 50,
     } as InputContentObj;
+
+    const [width,height] = getTextWidthAndHeight(labelObj, placeHolder)
 
     return {
         id: generateShapeId(),
@@ -218,6 +217,8 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeHo
         hasLabel,
         content: contentObj,
         verticalAlign: "top",
+        inputHeight: height + 20,
+        inputWidth:  width + 20,
     };
 }
 
@@ -247,8 +248,6 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeHolder
         textDecoration,
         placeHolder,
         horizontalAlign: "left",
-        width: 100,
-        height: 50,
     } as InputContentObj;
 
     return {
@@ -280,8 +279,6 @@ export function createTableInputObj(label: string, hasLabel: boolean, placeHolde
         textDecoration,
         placeHolder,
         horizontalAlign: "left",
-        width: 100,
-        height: 50,
     } as InputContentObj;
 
     const cells = [

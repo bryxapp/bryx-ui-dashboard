@@ -52,11 +52,11 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
 
     //Create Content Text Shape for measurements
     const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj.content, longTextInputObj.content.placeHolder);
-    const contentShapeWidth = Math.max(tempTextShapeContent.width(), longTextInputObj.content.width);
-    const contentShapeHeight = Math.max(tempTextShapeContent.height(), longTextInputObj.content.height);
+    const contentShapeWidth = Math.max(tempTextShapeContent.width(), longTextInputObj.inputWidth);
+    const contentShapeHeight = Math.max(tempTextShapeContent.height(), longTextInputObj.inputHeight);
 
     const containerHeight = longTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, longTextInputObj.content.width);
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, longTextInputObj.inputWidth);
 
     return (
         <React.Fragment>

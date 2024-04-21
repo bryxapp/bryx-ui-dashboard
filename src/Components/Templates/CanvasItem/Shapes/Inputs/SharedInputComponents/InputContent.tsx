@@ -20,14 +20,14 @@ const InputContent = ({ textObj, contentHeight, contentWidth, labelHeight, label
             <Rect
                 x={0}
                 y={labelHeight + (labelFontSize / 10)}
-                width={textObj.width}
-                height={textObj.height}
+                width={contentWidth}
+                height={contentHeight}
                 fill={FILL_COLOR}
                 onClick={onSelect}
                 onTap={onSelect}
             />
             <Text
-                x={getInputXAlignment(textObj,textObj.placeHolder, textObj.width)}
+                x={getInputXAlignment(textObj,textObj.placeHolder, contentWidth)}
                 y={yalign + labelHeight + (labelFontSize / 10)}
                 text={`${textObj.placeHolder}`}
                 fontSize={textObj.fontSize}

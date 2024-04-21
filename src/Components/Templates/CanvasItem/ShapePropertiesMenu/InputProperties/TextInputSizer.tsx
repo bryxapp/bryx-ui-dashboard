@@ -1,10 +1,10 @@
 import React from 'react';
 import { Input, Typography } from 'antd';
-import { InputObj, ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { InputObj, LongTextInputObj, ShapeObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
 interface TextInputSizerProps {
-    inputObj: InputObj;
+    inputObj: ShortTextInputObj | LongTextInputObj;
     disabled?: boolean;
 }
 
@@ -27,9 +27,17 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
         });
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
-
-    const selectedWidth = inputObj.content.width ? Math.round(inputObj.content.width): '';
-    const selectedHeight = inputObj.content.height ? Math.round(inputObj.content.height): '';
+    let selectedWidth = 0;
+    let selectedHeight = 0;
+    if (inputObj.type === 'ShortTextInput') {
+        const shortTextInput = inputObj as ShortTextInputObj;
+        selectedWidth = shortTextInput.inputWidth ? Math.round(shortTextInput.inputWidth) : 0;
+    }
+    else if (inputObj.type === 'LongTextInput') {
+        const longTextInput = inputObj as LongTextInputObj;
+        selectedWidth = longTextInput.inputWidth ? Math.round(longTextInput.inputWidth) : 0;
+        selectedHeight = longTextInput.inputHeight ? Math.round(longTextInput.inputHeight) : 0;
+    }
 
     return (
         <>

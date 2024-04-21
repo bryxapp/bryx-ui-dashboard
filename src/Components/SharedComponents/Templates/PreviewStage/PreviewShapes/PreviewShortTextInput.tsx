@@ -14,7 +14,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
     ShortTextInputObj.content.placeHolder = value;
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(ShortTextInputObj.label, ShortTextInputObj.label.value);
     const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj.content, ShortTextInputObj.content.placeHolder);
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, ShortTextInputObj.content.width)
+    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, ShortTextInputObj.inputWidth)
 
     return (
         <Group
