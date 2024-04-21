@@ -24,7 +24,7 @@ const CanvasItem = () => {
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [templateId, setTemplateId] = useState<string | null>(null);
     const [error, setError] = useState(false);
-    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
+    const { setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
     const [isLoading, setIsLoading] = useState(false);
 
     const {
@@ -72,11 +72,6 @@ const CanvasItem = () => {
         fetchTemplate();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [location.search, auth0User?.sub]);
-
-    useEffect(() => {
-        console.log("CanvasDesign updated");
-    }
-        , [canvasDesign]);
 
     if (loading) {
         // show loading message while data is being fetched

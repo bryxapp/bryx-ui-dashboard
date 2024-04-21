@@ -6,8 +6,6 @@ import Konva from 'konva';
 import { getTextWidthAndHeight, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
-import { createTempTextKonvaShape } from '../Inputs/SharedInputComponents/InputHelper';
-
 interface ParagraphProps {
     paragraphObj: ParagraphObj;
     handleDragEnd: any;

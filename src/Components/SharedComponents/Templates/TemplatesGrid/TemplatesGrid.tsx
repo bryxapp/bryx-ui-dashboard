@@ -6,21 +6,21 @@ import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import ErrorModal from '../../ErrorModal/ErrorModal';
-import { Col, Row, Typography } from 'antd';
+import { Col, Empty, Row, Typography } from 'antd';
 interface TemplatesGridProps {
     setMaxTemplatesReached?: ((value: boolean) => void);
-    setTemplatesCount?: ((value: number) => void);
     baseUrl: string;
     showActions?: boolean;
 }
 
-const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, setTemplatesCount, baseUrl, showActions = false }) => {
+const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, baseUrl, showActions = false }) => {
     const [templates, setTemplates] = useState<TemplateData[]>([]);
     const { auth0User, getAccessToken } = useAuth0User();
     const [error, setError] = useState(false);
     const [deleteError, setDeleteError] = useState(false);
     const [copyError, setCopyError] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
+    const [templatesCount, setTemplatesCount] = useState<number>(0);
 
     useEffect(() => {
         const fetchTemplates = async () => {
@@ -107,6 +107,20 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, s
         return <Typography.Title level={4} style={{ textAlign: 'center' }}>Loading...</Typography.Title>;
 
     if (error) return <ErrorMessage dataName='templates' />;
+
+    if (templatesCount === 0)
+        return (
+            <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{ height: 100 }}
+                description={
+                    <Typography.Title level={5}>
+                        You don't have any templates yet
+                    </Typography.Title>
+                }
+            >
+            </Empty>
+        );
 
     return (
         <>
