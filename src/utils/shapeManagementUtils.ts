@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -87,7 +87,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 });
                 //Create Label Text Shape for measurements
                 const inputLabel = inputObj.label;
-                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel,inputLabel.value);
+                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel, inputLabel.value);
                 // Create Content Text Shape for measurements
                 const inputContent = inputObj.content;
                 const [contentShapeWidth,] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
@@ -95,7 +95,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
                 if (inputObj.hasLabel) {
                     group.add(new Konva.Text({
-                        x: getTextXAlignment(inputLabel, containerWidth),
+                        x: getTextXAlignment(inputLabel, containerWidth, inputLabel.horizontalAlign),
                         y: 0,
                         text: inputLabel.value,
                         fontSize: inputLabel.fontSize,
@@ -122,19 +122,32 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 layer.add(group);
                 break;
             case 'Heading':
-            case 'Paragraph':
-                const textObj = shape as TextObj;
+                const headingObj = shape as HeadingObj;
                 layer.add(new Konva.Text({
-                    x: textObj.x,
-                    y: textObj.y,
-                    text: textObj.value,
-                    fontSize: textObj.fontSize,
-                    fill: textObj.fill,
-                    rotation: textObj.rotation,
-                    fontFamily: textObj.fontFamily,
-                    fontStyle: textObj.fontStyle,
-                    textDecoration: textObj.textDecoration,
-                    horizontalAlign: textObj.horizontalAlign
+                    x: headingObj.x,
+                    y: headingObj.y,
+                    text: headingObj.value,
+                    fontSize: headingObj.fontSize,
+                    fill: headingObj.fill,
+                    rotation: headingObj.rotation,
+                    fontFamily: headingObj.fontFamily,
+                    fontStyle: headingObj.fontStyle,
+                    textDecoration: headingObj.textDecoration,
+                }))
+                break;
+            case 'Paragraph':
+                const paragraphObj = shape as ParagraphObj;
+                layer.add(new Konva.Text({
+                    x: paragraphObj.x,
+                    y: paragraphObj.y,
+                    text: paragraphObj.value,
+                    fontSize: paragraphObj.fontSize,
+                    fill: paragraphObj.fill,
+                    rotation: paragraphObj.rotation,
+                    fontFamily: paragraphObj.fontFamily,
+                    fontStyle: paragraphObj.fontStyle,
+                    textDecoration: paragraphObj.textDecoration,
+                    horizontalAlign: paragraphObj.horizontalAlign
                 }))
                 break;
             //TODO add labels
@@ -247,7 +260,7 @@ export const updateInputProperty = (
             // Correct way to dynamically update nested properties
             const updatedItem = { ...inputObj[itemName], [propertyName]: value };
             if (itemName === 'content' && inputObj.type !== "LongTextInput") {
-                const [,height] = getTextWidthAndHeight(inputObj.content, inputObj.content.placeHolder);
+                const [, height] = getTextWidthAndHeight(inputObj.content, inputObj.content.placeHolder);
                 inputObj.content.height = height;
             }
             return { ...inputObj, [itemName]: updatedItem };

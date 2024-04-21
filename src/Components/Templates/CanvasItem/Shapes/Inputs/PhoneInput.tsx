@@ -77,7 +77,7 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     onTap={onSelect} />
                 {/* Input Label */}
                 {phoneInputObj.hasLabel && (
-                    <InputLabel textObj={phoneInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={phoneInputObj.id}/>
+                    <InputLabel inputLabelObj={phoneInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={phoneInputObj.id}/>
                 )}
                 {/* Input Content */}
                 <InputContent

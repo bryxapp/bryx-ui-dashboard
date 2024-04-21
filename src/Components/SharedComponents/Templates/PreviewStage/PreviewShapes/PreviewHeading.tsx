@@ -17,7 +17,6 @@ const PreviewHeading = ({ HeadingObj }: PreviewHeadingProps) => {
             fontFamily={HeadingObj.fontFamily}
             fill={HeadingObj.fill}
             rotation={HeadingObj.rotation}
-            align={HeadingObj.horizontalAlign}
         />
     );
 };

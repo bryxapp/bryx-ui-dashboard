@@ -28,7 +28,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
         >
             {LongTextInputObj.hasLabel &&
                 <Text
-                    x={getTextXAlignment(LongTextInputObj.label, containerWidth)}
+                    x={getTextXAlignment(LongTextInputObj.label, containerWidth, LongTextInputObj.label.horizontalAlign)}
                     y={0}
                     text={LongTextInputObj.label.value}
                     fontSize={LongTextInputObj.label.fontSize}

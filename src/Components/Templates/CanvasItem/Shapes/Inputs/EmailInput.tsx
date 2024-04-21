@@ -77,7 +77,7 @@ const EmailInput = ({ emailInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     onTap={onSelect} />
                 {/* Input Label */}
                 {emailInputObj.hasLabel && (
-                    <InputLabel textObj={emailInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={emailInputObj.id}/>
+                    <InputLabel inputLabelObj={emailInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={emailInputObj.id}/>
                 )}
                 {/* Input Content */}
                 <InputContent

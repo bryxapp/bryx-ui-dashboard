@@ -1,5 +1,5 @@
 import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TextValueObj, InputContentObj, TableCellObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentObj, TableCellObj, InputLabelObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -65,7 +65,7 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, placeHolde
         textDecoration,
         value: label,
         horizontalAlign: "left",
-    } as TextValueObj;
+    } as InputLabelObj;
 
     const contentObj = {
         fontSize,
@@ -107,7 +107,7 @@ export function createEmailInputObj(label: string, hasLabel: boolean, placeHolde
         textDecoration,
         value: label,
         horizontalAlign: "left",
-    } as TextValueObj;
+    } as InputLabelObj;
 
     const contentObj = {
         fontSize,
@@ -149,7 +149,7 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, placeH
         textDecoration,
         value: label,
         horizontalAlign: "left",
-    } as TextValueObj;
+    } as InputLabelObj;
 
 
     const [width, height] = getTextWidthAndHeight(labelObj, placeHolder)
@@ -194,7 +194,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, placeHo
         textDecoration,
         value: label,
         horizontalAlign: "left",
-    } as TextValueObj;
+    } as InputLabelObj;
 
     const contentObj = {
         fontSize,
@@ -237,7 +237,7 @@ export function createDateInputObj(label: string, hasLabel: boolean, placeHolder
         textDecoration,
         value: label,
         horizontalAlign: "left",
-    } as TextValueObj;
+    } as InputLabelObj;
 
     const contentObj = {
         fontSize,
@@ -321,7 +321,6 @@ export function createHeadingdObj(value: string, fontSize: number, fill: string,
         fontFamily,
         fontStyle,
         textDecoration,
-        horizontalAlign: "left",
     };
 }
 

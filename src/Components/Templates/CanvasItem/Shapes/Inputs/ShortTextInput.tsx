@@ -76,7 +76,7 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
 
                 {/* Input Label */}
                 {shortTextInputObj.hasLabel && (
-                    <InputLabel textObj={shortTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={shortTextInputObj.id} />
+                    <InputLabel inputLabelObj={shortTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={shortTextInputObj.id} />
                 )}
                 {/* Input Content */}
                 <InputContent

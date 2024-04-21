@@ -26,7 +26,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
         >
             {EmailInputObj.hasLabel &&
                 <Text
-                    x={getTextXAlignment(EmailInputObj.label, containerWidth)}
+                    x={getTextXAlignment(EmailInputObj.label, containerWidth, EmailInputObj.label.horizontalAlign)}
                     y={0}
                     text={EmailInputObj.label.value}
                     fontSize={EmailInputObj.label.fontSize}

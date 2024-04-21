@@ -94,7 +94,6 @@ const Heading = ({
         whiteSpace: 'pre-wrap',
         width: `${measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
         height: `${measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
-        alignContent: headingObj.horizontalAlign,
         color: headingObj.fill,
         border: 'none',
         padding: '0px',
@@ -145,7 +144,6 @@ const Heading = ({
                         fontFamily={headingObj.fontFamily}
                         fontStyle={headingObj.fontStyle}
                         textDecoration={headingObj.textDecoration}
-                        align={headingObj.horizontalAlign}
                         draggable={false}
                     />
 

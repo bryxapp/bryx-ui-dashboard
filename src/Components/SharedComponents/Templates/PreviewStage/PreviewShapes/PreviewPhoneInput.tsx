@@ -27,7 +27,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
         >
             {PhoneInputObj.hasLabel &&
                 <Text
-                    x={getTextXAlignment(PhoneInputObj.label, containerWidth)}
+                    x={getTextXAlignment(PhoneInputObj.label, containerWidth, PhoneInputObj.label.horizontalAlign)}
                     y={0}
                     text={PhoneInputObj.label.value}
                     fontSize={PhoneInputObj.label.fontSize}

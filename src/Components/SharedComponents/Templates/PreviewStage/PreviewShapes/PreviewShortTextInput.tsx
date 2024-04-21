@@ -26,7 +26,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
         >
             {ShortTextInputObj.hasLabel &&
                 <Text
-                    x={getTextXAlignment(ShortTextInputObj.label, containerWidth)}
+                    x={getTextXAlignment(ShortTextInputObj.label, containerWidth, ShortTextInputObj.label.horizontalAlign)}
                     y={0}
                     text={ShortTextInputObj.label.value}
                     fontSize={ShortTextInputObj.label.fontSize}

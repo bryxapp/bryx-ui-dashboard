@@ -78,7 +78,7 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
                     onTap={onSelect} />
                 {/* Input Label */}
                 {dateInputObj.hasLabel && (
-                    <InputLabel textObj={dateInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={dateInputObj.id} />
+                    <InputLabel inputLabelObj={dateInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={dateInputObj.id} />
                 )}
                 {/* Input Content */}
                 <InputContent

@@ -1,19 +1,19 @@
 import { Text } from 'react-konva';
 import { getTextXAlignment } from './InputHelper';
-import { TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputLabelObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
 import { getTextWidthAndHeight, updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 
 interface InputContentProps {
-    textObj: TextValueObj;
+    inputLabelObj: InputLabelObj;
     inputObjId: string;
     contentHeight: number;
     containerWidth: number;
 }
 
-const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: InputContentProps) => {
+const InputLabel = ({ inputLabelObj, inputObjId, contentHeight, containerWidth }: InputContentProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
@@ -42,22 +42,22 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         };
     }, []);
 
-    const [labelWidth, labelHeight] = getTextWidthAndHeight(textObj,textObj.value)
+    const [labelWidth, labelHeight] = getTextWidthAndHeight(inputLabelObj,inputLabelObj.value)
 
     const style: React.CSSProperties = {
         position: 'absolute',
         background: 'none',
         resize: 'none',
-        fontSize: `${textObj.fontSize / 16}em`,
-        fill: textObj.fill,
-        fontFamily: textObj.fontFamily,
-        fontStyle: textObj.fontStyle,
-        textDecoration: textObj.textDecoration,
+        fontSize: `${inputLabelObj.fontSize / 16}em`,
+        fill: inputLabelObj.fill,
+        fontFamily: inputLabelObj.fontFamily,
+        fontStyle: inputLabelObj.fontStyle,
+        textDecoration: inputLabelObj.textDecoration,
         whiteSpace: 'pre-wrap',
         width: `${labelWidth + 20}px`,
         height: `${labelHeight + 20}px`,
-        alignContent: textObj.horizontalAlign,
-        color: textObj.fill,
+        alignContent: inputLabelObj.horizontalAlign,
+        color: inputLabelObj.fill,
         border: 'none',
         padding: '0px',
         margin: '0px',
@@ -70,16 +70,16 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
         <>
             {!editing && (
                 <Text
-                    x={getTextXAlignment(textObj, containerWidth)}
+                    x={getTextXAlignment(inputLabelObj, containerWidth, inputLabelObj.horizontalAlign)}
                     y={0}
                     onDblClick={() => setEditing(true)}
                     onDblTap={() => setEditing(true)}
-                    text={textObj.value}
-                    fontSize={textObj.fontSize}
-                    fill={textObj.fill}
-                    fontFamily={textObj.fontFamily}
-                    fontStyle={textObj.fontStyle}
-                    textDecoration={textObj.textDecoration}
+                    text={inputLabelObj.value}
+                    fontSize={inputLabelObj.fontSize}
+                    fill={inputLabelObj.fill}
+                    fontFamily={inputLabelObj.fontFamily}
+                    fontStyle={inputLabelObj.fontStyle}
+                    textDecoration={inputLabelObj.textDecoration}
                     scaleX={1}
                     scaleY={1} />
             )
@@ -91,7 +91,7 @@ const InputLabel = ({ textObj, inputObjId, contentHeight, containerWidth }: Inpu
                         onChange={onChange}
                         style={style}
                         id={inputObjId}
-                        value={textObj.value}
+                        value={inputLabelObj.value}
                         autoFocus
                         onFocus={moveCaretToEnd}
                     />

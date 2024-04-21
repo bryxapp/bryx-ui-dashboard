@@ -1,5 +1,5 @@
 import { Card, Checkbox } from 'antd';
-import { InputObj, TextObj } from '../../../../../utils/types/CanvasInterfaces';
+import { InputObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
@@ -26,7 +26,7 @@ const InputLabelProperties = ({ inputObj }: InputLabelPropertiesProps) => {
                 Has Label
             </Checkbox>
             <div style={{ height: '10px' }} />
-            <TextProperties textObj={inputObj.label as TextObj} itemType={'label'} disabled={!hasLabel} />
+            <TextProperties textObj={inputObj.label} itemType={'label'} disabled={!hasLabel} />
         </Card>
     );
 };

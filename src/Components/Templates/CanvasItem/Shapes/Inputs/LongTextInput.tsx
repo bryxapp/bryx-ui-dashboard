@@ -84,7 +84,7 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
 
                 {/* Input Label */}
                 {longTextInputObj.hasLabel && (
-                    <InputLabel textObj={longTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={longTextInputObj.id}/>
+                    <InputLabel inputLabelObj={longTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={longTextInputObj.id}/>
                 )}
                 {/* Input Content */}
                 <InputContent

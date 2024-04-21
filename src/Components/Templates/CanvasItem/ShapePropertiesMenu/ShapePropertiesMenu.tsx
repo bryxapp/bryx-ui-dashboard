@@ -34,11 +34,11 @@ const PropertiesMenu = () => {
             mode="inline"
             style={{ height: '100%' }}
         >
-            <div style={{ display: "flex", alignItems: "center", justifyContent:"center" }}>
-                <div style={{ marginRight: 20, fontSize:24 }}>
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <div style={{ marginRight: 20, fontSize: 24 }}>
                     {mapTypeToIcon(shapeObj.type)}
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems:"center", width: "8rem"}}>
+                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", width: "8rem" }}>
                     <Typography.Text>
                         <strong>{mapTypeToTitle(shapeObj.type)}</strong>
                     </Typography.Text>
@@ -99,9 +99,25 @@ const PropertiesMenu = () => {
             >
                 Delete
             </Menu.Item>
+
+            {
+//TODO
+/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+<TextAlignmentPicker textObj={textObj} itemType={itemType} disabled={disabled} />
+{verticalAlign &&
+    (
+        <>
+            <div style={{ width: '1rem' }} />
+            <TextVerticalAlignmentPicker verticalAlign={verticalAlign} disabled={disabled} />
+        </>
+    )}
+</div> */}
         </Menu>
     );
 };
 
 export default PropertiesMenu;
+
+
+
 

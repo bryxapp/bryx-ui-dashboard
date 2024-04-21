@@ -78,6 +78,7 @@ export interface HeadingObj extends TextObj {
 }
 
 export interface ParagraphObj extends TextObj {
+    horizontalAlign: string;
     type: 'Paragraph';
 }
 
@@ -90,7 +91,6 @@ export interface TextBase {
     fontFamily: string;
     fontStyle: string;
     textDecoration: string;
-    horizontalAlign: string;
 }
 
 export interface TextValueObj extends TextBase {
