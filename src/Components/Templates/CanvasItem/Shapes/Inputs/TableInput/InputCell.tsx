@@ -4,17 +4,17 @@ import Konva from 'konva';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import { FILL_COLOR, createTempTextKonvaShape, getXAlignment, getYAlignment } from '../SharedInputComponents/InputHelper';
-import { CellInputObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { CellInputObj, HorizontalAlign, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
 
 interface InputCellProps {
     cellInputObj: CellInputObj;
     containerWidth: number;
     containerHeight: number;
-    horizontalAlignment: string;
-    verticalAlignment: string;
+    horizontalAlign: HorizontalAlign
+    verticalAlign: VerticalAlign
 }
 
-const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAlignment, verticalAlignment }: InputCellProps) => {
+const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAlign, verticalAlign }: InputCellProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
@@ -69,8 +69,8 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                     onTap={onSelect}
                 />
                 <Text
-                    x={getXAlignment(tempTextShapeContent.width(), horizontalAlignment, containerWidth)}
-                    y={getYAlignment(tempTextShapeContent.height(), verticalAlignment, containerHeight)}
+                    x={getXAlignment(tempTextShapeContent.width(), horizontalAlign, containerWidth)}
+                    y={getYAlignment(tempTextShapeContent.height(), verticalAlign, containerHeight)}
                     text={`${cellInputObj.value}`}
                     fontSize={cellInputObj.fontSize}
                     fill={cellInputObj.fill}

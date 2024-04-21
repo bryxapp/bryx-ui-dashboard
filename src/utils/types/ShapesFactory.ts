@@ -1,5 +1,5 @@
 import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentObj, TableCellObj, InputLabelObj, CellInputObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentObj, TableCellObj, InputLabelObj, CellInputObj, TextCellObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -306,15 +306,13 @@ export function createTableInputObj(numberOfRows: number, numberOfCols: number, 
                 content: null,
             };
             if (i === 0) {
-                cell.content = createParagraphObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);
+                cell.content = createTextCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);
             }
             else {
                 cell.content = createInputCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y)
-
             }
             row.push(cell);
         }
-
         rows.push(row);
     }
 
@@ -339,6 +337,29 @@ export function createHeadingdObj(value: string, fontSize: number, fill: string,
     return {
         id: generateShapeId(),
         type: 'Heading',
+        x,
+        y,
+        rotation: 0,
+        value,
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+    };
+}
+
+export function createTextCellObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): TextCellObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
+    return {
+        id: generateShapeId(),
+        type: 'TextCell',
         x,
         y,
         rotation: 0,

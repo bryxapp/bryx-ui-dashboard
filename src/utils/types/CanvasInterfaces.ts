@@ -68,7 +68,10 @@ export interface LongTextInputObj extends InputObj {
 
 export interface CellInputObj extends TextValueObj, ShapeObj {
     type: 'CellInput';
-    rotation: 0;
+}
+
+export interface TextCellObj extends TextValueObj, ShapeObj {
+    type: 'TextCell';
 }
 
 export interface EmailInputObj extends InputObj {
@@ -129,7 +132,7 @@ export interface TableCellObj {
     id: string;
     x: number;
     y: number;
-    content: CellInputObj | ParagraphObj | null;
+    content: CellInputObj | TextCellObj | null;
     width: number;
     height: number;
     horizontalAlign: HorizontalAlign;
@@ -153,7 +156,7 @@ export type ImageType = 'UserImage' | 'StockImage';
 export const ImageTypes: ImageType[] = ['UserImage', 'StockImage'];
 export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput' | 'TableInput' | 'CellInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
-export type TextType = 'Heading' | 'Paragraph'
+export type TextType = 'Heading' | 'Paragraph' | 'TextCell';
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
 export type ShapeType = SolidShapeType | InputType | TextType | ImageType;
