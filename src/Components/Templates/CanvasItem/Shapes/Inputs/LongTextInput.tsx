@@ -9,7 +9,7 @@ import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 import { createTempTextKonvaShape } from './SharedInputComponents/InputHelper';
 
-interface ShortTextInputProps {
+interface LongTextInputProps {
     longTextInputObj: LongTextInputObj;
     handleDragEnd: any;
     onTransformEnd: any;
@@ -17,7 +17,7 @@ interface ShortTextInputProps {
     draggable?: boolean;
 }
 
-const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: ShortTextInputProps) => {
+const LongTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: LongTextInputProps) => {
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
@@ -112,4 +112,4 @@ const ShortTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handl
     );
 };
 
-export default ShortTextInput;
+export default LongTextInput;

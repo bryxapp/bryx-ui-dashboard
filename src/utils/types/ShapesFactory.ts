@@ -1,5 +1,5 @@
 import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentObj, TableCellObj, InputLabelObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentObj, TableCellObj, InputLabelObj, CellInputObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -205,7 +205,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, value: 
         horizontalAlign: "left",
     } as InputContentObj;
 
-    const [width,height] = getTextWidthAndHeight(labelObj, value)
+    const [width, height] = getTextWidthAndHeight(labelObj, value)
 
     return {
         id: generateShapeId(),
@@ -218,7 +218,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, value: 
         content: contentObj,
         verticalAlign: "top",
         inputHeight: height + 20,
-        inputWidth:  width + 20,
+        inputWidth: width + 20,
     };
 }
 
@@ -263,7 +263,23 @@ export function createDateInputObj(label: string, hasLabel: boolean, value: stri
     };
 }
 
-export function createTableInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): TableInputObj {
+export function createInputCellObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x: number, y: number): CellInputObj {
+    return {
+        id: generateShapeId(),
+        x,
+        y,
+        value,
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        rotation: 0,
+        type: 'CellInput',
+    };
+}
+
+export function createTableInputObj(numberOfRows: number, numberOfCols: number, cellWidth: number, cellHeight: number, x?: number, y?: number): TableInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -271,20 +287,35 @@ export function createTableInputObj(label: string, hasLabel: boolean, value: str
         y = defaultStartY;
     }
 
-    const contentObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value,
-        horizontalAlign: "left",
-    } as InputContentObj;
+    const rows: TableCellObj[][] = []; // Define rows as an array of arrays of TableCellObj
 
-    const cells = [
-        [{ content: contentObj, width: 100, height: 50 }],
-        [{ content: contentObj, width: 100, height: 50 }],
-    ] as TableCellObj[][];
+    for (let i = 0; i < numberOfRows; i++) {
+        const currentRowY = x + i * cellHeight;
+        const row: TableCellObj[] = [];
+
+        for (let j = 0; j < numberOfCols; j++) {
+            const cell: TableCellObj = {
+                id: generateShapeId(),
+                x: x + j * cellWidth,
+                y: currentRowY,
+                width: cellWidth,
+                height: cellHeight,
+                verticalAlign: 'middle',
+                horizontalAlign: 'left',
+                type: 'TableCell',
+                content: null,
+            };
+            if (i === 0) {
+                cell.content = createInputCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y)
+            }
+            else {
+                cell.content = createParagraphObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);
+            }
+            row.push(cell);
+        }
+
+        rows.push(row);
+    }
 
     return {
         id: generateShapeId(),
@@ -292,11 +323,9 @@ export function createTableInputObj(label: string, hasLabel: boolean, value: str
         x,
         y,
         rotation: 0,
-        cells,
+        rows,
     };
 }
-
-
 
 export function createHeadingdObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): HeadingObj {
     if (x === undefined) {
