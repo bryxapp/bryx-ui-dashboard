@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
 import { getTextWidthAndHeight, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 interface TextCellProps {
     textCellObj: TextCellObj;
     containerWidth: number;
@@ -78,6 +79,7 @@ const TextCell = ({
         width: paragraphWidth,
         height: paragraphHeight + 20,
         textAlign: horizontalAlign,
+        verticalAlign: verticalAlign,
         color: textCellObj.fill,
         border: 'none',
         padding: '0px',
@@ -101,8 +103,10 @@ const TextCell = ({
     return (
         <React.Fragment>
             <Group
-                key={textCellObj.id} id={textCellObj.id}
-                x={textCellObj.x} y={textCellObj.y}
+                key={textCellObj.id}
+                id={textCellObj.id}
+                x={textCellObj.x + 2}
+                y={textCellObj.y + 2}
                 draggable={false}
                 ref={shapeRef} rotation={0}>
                 {!editing && (
@@ -110,6 +114,8 @@ const TextCell = ({
                         text={textCellObj.value}
                         fontSize={textCellObj.fontSize}
                         fill={textCellObj.fill}
+                        width={containerWidth - 4}
+                        height={containerHeight - 4}
                         onClick={onSelect}
                         onTap={onSelect}
                         onDblClick={() => setEditing(true)}
@@ -118,6 +124,7 @@ const TextCell = ({
                         fontStyle={textCellObj.fontStyle}
                         textDecoration={textCellObj.textDecoration}
                         align={horizontalAlign}
+                        verticalAlign={verticalAlign}
                         draggable={false}
                     />
 
@@ -137,6 +144,17 @@ const TextCell = ({
                     </Html>
                 )}
             </Group>
+            {isSelected && (
+                <>
+                    <ShapeTransformer
+                        trRef={trRef}
+                        onTransformEnd={() => { }}
+                        rotationEnabled={false}
+                        resizeEnabled={false}
+                        keepRatio={true}
+                    />
+                </>
+            )}
         </React.Fragment>
     );
 };

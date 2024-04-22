@@ -322,6 +322,7 @@ export function createTableInputObj(numberOfRows: number, numberOfCols: number, 
         x,
         y,
         rotation: 0,
+        border: { width: 1, color: 'black' },
         rows,
     };
 }

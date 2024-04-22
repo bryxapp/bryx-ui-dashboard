@@ -1,6 +1,5 @@
 
 import { CellInputObj, TableCellObj, TextCellObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { createTempTextKonvaShape, getXAlignment, getYAlignment } from '../SharedInputComponents/InputHelper';
 import InputCell from './InputCell';
 import TextCell from './TextCell';
 
@@ -16,15 +15,8 @@ const TableCellContent = ({ cell, cellXPosition, cellYPosition, handleSelect }: 
 
     if (cell.content.type === 'TextCell') {
         const textCellObj = cell.content as TextCellObj
-        // Adjust the X and Y position of the content based on the cell's alignment
-        let contentX = cellXPosition;
-        let contentY = cellYPosition;
-        const tempTextShape = createTempTextKonvaShape(textCellObj, textCellObj.value);
-        // Adjust Y based on vertical alignment
-        const yalign = getYAlignment(tempTextShape.height(), cell.verticalAlign, cell.height);
-        const xalign = getXAlignment(tempTextShape.width(), cell.horizontalAlign, cell.width);
-        textCellObj.x = contentX + xalign;
-        textCellObj.y = contentY + yalign;
+        textCellObj.x = cellXPosition;
+        textCellObj.y = cellYPosition;
         return (
             <>
                 <TextCell

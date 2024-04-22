@@ -196,15 +196,10 @@ const TableInput = ({ tableInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     width={tableWidth}
                     height={tableHeight}
                     fill="transparent"
-                    stroke={tableInputObj.border ? tableInputObj.border.color : 'transparent'}
-                    strokeWidth={tableInputObj.border ? tableInputObj.border.width : 0}
                     ref={shapeRef}
                     onClick={(e: any) => handleSelect(tableInputObj.id, 'table', e)}
                     onTap={(e: any) => handleSelect(tableInputObj.id, 'table', e)}
                 />
-                {drawBorders(tableInputObj).map((lineProps) => (
-                    <Line {...lineProps} />
-                ))}
                 {tableInputObj.rows.map((row, rowIndex) =>
                     <TableCellRow
                         key={`row-${rowIndex}`}
@@ -218,6 +213,9 @@ const TableInput = ({ tableInputObj, handleDragEnd, onTransformEnd, handleDragMo
                 )}
                 {addColumnResizeHandles()}
                 {addRowResizeHandles()}
+                {drawBorders(tableInputObj).map((lineProps) => (
+                    <Line {...lineProps} />
+                ))}
             </Group>
             {isSelected && (
                 <>

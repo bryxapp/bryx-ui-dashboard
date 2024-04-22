@@ -7,7 +7,7 @@ export const drawBorders = (tableInputObj: TableInputObj) => {
     const tableHeight = tableInputObj.rows.reduce((acc, row) => acc + row[0].height, 0);
 
     // Vertical lines
-    for (let i = 1; i < tableInputObj.rows[0].length; i++) {
+    for (let i = 0; i <= tableInputObj.rows[0].length; i++) {
         // Calculate the X position of the vertical line after each column
         const xPos = tableInputObj.rows[0].slice(0, i).reduce((acc, cell) => acc + cell.width, 0);
         bordersProps.push({
@@ -17,10 +17,17 @@ export const drawBorders = (tableInputObj: TableInputObj) => {
             strokeWidth: tableInputObj.border.width
         });
     }
+    //Draw first horizontal line
+    bordersProps.push({
+        key: `h-0`,
+        points: [0, 0, tableWidth, 0],
+        stroke: tableInputObj.border.color,
+        strokeWidth: tableInputObj.border.width,
+    });
 
     // Horizontal lines
     let accumulatedHeight = 0; // Keep track of the accumulated heights for accurate line positioning
-    for (let i = 1; i < tableInputObj.rows.length; i++) {
+    for (let i = 1; i <= tableInputObj.rows.length; i++) {
         accumulatedHeight += tableInputObj.rows[i - 1][0].height;
         bordersProps.push({
             key: `h-${i}`,

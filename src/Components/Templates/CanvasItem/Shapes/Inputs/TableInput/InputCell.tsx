@@ -46,14 +46,13 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
 
     //Create Content Text Shape for measurements
     const tempTextShapeContent = createTempTextKonvaShape(cellInputObj, cellInputObj.value);
-
     return (
         <React.Fragment>
             <Group
                 key={cellInputObj.id}
                 id={cellInputObj.id}
-                x={cellInputObj.x}
-                y={cellInputObj.y}
+                x={cellInputObj.x + 2}
+                y={cellInputObj.y + 2}
                 draggable={false}
                 ref={shapeRef}
                 onClick={onSelect}
@@ -62,15 +61,15 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                 <Rect
                     x={0}
                     y={0}
-                    width={containerWidth}
-                    height={containerHeight}
+                    width={containerWidth - 4}
+                    height={containerHeight - 4}
                     fill={FILL_COLOR}
                     onClick={onSelect}
                     onTap={onSelect}
                 />
                 <Text
-                    x={getXAlignment(tempTextShapeContent.width(), horizontalAlign, containerWidth)}
-                    y={getYAlignment(tempTextShapeContent.height(), verticalAlign, containerHeight)}
+                    x={getXAlignment(tempTextShapeContent.width(), horizontalAlign, containerWidth) + 2}
+                    y={getYAlignment(tempTextShapeContent.height(), verticalAlign, containerHeight) + 2}
                     text={`${cellInputObj.value}`}
                     fontSize={cellInputObj.fontSize}
                     fill={cellInputObj.fill}
@@ -86,7 +85,7 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                     <ShapeTransformer
                         trRef={trRef}
                         onTransformEnd={() => { }}
-                        rotationEnabled={true}
+                        rotationEnabled={false}
                         resizeEnabled={false}
                         keepRatio={true}
                     />
