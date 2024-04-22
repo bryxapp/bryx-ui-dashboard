@@ -3,7 +3,7 @@ import { Group, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { getTextWidthAndHeight, updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 interface TextCellProps {
@@ -27,7 +27,6 @@ const TextCell = ({
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId, canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const isSelected = textCellObj.id === selectedId;
-    let [paragraphWidth, paragraphHeight] = getTextWidthAndHeight(textCellObj, textCellObj.value)
     const onSelect = () => {
         setSelectedId(textCellObj.id);
     }
@@ -76,10 +75,9 @@ const TextCell = ({
         fontStyle: textCellObj.fontStyle,
         textDecoration: textCellObj.textDecoration,
         whiteSpace: 'pre-wrap',
-        width: paragraphWidth,
-        height: paragraphHeight + 20,
+        width: containerWidth - 4,
+        height: containerHeight - 4,
         textAlign: horizontalAlign,
-        verticalAlign: verticalAlign,
         color: textCellObj.fill,
         border: 'none',
         padding: '0px',
@@ -88,7 +86,6 @@ const TextCell = ({
         outline: 'none',
         lineHeight: 'normal',
     };
-
 
     const onChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, textCellObj.id);
