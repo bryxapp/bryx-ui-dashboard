@@ -22,7 +22,7 @@ const TextCell = ({
     verticalAlign,
 }: TextCellProps) => {
     const [editing, setEditing] = useState(false);
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const divRef = useRef<HTMLDivElement>(null); // Change ref type
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId, canvasDesign, setCanvasDesign } = useCanvasDesignContext();
@@ -33,7 +33,7 @@ const TextCell = ({
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (textAreaRef.current && !textAreaRef.current.contains(event.target as Node)) {
+            if (divRef.current && !divRef.current.contains(event.target as Node)) {
                 setEditing(false);
             }
         };
@@ -65,36 +65,73 @@ const TextCell = ({
         }
     }, [isSelected]);
 
+    const horizontalAlignToJustifyContent = (horizontalAlign: HorizontalAlign) => {
+        switch (horizontalAlign) {
+            case 'left':
+                return 'flex-start';
+            case 'center':
+                return 'center';
+            case 'right':
+                return 'flex-end';
+            default:
+                return 'flex-start';
+        }
+    }
+
+    const verticalAlignToAlignItems = (verticalAlign: VerticalAlign) => {
+        switch (verticalAlign) {
+            case 'top':
+                return 'flex-start';
+            case 'middle':
+                return 'center';
+            case 'bottom':
+                return 'flex-end';
+            default:
+                return 'flex-start';
+        }
+    }
+
     const style: React.CSSProperties = {
+        display: "flex",
+        justifyContent: horizontalAlignToJustifyContent(horizontalAlign),
+        alignItems: verticalAlignToAlignItems(verticalAlign),
         position: 'absolute',
-        background: 'none',
-        resize: 'none',
         fontSize: textCellObj.fontSize,
-        fill: textCellObj.fill,
         fontFamily: textCellObj.fontFamily,
         fontStyle: textCellObj.fontStyle,
         textDecoration: textCellObj.textDecoration,
-        whiteSpace: 'pre-wrap',
+        color: textCellObj.fill,
         width: containerWidth - 4,
         height: containerHeight - 4,
         textAlign: horizontalAlign,
-        color: textCellObj.fill,
-        border: 'none',
-        padding: '0px',
-        margin: '0px',
-        overflow: 'hidden',
+        verticalAlign: verticalAlign,
         outline: 'none',
         lineHeight: 'normal',
+        overflow: 'auto',
+        padding: '0px',
+        margin: '0px',
+        boxSizing: 'border-box',
     };
+
 
     const onChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, textCellObj.id);
     };
 
-    const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
-        const { target } = event;
-        const { value } = target;
-        target.setSelectionRange(value.length, value.length);
+    useEffect(() => {
+        if (editing && divRef.current) {
+            const range = document.createRange();
+            const sel = window.getSelection();
+            range.selectNodeContents(divRef.current);
+            range.collapse(false); // false to collapse the range to the end of the content
+            sel?.removeAllRanges();
+            sel?.addRange(range);
+            divRef.current.focus();
+        }
+    }, [editing]);
+
+    const handleDoubleClick = () => {
+        setEditing(true); // Enable editing mode
     };
 
     return (
@@ -115,8 +152,8 @@ const TextCell = ({
                         height={containerHeight - 4}
                         onClick={onSelect}
                         onTap={onSelect}
-                        onDblClick={() => setEditing(true)}
-                        onDblTap={() => setEditing(true)}
+                        onDblClick={handleDoubleClick}
+                        onDblTap={handleDoubleClick}
                         fontFamily={textCellObj.fontFamily}
                         fontStyle={textCellObj.fontStyle}
                         textDecoration={textCellObj.textDecoration}
@@ -124,20 +161,20 @@ const TextCell = ({
                         verticalAlign={verticalAlign}
                         draggable={false}
                     />
-
                 )}
                 {editing && (
                     <Html>
-                        <textarea
-                            ref={textAreaRef}
-                            onChange={onChange}
+                        <div
+                            ref={divRef}
+                            contentEditable={true}
                             style={style}
                             id={textCellObj.id}
-                            value={textCellObj.value}
                             autoFocus
-                            onFocus={moveCaretToEnd}
-                            key="paragraphTextArea"
-                        />
+                            onInput={onChange}
+                            suppressContentEditableWarning={true}
+                        >
+                            {textCellObj.value}
+                        </div>
                     </Html>
                 )}
             </Group>

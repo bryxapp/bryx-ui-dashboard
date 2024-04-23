@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -227,6 +227,20 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
         if (shape.id === id) {
             foundAndUpdated = true;
             return { ...shape, [propertyName]: value };
+        }
+
+        if(shape.type === 'TableInput'){
+            const tableInputObj = shape as TableInputObj;
+            const updatedRows = tableInputObj.rows.map((row) => {
+                return row.map((cell) => {
+                    if(cell.id === id){
+                        foundAndUpdated = true;
+                        return { ...cell, [propertyName]: value };
+                    }
+                    return cell;
+                });
+            });
+            return { ...tableInputObj, rows: updatedRows };
         }
 
         // Return the shape unchanged if no conditions are met
