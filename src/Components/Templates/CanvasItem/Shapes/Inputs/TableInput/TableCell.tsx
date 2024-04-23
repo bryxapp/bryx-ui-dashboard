@@ -1,9 +1,6 @@
-import Konva from 'konva';
-import { Rect, Transformer } from 'react-konva';
-import { useEffect, useRef } from 'react';
-import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
-import { TableCellObj, TableInputObj } from '../../../../../../utils/types/CanvasInterfaces';
-import TableCellContent from './TableCellContent';
+import { CellInputObj, TableCellObj, TableInputObj, TextCellObj } from '../../../../../../utils/types/CanvasInterfaces';
+import TextCell from './TextCell';
+import InputCell from './InputCell';
 
 interface CellProps {
     cell: TableCellObj;
@@ -16,58 +13,47 @@ interface CellProps {
 
 const TableCell = ({ cell, row, rowIndex, cellIndex, tableInputObj, handleSelect }: CellProps) => {
 
-    const { selectedId } = useCanvasDesignContext();
-
-    const handleClick = (e: any) => {
-        handleSelect(cell.id, 'item', e);
-    }
-
     // Calculate the X and Y position of the cell shape    
     const cellXPosition = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
     const cellYPosition = tableInputObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
 
-    const shapeRef = useRef<Konva.Rect>(null);
-    const trRef = useRef<Konva.Transformer>(null);
+    if (!cell.content) return null;
 
-    useEffect(() => {
-        if (cell.id === selectedId && shapeRef.current) {
-            trRef.current?.nodes([shapeRef.current]);
-            trRef.current?.getLayer()?.batchDraw();
-        }
-    }, [selectedId, cell.id]);
+    if (cell.content.type === 'TextCell') {
+        const textCellObj = cell.content as TextCellObj
+        textCellObj.x = cellXPosition;
+        textCellObj.y = cellYPosition;
+        textCellObj.id = cell.id;
+        return (
+            <>
+                <TextCell
+                    textCellObj={textCellObj}
+                    containerWidth={cell.width}
+                    containerHeight={cell.height}
+                    horizontalAlign={cell.horizontalAlign}
+                    verticalAlign={cell.verticalAlign}
+                />
+            </>
+        );
+    }
 
-    return (
-        <>
-            <Rect
-                x={cellXPosition + 5}
-                y={cellYPosition + 5}
-                width={cell.width - 15}
-                height={cell.height - 15}
-                fill='transparent'
-                onClick={handleClick}
-                ref={shapeRef}
+    if (cell.content.type === 'CellInput') {
+        const cellInputObj = cell.content as CellInputObj;
+        cellInputObj.x = cellXPosition;
+        cellInputObj.y = cellYPosition;
+        cellInputObj.id = cell.id;
+        return (
+            <InputCell
+                cellInputObj={cellInputObj}
+                containerWidth={cell.width}
+                containerHeight={cell.height}
+                horizontalAlign={cell.horizontalAlign}
+                verticalAlign={cell.verticalAlign}
             />
-            {cell.id === selectedId && (
-                <Transformer
-                    ref={trRef}
-                    boundBoxFunc={(oldBox, newBox) => {
-                        // limit resize
-                        if (newBox.width < 5 || newBox.height < 5) {
-                            return oldBox;
-                        }
-                        return newBox;
-                    }}
-                    rotateEnabled={false}
-                    resizeEnabled={false}
-                />)}
-            <TableCellContent
-                cell={cell}
-                cellXPosition={cellXPosition}
-                cellYPosition={cellYPosition}
-                handleSelect={handleClick}
-            />
-        </>
-    );
+        );
+    }
+
+    return null;
 }
 
 
