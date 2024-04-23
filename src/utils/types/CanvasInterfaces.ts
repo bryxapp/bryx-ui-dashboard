@@ -154,12 +154,14 @@ export type SolidShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
 export const SolidShapeTypes: SolidShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
 export type ImageType = 'UserImage' | 'StockImage';
 export const ImageTypes: ImageType[] = ['UserImage', 'StockImage'];
-export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput' | 'TableInput' | 'CellInput';
+export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput' | 'CellInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
+export type TableType = 'TableInput';
+export const TableTypes: TableType[] = ['TableInput'];
 export type TextType = 'Heading' | 'Paragraph' | 'TextCell';
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
-export type ShapeType = SolidShapeType | InputType | TextType | ImageType;
+export type ShapeType = SolidShapeType | InputType | TextType | ImageType | TableType;
 
 export type DateFormatOption =
     'MM/dd/yy' |

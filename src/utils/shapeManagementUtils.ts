@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -206,6 +206,10 @@ export const isTextObject = (shape?: ShapeObj): boolean => {
 
 export const isInputObject = (shape?: ShapeObj): boolean => {
     return shape ? InputTypes.includes(shape.type as InputType) : false;
+};
+
+export const isTableObject = (shape?: ShapeObj): boolean => {
+    return shape ? TableTypes.includes(shape.type as TableType) : false;
 };
 
 export const isSolidShapeObj = (shape?: ShapeObj): boolean => {

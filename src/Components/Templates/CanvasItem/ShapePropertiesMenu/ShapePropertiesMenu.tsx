@@ -1,8 +1,8 @@
-import { deleteShape, findShape, isInputObject, isSolidShapeObj, isTextObject } from '../../../../utils/shapeManagementUtils';
+import { deleteShape, findShape, isInputObject, isSolidShapeObj, isTableObject, isTextObject } from '../../../../utils/shapeManagementUtils';
 import { Divider, Menu, Typography } from 'antd';
 import { MdLayers as LayerIcon } from 'react-icons/md';
 import { DeleteOutlined } from '@ant-design/icons';
-import { InputObj, SolidShapeObj, TextObj } from '../../../../utils/types/CanvasInterfaces';
+import { InputObj, SolidShapeObj, TableInputObj, TextObj } from '../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import LayerManager from './LayerManager/LayerManager';
 import { MdFormatColorText } from 'react-icons/md';
@@ -14,6 +14,8 @@ import TextPropertiesCard from './TextProperties/TextPropertiesCard';
 import { GoTag } from "react-icons/go";
 import { BsTextareaResize } from "react-icons/bs";
 import { mapTypeToIcon, mapTypeToTitle } from '../../../../utils/iconUtils';
+import TableProperties from './TableProperties/TableProperties';
+import { TableOutlined } from "@ant-design/icons";
 
 
 const PropertiesMenu = () => {
@@ -24,6 +26,7 @@ const PropertiesMenu = () => {
     const istextObj = isTextObject(shapeObj);
     const issolidShapeObj = isSolidShapeObj(shapeObj);
     const isinputObj = isInputObject(shapeObj);
+    const isTableObj = isTableObject(shapeObj);
 
     const handleDeleteShape = () => {
         deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
@@ -89,6 +92,15 @@ const PropertiesMenu = () => {
                         </Menu.SubMenu>
                     </>
                 )}
+            {isTableObj && (
+                <Menu.SubMenu
+                    key="tableProperties"
+                    title="Table"
+                    icon={<TableOutlined />}
+                >
+                    <TableProperties tableObj={shapeObj as TableInputObj} />
+                </Menu.SubMenu>
+            )}
             <Menu.SubMenu key="layerManager" title="Layer" icon={<LayerIcon />}>
                 <LayerManager />
             </Menu.SubMenu>
