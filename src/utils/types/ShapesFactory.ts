@@ -304,6 +304,7 @@ export function createTableInputObj(numberOfRows: number, numberOfCols: number, 
                 horizontalAlign: 'left',
                 type: 'TableCell',
                 content: null,
+                rotation: 0,
             };
             if (i === 0) {
                 cell.content = createTextCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);

@@ -1,8 +1,8 @@
-import { deleteShape, findShape, isInputObject, isSolidShapeObj, isTableObject, isTextObject } from '../../../../utils/shapeManagementUtils';
+import { deleteShape, findShape, isCellObject, isInputObject, isSolidShapeObj, isTableObject, isTextObject } from '../../../../utils/shapeManagementUtils';
 import { Divider, Menu, Typography } from 'antd';
 import { MdLayers as LayerIcon } from 'react-icons/md';
 import { DeleteOutlined } from '@ant-design/icons';
-import { InputObj, SolidShapeObj, TableInputObj, TextObj } from '../../../../utils/types/CanvasInterfaces';
+import { InputObj, SolidShapeObj, TableCellObj, TableInputObj, TextObj } from '../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import LayerManager from './LayerManager/LayerManager';
 import { MdFormatColorText } from 'react-icons/md';
@@ -16,6 +16,8 @@ import { BsTextareaResize } from "react-icons/bs";
 import { mapTypeToIcon, mapTypeToTitle } from '../../../../utils/iconUtils';
 import TableProperties from './TableProperties/TableProperties';
 import { TableOutlined } from "@ant-design/icons";
+import CellProperties from './CellProperties/CellProperties';
+import { MdOutlineRectangle } from "react-icons/md";
 
 
 const PropertiesMenu = () => {
@@ -27,6 +29,7 @@ const PropertiesMenu = () => {
     const issolidShapeObj = isSolidShapeObj(shapeObj);
     const isinputObj = isInputObject(shapeObj);
     const isTableObj = isTableObject(shapeObj);
+    const isCellObj = isCellObject(shapeObj);
 
     const handleDeleteShape = () => {
         deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
@@ -99,6 +102,16 @@ const PropertiesMenu = () => {
                     icon={<TableOutlined />}
                 >
                     <TableProperties tableObj={shapeObj as TableInputObj} />
+                </Menu.SubMenu>
+            )}
+            {isCellObj && (
+                <Menu.SubMenu
+
+                    key="cellProperties"
+                    title="Cell"
+                    icon={<MdOutlineRectangle />}
+                >
+                    <CellProperties tableCellObj={shapeObj as TableCellObj} />
                 </Menu.SubMenu>
             )}
             <Menu.SubMenu key="layerManager" title="Layer" icon={<LayerIcon />}>

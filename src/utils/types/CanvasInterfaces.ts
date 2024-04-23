@@ -1,4 +1,3 @@
-
 export interface CanvasDesignData {
     Shapes: (ShapeObj)[];
     inputOrder: string[];
@@ -128,10 +127,7 @@ export interface TableInputObj extends ShapeObj {
     type: 'TableInput';
 }
 
-export interface TableCellObj {
-    id: string;
-    x: number;
-    y: number;
+export interface TableCellObj extends ShapeObj {
     content: CellInputObj | TextCellObj | null;
     width: number;
     height: number;
@@ -154,14 +150,16 @@ export type SolidShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
 export const SolidShapeTypes: SolidShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
 export type ImageType = 'UserImage' | 'StockImage';
 export const ImageTypes: ImageType[] = ['UserImage', 'StockImage'];
-export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput' | 'CellInput';
+export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
 export type TableType = 'TableInput';
 export const TableTypes: TableType[] = ['TableInput'];
-export type TextType = 'Heading' | 'Paragraph' | 'TextCell';
+export type CellType = 'CellInput' | 'TextCell' | 'TableCell';
+export const CellTypes: CellType[] = ['CellInput', 'TextCell', 'TableCell'];
+export type TextType = 'Heading' | 'Paragraph';
 export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
-export type ShapeType = SolidShapeType | InputType | TextType | ImageType | TableType;
+export type ShapeType = SolidShapeType | InputType | TextType | ImageType | TableType | CellType;
 
 export type DateFormatOption =
     'MM/dd/yy' |

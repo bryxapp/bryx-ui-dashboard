@@ -19,7 +19,7 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'placeHolder', event.target.value, selectedId);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
     let verticalAlign = '';

@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -164,6 +164,16 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
         if (shape.id === id) {
             return shape;
         }
+        if (isTableObject(shape)) {
+            const tableInputObj = shape as TableInputObj;
+            for (const row of tableInputObj.rows) {
+                for (const cell of row) {
+                    if (cell.id === id) {
+                        return cell;
+                    }
+                }
+            }
+        }
     }
     return undefined;
 };
@@ -212,6 +222,10 @@ export const isTableObject = (shape?: ShapeObj): boolean => {
     return shape ? TableTypes.includes(shape.type as TableType) : false;
 };
 
+export const isCellObject = (shape?: ShapeObj): boolean => {
+    return shape ? CellTypes.includes(shape.type as CellType) : false;
+};
+
 export const isSolidShapeObj = (shape?: ShapeObj): boolean => {
     return shape ? SolidShapeTypes.includes(shape.type as SolidShapeType) : false;
 };
@@ -233,11 +247,11 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
             return { ...shape, [propertyName]: value };
         }
 
-        if(shape.type === 'TableInput'){
+        if (shape.type === 'TableInput') {
             const tableInputObj = shape as TableInputObj;
             const updatedRows = tableInputObj.rows.map((row) => {
                 return row.map((cell) => {
-                    if(cell.id === id){
+                    if (cell.id === id) {
                         foundAndUpdated = true;
                         return { ...cell, [propertyName]: value };
                     }
@@ -277,6 +291,25 @@ export const updateInputProperty = (
             // Correct way to dynamically update nested properties
             const updatedItem = { ...inputObj[itemName], [propertyName]: value };
             return { ...inputObj, [itemName]: updatedItem };
+        }
+
+        if (shape.type === 'TableInput') {
+            const tableInputObj = shape as TableInputObj;
+            const updatedRows = tableInputObj.rows.map((row) => {
+                return row.map((cell) => {
+                    if (cell.id === id) {
+                        foundAndUpdated = true;
+                        let inputObj = cell as TableCellObj;
+                        if (itemName === 'content') {
+                            // Correct way to dynamically update nested properties
+                            const updatedItem = { ...inputObj[itemName], [propertyName]: value };
+                            return { ...inputObj, [itemName]: updatedItem };
+                        }
+                    }
+                    return cell;
+                });
+            });
+            return { ...tableInputObj, rows: updatedRows };
         }
 
         // Return the shape unchanged if no conditions are met
