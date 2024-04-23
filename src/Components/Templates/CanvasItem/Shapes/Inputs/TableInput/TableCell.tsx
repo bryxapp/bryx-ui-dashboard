@@ -19,6 +19,8 @@ const TableCell = ({ cell, row, rowIndex, cellIndex, tableInputObj, handleSelect
     const cellYPosition = tableInputObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
 
     if (!cell.content) {
+        cell.x = cellXPosition;
+        cell.y = cellYPosition;
         return <EmptyCell emptyCellObj={cell} containerWidth={cell.width} containerHeight={cell.height} />
     }
 

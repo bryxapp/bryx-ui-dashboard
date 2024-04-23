@@ -6,6 +6,7 @@ import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesi
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
 import TextAlignmentPicker from '../TextProperties/TextAlignmentPicker';
 import TextVerticalAlignmentPicker from '../TextProperties/TextVerticalAlignmentPicker';
+import CellTypeSelector from './CellTypeSelector';
 
 interface CellPropertiesProps {
     tableCellObj: TableCellObj;
@@ -15,7 +16,7 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     if (!tableCellObj.content) return (
         <Card>
-            <Typography.Text>Cell Properties</Typography.Text>
+            <CellTypeSelector tableCellObj= {tableCellObj}/>
         </Card>
     )
 
@@ -24,8 +25,10 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
+    
     return (
         <Card>
+            <CellTypeSelector tableCellObj= {tableCellObj}/>
             {selectedIsInput && (
                 <>
                     <Typography.Text>Place Holder</Typography.Text>
