@@ -1,38 +1,46 @@
-import { useState } from 'react';
-import { Button, Popover } from 'antd';
-import { FaAngleDown } from "react-icons/fa";
-import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
+import { useEffect, useState } from 'react';
+import { Button, } from 'antd';
+import { getOrganizationsForUser } from '../../../utils/api/user-api';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { Auth0Organization } from '../../../utils/types/OrganizationInterfaces';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const SwitchAccounts = () => {
-    const [open, setOpen] = useState(false);
-    const { organization } = useOrganizationContext();
-    const displayName = organization? organization?.auth0Org?.name : 'Personal Account';
+    const { getAccessToken } = useAuth0User();
+    const [organizations, setOrganizations] = useState<Auth0Organization[]>();
+    const { loginWithRedirect, logout } = useAuth0();
 
-    const handleOpenChange = (open: boolean | ((prevState: boolean) => boolean)) => {
-        setOpen(open);
-    };
+    const handleLoginToNewOrg = async () => {
+        await logout();
+        await loginWithRedirect();
+    }
 
-    const content = (
-        <div>
-            {/* Here you can put the content or links for switching accounts */}
-            <p>Account 1</p>
-            <p>Account 2</p>
-            <p>Account 3</p>
-        </div>
-    );
+    useEffect(() => {
+        const fetchOrganizations = async () => {
+            try {
+                const token = await getAccessToken();
+                if (!token) return;  // Exit if there's no token
+                const response = await getOrganizationsForUser(token);
+                console.log(response)
+                setOrganizations(response || []); // Use response or empty array to prevent errors
+            } catch (error) {
+                console.error('Failed to fetch organizations:', error);
+                setOrganizations([]); // Reset or handle errors appropriately
+            }
+        };
+
+        fetchOrganizations();
+
+        // Optionally, return a cleanup function to reset state when component unmounts
+        return () => setOrganizations([]);
+    }, [getAccessToken]); // Added dependency to re-fetch when getAccessToken changes
+
+    if (!organizations || organizations.length === 0) return null;
 
     return (
-        <Popover
-            content={content}
-            trigger="click"
-            open={open}
-            onOpenChange={handleOpenChange}
-            placement="bottom"
-        >
-            <Button type="link">
-                {displayName} <FaAngleDown />
-            </Button>
-        </Popover>
+        <Button type="primary" onClick={handleLoginToNewOrg}>
+            Change Team
+        </Button>
     );
 }
 

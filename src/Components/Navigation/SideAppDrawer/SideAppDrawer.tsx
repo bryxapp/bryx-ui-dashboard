@@ -49,16 +49,24 @@ const SideAppDrawer = () => {
                             </Button>
                         }
                     >
-                        <SwitchAccounts />
-                        <MenuItems isAdmin={isOwner} />
+                        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                            <MenuItems isAdmin={isOwner} />
+                            <div style={{ marginTop: 'auto' }}>
+                                <SwitchAccounts />
+                            </div>
+                        </div>
                     </Drawer>
                 </>
             ) : (
                 // Larger Screens
-                <>
-                    <SwitchAccounts />
-                    <MenuItems isAdmin={isOwner} />
-                </>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div>
+                        <MenuItems isAdmin={isOwner} />
+                    </div>
+                    <div style={{ marginTop: 'auto', marginBottom: "2rem", alignSelf: "center" }}>
+                        <SwitchAccounts />
+                    </div>
+                </div>
             )}
         </Sider>
     );

@@ -8,11 +8,13 @@ export interface OrganizationInfo {
         ownerUserId: string;
         subscription: SubscriptionType
     },
-    auth0Org: {
-        id: string
-        name: string
-        display_name: string
-    }
+    auth0Org: Auth0Organization
+}
+
+export interface Auth0Organization {
+    id: string;
+    name: string;
+    display_name: string;
 }
 
 export interface OrganizationMembers {
