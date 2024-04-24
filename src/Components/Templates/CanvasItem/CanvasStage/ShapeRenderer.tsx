@@ -60,7 +60,6 @@ const ShapeRenderer = () => {
                             />
                         );
                     case 'UserImage':
-                    case 'StockImage':
                         const image = shape as ImageObj;
                         return (
                             <ImageShape

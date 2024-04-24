@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Avatar, Space, theme, Divider } from 'antd';
-import { convertEpochTime } from '../../../utils/time-util';
+import { convertToDisplayDate } from '../../../utils/time-util';
 import EstimatesDeleteDialog from './EstimatesDeleteDialog';
 import EstimatesActionPanel from './EstimatesActionPanel';
 import { EstimateData, EstimateDraftData } from '../../../utils/types/EstimateInterfaces';
@@ -16,7 +16,7 @@ interface EstimateListItemProps {
 }
 
 const EstimateListItem: React.FC<EstimateListItemProps> = ({ estimate, handleEstimateDelete, editLink, itemName, type }) => {
-    const displayDate = convertEpochTime(estimate._ts);
+    const displayDate = convertToDisplayDate(new Date(estimate.createdDate));
     const [open, setOpen] = useState(false);
     const {
         token: { colorPrimary },
@@ -57,7 +57,7 @@ const EstimateListItem: React.FC<EstimateListItemProps> = ({ estimate, handleEst
                     itemName={itemName}
                 />
             </div>
-            <Divider style={{margin:0}} />
+            <Divider style={{ margin: 0 }} />
         </>
 
     );

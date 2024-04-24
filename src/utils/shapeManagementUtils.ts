@@ -61,7 +61,6 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 }))
                 break;
             case 'UserImage':
-            case 'StockImage':
                 const imageObj = shape as ImageObj;
                 const image = await loadImage(imageObj.src);
                 layer.add(new Konva.Image({
@@ -186,7 +185,6 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
         case 'Ellipse':
             return (shape as EllipseObj).radiusX * 2;
         case 'UserImage':
-        case 'StockImage':
             return (shape as ImageObj).width;
         default:
             return 0;

@@ -1,12 +1,12 @@
-import { CanvasDesignData, InputType } from "./CanvasInterfaces";
+import { InputType } from "./CanvasInterfaces";
 
 export interface EstimateData {
     user: string;
     templateId: string;
     estimateName: string;
     estimatePdfUrl: string;
-    canvasDesign: CanvasDesignData;
-    formInputs: EstimateFormFields;
+    estimateImgObj: string;
+    createdDate: string;
     _ts: number;
     id: string;
 };
@@ -18,6 +18,7 @@ export interface EstimateDraftData {
     _ts: number,
     id: string,
     formInputs: EstimateFormFields
+    createdDate: string;
 }
 
 export interface EstimateFormFields {

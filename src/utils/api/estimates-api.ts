@@ -9,28 +9,21 @@ import { Dayjs } from 'dayjs';
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimates";
 
 export async function createEstimate(templateData: TemplateData, estimateName: string, formInputs: EstimateFormFields, token: string) {
+    const estimateImgObj = await createImageUrl(templateData.canvasDesign, formInputs);
     //Create Body
     const body = {
         templateId: templateData.id,
         templateFriendlyName: templateData.friendlyName,
         estimateName: estimateName,
-        canvasDesign: templateData.canvasDesign,
-        formInputs: formInputs,
+        estimateImgObj: estimateImgObj,
     }
     const response = await axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
     return response.data as EstimateData;
 }
 
 export async function createEstimatePDF(estimate: EstimateData) {
-    const pdfMultiplier = 72;
-    const estimateImgObj = await createImageUrl(estimate.canvasDesign, estimate.formInputs);
     //Create Body
-    const body = {
-        estimateId: estimate.id,
-        estimateImgObj: estimateImgObj,
-        estimatePDFHeight: estimate.canvasDesign.pageHeight * pdfMultiplier,
-        estimatePDFWidth: estimate.canvasDesign.pageWidth * pdfMultiplier,
-    }
+    const body = { estimateId: estimate.id }
     const response = await axios.post(`${BASE_URL}/pdf`, body, { headers: {} });
     return response.data as EstimateData;
 }
@@ -49,12 +42,12 @@ export async function getEstimates(
 
     // Append searchTerm if provided
     if (searchTerm) {
-        url += `&searchTerm=${encodeURIComponent(searchTerm)}`;
+        url += `&searchTerm=${searchTerm}`;
     }
 
     // Append templateId if provided
     if (templateId) {
-        url += `&templateId=${encodeURIComponent(templateId)}`;
+        url += `&templateId=${templateId}`;
     }
 
     // Append startDate and endDate if the dateRange is provided
@@ -63,8 +56,10 @@ export async function getEstimates(
         if (startDate && endDate) {
             url += `&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
         }
+        console.log(url)
     }
 
+    url = encodeURI(url);
     // Execute the GET request with the Authorization header
     const response = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
     return response.data as EstimateResponse;

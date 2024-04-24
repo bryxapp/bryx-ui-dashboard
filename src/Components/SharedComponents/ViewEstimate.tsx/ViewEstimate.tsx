@@ -1,17 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Typography } from 'antd';
+import { Image, Typography } from 'antd';
 import { useLocation } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import { getEstimate } from '../../../utils/api/estimates-api';
 import { EstimateData } from '../../../utils/types/EstimateInterfaces';
-import Konva from 'konva';
-import { Stage } from 'react-konva';
 import EstimateShareBar from './EstimateShareBar/EstimateShareBar';
 import EstimateComments from './EstimateComments/EstimateComments';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
-import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
-import { AddShapesToLayer } from '../../../utils/shapeManagementUtils';
-import PiecePaper from '../PiecePaper/PiecePaper';
 
 const { Title } = Typography;
 
@@ -20,7 +15,6 @@ const ViewEstimate = () => {
     const [estimate, setEstimate] = useState<EstimateData | null>(null);
     const [estimateError, setEstimateError] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [canvasDimensions, setCanvasDimensions] = useState({ width: 0, height: 0 });
     const urlestimateId = new URLSearchParams(search).get('estimateId');
     const { auth0User } = useAuth0User();
 
@@ -44,53 +38,17 @@ const ViewEstimate = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search, estimate]);
 
-    useEffect(() => {
-        const setupCanvas = async () => {
-            if (estimate && estimate.canvasDesign && estimate.formInputs) {
-                const [pageWidth, pageHeight] = getWebCanvasDimensions(estimate.canvasDesign);
-                setCanvasDimensions({ width: pageWidth, height: pageHeight });
-
-                const rect = new Konva.Rect({
-                    x: 0,
-                    y: 0,
-                    width: pageWidth,
-                    height: pageHeight,
-                    fill: 'white',
-                });
-
-                const newLayer = new Konva.Layer();
-                newLayer.add(rect);
-
-                await AddShapesToLayer(estimate.canvasDesign, estimate.formInputs, newLayer);
-
-                const newStage = new Konva.Stage({
-                    width: pageWidth,
-                    height: pageHeight,
-                    container: 'containerId',
-                });
-                newStage.add(newLayer);
-            }
-        };
-        setupCanvas();
-    }, [estimate]);
-
     if (loading) return <Loading />;
     if (estimateError) return <Title level={3}>Error loading estimate</Title>;
     if (!estimate) return <Title level={3}>No estimate found</Title>;
 
     return (
         <div style={{ display: 'flex', flexDirection: "column", alignItems: "center" }}>
-            <div style={{ width: canvasDimensions.width, display: 'flex', flexDirection: "column", alignItems: "flex-start" }}>
+            <div style={{ width: '70%', display: 'flex', flexDirection: "column", alignItems: "flex-start" }}>
                 <Title level={3}>{estimate?.estimateName}</Title>
                 <EstimateShareBar estimate={estimate} />
                 <div style={{ height: 20 }} />
-                <PiecePaper
-                    pageHeight={canvasDimensions.height}
-                    pageWidth={canvasDimensions.width}
-                    id="containerId"
-                >
-                    <Stage width={canvasDimensions.width} height={canvasDimensions.height} />
-                </PiecePaper>
+                <Image id="containerId" src={estimate.estimateImgObj} />
                 {auth0User && <EstimateComments estimate={estimate} />}
             </div>
         </div>

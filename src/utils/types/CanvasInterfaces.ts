@@ -37,10 +37,6 @@ export interface UserImageObj extends ImageObj {
     type: 'UserImage';
 }
 
-export interface StockImageObj extends ImageObj {
-    type: 'StockImage';
-}
-
 export interface SolidShapeObj extends ShapeObj {
     fill: string;
     stroke: string;
@@ -148,8 +144,8 @@ export type FormInputs = (ShortTextInputObj | LongTextInputObj | PhoneInputObj |
 
 export type SolidShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
 export const SolidShapeTypes: SolidShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
-export type ImageType = 'UserImage' | 'StockImage';
-export const ImageTypes: ImageType[] = ['UserImage', 'StockImage'];
+export type ImageType = 'UserImage';
+export const ImageTypes: ImageType[] = ['UserImage'];
 export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput';
 export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
 export type TableType = 'TableInput';

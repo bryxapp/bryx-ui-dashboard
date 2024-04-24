@@ -44,7 +44,6 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
               case "Ellipse":
                 return <PreviewEllipse EllipseObj={shape as EllipseObj} />
               case 'UserImage':
-              case 'StockImage':
                 return <PreviewImage ImageObj={shape as ImageObj} />
               case 'Heading':
                 return <PreviewHeading HeadingObj={shape as HeadingObj} />

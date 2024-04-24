@@ -6,3 +6,8 @@ export const convertEpochTime = (epochTime:number) => {
     //Return Month Day, Year Hour:Minute AM/PM no seconds
     return date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
 }
+
+export const convertToDisplayDate = (date:Date) => {
+    //Return Month Day, Year Hour:Minute AM/PM no seconds
+    return date.toLocaleString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true });
+}

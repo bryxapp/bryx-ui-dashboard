@@ -8,7 +8,6 @@ import { BsTextParagraph } from "react-icons/bs";
 import { ShapeType } from "./types/CanvasInterfaces";
 import { MdOutlineRectangle as AddRectangleIcon, MdOutlineCrop75 as AddRoundedRectangleIcon, MdOutlineCircle as AddEllipseIcon } from 'react-icons/md';
 import { MdImageSearch } from "react-icons/md";
-import { FaRegImages } from "react-icons/fa";
 import { ReactElement } from "react";
 
 export const mapTypeToTitle = (type: ShapeType) => {
@@ -37,8 +36,6 @@ export const mapTypeToTitle = (type: ShapeType) => {
             return 'Ellipse'
         case 'UserImage':
             return 'User Image'
-        case 'StockImage':
-            return 'Stock Image'
         default:
             return type;
     }
@@ -68,8 +65,6 @@ export const mapTypeToIcon = (type: ShapeType):ReactElement => {
             return <AddEllipseIcon />
         case 'UserImage':
             return <MdImageSearch />
-        case 'StockImage':
-            return <FaRegImages />
         case 'TableInput':
         default:
             return <></>;
