@@ -4,6 +4,7 @@ import { Drawer, Button } from 'antd';
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 import Sider from 'antd/es/layout/Sider';
+import SwitchAccounts from './SwitchAccounts';
 
 const SideAppDrawer = () => {
     const { isOwner } = useOrganizationContext();
@@ -48,12 +49,16 @@ const SideAppDrawer = () => {
                             </Button>
                         }
                     >
+                        <SwitchAccounts />
                         <MenuItems isAdmin={isOwner} />
                     </Drawer>
                 </>
             ) : (
                 // Larger Screens
-                <MenuItems isAdmin={isOwner} />
+                <>
+                    <SwitchAccounts />
+                    <MenuItems isAdmin={isOwner} />
+                </>
             )}
         </Sider>
     );
