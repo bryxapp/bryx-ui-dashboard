@@ -3,7 +3,7 @@ import { Group, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import React, { useState, useRef, useEffect } from 'react';
 import Konva from 'konva';
-import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 interface TextCellProps {
@@ -111,11 +111,12 @@ const TextCell = ({
         padding: '0px',
         margin: '0px',
         boxSizing: 'border-box',
+        textWrap: 'wrap',
     };
 
-
-    const onChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, textCellObj.id);
+    const val = textCellObj.value;
+    const onInput = (event: any) => {
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.textContent, textCellObj.id);
     };
 
     useEffect(() => {
@@ -123,12 +124,12 @@ const TextCell = ({
             const range = document.createRange();
             const sel = window.getSelection();
             range.selectNodeContents(divRef.current);
-            range.collapse(false); // false to collapse the range to the end of the content
+            range.collapse(false);
             sel?.removeAllRanges();
             sel?.addRange(range);
             divRef.current.focus();
         }
-    }, [editing]);
+    }, [editing, textCellObj.value]);
 
     const handleDoubleClick = () => {
         setEditing(true); // Enable editing mode
@@ -169,11 +170,11 @@ const TextCell = ({
                             contentEditable={true}
                             style={style}
                             id={textCellObj.id}
-                            autoFocus
-                            onInput={onChange}
+                            onInput={onInput}
                             suppressContentEditableWarning={true}
+                            defaultValue={val}
                         >
-                            {textCellObj.value}
+                            {val}
                         </div>
                     </Html>
                 )}
