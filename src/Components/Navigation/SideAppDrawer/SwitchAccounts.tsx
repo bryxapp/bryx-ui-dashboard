@@ -20,9 +20,8 @@ const SwitchAccounts = () => {
             try {
                 const token = await getAccessToken();
                 if (!token) return;  // Exit if there's no token
-                const response = await getOrganizationsForUser(token);
-                console.log(response)
-                setOrganizations(response || []); // Use response or empty array to prevent errors
+                const retrievedOrganizations = await getOrganizationsForUser(token);
+                setOrganizations(retrievedOrganizations || []); // Use response or empty array to prevent errors
             } catch (error) {
                 console.error('Failed to fetch organizations:', error);
                 setOrganizations([]); // Reset or handle errors appropriately
