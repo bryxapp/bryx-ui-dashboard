@@ -4,15 +4,15 @@ import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeam } from '../../../utils/api/checkout-api';
 import logger from '../../../logging/logger';
 import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
-import { LogoutOutlined, CheckCircleOutlined } from '@ant-design/icons';
-import { Button, Card, Typography, Layout } from 'antd';
-import { LogoutOptions } from '@auth0/auth0-react';
+import { CheckCircleOutlined } from '@ant-design/icons';
+import { Card, Typography, Layout } from 'antd';
+
 const { Content } = Layout;
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const TeamCheckout = () => {
     const location = useLocation();
-    const { auth0User, isLoading, logout } = useAuth0User();
+    const { auth0User, isLoading } = useAuth0User();
     const [error, setError] = useState(false);
     const [requestSent, setRequestSent] = useState(false);
 
@@ -58,30 +58,25 @@ const TeamCheckout = () => {
         fetchData();
     }, [location.search, isLoading, auth0User, requestSent]);
 
-    const handleLogout = () => {
-        logout({ returnTo: 'dashboard.bryxbids.com' } as LogoutOptions);
-    };
-
     if (error) return <ErrorMessage dataName='checkout' />;
 
     return (
-        <Content style={{ marginTop: 32 }}>
-            <Card style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', padding: 24 }}>
-                <CheckCircleOutlined style={{ color: 'green', fontSize: 60 }} />
-                <Title level={4}>
-                    Order Complete
-                </Title>
-                <Title level={5}>
-                    You have successfully created your new team!
-                </Title>
-                <Text>
-                    You will need to log out and then log back in to access your new team.
-                </Text>
-                <Button type='primary' onClick={handleLogout} icon={<LogoutOutlined />} size='large' style={{ marginTop: 20 }}>
-                    Log Out
-                </Button>
-            </Card>
-        </Content>
+        <>
+            <Content style={{ marginTop: 32 }}>
+                <Card style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', padding: 24 }}>
+                    <CheckCircleOutlined style={{ color: 'green', fontSize: 60 }} />
+                    <Title level={4}>
+                        Order Complete
+                    </Title>
+                    <Title level={5}>
+                        You have successfully created your new team!
+                    </Title>
+                    <Typography.Text>
+                        You can now switch between your different teams using the 'Change Team' button below.
+                    </Typography.Text>
+                </Card>
+            </Content>
+        </>
     );
 };
 
