@@ -23,7 +23,7 @@ const EstimatesPagingControls: React.FC<EstimatesPagingControlsProps> = ({ estim
     }
 
     return (
-        <div>
+        <div style = {{display: "flex", justifyContent: "flex-end", alignItems: "center", marginTop:10}}>
             <Tooltip title={hasPreviousPage ? "Go to previous page" : "No previous pages"}>
                 <Button
                     disabled={!hasPreviousPage}
@@ -32,7 +32,7 @@ const EstimatesPagingControls: React.FC<EstimatesPagingControlsProps> = ({ estim
                     {"<"}
                 </Button>
             </Tooltip>
-            <Typography.Text type="secondary">{pageNumber}</Typography.Text>
+            <Typography.Title style={{margin:0, marginLeft:10, marginRight:10}} level={5} type="secondary">{pageNumber}</Typography.Title>
             <Tooltip title={hasNextPage ? "Go to next page" : "No additional pages"}>
                 <Button
                     disabled={!hasNextPage}

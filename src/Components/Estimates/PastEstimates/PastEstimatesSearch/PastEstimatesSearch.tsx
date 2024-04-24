@@ -83,7 +83,7 @@ const PastEstimatesSearch = ({
         }
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageNumber, pageSize]);
+    }, [getAccessToken, pageSize, pageNumber]);
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
