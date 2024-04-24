@@ -103,7 +103,8 @@ const CreateEstimate = () => {
         };
 
         fetchTemplate();
-    }, [draftId, templateId, getAccessToken, setCanvasDesign]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [draftId, templateId]);
 
     if (loading) return <Loading />;
 

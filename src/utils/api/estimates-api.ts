@@ -4,6 +4,7 @@ import axios from 'axios';
 import { EstimateData, EstimateFormFields, EstimateResponse, } from '../types/EstimateInterfaces';
 import { TemplateData, EstimateTemplateUsedData } from '../types/TemplateInterfaces';
 import { createImageUrl } from '../canvasUtils';
+import { Dayjs } from 'dayjs';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimates";
 
@@ -34,22 +35,37 @@ export async function createEstimatePDF(estimate: EstimateData) {
     return response.data as EstimateData;
 }
 
-export async function getEstimates(pageSize: number, pageNumber: number, token: string, searchTerm?: string, templateId?: string) {
-    console.log("ESTIMATES API")
-    // Initialize base URL
-    let url = `${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export async function getEstimates(
+    pageSize: number,
+    pageNumber: number,
+    token: string,
+    searchTerm?: string,
+    templateId?: string,
+    dateRange?: [Dayjs | null, Dayjs | null],
+): Promise<EstimateResponse> {
+    console.log("ESTIMATES API");
+    // Initialize base URL, fix the double ampersand
+    let url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-    // Check if searchTerm is provided
+    // Append searchTerm if provided
     if (searchTerm) {
-        url += `&searchTerm=${searchTerm}`;
+        url += `&searchTerm=${encodeURIComponent(searchTerm)}`;
     }
 
-    // Check if templateId is provided
+    // Append templateId if provided
     if (templateId) {
-        url += `&templateId=${templateId}`;
+        url += `&templateId=${encodeURIComponent(templateId)}`;
     }
 
-    // Get all templates from the api
+    // Append startDate and endDate if the dateRange is provided
+    if (dateRange) {
+        const [startDate, endDate] = dateRange;
+        if (startDate && endDate) {
+            url += `&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+        }
+    }
+
+    // Execute the GET request with the Authorization header
     const response = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
     return response.data as EstimateResponse;
 }

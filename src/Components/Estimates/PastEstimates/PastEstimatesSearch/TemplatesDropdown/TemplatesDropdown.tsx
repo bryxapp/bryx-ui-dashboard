@@ -46,7 +46,6 @@ const TemplatesDropdown: React.FC<PastEstimatesSearchProps> = ({ disabled, selec
     }, [auth0User?.sub]);
 
     return (
-        <div style={{ paddingLeft: "16px" }}>
             <Select
                 disabled={disabled}
                 placeholder="Template ID"
@@ -68,7 +67,6 @@ const TemplatesDropdown: React.FC<PastEstimatesSearchProps> = ({ disabled, selec
                     ))
                 )}
             </Select>
-        </div>
     );
 };
 
