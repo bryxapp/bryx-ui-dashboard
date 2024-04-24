@@ -80,7 +80,6 @@ const ShapesToolbar = ({ isLoading }: CanvasToolbarProps) => {
             >
                 <ImagesMenu />
             </Menu.SubMenu>
-
         </Menu>
     );
 };
