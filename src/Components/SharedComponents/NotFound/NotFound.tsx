@@ -1,12 +1,11 @@
-import { Typography } from "@mui/material";
-
+import { Typography } from 'antd';
 
 const NotFound = () => {
     return (
-        <div>
-            <Typography>
+        <div style={{ textAlign: 'center'}}> {/* Style added for demonstration; adjust as needed */}
+            <Typography.Text>
                 404 Not Found
-            </Typography>
+            </Typography.Text>
         </div>
     );
 }

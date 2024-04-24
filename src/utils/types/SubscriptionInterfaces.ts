@@ -36,7 +36,7 @@ export const proSubscription: SubscriptionInfo = {
         "Create up to 5 Templates",
         "Unlimited Estimates"
     ],
-    stripeId: 'price_1NypfzEjO3JKZRm1Wj1BdyDz'
+    stripeId: 'price_1P09ZNEjO3JKZRm1hxRNcvY2'
 }
 
 export const teamSubscription: SubscriptionInfo = {
@@ -48,7 +48,7 @@ export const teamSubscription: SubscriptionInfo = {
         "Create Unlimited Templates",
         "Unlimited Estimates"
     ],
-    stripeId: 'price_1NypgEEjO3JKZRm1JSmm4nSC'
+    stripeId: 'price_1P09ZCEjO3JKZRm1arSzZFsI'
 }
 
 export const mapSubscriptionToInfo = (subscription: SubscriptionType): SubscriptionInfo => {

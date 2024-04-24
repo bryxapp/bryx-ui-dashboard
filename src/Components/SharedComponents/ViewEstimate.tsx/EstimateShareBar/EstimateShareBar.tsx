@@ -1,52 +1,33 @@
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import LinkIcon from "@mui/icons-material/Link"
-import PDFICON from "@mui/icons-material/PictureAsPdf"
-import styled from "@emotion/styled";
-import { createEstimatePDF } from "../../../../utils/api/estimates-api";
-import ShareLinkDialog from "./ShareLinkDialog/ShareLinkDialog";
-import { useState } from "react";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
+import { Button, Tooltip } from 'antd';
+import { LinkOutlined, FilePdfOutlined } from '@ant-design/icons';
+import { createEstimatePDF } from '../../../../utils/api/estimates-api';
+import ShareLinkDialog from './ShareLinkDialog/ShareLinkDialog';
+import { useState } from 'react';
+import { Spin } from 'antd';
+import { useEffect } from 'react';
 
-
-const EstimateButton = styled(Button)`
-    margin-right: 10px;
-`;
-interface EstimateShareBarProps {
-    estimate: any;
-}
-
-const EstimateShareBar = ({ estimate }: EstimateShareBarProps) => {
+const EstimateShareBar = ({ estimate }: any) => {
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
     const [pdfLoading, setPdfLoading] = useState(false);
-    const [pdfUrl, setPdfUrl] = useState("");
+    const [pdfUrl, setPdfUrl] = useState('');
 
     const handlePdfClick = async () => {
         if (!estimate) return;
         if (estimate.estimatePdfUrl) {
             window.open(estimate?.estimatePdfUrl, '_blank');
-        }
-        else if (pdfUrl) {
+        } else if (pdfUrl) {
             window.open(pdfUrl, '_blank');
-        }
-        else {
+        } else {
             setPdfLoading(true);
             try {
-                await createEstimatePDF(estimate).then((res) => {
-                    setTimeout(() => {
-                    }, 3000);
-                    setPdfLoading(false);
-                    //wait 2 seconds after api responds
-
-                    if (res.estimatePdfUrl) {
-                        setPdfUrl(res.estimatePdfUrl);
-                        window.open(res.estimatePdfUrl, '_blank');
-                    }
-                })
-            }
-            catch {
-                console.log("Error creating PDF")
+                const res = await createEstimatePDF(estimate);
+                if (res.estimatePdfUrl) {
+                    setPdfUrl(res.estimatePdfUrl);
+                    window.open(res.estimatePdfUrl, '_blank');
+                }
+            } catch (error) {
+                console.log('Error creating PDF', error);
+            } finally {
                 setPdfLoading(false);
             }
         }
@@ -54,39 +35,29 @@ const EstimateShareBar = ({ estimate }: EstimateShareBarProps) => {
 
     const handleOpenShareDialog = () => {
         setShareDialogOpen(true);
-    }
+    };
+
+    useEffect(() => {
+        if (pdfUrl) {
+            window.open(pdfUrl, '_blank');
+        }
+    }, [pdfUrl]);
 
     return (
-        <div>
-            <Tooltip title="Share Link">
-                <EstimateButton variant="contained" color="primary" onClick={handleOpenShareDialog}>
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        width={30} // Set a fixed width
-                        height={24} // Set a fixed height
-                    >
-                        <LinkIcon />
-                    </Box>
-                </EstimateButton>
+        <div style = {{display: 'flex', justifyContent: 'space-between', width: '7rem'}}>
+            <Tooltip title="Share Link" placement='bottom'>
+                <Button onClick={handleOpenShareDialog} size='large'>
+                    <LinkOutlined />
+                </Button>
             </Tooltip>
-            <Tooltip title="Create a PDF">
-                <EstimateButton variant="contained" color="primary" onClick={handlePdfClick}>
-                    <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        width={24} // Set a fixed width
-                        height={24} // Set a fixed height
-                    >
-                        {pdfLoading ? <CircularProgress color="secondary" /> : <PDFICON />}
-                    </Box>
-                </EstimateButton>
+            <Tooltip title="Create a PDF" placement='bottom'>
+                <Button onClick={handlePdfClick} size='large'>
+                    {pdfLoading ? <Spin /> : <FilePdfOutlined />}
+                </Button>
             </Tooltip>
             <ShareLinkDialog estimate={estimate} open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} />
         </div>
     );
-}
+};
 
 export default EstimateShareBar;

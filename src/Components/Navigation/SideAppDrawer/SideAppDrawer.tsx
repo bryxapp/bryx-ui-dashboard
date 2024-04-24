@@ -1,68 +1,74 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import MenuItems from '../MenuItems/MenuItems';
-import Box from '@mui/material/Box';
-import styled from '@emotion/styled';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import CloseIcon from '@mui/icons-material/Close';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import { Drawer, Button } from 'antd';
+import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
+import Sider from 'antd/es/layout/Sider';
+import SwitchAccounts from './SwitchAccounts';
 
 const SideAppDrawer = () => {
-    const theme = useTheme();
-    const {isOwner} = useOrganizationContext();
+    const { isOwner } = useOrganizationContext();
+    const [open, setOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-    const [openDrawer, setOpenDrawer] = useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpenDrawer(true);
+    const showDrawer = () => {
+        setOpen(true);
     };
 
-    const handleDrawerClose = () => {
-        setOpenDrawer(false);
+    const onClose = () => {
+        setOpen(false);
     };
 
-    const SideAppDrawerWrapper = styled(Box)`
-        background-color: ${theme.palette.background.paper};
-        min-height: 90vh;
-        padding: 1rem;
-    `;
+    // Handle window resize
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
 
-    const MenuButton = styled(IconButton)`
-        margin-right: 16px;
-    `;
+        window.addEventListener('resize', handleResize);
+
+        // Cleanup the event listener on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
-        <>
-            <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                <MenuButton onClick={handleDrawerOpen}>
-                    <MenuIcon sx={{fontSize:'2rem'}} />
-                </MenuButton>
-            </Box>
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                <SideAppDrawerWrapper>
-                    <MenuItems isAdmin={isOwner}/>
-                </SideAppDrawerWrapper>
-            </Box>
-            <Drawer
-                anchor="left"
-                open={openDrawer}
-                onClose={handleDrawerClose}
-                sx={{ display: { xs: 'block', sm: 'none' } }}
-            >
-                <Box sx={{ backgroundColor: theme.palette.background.default , minHeight: '100vh', padding: '1rem' }}>
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                        <Typography variant="h4" component="div" sx={{ flexGrow: 1 }} >
-                            BRYX
-                        </Typography>
-                        <CloseIcon onClick={handleDrawerClose} sx={{fontSize:'2rem'}} />
-                    </Box>
-                    <MenuItems isAdmin={isOwner} />
-                </Box>
-            </Drawer>
-        </>
+        <Sider width="200">
+            {isMobile ? (
+                // Small Screens
+                <>
+                    <Button type="primary" onClick={showDrawer} icon={<MenuOutlined />} />
+                    <Drawer
+                        title="BRYX"
+                        placement="left"
+                        closable={false}
+                        onClose={onClose}
+                        open={open}
+                        extra={
+                            <Button type="text" onClick={onClose}>
+                                <CloseOutlined />
+                            </Button>
+                        }
+                    >
+                        <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                            <MenuItems isAdmin={isOwner} />
+                            <div style={{ marginTop: 'auto' }}>
+                                <SwitchAccounts />
+                            </div>
+                        </div>
+                    </Drawer>
+                </>
+            ) : (
+                // Larger Screens
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div>
+                        <MenuItems isAdmin={isOwner} />
+                    </div>
+                    <div style={{ marginTop: 'auto', marginBottom: "2rem", alignSelf: "center" }}>
+                        <SwitchAccounts />
+                    </div>
+                </div>
+            )}
+        </Sider>
     );
 };
 

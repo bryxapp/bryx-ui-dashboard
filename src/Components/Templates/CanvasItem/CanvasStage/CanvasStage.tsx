@@ -1,32 +1,16 @@
 import { useState } from 'react';
 import { Stage, Layer } from 'react-konva';
-import styled from '@emotion/styled';
-import { EllipseObj, RectangleObj, TextInputObj, TextFieldObj, LineObj, ImageObj, ShapeObj, CanvasDesignData, ShapeColor } from '../../../../utils/types/CanvasInterfaces';
+import { ShapeObj } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
 import { useCanvasKeyboardShortcuts } from '../useCanvasKeyboardShortcuts';
 import ShapeRenderer from './ShapeRenderer';
 import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
-import { selectShape } from '../../../../utils/shapeManagementUtils';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
+import PiecePaper from '../../../SharedComponents/PiecePaper/PiecePaper';
 
-const PiecePaper = styled('div')<{ pageWidth: string | number; pageHeight: string | number }>((props) => ({
-    width: props.pageWidth,
-    height: props.pageHeight,
-    boxShadow: '0 0 0.5in -0.25in rgba(0,0,0,0.5)',
-    borderRadius: '0.25in',
-    margin: 'auto',
-    overflow: 'hidden',
-    backgroundColor: 'white',
-}));
-interface CanvasStageProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: any;
-    color: ShapeColor;
-    setColor: any;
-}
-
-
-const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStageProps) => {
+const CanvasStage = () => {
+    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId, undoLastChange } = useCanvasDesignContext();
     const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
 
     //Parse url to get canvas starter name
@@ -39,18 +23,18 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
             setCanvasDesign(canvasStarter.canvasDesign);
         }
     }
+    const [copiedObject, setCopiedObject] = useState<ShapeObj | null>(null);
 
-    const [copiedObject, setCopiedObject] = useState<ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj | null>(null);
-
-    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, copiedObject, setCopiedObject });
+    useCanvasKeyboardShortcuts({ canvasDesign, setCanvasDesign, selectedId, setSelectedId, copiedObject, setCopiedObject, undoLastChange });
 
     const checkDeselect = (e: any) => {
         // deselect when clicked on empty area
         const clickedOnEmpty = e.target === e.target.getStage();
         if (clickedOnEmpty) {
-            selectShape(null, canvasDesign, setCanvasDesign);
+            setSelectedId(null)
         }
     };
+
 
     return (
         <PiecePaper
@@ -63,9 +47,9 @@ const CanvasStage = ({ canvasDesign, setCanvasDesign, setColor }: CanvasStagePro
                 onMouseDown={checkDeselect}
                 onTouchStart={checkDeselect}
             >
-                <Layer>
+                <Layer >
                     {/* Place all shapes on the canvas */}
-                    <ShapeRenderer pageWidth={pageWidth} pageHeight={pageHeight} setCanvasDesign={setCanvasDesign} canvasDesign={canvasDesign} setColor={setColor} />
+                    <ShapeRenderer />
                 </Layer>
             </Stage>
         </PiecePaper>

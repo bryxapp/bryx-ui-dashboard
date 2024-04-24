@@ -1,60 +1,90 @@
 import { useEffect } from "react";
-import { findShape, deleteShape, moveShape, selectShape, pasteObject, toggleTextStyle } from "../../../utils/shapeManagementUtils";
+import { findShape, deleteShape, moveShape, pasteObject, toggleTextStyle } from "../../../utils/shapeManagementUtils";
+import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
+
+interface CanvasKeyboardShortcutsProps {
+  canvasDesign: CanvasDesignData;
+  setCanvasDesign: any;
+  selectedId: string | null;
+  setSelectedId: any;
+  copiedObject: any;
+  setCopiedObject: any;
+  undoLastChange: any;
+}
 
 export const useCanvasKeyboardShortcuts = ({
   canvasDesign,
   setCanvasDesign,
+  selectedId,
   setSelectedId,
   copiedObject,
   setCopiedObject,
-}: any) => {
+  undoLastChange,
+}: CanvasKeyboardShortcutsProps) => {
 
   useEffect(() => {
     const handleKeyDown = (event: any) => {
+      if (event.target.tagName === "TEXTAREA") return;
       switch (event.key) {
         case "Delete":
-          deleteShape({ canvasDesign, setCanvasDesign });
+          deleteShape(canvasDesign, setCanvasDesign, selectedId, setSelectedId);
           break;
         case "Escape":
-          selectShape(null, canvasDesign, setCanvasDesign);
+          setSelectedId(null)
           break;
         case "ArrowUp":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "up" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "up", selectedId);
           break;
         case "ArrowDown":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "down" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "down", selectedId);
           break;
         case "ArrowLeft":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "left" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "left", selectedId);
           break;
         case "ArrowRight":
-          moveShape({ canvasDesign, setCanvasDesign, direction: "right" });
+          event.preventDefault();
+          moveShape(canvasDesign, setCanvasDesign, "right", selectedId);
           break;
         case "c":
           if (event.ctrlKey || event.metaKey) {
-            setCopiedObject(findShape(canvasDesign,canvasDesign.selectedId) || null);
+            setCopiedObject(findShape(canvasDesign, selectedId) || null);
           }
           break;
         case "v":
           if (event.ctrlKey || event.metaKey) {
-            if (copiedObject && canvasDesign.selectedId !== "ColorPicker") {
-              pasteObject(canvasDesign, setCanvasDesign, copiedObject); // Adjust the paste position as needed
+            if (copiedObject) {
+              pasteObject(canvasDesign, setCanvasDesign, selectedId, copiedObject); // Adjust the paste position as needed
             }
           }
           break;
         case "b":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, "bold");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "bold");
           }
           break;
         case "i":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, "italic");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "italic");
           }
           break;
         case "u":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, "underline");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "underline");
+          }
+          break;
+        case "s":
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            //TODO Save the canvas design
+          }
+          break;
+        case "z":
+          if (event.ctrlKey || event.metaKey) {
+            event.preventDefault();
+            undoLastChange();
           }
           break;
         default:
@@ -67,5 +97,5 @@ export const useCanvasKeyboardShortcuts = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject]);
+  }, [canvasDesign, setCanvasDesign, setSelectedId, copiedObject, setCopiedObject, selectedId, undoLastChange]);
 };

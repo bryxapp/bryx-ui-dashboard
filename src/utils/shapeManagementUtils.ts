@@ -1,8 +1,8 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, LineObj, RectangleObj, ShapeObj, TableCellObj, TextFieldObj, TextInputObj, TextTableObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { drawBorders } from "../Components/Templates/CanvasItem/Shapes/TextTableUtils";
+import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -17,13 +17,12 @@ export function generateShapeId(): string {
     return id;
 }
 
-export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValues: EstimateFormFields, layer: Konva.Layer) {
+export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInputs: EstimateFormFields, layer: Konva.Layer) {
     for (const shape of canvasDesign.Shapes) {
-        let konvaShape: Konva.Group | Konva.Shape = new Konva.Group();
         switch (shape.type) {
             case 'Rectangle':
                 const rectangle = shape as RectangleObj;
-                konvaShape = new Konva.Rect({
+                layer.add(new Konva.Rect({
                     x: rectangle.x,
                     y: rectangle.y,
                     width: rectangle.width,
@@ -32,11 +31,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     stroke: rectangle.stroke,
                     strokeWidth: rectangle.strokeWidth,
                     rotation: rectangle.rotation,
-                });
+                }))
                 break;
             case 'RoundedRectangle':
                 const roundedRectangle = shape as RectangleObj;
-                konvaShape = new Konva.Rect({
+                layer.add(new Konva.Rect({
                     x: roundedRectangle.x,
                     y: roundedRectangle.y,
                     width: roundedRectangle.width,
@@ -46,11 +45,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     strokeWidth: roundedRectangle.strokeWidth,
                     cornerRadius: roundedRectangle.cornerRadius,
                     rotation: roundedRectangle.rotation,
-                });
+                }))
                 break;
             case 'Ellipse':
                 const ellipse = shape as EllipseObj;
-                konvaShape = new Konva.Ellipse({
+                layer.add(new Konva.Ellipse({
                     x: ellipse.x,
                     y: ellipse.y,
                     radiusX: ellipse.radiusX,
@@ -59,194 +58,104 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, fieldValu
                     stroke: ellipse.stroke,
                     strokeWidth: ellipse.strokeWidth,
                     rotation: ellipse.rotation,
-                });
+                }))
                 break;
-            case 'Line':
-                const line = shape as LineObj;
-                konvaShape = new Konva.Line({
-                    x: line.x,
-                    y: line.y,
-                    points: line.points,
-                    stroke: line.stroke,
-                    strokeWidth: line.strokeWidth,
-                    rotation: line.rotation,
-                });
-                break;
-            case 'TextInput':
-                const textInput = shape as TextInputObj;
-                if (textInput.format === "currency") {
-                    fieldValues[textInput.id] = "$" + fieldValues[textInput.id];
-                }
-
-                // Create a Konva.Text object for placeholder to calculate its width and height
-                const placeholderText = new Konva.Text({
-                    text: textInput.displayName,
-                    fontSize: textInput.fontSize,
-                    fontFamily: textInput.fontFamily,
-                    fontStyle: textInput.fontStyle,
-                    textDecoration: textInput.textDecoration,
-                    align: textInput.align
-                });
-
-                const isParagraph = textInput.format === 'paragraph';
-                //const containerWidth = isParagraph ? textInput.fontSize * 15 : textInput.fontSize * 10;
-                const containerHeight = isParagraph ? textInput.fontSize * 4 : textInput.fontSize * 2;
-
-                // Calculate the position to center the text within the TextInput shape
-                //const x =  + (containerWidth - placeholderText.width()) / 2;
-                const centered_y = textInput.y + (containerHeight - placeholderText.height()) / 2;
-
-                konvaShape = new Konva.Text({
-                    x: textInput.x,
-                    y: centered_y,
-                    text: fieldValues[textInput.id],
-                    fontSize: textInput.fontSize,
-                    fill: textInput.fill,
-                    rotation: textInput.rotation,
-                    fontFamily: textInput.fontFamily,
-                    fontStyle: textInput.fontStyle,
-                    textDecoration: textInput.textDecoration,
-                    align: textInput.align
-                });
-                break;
-            case 'TextField':
-                const textField = shape as TextFieldObj;
-                konvaShape = new Konva.Text({
-                    x: textField.x,
-                    y: textField.y,
-                    text: textField.value,
-                    fontSize: textField.fontSize,
-                    fill: textField.fill,
-                    rotation: textField.rotation,
-                    fontFamily: textField.fontFamily,
-                    fontStyle: textField.fontStyle,
-                    textDecoration: textField.textDecoration,
-                    align: textField.align
-                });
-                break;
-            case 'TextTable':
-                const textTable = shape as TextTableObj;
-                const textTableGroup = new Konva.Group({
-                    x: textTable.x,
-                    y: textTable.y
-                });
-
-                //Calculate total table width based on individual cell widths
-                const tableWidth = textTable.rows[0].reduce((acc, cell) => acc + cell.width, 0);
-                //Calculate total table height based on individual cell heights
-                const tableHeight = textTable.rows.reduce((acc, row) => acc + row[0].height, 0);
-                const tableRect = new Konva.Rect({
-                    width: tableWidth,
-                    height: tableHeight,
-                    stroke: textTable.border ? textTable.border.color : '',
-                    strokeWidth: textTable.border ? textTable.border.width : 0,
-                });
-                textTableGroup.add(tableRect);
-
-                const borderProps = drawBorders(textTable);
-                // Iterate over the border properties to create and add lines to the layer
-                borderProps.forEach(border => {
-                    const line = new Konva.Line({
-                        points: border.points,
-                        stroke: border.stroke,
-                        strokeWidth: border.strokeWidth,
-                    });
-                    textTableGroup.add(line);
-                });
-
-                for (const [rowIndex, row] of textTable.rows.entries()) {
-                    for (const [cellIndex, cell] of row.entries()) {
-                        // Calculate the X position of the cell based on the widths of all previous cells in the row
-                        const cellX = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
-                        // Calculate the Y position of the cell based on the heights of all rows above the current row
-                        const cellY = textTable.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
-
-                        if (cell.content?.type === "TextField") {
-                            const textField = cell.content as TextFieldObj;
-                            const cellText = new Konva.Text({
-                                x: cellX,
-                                y: cellY,
-                                text: textField.value,
-                                fontSize: textField.fontSize,
-                                fill: textField.fill,
-                                rotation: textField.rotation,
-                                fontFamily: textField.fontFamily,
-                                fontStyle: textField.fontStyle,
-                                textDecoration: textField.textDecoration,
-                                align: textField.align
-                            });
-                            textTableGroup.add(cellText);
-                        }
-                        else if (cell.content?.type === "TextInput") {
-                            const textInput = cell.content as TextInputObj;
-                            if (textInput.format === "currency") {
-                                fieldValues[textInput.id] = "$" + fieldValues[textInput.id];
-                            }
-
-                            // Create a Konva.Text object for placeholder to calculate its width and height
-                            const placeholderText = new Konva.Text({
-                                text: textInput.displayName,
-                                fontSize: textInput.fontSize,
-                                fontFamily: textInput.fontFamily,
-                                fontStyle: textInput.fontStyle,
-                                textDecoration: textInput.textDecoration,
-                                align: textInput.align
-                            });
-
-                            const isParagraph = textInput.format === 'paragraph';
-                            //const containerWidth = isParagraph ? textInput.fontSize * 15 : textInput.fontSize * 10;
-                            const containerHeight = isParagraph ? textInput.fontSize * 4 : textInput.fontSize * 2;
-
-                            // Calculate the position to center the text within the TextInput shape
-                            //const x =  + (containerWidth - placeholderText.width()) / 2;
-                            const centeredY = cellY + (containerHeight - placeholderText.height()) / 2;
-
-                            const cellText = new Konva.Text({
-                                x: cellX + 5,
-                                y: centeredY + 5,
-                                text: fieldValues[textInput.id],
-                                fontSize: textInput.fontSize,
-                                fill: textInput.fill,
-                                rotation: textInput.rotation,
-                                fontFamily: textInput.fontFamily,
-                                fontStyle: textInput.fontStyle,
-                                textDecoration: textInput.textDecoration,
-                                align: textInput.align
-                            });
-                            textTableGroup.add(cellText);
-                        }
-                    }
-                }
-                layer.add(textTableGroup);
-                break;
-            case 'Image':
+            case 'UserImage':
                 const imageObj = shape as ImageObj;
                 const image = await loadImage(imageObj.src);
-                konvaShape = new Konva.Image({
+                layer.add(new Konva.Image({
                     x: imageObj.x,
                     y: imageObj.y,
                     image: image,
                     width: imageObj.width,
                     height: imageObj.height,
                     rotation: imageObj.rotation,
-                    draggable: imageObj.isDragging,
-                });
+                }))
                 break;
-
+            case 'PhoneInput':
+            case 'EmailInput':
+            case 'ShortTextInput':
+            case 'LongTextInput':
+            case 'DateInput':
+                const inputObj = shape as InputObj;
+                //Create Group
+                const group = new Konva.Group({
+                    x: inputObj.x,
+                    y: inputObj.y,
+                    rotation: inputObj.rotation,
+                });
+                //Create Label Text Shape for measurements
+                const inputLabel = inputObj.label;
+                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel, inputLabel.value);
+                // Create Content Text Shape for measurements
+                const inputContent = inputObj.content;
+                const [contentShapeWidth,] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
+                //Container Measurements 
+                const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+                if (inputObj.hasLabel) {
+                    group.add(new Konva.Text({
+                        x: getTextXAlignment(inputLabel, containerWidth, inputLabel.horizontalAlign),
+                        y: 0,
+                        text: inputLabel.value,
+                        fontSize: inputLabel.fontSize,
+                        fill: inputLabel.fill,
+                        fontFamily: inputLabel.fontFamily,
+                        fontStyle: inputLabel.fontStyle,
+                        textDecoration: inputLabel.textDecoration,
+                        horizontalAlign: inputLabel.horizontalAlign
+                    }))
+                }
+                //Add Content
+                const value = formInputs[inputObj.id].value;
+                group.add(new Konva.Text({
+                    x: getInputXAlignment(inputContent, value, containerWidth),
+                    y: inputObj.hasLabel ? labelShapeHeight + (inputLabel.fontSize / 10) : 0,
+                    text: value,
+                    fontSize: inputContent.fontSize,
+                    fill: inputContent.fill,
+                    fontFamily: inputContent.fontFamily,
+                    fontStyle: inputContent.fontStyle,
+                    textDecoration: inputContent.textDecoration,
+                    horizontalAlign: inputContent.horizontalAlign
+                }))
+                layer.add(group);
+                break;
+            case 'Heading':
+                const headingObj = shape as HeadingObj;
+                layer.add(new Konva.Text({
+                    x: headingObj.x,
+                    y: headingObj.y,
+                    text: headingObj.value,
+                    fontSize: headingObj.fontSize,
+                    fill: headingObj.fill,
+                    rotation: headingObj.rotation,
+                    fontFamily: headingObj.fontFamily,
+                    fontStyle: headingObj.fontStyle,
+                    textDecoration: headingObj.textDecoration,
+                }))
+                break;
+            case 'Paragraph':
+                const paragraphObj = shape as ParagraphObj;
+                layer.add(new Konva.Text({
+                    x: paragraphObj.x,
+                    y: paragraphObj.y,
+                    text: paragraphObj.value,
+                    fontSize: paragraphObj.fontSize,
+                    fill: paragraphObj.fill,
+                    rotation: paragraphObj.rotation,
+                    fontFamily: paragraphObj.fontFamily,
+                    fontStyle: paragraphObj.fontStyle,
+                    textDecoration: paragraphObj.textDecoration,
+                    horizontalAlign: paragraphObj.horizontalAlign
+                }))
+                break;
             default:
                 break;
         }
-
-        konvaShape?.setAttrs({
-            id: shape.id,
-            draggable: shape.isDragging
-        });
-
-        layer.add(konvaShape);
     }
 }
 
-export const findShape = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined  => {
+export const findShape = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
     if (!id) {
         return undefined;
     }
@@ -254,83 +163,73 @@ export const findShape = (canvasDesign: CanvasDesignData, id: string | null): Sh
         if (shape.id === id) {
             return shape;
         }
-        if (shape.type === "TextTable") {
-            const textTable = shape as TextTableObj;
-            for (const row of textTable.rows) {
+        if (isTableObject(shape)) {
+            const tableInputObj = shape as TableInputObj;
+            for (const row of tableInputObj.rows) {
                 for (const cell of row) {
-                    if (cell.id === id)
+                    if (cell.id === id) {
                         return cell;
+                    }
                 }
             }
         }
     }
     return undefined;
+};
+
+export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
+    switch (shape.type) {
+        case 'Rectangle':
+        case 'RoundedRectangle':
+            return (shape as RectangleObj).width;
+        case 'Ellipse':
+            return (shape as EllipseObj).radiusX * 2;
+        case 'UserImage':
+            return (shape as ImageObj).width;
+        default:
+            return 0;
+    }
+};
+
+export const getTextWidthAndHeight = (textObj: TextBase, value: string): [number, number] => {
+    const tempTextShape = createTempTextKonvaShape(textObj, value);
+    return [tempTextShape.width(), tempTextShape.height()];
 };
 
 export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {
-    const selectedShape = findShape(canvasDesign, canvasDesign.selectedId)
+    const selectedShape = findShape(canvasDesign, id)
     if (!selectedShape) return
-    if (selectedShape.type === "TableCell") {
-        const cell = selectedShape as TableCellObj
-        if (cell.content) {
-            return cell.content as TextInputObj | TextFieldObj
-        }
-        return
-    }
-    return (selectedShape as TextInputObj | TextFieldObj)
+    return (selectedShape as TextObj)
 }
 
-export const findCell = (canvasDesign: CanvasDesignData, id: string | null): ShapeObj | undefined => {
-    if (!id) {
-        return undefined;
-    }
-    for (const shape of canvasDesign.Shapes) {
-        if (shape.type === "TextTable") {
-            const textTable = shape as TextTableObj;
-            for (const row of textTable.rows) {
-                for (const cell of row) {
-                    if (cell.id === id)
-                        return cell;
-                }
-            }
-        }
-    }
-    return undefined;
-};
+export const getInputShape = (canvasDesign: CanvasDesignData, id: string | null) => {
+    const selectedShape = findShape(canvasDesign, id)
+    if (!selectedShape) return
+    return (selectedShape as InputObj)
+}
 
 export const isTextObject = (shape?: ShapeObj): boolean => {
-    return shape?.type === 'TextInput' || shape?.type === 'TextField' || shape?.type === 'TableCell';
+    return shape ? TextTypes.includes(shape.type as TextType) : false;
 };
 
-export const isShapeNested = (canvasDesign: CanvasDesignData, id: string | null): boolean => {
-    if (!id) {
-        return false;
-    }
-    for (const shape of canvasDesign.Shapes) {
-        if (shape.id === id) {
-            return false;
-        }
-        if (shape.type === "TextTable") {
-            const textTable = shape as TextTableObj;
-            for (const row of textTable.rows) {
-                for (const cell of row) {
-                    if (cell.id === id)
-                        return true;
-                }
-            }
-        }
-    }
-    return false;
+export const isInputObject = (shape?: ShapeObj): boolean => {
+    return shape ? InputTypes.includes(shape.type as InputType) : false;
 };
 
-export const isTextInputObj = (canvasDesign:CanvasDesignData, selectedId:string|null): boolean => {
-   const shape = findShape(canvasDesign, selectedId);
-   if (shape?.type === 'TextInput') return true;
-   if (shape?.type === 'TableCell'){
-         const cell = shape as TableCellObj;
-         if (cell.content?.type === 'TextInput') return true;
-   }
-    return false;
+export const isTableObject = (shape?: ShapeObj): boolean => {
+    return shape ? TableTypes.includes(shape.type as TableType) : false;
+};
+
+export const isCellObject = (shape?: ShapeObj): boolean => {
+    return shape ? CellTypes.includes(shape.type as CellType) : false;
+};
+
+export const isSolidShapeObj = (shape?: ShapeObj): boolean => {
+    return shape ? SolidShapeTypes.includes(shape.type as SolidShapeType) : false;
+};
+
+export const isImageObject = (shape?: ShapeObj): boolean => {
+    return shape ? ImageTypes.includes(shape.type as ImageType) : false;
 }
 
 export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
@@ -346,62 +245,18 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
             return { ...shape, [propertyName]: value };
         }
 
-        // Handle nested shapes for TextTable
-        else if (shape.type === "TextTable") {
-            const textTable = shape as TextTableObj;
-            let isCellUpdated = false;
-            const updatedRows = textTable.rows.map(row =>
-                row.map(cell => {
-                    if (cell.id === id && !isCellUpdated) {
-                        isCellUpdated = true;
-                        foundAndUpdated = true;
-                        if (cell.content){
-                            return { ...cell, content: { ...cell.content, [propertyName]: value } };
-                        }
-                    }
-                    return cell;
-                })
-            );
-
-            // If any cell was updated, return the updated TextTable shape
-            if (isCellUpdated) {
-                return { ...shape, rows: updatedRows };
-            }
-        }
-
-        // Return the shape unchanged if no conditions are met
-        return shape;
-    });
-
-    // Update the canvasDesign only if an update was made
-    if (foundAndUpdated) {
-        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
-    }
-};
-
-export const updateCellProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
-    let foundAndUpdated = false;
-
-    const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-
-        if (shape.type === "TextTable") {
-            const textTable = shape as TextTableObj;
-            let isCellUpdated = false;
-            const updatedRows = textTable.rows.map(row =>
-                row.map(cell => {
-                    if (cell.id === id && !isCellUpdated) {
-                        isCellUpdated = true;
+        if (shape.type === 'TableInput') {
+            const tableInputObj = shape as TableInputObj;
+            const updatedRows = tableInputObj.rows.map((row) => {
+                return row.map((cell) => {
+                    if (cell.id === id) {
                         foundAndUpdated = true;
                         return { ...cell, [propertyName]: value };
                     }
                     return cell;
-                })
-            );
-
-            // If any cell was updated, return the updated TextTable shape
-            if (isCellUpdated) {
-                return { ...shape, rows: updatedRows };
-            }
+                });
+            });
+            return { ...tableInputObj, rows: updatedRows };
         }
 
         // Return the shape unchanged if no conditions are met
@@ -414,22 +269,74 @@ export const updateCellProperty = (canvasDesign: CanvasDesignData, setCanvasDesi
     }
 };
 
-export const deleteShape = ({ canvasDesign, setCanvasDesign }: any) => {
+export const updateInputProperty = (
+    canvasDesign: CanvasDesignData,
+    setCanvasDesign: Function,
+    itemName: 'content' | 'label',
+    propertyName: string,
+    value: any,
+    id: string | null
+) => {
+    let foundAndUpdated = false;
+
+    const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+        // Skip any further updates after the first match is found and updated
+        if (foundAndUpdated) return shape;
+
+        if (shape.id === id) {
+            foundAndUpdated = true;
+            let inputObj = shape as InputObj;
+            // Correct way to dynamically update nested properties
+            const updatedItem = { ...inputObj[itemName], [propertyName]: value };
+            return { ...inputObj, [itemName]: updatedItem };
+        }
+
+        if (shape.type === 'TableInput') {
+            const tableInputObj = shape as TableInputObj;
+            const updatedRows = tableInputObj.rows.map((row) => {
+                return row.map((cell) => {
+                    if (cell.id === id) {
+                        foundAndUpdated = true;
+                        let inputObj = cell as TableCellObj;
+                        if (itemName === 'content') {
+                            // Correct way to dynamically update nested properties
+                            const updatedItem = { ...inputObj[itemName], [propertyName]: value };
+                            return { ...inputObj, [itemName]: updatedItem };
+                        }
+                    }
+                    return cell;
+                });
+            });
+            return { ...tableInputObj, rows: updatedRows };
+        }
+
+        // Return the shape unchanged if no conditions are met
+        return shape;
+    });
+
+    // Update the canvasDesign only if an update was made
+    if (foundAndUpdated) {
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+    }
+};
+
+
+export const deleteShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, selectedId: string | null, setSelectedId: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-        if (shape.id === canvasDesign.selectedId) {
-            updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== canvasDesign.selectedId);
+        if (shape.id === selectedId) {
+            updatedCanvasDesign.Shapes = canvasDesign.Shapes.filter((shape: ShapeObj) => shape.id !== selectedId);
+            updatedCanvasDesign.inputOrder = updatedCanvasDesign.inputOrder.filter((id: string) => id !== selectedId);
         }
     });
-    canvasDesign.selectedId = null;
+    setSelectedId(null)
     setCanvasDesign(updatedCanvasDesign);
-    selectShape(null, updatedCanvasDesign, setCanvasDesign);
 }
 
-export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => {
+export const moveShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, direction: string, selectedId: string | null) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
-        if (shape.id === canvasDesign.selectedId) {
+        if (shape.id === selectedId) {
             switch (direction) {
                 case 'up':
                     shape.y -= 10;
@@ -451,16 +358,8 @@ export const moveShape = ({ canvasDesign, setCanvasDesign, direction }: any) => 
     setCanvasDesign(updatedCanvasDesign);
 }
 
-export const selectShape = (id: string | null, canvasDesign: any, setCanvasDesign: any) => {
-    setCanvasDesign({
-        ...canvasDesign,
-        selectedId: id,
-    });
-};
 
-
-
-export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>, copiedObject: any) => {
+export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: (newDesign: CanvasDesignData) => void, selectedId: string | null, copiedObject: any) => {
 
     const updatedCanvasDesign = { ...canvasDesign }; // Make a shallow copy of the canvasDesign object
 
@@ -470,46 +369,39 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: Rea
     pastedObject.y = copiedObject.y + 20;
 
     updatedCanvasDesign.Shapes.push(pastedObject);
-    updatedCanvasDesign.selectedId = pastedObject.id; // Select the pasted object
+    selectedId = pastedObject.id; // Select the pasted object
 
     setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
 };
 
 export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    setCanvasDesign: (newDesign: CanvasDesignData) => void,
+    selectedId: string | null,
+    itemType: 'content' | 'label' | null,
     style: 'bold' | 'italic' | 'underline' | 'line-through'
 ) => {
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
     const updatedShapes = canvasDesign.Shapes.map((shape) => {
-        if (shape.id === canvasDesign.selectedId) {
-            const textShape = shape as TextInputObj | TextFieldObj;
-            const currentStyle = textShape[styleProperty] || '';
-            const isStyleApplied = currentStyle.includes(style);
-            textShape[styleProperty] = isStyleApplied
-                ? currentStyle.replace(style, '').trim()
-                : `${currentStyle} ${style}`.trim();
-
-            return { ...textShape, [styleProperty]: textShape[styleProperty] };
-        }
-        else if (shape.type === "TextTable") {
-            const textTable = shape as TextTableObj;
-            const updatedRows = textTable.rows.map(row =>
-                row.map(cell => {
-                    if (cell.id === canvasDesign.selectedId) {
-                        if (!cell.content) return cell;
-                        const currentStyle = cell.content[styleProperty] || '';
-                        const isStyleApplied = currentStyle.includes(style);
-                        cell.content[styleProperty] = isStyleApplied
-                            ? currentStyle.replace(style, '').trim()
-                            : `${currentStyle} ${style}`.trim();
-                        return { ...cell, [styleProperty]: cell.content[styleProperty] };
-                    }
-                    return cell;
-                })
-            );
-            return { ...textTable, rows: updatedRows };
+        if (shape.id === selectedId) {
+            if (itemType === null) {
+                const textObj = shape as TextObj;
+                const currentStyle = textObj[styleProperty] || '';
+                const isStyleApplied = currentStyle.includes(style);
+                textObj[styleProperty] = isStyleApplied
+                    ? currentStyle.replace(style, '').trim()
+                    : `${currentStyle} ${style}`.trim();
+            }
+            else {
+                const inputObj = shape as InputObj;
+                const currentStyle = inputObj[itemType][styleProperty] || '';
+                const isStyleApplied = currentStyle.includes(style);
+                inputObj[itemType][styleProperty] = isStyleApplied
+                    ? currentStyle.replace(style, '').trim()
+                    : `${currentStyle} ${style}`.trim();
+                return { ...shape, [styleProperty]: inputObj[itemType][styleProperty] };
+            }
         }
         return shape;
     });
@@ -518,3 +410,4 @@ export const toggleTextStyle = (
         Shapes: updatedShapes,
     });
 };
+

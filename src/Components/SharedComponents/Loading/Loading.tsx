@@ -1,12 +1,11 @@
-import { Typography } from "@mui/material";
-
+import { Typography } from 'antd';
 
 const Loading = () => {
     return (
-        <div>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+            <Typography.Title level={4}>
                 Loading...
-            </Typography>
+            </Typography.Title>
         </div>
     );
 }

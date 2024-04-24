@@ -1,7 +1,5 @@
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import useTheme from "@mui/material/styles/useTheme";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { Typography, Space, List } from "antd";
 import { getOrganizationMembers } from "../../utils/api/org-api";
 import { useAuth0User } from "../../utils/customHooks/useAuth0User";
 import { Invite, Member, OrganizationMembers } from "../../utils/types/OrganizationInterfaces";
@@ -13,16 +11,16 @@ import TeamName from "./TeamName/TeamName";
 import logger from "../../logging/logger";
 import ErrorMessage from "../SharedComponents/ErrorMessage/ErrorMessage";
 
-const Admin: React.FC = () => {
-    const theme = useTheme();
+
+const { Title } = Typography;
+
+const Admin = () => {
     const { organization } = useOrganizationContext();
     const [members, setMembers] = useState<Member[]>([]);
     const [invites, setInvites] = useState<Invite[]>([]);
     const [disableButton, setDisableButton] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null); // Add error state
     const { getAccessToken } = useAuth0User();
-
-
 
     useEffect(() => {
         async function fetchMembers() {
@@ -34,7 +32,7 @@ const Admin: React.FC = () => {
                 const fetchedMembers = await getOrganizationMembers(token) as OrganizationMembers;
                 setMembers(fetchedMembers.members.data);
                 setInvites(fetchedMembers.invites.data);
-                setError(null); // Clear any previous errors
+                setError(null);
             } catch (err) {
                 logger.trackException({
                     properties: {
@@ -44,7 +42,7 @@ const Admin: React.FC = () => {
                         error: err,
                     },
                 });
-                setError("An error occurred. Please try again."); // Set the error message
+                setError("An error occurred. Please try again.");
             }
         }
 
@@ -62,38 +60,29 @@ const Admin: React.FC = () => {
 
     return (
         <>
-            <Typography variant="h3" color={theme.palette.text.primary}>
-                Admin
-            </Typography>
-            <br />
-            <Box sx={{ width: "100%", marginTop: 2 }}>
+            <Title level={3}>Admin</Title>
+            <Space direction="vertical" style={{ width: "100%", marginTop: 16 }}>
                 <TeamName teamName={organization?.bryxOrg.orgDisplayName} />
-                <Box sx={{ width: "100%", marginTop: 2 }} />
-                <InviteButton disabled={(disableButton || members.length + invites.length >= 5)} setMembers={setMembers} setInvites={setInvites} />
-                <Box sx={{ width: "100%", marginTop: 2 }} />
-                <Typography variant="h6" color={theme.palette.text.primary}>
-                    Members
-                </Typography>
-                <Box sx={{ width: "100%", marginTop: 2 }} />
-                {
-                    members && members?.map((member) => (
+                <InviteButton disabled={disableButton || members.length + invites.length >= 5} setMembers={setMembers} setInvites={setInvites} />
+                <Title level={4}>Members</Title>
+                <List
+                    dataSource={members}
+                    renderItem={member => (
                         <MemberLineItem key={member.user_id} member={member} setMembers={setMembers} setInvites={setInvites} />
-                    ))
-                }
-                {invites && invites.length > 0 && (
+                    )}
+                />
+                {invites.length > 0 && (
                     <>
-                        <Typography variant="h6" color={theme.palette.text.primary}>
-                            Invites
-                        </Typography>
-                        <Box sx={{ width: "100%", marginTop: 2 }}>
-                            {invites.map((invite) => (
+                        <Title level={4}>Invites</Title>
+                        <List
+                            dataSource={invites}
+                            renderItem={invite => (
                                 <InviteLineItem key={invite.id} invite={invite} setMembers={setMembers} setInvites={setInvites} />
-                            ))}
-                        </Box>
+                            )}
+                        />
                     </>
                 )}
-            </Box>
-
+            </Space>
         </>
     );
 };

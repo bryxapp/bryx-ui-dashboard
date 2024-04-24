@@ -1,47 +1,28 @@
-import React, { ReactNode } from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
+import React from 'react';
 import TopNavBar from './TopNavBar/TopNavBar';
 import Sidebar from './SideAppDrawer/SideAppDrawer';
-import { useTheme } from '@mui/material/styles';
 import { useAuth0User } from '../../utils/customHooks/useAuth0User';
+import { Layout } from 'antd';
+const { Content } = Layout;
 
 interface NavigationProps {
-    children: ReactNode;
+    children: React.ReactNode;
 }
 
 const Navigation = ({ children }: NavigationProps) => {
-    const theme = useTheme();
     const { auth0User } = useAuth0User();
-
     return (
-        <React.Fragment>
+        <Layout style={{ minHeight: "100vh" }}>
             <TopNavBar />
-            <Box
-                component="main"
-                sx={{
-                    backgroundColor: theme.palette.background.default,
-                    display: 'flex',
-                    flexDirection: 'row',
-                    height: '95vh',
-                }}
-            >
-                {auth0User &&
-                    <Sidebar />
-                }
-                <Box
-                    sx={{
-                        backgroundColor: theme.palette.background.default,
-                        flexGrow: 1,
-                        overflow: 'auto',
-                    }}
-                >
-                    <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+            <Layout>
+                {auth0User && (<Sidebar />)}
+                <Content>
+                    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '24px' }}>
                         {children}
-                    </Container>
-                </Box>
-            </Box>
-        </React.Fragment>
+                    </div>
+                </Content>
+            </Layout>
+        </Layout>
     );
 };
 

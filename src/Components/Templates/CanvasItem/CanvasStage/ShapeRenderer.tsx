@@ -1,26 +1,26 @@
 import React from 'react';
-import { CanvasDesignData, RectangleObj, ShapeObj, EllipseObj, LineObj, TextInputObj, TextFieldObj, ImageObj, TextTableObj } from "../../../../utils/types/CanvasInterfaces";
+import { RectangleObj, ShapeObj, EllipseObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj } from "../../../../utils/types/CanvasInterfaces";
 import useShapeMove from "../useShapeMove";
-import RectangleShape from '../Shapes/RectangleShape';
-import EllipseShape from '../Shapes/EllipseShape';
-import LineShape from '../Shapes/LineShape';
-import TextInput from '../Shapes/TextInput';
-import TextField from '../Shapes/TextField';
-import ImageShape from '../Shapes/ImageShape';
-import { selectShape } from '../../../../utils/shapeManagementUtils';
-import TextTable from '../Shapes/TextTable/TextTable';
+import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
+import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
+import ImageShape from '../Shapes/SolidShapes/ImageShape';
+import PhoneInput from '../Shapes/Inputs/PhoneInput';
+import EmailInput from '../Shapes/Inputs/EmailInput';
+import Heading from '../Shapes/TextFields/Heading';
+import Paragraph from '../Shapes/TextFields/Paragraph';
+import ShortTextInput from '../Shapes/Inputs/ShortTextInput';
+import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
+import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
+import LongTextInput from '../Shapes/Inputs/LongTextInput';
+import DateInput from '../Shapes/Inputs/DateInput';
+import TableInput from '../Shapes/Inputs/TableInput/TableInput';
 
-interface ShapeRendererProps {
-    pageWidth: number;
-    pageHeight: number;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
-    canvasDesign: CanvasDesignData;
-    setColor: React.SetStateAction<any>;
-}
 
-const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, setColor }: ShapeRendererProps) => {
+const ShapeRenderer = () => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
+    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
 
-    const { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
 
     return (
         <>
@@ -33,13 +33,7 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 key={rectangle.id}
                                 rectangleObj={rectangle}
                                 handleDragMove={handleDragMove}
-                                handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={rectangle.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    setColor({ fill: rectangle.fill, stroke: rectangle.stroke })
-                                    selectShape(rectangle.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -50,13 +44,7 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 key={roundedRectangle.id}
                                 rectangleObj={roundedRectangle}
                                 handleDragMove={handleDragMove}
-                                handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={roundedRectangle.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    setColor({ fill: roundedRectangle.fill, stroke: roundedRectangle.stroke })
-                                    selectShape(roundedRectangle.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
@@ -67,99 +55,109 @@ const ShapeRenderer = ({ pageWidth, pageHeight, setCanvasDesign, canvasDesign, s
                                 key={ellipse.id}
                                 ellipseObj={ellipse}
                                 handleDragMove={handleDragMove}
-                                handleDragStart={handleDragStart}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={ellipse.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    setColor({ fill: ellipse.fill, stroke: ellipse.stroke })
-                                    selectShape(ellipse.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
-                    case 'Line':
-                        const line = shape as LineObj;
-                        return (
-                            <LineShape
-                                key={line.id}
-                                lineObj={line}
-                                handleDragStart={handleDragStart}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={line.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    setColor({ fill: line.stroke, stroke: line.stroke })
-                                    selectShape(line.id, canvasDesign, setCanvasDesign);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        );
-                    case 'TextInput':
-                        const textInput = shape as TextInputObj;
-                        return (
-                            <TextInput
-                                key={textInput.id}
-                                textInputObj={textInput}
-                                handleDragStart={handleDragStart}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                isSelected={textInput.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(textInput.id, canvasDesign, setCanvasDesign);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        );
-                    case 'TextField':
-                        const textField = shape as TextFieldObj;
-                        return (
-                            <TextField
-                                key={textField.id}
-                                textFieldObj={textField}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                handleDragMove={handleDragMove}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
-                                isSelected={textField.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(textField.id, canvasDesign, setCanvasDesign);
-                                }}
-                                onTransformEnd={onTransformEnd}
-                            />
-                        );
-                    case 'Image':
+                    case 'UserImage':
                         const image = shape as ImageObj;
                         return (
                             <ImageShape
                                 key={image.id}
                                 imageObj={image}
-                                handleDragStart={handleDragStart}
                                 handleDragMove={handleDragMove}
                                 handleDragEnd={handleDragEnd}
-                                isSelected={image.id === canvasDesign.selectedId}
-                                onSelect={() => {
-                                    selectShape(image.id, canvasDesign, setCanvasDesign);
-                                }}
                                 onTransformEnd={onTransformEnd}
                             />
                         );
-                    case 'TextTable':
-                        const textTable = shape as TextTableObj;
+                    case 'PhoneInput':
+                        const phoneInput = shape as PhoneInputObj;
                         return (
-                            <TextTable
-                                key={textTable.id}
-                                textTableObj={textTable}
-                                handleDragStart={handleDragStart}
-                                handleDragEnd={handleDragEnd}
-                                canvasDesign={canvasDesign}
-                                setCanvasDesign={setCanvasDesign}
-                                onSelect={(selectedId:string) => {
-                                    selectShape(selectedId, canvasDesign, setCanvasDesign);
-                                }}
+                            <PhoneInput
+                                key={phoneInput.id}
+                                phoneInputObj={phoneInput}
                                 handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
                             />
-                        )
+                        );
+                    case 'EmailInput':
+                        const emailInput = shape as EmailInputObj;
+                        return (
+                            <EmailInput
+                                key={emailInput.id}
+                                emailInputObj={emailInput}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'ShortTextInput':
+                        const shortTextInput = shape as ShortTextInputObj;
+                        return (
+                            <ShortTextInput
+                                key={shortTextInput.id}
+                                shortTextInputObj={shortTextInput}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'LongTextInput':
+                        const longTextInput = shape as LongTextInputObj;
+                        return (
+                            <LongTextInput
+                                key={longTextInput.id}
+                                longTextInputObj={longTextInput}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'DateInput':
+                        const dateInput = shape as DateInputObj;
+                        return (
+                            <DateInput
+                                key={dateInput.id}
+                                dateInputObj={dateInput}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'TableInput':
+                        const tableInput = shape as TableInputObj;
+                        return (
+                            <TableInput
+                                key={tableInput.id}
+                                tableInputObj={tableInput}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'Heading':
+                        const heading = shape as HeadingObj;
+                        return (
+                            <Heading
+                                key={heading.id}
+                                headingObj={heading}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
+                    case 'Paragraph':
+                        const paragraph = shape as ParagraphObj;
+                        return (
+                            <Paragraph
+                                key={paragraph.id}
+                                paragraphObj={paragraph}
+                                handleDragMove={handleDragMove}
+                                handleDragEnd={handleDragEnd}
+                                onTransformEnd={onTransformEnd}
+                            />
+                        );
                     default:
                         return null;
                 }

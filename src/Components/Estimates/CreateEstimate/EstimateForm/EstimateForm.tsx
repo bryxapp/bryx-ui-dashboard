@@ -1,162 +1,70 @@
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import Typography from '@mui/material/Typography';
-import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
-import { getTemplate } from '../../../../utils/api/templates-api';
-import { FormInputs, ShapeObj, TextInputObj, TextTableObj } from '../../../../utils/types/CanvasInterfaces';
+import { useState } from 'react';
+import { Button, Form, Tooltip, Typography } from 'antd';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
-import Creating from '../../../SharedComponents/Creating/Creating';
 import EstimateName from './EstimateName/EstimateName';
-import Loading from '../../../SharedComponents/Loading/Loading';
-import PreviewStage from './TemplatePreview/TemplatePreview';
-import Saving from '../../../SharedComponents/Saving/Saving';
-import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
-import SubmitButton from './SubmitButton/SubmitButton';
-import SaveAsDraftButton from './SaveDraftButton/SaveDraftButton';
 import EstimateFormTextFieldsList from './EstimateFormTextFields/EstimateFromTextFieldsList';
-import logger from '../../../../logging/logger';
-import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
+import { TbEdit } from "react-icons/tb";
+import EditFormOrder from './EditFormOrder/EditFormOrder';
+import SubmitEstimate from './SubmitEstimate.tsx/SubmitEstimate';
 
-const EstimateForm = () => {
+const { Text } = Typography;
 
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const templateId = params.get('templateId');
-    const draftId = params.get('draftId') || "";
+interface IEstimateFormProps {
+    templateData: TemplateData;
+    setCreating: any;
+    setSaving: any;
+    draftId: string;
+    estimateName: string;
+    setEstimateName: any;
+    formInputs: EstimateFormFields;
+    setFormInputs: any;
+}
 
-    const [loading, setLoading] = useState(true);
-    const [creating, setCreating] = useState(false);
-    const [saving, setSaving] = useState(false);
-    const [templateData, setTemplateData] = useState<TemplateData>();
-    const [estimateName, setEstimateName] = useState("New Estimate");
-    const [fieldValues, setFieldValues] = useState<EstimateFormFields>({});
-    const [formInputs, setFormInputs] = useState<FormInputs>([]);
-    const [error, setError] = useState(false); // Error state
-    const { getAccessToken } = useAuth0User();
-
-    useEffect(() => {
-        const fetchTemplate = async () => {
-            try {
-                if (!templateId) return;
-                const token = await getAccessToken();
-                if (!token) return;
-                const fetchedTemplate = await getTemplate(templateId, token);
-                setTemplateData(fetchedTemplate);
-
-                let formInputs: FormInputs = [];
-
-                for (let shape of fetchedTemplate.canvasDesign.Shapes) {
-                    if (shape.type === "TextInput") {
-                        formInputs.push(shape as TextInputObj);
-                    } else if (shape.type === "TextTable") {
-                        formInputs.push(shape as TextTableObj);
-                    }
-                }
-
-                setFormInputs(formInputs);
-                let newFieldValues: EstimateFormFields = {};
-                formInputs.forEach((formInput: ShapeObj) => {
-                    if (formInput.type === "TextInput") {
-                        newFieldValues[formInput.id] = "";
-                    } else if (formInput.type === "TextTable") {
-                        let textTable = formInput as TextTableObj;
-                        textTable.rows.forEach((row) => {
-                            row.forEach((cell) => {
-                                if (cell.content?.type === "TextInput") {
-                                    newFieldValues[cell.content.id] = "";
-                                }
-                            });
-                        });
-                    }
-                });
-                if (draftId) {
-                    await fetchDraft(newFieldValues, token);
-                }
-                else {
-                    setFieldValues(newFieldValues);
-                }
-            }
-            catch (error) {
-                logger.trackException({
-                    properties: {
-                        name: "Estimate Form Error",
-                        page: "Estimate Form",
-                        description: "Error fetching template",
-                        error: error,
-                    },
-                });
-                setError(true);
-                console.error("Error fetching template:", error);
-            }
-            finally {
-                setLoading(false);
-            }
-        }
-
-        const fetchDraft = async (newFieldValues: EstimateFormFields, token: string) => {
-            const fetchedEstimateDraft = await getEstimateDraft(draftId, token);
-            setEstimateName(fetchedEstimateDraft.estimateName);
-            const draftFieldValues = fetchedEstimateDraft.filledFields; //fieldvalues object saved from the last draft
-            //loop through the draft fieldvalues and update the current fieldvalues with the draft fieldvalues
-            let missingKeys: string[] = [];
-            Object.keys(draftFieldValues).forEach((key) => {
-                if (!newFieldValues.hasOwnProperty(key)) {
-                    missingKeys.push(key);
-                }
-                else {
-                    newFieldValues[key] = draftFieldValues[key];
-                }
-            });
-            setFieldValues(newFieldValues);
-            if (missingKeys.length > 0) {
-                alert("There were fields in the draft that are no longer in the template.")
-            }
-        }
-
-        fetchTemplate();
-    }, [draftId, templateId, getAccessToken]);
-
-    if (loading) return <Loading />
-
-    if (creating) return <Creating />
-
-    if (saving) return <Saving />
-
-    if (error) return <ErrorMessage dataName="Template" />
-
-    if (!templateData) return (<div>Template not found</div>);
+const EstimateForm = ({
+    templateData,
+    setCreating,
+    setSaving,
+    draftId,
+    estimateName,
+    setEstimateName,
+    formInputs,
+    setFormInputs
+}: IEstimateFormProps) => {
+    const [editing, setEditing] = useState(false);
+    const handleEnableOrderEditing = () => {
+        setEditing(true);
+    };
 
     return (
-        <>
-            <Typography variant="h3" color="primary">
-                Create Estimate
-            </Typography>
-            <div style={{ height: 20 }}></div>
-            <div style={{ display: "flex" }}>
-                <div style={{ flex: 3 }}>
-                    <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} />
-                    <div style={{ height: 10 }}></div>
-                    <Typography variant="h6" color="gray">
-                        Template: {templateData.friendlyName}
-                    </Typography>
-                    <div style={{ height: 20 }}></div>
-                    <EstimateFormTextFieldsList
-                        formInputs={formInputs}
-                        fieldValues={fieldValues}
-                        setFieldValues={setFieldValues}
-                    />
-                    <div style={{ display: 'flex' }}>
-                        <SubmitButton templateData={templateData} estimateName={estimateName} fieldValues={fieldValues} draftId={draftId} setCreating={setCreating} />
-                        <span style={{ width: 20 }}></span>
-                        <SaveAsDraftButton templateData={templateData} estimateName={estimateName} fieldValues={fieldValues} draftId={draftId} setSaving={setSaving} />
-                    </div>
-                </div>
-                <div style={{ flex: 1 }}>
-                    <PreviewStage canvasDesign={templateData.canvasDesign} />
-                </div>
+        <Form layout="vertical" style={{ width: "80%" }}>
+            <div style={{ flex: 2, display: "flex", justifyContent: "space-between" }}>
+                <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} disabled={editing} />
+                {!editing && (
+                    <Tooltip title="Edit Order">
+                        <Button size="large" type="link" onClick={handleEnableOrderEditing}><TbEdit /></Button>
+                    </Tooltip>
+                )}
             </div>
-        </>
+            <Text type="secondary">Template: {templateData.friendlyName}</Text>
+            {!editing && (
+                <EstimateFormTextFieldsList
+                    formInputs={formInputs}
+                    setFormInputs={setFormInputs}
+                />
+            )}
+            {editing && (<EditFormOrder setEditing={setEditing} templateId={templateData.id} friendlyName={templateData.friendlyName} />)}
+            <div style={{ display: 'flex' }}>
+                <SubmitEstimate
+                    templateData={templateData}
+                    setCreating={setCreating}
+                    setSaving={setSaving}
+                    draftId={draftId}
+                    estimateName={estimateName}
+                    formInputs={formInputs}
+                    editing={editing} />
+            </div>
+        </Form>
     );
 };
 

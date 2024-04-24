@@ -15,3 +15,8 @@ export async function updateUserSubscription(sessionId: string,) {
     const response = await axios.put(`${BASE_URL}/subscription`, { sessionId: sessionId },);
     return response.data as BryxUserInfo
 }
+
+export async function getOrganizationsForUser(token: string) {
+    const response = await axios.get(`${BASE_URL}/organizations`, createAuthHeader(token));
+    return response.data as any
+}

@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Container, Paper, Stack, Typography } from '@mui/material';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeam } from '../../../utils/api/checkout-api';
-import AuthButton from '../../SharedComponents/NotLoggedIn/AuthButton';
-import { LogoutOptions } from '@auth0/auth0-react';
 import logger from '../../../logging/logger';
 import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { CheckCircleOutlined } from '@ant-design/icons';
+import { Card, Typography, Layout } from 'antd';
+
+const { Content } = Layout;
+const { Title } = Typography;
 
 const TeamCheckout = () => {
     const location = useLocation();
-    const { auth0User, isLoading, logout } = useAuth0User();
+    const { auth0User, isLoading } = useAuth0User();
     const [error, setError] = useState(false);
     const [requestSent, setRequestSent] = useState(false);
 
@@ -55,37 +55,28 @@ const TeamCheckout = () => {
             }
         };
 
-        // Fetch data on component mount
         fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location.search, isLoading]);
-
-    const handleLogout = () => {
-        logout({ returnTo: 'dashboard.bryxbids.com' } as LogoutOptions);
-    };
+    }, [location.search, isLoading, auth0User, requestSent]);
 
     if (error) return <ErrorMessage dataName='checkout' />;
 
     return (
-        <Container sx={{ mt: 4 }}>
-            <Paper elevation={3} sx={{ p: 4, textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <CheckCircleOutlineIcon color="success" sx={{ fontSize: 60, mb: 2 }} />
-                <Typography variant="h4" color="primary" gutterBottom>
-                    Order Complete
-                </Typography>
-                <Typography variant="h6" sx={{ mb: 3 }}>
-                    You have successfully created your new team!
-                </Typography>
-                <Box sx={{ mb: 3 }}>
-                    <Typography variant="body1" color="text.primary">
-                        You will need to log out and then log back in to access your new team.
-                    </Typography>
-                </Box>
-                <Stack direction="row" spacing={2} justifyContent="center">
-                    <AuthButton onClick={handleLogout} text='Log Out' startIcon={<LogoutIcon />} color='primary' fontSize={1.5}/>
-                </Stack>
-            </Paper>
-        </Container>
+        <>
+            <Content style={{ marginTop: 32 }}>
+                <Card style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto', padding: 24 }}>
+                    <CheckCircleOutlined style={{ color: 'green', fontSize: 60 }} />
+                    <Title level={4}>
+                        Order Complete
+                    </Title>
+                    <Title level={5}>
+                        You have successfully created your new team!
+                    </Title>
+                    <Typography.Text>
+                        You can now switch between your different teams using the 'Change Team' button below.
+                    </Typography.Text>
+                </Card>
+            </Content>
+        </>
     );
 };
 

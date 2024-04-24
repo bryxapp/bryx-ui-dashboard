@@ -1,15 +1,21 @@
-import { useTheme } from "@mui/material";
-import Typography from "@mui/material/Typography";
+import { Empty, Typography } from 'antd';
+
 interface NoneFoundProps {
     item: string;
 }
 
 const NoneFound = ({ item }: NoneFoundProps) => {
-    const theme = useTheme();
     return (
-        <Typography color={theme.palette.text.primary} variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
-            No {item} found
-        </Typography>
+        <Empty
+            image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+            imageStyle={{ height: 100 }}
+            description={
+                <Typography.Title level={5}>
+                    No {item} found
+                </Typography.Title>
+            }
+        >
+        </Empty>
     );
 }
 

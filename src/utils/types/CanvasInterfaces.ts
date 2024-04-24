@@ -1,6 +1,6 @@
 export interface CanvasDesignData {
-    Shapes: (ShapeObj | RectangleObj | EllipseObj | LineObj | TextInputObj | TextFieldObj | ImageObj)[];
-    selectedId: string | null;
+    Shapes: (ShapeObj)[];
+    inputOrder: string[];
     pageHeight: number;
     pageWidth: number;
 }
@@ -11,94 +11,157 @@ export interface ShapeObj {
     x: number;
     y: number;
     rotation: number;
-    isDragging: boolean;
 }
 
-export interface RectangleObj extends ShapeObj, SolidShapeObj {
+// Solid Shapes
+export interface RectangleObj extends SolidShapeObj {
     width: number;
     height: number;
     cornerRadius?: number;
     type: 'Rectangle' | 'RoundedRectangle';
 }
 
-export interface EllipseObj extends ShapeObj, SolidShapeObj {
+export interface EllipseObj extends SolidShapeObj {
     radiusX: number;
     radiusY: number;
     type: 'Ellipse';
 }
 
-export interface LineObj extends ShapeObj {
-    points: number[];
-    stroke: string;
-    strokeWidth: number;
-    type: 'Line';
+export interface ImageObj extends ShapeObj {
+    src: string;
+    width: number;
+    height: number;
 }
 
-export interface TextObj {
+export interface UserImageObj extends ImageObj {
+    type: 'UserImage';
+}
+
+export interface SolidShapeObj extends ShapeObj {
+    fill: string;
+    stroke: string;
+    strokeWidth: number;
+}
+
+// Input Shapes
+
+export interface PhoneInputObj extends InputObj {
+    type: 'PhoneInput';
+}
+
+export interface ShortTextInputObj extends InputObj {
+    inputWidth: number;
+    type: 'ShortTextInput';
+}
+
+export interface LongTextInputObj extends InputObj {
+    inputWidth: number;
+    inputHeight: number;
+    verticalAlign: VerticalAlign;
+    type: 'LongTextInput';
+}
+
+export interface CellInputObj extends TextValueObj, ShapeObj {
+    type: 'CellInput';
+}
+
+export interface TextCellObj extends TextValueObj, ShapeObj {
+    type: 'TextCell';
+}
+
+export interface EmailInputObj extends InputObj {
+    type: 'EmailInput';
+}
+
+export interface DateInputObj extends InputObj {
+    type: 'DateInput';
+    dateFormat: DateFormatOption
+}
+
+// Text Shapes
+export interface HeadingObj extends TextObj {
+    type: 'Heading';
+}
+
+export interface ParagraphObj extends TextObj {
+    horizontalAlign: HorizontalAlign
+    type: 'Paragraph';
+}
+
+export interface TextObj extends TextValueObj, ShapeObj {
+}
+
+export interface TextBase {
     fontSize: number;
     fill: string;
     fontFamily: string;
     fontStyle: string;
     textDecoration: string;
-    align: string;
-    isNestedInTextTable: boolean;
 }
 
-export interface TextInputObj extends ShapeObj, TextObj {
-    displayName: string;
-    type: 'TextInput';
-    format: TextInputFormat;
-}
-
-export interface TextFieldObj extends ShapeObj, TextObj {
+export interface TextValueObj extends TextBase {
     value: string;
-    type: 'TextField';
+}
+
+export interface InputObj extends ShapeObj {
+    hasLabel: boolean;
+    label: InputLabelObj;
+    content: InputContentObj;
+}
+
+export interface InputLabelObj extends InputTextObj { }
+
+export interface InputContentObj extends InputTextObj { }
+
+export interface InputTextObj extends TextValueObj {
+    horizontalAlign: HorizontalAlign;
+}
+
+export interface TableInputObj extends ShapeObj {
+    rows: TableCellObj[][];
+    border?: { width: number, color: string };
+    type: 'TableInput';
 }
 
 export interface TableCellObj extends ShapeObj {
+    content: CellInputObj | TextCellObj | null;
     width: number;
     height: number;
-    verticalAlign: 'top' | 'middle' | 'bottom';
-    horizontalAlign: 'left' | 'center' | 'right';
-    content: TextInputObj | TextFieldObj | null;
+    horizontalAlign: HorizontalAlign;
+    verticalAlign: VerticalAlign;
     type: 'TableCell';
 }
 
-export interface TextTableObj extends ShapeObj {
-    rows: TableCellObj[][];
-    border?: { width: number, color: string };
-    type: 'TextTable';
-}
-export interface ImageObj extends ShapeObj {
-    src: string;
-    width: number;
-    height: number;
-    type: 'Image';
-}
-
-export interface SolidShapeObj {
-    fill: string | undefined;
-    stroke: string | undefined;
-    strokeWidth: number;
-}
-
-export interface ShapeColor {
-    fill: string | undefined;
-    stroke: string | undefined;
-}
-
-export interface ToolBarProps {
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>;
-    setAnchorEl: React.Dispatch<React.SetStateAction<HTMLElement | null>>;
-}
 export interface CanvasStarterData {
     name: string;
     canvasDesign: CanvasDesignData;
 }
 
-export type FormInputs = (TextInputObj | TextTableObj)[];
+export type HorizontalAlign = 'left' | 'center' | 'right';
+export type VerticalAlign = 'top' | 'middle' | 'bottom';
 
-export type ShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse' | 'Line' | 'TextInput' | 'TextField' | 'TextTable' | 'TableCell' | 'Image';
+export type FormInputs = (ShortTextInputObj | LongTextInputObj | PhoneInputObj | EmailInputObj | DateInputObj)[];
 
+export type SolidShapeType = 'Rectangle' | 'RoundedRectangle' | 'Ellipse';
+export const SolidShapeTypes: SolidShapeType[] = ['Rectangle', 'RoundedRectangle', 'Ellipse'];
+export type ImageType = 'UserImage';
+export const ImageTypes: ImageType[] = ['UserImage'];
+export type InputType = 'PhoneInput' | 'ShortTextInput' | 'LongTextInput' | 'EmailInput' | 'DateInput';
+export const InputTypes: InputType[] = ['PhoneInput', 'ShortTextInput', 'LongTextInput', 'EmailInput', 'DateInput'];
+export type TableType = 'TableInput';
+export const TableTypes: TableType[] = ['TableInput'];
+export type CellType = 'CellInput' | 'TextCell' | 'TableCell';
+export const CellTypes: CellType[] = ['CellInput', 'TextCell', 'TableCell'];
+export type TextType = 'Heading' | 'Paragraph';
+export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
+export type ShapeType = SolidShapeType | InputType | TextType | ImageType | TableType | CellType;
+
+export type DateFormatOption =
+    'MM/dd/yy' |
+    'MM/dd/yyyy' |
+    'MMMM d, yyyy' |
+    'MMM d, yyyy';
+
+export const DateFormatOptions: DateFormatOption[] = ['MM/dd/yy', 'MM/dd/yyyy', 'MMMM d, yyyy', 'MMM d, yyyy'];
+

@@ -3,12 +3,12 @@ import { EstimateDraftData, EstimateFormFields } from '../types/EstimateInterfac
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimateDrafts";
 
-export async function createEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, token: string) {
+export async function createEstimateDraft(templateId: string, estimateName: string, formInputs: EstimateFormFields, token: string) {
     //Create Body
     const body = {
         templateId: templateId,
         estimateName: estimateName,
-        filledFields: fieldValues,
+        formInputs: formInputs,
     }
     await axios.post(`${BASE_URL}`, body, {
         headers: {
@@ -36,12 +36,12 @@ export async function getEstimateDraft(id: string, token: string) {
     return response.data as EstimateDraftData;
 }
 
-export async function updateEstimateDraft(templateId: string, estimateName: string, fieldValues: EstimateFormFields, id: string, token: string) {
+export async function updateEstimateDraft(templateId: string, estimateName: string, formInputs: EstimateFormFields, id: string, token: string) {
     //Create Body
     const body = {
         templateId: templateId,
         estimateName: estimateName,
-        filledFields: fieldValues,
+        formInputs: formInputs,
     }
     const response = await axios.put(`${BASE_URL}/${id}`, body, {
         headers: {

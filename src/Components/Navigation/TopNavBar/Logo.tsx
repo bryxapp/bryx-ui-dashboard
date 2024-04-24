@@ -1,28 +1,30 @@
-import { Typography, useTheme } from '@mui/material';
-import Link from '../../SharedComponents/Link/Link';
+import { Avatar, Typography } from 'antd';
+import { Link } from "react-router-dom"; // Correct import statement
+import logoSvg from "../../../bryx_logo.svg"
 const Logo = () => {
-    const theme = useTheme();
     
-    const handleLogoClick = () => {
+    const handleLogoClick = (event : any) => {
+        event.preventDefault(); // Prevent default link behavior
         window.location.href = 'https://www.bryxbids.com/'; // Navigate to Home Site
     };
     
     return (
         <Link to="/" onClick={handleLogoClick}>
-            <Typography 
-                variant="h2" 
-                color={theme.palette.text.secondary} 
-                noWrap
-                sx={{
+            <div style={{display:"flex"}}> 
+            <Avatar shape='square' src={logoSvg} size="large" />
+            <Typography.Title
+                level={2}
+                style={{
                     fontSize: '2rem',
                     fontWeight: 'bold',
-                    '@media (max-width: 600px)': {
-                        fontSize: '1rem',
-                    },
+                    color: 'white',
+                    margin: 0,
+                    paddingLeft: '10px',
                 }}
             >
                 BRYX bids
-            </Typography>
+            </Typography.Title>
+            </div>
         </Link>
     );
 };

@@ -1,12 +1,12 @@
-import { LinearProgress, Typography } from "@mui/material";
+import { Progress, Typography } from 'antd';
 
 const Creating = () => {
     return (
-        <div>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+            <Typography.Title level={4}>
                 Creating...
-            </Typography>
-            <LinearProgress />
+            </Typography.Title>
+            <Progress percent={100} showInfo={false} status="active" />
         </div>
     );
 }

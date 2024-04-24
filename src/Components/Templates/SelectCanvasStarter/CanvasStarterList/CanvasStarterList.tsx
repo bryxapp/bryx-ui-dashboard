@@ -1,18 +1,18 @@
-import Grid from '@mui/material/Grid';
 import CanvasListItem from "./CanvasStarterListItem/CanvasStarterListItem";
 import { CanvasStarterData } from '../../../../utils/types/CanvasInterfaces';
 import { CanvasStarters } from '../../../../utils/canvas-starters';
+import { Col, Row } from 'antd';
 
 const CanvasStarterList = () => {
     const canvasStarters: CanvasStarterData[] = CanvasStarters;
     return (
-        <Grid container spacing={10}>
-            {canvasStarters.map((canvasStarter: CanvasStarterData) => (
-                <Grid item xs={12} sm={6} md={4} lg={4} key={canvasStarter.name}>
-                    <CanvasListItem canvasStarter={canvasStarter} />
-                </Grid>
-            ))}
-        </Grid>
+        <Row gutter={[16, 16]}>
+            {canvasStarters.map(canvasStarter => (
+            <Col xs={24} sm={12} md={8} key={canvasStarter.name}>
+                <CanvasListItem canvasStarter={canvasStarter} />
+            </Col>
+        ))}
+        </Row>
     );
 }
 

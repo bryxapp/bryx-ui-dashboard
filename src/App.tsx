@@ -2,13 +2,9 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import Navigation from './Components/Navigation/Navigation';
 import Templates from './Components/Templates/Templates';
-import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import NotFound from './Components/SharedComponents/NotFound/NotFound';
-import EstimateForm from "./Components/Estimates/CreateEstimate/EstimateForm/EstimateForm";
 import SelectTemplate from "./Components/Estimates/CreateEstimate/SelectTemplate/SelectTemplate";
 import SelectCanvasStarter from "./Components/Templates/SelectCanvasStarter/SelectCanvasStarter";
-import { createTheme, ThemeProvider } from "@mui/material";
-import { themeOptions } from "./theme/themeOptions";
 import NotLoggedIn from "./Components/SharedComponents/NotLoggedIn/NotLoggedIn";
 import Estimates from "./Components/Estimates/Estimates";
 import ProCheckout from "./Components/Subscriptions/ProCheckout/ProCheckout";
@@ -23,9 +19,12 @@ import { getUser } from "./utils/api/user-api";
 import { isEqual } from "lodash";
 import AuthRedirect from "./Components/SharedComponents/NotLoggedIn/AuthRedirect";
 import ViewEstimate from "./Components/SharedComponents/ViewEstimate.tsx/ViewEstimate";
+import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
+import { CanvasDesignProvider } from "./utils/contexts/canvasDesignContext";
+import { ConfigProvider } from "antd";
+import CreateEstimate from "./Components/Estimates/CreateEstimate/EstimateForm/CreateEstimate";
 
 function App() {
-  const theme = createTheme(themeOptions);
   const { organization, setOrganization, isOwner, setIsOwner } = useOrganizationContext();
   const { bryxUser, setBryxUser } = useBryxUserContext();
   const { auth0User, isLoading, getAccessToken } = useAuth0User();
@@ -91,9 +90,23 @@ function App() {
 
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
-        <Navigation>
+    <ConfigProvider
+      theme={{
+        token: {
+          fontSize: 16
+          // colorPrimary: data.colorPrimary,
+          // borderRadius: data.borderRadius,
+        },
+        components: {
+          // Button: {
+          //   colorPrimary: data.Button?.colorPrimary,
+          //   algorithm: data.Button?.algorithm,
+          // },
+        },
+      }}
+    >
+      <Navigation>
+        <CanvasDesignProvider>
           {isLoading || auth0User ? (
             <Routes>
               <Route path="/" element={<Estimates />} />
@@ -102,7 +115,7 @@ function App() {
               <Route path="/choose-canvas-starter" element={<SelectCanvasStarter />} />
               <Route path="/edit-template" element={<CanvasItem />} />
               <Route path="/select-template" element={<SelectTemplate />} />
-              <Route path="/form" element={<EstimateForm />} />
+              <Route path="/form" element={<CreateEstimate />} />
               <Route path="/view-estimate" element={<ViewEstimate />} />
               <Route path="/pro-checkout" element={<ProCheckout />} />
               <Route path="/team-checkout" element={<TeamCheckout />} />
@@ -119,9 +132,9 @@ function App() {
               <Route path="*" element={<NotLoggedIn />} />
             </Routes>
           )}
-        </Navigation>
-      </ThemeProvider>
-    </>
+        </CanvasDesignProvider>
+      </Navigation>
+    </ConfigProvider>
   );
 }
 

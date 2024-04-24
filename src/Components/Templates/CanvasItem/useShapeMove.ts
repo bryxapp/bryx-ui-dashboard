@@ -1,37 +1,19 @@
 import React from 'react';
 import Konva from 'konva';
-import { CanvasDesignData, EllipseObj, LineObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
+import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../utils/shapeManagementUtils';
 
 // Assuming necessary interfaces are imported or defined here
 
 const useShapeMove = (
     pageWidth: number,
     pageHeight: number,
-    setCanvasDesign: React.Dispatch<React.SetStateAction<CanvasDesignData>>,
+    setCanvasDesign: (newDesign: CanvasDesignData) => void,
     canvasDesign: CanvasDesignData
 ) => {
 
-    const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
-
-    const handleDragStart = (e: any) => {
-        const id = e.target.id();
-        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
-            if (shape.id === id) {
-                updatedCanvasDesign.Shapes[index] = {
-                    ...shape,
-                    isDragging: true,
-                };
-            } else {
-                updatedCanvasDesign.Shapes[index] = {
-                    ...shape,
-                    isDragging: false,
-                };
-            }
-        });
-        setCanvasDesign(updatedCanvasDesign);
-    };
+    const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight);
 
     const handleDragEnd = (e: any) => {
         // clear all guide lines on the screen
@@ -48,12 +30,10 @@ const useShapeMove = (
                     ...shape,
                     x: e.target.x(),
                     y: e.target.y(),
-                    isDragging: false,
                 };
             } else {
                 updatedCanvasDesign.Shapes[index] = {
                     ...shape,
-                    isDragging: false,
                 };
             }
         });
@@ -80,16 +60,7 @@ const useShapeMove = (
                         radiusY: Math.max(5, node.radiusY() * scaleY),
                         rotation: node.rotation(),
                     } as EllipseObj;
-                } else if (shape.type === "Line") {
-                    updatedCanvasDesign.Shapes[index] = {
-                        ...shape,
-                        x: node.x(),
-                        y: node.y(),
-                        points: node.points().map((point: number) => point * scaleX),
-                        strokeWidth: Math.max(5, node.strokeWidth() * scaleX),
-                        rotation: node.rotation(),
-                    } as LineObj;
-                } else if (shape.type === "Rectangle" || shape.type === "RoundedRectangle" || shape.type === "TextInput" || shape.type === "TextField" || shape.type === "Image") {
+                } else if (isSolidShapeObj(shape) || isTextObject(shape) || isInputObject(shape) || isImageObject(shape)) {
                     updatedCanvasDesign.Shapes[index] = {
                         ...shape,
                         x: node.x(),
@@ -174,7 +145,7 @@ const useShapeMove = (
         [drawGuides, getGuides, getLineGuideStops, getObjectSnappingEdges]
     );
 
-    return { handleDragStart, handleDragEnd, onTransformEnd, handleDragMove };
+    return { handleDragEnd, onTransformEnd, handleDragMove };
 };
 
 export default useShapeMove;

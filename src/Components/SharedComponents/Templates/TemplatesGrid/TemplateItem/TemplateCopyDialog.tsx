@@ -1,21 +1,14 @@
-import Typography from '@mui/material/Typography';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogActions from '@mui/material/DialogActions';
-import Button from '@mui/material/Button';
+import { Modal, Typography, Button } from 'antd';
 import { TemplateData } from '../../../../../utils/types/TemplateInterfaces';
-import { useTheme } from '@mui/material';
 
 interface TemplateDeleteDialogProps {
     template: TemplateData;
     handleTemplateCopy: any;
     open: boolean;
-    setOpen: any;
+    setOpen: (open: boolean) => void; // More specific type for setOpen
 }
 
 const TemplateCopyDialog = ({ template, handleTemplateCopy, open, setOpen }: TemplateDeleteDialogProps) => {
-    const theme = useTheme();
-
     const handleConfirmCopy = () => {
         handleTemplateCopy(template.id);
         setOpen(false);
@@ -26,16 +19,23 @@ const TemplateCopyDialog = ({ template, handleTemplateCopy, open, setOpen }: Tem
     };
 
     return (
-        <Dialog open={open} onClose={handleCancelCopy}>
-            <DialogTitle>Delete Template</DialogTitle>
-            <Typography color={theme.palette.text.primary} variant="body1" component="div" sx={{ flexGrow: 1, padding: 2 }}>
+        <Modal
+            title="Copy Template"
+            open={open}
+            onCancel={handleCancelCopy}
+            footer={[
+                <Button key="back" onClick={handleCancelCopy}>
+                    Cancel
+                </Button>,
+                <Button key="submit" type="primary" onClick={handleConfirmCopy}>
+                    Copy
+                </Button>,
+            ]}
+        >
+            <Typography.Text>
                 Do you want to make a copy of this template?
-            </Typography>
-            <DialogActions>
-                <Button onClick={handleCancelCopy}>Cancel</Button>
-                <Button onClick={handleConfirmCopy}>Copy</Button>
-            </DialogActions>
-        </Dialog>
+            </Typography.Text>
+        </Modal>
     );
 };
 

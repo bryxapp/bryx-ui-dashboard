@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
-import { CanvasDesignData, ShapeColor } from "../../../utils/types/CanvasInterfaces";
+import { CanvasDesignData } from "../../../utils/types/CanvasInterfaces";
 import { getTemplate } from "../../../utils/api/templates-api";
 import { useLocation } from 'react-router-dom';
-import CanvasToolbar from "./CanvasToolbar/CanvasToolbar";
 import CanvasStage from "./CanvasStage/CanvasStage";
-import TemplateName from "./../TemplateName/TemplateName";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import { Typography, Layout, theme } from "antd";
 import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
 import logger from "../../../logging/logger";
 import ErrorMessage from "../../SharedComponents/ErrorMessage/ErrorMessage";
 import { createEmptyCanvasDesign } from "../../../utils/types/ShapesFactory";
+import { useCanvasDesignContext } from "../../../utils/contexts/canvasDesignContext";
+import Sider from "antd/es/layout/Sider";
+import { Content } from "antd/es/layout/layout";
+import ShapesToolbar from "./ShapesToolbar/ShapesToolbar";
+import CanvasHeader from "./CanvasHeader/CanvasHeader";
+import ShapePropertiesMenu from "./ShapePropertiesMenu/ShapePropertiesMenu";
 
 const CanvasItem = () => {
     const { auth0User, getAccessToken } = useAuth0User();
@@ -18,10 +21,15 @@ const CanvasItem = () => {
     const location = useLocation();
     const [friendlyName, setFriendlyName] = useState("New Template");
     const [dataBaseFriendlyName, setDataBaseFriendlyName] = useState("New Template");
-    const [color, setColor] = useState<ShapeColor>({ fill: '#000000', stroke: '#000000' });
-    const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [dataBaseCanvasDesign, setdataBaseCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
+    const [templateId, setTemplateId] = useState<string | null>(null);
     const [error, setError] = useState(false);
+    const { setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
+    const [isLoading, setIsLoading] = useState(false);
+
+    const {
+        token: { colorBgContainer, borderRadiusLG },
+    } = theme.useToken();
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -37,10 +45,12 @@ const CanvasItem = () => {
                     if (!token) return;
                     const fetchedTemplate = await getTemplate(templateId, token);
                     setCanvasDesign(fetchedTemplate.canvasDesign);
+                    setSelectedId(null);
                     const canvasDesignCopy = JSON.parse(JSON.stringify(fetchedTemplate.canvasDesign));
                     setdataBaseCanvasDesign(canvasDesignCopy);
                     setFriendlyName(fetchedTemplate.friendlyName);
                     setDataBaseFriendlyName(fetchedTemplate.friendlyName);
+                    setTemplateId(fetchedTemplate.id);
                     setLoading(false);
                 } catch (error) {
                     logger.trackException({
@@ -66,9 +76,9 @@ const CanvasItem = () => {
     if (loading) {
         // show loading message while data is being fetched
         return (
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'center' }}>
+            <Typography.Title level={2}>
                 Loading...
-            </Typography>
+            </Typography.Title>
         );
     }
 
@@ -76,31 +86,34 @@ const CanvasItem = () => {
 
     // render canvas components when data is available
     return (
-        <div>
-            <TemplateName friendlyName={friendlyName} setFriendlyName={setFriendlyName} />
-            <Box sx={{ height: '2vh' }} />
-            <div style={{ width: '100%' }}>
-                <CanvasToolbar
-                    canvasDesign={canvasDesign}
-                    setCanvasDesign={setCanvasDesign}
+        <Layout>
+            <Content>
+                <CanvasHeader
+                    isLoading={isLoading}
+                    setIsLoading={setIsLoading}
                     friendlyName={friendlyName}
-                    color={color}
-                    setColor={setColor}
+                    setFriendlyName={setFriendlyName}
                     dataBaseCanvasDesign={dataBaseCanvasDesign}
                     setDataBaseCanvasDesign={setdataBaseCanvasDesign}
-                    databaseFriendlyName={dataBaseFriendlyName}
+                    dataBaseFriendlyName={dataBaseFriendlyName}
                     setDataBaseFriendlyName={setDataBaseFriendlyName}
+                    templateId={templateId}
+                    setTemplateId={setTemplateId}
                 />
-            </div>
-            <Box sx={{ height: '1vh' }} />
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <CanvasStage
-                    canvasDesign={canvasDesign}
-                    setCanvasDesign={setCanvasDesign}
-                    color={color}
-                    setColor={setColor} />
-            </div>
-        </div>
+            </Content>
+            <Layout style={{ padding: '20px 0 15px 0', background: colorBgContainer, borderRadius: borderRadiusLG }}>
+                <Sider style={{ background: colorBgContainer }} width={225}>
+                    {selectedId ?
+                        <ShapePropertiesMenu />
+                        :
+                        <ShapesToolbar isLoading={isLoading} />
+                    }
+                </Sider>
+                <Content>
+                    <CanvasStage />
+                </Content>
+            </Layout>
+        </Layout>
     );
 };
 

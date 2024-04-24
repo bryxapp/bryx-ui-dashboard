@@ -1,17 +1,14 @@
 import React, { useEffect, useState, } from 'react';
-import Grid from '@mui/material/Grid';
 import TemplatesListItem from './TemplateItem/TemplateItem';
 import { getTemplates, deleteTemplate, createTemplate } from '../../../../utils/api/templates-api';
-import { Typography } from '@mui/material';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../ErrorMessage/ErrorMessage';
 import ErrorModal from '../../ErrorModal/ErrorModal';
-import NewTemplateItem from './TemplateItem/NewTemplateItem';
-
+import { Col, Empty, Row, Typography } from 'antd';
 interface TemplatesGridProps {
-    setMaxTemplatesReached: ((value: boolean) => void) | null;
+    setMaxTemplatesReached?: ((value: boolean) => void);
     baseUrl: string;
     showActions?: boolean;
 }
@@ -23,6 +20,7 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     const [deleteError, setDeleteError] = useState(false);
     const [copyError, setCopyError] = useState(false);
     const [templateRequestCompleted, setTemplateRequestCompleted] = useState(false);
+    const [templatesCount, setTemplatesCount] = useState<number>(0);
 
     useEffect(() => {
         const fetchTemplates = async () => {
@@ -36,6 +34,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                 setTemplates(templateData.templates);
                 if (setMaxTemplatesReached) {
                     setMaxTemplatesReached(templateData.maxTemplatesReached);
+                }
+                if (setTemplatesCount) {
+                    setTemplatesCount(templateData.templates.length);
                 }
             } catch (error) {
                 logger.trackException({
@@ -103,17 +104,31 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
     }
 
     if (!templateRequestCompleted)
-        return <Typography variant='h6' component='div' sx={{ flexGrow: 1, textAlign: 'center', my: 2 }}>Loading...</Typography>;
+        return <Typography.Title level={4} style={{ textAlign: 'center' }}>Loading...</Typography.Title>;
 
     if (error) return <ErrorMessage dataName='templates' />;
 
+    if (templatesCount === 0)
+        return (
+            <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{ height: 100 }}
+                description={
+                    <Typography.Title level={5}>
+                        You don't have any templates yet
+                    </Typography.Title>
+                }
+            >
+            </Empty>
+        );
+
     return (
         <>
-            <ErrorModal error={deleteError} setError={setDeleteError} />
-            <ErrorModal error={copyError} setError={setCopyError} />
-            <Grid container spacing={2}>
+            <ErrorModal error={deleteError} setError={setDeleteError} content="Error deleting template" />
+            <ErrorModal error={copyError} setError={setCopyError} content="Error copying template" />
+            <Row gutter={[16, 16]}>
                 {templates.map(template => (
-                    <Grid item xs={12} sm={6} md={4} key={template.id}>
+                    <Col xs={24} sm={12} md={8} key={template.id}>
                         <TemplatesListItem
                             template={template}
                             handleTemplateDelete={handleTemplateDelete}
@@ -121,12 +136,9 @@ const TemplatesGrid: React.FC<TemplatesGridProps> = ({ setMaxTemplatesReached, b
                             baseUrl={baseUrl}
                             showActions={showActions}
                         />
-                    </Grid>
+                    </Col>
                 ))}
-                <Grid item xs={12} sm={6} md={4} key="new">
-                    <NewTemplateItem />
-                </Grid>
-            </Grid>
+            </Row>
         </>
     );
 };

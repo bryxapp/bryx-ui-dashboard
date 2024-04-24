@@ -1,8 +1,7 @@
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import logger from "../../logging/logger";
-import { useNavigate } from "react-router-dom";
-import { useAuth0User } from "../../utils/customHooks/useAuth0User";
+import { Button, Tooltip } from 'antd';
+import logger from '../../logging/logger';
+import { useNavigate } from 'react-router-dom';
+import { useAuth0User } from '../../utils/customHooks/useAuth0User';
 
 interface NewEstimateButtonProps {
     maxEstimatesReached: boolean;
@@ -17,27 +16,23 @@ const NewEstimateButton = ({ maxEstimatesReached }: NewEstimateButtonProps) => {
             name: 'New Estimate Click',
             properties: { menu: 'New Estimate', user: auth0User?.name, environment: process.env.NODE_ENV },
         });
-        navigate('/select-template')
+        navigate('/select-template');
     };
 
     const tooltipTitle = maxEstimatesReached 
-        ? "Maximum number of estimates reached"
-        : "Create a new estimate";
+        ? 'Maximum number of estimates reached'
+        : '';
 
     return (
         <Tooltip title={tooltipTitle}>
-            <span> {/* span is added because disabled buttons don't trigger tooltips */}
-                <Button
-                    onClick={handleNewEstimateClick}
-                    variant='contained'
-                    color='primary'
-                    size='large'
-                    sx={{ borderRadius: 1 }}
-                    disabled={maxEstimatesReached}
-                >
-                    + New Estimate
-                </Button>
-            </span>
+            <Button
+                type="primary"
+                size="large"
+                onClick={handleNewEstimateClick}
+                disabled={maxEstimatesReached}
+            >
+                + New Estimate
+            </Button>
         </Tooltip>
     );
 };

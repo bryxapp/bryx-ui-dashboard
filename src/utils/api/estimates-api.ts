@@ -4,52 +4,63 @@ import axios from 'axios';
 import { EstimateData, EstimateFormFields, EstimateResponse, } from '../types/EstimateInterfaces';
 import { TemplateData, EstimateTemplateUsedData } from '../types/TemplateInterfaces';
 import { createImageUrl } from '../canvasUtils';
+import { Dayjs } from 'dayjs';
 
 const BASE_URL = "https://bryx-api.azurewebsites.net/api/estimates";
 
-export async function createEstimate(templateData: TemplateData, estimateName: string, fieldValues: EstimateFormFields, token: string) {
+export async function createEstimate(templateData: TemplateData, estimateName: string, formInputs: EstimateFormFields, token: string) {
+    const estimateImgObj = await createImageUrl(templateData.canvasDesign, formInputs);
     //Create Body
     const body = {
         templateId: templateData.id,
         templateFriendlyName: templateData.friendlyName,
         estimateName: estimateName,
-        canvasDesign: templateData.canvasDesign,
-        fieldValues: fieldValues,
+        estimateImgObj: estimateImgObj,
     }
     const response = await axios.post(`${BASE_URL}`, body, { headers: { Authorization: `Bearer ${token}` } });
     return response.data as EstimateData;
 }
 
 export async function createEstimatePDF(estimate: EstimateData) {
-    const pdfMultiplier = 72;
-    const estimateImgObj = await createImageUrl(estimate.canvasDesign, estimate.fieldValues);
     //Create Body
-    const body = {
-        estimateId: estimate.id,
-        estimateImgObj: estimateImgObj,
-        estimatePDFHeight: estimate.canvasDesign.pageHeight * pdfMultiplier,
-        estimatePDFWidth: estimate.canvasDesign.pageWidth * pdfMultiplier,
-    }
+    const body = { estimateId: estimate.id }
     const response = await axios.post(`${BASE_URL}/pdf`, body, { headers: {} });
     return response.data as EstimateData;
 }
 
-export async function getEstimates(pageSize: number, pageNumber: number, token: string, searchTerm?: string, templateId?: string) {
-    console.log("ESTIMATES API")
-    // Initialize base URL
-    let url = `${BASE_URL}?&pageNumber=${pageNumber}&pageSize=${pageSize}`;
+export async function getEstimates(
+    pageSize: number,
+    pageNumber: number,
+    token: string,
+    searchTerm?: string,
+    templateId?: string,
+    dateRange?: [Dayjs | null, Dayjs | null],
+): Promise<EstimateResponse> {
+    console.log("ESTIMATES API");
+    // Initialize base URL, fix the double ampersand
+    let url = `${BASE_URL}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-    // Check if searchTerm is provided
+    // Append searchTerm if provided
     if (searchTerm) {
         url += `&searchTerm=${searchTerm}`;
     }
 
-    // Check if templateId is provided
+    // Append templateId if provided
     if (templateId) {
         url += `&templateId=${templateId}`;
     }
 
-    // Get all templates from the api
+    // Append startDate and endDate if the dateRange is provided
+    if (dateRange) {
+        const [startDate, endDate] = dateRange;
+        if (startDate && endDate) {
+            url += `&startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`;
+        }
+        console.log(url)
+    }
+
+    url = encodeURI(url);
+    // Execute the GET request with the Authorization header
     const response = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
     return response.data as EstimateResponse;
 }

@@ -1,32 +1,25 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
     Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    IconButton,
+    Input,
+    Modal,
     Typography,
-    Tooltip,
-    DialogContentText
-} from "@mui/material";
-import { StyledTextField as TextField } from "../../SharedComponents/TextField/TextField";
-import { getOrganization, renameOrg } from "../../../utils/api/org-api";
-import { useAuth0User } from "../../../utils/customHooks/useAuth0User";
-import Edit from "@mui/icons-material/Edit";
-import { useOrganizationContext } from "../../../utils/contexts/OrganizationContext";
+    Tooltip
+} from 'antd';
+import { EditOutlined } from '@ant-design/icons';
+import { getOrganization, renameOrg } from '../../../utils/api/org-api';
+import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 
-interface TeamNameProps {
-    teamName: string | undefined;
-}
+const { Text } = Typography;
 
-const TeamName = ({ teamName }: TeamNameProps) => {
+const TeamName = ({ teamName }: any) => {
     const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [newTeamName, setNewTeamName] = useState(teamName);
     const [isValidTeamName, setIsValidTeamName] = useState(true);
     const [error, setError] = useState<string | null>(null); // Error state
-    const [success, setSuccess] = useState<boolean>(false); // Success state
+    const [success, setSuccess] = useState(false); // Success state
     const { setOrganization } = useOrganizationContext();
 
     const handleEditTeamName = () => {
@@ -41,8 +34,7 @@ const TeamName = ({ teamName }: TeamNameProps) => {
         if (!isValidTeamName) return; // Prevent renaming if the team name is not valid
 
         const token = await getAccessToken();
-        if (!token) return;
-        if (!newTeamName) return;
+        if (!token || !newTeamName) return;
 
         try {
             await renameOrg(token, newTeamName);
@@ -54,7 +46,7 @@ const TeamName = ({ teamName }: TeamNameProps) => {
             setSuccess(true);
         } catch (err) {
             // Set error state
-            setError("An error occurred while renaming the team name. Please try again.");
+            setError('An error occurred while renaming the team name. Please try again.');
         }
 
         // Close the dialog
@@ -78,52 +70,50 @@ const TeamName = ({ teamName }: TeamNameProps) => {
     return (
         <>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start' }}>
-                <Typography variant="h5" color="textPrimary">
+                <Text strong>
                     Team Name: {teamName}
-                </Typography>
+                </Text>
                 <Tooltip title="Edit Team Name">
-                    <IconButton onClick={handleEditTeamName} color="primary">
-                        <Edit />
-                    </IconButton>
+                    <Button
+                        type="link"
+                        icon={<EditOutlined />}
+                        onClick={handleEditTeamName}
+                    />
                 </Tooltip>
             </div>
-            <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
-                <DialogTitle>Edit Team Name</DialogTitle>
-                <DialogContent>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        id="teamName"
-                        label="Team Name"
-                        type="text"
-                        fullWidth
-                        value={newTeamName}
-                        onChange={handleTeamNameChange}
-                        error={!isValidTeamName}
-                        helperText={!isValidTeamName ? "Team Name cannot be empty" : ""}
-                    />
-                    {error && (
-                        <DialogContentText color="error">
-                            {error}
-                        </DialogContentText>
-                    )}
-                    {success && (
-                        <DialogContentText color="success">
-                            Team name changed successfully!
-                        </DialogContentText>
-                    )}
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleCloseDialog} color="primary">
+            <Modal
+                title="Edit Team Name"
+                open={isDialogOpen}
+                onCancel={handleCloseDialog}
+                footer={[
+                    <Button key="cancel" onClick={handleCloseDialog}>
                         Cancel
-                    </Button>
-                    <Button onClick={handleConfirmTeamRename} color="primary" autoFocus disabled={!isValidTeamName || success}>
+                    </Button>,
+                    <Button
+                        key="confirm"
+                        type="primary"
+                        onClick={handleConfirmTeamRename}
+                        disabled={!isValidTeamName || success}
+                    >
                         Confirm
                     </Button>
-                </DialogActions>
-            </Dialog>
+                ]}
+            >
+                <Input
+                    autoFocus
+                    id="teamName"
+                    placeholder="Team Name"
+                    value={newTeamName}
+                    onChange={handleTeamNameChange}
+                    className={!isValidTeamName ? 'ant-input-error' : ''}
+                />
+                {!isValidTeamName && <Text type="danger">Team Name cannot be empty</Text>}
+                {error && <Text type="danger">{error}</Text>}
+                {success && <Text type="success">Team name changed successfully!</Text>}
+            </Modal>
         </>
     );
 };
 
 export default TeamName;
+

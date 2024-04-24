@@ -1,20 +1,14 @@
-import { useState } from 'react';
-import {
-  Button,
-  Typography,
-  Container,
-  Box,
-  Paper,
-  Grid,
-  CircularProgress,
-} from '@mui/material';
-import { StyledTextField as TextField } from '../../SharedComponents/TextField/TextField';
+import React, { useState } from 'react';
+import { Button, Card, Input, Typography, Spin, Row, Col, Layout } from 'antd';
 import { teamSubscription } from '../../../utils/types/SubscriptionInterfaces';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { createTeamCheckoutSession } from '../../../utils/api/checkout-api';
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe } from '@stripe/stripe-js';
 import logger from '../../../logging/logger';
 import ErrorMessage from '../../SharedComponents/ErrorMessage/ErrorMessage';
+
+const { Title, Text } = Typography;
+const { Content } = Layout;
 
 const stripePromise = process.env.REACT_APP_STRIPE_KEY
   ? loadStripe(process.env.REACT_APP_STRIPE_KEY)
@@ -25,15 +19,15 @@ const CreateTeam = () => {
   const [teamNameError, setTeamNameError] = useState('');
   const [loading, setLoading] = useState(false);
   const { auth0User } = useAuth0User();
-  const [error, setError] = useState<boolean>(false);
+  const [error, setError] = useState(false);
 
-  const handleTeamNameChange = (event: any) => {
-    setTeamName(event.target.value);
+  const handleTeamNameChange = (e: any) => {
+    setTeamName(e.target.value);
     setTeamNameError('');
   };
 
   const handleCheckout = async () => {
-    if (teamName.trim() === '') {
+    if (!teamName.trim()) {
       setTeamNameError('Please enter a valid team name.');
       return;
     }
@@ -47,19 +41,15 @@ const CreateTeam = () => {
       if (!stripe) {
         throw new Error("Stripe is not initialized.");
       }
-
-      const email = auth0User?.email || "";
-      const session = await createTeamCheckoutSession(teamName, email);
+      const session = await createTeamCheckoutSession(teamName, auth0User.email || "");
       if (!session) {
         throw new Error("Session creation failed.");
       }
-
       const result = await stripe.redirectToCheckout({
         sessionId: session.id,
       });
-
       if (result.error) {
-        throw new Error("Error redirecting to checkout.");
+        throw result.error;
       }
     } catch (error) {
       logger.trackException({
@@ -79,68 +69,54 @@ const CreateTeam = () => {
   if (error) return <ErrorMessage dataName="checkout" />;
 
   return (
-    <Container maxWidth="md">
-      <Box mt={4}>
-        <Typography variant="h2" color="primary.main">
+    <Layout>
+      <Content>
+        <Title level={2}>
           Upgrade to Team Plan
-        </Typography>
-        <Typography variant="h4" gutterBottom mt={4}>
+        </Title>
+        <Title level={4}>
           Team Features
-        </Typography>
-        <Grid container spacing={2}>
+        </Title>
+        <Row gutter={[16, 16]}>
           {teamSubscription.features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={3} key={index}>
-              <Paper elevation={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-                <Box sx={{ textAlign: 'center', p: 2 }}>
-                  <Typography variant="body1">
-                    {feature}
-                  </Typography>
-                </Box>
-              </Paper>
-            </Grid>
+            <Col xs={24} sm={12} md={6} key={index}>
+              <Card>
+                <Text>{feature}</Text>
+              </Card>
+            </Col>
           ))}
-          <Grid item xs={12} sm={6} md={3}>
-            <Paper elevation={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
-              <Box sx={{ textAlign: 'center', p: 2 }}>
-                <Typography variant="body1">
-                  Easily add and remove team members
-                </Typography>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-        <Box mt={4} />
-        <Typography variant="h4" gutterBottom>
+          <Col xs={24} sm={12} md={6}>
+            <Card>
+              <Text>Add and Remove Team Members</Text>
+            </Card>
+          </Col>
+        </Row>
+        <Title level={4}>
           Create Your Team
-        </Typography>
-        <Paper elevation={3} variant="outlined" sx={{ p: 3 }}>
-          <Typography variant="h6" mb={2}>
-            Enter a name for your team and proceed to create an organization for collaboration.
-          </Typography>
-          <Typography variant="body1" mb={1}>
-            *You can change this later
-          </Typography>
-          <TextField
-            label="Team Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
+        </Title>
+        <Card>
+          <Title level={5}>Enter a name for your team and proceed to create an organization for collaboration.</Title>
+          <Input
+            placeholder="Team Name"
             value={teamName}
             onChange={handleTeamNameChange}
-            error={Boolean(teamNameError)}
-            helperText={teamNameError}
+            style={teamNameError ? { borderColor: 'red' } : {}}
           />
-          <Button variant="contained" color="primary" onClick={handleCheckout} disabled={loading}>
-            {loading ? <CircularProgress color="secondary" size={20} /> : "Proceed to Checkout"}
+          <Text>*You can change this later</Text>
+          <br />
+          {teamNameError && <Text type="danger">{teamNameError}</Text>}
+          <Button type="primary" onClick={handleCheckout} disabled={loading} >
+            {loading ? <Spin /> : "Proceed to Checkout"}
           </Button>
-        </Paper>
-      </Box>
-      <br />
-      <Typography variant="body1">
-        NOTE: You are creating a separate organization for team members to collaborate. Your personal starter or pro subscription remains unaffected.
-      </Typography>
-    </Container>
+          <br />
+          <br />
+          <Text>
+            NOTE: You are creating a separate organization for team members to collaborate. Your personal starter or pro subscription remains unaffected.
+          </Text>
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 
-export default CreateTeam;
+export default CreateTeam
