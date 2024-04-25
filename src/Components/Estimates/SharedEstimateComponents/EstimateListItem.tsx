@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Typography, Avatar, Space, theme, Divider } from 'antd';
+import { Typography, Space, theme, Divider } from 'antd';
 import { convertToDisplayDate } from '../../../utils/time-util';
 import EstimatesDeleteDialog from './EstimatesDeleteDialog';
 import EstimatesActionPanel from './EstimatesActionPanel';
@@ -28,8 +28,7 @@ const EstimateListItem: React.FC<EstimateListItemProps> = ({ estimate, handleEst
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px' }}>
                 <Space>
                     <Link to={editLink}>
-                        <Avatar style={{ backgroundColor: colorPrimary, alignItems: "center", justifyContent: "center" }} size="large" icon={<FaFileInvoice />}>
-                        </Avatar>
+                        <FaFileInvoice size={30} color={colorPrimary} />
                     </Link>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <Link to={editLink}>
