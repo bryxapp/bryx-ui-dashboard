@@ -1,5 +1,4 @@
 import { CellInputObj, TableCellObj, TableInputObj, TextCellObj } from '../../../../../../utils/types/CanvasInterfaces';
-import TextCell from './TextCell';
 import InputCell from './InputCell';
 import EmptyCell from './EmptyCell';
 
@@ -24,41 +23,21 @@ const TableCell = ({ cell, row, rowIndex, cellIndex, tableInputObj, handleSelect
         return <EmptyCell emptyCellObj={cell} containerWidth={cell.width} containerHeight={cell.height} />
     }
 
-    if (cell.content.type === 'TextCell') {
-        const textCellObj = cell.content as TextCellObj
-        textCellObj.x = cellXPosition;
-        textCellObj.y = cellYPosition;
-        textCellObj.id = cell.id;
-        return (
-            <>
-                <TextCell
-                    textCellObj={textCellObj}
-                    containerWidth={cell.width}
-                    containerHeight={cell.height}
-                    horizontalAlign={cell.horizontalAlign}
-                    verticalAlign={cell.verticalAlign}
-                />
-            </>
-        );
-    }
-
-    if (cell.content.type === 'CellInput') {
-        const cellInputObj = cell.content as CellInputObj;
-        cellInputObj.x = cellXPosition;
-        cellInputObj.y = cellYPosition;
-        cellInputObj.id = cell.id;
-        return (
+    const contentCellObj = cell.content.type === 'CellInput' ? cell.content as CellInputObj : cell.content as TextCellObj;
+    contentCellObj.x = cellXPosition;
+    contentCellObj.y = cellYPosition;
+    contentCellObj.id = cell.id;
+    return (
+        <>
             <InputCell
-                cellInputObj={cellInputObj}
+                contentCell={contentCellObj}
                 containerWidth={cell.width}
                 containerHeight={cell.height}
                 horizontalAlign={cell.horizontalAlign}
                 verticalAlign={cell.verticalAlign}
             />
-        );
-    }
-
-    return null;
+        </>
+    );
 }
 
 

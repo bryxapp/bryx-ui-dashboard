@@ -3,30 +3,32 @@ import React, { useRef, useEffect, useState } from 'react';
 import Konva from 'konva';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
-import { FILL_COLOR, createTempTextKonvaShape, getXAlignment, getYAlignment } from '../SharedInputComponents/InputHelper';
-import { CellInputObj, HorizontalAlign, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
+import { FILL_COLOR } from '../SharedInputComponents/InputHelper';
+import { CellInputObj, HorizontalAlign, TextCellObj, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { Html } from 'react-konva-utils';
 
-interface InputCellProps {
-    cellInputObj: CellInputObj;
+interface ContentCellProps {
+    contentCell: CellInputObj | TextCellObj;
     containerWidth: number;
     containerHeight: number;
     horizontalAlign: HorizontalAlign
     verticalAlign: VerticalAlign
 }
 
-const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAlign, verticalAlign }: InputCellProps) => {
+const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalAlign, verticalAlign }: ContentCellProps) => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const [editing, setEditing] = useState(false);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
-    const isSelected = cellInputObj.id === selectedId;
+    const isSelected = contentCell.id === selectedId;
     const onSelect = () => {
-        setSelectedId(cellInputObj.id);
+        setSelectedId(contentCell.id);
     }
+
+    const isInputCell = contentCell.type === 'CellInput';
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
         const { target } = event;
@@ -38,17 +40,17 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
         position: 'absolute',
         background: 'none',
         resize: 'none',
-        fontSize: `${cellInputObj.fontSize / 16}em`,
-        fill: cellInputObj.fill,
-        fontFamily: cellInputObj.fontFamily,
-        fontStyle: cellInputObj.fontStyle,
-        textDecoration: cellInputObj.textDecoration,
+        fontSize: `${contentCell.fontSize / 16}em`,
+        fill: contentCell.fill,
+        fontFamily: contentCell.fontFamily,
+        fontStyle: contentCell.fontStyle,
+        textDecoration: contentCell.textDecoration,
         whiteSpace: 'pre-wrap',
         width: containerWidth - 4,
         height: containerHeight - 4,
         textAlign: horizontalAlign,
         verticalAlign: verticalAlign,
-        color: cellInputObj.fill,
+        color: contentCell.fill,
         padding: '0px',
         margin: '0px',
         overflow: 'hidden',
@@ -77,7 +79,7 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                 trRef.current.getLayer()?.batchDraw();
             }
         }
-    }, [cellInputObj, isSelected]);
+    }, [contentCell, isSelected]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -93,16 +95,16 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
     }, []);
 
     const onChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, cellInputObj.id);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, contentCell.id);
     };
 
     return (
         <React.Fragment>
             <Group
-                key={cellInputObj.id}
-                id={cellInputObj.id}
-                x={cellInputObj.x + 2}
-                y={cellInputObj.y + 2}
+                key={contentCell.id}
+                id={contentCell.id}
+                x={contentCell.x + 2}
+                y={contentCell.y + 2}
                 draggable={false}
                 ref={shapeRef}
                 onClick={onSelect}
@@ -110,13 +112,14 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                 onDblClick={() => setEditing(true)}
                 onDblTap={() => setEditing(true)}
             >
-                <Rect
-                    width={containerWidth - 4}
-                    height={containerHeight - 4}
-                    fill={FILL_COLOR}
-                    onClick={onSelect}
-                    onTap={onSelect}
-                />
+                {isInputCell && (
+                    <Rect
+                        width={containerWidth - 4}
+                        height={containerHeight - 4}
+                        fill={FILL_COLOR}
+                        onClick={onSelect}
+                        onTap={onSelect}
+                    />)}
                 {!editing && (
                     <>
                         <Rect
@@ -127,18 +130,18 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                             onDblTap={() => setEditing(true)}
                         />
                         <Text
-                            text={cellInputObj.value}
-                            fontSize={cellInputObj.fontSize}
-                            fill={cellInputObj.fill}
+                            text={contentCell.value}
+                            fontSize={contentCell.fontSize}
+                            fill={contentCell.fill}
                             width={containerWidth - 4}
                             height={containerHeight - 4}
                             onClick={onSelect}
                             onTap={onSelect}
                             onDblClick={() => setEditing(true)}
                             onDblTap={() => setEditing(true)}
-                            fontFamily={cellInputObj.fontFamily}
-                            fontStyle={cellInputObj.fontStyle}
-                            textDecoration={cellInputObj.textDecoration}
+                            fontFamily={contentCell.fontFamily}
+                            fontStyle={contentCell.fontStyle}
+                            textDecoration={contentCell.textDecoration}
                             align={horizontalAlign}
                             verticalAlign={verticalAlign}
                             draggable={false}
@@ -153,8 +156,8 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                             ref={textAreaRef}
                             onChange={onChange}
                             style={style}
-                            id={cellInputObj.id}
-                            value={cellInputObj.value}
+                            id={contentCell.id}
+                            value={contentCell.value}
                             autoFocus
                             onFocus={moveCaretToEnd}
                         />
@@ -177,4 +180,4 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
     );
 };
 
-export default InputCell;
+export default ContentCell;
