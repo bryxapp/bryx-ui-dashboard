@@ -22,45 +22,50 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
     const labelOffset = inputObj.hasLabel ? labelHeight + (inputObj.label.fontSize / 10) : 0;
     const yalign = verticalAlign ? getInputYAlignment(textObj, textObj.value, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
-    const divRef = useRef<HTMLDivElement>(null);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign, setSelectedId } = useCanvasDesignContext();
 
     const onSelect = () => {
         setSelectedId(inputObj.id);
     }
 
+    const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        const { target } = event;
+        const { value } = target;
+        target.setSelectionRange(value.length, value.length);
+    };
+
     const handleDoubleClick = () => {
-        if(inputObj.type !== 'DateInput')
-        setEditing(true); // Enable editing mode
+        if (inputObj.type !== 'DateInput')
+            setEditing(true); // Enable editing mode
     };
 
     const style: React.CSSProperties = {
-        display: "flex",
         position: 'absolute',
-        fontSize: textObj.fontSize,
+        background: 'none',
+        resize: 'none',
+        fontSize: `${textObj.fontSize / 16}em`,
+        fill: textObj.fill,
         fontFamily: textObj.fontFamily,
         fontStyle: textObj.fontStyle,
         textDecoration: textObj.textDecoration,
+        whiteSpace: 'pre-wrap',
+        width: `${contentWidth + 20}px`,
+        height: `${contentHeight + 20}px`,
+        alignContent: textObj.horizontalAlign,
         color: textObj.fill,
-        width: contentWidth + 4,
-        height: contentHeight,
-        outline: 'none',
-        lineHeight: 'normal',
-        overflow: 'auto',
         padding: '0px',
         margin: '0px',
-        boxSizing: 'border-box',
-        textWrap: 'wrap',
-    };
-
-    const val = textObj.value;
-    const onInput = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.textContent, inputObj.id);
+        overflow: 'hidden',
+        outline: 'none',
+        lineHeight: '1',
+        minWidth: '10px',
+        border: 'none',
     };
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (divRef.current && !divRef.current.contains(event.target as Node)) {
+            if (textAreaRef.current && !textAreaRef.current.contains(event.target as Node)) {
                 setEditing(false);
             }
         };
@@ -71,17 +76,9 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
         };
     }, []);
 
-    useEffect(() => {
-        if (editing && divRef.current) {
-            const range = document.createRange();
-            const sel = window.getSelection();
-            range.selectNodeContents(divRef.current);
-            range.collapse(false);
-            sel?.removeAllRanges();
-            sel?.addRange(range);
-            divRef.current.focus();
-        }
-    }, [editing, textObj.value]);
+    const onChange = (event: any) => {
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, inputObj.id);
+    };
 
     return (
         <>
@@ -101,31 +98,44 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
                 y={yalign + labelOffset}
             >
                 {!editing && (
-                    <Text
-                        text={`${textObj.value}`}
-                        fontSize={textObj.fontSize}
-                        fill={textObj.fill}
-                        fontFamily={textObj.fontFamily}
-                        fontStyle={textObj.fontStyle}
-                        textDecoration={textObj.textDecoration}
-                        scaleX={1}
-                        scaleY={1}
-                        onDblClick={handleDoubleClick}
-                        onDblTap={handleDoubleClick}
-                    />)
+                    <>
+                        <Rect
+                            x={0}
+                            y={0}
+                            width={contentWidth}
+                            height={contentHeight}
+                            fill='transparent'
+                            onClick={onSelect}
+                            onTap={onSelect}
+                            onDoubleClick={handleDoubleClick}
+                            onDblTap={handleDoubleClick}
+                        />
+                        <Text
+                            text={`${textObj.value}`}
+                            fontSize={textObj.fontSize}
+                            fill={textObj.fill}
+                            fontFamily={textObj.fontFamily}
+                            fontStyle={textObj.fontStyle}
+                            textDecoration={textObj.textDecoration}
+                            scaleX={1}
+                            scaleY={1}
+                            onDblClick={handleDoubleClick}
+                            onDblTap={handleDoubleClick}
+                            minWidth={10}
+                        />
+                    </>)
                 }
                 {editing && (
                     <Html>
-                        <div
-                            ref={divRef}
-                            contentEditable={true}
+                        <textarea
+                            ref={textAreaRef}
+                            onChange={onChange}
                             style={style}
-                            onInput={onInput}
-                            suppressContentEditableWarning={true}
-                            defaultValue={val}
-                        >
-                            {val}
-                        </div>
+                            id={inputObj.id}
+                            value={textObj.value}
+                            autoFocus
+                            onFocus={moveCaretToEnd}
+                        />
                     </Html>
                 )}
             </Group>

@@ -92,8 +92,6 @@ const InputLabel = ({ inputLabelObj, inputObjId, contentHeight, containerWidth }
                         fontFamily={inputLabelObj.fontFamily}
                         fontStyle={inputLabelObj.fontStyle}
                         textDecoration={inputLabelObj.textDecoration}
-                        scaleX={1}
-                        scaleY={1}
                         minWidth={10}
                     />
                 </>
