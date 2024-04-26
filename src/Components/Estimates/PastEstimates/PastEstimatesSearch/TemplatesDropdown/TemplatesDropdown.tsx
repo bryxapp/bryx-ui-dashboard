@@ -51,7 +51,8 @@ const TemplatesDropdown: React.FC<PastEstimatesSearchProps> = ({ disabled, selec
                 placeholder="Template ID"
                 value={selectedTemplateId}
                 onChange={handleTemplateIdFilter}
-                style={{ width: "10em" }}
+                style={{ width: "12em" }}
+                size = "large"
             >
                 <Option value="">All</Option>
                 {!templateRequestCompleted && (

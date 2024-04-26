@@ -104,6 +104,7 @@ const PastEstimatesSearch = ({
                     value={searchTerm}
                     onChange={handleSearch}
                     style={{ width: "100%" }}
+                    size="large"
                 />
             </div>
             <div style={{ width: '18rem' }}>
@@ -111,6 +112,7 @@ const PastEstimatesSearch = ({
                     disabled={disabled}
                     value={dateRange}
                     onChange={handleRangeChange}
+                    size="large"
                     allowClear
                     format="MM/DD/YYYY"
                     disabledDate={(currentDate) => currentDate && currentDate.isAfter(dayjs().endOf('day'))}
@@ -123,8 +125,8 @@ const PastEstimatesSearch = ({
                     setSelectedTemplateId={setSelectedTemplateId}
                 />
             </div>
-            <div style={{ width: '10rem' }}>
-                <Button type="primary" onClick={searchEstimates}>Search</Button>
+            <div>
+                <Button type="primary" size="large" style={{ width: "8rem" }} onClick={searchEstimates}>Search</Button>
             </div>
         </div>
     );

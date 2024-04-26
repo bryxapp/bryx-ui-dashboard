@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Tooltip } from 'antd';
 import { MdDelete } from "react-icons/md";
-import { FaBookOpen } from "react-icons/fa6";
+import { PiListMagnifyingGlassBold } from "react-icons/pi";
 import { EstimateData } from '../../../utils/types/EstimateInterfaces';
 import { EstimateDraftData } from '../../../utils/types/EstimateInterfaces';
 import Link from '../../SharedComponents/Link/Link';
@@ -25,7 +25,7 @@ const EstimatesActionPanel: React.FC<EstimatesActionPanelProps> = ({ setOpen, ed
         <div style={{ display: 'flex', flexDirection: 'row', width: "6rem", justifyContent: "space-around" }}>
             <Tooltip title={toolTipText} placement='bottom'>
                 <Link to={editLink}>
-                    <Button type='link' icon={type === 'draft' ? <MdModeEdit size={30} /> : <FaBookOpen size={30} />} />
+                    <Button type='link' icon={type === 'draft' ? <MdModeEdit size={30} /> : <PiListMagnifyingGlassBold size={30} />} />
                 </Link>
             </Tooltip>
             <Tooltip title={deleteText} placement='bottom'>
