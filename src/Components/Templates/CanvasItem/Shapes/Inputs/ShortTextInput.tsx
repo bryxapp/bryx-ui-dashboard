@@ -41,7 +41,7 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
             trRef.current.nodes([shapeRefCurrent]);
             trRef.current.getLayer()?.batchDraw();
         }
-    }, [shortTextInputObj.content,shortTextInputObj.label,shortTextInputObj.hasLabel, isSelected]);
+    }, [shortTextInputObj.content, shortTextInputObj.label, shortTextInputObj.hasLabel, isSelected]);
 
     const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(shortTextInputObj.label, shortTextInputObj.label.value);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content, shortTextInputObj.content.value);
@@ -80,13 +80,13 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
                 )}
                 {/* Input Content */}
                 <InputContent
-                    textObj={shortTextInputObj.content}
+                    inputObj={shortTextInputObj}
                     containerWidth={containerWidth}
+                    inputHeight={contentShapeHeight}
+                    inputWidth={shortTextInputObj.inputWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    labelHeight={shortTextInputObj.hasLabel ? labelShapeHeight : 0}
-                    labelFontSize={shortTextInputObj.hasLabel ? shortTextInputObj.label.fontSize : 0}
-                    onSelect={onSelect} />
+                    labelHeight={labelShapeHeight} />
             </Group>
             {isSelected && (
                 <>

@@ -82,13 +82,13 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
                 )}
                 {/* Input Content */}
                 <InputContent
-                    textObj={dateInputObj.content}
+                    inputObj={dateInputObj}
                     containerWidth={containerWidth}
+                    inputHeight={contentShapeHeight}
+                    inputWidth = {contentShapeWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    labelHeight={dateInputObj.hasLabel ? labelShapeHeight : 0}
-                    labelFontSize={dateInputObj.hasLabel ? dateInputObj.label.fontSize : 0}
-                    onSelect={onSelect} />
+                    labelHeight={labelShapeHeight} />
             </Group>
             {isSelected && (
                 <>

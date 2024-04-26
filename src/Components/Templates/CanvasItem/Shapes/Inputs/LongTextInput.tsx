@@ -88,14 +88,13 @@ const LongTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handle
                 )}
                 {/* Input Content */}
                 <InputContent
-                    textObj={longTextInputObj.content}
+                    inputObj={longTextInputObj}
                     containerWidth={containerWidth}
+                    inputHeight={longTextInputObj.inputHeight}
+                    inputWidth={longTextInputObj.inputWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    verticalAlign={longTextInputObj.verticalAlign}
-                    labelHeight={longTextInputObj.hasLabel ? labelShapeHeight : 0}
-                    labelFontSize={longTextInputObj.hasLabel ? longTextInputObj.label.fontSize : 0}
-                    onSelect={onSelect} />
+                    labelHeight={labelShapeHeight} />
             </Group>
             {isSelected && (
                 <>

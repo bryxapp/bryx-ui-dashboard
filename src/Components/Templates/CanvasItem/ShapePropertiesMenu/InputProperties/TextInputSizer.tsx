@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Typography } from 'antd';
+import { InputNumber, Typography } from 'antd';
 import { InputObj, LongTextInputObj, ShapeObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 
@@ -11,22 +11,19 @@ interface TextInputSizerProps {
 const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
-    const updateShapeProperty = (dimension: 'width' | 'height', event: React.ChangeEvent<HTMLInputElement>) => {
-        //handle empty string
-        const value = Math.round(parseFloat(event.target.value)); // Parse float value for accuracy
+    const updateShapeProperty = (dimension: 'inputWidth' | 'inputHeight', number: number | null) => {
+        //handle empty string // Parse float value for accuracy
         const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
             if (shape.id === selectedId) {
                 const foundInputObj = shape as InputObj;
-                const updatedInputObj = {
-                    ...foundInputObj,
-                    inputContentShape: { ...foundInputObj.content, [dimension]: value },
-                };
+                const updatedInputObj = { ...foundInputObj, [dimension]: number };
                 return updatedInputObj;
             }
             return shape;
         });
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     };
+
     let selectedWidth = 0;
     let selectedHeight = 0;
     if (inputObj.type === 'ShortTextInput') {
@@ -45,24 +42,26 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: "flex-start" }}>
                     <Typography.Text style={{ marginRight: '.2em' }}>w:</Typography.Text>
-                    <Input
+                    <InputNumber
                         value={selectedWidth}
-                        onChange={(event) => updateShapeProperty('width', event)}
+                        onChange={(event) => updateShapeProperty('inputWidth', event)}
                         size="small"
                         style={{ width: '4em' }}
                         disabled={disabled}
+                        min={1}
                     />
                 </div>
                 {inputObj.type === 'LongTextInput' && (
                     <>
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: "flex-start" }}>
                             <Typography.Text style={{ marginRight: '.2em' }}>h:</Typography.Text>
-                            <Input
+                            <InputNumber
                                 value={selectedHeight}
-                                onChange={(event) => updateShapeProperty('height', event)}
+                                onChange={(event) => updateShapeProperty('inputHeight', event)}
                                 size="small"
                                 style={{ width: '4em' }}
                                 disabled={disabled}
+                                min={1}
                             />
                         </div>
                     </>

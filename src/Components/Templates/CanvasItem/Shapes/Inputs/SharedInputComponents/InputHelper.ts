@@ -6,7 +6,7 @@ import { getTextWidthAndHeight } from '../../../../../../utils/shapeManagementUt
 // constants.ts
 export const MIN_BOX_SIZE = 5;
 export const ROTATION_SNAPS = [0, 90, 180, 270];
-export const FILL_COLOR = '#F2F2F2';
+export const FILL_COLOR = '#E0E0E0';
 
 export const createTempTextKonvaShape = (shapeProperties: TextBase | null, value: string | undefined): Konva.Text => {
     if (!shapeProperties) return new Konva.Text(
@@ -28,6 +28,9 @@ export const createTempTextKonvaShape = (shapeProperties: TextBase | null, value
 }
 
 export const getYAlignment = (textHeight: number, verticalAlign: string, containerHeight: number): number => {
+    if (textHeight > containerHeight) {
+        return 0;
+    }
     switch (verticalAlign) {
         case 'top':
             return 0;
@@ -41,6 +44,9 @@ export const getYAlignment = (textHeight: number, verticalAlign: string, contain
 }
 
 export const getXAlignment = (textWidth: number, horizontalAlign: string, containerWidth: number): number => {
+    if (textWidth > containerWidth) {
+        return 0;
+    }
     switch (horizontalAlign) {
         case 'left':
             return 0;

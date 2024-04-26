@@ -1,4 +1,4 @@
-import { Text } from 'react-konva';
+import { Rect, Text } from 'react-konva';
 import { getTextXAlignment } from './InputHelper';
 import { InputLabelObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
@@ -42,7 +42,7 @@ const InputLabel = ({ inputLabelObj, inputObjId, contentHeight, containerWidth }
         };
     }, []);
 
-    const [labelWidth, labelHeight] = getTextWidthAndHeight(inputLabelObj,inputLabelObj.value)
+    const [labelWidth, labelHeight] = getTextWidthAndHeight(inputLabelObj, inputLabelObj.value)
 
     const style: React.CSSProperties = {
         position: 'absolute',
@@ -58,30 +58,45 @@ const InputLabel = ({ inputLabelObj, inputObjId, contentHeight, containerWidth }
         height: `${labelHeight + 20}px`,
         alignContent: inputLabelObj.horizontalAlign,
         color: inputLabelObj.fill,
-        border: 'none',
         padding: '0px',
         margin: '0px',
         overflow: 'hidden',
         outline: 'none',
         lineHeight: 'normal',
+        minWidth: '10px',
+        border: 'none',
     };
 
     return (
         <>
             {!editing && (
-                <Text
-                    x={getTextXAlignment(inputLabelObj, containerWidth, inputLabelObj.horizontalAlign)}
-                    y={0}
-                    onDblClick={() => setEditing(true)}
-                    onDblTap={() => setEditing(true)}
-                    text={inputLabelObj.value}
-                    fontSize={inputLabelObj.fontSize}
-                    fill={inputLabelObj.fill}
-                    fontFamily={inputLabelObj.fontFamily}
-                    fontStyle={inputLabelObj.fontStyle}
-                    textDecoration={inputLabelObj.textDecoration}
-                    scaleX={1}
-                    scaleY={1} />
+                <>
+                    <Rect // Transparent overlay to capture double-click events
+                        x={0}
+                        y={0}
+                        width={containerWidth}
+                        height={contentHeight}
+                        onDblClick={() => setEditing(true)}
+                        onDblTap={() => setEditing(true)}
+                        opacity={0}
+                        listening={true}
+                    />
+                    <Text
+                        x={getTextXAlignment(inputLabelObj, containerWidth, inputLabelObj.horizontalAlign)}
+                        y={0}
+                        onDblClick={() => setEditing(true)}
+                        onDblTap={() => setEditing(true)}
+                        text={inputLabelObj.value}
+                        fontSize={inputLabelObj.fontSize}
+                        fill={inputLabelObj.fill}
+                        fontFamily={inputLabelObj.fontFamily}
+                        fontStyle={inputLabelObj.fontStyle}
+                        textDecoration={inputLabelObj.textDecoration}
+                        scaleX={1}
+                        scaleY={1}
+                        minWidth={10}
+                    />
+                </>
             )
             }
             {editing && (

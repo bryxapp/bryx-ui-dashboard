@@ -7,9 +7,7 @@ import { FaShapes } from "react-icons/fa";
 import { MdTextFields } from 'react-icons/md';
 import { MdAddPhotoAlternate } from 'react-icons/md';
 import { LuTextCursorInput } from "react-icons/lu";
-import { TableOutlined } from "@ant-design/icons";
 import InputMenu from "./InputMenu/InputMenu";
-import TableMenu from "./TableMenu/TableMenu";
 import { MdNoteAdd } from "react-icons/md";
 
 interface CanvasToolbarProps {
@@ -65,13 +63,6 @@ const ShapesToolbar = ({ isLoading }: CanvasToolbarProps) => {
                 title="Input"
             >
                 <InputMenu />
-            </Menu.SubMenu>
-            <Menu.SubMenu
-                key="table"
-                icon={<TableOutlined />}
-                title="Table"
-            >
-                <TableMenu />
             </Menu.SubMenu>
             <Menu.SubMenu
                 key="images"

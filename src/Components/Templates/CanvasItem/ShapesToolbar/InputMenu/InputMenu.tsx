@@ -1,6 +1,6 @@
 import { Menu } from 'antd';
-import { DateInputObj, EmailInputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import { createDateInputObj, createEmailInputObj, createLongTextInputObj, createPhoneInputObj, createShortTextInputObj } from '../../../../../utils/types/ShapesFactory';
+import { DateInputObj, EmailInputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj, TableInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { createDateInputObj, createEmailInputObj, createLongTextInputObj, createPhoneInputObj, createShortTextInputObj, createTableInputObj } from '../../../../../utils/types/ShapesFactory';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { mapTypeToIcon, mapTypeToTitle } from '../../../../../utils/iconUtils';
 
@@ -104,6 +104,20 @@ const InputMenu = () => {
         });
     }
 
+    const handleAddTableInput = () => {
+        const newTableInput: TableInputObj = createTableInputObj(
+            3,
+            3,
+            100,
+            50,
+        );
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newTableInput],
+            inputOrder: [...canvasDesign.inputOrder, newTableInput.id],
+        });
+    }
+
     return (
         <>
             <Menu.Item
@@ -140,6 +154,13 @@ const InputMenu = () => {
                 icon={mapTypeToIcon('LongTextInput')}
             >
                 {mapTypeToTitle('LongTextInput')}
+            </Menu.Item>
+            <Menu.Item
+                key="tableInput"
+                onClick={handleAddTableInput}
+                icon={mapTypeToIcon('TableInput')}
+            >
+                {mapTypeToTitle('TableInput')}
             </Menu.Item>
         </>
     );

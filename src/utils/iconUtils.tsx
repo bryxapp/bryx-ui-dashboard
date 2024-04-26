@@ -9,21 +9,22 @@ import { ShapeType } from "./types/CanvasInterfaces";
 import { MdOutlineRectangle as AddRectangleIcon, MdOutlineCrop75 as AddRoundedRectangleIcon, MdOutlineCircle as AddEllipseIcon } from 'react-icons/md';
 import { MdImageSearch } from "react-icons/md";
 import { ReactElement } from "react";
+import { TableOutlined } from "@ant-design/icons";
 
 export const mapTypeToTitle = (type: ShapeType) => {
     switch (type) {
         case 'ShortTextInput':
-            return 'Short Text Input'
+            return 'Short Text'
         case 'LongTextInput':
-            return 'Long Text Input'
+            return 'Long Text'
         case 'EmailInput':
-            return 'Email Input'
+            return 'Email'
         case 'PhoneInput':
-            return 'Phone Input'
+            return 'Phone'
         case 'DateInput':
-            return 'Date Input'
+            return 'Date'
         case 'TableInput':
-            return 'Table Input'
+            return 'Table'
         case 'Heading':
             return 'Heading'
         case 'Paragraph':
@@ -66,6 +67,7 @@ export const mapTypeToIcon = (type: ShapeType):ReactElement => {
         case 'UserImage':
             return <MdImageSearch />
         case 'TableInput':
+            return <TableOutlined />
         default:
             return <></>;
     }

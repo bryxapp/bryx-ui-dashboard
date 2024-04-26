@@ -70,7 +70,7 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
             >
                 {/* Background Rectangle for easier selecting and dragging */}
                 <Rect
-                    width={containerWidth + 10}
+                    width={containerWidth}
                     height={containerHeight}
                     fill='transparent'
                     onClick={onSelect}
@@ -81,13 +81,13 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
                 )}
                 {/* Input Content */}
                 <InputContent
-                    textObj={phoneInputObj.content}
+                    inputObj={phoneInputObj}
                     containerWidth={containerWidth}
+                    inputHeight={contentShapeHeight}
+                    inputWidth={contentShapeWidth}
                     contentHeight={contentShapeHeight}
                     contentWidth={contentShapeWidth}
-                    labelHeight={phoneInputObj.hasLabel ? labelShapeHeight : 0}
-                    labelFontSize={phoneInputObj.hasLabel ? phoneInputObj.label.fontSize : 0}
-                    onSelect={onSelect} />
+                    labelHeight={labelShapeHeight} />
             </Group>
             {isSelected && (
                 <>
