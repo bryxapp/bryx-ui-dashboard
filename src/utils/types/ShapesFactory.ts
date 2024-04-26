@@ -301,16 +301,16 @@ export function createTableInputObj(numberOfRows: number, numberOfCols: number, 
                 width: cellWidth,
                 height: cellHeight,
                 verticalAlign: 'middle',
-                horizontalAlign: 'left',
+                horizontalAlign: 'center',
                 type: 'TableCell',
                 content: null,
                 rotation: 0,
             };
             if (i === 0) {
-                cell.content = createTextCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y);
+                cell.content = createTextCellObj('Title', 20, 'black', 'Arial', 'bold', 'none', cell.x, cell.y);
             }
             else {
-                cell.content = createInputCellObj('Cell ' + i + ' ' + j, 12, 'black', 'Arial', 'normal', 'none', cell.x, cell.y)
+                cell.content = createInputCellObj('', 20, 'black', 'Arial', 'normal', 'none', cell.x, cell.y)
             }
             row.push(cell);
         }

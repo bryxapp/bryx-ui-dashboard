@@ -16,7 +16,7 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     if (!tableCellObj.content) return (
         <Card>
-            <CellTypeSelector tableCellObj= {tableCellObj}/>
+            <CellTypeSelector tableCellObj={tableCellObj} />
         </Card>
     )
 
@@ -25,10 +25,9 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
     };
 
-    
     return (
         <Card>
-            <CellTypeSelector tableCellObj= {tableCellObj}/>
+            <CellTypeSelector tableCellObj={tableCellObj} />
             {selectedIsInput && (
                 <>
                     <Typography.Text>Place Holder</Typography.Text>

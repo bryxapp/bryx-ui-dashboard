@@ -90,10 +90,10 @@ export default function CellTypeSelector({ tableCellObj }: CellTypeSelectorProps
                                 cell.content = null;
                             }
                             else if (selectedType === "Text") {
-                                cell.content = createTextCellObj(`text-field`, 12, 'black', 'Arial', 'normal', 'none', cell.x, currentRowY);
+                                cell.content = createTextCellObj(``, 12, 'black', 'Arial', 'normal', 'none', cell.x, currentRowY);
                             }
                             else if (selectedType === "Input") {
-                                cell.content = createInputCellObj(`text-input`, 12, 'black', 'Arial', 'normal', 'none', cell.x, currentRowY);
+                                cell.content = createInputCellObj(``, 12, 'black', 'Arial', 'normal', 'none', cell.x, currentRowY);
                             }
                         }
                         return cell;
