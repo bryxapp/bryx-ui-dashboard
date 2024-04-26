@@ -62,7 +62,7 @@ const InputLabel = ({ inputLabelObj, inputObjId, contentHeight, containerWidth }
         margin: '0px',
         overflow: 'hidden',
         outline: 'none',
-        lineHeight: 'normal',
+        lineHeight: '1',
         minWidth: '10px',
         border: 'none',
     };

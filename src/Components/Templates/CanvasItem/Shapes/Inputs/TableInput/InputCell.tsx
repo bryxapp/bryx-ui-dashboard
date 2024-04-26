@@ -1,10 +1,12 @@
 import { Rect, Group, Text } from 'react-konva';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Konva from 'konva';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import { FILL_COLOR, createTempTextKonvaShape, getXAlignment, getYAlignment } from '../SharedInputComponents/InputHelper';
 import { CellInputObj, HorizontalAlign, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
+import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { Html } from 'react-konva-utils';
 
 interface InputCellProps {
     cellInputObj: CellInputObj;
@@ -15,13 +17,46 @@ interface InputCellProps {
 }
 
 const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAlign, verticalAlign }: InputCellProps) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const [editing, setEditing] = useState(false);
     const { selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = cellInputObj.id === selectedId;
     const onSelect = () => {
         setSelectedId(cellInputObj.id);
     }
+
+    const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
+        const { target } = event;
+        const { value } = target;
+        target.setSelectionRange(value.length, value.length);
+    };
+
+    const style: React.CSSProperties = {
+        position: 'absolute',
+        background: 'none',
+        resize: 'none',
+        fontSize: `${cellInputObj.fontSize / 16}em`,
+        fill: cellInputObj.fill,
+        fontFamily: cellInputObj.fontFamily,
+        fontStyle: cellInputObj.fontStyle,
+        textDecoration: cellInputObj.textDecoration,
+        whiteSpace: 'pre-wrap',
+        width: containerWidth - 4,
+        height: containerHeight - 4,
+        textAlign: horizontalAlign,
+        verticalAlign: verticalAlign,
+        color: cellInputObj.fill,
+        padding: '0px',
+        margin: '0px',
+        overflow: 'hidden',
+        outline: 'none',
+        lineHeight: '1',
+        minWidth: '10px',
+        border: 'none',
+    };
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {
@@ -44,6 +79,28 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
         }
     }, [cellInputObj, isSelected]);
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (textAreaRef.current && !textAreaRef.current.contains(event.target as Node)) {
+                setEditing(false);
+            }
+        };
+
+        window.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            window.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const onChange = (event: any) => {
+        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, cellInputObj.id);
+    };
+
+    const handleDoubleClick = () => {
+        console.log('double click')
+        setEditing(true);
+    }
+
     //Create Content Text Shape for measurements
     const tempTextShapeContent = createTempTextKonvaShape(cellInputObj, cellInputObj.value);
     return (
@@ -57,28 +114,55 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                 ref={shapeRef}
                 onClick={onSelect}
                 onTap={onSelect}
+                onDblTap={handleDoubleClick}
+                onDblClick={handleDoubleClick}
             >
                 <Rect
-                    x={0}
-                    y={0}
                     width={containerWidth - 4}
                     height={containerHeight - 4}
                     fill={FILL_COLOR}
                     onClick={onSelect}
                     onTap={onSelect}
                 />
-                <Text
-                    x={getXAlignment(tempTextShapeContent.width(), horizontalAlign, containerWidth) + 2}
-                    y={getYAlignment(tempTextShapeContent.height(), verticalAlign, containerHeight) + 2}
-                    text={`${cellInputObj.value}`}
-                    fontSize={cellInputObj.fontSize}
-                    fill={cellInputObj.fill}
-                    fontFamily={cellInputObj.fontFamily}
-                    fontStyle={cellInputObj.fontStyle}
-                    textDecoration={cellInputObj.textDecoration}
-                    scaleX={1}
-                    scaleY={1}
-                />
+                {!editing && (
+                    <>
+                        <Rect
+                            width={containerWidth - 4}
+                            height={containerHeight - 4}
+                            fill='transparent'
+                            onDblTap={handleDoubleClick}
+                            onDblClick={handleDoubleClick}
+                        />
+                        <Text
+                            x={getXAlignment(tempTextShapeContent.width(), horizontalAlign, containerWidth)}
+                            y={getYAlignment(tempTextShapeContent.height(), verticalAlign, containerHeight)}
+                            text={`${cellInputObj.value}`}
+                            fontSize={cellInputObj.fontSize}
+                            fill={cellInputObj.fill}
+                            fontFamily={cellInputObj.fontFamily}
+                            fontStyle={cellInputObj.fontStyle}
+                            textDecoration={cellInputObj.textDecoration}
+                            align={horizontalAlign}
+                            verticalAlign={verticalAlign}
+                            draggable
+                        />
+                    </>
+                )
+                }
+                {editing && (
+                    <Html>
+                        <textarea
+                            ref={textAreaRef}
+                            onChange={onChange}
+                            style={style}
+                            id={cellInputObj.id}
+                            value={cellInputObj.value}
+                            autoFocus
+                            onFocus={moveCaretToEnd}
+                        />
+                    </Html>
+                )}
+
             </Group>
             {isSelected && (
                 <>
