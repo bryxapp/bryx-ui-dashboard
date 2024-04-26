@@ -8,10 +8,9 @@ interface CellProps {
     row: TableCellObj[];
     rowIndex: number;
     tableInputObj: TableInputObj;
-    handleSelect: any;
 }
 
-const TableCell = ({ cell, row, rowIndex, cellIndex, tableInputObj, handleSelect }: CellProps) => {
+const TableCell = ({ cell, row, rowIndex, cellIndex, tableInputObj }: CellProps) => {
 
     // Calculate the X and Y position of the cell shape    
     const cellXPosition = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);

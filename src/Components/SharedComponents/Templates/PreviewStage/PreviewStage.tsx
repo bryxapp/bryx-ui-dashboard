@@ -1,5 +1,5 @@
 import { Stage, Layer } from "react-konva";
-import { CanvasDesignData, DateInputObj, EllipseObj, EmailInputObj, HeadingObj, ImageObj, LongTextInputObj, ParagraphObj, PhoneInputObj, RectangleObj, ShapeObj } from "../../../../utils/types/CanvasInterfaces"
+import { CanvasDesignData, DateInputObj, EllipseObj, EmailInputObj, HeadingObj, ImageObj, LongTextInputObj, ParagraphObj, PhoneInputObj, RectangleObj, ShapeObj, TableInputObj } from "../../../../utils/types/CanvasInterfaces"
 import { getWebCanvasDimensions } from "../../../../utils/canvasUtils";
 import PiecePaper from "../../PiecePaper/PiecePaper";
 import { EstimateFormFields } from "../../../../utils/types/EstimateInterfaces";
@@ -13,6 +13,7 @@ import PreviewPhoneInput from "./PreviewShapes/PreviewPhoneInput";
 import PreviewEmailInput from "./PreviewShapes/PreviewEmailInput";
 import PreviewDateInput from "./PreviewShapes/PreviewDateInput";
 import PreviewLongTextInput from "./PreviewShapes/PreviewLongTextInput";
+import PreviewTableInput from "./PreviewShapes/PreviewTableInput";
 
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
@@ -59,8 +60,7 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
               case 'DateInput':
                 return <PreviewDateInput DateInputObj={shape as DateInputObj} formInputs={formInputs} />
               case 'TableInput':
-                //TODO: Implement TableInput
-                return null;
+                return <PreviewTableInput tableInputObj={shape as TableInputObj} formInputs={formInputs} />
               default:
                 return null;
             }

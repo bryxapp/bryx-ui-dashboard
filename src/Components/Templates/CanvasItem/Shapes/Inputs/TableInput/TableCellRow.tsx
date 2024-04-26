@@ -1,16 +1,13 @@
-import { TableCellObj, TableInputObj, CanvasDesignData } from '../../../../../../utils/types/CanvasInterfaces';
+import { TableCellObj, TableInputObj } from '../../../../../../utils/types/CanvasInterfaces';
 import TableCell from './TableCell';
 
 interface CellRowProps {
     row: TableCellObj[];
     rowIndex: number;
     tableInputObj: TableInputObj;
-    handleSelect: any;
-    canvasDesign: CanvasDesignData;
-    setCanvasDesign: any;
 }
 
-const TableCellRow = ({ row, rowIndex, tableInputObj, handleSelect, canvasDesign, setCanvasDesign }: CellRowProps) => {
+const TableCellRow = ({ row, rowIndex, tableInputObj}: CellRowProps) => {
     return (
         <>
             {row.map((cell, cellIndex) => (
@@ -21,7 +18,6 @@ const TableCellRow = ({ row, rowIndex, tableInputObj, handleSelect, canvasDesign
                     row={row}
                     rowIndex={rowIndex}
                     tableInputObj={tableInputObj}
-                    handleSelect={handleSelect}
                 />
             ))}
         </>

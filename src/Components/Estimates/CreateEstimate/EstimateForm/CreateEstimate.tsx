@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { Typography, notification } from 'antd';
 import { getEstimateDraft } from '../../../../utils/api/estimate-drafts-api';
 import { getTemplate } from '../../../../utils/api/templates-api';
-import { InputObj, InputType } from '../../../../utils/types/CanvasInterfaces';
+import { InputObj, InputType, TableInputObj } from '../../../../utils/types/CanvasInterfaces';
 import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateFormField, EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
 import Creating from '../../../SharedComponents/Creating/Creating';
@@ -14,7 +14,7 @@ import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
-import { findShape } from '../../../../utils/shapeManagementUtils';
+import { findShape, isInputObject, isTableObject } from '../../../../utils/shapeManagementUtils';
 import EstimateForm from './EstimateForm';
 
 const { Title } = Typography;
@@ -48,12 +48,30 @@ const CreateEstimate = () => {
                 let tempFormInputs: { [id: string]: EstimateFormField } = {};
                 fetchedTemplate.canvasDesign.inputOrder.forEach((inputObjId: string) => {
                     // Create a new EstimateFormField object and add to formInputs dictionary.
-                    const inputShape = findShape(fetchedTemplate.canvasDesign, inputObjId) as InputObj;
-                    tempFormInputs[inputShape.id] = {
-                        inputObjId: inputShape.id,
-                        type: inputShape.type as InputType,
-                        value: ""
-                    };
+                    const shapeObj = findShape(fetchedTemplate.canvasDesign, inputObjId);
+                    if (!shapeObj) return;
+                    if (isInputObject(shapeObj)) {
+                        const inputShape = shapeObj as InputObj;
+                        tempFormInputs[inputShape.id] = {
+                            inputObjId: inputShape.id,
+                            type: inputShape.type as InputType,
+                            value: ""
+                        };
+                    }
+                    if (isTableObject(shapeObj)) {
+                        const tableShape = shapeObj as TableInputObj;
+                        tableShape.rows.forEach(row => {
+                            row.forEach(cell => {
+                                if (cell.content && cell.content.type === 'CellInput') {
+                                    tempFormInputs[cell.id] = {
+                                        inputObjId: cell.id,
+                                        type: 'CellInput',
+                                        value: ""
+                                    };
+                                }
+                            });
+                        });
+                    }
                 });
                 if (draftId) {
                     await fetchDraft(tempFormInputs, token);
@@ -120,7 +138,7 @@ const CreateEstimate = () => {
         <>
             <Title level={3}>Create Estimate</Title>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                <div style={{ flex: 2 }}>
+                <div style={{ flex: 3 }}>
                     <EstimateForm
                         templateData={templateData}
                         setCreating={setCreating}
@@ -132,7 +150,7 @@ const CreateEstimate = () => {
                         setFormInputs={setFormInputs}
                     />
                 </div>
-                <div style={{ flex: 1 }}>
+                <div style={{ flex: 2 }}>
                     <PreviewStage canvasDesign={templateData.canvasDesign} formInputs={formInputs} />
                 </div>
             </div>

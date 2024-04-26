@@ -37,7 +37,7 @@ const EstimateForm = ({
     };
 
     return (
-        <Form layout="vertical" style={{ width: "80%" }}>
+        <Form layout="vertical" style={{ width: "90%" }}>
             <div style={{ flex: 2, display: "flex", justifyContent: "space-between" }}>
                 <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} disabled={editing} />
                 {!editing && (

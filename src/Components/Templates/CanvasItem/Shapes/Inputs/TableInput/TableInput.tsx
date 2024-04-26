@@ -206,9 +206,6 @@ const TableInput = ({ tableInputObj, handleDragEnd, onTransformEnd, handleDragMo
                         row={row}
                         rowIndex={rowIndex}
                         tableInputObj={tableInputObj}
-                        handleSelect={handleSelect}
-                        canvasDesign={canvasDesign}
-                        setCanvasDesign={setCanvasDesign}
                     />
                 )}
                 {addColumnResizeHandles()}

@@ -17,7 +17,7 @@ const TemplatePreview = ({ canvasDesign, formInputs }: TemplatePreviewProps) => 
         Template Snapshot
       </Typography.Title>
       <div style={{ height: 20 }}></div>
-      <PreviewStage canvasDesign={canvasDesign} scale={.8} formInputs={formInputs}/>
+      <PreviewStage canvasDesign={canvasDesign} scale={.7} formInputs={formInputs}/>
     </>
   );
 };

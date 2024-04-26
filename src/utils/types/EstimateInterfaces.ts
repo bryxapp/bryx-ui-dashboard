@@ -27,7 +27,7 @@ export interface EstimateFormFields {
 
 export interface EstimateFormField {
     inputObjId: string;
-    type: InputType;
+    type: InputType | 'CellInput';
     value: string;
 }
 
