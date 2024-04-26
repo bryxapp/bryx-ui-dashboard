@@ -96,13 +96,6 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
         updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, cellInputObj.id);
     };
 
-    const handleDoubleClick = () => {
-        console.log('double click')
-        setEditing(true);
-    }
-
-    //Create Content Text Shape for measurements
-    const tempTextShapeContent = createTempTextKonvaShape(cellInputObj, cellInputObj.value);
     return (
         <React.Fragment>
             <Group
@@ -114,8 +107,8 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                 ref={shapeRef}
                 onClick={onSelect}
                 onTap={onSelect}
-                onDblTap={handleDoubleClick}
-                onDblClick={handleDoubleClick}
+                onDblClick={() => setEditing(true)}
+                onDblTap={() => setEditing(true)}
             >
                 <Rect
                     width={containerWidth - 4}
@@ -130,21 +123,26 @@ const InputCell = ({ cellInputObj, containerWidth, containerHeight, horizontalAl
                             width={containerWidth - 4}
                             height={containerHeight - 4}
                             fill='transparent'
-                            onDblTap={handleDoubleClick}
-                            onDblClick={handleDoubleClick}
+                            onDblClick={() => setEditing(true)}
+                            onDblTap={() => setEditing(true)}
                         />
                         <Text
-                            x={getXAlignment(tempTextShapeContent.width(), horizontalAlign, containerWidth)}
-                            y={getYAlignment(tempTextShapeContent.height(), verticalAlign, containerHeight)}
-                            text={`${cellInputObj.value}`}
+                            text={cellInputObj.value}
                             fontSize={cellInputObj.fontSize}
                             fill={cellInputObj.fill}
+                            width={containerWidth - 4}
+                            height={containerHeight - 4}
+                            onClick={onSelect}
+                            onTap={onSelect}
+                            onDblClick={() => setEditing(true)}
+                            onDblTap={() => setEditing(true)}
                             fontFamily={cellInputObj.fontFamily}
                             fontStyle={cellInputObj.fontStyle}
                             textDecoration={cellInputObj.textDecoration}
                             align={horizontalAlign}
                             verticalAlign={verticalAlign}
-                            draggable
+                            draggable={false}
+                            minWidth={10}
                         />
                     </>
                 )
