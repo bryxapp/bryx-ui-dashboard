@@ -63,7 +63,7 @@ const SideAppDrawer = () => {
                     <div>
                         <MenuItems isAdmin={isOwner} />
                     </div>
-                    <div style={{ marginTop: 'auto', marginBottom: "1rem", alignSelf: "center" }}>
+                    <div style={{ marginTop: 'auto', marginBottom: "1.5rem", alignSelf: "center" }}>
                     <Subscription/>
                     </div>
                 </div>

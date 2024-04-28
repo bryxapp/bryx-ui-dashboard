@@ -12,10 +12,10 @@ const Subscription = () => {
         if (!bryxUser?.subscription) {
             return <Spin size="small" />;
         }
-        if (bryxUser.subscription === 'TEAM') {
-            return `Subscription: ${bryxUser.subscription}`;
+        if (bryxUser.subscription === 'STARTER') {
+            return `Upgrade your subscription`;
         }
-        return bryxUser.subscription;
+        return `Subscription: ${bryxUser.subscription}`;
     };
 
     const handleClick = () => {
@@ -24,7 +24,16 @@ const Subscription = () => {
 
     return (
         <>
-            <Button onClick={handleClick} size="large" type = "link">
+            <Button 
+            onClick={handleClick}
+             size="large" 
+             type = "link"
+             style={{ 
+                width: 200, 
+                whiteSpace: 'normal', 
+                overflow: 'visible',
+                textAlign: 'center'  // Adjust text alignment if necessary
+            }}>
                 <strong>{computeLabel()}</strong>
             </Button>
             <UpgradeSubscriptionDialog open={open} onClose={() => setOpen(false)} />
