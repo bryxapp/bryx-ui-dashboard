@@ -23,11 +23,13 @@ import CanvasItem from "./Components/Templates/CanvasItem/CanvasItem";
 import { CanvasDesignProvider } from "./utils/contexts/canvasDesignContext";
 import { ConfigProvider } from "antd";
 import CreateEstimate from "./Components/Estimates/CreateEstimate/EstimateForm/CreateEstimate";
+import { useBrandingContext } from "./utils/contexts/BrandingContext";
 
 function App() {
   const { organization, setOrganization, isOwner, setIsOwner } = useOrganizationContext();
   const { bryxUser, setBryxUser } = useBryxUserContext();
   const { auth0User, isLoading, getAccessToken } = useAuth0User();
+  const { branding, setDisplayName } = useBrandingContext();
 
   // Hook to set the 'isOwner' flag
   useEffect(() => {
@@ -44,6 +46,7 @@ function App() {
       if (!token) return;
       const fetchedOrg = await getOrganization(token);
       setOrganization(fetchedOrg);
+      setDisplayName(fetchedOrg?.bryxOrg?.orgDisplayName);
     };
     fetchOrg();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -88,16 +91,18 @@ function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth0User?.org_id, organization, bryxUser]);
 
-
   return (
     <ConfigProvider
       theme={{
         token: {
-          fontSize: 16
-          // colorPrimary: data.colorPrimary,
+          fontSize: 16,
+          //colorPrimary: defaultTheme.primaryColor,
           // borderRadius: data.borderRadius,
         },
         components: {
+          Layout: {
+            headerBg: branding?.primaryColor || '#001529',
+          },
           // Button: {
           //   colorPrimary: data.Button?.colorPrimary,
           //   algorithm: data.Button?.algorithm,

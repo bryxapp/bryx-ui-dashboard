@@ -19,8 +19,8 @@ const TeamDetails = () => {
     const { getAccessToken } = useAuth0User();
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [newTeamName, setNewTeamName] = useState(organization?.bryxOrg.orgDisplayName);
-    const [newPrimaryColor, setNewPrimaryColor] = useState(organization?.bryxOrg.branding.primaryColor);
-    const [newSecondaryColor, setNewSecondaryColor] = useState(organization?.bryxOrg.branding.secondaryColor);
+    const [newPrimaryColor, setNewPrimaryColor] = useState(organization?.bryxOrg.branding?.primaryColor);
+    const [newSecondaryColor, setNewSecondaryColor] = useState(organization?.bryxOrg.branding?.secondaryColor);
     const [newLogo, setNewLogo] = useState<File>();
     const [isValidTeamName, setIsValidTeamName] = useState(true);
     const { setOrganization } = useOrganizationContext();
@@ -50,8 +50,8 @@ const TeamDetails = () => {
     const handleCloseDialog = () => {
         setIsDialogOpen(false);
         setNewTeamName(organization?.bryxOrg.orgDisplayName);
-        setNewPrimaryColor(organization?.bryxOrg.branding.primaryColor);
-        setNewSecondaryColor(organization?.bryxOrg.branding.secondaryColor);
+        setNewPrimaryColor(organization?.bryxOrg.branding?.primaryColor);
+        setNewSecondaryColor(organization?.bryxOrg.branding?.secondaryColor);
         setNewLogo(undefined);
     };
 
@@ -93,7 +93,7 @@ const TeamDetails = () => {
                         <TeamColorSelector hexColor={newPrimaryColor || ''} setHexColor={setNewPrimaryColor} label="Primary Color" />
                         <TeamColorSelector hexColor={newSecondaryColor || ''} setHexColor={setNewSecondaryColor} label="Secondary Color" />
                     </div>
-                    <TeamLogoSelector currentLogoUrl={organization?.bryxOrg.branding.logoUrl} setNewLogo={setNewLogo} />
+                    <TeamLogoSelector currentLogoUrl={organization?.bryxOrg.branding?.logoUrl} setNewLogo={setNewLogo} />
                 </div>
             </Modal>
         </>

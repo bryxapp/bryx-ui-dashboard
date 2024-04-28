@@ -11,7 +11,6 @@ import TeamDetails from "./TeamDetails/TeamDetails";
 import logger from "../../logging/logger";
 import ErrorMessage from "../SharedComponents/ErrorMessage/ErrorMessage";
 
-
 const { Title } = Typography;
 
 const Admin = () => {

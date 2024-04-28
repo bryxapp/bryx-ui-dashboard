@@ -6,9 +6,13 @@ import Logo from "./Logo";
 import { LogoutOptions } from '@auth0/auth0-react';
 import { Header } from 'antd/es/layout/layout';
 import SwitchAccounts from './SwitchAccounts';
+import { useLocation } from 'react-router-dom';
 
 const TopNavBar = () => {
   const { auth0User, isLoading, loginWithRedirect, logout } = useAuth0User();
+  const url = useLocation();
+  console.log(url.pathname)
+  const isViewingEstimate = url.pathname === "/view" || url.pathname === "/view/" ? true : false;
 
   const handleLogout = () => {
     logger.trackEvent({ name: 'Logout', properties: { user: auth0User?.sub, environment: process.env.NODE_ENV } });
@@ -19,6 +23,14 @@ const TopNavBar = () => {
     logger.trackEvent({ name: 'Login', properties: { environment: process.env.NODE_ENV } });
     await loginWithRedirect();
   };
+
+  if (isViewingEstimate) {
+    return (
+      <Header style={{ display: "flex", justifyContent: "center", alignItems: 'center', padding: '0 10px 0 10px' }}>
+        <Logo />
+      </Header>
+    )
+  }
 
   return (
     <Header style={{ display: "flex", justifyContent: "space-between", alignItems: 'center', padding: '0 10px 0 10px' }}>

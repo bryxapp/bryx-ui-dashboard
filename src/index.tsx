@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { OrganizationProvider } from './utils/contexts/OrganizationContext';
 import { Auth0UserProvider } from './utils/contexts/Auth0UserContext';
 import { BryxUserProvider } from './utils/contexts/BryxUserContext';
+import { BrandingProvider } from './utils/contexts/BrandingContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -18,7 +19,9 @@ root.render(
       <Auth0UserProvider>
         <BryxUserProvider>
           <OrganizationProvider>
-            <App />
+            <BrandingProvider>
+              <App />
+            </BrandingProvider>
           </OrganizationProvider>
         </BryxUserProvider>
       </Auth0UserProvider>
