@@ -2,25 +2,23 @@ import { Avatar, Typography } from 'antd';
 import { Link } from "react-router-dom"; // Correct import statement
 import logoSvg from "../../../bryx_logo.svg"
 import { useBrandingContext } from '../../../utils/contexts/BrandingContext';
-import { useEffect } from 'react';
+import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 const Logo = () => {
     const { branding, displayName } = useBrandingContext();
+    const { organization } = useOrganizationContext();
 
     let logo = logoSvg;
     if (branding?.logoUrl) {
         logo = branding.logoUrl;
+    }
+    else if (organization?.bryxOrg?.branding.logoUrl) {
+        logo = organization?.bryxOrg?.branding.logoUrl
     }
 
     const handleLogoClick = (event: any) => {
         event.preventDefault(); // Prevent default link behavior
         window.location.href = 'https://www.bryxbids.com/'; // Navigate to Home Site
     };
-
-    useEffect(() => {
-        console.log(displayName)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }
-    , [displayName]);
 
     return (
         <Link to="/" onClick={handleLogoClick}>
