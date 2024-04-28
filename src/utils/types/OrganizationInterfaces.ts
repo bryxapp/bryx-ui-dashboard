@@ -7,11 +7,19 @@ export interface OrganizationInfo {
         stripeOrgId: string;
         ownerUserId: string;
         subscription: SubscriptionType
-        logoUrl: string|undefined;
-        primaryColor: string|undefined;
-        secondaryColor: string|undefined;
+        logoUrl: string | undefined;
+        primaryColor: string | undefined;
+        secondaryColor: string | undefined;
     },
     auth0Org: Auth0Organization
+}
+
+export interface OrganizationByIdInfo {
+    orgId: string;
+    orgDisplayName: string;
+    logoUrl: string | undefined;
+    primaryColor: string | undefined;
+    secondaryColor: string | undefined;
 }
 
 export interface Auth0Organization {
@@ -33,7 +41,7 @@ export interface Member {
 
 export interface Invite {
     id: string;
-    inviter : {
+    inviter: {
         name: string;
     };
     invitee: {

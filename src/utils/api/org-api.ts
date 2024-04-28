@@ -10,6 +10,12 @@ export async function getOrganization(token: string) {
     return response.data as OrganizationInfo
 }
 
+export async function getOrganizationById(orgId: string) {
+    const response = await axios.get(BASE_URL + '/' + orgId);
+    return response.data as OrganizationInfo
+}
+
+
 export async function getOrganizationMembers(token: string) {
     const response = await axios.get(BASE_URL + "/members", createAuthHeader(token));
     return response.data as OrganizationMembers;

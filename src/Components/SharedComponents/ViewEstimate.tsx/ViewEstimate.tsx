@@ -7,22 +7,36 @@ import { EstimateData } from '../../../utils/types/EstimateInterfaces';
 import EstimateShareBar from './EstimateShareBar/EstimateShareBar';
 import EstimateComments from './EstimateComments/EstimateComments';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
+import { getOrganizationById } from '../../../utils/api/org-api';
+import { OrganizationInfo } from '../../../utils/types/OrganizationInterfaces';
 
 const { Title } = Typography;
 
 const ViewEstimate = () => {
     const { search } = useLocation();
     const [estimate, setEstimate] = useState<EstimateData | null>(null);
+    const [org, setOrg] = useState<OrganizationInfo | null>(null); // eslint-disable-line
     const [estimateError, setEstimateError] = useState(false);
     const [loading, setLoading] = useState(true);
     const urlestimateId = new URLSearchParams(search).get('estimateId');
     const { auth0User } = useAuth0User();
+    //set primary color for antd
+    
 
     useEffect(() => {
         const fetchEstimate = async (id: string) => {
             if (estimate) return;
             try {
                 const fetchedEstimate = await getEstimate(id);
+                try {
+                    if (fetchedEstimate.orgId) {
+                        const organization = await getOrganizationById(fetchedEstimate.orgId);
+                        setOrg(organization);
+                    }
+                }
+                catch {
+                    console.log("Organization failed")
+                }
                 setEstimate(fetchedEstimate);
                 setLoading(false);
             } catch {

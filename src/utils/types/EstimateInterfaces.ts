@@ -7,6 +7,7 @@ export interface EstimateData {
     estimatePdfUrl: string;
     estimateImgObj: string;
     createdDate: string;
+    orgId: string|null;
     _ts: number;
     id: string;
 };
