@@ -7,16 +7,12 @@ export interface OrganizationInfo {
         stripeOrgId: string;
         ownerUserId: string;
         subscription: SubscriptionType
-        logoUrl: string | undefined;
-        primaryColor: string | undefined;
-        secondaryColor: string | undefined;
+        branding: BrandingInfo
     },
     auth0Org: Auth0Organization
 }
 
-export interface OrganizationByIdInfo {
-    orgId: string;
-    orgDisplayName: string;
+export interface BrandingInfo {
     logoUrl: string | undefined;
     primaryColor: string | undefined;
     secondaryColor: string | undefined;

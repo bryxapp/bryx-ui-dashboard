@@ -4,32 +4,32 @@ import logoSvg from "../../../bryx_logo.svg"
 import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 const Logo = () => {
 
-    const {organization} = useOrganizationContext();
+    const { organization } = useOrganizationContext();
 
-    const logo = organization?.bryxOrg.logoUrl? organization.bryxOrg.logoUrl : logoSvg;
-    const displayName = organization?.bryxOrg.orgDisplayName? organization.bryxOrg.orgDisplayName : "BRYX bids";
-    
-    const handleLogoClick = (event : any) => {
+    const logo = organization?.bryxOrg.branding?.logoUrl ? organization.bryxOrg.branding.logoUrl : logoSvg;
+    const displayName = organization?.bryxOrg.orgDisplayName ? organization.bryxOrg.orgDisplayName : "BRYX bids";
+
+    const handleLogoClick = (event: any) => {
         event.preventDefault(); // Prevent default link behavior
         window.location.href = 'https://www.bryxbids.com/'; // Navigate to Home Site
     };
-    
+
     return (
         <Link to="/" onClick={handleLogoClick}>
-            <div style={{display:"flex"}}> 
-            <Avatar shape='square' src={logo} size="large" />
-            <Typography.Title
-                level={2}
-                style={{
-                    fontSize: '2rem',
-                    fontWeight: 'bold',
-                    color: 'white',
-                    margin: 0,
-                    paddingLeft: '10px',
-                }}
-            >
-                {displayName}
-            </Typography.Title>
+            <div style={{ display: "flex" }}>
+                <Avatar shape='square' src={logo} size="large" />
+                <Typography.Title
+                    level={2}
+                    style={{
+                        fontSize: '2rem',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        margin: 0,
+                        paddingLeft: '10px',
+                    }}
+                >
+                    {displayName}
+                </Typography.Title>
             </div>
         </Link>
     );

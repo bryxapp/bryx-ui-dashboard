@@ -1,4 +1,5 @@
 import { InputType } from "./CanvasInterfaces";
+import { BrandingInfo } from "./OrganizationInterfaces";
 
 export interface EstimateData {
     user: string;
@@ -10,6 +11,8 @@ export interface EstimateData {
     orgId: string|null;
     _ts: number;
     id: string;
+    orgDisplayName?: string;
+    branding? : BrandingInfo
 };
 
 export interface EstimateDraftData {
