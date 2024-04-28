@@ -7,7 +7,7 @@ import { useOrganizationContext } from "../../utils/contexts/OrganizationContext
 import MemberLineItem from "./Members/MemberListItem";
 import InviteLineItem from "./Invites/InviteListItem";
 import InviteButton from "./InviteButton";
-import TeamName from "./TeamName/TeamName";
+import TeamDetails from "./TeamDetails/TeamDetails";
 import logger from "../../logging/logger";
 import ErrorMessage from "../SharedComponents/ErrorMessage/ErrorMessage";
 
@@ -62,7 +62,7 @@ const Admin = () => {
         <>
             <Title level={3}>Admin</Title>
             <Space direction="vertical" style={{ width: "100%", marginTop: 16 }}>
-                <TeamName teamName={organization?.bryxOrg.orgDisplayName} />
+                <TeamDetails />
                 <InviteButton disabled={disableButton || members.length + invites.length >= 5} setMembers={setMembers} setInvites={setInvites} />
                 <Title level={4}>Members</Title>
                 <List

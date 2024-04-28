@@ -31,7 +31,22 @@ export async function inviteMemberToOrg(token: string, email: string) {
     return response.data as Invite;
 }
 
-export async function renameOrg(token: string, name: string) {
-    const body = { newTeamName: name };
-    await axios.put(BASE_URL + "/rename", body, createAuthHeader(token));
+export async function updateOrg(token: string, newTeamName: string, primaryColor: string, secondaryColor: string, logo?: File) {
+    const formData = new FormData();
+    // Add fields
+    if (newTeamName) formData.append("newTeamName", newTeamName);
+    if (primaryColor) formData.append("primaryColor", primaryColor);
+    if (secondaryColor) formData.append("secondaryColor", secondaryColor);
+    // Add file
+    if (logo) {
+        formData.append("logo", logo, logo.name);
+    }
+
+    const config = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    };
+
+    return await axios.put(`${BASE_URL}/updateOrg`, formData, config);
 }

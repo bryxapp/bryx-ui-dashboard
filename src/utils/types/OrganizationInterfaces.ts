@@ -7,6 +7,9 @@ export interface OrganizationInfo {
         stripeOrgId: string;
         ownerUserId: string;
         subscription: SubscriptionType
+        logoUrl: string|undefined;
+        primaryColor: string|undefined;
+        secondaryColor: string|undefined;
     },
     auth0Org: Auth0Organization
 }
