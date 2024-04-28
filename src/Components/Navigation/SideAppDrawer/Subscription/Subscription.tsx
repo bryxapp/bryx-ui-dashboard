@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { Spin, Button } from 'antd';
 import UpgradeSubscriptionDialog from '../../../Subscriptions/UpgradeSubscriptionDialog';
 import { useBryxUserContext } from '../../../../utils/contexts/BryxUserContext';
-import { useOrganizationContext } from '../../../../utils/contexts/OrganizationContext';
 
 const Subscription = () => {
     const [open, setOpen] = useState(false);
     const { bryxUser } = useBryxUserContext();
-    const { organization } = useOrganizationContext();
 
     // Function to compute label
     const computeLabel = () => {
@@ -15,7 +13,7 @@ const Subscription = () => {
             return <Spin size="small" />;
         }
         if (bryxUser.subscription === 'TEAM') {
-            return `${bryxUser.subscription}: ${organization?.bryxOrg.orgDisplayName}`;
+            return `Subscription: ${bryxUser.subscription}`;
         }
         return bryxUser.subscription;
     };
@@ -26,7 +24,7 @@ const Subscription = () => {
 
     return (
         <>
-            <Button onClick={handleClick} size="large">
+            <Button onClick={handleClick} size="large" type = "link">
                 <strong>{computeLabel()}</strong>
             </Button>
             <UpgradeSubscriptionDialog open={open} onClose={() => setOpen(false)} />

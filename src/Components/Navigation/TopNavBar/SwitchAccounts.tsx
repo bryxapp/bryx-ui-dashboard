@@ -5,6 +5,7 @@ import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
 import { Auth0Organization } from '../../../utils/types/OrganizationInterfaces';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useLocation } from 'react-router-dom';
+import { SwapOutlined } from '@ant-design/icons';
 
 const SwitchAccounts = () => {
     const { getAccessToken } = useAuth0User();
@@ -38,25 +39,32 @@ const SwitchAccounts = () => {
     }, [getAccessToken]); // Added dependency to re-fetch when getAccessToken changes
 
     useEffect(() => {
-        if (location.pathname === "/team-checkout" && location.search.includes("?success=true"))
-            {
+        if (location.pathname === "/team-checkout" && location.search.includes("?success=true")) {
             setPopoverOpen(true);
         }
         else {
             setPopoverOpen(false);
         }
-    }        , [location.search, location.pathname]);
+    }, [location.search, location.pathname]);
 
     if (!organizations || organizations.length === 0) return null;
 
     return (
         <>
-            <Button type="primary" onClick={handleLoginToNewOrg}>
+        <div>
+            <Button
+                onClick={handleLoginToNewOrg}
+                icon={<SwapOutlined />}
+                type="primary"
+                size="large"
+                style={{ marginLeft: 12 }}
+            >
                 Change Team
             </Button>
+            </div>
             <Popover
                 open={popoverOpen}
-                placement="right"
+                placement="bottom"
                 content={
                     "Use this button to switch between your teams."}
             />

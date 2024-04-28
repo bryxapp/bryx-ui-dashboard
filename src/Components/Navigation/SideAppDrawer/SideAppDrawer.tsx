@@ -4,7 +4,7 @@ import { Drawer, Button } from 'antd';
 import { MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 import Sider from 'antd/es/layout/Sider';
-import SwitchAccounts from './SwitchAccounts';
+import Subscription from './Subscription/Subscription';
 
 const SideAppDrawer = () => {
     const { isOwner } = useOrganizationContext();
@@ -52,7 +52,7 @@ const SideAppDrawer = () => {
                         <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                             <MenuItems isAdmin={isOwner} />
                             <div style={{ marginTop: 'auto' }}>
-                                <SwitchAccounts />
+                                <Subscription/>
                             </div>
                         </div>
                     </Drawer>
@@ -63,8 +63,8 @@ const SideAppDrawer = () => {
                     <div>
                         <MenuItems isAdmin={isOwner} />
                     </div>
-                    <div style={{ marginTop: 'auto', marginBottom: "2rem", alignSelf: "center" }}>
-                        <SwitchAccounts />
+                    <div style={{ marginTop: 'auto', marginBottom: "1rem", alignSelf: "center" }}>
+                    <Subscription/>
                     </div>
                 </div>
             )}

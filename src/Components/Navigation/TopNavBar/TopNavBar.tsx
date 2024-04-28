@@ -2,10 +2,10 @@ import { Button } from 'antd';
 import { LogoutOutlined, LoginOutlined } from '@ant-design/icons';
 import logger from '../../../logging/logger';
 import { useAuth0User } from '../../../utils/customHooks/useAuth0User';
-import Subscription from "./Subscription/Subscription";
 import Logo from "./Logo";
 import { LogoutOptions } from '@auth0/auth0-react';
 import { Header } from 'antd/es/layout/layout';
+import SwitchAccounts from './SwitchAccounts';
 
 const TopNavBar = () => {
   const { auth0User, isLoading, loginWithRedirect, logout } = useAuth0User();
@@ -23,15 +23,15 @@ const TopNavBar = () => {
   return (
     <Header style={{ display: "flex", justifyContent: "space-between", alignItems: 'center', padding: '0 10px 0 10px' }}>
       <Logo />
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', marginRight: '2rem' }}>
         {isLoading || auth0User ? (
           <>
-            <Subscription />
+            <SwitchAccounts />
             <Button
               onClick={handleLogout}
               icon={<LogoutOutlined />}
               type="primary"
-              size = "large"
+              size="large"
               style={{ marginLeft: 12 }}
             >
               Logout
@@ -42,7 +42,7 @@ const TopNavBar = () => {
             onClick={handleLogin}
             icon={<LoginOutlined />}
             type="primary"
-            size = "large"
+            size="large"
             style={{ marginLeft: 12 }}
           >
             Login

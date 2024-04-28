@@ -1,7 +1,13 @@
 import { Avatar, Typography } from 'antd';
 import { Link } from "react-router-dom"; // Correct import statement
 import logoSvg from "../../../bryx_logo.svg"
+import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
 const Logo = () => {
+
+    const {organization} = useOrganizationContext();
+
+    const logo = organization?.bryxOrg.logoUrl? organization.bryxOrg.logoUrl : logoSvg;
+    const displayName = organization?.bryxOrg.orgDisplayName? organization.bryxOrg.orgDisplayName : "BRYX bids";
     
     const handleLogoClick = (event : any) => {
         event.preventDefault(); // Prevent default link behavior
@@ -11,7 +17,7 @@ const Logo = () => {
     return (
         <Link to="/" onClick={handleLogoClick}>
             <div style={{display:"flex"}}> 
-            <Avatar shape='square' src={logoSvg} size="large" />
+            <Avatar shape='square' src={logo} size="large" />
             <Typography.Title
                 level={2}
                 style={{
@@ -22,7 +28,7 @@ const Logo = () => {
                     paddingLeft: '10px',
                 }}
             >
-                BRYX bids
+                {displayName}
             </Typography.Title>
             </div>
         </Link>
