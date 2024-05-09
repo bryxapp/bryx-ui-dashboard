@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 const { Option } = Select;
 
@@ -9,19 +9,14 @@ const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
 
 interface FontSizePickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label' | null;
     disabled?: boolean;
 }
 
-export default function FontSizePicker({ textObj, itemType, disabled }: FontSizePickerProps) {
+export default function FontSizePicker({ textObj, disabled }: FontSizePickerProps) {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const handleFontSizeChange = (value: string | number) => {
         if (value === null) return;
-        if (itemType === null)
-            updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', value, selectedId);
-        else {
-            updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'fontSize', value, selectedId);
-        }
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', value, selectedId);
     };
 
     return (

@@ -22,7 +22,7 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
 
     const selectedIsInput = tableCellObj.content.type === 'CellInput'
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
     };
 
     return (
@@ -40,9 +40,9 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
                     />
                 </>
             )}
-            <TextProperties textObj={tableCellObj.content} itemType="content" verticalAlign={tableCellObj.verticalAlign} />
+            <TextProperties textObj={tableCellObj.content} />
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <TextAlignmentPicker horizontalAlign={tableCellObj.horizontalAlign} itemType={null} />
+                <TextAlignmentPicker horizontalAlign={tableCellObj.horizontalAlign}/>
                 <>
                     <div style={{ width: '1rem' }} />
                     <TextVerticalAlignmentPicker verticalAlign={tableCellObj.verticalAlign} />

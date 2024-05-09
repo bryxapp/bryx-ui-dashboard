@@ -18,14 +18,14 @@ const EstimateFormPhoneField = ({
     return (
         <Form.Item
             key={phoneInputObj.id}
-            label={phoneInputObj.hasLabel ? phoneInputObj.label.value : null}
+            label={phoneInputObj.value}
             rules={[{ pattern: /^(\(\d{3}\) \d{3}-\d{4})$/, message: 'Please enter a valid phone number' }]}
             style={{ marginBottom: '5px' }}
         >
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, phoneInputObj.id)}
-                placeholder={phoneInputObj.content.value}
+                placeholder={phoneInputObj.value}
                 disabled={disabled}
             />
         </Form.Item>

@@ -2,7 +2,6 @@ import { Rect, Group } from 'react-konva';
 import { ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
-import InputLabel from './SharedInputComponents/InputLabel';
 import InputContent from './SharedInputComponents/InputContent';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
@@ -41,19 +40,18 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
             trRef.current.nodes([shapeRefCurrent]);
             trRef.current.getLayer()?.batchDraw();
         }
-    }, [shortTextInputObj.content, shortTextInputObj.label, shortTextInputObj.hasLabel, isSelected]);
+    }, [shortTextInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(shortTextInputObj.label, shortTextInputObj.label.value);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj.content, shortTextInputObj.content.value);
-    const containerHeight = shortTextInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, shortTextInputObj.inputWidth);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj, shortTextInputObj.value);
+    const containerHeight = contentShapeHeight;
+    const containerWidth = Math.max(contentShapeWidth, shortTextInputObj.width);
 
     return (
         <React.Fragment>
             <Group
                 key={shortTextInputObj.id}
                 id={shortTextInputObj.id}
-                displayName={shortTextInputObj.label}
+                displayName={shortTextInputObj.value}
                 x={shortTextInputObj.x}
                 y={shortTextInputObj.y}
                 draggable={draggable}
@@ -69,24 +67,18 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
                 {/* Background Rectangle for easier selecting and dragging */}
                 <Rect
                     width={containerWidth}
-                    height={containerHeight - labelShapeHeight}
+                    height={containerHeight}
                     fill='transparent'
                     onClick={onSelect}
                     onTap={onSelect} />
-
-                {/* Input Label */}
-                {shortTextInputObj.hasLabel && (
-                    <InputLabel inputLabelObj={shortTextInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={shortTextInputObj.id} />
-                )}
                 {/* Input Content */}
                 <InputContent
                     inputObj={shortTextInputObj}
                     containerWidth={containerWidth}
                     inputHeight={contentShapeHeight}
-                    inputWidth={shortTextInputObj.inputWidth}
+                    inputWidth={shortTextInputObj.width}
                     contentHeight={contentShapeHeight}
-                    contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight} />
+                    contentWidth={contentShapeWidth} />
             </Group>
             {isSelected && (
                 <>

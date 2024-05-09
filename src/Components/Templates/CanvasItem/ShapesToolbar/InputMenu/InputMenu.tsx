@@ -11,14 +11,11 @@ const InputMenu = () => {
         console.log(canvasDesign)
         const newEmailInput: EmailInputObj = createEmailInputObj(
             'Email',
-            true,
-            '',
             20,
             'black',
             'Arial',
             'normal',
             '',
-            false
         );
         setCanvasDesign({
             ...canvasDesign,
@@ -30,14 +27,11 @@ const InputMenu = () => {
     const handleAddPhoneInput = () => {
         const newPhoneInput: PhoneInputObj = createPhoneInputObj(
             'Phone',
-            true,
-            '',
             20,
             'black',
             'Arial',
             'normal',
             '',
-            false
         );
         setCanvasDesign({
             ...canvasDesign,
@@ -49,14 +43,11 @@ const InputMenu = () => {
     const handleAddShortTextInput = () => {
         const newShortTextInput: ShortTextInputObj = createShortTextInputObj(
             'Input',
-            true,
-            'Short Text',
             20,
             'black',
             'Arial',
             'normal',
             '',
-            false
         );
         setCanvasDesign({
             ...canvasDesign,
@@ -68,14 +59,11 @@ const InputMenu = () => {
     const handleAddLongTextInput = () => {
         const newLongTextInput: LongTextInputObj = createLongTextInputObj(
             'Input',
-            true,
-            'Long Text',
             20,
             'black',
             'Arial',
             'normal',
             '',
-            false
         );
         setCanvasDesign({
             ...canvasDesign,
@@ -87,15 +75,12 @@ const InputMenu = () => {
     const handleAddDateInput = () => {
         const newDateInput: DateInputObj = createDateInputObj(
             'Date',
-            true,
-            '',
             20,
             'black',
             'Arial',
             'normal',
             '',
             'MM/dd/yy',
-            false,
         );
         setCanvasDesign({
             ...canvasDesign,

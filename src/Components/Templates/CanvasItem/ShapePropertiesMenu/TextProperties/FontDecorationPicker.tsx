@@ -6,11 +6,10 @@ import { toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontDecorationPickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label' | null;
     disabled?: boolean;
 }
 
-const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, itemType, disabled }) => {
+const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontDecoration = textObj.textDecoration;
 
@@ -27,14 +26,14 @@ const FontDecorationPicker: React.FC<FontDecorationPickerProps> = ({ textObj, it
             <Button
                 type={selectedFontDecorations.includes('line-through') ? 'primary' : 'default'}
                 icon={<StrikethroughOutlined />}
-                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, itemType, 'line-through')}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, 'line-through')}
                 size="small"
                 disabled={disabled}
             />
             <Button
                 type={selectedFontDecorations.includes('underline') ? 'primary' : 'default'}
                 icon={<UnderlineOutlined />}
-                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, itemType, 'underline')}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, 'underline')}
                 size="small"
                 disabled={disabled}
             />

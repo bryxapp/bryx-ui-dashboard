@@ -8,10 +8,8 @@ import LayerManager from './LayerManager/LayerManager';
 import { MdFormatColorText } from 'react-icons/md';
 import { IoMdColorPalette } from "react-icons/io";
 import SolidShapesProperties from './SolidShapesProperties/SolidShapesProperties';
-import InputLabelProperties from './InputProperties/InputLabelProperties';
 import InputContentProperties from './InputProperties/ContentProperties';
 import TextPropertiesCard from './TextProperties/TextPropertiesCard';
-import { GoTag } from "react-icons/go";
 import { BsTextareaResize } from "react-icons/bs";
 import { mapTypeToIcon, mapTypeToTitle } from '../../../../utils/iconUtils';
 import TableProperties from './TableProperties/TableProperties';
@@ -79,13 +77,6 @@ const PropertiesMenu = () => {
             {isinputObj &&
                 (
                     <>
-                        <Menu.SubMenu
-                            key="labelProperties"
-                            title="Label"
-                            icon={<GoTag />}
-                        >
-                            <InputLabelProperties inputObj={shapeObj as InputObj} />
-                        </Menu.SubMenu>
                         <Menu.SubMenu
                             key="contentProperties"
                             title="Content"

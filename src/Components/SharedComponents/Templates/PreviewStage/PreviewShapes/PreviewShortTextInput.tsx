@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { ShortTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewShortTextInputProps {
@@ -11,10 +11,9 @@ interface PreviewShortTextInputProps {
 
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
-    ShortTextInputObj.content.value = value;
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(ShortTextInputObj.label, ShortTextInputObj.label.value);
-    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj.content, ShortTextInputObj.content.value);
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth, ShortTextInputObj.inputWidth)
+    ShortTextInputObj.value = value;
+    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj, ShortTextInputObj.value);
+    const containerWidth = Math.max(contentShapeWidth, ShortTextInputObj.width)
 
     return (
         <Group
@@ -24,25 +23,14 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
             y={ShortTextInputObj.y}
             rotation={ShortTextInputObj.rotation}
         >
-            {ShortTextInputObj.hasLabel &&
-                <Text
-                    x={getTextXAlignment(ShortTextInputObj.label, containerWidth, ShortTextInputObj.label.horizontalAlign)}
-                    y={0}
-                    text={ShortTextInputObj.label.value}
-                    fontSize={ShortTextInputObj.label.fontSize}
-                    fontFamily={ShortTextInputObj.label.fontFamily}
-                    fill={ShortTextInputObj.label.fill}
-                    align={ShortTextInputObj.label.horizontalAlign}
-                />
-            }
             <Text
-                x={getInputXAlignment(ShortTextInputObj.content, value, containerWidth)}
-                y={labelShapeHeight + (ShortTextInputObj.label.fontSize / 10)}
+                x={getInputXAlignment(ShortTextInputObj, value, containerWidth)}
+                y={0}
                 text={value}
-                fontSize={ShortTextInputObj.content.fontSize}
-                fontFamily={ShortTextInputObj.content.fontFamily}
-                fill={ShortTextInputObj.content.fill}
-                align={ShortTextInputObj.content.horizontalAlign}
+                fontSize={ShortTextInputObj.fontSize}
+                fontFamily={ShortTextInputObj.fontFamily}
+                fill={ShortTextInputObj.fill}
+                align={ShortTextInputObj.horizontalAlign}
             />
         </Group>
     );

@@ -3,7 +3,6 @@ import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
-import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
@@ -47,17 +46,16 @@ const EmailInput = ({ emailInputObj, handleDragEnd, onTransformEnd, handleDragMo
         }
     }, [emailInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(emailInputObj.label, emailInputObj.label.value);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(emailInputObj.content, 'X'.repeat(EMAIL_LENGTH));
-    const containerHeight = emailInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(emailInputObj, 'X'.repeat(EMAIL_LENGTH));
+    const containerHeight = contentShapeHeight;
+    const containerWidth = contentShapeWidth;
 
     return (
         <React.Fragment>
             <Group
                 key={emailInputObj.id}
                 id={emailInputObj.id}
-                displayName={emailInputObj.label}
+                displayName={emailInputObj.value}
                 x={emailInputObj.x}
                 y={emailInputObj.y}
                 draggable={draggable}
@@ -75,10 +73,6 @@ const EmailInput = ({ emailInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     fill='transparent'
                     onClick={onSelect}
                     onTap={onSelect} />
-                {/* Input Label */}
-                {emailInputObj.hasLabel && (
-                    <InputLabel inputLabelObj={emailInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={emailInputObj.id} />
-                )}
                 {/* Input Content */}
                 <InputContent
                     inputObj={emailInputObj}
@@ -86,8 +80,7 @@ const EmailInput = ({ emailInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     inputHeight={contentShapeHeight}
                     inputWidth={contentShapeWidth}
                     contentHeight={contentShapeHeight}
-                    contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight} />
+                    contentWidth={contentShapeWidth} />
             </Group>
             {isSelected && (
                 <>

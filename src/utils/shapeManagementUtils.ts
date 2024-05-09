@@ -2,7 +2,7 @@ import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { createTempTextKonvaShape, getInputXAlignment, getTextXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { createTempTextKonvaShape, getInputXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -84,32 +84,16 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     y: inputObj.y,
                     rotation: inputObj.rotation,
                 });
-                //Create Label Text Shape for measurements
-                const inputLabel = inputObj.label;
-                const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(inputLabel, inputLabel.value);
                 // Create Content Text Shape for measurements
-                const inputContent = inputObj.content;
+                const inputContent = inputObj;
                 const [contentShapeWidth,] = getTextWidthAndHeight(inputContent, formInputs[inputObj.id].value);
                 //Container Measurements 
-                const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
-                if (inputObj.hasLabel) {
-                    group.add(new Konva.Text({
-                        x: getTextXAlignment(inputLabel, containerWidth, inputLabel.horizontalAlign),
-                        y: 0,
-                        text: inputLabel.value,
-                        fontSize: inputLabel.fontSize,
-                        fill: inputLabel.fill,
-                        fontFamily: inputLabel.fontFamily,
-                        fontStyle: inputLabel.fontStyle,
-                        textDecoration: inputLabel.textDecoration,
-                        horizontalAlign: inputLabel.horizontalAlign
-                    }))
-                }
+                const containerWidth = contentShapeWidth;
                 //Add Content
                 const value = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
                     x: getInputXAlignment(inputContent, value, containerWidth),
-                    y: inputObj.hasLabel ? labelShapeHeight + (inputLabel.fontSize / 10) : 0,
+                    y: 0,
                     text: value,
                     fontSize: inputContent.fontSize,
                     fill: inputContent.fill,
@@ -272,7 +256,6 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
 export const updateInputProperty = (
     canvasDesign: CanvasDesignData,
     setCanvasDesign: Function,
-    itemName: 'content' | 'label',
     propertyName: string,
     value: any,
     id: string | null
@@ -287,8 +270,8 @@ export const updateInputProperty = (
             foundAndUpdated = true;
             let inputObj = shape as InputObj;
             // Correct way to dynamically update nested properties
-            const updatedItem = { ...inputObj[itemName], [propertyName]: value };
-            return { ...inputObj, [itemName]: updatedItem };
+            const updatedItem = { ...inputObj, [propertyName]: value };
+            return updatedItem;
         }
 
         if (shape.type === 'TableInput') {
@@ -298,11 +281,8 @@ export const updateInputProperty = (
                     if (cell.id === id) {
                         foundAndUpdated = true;
                         let inputObj = cell as TableCellObj;
-                        if (itemName === 'content') {
-                            // Correct way to dynamically update nested properties
-                            const updatedItem = { ...inputObj[itemName], [propertyName]: value };
-                            return { ...inputObj, [itemName]: updatedItem };
-                        }
+                        const updatedItem = { ...inputObj, [propertyName]: value };
+                        return updatedItem;
                     }
                     return cell;
                 });
@@ -378,30 +358,18 @@ export const toggleTextStyle = (
     canvasDesign: CanvasDesignData,
     setCanvasDesign: (newDesign: CanvasDesignData) => void,
     selectedId: string | null,
-    itemType: 'content' | 'label' | null,
     style: 'bold' | 'italic' | 'underline' | 'line-through'
 ) => {
     const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
 
     const updatedShapes = canvasDesign.Shapes.map((shape) => {
         if (shape.id === selectedId) {
-            if (itemType === null) {
-                const textObj = shape as TextObj;
-                const currentStyle = textObj[styleProperty] || '';
-                const isStyleApplied = currentStyle.includes(style);
-                textObj[styleProperty] = isStyleApplied
-                    ? currentStyle.replace(style, '').trim()
-                    : `${currentStyle} ${style}`.trim();
-            }
-            else {
-                const inputObj = shape as InputObj;
-                const currentStyle = inputObj[itemType][styleProperty] || '';
-                const isStyleApplied = currentStyle.includes(style);
-                inputObj[itemType][styleProperty] = isStyleApplied
-                    ? currentStyle.replace(style, '').trim()
-                    : `${currentStyle} ${style}`.trim();
-                return { ...shape, [styleProperty]: inputObj[itemType][styleProperty] };
-            }
+            const textObj = shape as TextObj;
+            const currentStyle = textObj[styleProperty] || '';
+            const isStyleApplied = currentStyle.includes(style);
+            textObj[styleProperty] = isStyleApplied
+                ? currentStyle.replace(style, '').trim()
+                : `${currentStyle} ${style}`.trim();
         }
         return shape;
     });

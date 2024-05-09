@@ -16,11 +16,11 @@ const TextPropertiesCard = ({ textObj, disabled }: TextPropertiesCardProps) => {
     }
     return (
         <Card>
-            <TextProperties textObj={textObj} itemType={null} disabled={disabled} />
+            <TextProperties textObj={textObj} disabled={disabled} />
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 
                 {horizontalAlign && (
-                    <TextAlignmentPicker horizontalAlign={horizontalAlign} itemType={null} disabled={disabled} />
+                    <TextAlignmentPicker horizontalAlign={horizontalAlign} disabled={disabled} />
                 )}
             </div>
         </Card>

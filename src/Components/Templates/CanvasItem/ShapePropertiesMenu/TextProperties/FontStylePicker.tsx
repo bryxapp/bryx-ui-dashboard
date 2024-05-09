@@ -7,11 +7,10 @@ import { toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontStylePickerProps {
     textObj: TextBase;
-    itemType: 'content' | 'label' | null;
     disabled?: boolean;
 }
 
-const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, disabled }) => {
+const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontStyle = textObj.fontStyle;
     if (!selectedTextItemFontStyle) return null;
@@ -29,14 +28,14 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, itemType, di
             <Button
                 type={selectedFontStyles.includes('italic') ? 'primary' : 'default'}
                 icon={<ItalicOutlined />}
-                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, itemType, 'italic')}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, 'italic')}
                 size="small"
                 disabled={disabled}
             />
             <Button
                 type={selectedFontStyles.includes('bold') ? 'primary' : 'default'}
                 icon={<BoldOutlined />}
-                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, itemType, 'bold')}
+                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, 'bold')}
                 size="small"
                 disabled={disabled}
             />

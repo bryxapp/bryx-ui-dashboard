@@ -19,13 +19,13 @@ const EstimateFormShortTextField: React.FC<EstimateFormShortTextFieldProps> = ({
     return (
         <Form.Item
             key={shortTextInputObj.id}
-            label={shortTextInputObj.hasLabel ? shortTextInputObj.label.value : null}
+            label={shortTextInputObj.value}
             style={{ marginBottom: '5px' }}
         >
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, shortTextInputObj.id)}
-                placeholder={shortTextInputObj.content.value}
+                placeholder={shortTextInputObj.value}
                 disabled={disabled}
             />
         </Form.Item>

@@ -18,13 +18,13 @@ const EstimateFormLongTextField = ({
     return (
         <Form.Item
             key={longTextInputObj.id}
-            label={longTextInputObj.hasLabel ? longTextInputObj.label.value : null}
+            label={longTextInputObj.value}
             style={{ marginBottom: '5px' }}
         >
             <Input.TextArea
                 value={fieldValue}
                 onChange={(event) => handleChange(event, longTextInputObj.id)}
-                placeholder={longTextInputObj.content.value}
+                placeholder={longTextInputObj.value}
                 disabled={disabled}
             />
         </Form.Item>

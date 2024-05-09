@@ -3,7 +3,6 @@ import { DateInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
-import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 import { format } from 'date-fns';
@@ -47,18 +46,17 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
         }
     }, [dateInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(dateInputObj.label, dateInputObj.label.value);
     const formattedDate = format(new Date(), dateInputObj.dateFormat);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj.content, formattedDate);
-    const containerHeight = dateInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = dateInputObj.hasLabel ? Math.max(labelShapeWidth, contentShapeWidth) : contentShapeWidth;
-    dateInputObj.content.value = formattedDate;
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj, formattedDate);
+    const containerHeight = contentShapeHeight;
+    const containerWidth =  contentShapeWidth;
+    dateInputObj.value = formattedDate;
     return (
         <React.Fragment>
             <Group
                 key={dateInputObj.id}
                 id={dateInputObj.id}
-                displayName={dateInputObj.label}
+                displayName={dateInputObj.value}
                 x={dateInputObj.x}
                 y={dateInputObj.y}
                 draggable={draggable}
@@ -76,10 +74,6 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
                     fill='transparent'
                     onClick={onSelect}
                     onTap={onSelect} />
-                {/* Input Label */}
-                {dateInputObj.hasLabel && (
-                    <InputLabel inputLabelObj={dateInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={dateInputObj.id} />
-                )}
                 {/* Input Content */}
                 <InputContent
                     inputObj={dateInputObj}
@@ -87,8 +81,7 @@ const DateInput = ({ dateInputObj, handleDragEnd, onTransformEnd, handleDragMove
                     inputHeight={contentShapeHeight}
                     inputWidth = {contentShapeWidth}
                     contentHeight={contentShapeHeight}
-                    contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight} />
+                    contentWidth={contentShapeWidth} />
             </Group>
             {isSelected && (
                 <>

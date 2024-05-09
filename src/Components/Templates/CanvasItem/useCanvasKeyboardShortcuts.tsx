@@ -62,17 +62,17 @@ export const useCanvasKeyboardShortcuts = ({
           break;
         case "b":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "bold");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "bold");
           }
           break;
         case "i":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "italic");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "italic");
           }
           break;
         case "u":
           if (event.ctrlKey || event.metaKey) {
-            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, null, "underline");
+            toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, "underline");
           }
           break;
         case "s":

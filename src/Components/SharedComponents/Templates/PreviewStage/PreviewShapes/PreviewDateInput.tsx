@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { DateInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 import { format } from "date-fns";
 
@@ -11,14 +11,11 @@ interface PreviewDateInputProps {
 }
 
 const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) => {
-    const dateInputLabel = DateInputObj.label;
-    const dateInputContent = DateInputObj.content;
     const dateString = formInputs ? formInputs[DateInputObj.id].value : '';
     const val = dateString ? format(new Date(dateString), DateInputObj.dateFormat) : '';
-    dateInputContent.value = val;
-    const [datelabelShapeWidth, datelabelShapeHeight] = getTextWidthAndHeight(dateInputLabel, dateInputLabel.value);
-    const [datecontentShapeWidth,] = getTextWidthAndHeight(dateInputContent, dateInputContent.value);
-    const datecontainerWidth = Math.max(datelabelShapeWidth, datecontentShapeWidth);
+    DateInputObj.value = val;
+    const [datecontentShapeWidth,] = getTextWidthAndHeight(DateInputObj, DateInputObj.value);
+    const containerWidth = Math.max(DateInputObj.width, datecontentShapeWidth);
     return (
         <Group
             key={DateInputObj.id}
@@ -27,25 +24,14 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
             y={DateInputObj.y}
             rotation={DateInputObj.rotation}
         >
-            {DateInputObj.hasLabel &&
-                <Text
-                    x={getTextXAlignment(dateInputLabel, datecontainerWidth, dateInputLabel.horizontalAlign)}
-                    y={0}
-                    text={dateInputLabel.value}
-                    fontSize={dateInputLabel.fontSize}
-                    fontFamily={dateInputLabel.fontFamily}
-                    fill={dateInputLabel.fill}
-                    align={dateInputLabel.horizontalAlign}
-                />
-            }
             <Text
-                x={getInputXAlignment(dateInputContent, val, datecontainerWidth)}
-                y={DateInputObj.hasLabel ? datelabelShapeHeight + (dateInputLabel.fontSize / 10) : 0}
+                x={getInputXAlignment(DateInputObj, val, containerWidth)}
+                y={0}
                 text={val}
-                fontSize={dateInputContent.fontSize}
-                fontFamily={dateInputContent.fontFamily}
-                fill={dateInputContent.fill}
-                align={dateInputContent.horizontalAlign}
+                fontSize={DateInputObj.fontSize}
+                fontFamily={DateInputObj.fontFamily}
+                fill={DateInputObj.fill}
+                align={DateInputObj.horizontalAlign}
             />
         </Group>
     );

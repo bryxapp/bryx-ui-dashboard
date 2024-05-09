@@ -3,7 +3,6 @@ import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
 import InputContent from './SharedInputComponents/InputContent';
-import InputLabel from './SharedInputComponents/InputLabel';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
 import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
@@ -47,17 +46,16 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
         }
     }, [phoneInputObj, isSelected]);
 
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(phoneInputObj.label, phoneInputObj.label.value);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(phoneInputObj.content, 'X'.repeat(PHONE_NUMBER_LENGTH));
-    const containerHeight = phoneInputObj.hasLabel ? contentShapeHeight + labelShapeHeight : contentShapeHeight;
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(phoneInputObj, 'X'.repeat(PHONE_NUMBER_LENGTH));
+    const containerHeight = contentShapeHeight;
+    const containerWidth = contentShapeWidth;
 
     return (
         <React.Fragment>
             <Group
                 key={phoneInputObj.id}
                 id={phoneInputObj.id}
-                displayName={phoneInputObj.label}
+                displayName={phoneInputObj.value}
                 x={phoneInputObj.x}
                 y={phoneInputObj.y}
                 draggable={draggable}
@@ -75,10 +73,6 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     fill='transparent'
                     onClick={onSelect}
                     onTap={onSelect} />
-                {/* Input Label */}
-                {phoneInputObj.hasLabel && (
-                    <InputLabel inputLabelObj={phoneInputObj.label} contentHeight={contentShapeHeight} containerWidth={containerWidth} inputObjId={phoneInputObj.id}/>
-                )}
                 {/* Input Content */}
                 <InputContent
                     inputObj={phoneInputObj}
@@ -86,8 +80,7 @@ const PhoneInput = ({ phoneInputObj, handleDragEnd, onTransformEnd, handleDragMo
                     inputHeight={contentShapeHeight}
                     inputWidth={contentShapeWidth}
                     contentHeight={contentShapeHeight}
-                    contentWidth={contentShapeWidth}
-                    labelHeight={labelShapeHeight} />
+                    contentWidth={contentShapeWidth} />
             </Group>
             {isSelected && (
                 <>

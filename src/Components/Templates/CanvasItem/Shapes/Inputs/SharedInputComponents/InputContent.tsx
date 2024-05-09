@@ -14,13 +14,10 @@ interface InputContentProps {
     inputWidth: number;
     contentHeight: number;
     contentWidth: number;
-    labelHeight: number;
 }
 
-const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, labelHeight, }: InputContentProps) => {
-    const textObj = inputObj.content;
-    const labelOffset = inputObj.hasLabel ? labelHeight + (inputObj.label.fontSize / 10) : 0;
-    const yalign = verticalAlign ? getInputYAlignment(textObj, textObj.value, contentHeight, verticalAlign) : 0;
+const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, }: InputContentProps) => {
+    const yalign = verticalAlign ? getInputYAlignment(inputObj, inputObj.value, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign, setSelectedId } = useCanvasDesignContext();
@@ -44,16 +41,16 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
         position: 'absolute',
         background: 'none',
         resize: 'none',
-        fontSize: `${textObj.fontSize / 16}em`,
-        fill: textObj.fill,
-        fontFamily: textObj.fontFamily,
-        fontStyle: textObj.fontStyle,
-        textDecoration: textObj.textDecoration,
+        fontSize: `${inputObj.fontSize / 16}em`,
+        fill: inputObj.fill,
+        fontFamily: inputObj.fontFamily,
+        fontStyle: inputObj.fontStyle,
+        textDecoration: inputObj.textDecoration,
         whiteSpace: 'pre-wrap',
         width: `${contentWidth + 20}px`,
         height: `${contentHeight + 20}px`,
-        alignContent: textObj.horizontalAlign,
-        color: textObj.fill,
+        alignContent: inputObj.horizontalAlign,
+        color: inputObj.fill,
         padding: '0px',
         margin: '0px',
         overflow: 'hidden',
@@ -77,14 +74,14 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
     }, []);
 
     const onChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, inputObj.id);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, inputObj.id);
     };
 
     return (
         <>
             <Rect
                 x={0}
-                y={labelOffset}
+                y={0}
                 width={inputWidth}
                 height={inputHeight}
                 fill={FILL_COLOR}
@@ -94,8 +91,8 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
                 onDblTap={handleDoubleClick}
             />
             <Group
-                x={getInputXAlignment(textObj, textObj.value, containerWidth)}
-                y={yalign + labelOffset}
+                x={getInputXAlignment(inputObj, inputObj.value, containerWidth)}
+                y={yalign}
             >
                 {!editing && (
                     <>
@@ -111,12 +108,12 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
                             onDblTap={handleDoubleClick}
                         />
                         <Text
-                            text={`${textObj.value}`}
-                            fontSize={textObj.fontSize}
-                            fill={textObj.fill}
-                            fontFamily={textObj.fontFamily}
-                            fontStyle={textObj.fontStyle}
-                            textDecoration={textObj.textDecoration}
+                            text={`${inputObj.value}`}
+                            fontSize={inputObj.fontSize}
+                            fill={inputObj.fill}
+                            fontFamily={inputObj.fontFamily}
+                            fontStyle={inputObj.fontStyle}
+                            textDecoration={inputObj.textDecoration}
                             scaleX={1}
                             scaleY={1}
                             onDblClick={handleDoubleClick}
@@ -132,7 +129,7 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
                             onChange={onChange}
                             style={style}
                             id={inputObj.id}
-                            value={textObj.value}
+                            value={inputObj.value}
                             autoFocus
                             onFocus={moveCaretToEnd}
                         />

@@ -1,5 +1,5 @@
-import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, InputContentObj, TableCellObj, InputLabelObj, CellInputObj, TextCellObj } from './CanvasInterfaces';
+import { generateShapeId } from '../shapeManagementUtils';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -49,7 +49,7 @@ export function createEllipseObj(radiusX: number, radiusY: number, fill: string,
     };
 }
 
-export function createPhoneInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): PhoneInputObj {
+export function createPhoneInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): PhoneInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -57,27 +57,6 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, value: str
         y = defaultStartY;
     }
 
-    const labelObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value: label,
-        horizontalAlign: "left",
-    } as InputLabelObj;
-
-    const contentObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value,
-        horizontalAlign: "left",
-        width: 100,
-        height: 50,
-    } as InputContentObj;
 
     return {
         id: generateShapeId(),
@@ -85,31 +64,6 @@ export function createPhoneInputObj(label: string, hasLabel: boolean, value: str
         x,
         y,
         rotation: 0,
-        label: labelObj,
-        hasLabel,
-        content: contentObj,
-    };
-}
-
-export function createEmailInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): EmailInputObj {
-    if (x === undefined) {
-        x = defaultStartX;
-    }
-    if (y === undefined) {
-        y = defaultStartY;
-    }
-
-    const labelObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value: label,
-        horizontalAlign: "left",
-    } as InputLabelObj;
-
-    const contentObj = {
         fontSize,
         fill,
         fontFamily,
@@ -119,7 +73,16 @@ export function createEmailInputObj(label: string, hasLabel: boolean, value: str
         horizontalAlign: "left",
         width: 100,
         height: 50,
-    } as InputContentObj;
+    };
+}
+
+export function createEmailInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): EmailInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
 
     return {
         id: generateShapeId(),
@@ -127,34 +90,6 @@ export function createEmailInputObj(label: string, hasLabel: boolean, value: str
         x,
         y,
         rotation: 0,
-        label: labelObj,
-        hasLabel,
-        content: contentObj,
-    };
-}
-
-export function createShortTextInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): ShortTextInputObj {
-    if (x === undefined) {
-        x = defaultStartX;
-    }
-    if (y === undefined) {
-        y = defaultStartY;
-    }
-
-    const labelObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value: label,
-        horizontalAlign: "left",
-    } as InputLabelObj;
-
-
-    const [width,] = getTextWidthAndHeight(labelObj, value)
-
-    const contentObj = {
         fontSize,
         fill,
         fontFamily,
@@ -162,7 +97,18 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, value:
         textDecoration,
         value,
         horizontalAlign: "left",
-    } as InputContentObj;
+        width: 100,
+        height: 50,
+    };
+}
+
+export function createShortTextInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): ShortTextInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
 
     return {
         id: generateShapeId(),
@@ -170,32 +116,6 @@ export function createShortTextInputObj(label: string, hasLabel: boolean, value:
         x,
         y,
         rotation: 0,
-        label: labelObj,
-        hasLabel,
-        content: contentObj,
-        inputWidth: width + 20,
-    };
-}
-
-export function createLongTextInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, isNestedInTextTable: boolean, x?: number, y?: number): LongTextInputObj {
-    if (x === undefined) {
-        x = defaultStartX;
-    }
-    if (y === undefined) {
-        y = defaultStartY;
-    }
-
-    const labelObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value: label,
-        horizontalAlign: "left",
-    } as InputLabelObj;
-
-    const contentObj = {
         fontSize,
         fill,
         fontFamily,
@@ -203,9 +123,19 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, value: 
         textDecoration,
         value,
         horizontalAlign: "left",
-    } as InputContentObj;
+        width: 100,
+        height: 50,
+    };
+}
 
-    const [width, height] = getTextWidthAndHeight(labelObj, value)
+export function createLongTextInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): LongTextInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
+
 
     return {
         id: generateShapeId(),
@@ -213,34 +143,7 @@ export function createLongTextInputObj(label: string, hasLabel: boolean, value: 
         x,
         y,
         rotation: 0,
-        label: labelObj,
-        hasLabel,
-        content: contentObj,
         verticalAlign: "top",
-        inputHeight: height + 20,
-        inputWidth: width + 20,
-    };
-}
-
-export function createDateInputObj(label: string, hasLabel: boolean, value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, isNestedInTextTable: boolean, x?: number, y?: number): DateInputObj {
-    if (x === undefined) {
-        x = defaultStartX;
-    }
-    if (y === undefined) {
-        y = defaultStartY;
-    }
-
-    const labelObj = {
-        fontSize,
-        fill,
-        fontFamily,
-        fontStyle,
-        textDecoration,
-        value: label,
-        horizontalAlign: "left",
-    } as InputLabelObj;
-
-    const contentObj = {
         fontSize,
         fill,
         fontFamily,
@@ -248,7 +151,18 @@ export function createDateInputObj(label: string, hasLabel: boolean, value: stri
         textDecoration,
         value,
         horizontalAlign: "left",
-    } as InputContentObj;
+        width: 200,
+        height: 100,
+    };
+}
+
+export function createDateInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, x?: number, y?: number): DateInputObj {
+    if (x === undefined) {
+        x = defaultStartX;
+    }
+    if (y === undefined) {
+        y = defaultStartY;
+    }
 
     return {
         id: generateShapeId(),
@@ -256,10 +170,16 @@ export function createDateInputObj(label: string, hasLabel: boolean, value: stri
         x,
         y,
         rotation: 0,
-        label: labelObj,
-        hasLabel,
-        content: contentObj,
-        dateFormat: dateFormat,
+        fontSize,
+        fill,
+        fontFamily,
+        fontStyle,
+        textDecoration,
+        value,
+        horizontalAlign: "left",
+        width: 100,
+        height: 50,
+        dateFormat,
     };
 }
 

@@ -28,12 +28,12 @@ const TextInputSizer: React.FC<TextInputSizerProps> = ({ inputObj, disabled }) =
     let selectedHeight = 0;
     if (inputObj.type === 'ShortTextInput') {
         const shortTextInput = inputObj as ShortTextInputObj;
-        selectedWidth = shortTextInput.inputWidth ? Math.round(shortTextInput.inputWidth) : 0;
+        selectedWidth = shortTextInput.width ? Math.round(shortTextInput.width) : 0;
     }
     else if (inputObj.type === 'LongTextInput') {
         const longTextInput = inputObj as LongTextInputObj;
-        selectedWidth = longTextInput.inputWidth ? Math.round(longTextInput.inputWidth) : 0;
-        selectedHeight = longTextInput.inputHeight ? Math.round(longTextInput.inputHeight) : 0;
+        selectedWidth = longTextInput.width ? Math.round(longTextInput.width) : 0;
+        selectedHeight = longTextInput.height ? Math.round(longTextInput.height) : 0;
     }
 
     return (

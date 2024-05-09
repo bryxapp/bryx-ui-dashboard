@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { PhoneInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getInputXAlignment, getTextXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewPhoneInputProps {
@@ -11,12 +11,10 @@ interface PreviewPhoneInputProps {
 
 const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps) => {
     const value = formInputs ? formInputs[PhoneInputObj.id].value : '';
-    PhoneInputObj.content.value = value;
-    const [labelShapeWidth, labelShapeHeight] = getTextWidthAndHeight(PhoneInputObj.label, PhoneInputObj.label.value);
-    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj.content, PhoneInputObj.content.value);
-
+    PhoneInputObj.value = value;
+    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj, PhoneInputObj.value);
     //Container Measurements 
-    const containerWidth = Math.max(labelShapeWidth, contentShapeWidth);
+    const containerWidth = Math.max(PhoneInputObj.width, contentShapeWidth);
     return (
         <Group
             key={PhoneInputObj.id}
@@ -25,25 +23,14 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
             y={PhoneInputObj.y}
             rotation={PhoneInputObj.rotation}
         >
-            {PhoneInputObj.hasLabel &&
-                <Text
-                    x={getTextXAlignment(PhoneInputObj.label, containerWidth, PhoneInputObj.label.horizontalAlign)}
-                    y={0}
-                    text={PhoneInputObj.label.value}
-                    fontSize={PhoneInputObj.label.fontSize}
-                    fontFamily={PhoneInputObj.label.fontFamily}
-                    fill={PhoneInputObj.label.fill}
-                    align={PhoneInputObj.label.horizontalAlign}
-                />
-            }
             <Text
-                x={getInputXAlignment(PhoneInputObj.content, value, containerWidth)}
-                y={PhoneInputObj.hasLabel ? labelShapeHeight + (PhoneInputObj.label.fontSize / 10) : 0}
+                x={getInputXAlignment(PhoneInputObj, value, containerWidth)}
+                y={0}
                 text={value}
-                fontSize={PhoneInputObj.content.fontSize}
-                fontFamily={PhoneInputObj.content.fontFamily}
-                fill={PhoneInputObj.content.fill}
-                align={PhoneInputObj.content.horizontalAlign}
+                fontSize={PhoneInputObj.fontSize}
+                fontFamily={PhoneInputObj.fontFamily}
+                fill={PhoneInputObj.fill}
+                align={PhoneInputObj.horizontalAlign}
             />
         </Group>
     );

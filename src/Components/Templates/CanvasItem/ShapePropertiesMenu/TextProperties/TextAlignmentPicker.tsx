@@ -2,29 +2,24 @@ import React from 'react';
 import { Button } from 'antd';
 import { MdAlignHorizontalLeft, MdAlignHorizontalCenter, MdAlignHorizontalRight } from "react-icons/md";
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateInputProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 interface TextAlignmentPickerProps {
     horizontalAlign: string;
-    itemType: 'content' | 'label' | null;
     disabled?: boolean;
 }
 
-const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ horizontalAlign, itemType, disabled }) => {
+const TextAlignmentPicker: React.FC<TextAlignmentPickerProps> = ({ horizontalAlign, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    
+
     const handleAlignmentChange = (newAlignment: string) => {
         if (newAlignment) {
-            if (itemType === null)
-                updateShapeProperty(canvasDesign, setCanvasDesign, 'horizontalAlign', newAlignment, selectedId);
-            else {
-                updateInputProperty(canvasDesign, setCanvasDesign, itemType, 'horizontalAlign', newAlignment, selectedId);
-            }
+            updateShapeProperty(canvasDesign, setCanvasDesign, 'horizontalAlign', newAlignment, selectedId);
         }
     };
 
     return (
-        <div style={{display:"flex"}}>
+        <div style={{ display: "flex" }}>
             <Button
                 type={horizontalAlign === 'left' ? 'primary' : 'default'}
                 icon={<MdAlignHorizontalLeft />}

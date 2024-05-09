@@ -12,10 +12,9 @@ const DateInputContentProperties = ({ dateInputObj }: InputContentPropertiesProp
         <Card>
             <DateFormatPicker dateInputObj={dateInputObj} />
             <div style={{ height: '10px' }} />
-            <TextProperties textObj={dateInputObj.content} itemType={'content'} />
+            <TextProperties textObj={dateInputObj} />
         </Card>
     );
 };
 
 export default DateInputContentProperties;
-

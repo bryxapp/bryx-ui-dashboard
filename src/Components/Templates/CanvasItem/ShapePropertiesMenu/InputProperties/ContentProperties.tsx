@@ -15,11 +15,11 @@ interface InputContentPropertiesProps {
 
 const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    const selectedInputContent = inputObj.content.value ?? '';
+    const selectedInputContent = inputObj.value ?? '';
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, selectedId);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
     };
 
     let verticalAlign = '';
@@ -67,9 +67,9 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
                 </>
             )}
 
-            <TextProperties textObj={inputObj.content} itemType="content" verticalAlign={verticalAlign} />
+            <TextProperties textObj={inputObj} />
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-                <TextAlignmentPicker horizontalAlign={inputObj.content.horizontalAlign} itemType="content" />
+                <TextAlignmentPicker horizontalAlign={inputObj.horizontalAlign} />
                 {verticalAlign &&
                     (
                         <>

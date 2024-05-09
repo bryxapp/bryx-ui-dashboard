@@ -17,14 +17,14 @@ const EstimateFormEmailField = ({
     return (
         <Form.Item
             key={emailInputObj.id}
-            label={emailInputObj.hasLabel ? emailInputObj.label.value : null}
+            label={emailInputObj.value}
             rules={[{ type: 'email' }]}
             style={{ marginBottom: '5px' }}
         >
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, emailInputObj.id)}
-                placeholder={emailInputObj.content.value}
+                placeholder={emailInputObj.value}
                 disabled={disabled}
             />
         </Form.Item>

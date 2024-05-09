@@ -1,6 +1,6 @@
 // utils/konvaHelpers.ts
 import Konva from 'konva';
-import { InputContentObj, TextBase, TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputObj, TextBase, TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { getTextWidthAndHeight } from '../../../../../../utils/shapeManagementUtils';
 
 // constants.ts
@@ -69,7 +69,7 @@ export const getTextYAlignment = (text: TextValueObj, containerHeight: number, v
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }
 
-export const getInputXAlignment = (text: InputContentObj, value: string, containerWidth: number): number => {
+export const getInputXAlignment = (text: InputObj, value: string, containerWidth: number): number => {
     const [textWidth,] = getTextWidthAndHeight(text, value);
     return getXAlignment(textWidth, text.horizontalAlign, containerWidth);
 }

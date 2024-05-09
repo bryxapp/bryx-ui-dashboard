@@ -95,7 +95,7 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
     }, []);
 
     const onChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'content', 'value', event.target.value, contentCell.id);
+        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, contentCell.id);
     };
 
     return (

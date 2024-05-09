@@ -24,7 +24,7 @@ export default function TableManagement() {
             let newCell = JSON.parse(JSON.stringify(textTable.rows[i][length]));
             // Generate a new ID for the cloned cell
             if (newCell.content) {
-                newCell.content.id = generateShapeId();
+                newCell.id = generateShapeId();
             }
             newCell.id = generateShapeId();
             // Add the cloned cell to the end of the current row
@@ -62,7 +62,7 @@ export default function TableManagement() {
             let newCell = JSON.parse(JSON.stringify(cell));
             // Assign a unique ID to each new cell
             newCell.id = generateShapeId();
-            if (newCell.content) newCell.content.id = generateShapeId();
+            if (newCell.content) newCell.id = generateShapeId();
             return newCell;
         });
 
