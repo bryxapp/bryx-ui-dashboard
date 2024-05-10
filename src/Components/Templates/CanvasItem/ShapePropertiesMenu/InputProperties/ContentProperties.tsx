@@ -1,11 +1,10 @@
 import React from 'react';
-import { Card, Divider, Input, Typography } from 'antd';
-import { DateInputObj, InputObj, LongTextInputObj, ShortTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import { Card, Input, Typography } from 'antd';
+import { DateInputObj, InputObj, LongTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
 import DateInputContentProperties from './DateInputContentProperties';
-import TextInputSizer from './TextInputSizer';
 import TextAlignmentPicker from '../TextProperties/TextAlignmentPicker';
 import TextVerticalAlignmentPicker from '../TextProperties/TextVerticalAlignmentPicker';
 
@@ -50,19 +49,6 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
                             size="small"
                             placeholder="Optional"
                         />
-                    )}
-                    <Divider style={{ margin: ".5rem" }} />
-                    {(inputObj.type === "ShortTextInput") && (
-                        <>
-                            <TextInputSizer inputObj={inputObj as ShortTextInputObj} />
-                            <div style={{ height: '.5rem' }} />
-                        </>
-                    )}
-                    {(isLongTextInput) && (
-                        <>
-                            <TextInputSizer inputObj={inputObj as LongTextInputObj} />
-                            <div style={{ height: '.5rem' }} />
-                        </>
                     )}
                 </>
             )}

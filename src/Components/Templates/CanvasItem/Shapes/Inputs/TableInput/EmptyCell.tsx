@@ -68,13 +68,13 @@ const EmptyCell = ({ emptyCellObj, containerWidth, containerHeight }: InputCellP
                         trRef={trRef}
                         onTransformEnd={() => { }}
                         rotationEnabled={false}
-                        resizeEnabled={false}
-                        keepRatio={true}
+                        horizontalResizeEnabled={false}
+                        verticalResizeEnabled={false}
                     />
                 </>
             )}
         </React.Fragment>
     );
-};
+}
 
 export default EmptyCell;

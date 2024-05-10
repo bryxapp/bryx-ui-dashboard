@@ -14,9 +14,9 @@ import { TableOutlined } from "@ant-design/icons";
 export const mapTypeToTitle = (type: ShapeType) => {
     switch (type) {
         case 'ShortTextInput':
-            return 'Short Text'
+            return 'Single Line'
         case 'LongTextInput':
-            return 'Long Text'
+            return 'Multi Line'
         case 'EmailInput':
             return 'Email'
         case 'PhoneInput':

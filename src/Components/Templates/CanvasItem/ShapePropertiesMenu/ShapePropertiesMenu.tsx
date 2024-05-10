@@ -10,7 +10,6 @@ import { IoMdColorPalette } from "react-icons/io";
 import SolidShapesProperties from './SolidShapesProperties/SolidShapesProperties';
 import InputContentProperties from './InputProperties/ContentProperties';
 import TextPropertiesCard from './TextProperties/TextPropertiesCard';
-import { BsTextareaResize } from "react-icons/bs";
 import { mapTypeToIcon, mapTypeToTitle } from '../../../../utils/iconUtils';
 import TableProperties from './TableProperties/TableProperties';
 import { TableOutlined } from "@ant-design/icons";
@@ -76,15 +75,7 @@ const PropertiesMenu = () => {
             }
             {isinputObj &&
                 (
-                    <>
-                        <Menu.SubMenu
-                            key="contentProperties"
-                            title="Content"
-                            icon={<BsTextareaResize />}
-                        >
                             <InputContentProperties inputObj={shapeObj as InputObj} />
-                        </Menu.SubMenu>
-                    </>
                 )}
             {isTableObj && (
                 <Menu.SubMenu

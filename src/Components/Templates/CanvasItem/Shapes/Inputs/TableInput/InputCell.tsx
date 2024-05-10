@@ -171,8 +171,8 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
                         trRef={trRef}
                         onTransformEnd={() => { }}
                         rotationEnabled={false}
-                        resizeEnabled={false}
-                        keepRatio={true}
+                        horizontalResizeEnabled={false}
+                        verticalResizeEnabled={false}
                     />
                 </>
             )}

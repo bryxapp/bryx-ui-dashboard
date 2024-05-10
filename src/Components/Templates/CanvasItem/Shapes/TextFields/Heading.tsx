@@ -168,8 +168,8 @@ const Heading = ({
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
                         rotationEnabled={true}
-                        resizeEnabled={false}
-                        keepRatio={true}
+                        horizontalResizeEnabled={true}
+                        verticalResizeEnabled={true}
                     />
                 </>
             )}

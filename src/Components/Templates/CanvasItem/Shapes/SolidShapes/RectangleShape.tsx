@@ -57,8 +57,8 @@ const RectangleShape = ({ rectangleObj, handleDragEnd, onTransformEnd, handleDra
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
                         rotationEnabled={true}
-                        resizeEnabled={true}
-                        keepRatio={false}
+                        horizontalResizeEnabled={true}
+                        verticalResizeEnabled={true}
                     />
                 </>
             )}

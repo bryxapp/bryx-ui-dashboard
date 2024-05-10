@@ -46,6 +46,7 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
     const containerHeight = contentShapeHeight;
     const containerWidth = Math.max(contentShapeWidth, shortTextInputObj.width);
 
+
     return (
         <React.Fragment>
             <Group
@@ -86,8 +87,8 @@ const ShortTextInput = ({ shortTextInputObj, handleDragEnd, onTransformEnd, hand
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
                         rotationEnabled={true}
-                        resizeEnabled={false}
-                        keepRatio={true}
+                        horizontalResizeEnabled={true}
+                        verticalResizeEnabled={false}
                     />
                 </>
             )}

@@ -146,8 +146,8 @@ const Paragraph = ({
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
                         rotationEnabled={true}
-                        resizeEnabled={false}
-                        keepRatio={true}
+                        horizontalResizeEnabled={false}
+                        verticalResizeEnabled={false}
                     />
                 </>
             )}

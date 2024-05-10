@@ -1,4 +1,4 @@
-import { Rect, Group } from 'react-konva';
+import { Group } from 'react-konva';
 import { LongTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import React, { useRef, useEffect } from 'react';
 import Konva from 'konva';
@@ -49,16 +49,13 @@ const LongTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handle
     const tempTextShapeContent = createTempTextKonvaShape(longTextInputObj, longTextInputObj.value);
     const contentShapeWidth = Math.max(tempTextShapeContent.width(), longTextInputObj.width);
     const contentShapeHeight = Math.max(tempTextShapeContent.height(), longTextInputObj.height);
-
-    const containerHeight = contentShapeHeight;
-    const containerWidth = Math.max( contentShapeWidth, longTextInputObj.width);
+    const containerWidth = Math.max(contentShapeWidth, longTextInputObj.width);
 
     return (
         <React.Fragment>
             <Group
                 key={longTextInputObj.id}
                 id={longTextInputObj.id}
-                displayName={longTextInputObj.value}
                 x={longTextInputObj.x}
                 y={longTextInputObj.y}
                 draggable={draggable}
@@ -69,14 +66,6 @@ const LongTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handle
                 onClick={onSelect}
                 onTap={onSelect}
             >
-                {/* Background Rectangle for easier selecting and dragging */}
-                <Rect
-                    width={containerWidth}
-                    height={containerHeight}
-                    fill='transparent'
-                    onClick={onSelect}
-                    onTap={onSelect} />
-                {/* Input Content */}
                 <InputContent
                     inputObj={longTextInputObj}
                     containerWidth={containerWidth}
@@ -91,8 +80,8 @@ const LongTextInput = ({ longTextInputObj, handleDragEnd, onTransformEnd, handle
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
                         rotationEnabled={true}
-                        resizeEnabled={false}
-                        keepRatio={true}
+                        horizontalResizeEnabled={true}
+                        verticalResizeEnabled={true}
                     />
                 </>
             )}
