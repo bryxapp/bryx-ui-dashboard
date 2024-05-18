@@ -11,7 +11,6 @@ import { useLocation } from 'react-router-dom';
 const TopNavBar = () => {
   const { auth0User, isLoading, loginWithRedirect, logout } = useAuth0User();
   const url = useLocation();
-  console.log(url.pathname)
   const isViewingEstimate = url.pathname === "/view" || url.pathname === "/view/" ? true : false;
 
   const handleLogout = () => {

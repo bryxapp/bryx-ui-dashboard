@@ -6,12 +6,13 @@ interface InputTransformerProps {
     rotationEnabled: boolean;
     horizontalResizeEnabled: boolean;
     verticalResizeEnabled: boolean;
+    onTransform?: any;
 }
 
 export const MIN_BOX_SIZE = 5;
 export const ROTATION_SNAPS = [0, 45, 90, 135, 180, 225, 270];
 
-const ShapeTransformer = ({ trRef, onTransformEnd, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputTransformerProps) => {
+const ShapeTransformer = ({ trRef, onTransformEnd, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled, onTransform }: InputTransformerProps) => {
     return (
         <Transformer
             ref={trRef}
@@ -44,6 +45,7 @@ const ShapeTransformer = ({ trRef, onTransformEnd, rotationEnabled, horizontalRe
             resizeEnabled={horizontalResizeEnabled || verticalResizeEnabled}
             keepRatio={false}  // This will allow independent resizing without keeping the ratio
             rotationSnaps={ROTATION_SNAPS}
+            onTransform={onTransform}
         />
     );
 };

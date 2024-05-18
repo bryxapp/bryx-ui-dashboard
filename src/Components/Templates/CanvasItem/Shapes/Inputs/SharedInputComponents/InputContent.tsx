@@ -5,6 +5,10 @@ import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
+import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
+import Konva from 'konva';
+import useShapeMove from '../../../useShapeMove';
+import { getWebCanvasDimensions } from '../../../../../../utils/canvasUtils';
 
 interface InputContentProps {
     inputObj: InputObj;
@@ -14,13 +18,39 @@ interface InputContentProps {
     inputWidth: number;
     contentHeight: number;
     contentWidth: number;
+    draggable?: boolean;
+    containerHeight?: number;
 }
 
-const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, }: InputContentProps) => {
+const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, draggable, containerHeight }: InputContentProps) => {
     const yalign = verticalAlign ? getInputYAlignment(inputObj, inputObj.value, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
-    const { canvasDesign, setCanvasDesign, setSelectedId } = useCanvasDesignContext();
+    const { canvasDesign, setCanvasDesign, setSelectedId, selectedId } = useCanvasDesignContext();
+    const isSelected = inputObj.id === selectedId;
+    const trRef = useRef<Konva.Transformer>(null);
+    const shapeRef = useRef<Konva.Group>(null);
+    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
+
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
+
+    useEffect(() => {
+        if (isSelected && shapeRef?.current) {
+            // we need to attach transformer manually
+            trRef.current?.nodes([shapeRef.current]);
+            trRef.current?.getLayer()?.batchDraw();
+        }
+    }, [isSelected]);
+
+    useEffect(() => {
+        // This effect will re-run whenever shortTextInputObj changes.
+        // This is necessary to update the transformer's nodes when the shape is selected.
+        if (shapeRef?.current && trRef.current && isSelected) {
+            const shapeRefCurrent = shapeRef.current;
+            trRef.current.nodes([shapeRefCurrent]);
+            trRef.current.getLayer()?.batchDraw();
+        }
+    }, [inputObj, isSelected]);
 
     const onSelect = () => {
         setSelectedId(inputObj.id);
@@ -77,65 +107,108 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
         updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, inputObj.id);
     };
 
+    const handleTransform = (event: any) => {
+        const node = event.target;
+        if (node) {
+            const scaleX = node.scaleX();
+            const scaleY = node.scaleY();
+            node.scaleX(1);
+            node.scaleY(1);
+            const rect = node.findOne('Rect');
+            if (rect) {
+                rect.width(rect.width() * scaleX);
+                rect.height(rect.height() * scaleY);
+            }
+        }
+    };
+
     return (
         <>
-            <Rect
-                x={0}
-                y={0}
-                width={inputWidth}
-                height={inputHeight}
-                fill={FILL_COLOR}
+            <Group
+                key={inputObj.id}
+                id={inputObj.id}
+                displayName={inputObj.value}
+                x={inputObj.x}
+                y={inputObj.y}
+                draggable={draggable}
+                onDragMove={handleDragMove}
+                onDragEnd={handleDragEnd}
+                rotation={inputObj.rotation}
                 onClick={onSelect}
                 onTap={onSelect}
-                onDoubleClick={handleDoubleClick}
-                onDblTap={handleDoubleClick}
-            />
-            <Group
-                x={getInputXAlignment(inputObj, inputObj.value, containerWidth)}
-                y={yalign}
+                width={containerWidth}
+                height={containerHeight}
+                ref={shapeRef}
             >
-                {!editing && (
-                    <>
-                        <Rect
-                            x={0}
-                            y={0}
-                            width={contentWidth}
-                            height={contentHeight}
-                            fill='transparent'
-                            onClick={onSelect}
-                            onTap={onSelect}
-                            onDoubleClick={handleDoubleClick}
-                            onDblTap={handleDoubleClick}
-                        />
-                        <Text
-                            text={`${inputObj.value}`}
-                            fontSize={inputObj.fontSize}
-                            fill={inputObj.fill}
-                            fontFamily={inputObj.fontFamily}
-                            fontStyle={inputObj.fontStyle}
-                            textDecoration={inputObj.textDecoration}
-                            scaleX={1}
-                            scaleY={1}
-                            onDblClick={handleDoubleClick}
-                            onDblTap={handleDoubleClick}
-                            minWidth={10}
-                        />
-                    </>)
-                }
-                {editing && (
-                    <Html>
-                        <textarea
-                            ref={textAreaRef}
-                            onChange={onChange}
-                            style={style}
-                            id={inputObj.id}
-                            value={inputObj.value}
-                            autoFocus
-                            onFocus={moveCaretToEnd}
-                        />
-                    </Html>
-                )}
+                <Rect
+                    x={0}
+                    y={0}
+                    width={inputWidth}
+                    height={inputHeight}
+                    fill={FILL_COLOR}
+                    onClick={onSelect}
+                    onTap={onSelect}
+                    onDoubleClick={handleDoubleClick}
+                    onDblTap={handleDoubleClick}
+                />
+                <Group
+                    x={getInputXAlignment(inputObj, inputObj.value, containerWidth)}
+                    y={yalign}
+
+                >
+                    {!editing && (
+                        <>
+                            <Rect
+                                x={0}
+                                y={0}
+                                width={contentWidth}
+                                height={contentHeight}
+                                fill='transparent'
+                                onClick={onSelect}
+                                onTap={onSelect}
+                                onDoubleClick={handleDoubleClick}
+                                onDblTap={handleDoubleClick}
+                            />
+                            <Text
+                                text={`${inputObj.value}`}
+                                fontSize={inputObj.fontSize}
+                                fill={inputObj.fill}
+                                fontFamily={inputObj.fontFamily}
+                                fontStyle={inputObj.fontStyle}
+                                textDecoration={inputObj.textDecoration}
+                                scaleX={1}
+                                scaleY={1}
+                                onDblClick={handleDoubleClick}
+                                onDblTap={handleDoubleClick}
+                                minWidth={10}
+                            />
+                        </>)
+                    }
+                    {editing && (
+                        <Html>
+                            <textarea
+                                ref={textAreaRef}
+                                onChange={onChange}
+                                style={style}
+                                id={inputObj.id}
+                                value={inputObj.value}
+                                autoFocus
+                                onFocus={moveCaretToEnd}
+                            />
+                        </Html>
+                    )}
+                </Group>
             </Group>
+            {isSelected && (
+                <ShapeTransformer
+                    trRef={trRef}
+                    onTransform={handleTransform}
+                    onTransformEnd={onTransformEnd}
+                    rotationEnabled={true}
+                    horizontalResizeEnabled={true}
+                    verticalResizeEnabled={false}
+                />
+            )}
         </>
 
     );

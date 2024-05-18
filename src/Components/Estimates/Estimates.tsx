@@ -27,20 +27,6 @@ const Estimates: React.FC = () => {
     window.history.replaceState(null, "", newUrl);
   }, [activeTab, location.pathname]);
 
-  // Define tabs using items prop structure
-  const tabItems = [
-    {
-      label: "Estimates",
-      key: "1",
-      children: <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached} />
-    },
-    {
-      label: "Drafts",
-      key: "2",
-      children: <EstimateDrafts />
-    }
-  ];
-
   return (
     <>
       <Typography.Title level={2}>Estimates</Typography.Title>
@@ -48,7 +34,19 @@ const Estimates: React.FC = () => {
       <Tabs
         activeKey={activeTab}
         onChange={handleTabChange}
-        items={tabItems} />
+        items={[
+          {
+            label: "Estimates",
+            key: "1",
+            children: <PastEstimates setMaxEstimatesReached={setMaxEstimatesReached} />
+          },
+          {
+            label: "Drafts",
+            key: "2",
+            children: <EstimateDrafts />
+          }
+        ]}
+    />
     </>
   );
 };

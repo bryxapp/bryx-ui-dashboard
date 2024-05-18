@@ -30,7 +30,7 @@ const PreviewTableInput = ({ tableInputObj, formInputs }: PreviewTableInputProps
                     }
                     return (
                         <Group
-                            key={cell.id}
+                            key={`${rowIndex}-${cellIndex}`}
                             id={cell.id}
                             x={cellXPosition + 2}
                             y={cellYPosition + 2}

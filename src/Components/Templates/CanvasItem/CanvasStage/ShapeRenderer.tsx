@@ -98,9 +98,6 @@ const ShapeRenderer = () => {
                             <ShortTextInput
                                 key={shortTextInput.id}
                                 shortTextInputObj={shortTextInput}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'LongTextInput':
