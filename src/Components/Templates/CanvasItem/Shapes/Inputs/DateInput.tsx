@@ -5,10 +5,9 @@ import InputContent from './SharedInputComponents/InputContent';
 
 interface DateInputProps {
     dateInputObj: DateInputObj;
-    draggable?: boolean;
 }
 
-const DateInput = ({ dateInputObj, draggable = true }: DateInputProps) => {
+const DateInput = ({ dateInputObj }: DateInputProps) => {
     dateInputObj.value = format(new Date(), dateInputObj.dateFormat);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj);
     dateInputObj.width = contentShapeWidth;
@@ -17,9 +16,6 @@ const DateInput = ({ dateInputObj, draggable = true }: DateInputProps) => {
     return (
         <InputContent
             inputObj={dateInputObj}
-            contentHeight={contentShapeHeight}
-            contentWidth={contentShapeWidth}
-            draggable={draggable}
             rotationEnabled={true}
             horizontalResizeEnabled={false}
             verticalResizeEnabled={false}

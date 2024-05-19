@@ -76,9 +76,6 @@ const ShapeRenderer = () => {
                             <PhoneInput
                                 key={phoneInput.id}
                                 phoneInputObj={phoneInput}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'EmailInput':

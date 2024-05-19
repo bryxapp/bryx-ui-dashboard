@@ -3,7 +3,7 @@ import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from './InputHelpe
 import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
-import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { getTextWidthAndHeight, updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import Konva from 'konva';
@@ -13,15 +13,13 @@ import { getWebCanvasDimensions } from '../../../../../../utils/canvasUtils';
 interface InputContentProps {
     inputObj: InputObj;
     verticalAlign?: string;
-    contentHeight: number;
-    contentWidth: number;
-    draggable: boolean;
     rotationEnabled: boolean;
     horizontalResizeEnabled: boolean;
     verticalResizeEnabled: boolean;
 }
 
-const InputContent = ({ inputObj, verticalAlign, contentHeight, contentWidth, draggable, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
+const InputContent = ({ inputObj, verticalAlign, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
+    const [contentWidth, contentHeight] = getTextWidthAndHeight(inputObj);
     const yalign = verticalAlign ? getInputYAlignment(inputObj, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -130,7 +128,7 @@ const InputContent = ({ inputObj, verticalAlign, contentHeight, contentWidth, dr
                 displayName={inputObj.value}
                 x={inputObj.x}
                 y={inputObj.y}
-                draggable={draggable}
+                draggable={true}
                 onDragMove={handleDragMove}
                 onDragEnd={handleDragEnd}
                 rotation={inputObj.rotation}
