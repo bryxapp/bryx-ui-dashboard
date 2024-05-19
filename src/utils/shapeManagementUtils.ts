@@ -2,7 +2,7 @@ import Konva from "konva";
 import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { createTempTextKonvaShape, getInputXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { createTempTextKonvaShape, getInputXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -185,6 +185,34 @@ export const getTextWidthAndHeight = (textObj: TextObj): [number, number] => {
     const tempTextShape = createTempTextKonvaShape(textObj, value);
     return [tempTextShape.width(), tempTextShape.height()];
 };
+
+export const getTransformerProperties = (shape: ShapeObj): [boolean, boolean, boolean] => {
+    //[rotationEnabled,horizontalResizeEnabled,verticalResizeEnabled]
+    switch (shape.type) {
+        case 'Rectangle':
+        case 'RoundedRectangle':
+        case 'Ellipse':
+        case 'UserImage':
+            return [true, true, true];
+        case 'Heading':
+        case 'Paragraph':
+            return [true, false, false];
+        case 'PhoneInput':
+        case 'EmailInput':
+        case 'DateInput':
+            return [true, false, false];
+        case 'ShortTextInput':
+            return [true, true, false];
+        case 'LongTextInput':
+            return [true, true, true];
+        case 'TableInput':
+            return [true, false, false];
+        default:
+            return [false, false, false];
+
+    }
+}
+
 
 
 export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {

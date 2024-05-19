@@ -3,7 +3,7 @@ import { TableInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 import { drawBorders } from "../../../../Templates/CanvasItem/Shapes/Inputs/TableInput/tableUtils";
 import EmptyCell from "../../../../Templates/CanvasItem/Shapes/Inputs/TableInput/EmptyCell";
-import { FILL_COLOR } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { FILL_COLOR } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 
 interface PreviewTableInputProps {
     tableInputObj: TableInputObj;

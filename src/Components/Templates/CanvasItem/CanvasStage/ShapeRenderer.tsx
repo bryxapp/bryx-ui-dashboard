@@ -1,16 +1,14 @@
-import { RectangleObj, ShapeObj, EllipseObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj } from "../../../../utils/types/CanvasInterfaces";
+import { RectangleObj, ShapeObj, EllipseObj, ImageObj,  HeadingObj, ParagraphObj, DateInputObj, TableInputObj, InputObj } from "../../../../utils/types/CanvasInterfaces";
 import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
 import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
 import ImageShape from '../Shapes/SolidShapes/ImageShape';
-import PhoneInput from '../Shapes/Inputs/PhoneInput';
-import EmailInput from '../Shapes/Inputs/EmailInput';
 import Heading from '../Shapes/TextFields/Heading';
 import Paragraph from '../Shapes/TextFields/Paragraph';
-import ShortTextInput from '../Shapes/Inputs/ShortTextInput';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
-import LongTextInput from '../Shapes/Inputs/LongTextInput';
-import DateInput from '../Shapes/Inputs/DateInput';
 import TableInput from '../Shapes/Inputs/TableInput/TableInput';
+import InputContent from "../Shapes/Inputs/Input/InputContent";
+import { format } from "date-fns";
+import { getTextWidthAndHeight } from "../../../../utils/shapeManagementUtils";
 
 
 const ShapeRenderer = () => {
@@ -52,52 +50,27 @@ const ShapeRenderer = () => {
                                 imageObj={image}
                             />
                         );
-                    case 'PhoneInput':
-                        const phoneInput = shape as PhoneInputObj;
-                        return (
-                            <PhoneInput
-                                key={phoneInput.id}
-                                phoneInputObj={phoneInput}
-                            />
-                        );
-                    case 'EmailInput':
-                        const emailInput = shape as EmailInputObj;
-                        return (
-                            <EmailInput
-                                key={emailInput.id}
-                                emailInputObj={emailInput}
-                            />
-                        );
-                    case 'ShortTextInput':
-                        const shortTextInput = shape as ShortTextInputObj;
-                        return (
-                            <ShortTextInput
-                                key={shortTextInput.id}
-                                shortTextInputObj={shortTextInput}
-                            />
-                        );
-                    case 'LongTextInput':
-                        const longTextInput = shape as LongTextInputObj;
-                        return (
-                            <LongTextInput
-                                key={longTextInput.id}
-                                longTextInputObj={longTextInput}
-                            />
-                        );
                     case 'DateInput':
-                        const dateInput = shape as DateInputObj;
+                        const dateInputObj = shape as DateInputObj;
+                        dateInputObj.value = format(new Date(), dateInputObj.dateFormat);
+                        const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj);
+                        dateInputObj.width = contentShapeWidth;
+                        dateInputObj.height = contentShapeHeight;
                         return (
-                            <DateInput
-                                key={dateInput.id}
-                                dateInputObj={dateInput}
+                            <InputContent
+                                key={shape.id}
+                                inputObj={dateInputObj}
                             />
                         );
-                    case 'TableInput':
-                        const tableInput = shape as TableInputObj;
+                    case 'PhoneInput':
+                    case 'EmailInput':
+                    case 'ShortTextInput':
+                    case 'LongTextInput':
+                        const inputObj = shape as InputObj;
                         return (
-                            <TableInput
-                                key={tableInput.id}
-                                tableInputObj={tableInput}
+                            <InputContent
+                                key={shape.id}
+                                inputObj={inputObj}
                             />
                         );
                     case 'Heading':
@@ -114,6 +87,14 @@ const ShapeRenderer = () => {
                             <Paragraph
                                 key={paragraph.id}
                                 paragraphObj={paragraph}
+                            />
+                        );
+                    case 'TableInput':
+                        const tableInput = shape as TableInputObj;
+                        return (
+                            <TableInput
+                                key={tableInput.id}
+                                tableInputObj={tableInput}
                             />
                         );
                     default:

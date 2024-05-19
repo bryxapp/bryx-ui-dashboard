@@ -12,12 +12,9 @@ import useShapeMove from '../../../useShapeMove';
 interface InputContentProps {
     inputObj: InputObj;
     verticalAlign?: string;
-    rotationEnabled: boolean;
-    horizontalResizeEnabled: boolean;
-    verticalResizeEnabled: boolean;
 }
 
-const InputContent = ({ inputObj, verticalAlign, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
+const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     const [contentWidth, contentHeight] = getTextWidthAndHeight(inputObj);
     const yalign = verticalAlign ? getInputYAlignment(inputObj, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
@@ -27,6 +24,7 @@ const InputContent = ({ inputObj, verticalAlign, rotationEnabled, horizontalResi
     const trRef = useRef<Konva.Transformer>(null);
     const shapeRef = useRef<Konva.Group>(null);
     const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
+    const [rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled] = [true, true, true];
 
     useEffect(() => {
         if (isSelected && shapeRef?.current) {

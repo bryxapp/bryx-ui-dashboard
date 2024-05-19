@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import Konva from 'konva';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
-import { FILL_COLOR } from '../SharedInputComponents/InputHelper';
+import { FILL_COLOR } from '../Input/InputHelper';
 import { CellInputObj, HorizontalAlign, TextCellObj, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { Html } from 'react-konva-utils';

@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { createTempTextKonvaShape } from '../../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper';
+import { createTempTextKonvaShape } from '../../Components/Templates/CanvasItem/Shapes/Inputs/Input/InputHelper';
 import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
 import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj, TextBase, TextObj } from './CanvasInterfaces';
 

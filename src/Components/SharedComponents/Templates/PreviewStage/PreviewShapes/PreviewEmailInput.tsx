@@ -1,7 +1,7 @@
 import { Group, Text } from "react-konva";
 import { EmailInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
-import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
+import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewEmailInputProps {
