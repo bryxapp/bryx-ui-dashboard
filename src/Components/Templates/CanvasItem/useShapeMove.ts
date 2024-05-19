@@ -58,7 +58,7 @@ const useShapeMove = (
                     ellipseObj.radiusY = Math.max(5, node.radiusY() * scaleY);
                     ellipseObj.rotation = node.rotation();
                     updatedCanvasDesign.Shapes[index] = ellipseObj;
-                } else if (isSolidShapeObj(shape) || isTextObject(shape) || isImageObject(shape)) {
+                } else if (isSolidShapeObj(shape) || isTextObject(shape) ||isInputObject(shape)|| isImageObject(shape)) {
                     const rectObj = shape as RectangleObj;
                     rectObj.x = node.x();
                     rectObj.y = node.y();
@@ -66,17 +66,6 @@ const useShapeMove = (
                     rectObj.height = Math.max(5, node.height() * scaleY);
                     rectObj.rotation = node.rotation();
                     updatedCanvasDesign.Shapes[index] = rectObj;
-                }
-                else if (isInputObject(shape)) {
-                    const inputObj = shape as InputObj;
-                    // The scale gets reset to not stretch the text. Use the rect to set the width and height
-                    const rect = node.findOne('Rect');
-                    inputObj.width = rect.width();
-                    inputObj.height = rect.height();
-                    inputObj.x = node.x();
-                    inputObj.y = node.y();
-                    inputObj.rotation = node.rotation();
-                    updatedCanvasDesign.Shapes[index] = inputObj;
                 }
             }
         });

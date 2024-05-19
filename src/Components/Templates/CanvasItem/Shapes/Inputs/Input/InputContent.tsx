@@ -23,7 +23,9 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     const trRef = useRef<Konva.Transformer>(null);
     const shapeRef = useRef<Konva.Group>(null);
     const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
-    console.log("Width: ", inputObj.width, "Height: ", inputObj.height);
+
+    const [inputWidth, setInputWidth] = useState(inputObj.width);
+    const [inputHeight, setInputHeight] = useState(inputObj.height);
 
     useEffect(() => {
         if (isSelected && shapeRef?.current) {
@@ -67,8 +69,8 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
         fontFamily: inputObj.fontFamily,
         fontStyle: inputObj.fontStyle,
         textDecoration: inputObj.textDecoration,
-        width: `${inputObj.width}px`,
-        height: `${inputObj.height}px`,
+        width: `${inputWidth}px`,
+        height: `${inputHeight}px`,
         alignContent: inputObj.horizontalAlign,
         color: inputObj.fill,
         padding: '0px',
@@ -106,11 +108,16 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
             const scaleY = node.scaleY();
             node.scaleX(1);
             node.scaleY(1);
-            const rect = node.findOne('Rect');
-            if (rect) {
-                rect.width(rect.width() * scaleX);
-                rect.height(rect.height() * scaleY);
-            }
+            
+            // Update the inputObj dimensions based on the scaling factors
+            const newWidth = inputWidth * scaleX;
+            const newHeight = inputHeight * scaleY;
+            setInputWidth(newWidth);
+            setInputHeight(newHeight);
+    
+            // Apply the new dimensions to the node
+            node.width(newWidth);
+            node.height(newHeight);            
         }
     };
 
@@ -128,15 +135,15 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                 rotation={inputObj.rotation}
                 onClick={onSelect}
                 onTap={onSelect}
-                width={inputObj.width}
-                height={inputObj.height}
+                width={inputWidth}
+                height={inputHeight}
                 ref={shapeRef}
             >
                 <Rect
                     x={0}
                     y={0}
-                    width={inputObj.width}
-                    height={inputObj.height}
+                    width={inputWidth}
+                    height={inputHeight}
                     fill={FILL_COLOR}
                     onClick={onSelect}
                     onTap={onSelect}
@@ -146,8 +153,6 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                 <Group
                     x={getInputXAlignment(inputObj)}
                     y={yalign}
-                    width={inputObj.width}
-                    height={inputObj.height}
                 >
                     {!editing && (
                         <Text
@@ -160,8 +165,8 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                             onDblClick={handleDoubleClick}
                             onDblTap={handleDoubleClick}
                             minWidth={10}
-                            width={inputObj.width}
-                            height={inputObj.height}
+                            width={inputWidth}
+                            height={inputHeight}
                         />)
                     }
                     {editing && (
