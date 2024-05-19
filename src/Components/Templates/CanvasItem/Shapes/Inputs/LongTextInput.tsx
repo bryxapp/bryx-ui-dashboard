@@ -13,8 +13,6 @@ const LongTextInput = ({ longTextInputObj, draggable = true }: LongTextInputProp
     return (
         <InputContent
             inputObj={longTextInputObj}
-            containerWidth={longTextInputObj.width}
-            containerHeight={longTextInputObj.height}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}

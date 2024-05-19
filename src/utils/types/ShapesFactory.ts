@@ -1,5 +1,7 @@
+import { format } from 'date-fns';
+import { createTempTextKonvaShape } from '../../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper';
 import { generateShapeId } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj } from './CanvasInterfaces';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj, TextBase } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -56,7 +58,8 @@ export function createPhoneInputObj(value: string, fontSize: number, fill: strin
     if (y === undefined) {
         y = defaultStartY;
     }
-
+    const PHONE_NUMBER_LENGTH = 10;
+    const tempText = createTempTextKonvaShape({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase, 'X'.repeat(PHONE_NUMBER_LENGTH));
 
     return {
         id: generateShapeId(),
@@ -71,8 +74,8 @@ export function createPhoneInputObj(value: string, fontSize: number, fill: strin
         textDecoration,
         value,
         horizontalAlign: "left",
-        width: 100,
-        height: 50,
+        width: tempText.width(),
+        height: tempText.height(),
     };
 }
 
@@ -83,6 +86,9 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
     if (y === undefined) {
         y = defaultStartY;
     }
+
+    const EMAIL_LENGTH = 20;
+    const tempText = createTempTextKonvaShape({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase, 'X'.repeat(EMAIL_LENGTH));
 
     return {
         id: generateShapeId(),
@@ -97,8 +103,8 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
         textDecoration,
         value,
         horizontalAlign: "left",
-        width: 100,
-        height: 50,
+        width: tempText.width(),
+        height: tempText.height(),
     };
 }
 
@@ -109,6 +115,8 @@ export function createShortTextInputObj(value: string, fontSize: number, fill: s
     if (y === undefined) {
         y = defaultStartY;
     }
+
+    const tempText = createTempTextKonvaShape({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase, value);
 
     return {
         id: generateShapeId(),
@@ -123,8 +131,8 @@ export function createShortTextInputObj(value: string, fontSize: number, fill: s
         textDecoration,
         value,
         horizontalAlign: "left",
-        width: 100,
-        height: 50,
+        width: 200,
+        height: tempText.height(),
     };
 }
 
@@ -156,13 +164,15 @@ export function createLongTextInputObj(value: string, fontSize: number, fill: st
     };
 }
 
-export function createDateInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, x?: number, y?: number): DateInputObj {
+export function createDateInputObj(fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, x?: number, y?: number): DateInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
     if (y === undefined) {
         y = defaultStartY;
     }
+    const formattedDate = format(new Date(), dateFormat);
+    const tempText = createTempTextKonvaShape({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase, formattedDate);
 
     return {
         id: generateShapeId(),
@@ -175,11 +185,11 @@ export function createDateInputObj(value: string, fontSize: number, fill: string
         fontFamily,
         fontStyle,
         textDecoration,
-        value,
-        horizontalAlign: "left",
-        width: 100,
-        height: 50,
+        value: formattedDate,
         dateFormat,
+        horizontalAlign: "left",
+        width: tempText.width(),
+        height: tempText.height(),
     };
 }
 

@@ -14,11 +14,9 @@ const EmailInput = ({ emailInputObj, draggable = true }: EmailInputProps) => {
     return (
         <InputContent
             inputObj={emailInputObj}
-            containerWidth={contentShapeWidth}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}
-            containerHeight={contentShapeHeight}
             rotationEnabled={true}
             horizontalResizeEnabled={false}
             verticalResizeEnabled={false}

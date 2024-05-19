@@ -13,8 +13,6 @@ import { getWebCanvasDimensions } from '../../../../../../utils/canvasUtils';
 interface InputContentProps {
     inputObj: InputObj;
     verticalAlign?: string;
-    containerWidth: number;
-    containerHeight: number;
     contentHeight: number;
     contentWidth: number;
     draggable: boolean;
@@ -23,7 +21,7 @@ interface InputContentProps {
     verticalResizeEnabled: boolean;
 }
 
-const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, contentWidth, draggable, containerHeight, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
+const InputContent = ({ inputObj, verticalAlign, contentHeight, contentWidth, draggable, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
     const yalign = verticalAlign ? getInputYAlignment(inputObj, inputObj.value, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -77,7 +75,6 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, 
         fontFamily: inputObj.fontFamily,
         fontStyle: inputObj.fontStyle,
         textDecoration: inputObj.textDecoration,
-        whiteSpace: 'pre-wrap',
         width: `${contentWidth + 20}px`,
         height: `${contentHeight + 20}px`,
         alignContent: inputObj.horizontalAlign,
@@ -89,6 +86,8 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, 
         lineHeight: '1',
         minWidth: '10px',
         border: 'none',
+        wordWrap: 'normal',
+        whiteSpace: 'nowrap',
     };
 
     useEffect(() => {
@@ -137,15 +136,15 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, 
                 rotation={inputObj.rotation}
                 onClick={onSelect}
                 onTap={onSelect}
-                width={containerWidth}
-                height={containerHeight}
+                width={inputObj.width}
+                height={inputObj.height}
                 ref={shapeRef}
             >
                 <Rect
                     x={0}
                     y={0}
-                    width={containerWidth}
-                    height={containerHeight}
+                    width={inputObj.width}
+                    height={inputObj.height}
                     fill={FILL_COLOR}
                     onClick={onSelect}
                     onTap={onSelect}
@@ -153,17 +152,16 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, 
                     onDblTap={handleDoubleClick}
                 />
                 <Group
-                    x={getInputXAlignment(inputObj, inputObj.value, containerWidth)}
+                    x={getInputXAlignment(inputObj, inputObj.value, inputObj.width)}
                     y={yalign}
-
                 >
                     {!editing && (
                         <>
                             <Rect
                                 x={0}
                                 y={0}
-                                width={contentWidth}
-                                height={contentHeight}
+                                width={inputObj.width}
+                                height={inputObj.height}
                                 fill='transparent'
                                 onClick={onSelect}
                                 onTap={onSelect}
@@ -182,6 +180,8 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, 
                                 onDblClick={handleDoubleClick}
                                 onDblTap={handleDoubleClick}
                                 minWidth={10}
+                                width={inputObj.width}
+                                height={inputObj.height}
                             />
                         </>)
                     }

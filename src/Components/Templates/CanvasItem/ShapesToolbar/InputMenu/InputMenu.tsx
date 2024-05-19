@@ -10,7 +10,7 @@ const InputMenu = () => {
     const handleAddEmailInput = () => {
         console.log(canvasDesign)
         const newEmailInput: EmailInputObj = createEmailInputObj(
-            'Email',
+            'john.doe@email.com',
             20,
             'black',
             'Arial',
@@ -26,7 +26,7 @@ const InputMenu = () => {
 
     const handleAddPhoneInput = () => {
         const newPhoneInput: PhoneInputObj = createPhoneInputObj(
-            'Phone',
+            '(555)555-5555',
             20,
             'black',
             'Arial',
@@ -42,7 +42,7 @@ const InputMenu = () => {
 
     const handleAddShortTextInput = () => {
         const newShortTextInput: ShortTextInputObj = createShortTextInputObj(
-            'Input',
+            'Single Line Input',
             20,
             'black',
             'Arial',
@@ -58,7 +58,7 @@ const InputMenu = () => {
 
     const handleAddLongTextInput = () => {
         const newLongTextInput: LongTextInputObj = createLongTextInputObj(
-            'Input',
+            'Multi\nLine\nInput',
             20,
             'black',
             'Arial',
@@ -74,7 +74,6 @@ const InputMenu = () => {
 
     const handleAddDateInput = () => {
         const newDateInput: DateInputObj = createDateInputObj(
-            'Date',
             20,
             'black',
             'Arial',

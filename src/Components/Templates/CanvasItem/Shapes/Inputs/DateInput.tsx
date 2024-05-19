@@ -1,7 +1,7 @@
-import { DateInputObj } from '../../../../../utils/types/CanvasInterfaces';
-import InputContent from './SharedInputComponents/InputContent';
 import { format } from 'date-fns';
 import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
+import { DateInputObj } from '../../../../../utils/types/CanvasInterfaces';
+import InputContent from './SharedInputComponents/InputContent';
 
 interface DateInputProps {
     dateInputObj: DateInputObj;
@@ -9,17 +9,17 @@ interface DateInputProps {
 }
 
 const DateInput = ({ dateInputObj, draggable = true }: DateInputProps) => {
-    const formattedDate = format(new Date(), dateInputObj.dateFormat);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj, formattedDate);
-    dateInputObj.value = formattedDate;
+    dateInputObj.value = format(new Date(), dateInputObj.dateFormat);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj, dateInputObj.value);
+    dateInputObj.width = contentShapeWidth;
+    dateInputObj.height = contentShapeHeight;
+    
     return (
         <InputContent
             inputObj={dateInputObj}
-            containerWidth={contentShapeWidth}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}
-            containerHeight={contentShapeHeight}
             rotationEnabled={true}
             horizontalResizeEnabled={false}
             verticalResizeEnabled={false}

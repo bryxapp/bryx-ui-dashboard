@@ -17,8 +17,6 @@ const PhoneInput = ({ phoneInputObj, draggable = true }: PhoneInputProps) => {
     return (
         <InputContent
             inputObj={phoneInputObj}
-            containerWidth={contentShapeWidth}
-            containerHeight={contentShapeHeight}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}
