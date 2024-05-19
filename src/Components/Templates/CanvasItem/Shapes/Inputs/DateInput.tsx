@@ -11,19 +11,15 @@ interface DateInputProps {
 const DateInput = ({ dateInputObj, draggable = true }: DateInputProps) => {
     const formattedDate = format(new Date(), dateInputObj.dateFormat);
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj, formattedDate);
-    const containerHeight = contentShapeHeight;
-    const containerWidth = contentShapeWidth;
     dateInputObj.value = formattedDate;
     return (
         <InputContent
             inputObj={dateInputObj}
-            containerWidth={containerWidth}
-            inputHeight={contentShapeHeight}
-            inputWidth={dateInputObj.width}
+            containerWidth={contentShapeWidth}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}
-            containerHeight={containerHeight}
+            containerHeight={contentShapeHeight}
             rotationEnabled={true}
             horizontalResizeEnabled={false}
             verticalResizeEnabled={false}

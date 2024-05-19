@@ -14,18 +14,16 @@ interface InputContentProps {
     inputObj: InputObj;
     verticalAlign?: string;
     containerWidth: number;
-    inputHeight: number;
-    inputWidth: number;
+    containerHeight: number;
     contentHeight: number;
     contentWidth: number;
     draggable: boolean;
-    containerHeight: number;
     rotationEnabled: boolean;
     horizontalResizeEnabled: boolean;
     verticalResizeEnabled: boolean;
 }
 
-const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, draggable, containerHeight, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
+const InputContent = ({ inputObj, verticalAlign, containerWidth, contentHeight, contentWidth, draggable, containerHeight, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
     const yalign = verticalAlign ? getInputYAlignment(inputObj, inputObj.value, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -146,8 +144,8 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
                 <Rect
                     x={0}
                     y={0}
-                    width={inputWidth}
-                    height={inputHeight}
+                    width={containerWidth}
+                    height={containerHeight}
                     fill={FILL_COLOR}
                     onClick={onSelect}
                     onTap={onSelect}

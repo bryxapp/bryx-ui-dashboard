@@ -13,19 +13,15 @@ interface PhoneInputProps {
 
 const PhoneInput = ({ phoneInputObj, draggable = true }: PhoneInputProps) => {
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(phoneInputObj, 'X'.repeat(PHONE_NUMBER_LENGTH));
-    const containerHeight = contentShapeHeight;
-    const containerWidth = contentShapeWidth;
 
     return (
         <InputContent
             inputObj={phoneInputObj}
-            containerWidth={containerWidth}
-            inputHeight={contentShapeHeight}
-            inputWidth={phoneInputObj.width}
+            containerWidth={contentShapeWidth}
+            containerHeight={contentShapeHeight}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}
-            containerHeight={containerHeight}
             rotationEnabled={true}
             horizontalResizeEnabled={false}
             verticalResizeEnabled={false}

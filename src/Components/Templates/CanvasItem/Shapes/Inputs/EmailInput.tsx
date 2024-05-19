@@ -10,19 +10,15 @@ interface EmailInputProps {
 
 const EmailInput = ({ emailInputObj, draggable = true }: EmailInputProps) => {
     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(emailInputObj, 'X'.repeat(EMAIL_LENGTH));
-    const containerHeight = contentShapeHeight;
-    const containerWidth = contentShapeWidth;
-
+    
     return (
         <InputContent
             inputObj={emailInputObj}
-            containerWidth={containerWidth}
-            inputHeight={contentShapeHeight}
-            inputWidth={emailInputObj.width}
+            containerWidth={contentShapeWidth}
             contentHeight={contentShapeHeight}
             contentWidth={contentShapeWidth}
             draggable={draggable}
-            containerHeight={containerHeight}
+            containerHeight={contentShapeHeight}
             rotationEnabled={true}
             horizontalResizeEnabled={false}
             verticalResizeEnabled={false}
