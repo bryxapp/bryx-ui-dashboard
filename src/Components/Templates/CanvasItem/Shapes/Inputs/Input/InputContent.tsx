@@ -108,16 +108,16 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
             const scaleY = node.scaleY();
             node.scaleX(1);
             node.scaleY(1);
-            
+
             // Update the inputObj dimensions based on the scaling factors
             const newWidth = inputWidth * scaleX;
             const newHeight = inputHeight * scaleY;
             setInputWidth(newWidth);
             setInputHeight(newHeight);
-    
+
             // Apply the new dimensions to the node
             node.width(newWidth);
-            node.height(newHeight);            
+            node.height(newHeight);
         }
     };
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import Konva from 'konva';
-import { CanvasDesignData, EllipseObj, InputObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
 import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../utils/shapeManagementUtils';
 import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
