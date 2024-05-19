@@ -6,21 +6,14 @@ import Konva from 'konva';
 import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import useShapeMove from '../../useShapeMove';
 
 interface HeadingProps {
     headingObj: HeadingObj;
-    handleDragEnd: any;
-    onTransformEnd: any;
-    handleDragMove: any;
-    draggable?: boolean;
 }
 
 const Heading = ({
-    headingObj,
-    handleDragEnd,
-    onTransformEnd,
-    handleDragMove,
-    draggable = true
+    headingObj
 }: HeadingProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -31,6 +24,7 @@ const Heading = ({
     const onSelect = () => {
         setSelectedId(headingObj.id);
     }
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -121,7 +115,7 @@ const Heading = ({
             <Group
                 key={headingObj.id} id={headingObj.id}
                 x={headingObj.x} y={headingObj.y}
-                draggable={draggable}
+                draggable={true}
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
                 ref={shapeRef} rotation={headingObj.rotation}>

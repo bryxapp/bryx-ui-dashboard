@@ -6,20 +6,13 @@ import Konva from 'konva';
 import { getTextWidthAndHeight, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import useShapeMove from '../../useShapeMove';
 interface ParagraphProps {
     paragraphObj: ParagraphObj;
-    handleDragEnd: any;
-    onTransformEnd: any;
-    handleDragMove: any;
-    draggable?: boolean;
 }
 
 const Paragraph = ({
-    paragraphObj,
-    handleDragEnd,
-    onTransformEnd,
-    handleDragMove,
-    draggable = true
+    paragraphObj
 }: ParagraphProps) => {
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -31,6 +24,8 @@ const Paragraph = ({
     const onSelect = () => {
         setSelectedId(paragraphObj.id);
     }
+
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -77,7 +72,7 @@ const Paragraph = ({
         textDecoration: paragraphObj.textDecoration,
         whiteSpace: 'pre-wrap',
         width: paragraphWidth,
-        height: paragraphHeight+20,
+        height: paragraphHeight + 20,
         textAlign: paragraphObj.horizontalAlign,
         color: paragraphObj.fill,
         border: 'none',
@@ -104,7 +99,7 @@ const Paragraph = ({
             <Group
                 key={paragraphObj.id} id={paragraphObj.id}
                 x={paragraphObj.x} y={paragraphObj.y}
-                draggable={draggable}
+                draggable={true}
                 onDragEnd={handleDragEnd}
                 onDragMove={handleDragMove}
                 ref={shapeRef} rotation={paragraphObj.rotation}>

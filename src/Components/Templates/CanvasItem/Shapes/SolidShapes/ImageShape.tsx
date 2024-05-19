@@ -4,27 +4,24 @@ import { Image } from 'react-konva';
 import { ImageObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import useShapeMove from '../../useShapeMove';
 
 interface ImageShapeProps {
     imageObj: ImageObj;
-    handleDragEnd: (e: any) => void;
-    onTransformEnd: (e: any) => void;
-    handleDragMove: any;
 }
 
 const ImageShape = ({
-    imageObj,
-    handleDragEnd,
-    onTransformEnd,
-    handleDragMove
+    imageObj
 }: ImageShapeProps) => {
     const shapeRef = useRef<Konva.Image>(null);
     const trRef = useRef<Konva.Transformer>(null);
-    const { selectedId, setSelectedId } = useCanvasDesignContext();
+    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = imageObj.id === selectedId;
     const onSelect = () => {
         setSelectedId(imageObj.id);
     }
+
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {

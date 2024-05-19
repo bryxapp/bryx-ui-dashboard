@@ -3,16 +3,15 @@ import Konva from 'konva';
 import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
 import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../utils/shapeManagementUtils';
+import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
 
 // Assuming necessary interfaces are imported or defined here
 
 const useShapeMove = (
-    pageWidth: number,
-    pageHeight: number,
     setCanvasDesign: (newDesign: CanvasDesignData) => void,
     canvasDesign: CanvasDesignData
 ) => {
-
+    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
     const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight);
 
     const handleDragEnd = (e: any) => {

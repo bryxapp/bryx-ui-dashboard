@@ -1,6 +1,4 @@
-import React from 'react';
 import { RectangleObj, ShapeObj, EllipseObj, ImageObj, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj } from "../../../../utils/types/CanvasInterfaces";
-import useShapeMove from "../useShapeMove";
 import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
 import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
 import ImageShape from '../Shapes/SolidShapes/ImageShape';
@@ -10,17 +8,13 @@ import Heading from '../Shapes/TextFields/Heading';
 import Paragraph from '../Shapes/TextFields/Paragraph';
 import ShortTextInput from '../Shapes/Inputs/ShortTextInput';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
-import { getWebCanvasDimensions } from '../../../../utils/canvasUtils';
 import LongTextInput from '../Shapes/Inputs/LongTextInput';
 import DateInput from '../Shapes/Inputs/DateInput';
 import TableInput from '../Shapes/Inputs/TableInput/TableInput';
 
 
 const ShapeRenderer = () => {
-    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
-    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
-
-    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
+    const { canvasDesign } = useCanvasDesignContext();
 
     return (
         <>
@@ -32,9 +26,6 @@ const ShapeRenderer = () => {
                             <RectangleShape
                                 key={rectangle.id}
                                 rectangleObj={rectangle}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'RoundedRectangle':
@@ -43,9 +34,6 @@ const ShapeRenderer = () => {
                             <RectangleShape
                                 key={roundedRectangle.id}
                                 rectangleObj={roundedRectangle}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'Ellipse':
@@ -54,9 +42,6 @@ const ShapeRenderer = () => {
                             <EllipseShape
                                 key={ellipse.id}
                                 ellipseObj={ellipse}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'UserImage':
@@ -65,9 +50,6 @@ const ShapeRenderer = () => {
                             <ImageShape
                                 key={image.id}
                                 imageObj={image}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'PhoneInput':
@@ -116,9 +98,6 @@ const ShapeRenderer = () => {
                             <TableInput
                                 key={tableInput.id}
                                 tableInputObj={tableInput}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'Heading':
@@ -127,9 +106,6 @@ const ShapeRenderer = () => {
                             <Heading
                                 key={heading.id}
                                 headingObj={heading}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'Paragraph':
@@ -138,9 +114,6 @@ const ShapeRenderer = () => {
                             <Paragraph
                                 key={paragraph.id}
                                 paragraphObj={paragraph}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     default:

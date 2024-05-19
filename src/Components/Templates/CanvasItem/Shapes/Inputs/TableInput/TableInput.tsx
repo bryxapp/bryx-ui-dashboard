@@ -6,16 +6,13 @@ import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import { ShapeObj, TableInputObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { drawBorders } from './tableUtils';
 import TableCellRow from './TableCellRow';
+import useShapeMove from '../../../useShapeMove';
 
 interface EmailInputProps {
     tableInputObj: TableInputObj;
-    handleDragEnd: any;
-    onTransformEnd: any;
-    handleDragMove: any;
-    draggable?: boolean;
 }
 
-const TableInput = ({ tableInputObj, handleDragEnd, onTransformEnd, handleDragMove, draggable = true }: EmailInputProps) => {
+const TableInput = ({ tableInputObj }: EmailInputProps) => {
     const { selectedId, setSelectedId, canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     //Calculate total table width based on individual cell widths
     const tableWidth = tableInputObj.rows[0].reduce((acc, cell) => acc + cell.width, 0);
@@ -34,6 +31,8 @@ const TableInput = ({ tableInputObj, handleDragEnd, onTransformEnd, handleDragMo
     };
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
+
 
     useEffect(() => {
         if (isSelected && shapeRef.current) {

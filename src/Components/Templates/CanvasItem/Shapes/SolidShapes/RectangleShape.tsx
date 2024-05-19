@@ -4,16 +4,14 @@ import Konva from 'konva';
 import { RectangleObj } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../SharedShapeComponents/ShapeTransformer';
+import useShapeMove from '../../useShapeMove';
 
 interface RectangleShapeProps {
     rectangleObj: RectangleObj;
-    handleDragEnd: any;
-    onTransformEnd: any;
-    handleDragMove: any;
 }
 
-const RectangleShape = ({ rectangleObj, handleDragEnd, onTransformEnd, handleDragMove }: RectangleShapeProps) => {
-    const { selectedId, setSelectedId } = useCanvasDesignContext();
+const RectangleShape = ({ rectangleObj}: RectangleShapeProps) => {
+    const { canvasDesign, setCanvasDesign, selectedId, setSelectedId } = useCanvasDesignContext();
     const isSelected = rectangleObj.id === selectedId;
     const shapeRef = useRef<Konva.Rect>(null);
     const trRef = useRef<Konva.Transformer>(null);
@@ -28,6 +26,8 @@ const RectangleShape = ({ rectangleObj, handleDragEnd, onTransformEnd, handleDra
     const onSelect = () => {
         setSelectedId(rectangleObj.id);
     }
+
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
 
     return (
         <React.Fragment>

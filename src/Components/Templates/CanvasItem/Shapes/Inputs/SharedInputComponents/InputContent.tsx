@@ -8,7 +8,6 @@ import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasD
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import Konva from 'konva';
 import useShapeMove from '../../../useShapeMove';
-import { getWebCanvasDimensions } from '../../../../../../utils/canvasUtils';
 
 interface InputContentProps {
     inputObj: InputObj;
@@ -27,9 +26,7 @@ const InputContent = ({ inputObj, verticalAlign, rotationEnabled, horizontalResi
     const isSelected = inputObj.id === selectedId;
     const trRef = useRef<Konva.Transformer>(null);
     const shapeRef = useRef<Konva.Group>(null);
-    const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign);
-
-    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(pageWidth, pageHeight, setCanvasDesign, canvasDesign);
+    const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
 
     useEffect(() => {
         if (isSelected && shapeRef?.current) {
