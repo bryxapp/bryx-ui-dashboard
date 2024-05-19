@@ -9,7 +9,15 @@ const TextMenu = () => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
 
     const handleAddHeading = () => {
-        const newHeading: HeadingObj = createHeadingdObj('Heading', 20, 'black', 'Arial', 'normal', '');
+        const newHeading: HeadingObj = createHeadingdObj('Heading', 28, 'black', 'Arial', 'bold', '');
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: [...canvasDesign.Shapes, newHeading],
+        });
+    };
+
+    const handleAddLabel = () => {
+        const newHeading: HeadingObj = createHeadingdObj('Label', 20, 'black', 'Arial', 'normal', '');
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newHeading],
@@ -33,6 +41,13 @@ const TextMenu = () => {
                 icon={mapTypeToIcon('Heading')}
             >
                 {mapTypeToTitle('Heading')}
+            </Menu.Item>
+            <Menu.Item
+                key="label"
+                onClick={handleAddLabel}
+                icon={mapTypeToIcon('Label')}
+            >
+                {mapTypeToTitle('Label')}
             </Menu.Item>
             <Menu.Item
                 key="paragraph"

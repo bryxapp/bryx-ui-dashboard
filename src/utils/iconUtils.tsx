@@ -3,15 +3,14 @@ import { MdLocalPhone } from "react-icons/md";
 import { MdShortText } from "react-icons/md";
 import { MdNotes } from "react-icons/md";
 import { MdCalendarMonth } from "react-icons/md";
-import { FaHeading } from "react-icons/fa6";
+import { FaHeading, FaTag } from "react-icons/fa6";
 import { BsTextParagraph } from "react-icons/bs";
-import { ShapeType } from "./types/CanvasInterfaces";
 import { MdOutlineRectangle as AddRectangleIcon, MdOutlineCrop75 as AddRoundedRectangleIcon, MdOutlineCircle as AddEllipseIcon } from 'react-icons/md';
 import { MdImageSearch } from "react-icons/md";
 import { ReactElement } from "react";
 import { TableOutlined } from "@ant-design/icons";
 
-export const mapTypeToTitle = (type: ShapeType) => {
+export const mapTypeToTitle = (type: string) => {
     switch (type) {
         case 'ShortTextInput':
             return 'Single Line'
@@ -27,6 +26,8 @@ export const mapTypeToTitle = (type: ShapeType) => {
             return 'Table'
         case 'Heading':
             return 'Heading'
+        case 'Label':
+            return 'Label'
         case 'Paragraph':
             return 'Paragraph'
         case 'Rectangle':
@@ -42,7 +43,7 @@ export const mapTypeToTitle = (type: ShapeType) => {
     }
 }
 
-export const mapTypeToIcon = (type: ShapeType):ReactElement => {
+export const mapTypeToIcon = (type: string):ReactElement => {
     switch (type) {
         case 'ShortTextInput':
             return <MdShortText />
@@ -56,6 +57,8 @@ export const mapTypeToIcon = (type: ShapeType):ReactElement => {
             return <MdCalendarMonth />
         case 'Heading':
             return <FaHeading />
+        case 'Label':
+            return <FaTag />
         case 'Paragraph':
             return <BsTextParagraph />
         case 'Rectangle':
