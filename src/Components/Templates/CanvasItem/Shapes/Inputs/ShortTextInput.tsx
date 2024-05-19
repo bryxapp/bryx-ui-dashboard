@@ -23,6 +23,9 @@ const ShortTextInput = ({ shortTextInputObj, draggable = true }: ShortTextInputP
             contentWidth={contentShapeWidth}
             draggable={draggable}
             containerHeight={containerHeight}
+            rotationEnabled={true}
+            horizontalResizeEnabled={true}
+            verticalResizeEnabled={false}
         />
     );
 };

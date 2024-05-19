@@ -18,11 +18,14 @@ interface InputContentProps {
     inputWidth: number;
     contentHeight: number;
     contentWidth: number;
-    draggable?: boolean;
-    containerHeight?: number;
+    draggable: boolean;
+    containerHeight: number;
+    rotationEnabled: boolean;
+    horizontalResizeEnabled: boolean;
+    verticalResizeEnabled: boolean;
 }
 
-const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, draggable, containerHeight }: InputContentProps) => {
+const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, inputWidth, contentHeight, contentWidth, draggable, containerHeight, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
     const yalign = verticalAlign ? getInputYAlignment(inputObj, inputObj.value, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -204,9 +207,9 @@ const InputContent = ({ inputObj, verticalAlign, containerWidth, inputHeight, in
                     trRef={trRef}
                     onTransform={handleTransform}
                     onTransformEnd={onTransformEnd}
-                    rotationEnabled={true}
-                    horizontalResizeEnabled={true}
-                    verticalResizeEnabled={false}
+                    rotationEnabled={rotationEnabled}
+                    horizontalResizeEnabled={horizontalResizeEnabled}
+                    verticalResizeEnabled={verticalResizeEnabled}
                 />
             )}
         </>

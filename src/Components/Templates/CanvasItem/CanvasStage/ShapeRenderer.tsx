@@ -87,9 +87,6 @@ const ShapeRenderer = () => {
                             <EmailInput
                                 key={emailInput.id}
                                 emailInputObj={emailInput}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'ShortTextInput':
@@ -106,9 +103,6 @@ const ShapeRenderer = () => {
                             <LongTextInput
                                 key={longTextInput.id}
                                 longTextInputObj={longTextInput}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'DateInput':
@@ -117,9 +111,6 @@ const ShapeRenderer = () => {
                             <DateInput
                                 key={dateInput.id}
                                 dateInputObj={dateInput}
-                                handleDragMove={handleDragMove}
-                                handleDragEnd={handleDragEnd}
-                                onTransformEnd={onTransformEnd}
                             />
                         );
                     case 'TableInput':
