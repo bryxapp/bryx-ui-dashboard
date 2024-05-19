@@ -1,18 +1,19 @@
 import { Transformer } from 'react-konva';
+import { ShapeObj } from '../../../../../utils/types/CanvasInterfaces';
+import { getTransformerProperties } from '../../../../../utils/shapeManagementUtils';
 
 interface InputTransformerProps {
+    shapeObj: ShapeObj
     trRef: any;
-    onTransformEnd: any;
-    rotationEnabled: boolean;
-    horizontalResizeEnabled: boolean;
-    verticalResizeEnabled: boolean;
+    onTransformEnd?: any;
     onTransform?: any;
 }
 
 export const MIN_BOX_SIZE = 5;
 export const ROTATION_SNAPS = [0, 45, 90, 135, 180, 225, 270];
 
-const ShapeTransformer = ({ trRef, onTransformEnd, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled, onTransform }: InputTransformerProps) => {
+const ShapeTransformer = ({ shapeObj, trRef, onTransformEnd, onTransform }: InputTransformerProps) => {
+    const [rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled] = getTransformerProperties(shapeObj);
     return (
         <Transformer
             ref={trRef}

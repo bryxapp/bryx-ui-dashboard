@@ -138,11 +138,9 @@ const Paragraph = ({
             {isSelected && !editing && (
                 <>
                     <ShapeTransformer
+                        shapeObj={paragraphObj}
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotationEnabled={true}
-                        horizontalResizeEnabled={false}
-                        verticalResizeEnabled={false}
                     />
                 </>
             )}

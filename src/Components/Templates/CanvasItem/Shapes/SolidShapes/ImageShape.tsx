@@ -61,11 +61,9 @@ const ImageShape = ({
             {isSelected && (
                 <>
                     <ShapeTransformer
+                        shapeObj={imageObj}
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotationEnabled={true}
-                        horizontalResizeEnabled={true}
-                        verticalResizeEnabled={true}
                     />
                 </>
             )}

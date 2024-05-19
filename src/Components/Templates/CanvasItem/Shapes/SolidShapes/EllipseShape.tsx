@@ -53,11 +53,9 @@ const EllipseShape = ({
             {isSelected && (
                 <>
                     <ShapeTransformer
+                        shapeObj={ellipseObj}
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotationEnabled={true}
-                        horizontalResizeEnabled={true}
-                        verticalResizeEnabled={true}
                     />
                 </>
             )}

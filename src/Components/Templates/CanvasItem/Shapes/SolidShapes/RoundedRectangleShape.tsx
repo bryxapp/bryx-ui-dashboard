@@ -48,11 +48,9 @@ const RoundedRectangleShape = ({ roundedRectangleObj, handleDragEnd, isSelected,
             />
             {isSelected && (
                 <ShapeTransformer
+                    shapeObj={roundedRectangleObj}
                     trRef={trRef}
                     onTransformEnd={onTransformEnd}
-                    rotationEnabled={true}
-                    horizontalResizeEnabled={true}
-                    verticalResizeEnabled={true}
                 />
             )}
         </React.Fragment>

@@ -168,11 +168,8 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
             {isSelected && (
                 <>
                     <ShapeTransformer
+                        shapeObj={contentCell}
                         trRef={trRef}
-                        onTransformEnd={() => { }}
-                        rotationEnabled={false}
-                        horizontalResizeEnabled={false}
-                        verticalResizeEnabled={false}
                     />
                 </>
             )}

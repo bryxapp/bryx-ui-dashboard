@@ -159,11 +159,9 @@ const Heading = ({
             {isSelected && !editing && (
                 <>
                     <ShapeTransformer
+                        shapeObj={headingObj}
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotationEnabled={true}
-                        horizontalResizeEnabled={true}
-                        verticalResizeEnabled={true}
                     />
                 </>
             )}

@@ -216,11 +216,9 @@ const TableInput = ({ tableInputObj }: EmailInputProps) => {
             {isSelected && (
                 <>
                     <ShapeTransformer
+                        shapeObj={tableInputObj}
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotationEnabled={true}
-                        horizontalResizeEnabled={false}
-                        verticalResizeEnabled={false}
                     />
                 </>
             )}

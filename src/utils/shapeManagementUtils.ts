@@ -261,7 +261,15 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
         // Update the matching shape directly
         if (shape.id === id) {
             foundAndUpdated = true;
-            return { ...shape, [propertyName]: value };
+            if(isInputObject(shape)){
+                //Need to update width and height
+                const inputObj = { ...shape, [propertyName]: value } as InputObj;
+                const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputObj);
+                inputObj.width = contentShapeWidth;
+                inputObj.height = contentShapeHeight;
+                return inputObj;
+            }
+            else return { ...shape, [propertyName]: value };
         }
 
         if (shape.type === 'TableInput') {

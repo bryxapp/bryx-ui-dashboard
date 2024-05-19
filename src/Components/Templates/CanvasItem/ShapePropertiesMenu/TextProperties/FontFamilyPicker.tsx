@@ -47,8 +47,10 @@ export default function FontFamilyPicker({ textObj, disabled }: FontFamilyPicker
                 onChange={handleFontFamilyChange}
                 size='small'
                 popupMatchSelectWidth={false}
-                dropdownStyle={{ maxHeight: 250 }}
+                dropdownStyle={{ maxHeight: 250}}
                 disabled={disabled}
+                style={{ width: 120 }}
+                
             >
                 {FONTS.map((fontFamily) => (
                     <Option key={fontFamily} value={fontFamily} style={{ fontFamily: fontFamily }}>

@@ -54,11 +54,9 @@ const RectangleShape = ({ rectangleObj}: RectangleShapeProps) => {
             {isSelected && (
                 <>
                     <ShapeTransformer
+                        shapeObj={rectangleObj}
                         trRef={trRef}
                         onTransformEnd={onTransformEnd}
-                        rotationEnabled={true}
-                        horizontalResizeEnabled={true}
-                        verticalResizeEnabled={true}
                     />
                 </>
             )}

@@ -65,11 +65,9 @@ const EmptyCell = ({ emptyCellObj, containerWidth, containerHeight }: InputCellP
             {isSelected && (
                 <>
                     <ShapeTransformer
+                        shapeObj={emptyCellObj}
                         trRef={trRef}
                         onTransformEnd={() => { }}
-                        rotationEnabled={false}
-                        horizontalResizeEnabled={false}
-                        verticalResizeEnabled={false}
                     />
                 </>
             )}

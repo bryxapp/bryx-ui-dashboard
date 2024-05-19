@@ -24,7 +24,6 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     const trRef = useRef<Konva.Transformer>(null);
     const shapeRef = useRef<Konva.Group>(null);
     const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
-    const [rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled] = [true, true, true];
 
     useEffect(() => {
         if (isSelected && shapeRef?.current) {
@@ -193,12 +192,10 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
             </Group>
             {isSelected && (
                 <ShapeTransformer
+                    shapeObj={inputObj}
                     trRef={trRef}
                     onTransform={handleTransform}
                     onTransformEnd={onTransformEnd}
-                    rotationEnabled={rotationEnabled}
-                    horizontalResizeEnabled={horizontalResizeEnabled}
-                    verticalResizeEnabled={verticalResizeEnabled}
                 />
             )}
         </>
