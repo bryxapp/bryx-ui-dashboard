@@ -1,13 +1,13 @@
 import { EmailInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import InputContent from './SharedInputComponents/InputContent';
-import { getEmailTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 interface EmailInputProps {
     emailInputObj: EmailInputObj;
     draggable?: boolean;
 }
 
 const EmailInput = ({ emailInputObj, draggable = true }: EmailInputProps) => {
-    const [contentShapeWidth, contentShapeHeight] = getEmailTextWidthAndHeight(emailInputObj);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(emailInputObj);
     
     return (
         <InputContent

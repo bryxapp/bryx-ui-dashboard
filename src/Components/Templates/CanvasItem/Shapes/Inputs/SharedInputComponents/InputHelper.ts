@@ -1,11 +1,9 @@
 // utils/konvaHelpers.ts
 import Konva from 'konva';
-import { InputObj, TextBase, TextValueObj } from '../../../../../../utils/types/CanvasInterfaces';
+import { InputObj, TextBase, TextObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { getTextWidthAndHeight } from '../../../../../../utils/shapeManagementUtils';
 
 // constants.ts
-export const MIN_BOX_SIZE = 5;
-export const ROTATION_SNAPS = [0, 90, 180, 270];
 export const FILL_COLOR = '#E0E0E0';
 
 export const createTempTextKonvaShape = (shapeProperties: TextBase | null, value: string | undefined): Konva.Text => {
@@ -59,12 +57,12 @@ export const getXAlignment = (textWidth: number, horizontalAlign: string, contai
     }
 }
 
-export const getTextXAlignment = (text: TextValueObj, containerWidth: number, horizontalAlign: string): number => {
+export const getTextXAlignment = (text: TextObj, containerWidth: number, horizontalAlign: string): number => {
     const [textWidth,] = getTextWidthAndHeight(text);
     return getXAlignment(textWidth, horizontalAlign, containerWidth);
 };
 
-export const getTextYAlignment = (text: TextValueObj, containerHeight: number, verticalAlign: string): number => {
+export const getTextYAlignment = (text: TextObj, containerHeight: number, verticalAlign: string): number => {
     const [, textHeight] = getTextWidthAndHeight(text);
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }
@@ -74,7 +72,7 @@ export const getInputXAlignment = (text: InputObj, containerWidth: number): numb
     return getXAlignment(textWidth, text.horizontalAlign, containerWidth);
 }
 
-export const getInputYAlignment = (text: TextValueObj, containerHeight: number, verticalAlign: string): number => {
+export const getInputYAlignment = (text: TextObj, containerHeight: number, verticalAlign: string): number => {
     const [, textHeight] = getTextWidthAndHeight(text);
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }

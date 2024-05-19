@@ -1,6 +1,6 @@
 import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import InputContent from './SharedInputComponents/InputContent';
-import { getPhoneTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
+import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
 interface PhoneInputProps {
     phoneInputObj: PhoneInputObj;
@@ -11,7 +11,7 @@ interface PhoneInputProps {
 }
 
 const PhoneInput = ({ phoneInputObj, draggable = true }: PhoneInputProps) => {
-    const [phoneTextWidth, phoneTextHeight] = getPhoneTextWidthAndHeight(phoneInputObj);
+    const [phoneTextWidth, phoneTextHeight] = getTextWidthAndHeight(phoneInputObj);
 
     return (
         <InputContent

@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, TextBase, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj, TextValueObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getInputXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper";
@@ -176,22 +176,15 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
     }
 };
 
-export const getTextWidthAndHeight = (textObj: TextValueObj): [number, number] => {
-    const tempTextShape = createTempTextKonvaShape(textObj, textObj.value);
+export const getTextWidthAndHeight = (textObj: TextObj): [number, number] => {
+    const PHONE_NUMBER_LENGTH = 10;
+    const EMAIL_LENGTH = 20;
+    let value = textObj.value;
+    if (textObj.type === "PhoneInput") value = 'X'.repeat(PHONE_NUMBER_LENGTH);
+    if (textObj.type === "EmailInput") value = 'X'.repeat(EMAIL_LENGTH);
+    const tempTextShape = createTempTextKonvaShape(textObj, value);
     return [tempTextShape.width(), tempTextShape.height()];
 };
-
-export const getEmailTextWidthAndHeight = (textObj: TextBase): [number, number] => {
-    const EMAIL_LENGTH = 20;
-    const tempTextShape = createTempTextKonvaShape(textObj, 'X'.repeat(EMAIL_LENGTH));
-    return [tempTextShape.width(), tempTextShape.height()];
-}
-
-export const getPhoneTextWidthAndHeight = (textObj: TextBase): [number, number] => {
-    const PHONE_NUMBER_LENGTH = 10;
-    const tempTextShape = createTempTextKonvaShape(textObj, 'X'.repeat(PHONE_NUMBER_LENGTH));
-    return [tempTextShape.width(), tempTextShape.height()];
-}
 
 
 export const getTextShape = (canvasDesign: CanvasDesignData, id: string | null) => {

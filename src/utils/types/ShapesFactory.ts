@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { createTempTextKonvaShape } from '../../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper';
-import { generateShapeId, getEmailTextWidthAndHeight } from '../shapeManagementUtils';
-import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj, TextBase } from './CanvasInterfaces';
+import { generateShapeId, getTextWidthAndHeight } from '../shapeManagementUtils';
+import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj, TextBase, TextObj } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
 
@@ -58,8 +58,7 @@ export function createPhoneInputObj(value: string, fontSize: number, fill: strin
     if (y === undefined) {
         y = defaultStartY;
     }
-    const PHONE_NUMBER_LENGTH = 10;
-    const tempText = createTempTextKonvaShape({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase, 'X'.repeat(PHONE_NUMBER_LENGTH));
+    const [phoneWidth, phoneHeight] = getTextWidthAndHeight({ fontSize, fontFamily, fontStyle, textDecoration, type:"PhoneInput" } as TextObj);
 
     return {
         id: generateShapeId(),
@@ -74,8 +73,8 @@ export function createPhoneInputObj(value: string, fontSize: number, fill: strin
         textDecoration,
         value,
         horizontalAlign: "left",
-        width: tempText.width(),
-        height: tempText.height(),
+        width: phoneWidth,
+        height: phoneHeight,
     };
 }
 
@@ -87,7 +86,7 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
         y = defaultStartY;
     }
 
-    const [emailWidth, emailHeight] = getEmailTextWidthAndHeight({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase);
+    const [emailWidth, emailHeight] = getTextWidthAndHeight({ fontSize, fontFamily, fontStyle, textDecoration, type:"EmailInput" } as TextObj);
 
     return {
         id: generateShapeId(),
