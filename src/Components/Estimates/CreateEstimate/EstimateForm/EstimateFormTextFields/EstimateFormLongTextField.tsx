@@ -18,7 +18,7 @@ const EstimateFormLongTextField = ({
     return (
         <Form.Item
             key={longTextInputObj.id}
-            label={longTextInputObj.value}
+            label={longTextInputObj.name}
             style={{ marginBottom: '5px' }}
         >
             <Input.TextArea

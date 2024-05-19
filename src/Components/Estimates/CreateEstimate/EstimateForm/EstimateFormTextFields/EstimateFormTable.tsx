@@ -18,7 +18,10 @@ const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
 }) => {
 
     return (
-        <Form.Item style={{ marginBottom: '5px' }}>
+        <Form.Item 
+        style={{ marginBottom: '5px' }}
+        label = {tableInputObj.name}
+        >
             <Card bordered style={{ padding: '0', margin: '0' }}>
                 <Row gutter={[16, 16]}>
                     {tableInputObj.rows.map((row, rowIndex) => (

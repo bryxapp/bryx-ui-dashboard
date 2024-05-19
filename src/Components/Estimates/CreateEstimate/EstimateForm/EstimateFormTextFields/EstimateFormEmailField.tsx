@@ -17,7 +17,7 @@ const EstimateFormEmailField = ({
     return (
         <Form.Item
             key={emailInputObj.id}
-            label={emailInputObj.value}
+            label={emailInputObj.name}
             rules={[{ type: 'email' }]}
             style={{ marginBottom: '5px' }}
         >

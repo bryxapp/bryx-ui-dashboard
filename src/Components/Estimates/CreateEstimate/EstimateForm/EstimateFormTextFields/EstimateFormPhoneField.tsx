@@ -18,7 +18,7 @@ const EstimateFormPhoneField = ({
     return (
         <Form.Item
             key={phoneInputObj.id}
-            label={phoneInputObj.value}
+            label={phoneInputObj.name}
             rules={[{ pattern: /^(\(\d{3}\) \d{3}-\d{4})$/, message: 'Please enter a valid phone number' }]}
             style={{ marginBottom: '5px' }}
         >

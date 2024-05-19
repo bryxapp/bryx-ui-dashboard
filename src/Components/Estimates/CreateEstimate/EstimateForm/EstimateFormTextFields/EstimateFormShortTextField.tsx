@@ -19,7 +19,7 @@ const EstimateFormShortTextField: React.FC<EstimateFormShortTextFieldProps> = ({
     return (
         <Form.Item
             key={shortTextInputObj.id}
-            label={shortTextInputObj.value}
+            label={shortTextInputObj.name}
             style={{ marginBottom: '5px' }}
         >
             <Input

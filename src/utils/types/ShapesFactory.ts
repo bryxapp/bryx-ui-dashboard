@@ -252,6 +252,7 @@ export function createTableInputObj(name:string,numberOfRows: number, numberOfCo
 
     return {
         id: generateShapeId(),
+        name,
         type: 'TableInput',
         x,
         y,

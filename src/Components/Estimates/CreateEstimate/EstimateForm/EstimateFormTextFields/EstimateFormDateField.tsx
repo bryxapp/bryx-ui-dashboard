@@ -40,7 +40,7 @@ const EstimateFormDateField: React.FC<EstimateFormDateFieldProps> = ({ // Define
     return (
         <Form.Item
             key={dateInputObj.id}
-            label={dateInputObj.value}
+            label={dateInputObj.name}
             rules={[{ type: 'object', required: true, message: 'Please select date' }]} // Add required rule for Date validation
             style={{ marginBottom: '5px' }}
         >

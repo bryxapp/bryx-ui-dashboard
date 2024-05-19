@@ -108,6 +108,7 @@ export interface InputObj extends ShapeObj, TextValueObj {
 }
 
 export interface TableInputObj extends ShapeObj {
+    name:string
     rows: TableCellObj[][];
     border?: { width: number, color: string };
     type: 'TableInput';
