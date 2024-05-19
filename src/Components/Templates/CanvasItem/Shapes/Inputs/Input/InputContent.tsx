@@ -60,7 +60,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
 
     const style: React.CSSProperties = {
         position: 'absolute',
-        background: 'red',
+        background: 'none',
         resize: 'none',
         fontSize: `${inputObj.fontSize / 16}em`,
         fill: inputObj.fill,
@@ -150,32 +150,19 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                     height={inputObj.height}
                 >
                     {!editing && (
-                        <>
-                            <Rect
-                                x={0}
-                                y={0}
-                                width={inputObj.width}
-                                height={inputObj.height}
-                                fill='purple'
-                                onClick={onSelect}
-                                onTap={onSelect}
-                                onDoubleClick={handleDoubleClick}
-                                onDblTap={handleDoubleClick}
-                            />
-                            <Text
-                                text={`${inputObj.value}`}
-                                fontSize={inputObj.fontSize}
-                                fill={inputObj.fill}
-                                fontFamily={inputObj.fontFamily}
-                                fontStyle={inputObj.fontStyle}
-                                textDecoration={inputObj.textDecoration}
-                                onDblClick={handleDoubleClick}
-                                onDblTap={handleDoubleClick}
-                                minWidth={10}
-                                width={inputObj.width}
-                                height={inputObj.height}
-                            />
-                        </>)
+                        <Text
+                            text={`${inputObj.value}`}
+                            fontSize={inputObj.fontSize}
+                            fill={inputObj.fill}
+                            fontFamily={inputObj.fontFamily}
+                            fontStyle={inputObj.fontStyle}
+                            textDecoration={inputObj.textDecoration}
+                            onDblClick={handleDoubleClick}
+                            onDblTap={handleDoubleClick}
+                            minWidth={10}
+                            width={inputObj.width}
+                            height={inputObj.height}
+                        />)
                     }
                     {editing && (
                         <Html>
