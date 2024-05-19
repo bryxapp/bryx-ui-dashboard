@@ -21,6 +21,10 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
         updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
     };
 
+    const handleNameValueChange = (event: React.ChangeEvent<any>) => {
+        updateInputProperty(canvasDesign, setCanvasDesign, 'name', event.target.value, selectedId);
+    };
+
     let verticalAlign = '';
     if (isLongTextInput) {
         verticalAlign = (inputObj as LongTextInputObj).verticalAlign;
@@ -28,6 +32,14 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
 
     return (
         <Card>
+            <Typography.Text>Name</Typography.Text>
+            <Input
+                id="inputNameEditor"
+                value={inputObj.name}
+                onChange={handleNameValueChange}
+                size="small"
+                placeholder='Name your input field'
+            />
             <Typography.Text>Place Holder</Typography.Text>
             {inputObj.type === "DateInput" ? (
                 <DateInputContentProperties dateInputObj={inputObj as DateInputObj} />

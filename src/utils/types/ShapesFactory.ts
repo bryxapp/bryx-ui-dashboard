@@ -51,7 +51,7 @@ export function createEllipseObj(radiusX: number, radiusY: number, fill: string,
     };
 }
 
-export function createPhoneInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): PhoneInputObj {
+export function createPhoneInputObj(name:string,value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): PhoneInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -63,6 +63,7 @@ export function createPhoneInputObj(value: string, fontSize: number, fill: strin
     return {
         id: generateShapeId(),
         type: 'PhoneInput',
+        name,
         x,
         y,
         rotation: 0,
@@ -78,7 +79,7 @@ export function createPhoneInputObj(value: string, fontSize: number, fill: strin
     };
 }
 
-export function createEmailInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): EmailInputObj {
+export function createEmailInputObj(name:string,value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): EmailInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -91,6 +92,7 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
     return {
         id: generateShapeId(),
         type: 'EmailInput',
+        name,
         x,
         y,
         rotation: 0,
@@ -106,7 +108,7 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
     };
 }
 
-export function createShortTextInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): ShortTextInputObj {
+export function createShortTextInputObj(name:string,value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): ShortTextInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -119,6 +121,7 @@ export function createShortTextInputObj(value: string, fontSize: number, fill: s
     return {
         id: generateShapeId(),
         type: 'ShortTextInput',
+        name,
         x,
         y,
         rotation: 0,
@@ -134,7 +137,7 @@ export function createShortTextInputObj(value: string, fontSize: number, fill: s
     };
 }
 
-export function createLongTextInputObj(value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): LongTextInputObj {
+export function createLongTextInputObj(name:string,value: string, fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, x?: number, y?: number): LongTextInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -146,6 +149,7 @@ export function createLongTextInputObj(value: string, fontSize: number, fill: st
     return {
         id: generateShapeId(),
         type: 'LongTextInput',
+        name,
         x,
         y,
         rotation: 0,
@@ -162,7 +166,7 @@ export function createLongTextInputObj(value: string, fontSize: number, fill: st
     };
 }
 
-export function createDateInputObj(fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, x?: number, y?: number): DateInputObj {
+export function createDateInputObj(name:string,fontSize: number, fill: string, fontFamily: string, fontStyle: string, textDecoration: string, dateFormat: DateFormatOption, x?: number, y?: number): DateInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }
@@ -175,6 +179,7 @@ export function createDateInputObj(fontSize: number, fill: string, fontFamily: s
     return {
         id: generateShapeId(),
         type: 'DateInput',
+        name,
         x,
         y,
         rotation: 0,
@@ -207,7 +212,7 @@ export function createInputCellObj(value: string, fontSize: number, fill: string
     };
 }
 
-export function createTableInputObj(numberOfRows: number, numberOfCols: number, cellWidth: number, cellHeight: number, x?: number, y?: number): TableInputObj {
+export function createTableInputObj(name:string,numberOfRows: number, numberOfCols: number, cellWidth: number, cellHeight: number, x?: number, y?: number): TableInputObj {
     if (x === undefined) {
         x = defaultStartX;
     }

@@ -101,6 +101,7 @@ export interface TextValueObj extends TextBase {
 }
 
 export interface InputObj extends ShapeObj, TextValueObj {
+    name: string;
     horizontalAlign: HorizontalAlign;
     width: number;
     height: number;
