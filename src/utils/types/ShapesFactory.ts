@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import { createTempTextKonvaShape } from '../../Components/Templates/CanvasItem/Shapes/Inputs/SharedInputComponents/InputHelper';
-import { generateShapeId } from '../shapeManagementUtils';
+import { generateShapeId, getEmailTextWidthAndHeight } from '../shapeManagementUtils';
 import { RectangleObj, EllipseObj, ImageObj, CanvasDesignData, PhoneInputObj, EmailInputObj, HeadingObj, ParagraphObj, ShortTextInputObj, LongTextInputObj, DateInputObj, TableInputObj, DateFormatOption, TableCellObj, CellInputObj, TextCellObj, TextBase } from './CanvasInterfaces';
 
 const [defaultStartX, defaultStartY] = [100, 100];
@@ -87,8 +87,7 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
         y = defaultStartY;
     }
 
-    const EMAIL_LENGTH = 20;
-    const tempText = createTempTextKonvaShape({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase, 'X'.repeat(EMAIL_LENGTH));
+    const [emailWidth, emailHeight] = getEmailTextWidthAndHeight({ fontSize, fontFamily, fontStyle, textDecoration } as TextBase);
 
     return {
         id: generateShapeId(),
@@ -103,8 +102,8 @@ export function createEmailInputObj(value: string, fontSize: number, fill: strin
         textDecoration,
         value,
         horizontalAlign: "left",
-        width: tempText.width(),
-        height: tempText.height(),
+        width: emailWidth,
+        height: emailHeight,
     };
 }
 

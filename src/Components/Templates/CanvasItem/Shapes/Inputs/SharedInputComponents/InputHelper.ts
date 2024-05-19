@@ -60,22 +60,22 @@ export const getXAlignment = (textWidth: number, horizontalAlign: string, contai
 }
 
 export const getTextXAlignment = (text: TextValueObj, containerWidth: number, horizontalAlign: string): number => {
-    const [textWidth,] = getTextWidthAndHeight(text, text.value);
+    const [textWidth,] = getTextWidthAndHeight(text);
     return getXAlignment(textWidth, horizontalAlign, containerWidth);
 };
 
 export const getTextYAlignment = (text: TextValueObj, containerHeight: number, verticalAlign: string): number => {
-    const [, textHeight] = getTextWidthAndHeight(text, text.value);
+    const [, textHeight] = getTextWidthAndHeight(text);
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }
 
-export const getInputXAlignment = (text: InputObj, value: string, containerWidth: number): number => {
-    const [textWidth,] = getTextWidthAndHeight(text, value);
+export const getInputXAlignment = (text: InputObj, containerWidth: number): number => {
+    const [textWidth,] = getTextWidthAndHeight(text);
     return getXAlignment(textWidth, text.horizontalAlign, containerWidth);
 }
 
-export const getInputYAlignment = (text: TextBase, value: string, containerHeight: number, verticalAlign: string): number => {
-    const [, textHeight] = getTextWidthAndHeight(text, value);
+export const getInputYAlignment = (text: TextValueObj, containerHeight: number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text);
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }
 

@@ -12,7 +12,7 @@ interface PreviewShortTextInputProps {
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
     ShortTextInputObj.value = value;
-    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj, ShortTextInputObj.value);
+    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj);
     const containerWidth = Math.max(contentShapeWidth, ShortTextInputObj.width)
 
     return (
@@ -24,7 +24,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
             rotation={ShortTextInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(ShortTextInputObj, value, containerWidth)}
+                x={getInputXAlignment(ShortTextInputObj, containerWidth)}
                 y={0}
                 text={value}
                 fontSize={ShortTextInputObj.fontSize}

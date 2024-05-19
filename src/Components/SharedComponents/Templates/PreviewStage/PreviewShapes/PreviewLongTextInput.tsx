@@ -12,10 +12,10 @@ interface PreviewLongTextInputProps {
 const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id].value : '';
     LongTextInputObj.value = value;
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj, LongTextInputObj.value);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj);
     const containerWidth = Math.max(contentShapeWidth, LongTextInputObj.width)
     const containerHeight = Math.max(contentShapeHeight, LongTextInputObj.height);
-    const yalign = getInputYAlignment(LongTextInputObj, value, containerHeight, LongTextInputObj.verticalAlign);
+    const yalign = getInputYAlignment(LongTextInputObj, containerHeight, LongTextInputObj.verticalAlign);
 
     return (
         <Group
@@ -26,7 +26,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
             rotation={LongTextInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(LongTextInputObj, value, containerWidth)}
+                x={getInputXAlignment(LongTextInputObj, containerWidth)}
                 y={yalign}
                 text={value}
                 fontSize={LongTextInputObj.fontSize}

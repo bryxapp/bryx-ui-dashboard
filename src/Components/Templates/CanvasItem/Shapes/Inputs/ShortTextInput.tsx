@@ -9,8 +9,8 @@ interface ShortTextInputProps {
 }
 
 const ShortTextInput = ({ shortTextInputObj, draggable = true }: ShortTextInputProps) => {
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj, shortTextInputObj.value);
-    
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(shortTextInputObj);
+
     return (
         <InputContent
             inputObj={shortTextInputObj}

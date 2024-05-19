@@ -14,7 +14,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
     const dateString = formInputs ? formInputs[DateInputObj.id].value : '';
     const val = dateString ? format(new Date(dateString), DateInputObj.dateFormat) : '';
     DateInputObj.value = val;
-    const [datecontentShapeWidth,] = getTextWidthAndHeight(DateInputObj, DateInputObj.value);
+    const [datecontentShapeWidth,] = getTextWidthAndHeight(DateInputObj);
     const containerWidth = Math.max(DateInputObj.width, datecontentShapeWidth);
     return (
         <Group
@@ -25,7 +25,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
             rotation={DateInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(DateInputObj, val, containerWidth)}
+                x={getInputXAlignment(DateInputObj, containerWidth)}
                 y={0}
                 text={val}
                 fontSize={DateInputObj.fontSize}

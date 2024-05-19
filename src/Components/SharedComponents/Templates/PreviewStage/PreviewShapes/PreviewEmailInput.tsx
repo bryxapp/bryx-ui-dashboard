@@ -12,7 +12,7 @@ interface PreviewEmailInputProps {
 const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
     EmailInputObj.value = value;
-    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj, EmailInputObj.value);
+    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj);
     const containerWidth = Math.max(EmailInputObj.width, contentShapeWidth);
     return (
         <Group
@@ -23,7 +23,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
             rotation={EmailInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(EmailInputObj, value, containerWidth)}
+                x={getInputXAlignment(EmailInputObj, containerWidth)}
                 y={0}
                 text={value}
                 fontSize={EmailInputObj.fontSize}

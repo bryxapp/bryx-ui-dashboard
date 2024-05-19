@@ -22,7 +22,7 @@ interface InputContentProps {
 }
 
 const InputContent = ({ inputObj, verticalAlign, contentHeight, contentWidth, draggable, rotationEnabled, horizontalResizeEnabled, verticalResizeEnabled }: InputContentProps) => {
-    const yalign = verticalAlign ? getInputYAlignment(inputObj, inputObj.value, contentHeight, verticalAlign) : 0;
+    const yalign = verticalAlign ? getInputYAlignment(inputObj, contentHeight, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign, setSelectedId, selectedId } = useCanvasDesignContext();
@@ -152,7 +152,7 @@ const InputContent = ({ inputObj, verticalAlign, contentHeight, contentWidth, dr
                     onDblTap={handleDoubleClick}
                 />
                 <Group
-                    x={getInputXAlignment(inputObj, inputObj.value, inputObj.width)}
+                    x={getInputXAlignment(inputObj, inputObj.width)}
                     y={yalign}
                 >
                     {!editing && (
@@ -175,8 +175,6 @@ const InputContent = ({ inputObj, verticalAlign, contentHeight, contentWidth, dr
                                 fontFamily={inputObj.fontFamily}
                                 fontStyle={inputObj.fontStyle}
                                 textDecoration={inputObj.textDecoration}
-                                scaleX={1}
-                                scaleY={1}
                                 onDblClick={handleDoubleClick}
                                 onDblTap={handleDoubleClick}
                                 minWidth={10}

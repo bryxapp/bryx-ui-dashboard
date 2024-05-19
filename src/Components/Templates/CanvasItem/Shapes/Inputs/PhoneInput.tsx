@@ -1,8 +1,7 @@
 import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import InputContent from './SharedInputComponents/InputContent';
-import { getTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
+import { getPhoneTextWidthAndHeight } from '../../../../../utils/shapeManagementUtils';
 
-const PHONE_NUMBER_LENGTH = 10;
 interface PhoneInputProps {
     phoneInputObj: PhoneInputObj;
     handleDragEnd: any;
@@ -12,13 +11,13 @@ interface PhoneInputProps {
 }
 
 const PhoneInput = ({ phoneInputObj, draggable = true }: PhoneInputProps) => {
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(phoneInputObj, 'X'.repeat(PHONE_NUMBER_LENGTH));
+    const [phoneTextWidth, phoneTextHeight] = getPhoneTextWidthAndHeight(phoneInputObj);
 
     return (
         <InputContent
             inputObj={phoneInputObj}
-            contentHeight={contentShapeHeight}
-            contentWidth={contentShapeWidth}
+            contentHeight={phoneTextWidth}
+            contentWidth={phoneTextHeight}
             draggable={draggable}
             rotationEnabled={true}
             horizontalResizeEnabled={false}

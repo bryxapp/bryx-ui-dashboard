@@ -27,7 +27,7 @@ const Paragraph = ({
     const trRef = useRef<Konva.Transformer>(null);
     const { selectedId, setSelectedId, canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const isSelected = paragraphObj.id === selectedId;
-    let [paragraphWidth, paragraphHeight] = getTextWidthAndHeight(paragraphObj, paragraphObj.value)
+    let [paragraphWidth, paragraphHeight] = getTextWidthAndHeight(paragraphObj)
     const onSelect = () => {
         setSelectedId(paragraphObj.id);
     }

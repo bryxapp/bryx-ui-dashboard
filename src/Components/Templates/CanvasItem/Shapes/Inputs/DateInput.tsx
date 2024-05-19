@@ -10,7 +10,7 @@ interface DateInputProps {
 
 const DateInput = ({ dateInputObj, draggable = true }: DateInputProps) => {
     dateInputObj.value = format(new Date(), dateInputObj.dateFormat);
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj, dateInputObj.value);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj);
     dateInputObj.width = contentShapeWidth;
     dateInputObj.height = contentShapeHeight;
     

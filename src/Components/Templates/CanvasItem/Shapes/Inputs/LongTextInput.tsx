@@ -8,7 +8,7 @@ interface LongTextInputProps {
 }
 
 const LongTextInput = ({ longTextInputObj, draggable = true }: LongTextInputProps) => {
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(longTextInputObj, longTextInputObj.value);
+    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(longTextInputObj);
 
     return (
         <InputContent
