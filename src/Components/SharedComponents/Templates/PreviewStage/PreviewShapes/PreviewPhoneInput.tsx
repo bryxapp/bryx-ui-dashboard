@@ -1,6 +1,5 @@
 import { Group, Text } from "react-konva";
 import { PhoneInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
 import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
@@ -12,9 +11,6 @@ interface PreviewPhoneInputProps {
 const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps) => {
     const value = formInputs ? formInputs[PhoneInputObj.id].value : '';
     PhoneInputObj.value = value;
-    const [contentShapeWidth,] = getTextWidthAndHeight(PhoneInputObj);
-    //Container Measurements 
-    const containerWidth = Math.max(PhoneInputObj.width, contentShapeWidth);
     return (
         <Group
             key={PhoneInputObj.id}
@@ -24,7 +20,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs }: PreviewPhoneInputProps
             rotation={PhoneInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(PhoneInputObj, containerWidth)}
+                x={getInputXAlignment(PhoneInputObj)}
                 y={0}
                 text={value}
                 fontSize={PhoneInputObj.fontSize}

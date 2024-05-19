@@ -1,6 +1,5 @@
 import { Group, Text } from "react-konva";
 import { ShortTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
 import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
@@ -12,8 +11,6 @@ interface PreviewShortTextInputProps {
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
     ShortTextInputObj.value = value;
-    const [contentShapeWidth,] = getTextWidthAndHeight(ShortTextInputObj);
-    const containerWidth = Math.max(contentShapeWidth, ShortTextInputObj.width)
 
     return (
         <Group
@@ -24,7 +21,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
             rotation={ShortTextInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(ShortTextInputObj, containerWidth)}
+                x={getInputXAlignment(ShortTextInputObj)}
                 y={0}
                 text={value}
                 fontSize={ShortTextInputObj.fontSize}

@@ -1,6 +1,5 @@
 import { Group, Text } from "react-konva";
 import { LongTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
 import { getInputXAlignment, getInputYAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
@@ -12,10 +11,7 @@ interface PreviewLongTextInputProps {
 const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id].value : '';
     LongTextInputObj.value = value;
-    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(LongTextInputObj);
-    const containerWidth = Math.max(contentShapeWidth, LongTextInputObj.width)
-    const containerHeight = Math.max(contentShapeHeight, LongTextInputObj.height);
-    const yalign = getInputYAlignment(LongTextInputObj, containerHeight, LongTextInputObj.verticalAlign);
+    const yalign = getInputYAlignment(LongTextInputObj, LongTextInputObj.verticalAlign);
 
     return (
         <Group
@@ -26,7 +22,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
             rotation={LongTextInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(LongTextInputObj, containerWidth)}
+                x={getInputXAlignment(LongTextInputObj)}
                 y={yalign}
                 text={value}
                 fontSize={LongTextInputObj.fontSize}

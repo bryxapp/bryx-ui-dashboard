@@ -1,6 +1,6 @@
 import React from 'react';
 import Konva from 'konva';
-import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, EllipseObj, InputObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
 import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../utils/shapeManagementUtils';
 import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
@@ -51,27 +51,35 @@ const useShapeMove = (
         canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
             if (shape.id === node.id()) {
                 if (shape.type === "Ellipse") {
-                    updatedCanvasDesign.Shapes[index] = {
-                        ...shape,
-                        x: node.x(),
-                        y: node.y(),
-                        radiusX: Math.max(5, node.radiusX() * scaleX),
-                        radiusY: Math.max(5, node.radiusY() * scaleY),
-                        rotation: node.rotation(),
-                    } as EllipseObj;
-                } else if (isSolidShapeObj(shape) || isTextObject(shape) || isInputObject(shape) || isImageObject(shape)) {
-                    updatedCanvasDesign.Shapes[index] = {
-                        ...shape,
-                        x: node.x(),
-                        y: node.y(),
-                        width: Math.max(5, node.width() * scaleX),
-                        height: Math.max(5, node.height() * scaleY),
-                        rotation: node.rotation(),
-                    } as RectangleObj;
+                    const ellipseObj = shape as EllipseObj;
+                    ellipseObj.x = node.x();
+                    ellipseObj.y = node.y();
+                    ellipseObj.radiusX = Math.max(5, node.radiusX() * scaleX);
+                    ellipseObj.radiusY = Math.max(5, node.radiusY() * scaleY);
+                    ellipseObj.rotation = node.rotation();
+                    updatedCanvasDesign.Shapes[index] = ellipseObj;
+                } else if (isSolidShapeObj(shape) || isTextObject(shape) || isImageObject(shape)) {
+                    const rectObj = shape as RectangleObj;
+                    rectObj.x = node.x();
+                    rectObj.y = node.y();
+                    rectObj.width = Math.max(5, node.width() * scaleX);
+                    rectObj.height = Math.max(5, node.height() * scaleY);
+                    rectObj.rotation = node.rotation();
+                    updatedCanvasDesign.Shapes[index] = rectObj;
+                }
+                else if (isInputObject(shape)) {
+                    const inputObj = shape as InputObj;
+                    // The scale gets reset to not stretch the text. Use the rect to set the width and height
+                    const rect = node.findOne('Rect');
+                    inputObj.width = rect.width();
+                    inputObj.height = rect.height();
+                    inputObj.x = node.x();
+                    inputObj.y = node.y();
+                    inputObj.rotation = node.rotation();
+                    updatedCanvasDesign.Shapes[index] = inputObj;
                 }
             }
         });
-
         setCanvasDesign(updatedCanvasDesign);
     };
 

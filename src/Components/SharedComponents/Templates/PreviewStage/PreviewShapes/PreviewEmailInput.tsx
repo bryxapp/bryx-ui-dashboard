@@ -1,6 +1,5 @@
 import { Group, Text } from "react-konva";
 import { EmailInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getTextWidthAndHeight } from "../../../../../utils/shapeManagementUtils";
 import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
@@ -12,8 +11,6 @@ interface PreviewEmailInputProps {
 const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
     EmailInputObj.value = value;
-    const [contentShapeWidth,] = getTextWidthAndHeight(EmailInputObj);
-    const containerWidth = Math.max(EmailInputObj.width, contentShapeWidth);
     return (
         <Group
             key={EmailInputObj.id}
@@ -23,7 +20,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
             rotation={EmailInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(EmailInputObj, containerWidth)}
+                x={getInputXAlignment(EmailInputObj)}
                 y={0}
                 text={value}
                 fontSize={EmailInputObj.fontSize}

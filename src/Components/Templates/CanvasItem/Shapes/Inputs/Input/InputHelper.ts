@@ -67,13 +67,13 @@ export const getTextYAlignment = (text: TextObj, containerHeight: number, vertic
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }
 
-export const getInputXAlignment = (text: InputObj, containerWidth: number): number => {
+export const getInputXAlignment = (text: InputObj): number => {
     const [textWidth,] = getTextWidthAndHeight(text);
-    return getXAlignment(textWidth, text.horizontalAlign, containerWidth);
+    return getXAlignment(textWidth, text.horizontalAlign, text.width);
 }
 
-export const getInputYAlignment = (text: TextObj, containerHeight: number, verticalAlign: string): number => {
+export const getInputYAlignment = (text: InputObj, verticalAlign: string): number => {
     const [, textHeight] = getTextWidthAndHeight(text);
-    return getYAlignment(textHeight, verticalAlign, containerHeight);
+    return getYAlignment(textHeight, verticalAlign, text.height);
 }
 

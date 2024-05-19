@@ -3,7 +3,7 @@ import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from './InputHelpe
 import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
-import { getTextWidthAndHeight, updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import Konva from 'konva';
@@ -15,8 +15,7 @@ interface InputContentProps {
 }
 
 const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
-    const [contentWidth, contentHeight] = getTextWidthAndHeight(inputObj);
-    const yalign = verticalAlign ? getInputYAlignment(inputObj, contentHeight, verticalAlign) : 0;
+    const yalign = verticalAlign ? getInputYAlignment(inputObj, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign, setSelectedId, selectedId } = useCanvasDesignContext();
@@ -24,6 +23,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     const trRef = useRef<Konva.Transformer>(null);
     const shapeRef = useRef<Konva.Group>(null);
     const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
+    console.log("Width: ", inputObj.width, "Height: ", inputObj.height);
 
     useEffect(() => {
         if (isSelected && shapeRef?.current) {
@@ -60,15 +60,15 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
 
     const style: React.CSSProperties = {
         position: 'absolute',
-        background: 'none',
+        background: 'red',
         resize: 'none',
         fontSize: `${inputObj.fontSize / 16}em`,
         fill: inputObj.fill,
         fontFamily: inputObj.fontFamily,
         fontStyle: inputObj.fontStyle,
         textDecoration: inputObj.textDecoration,
-        width: `${contentWidth + 20}px`,
-        height: `${contentHeight + 20}px`,
+        width: `${inputObj.width}px`,
+        height: `${inputObj.height}px`,
         alignContent: inputObj.horizontalAlign,
         color: inputObj.fill,
         padding: '0px',
@@ -144,8 +144,10 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                     onDblTap={handleDoubleClick}
                 />
                 <Group
-                    x={getInputXAlignment(inputObj, inputObj.width)}
+                    x={getInputXAlignment(inputObj)}
                     y={yalign}
+                    width={inputObj.width}
+                    height={inputObj.height}
                 >
                     {!editing && (
                         <>
@@ -154,7 +156,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                                 y={0}
                                 width={inputObj.width}
                                 height={inputObj.height}
-                                fill='transparent'
+                                fill='purple'
                                 onClick={onSelect}
                                 onTap={onSelect}
                                 onDoubleClick={handleDoubleClick}

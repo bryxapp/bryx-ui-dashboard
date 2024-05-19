@@ -87,13 +87,10 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 // Create Content Text Shape for measurements
                 const inputContent = inputObj;
                 inputContent.value = formInputs[inputObj.id].value;
-                const [contentShapeWidth,] = getTextWidthAndHeight(inputContent);
-                //Container Measurements 
-                const containerWidth = contentShapeWidth;
                 //Add Content
                 const value = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
-                    x: getInputXAlignment(inputContent, containerWidth),
+                    x: getInputXAlignment(inputContent),
                     y: 0,
                     text: value,
                     fontSize: inputContent.fontSize,
