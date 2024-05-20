@@ -3,27 +3,26 @@ import React, { useRef, useEffect, useState } from 'react';
 import Konva from 'konva';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
-import { FILL_COLOR } from '../Input/InputHelper';
+import { FILL_COLOR, getInputCellXAlignment, getInputCellYAlignment } from '../Input/InputHelper';
 import { CellInputObj, HorizontalAlign, TextCellObj, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { Html } from 'react-konva-utils';
 
 interface ContentCellProps {
     contentCell: CellInputObj | TextCellObj;
-    containerWidth: number;
-    containerHeight: number;
+    cellWidth: number;
+    cellHeight: number;
     horizontalAlign: HorizontalAlign
     verticalAlign: VerticalAlign
 }
 
-const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalAlign, verticalAlign }: ContentCellProps) => {
-    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
-    const shapeRef = useRef<Konva.Group>(null);
-    const trRef = useRef<Konva.Transformer>(null);
-    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, verticalAlign }: ContentCellProps) => {
     const [editing, setEditing] = useState(false);
-    const { selectedId, setSelectedId } = useCanvasDesignContext();
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
+    const { canvasDesign, setCanvasDesign, setSelectedId, selectedId } = useCanvasDesignContext();
     const isSelected = contentCell.id === selectedId;
+    const trRef = useRef<Konva.Transformer>(null);
+    const shapeRef = useRef<Konva.Group>(null);
     const onSelect = () => {
         setSelectedId(contentCell.id);
     }
@@ -32,8 +31,7 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
         const { target } = event;
-        const { value } = target;
-        target.setSelectionRange(value.length, value.length);
+        target.setSelectionRange(target.value.length, target.value.length);
     };
 
     const style: React.CSSProperties = {
@@ -45,11 +43,9 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
         fontFamily: contentCell.fontFamily,
         fontStyle: contentCell.fontStyle,
         textDecoration: contentCell.textDecoration,
-        whiteSpace: 'pre-wrap',
-        width: containerWidth - 4,
-        height: containerHeight - 4,
-        textAlign: horizontalAlign,
-        verticalAlign: verticalAlign,
+        width: cellWidth - 4,
+        height: cellHeight - 4,
+        alignContent: horizontalAlign,
         color: contentCell.fill,
         padding: '0px',
         margin: '0px',
@@ -58,6 +54,8 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
         lineHeight: '1',
         minWidth: '10px',
         border: 'none',
+        wordWrap: 'normal',
+        whiteSpace: 'nowrap',
     };
 
     useEffect(() => {
@@ -106,64 +104,59 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
                 x={contentCell.x + 2}
                 y={contentCell.y + 2}
                 draggable={false}
-                ref={shapeRef}
                 onClick={onSelect}
                 onTap={onSelect}
                 onDblClick={() => setEditing(true)}
                 onDblTap={() => setEditing(true)}
+                ref={shapeRef}
             >
                 {isInputCell && (
                     <Rect
-                        width={containerWidth - 4}
-                        height={containerHeight - 4}
+                        width={cellWidth - 4}
+                        height={cellHeight - 4}
                         fill={FILL_COLOR}
                         onClick={onSelect}
                         onTap={onSelect}
+                        onDblClick={() => setEditing(true)}
+                        onDblTap={() => setEditing(true)}
                     />)}
-                {!editing && (
-                    <>
-                        <Rect
-                            width={containerWidth - 4}
-                            height={containerHeight - 4}
-                            fill='transparent'
-                            onDblClick={() => setEditing(true)}
-                            onDblTap={() => setEditing(true)}
-                        />
-                        <Text
-                            text={contentCell.value}
-                            fontSize={contentCell.fontSize}
-                            fill={contentCell.fill}
-                            width={containerWidth - 4}
-                            height={containerHeight - 4}
-                            onClick={onSelect}
-                            onTap={onSelect}
-                            onDblClick={() => setEditing(true)}
-                            onDblTap={() => setEditing(true)}
-                            fontFamily={contentCell.fontFamily}
-                            fontStyle={contentCell.fontStyle}
-                            textDecoration={contentCell.textDecoration}
-                            align={horizontalAlign}
-                            verticalAlign={verticalAlign}
-                            draggable={false}
-                            minWidth={10}
-                        />
-                    </>
-                )
-                }
-                {editing && (
-                    <Html>
-                        <textarea
-                            ref={textAreaRef}
-                            onChange={onChange}
-                            style={style}
-                            id={contentCell.id}
-                            value={contentCell.value}
-                            autoFocus
-                            onFocus={moveCaretToEnd}
-                        />
-                    </Html>
-                )}
-
+                <Group
+                    x={getInputCellXAlignment(contentCell, cellWidth, horizontalAlign.toString())}
+                    y={getInputCellYAlignment(contentCell, cellHeight, verticalAlign.toString())}
+                >
+                    {!editing ? (
+                        <>
+                            <Text
+                                text={contentCell.value}
+                                fontSize={contentCell.fontSize}
+                                fill={contentCell.fill}
+                                fontFamily={contentCell.fontFamily}
+                                fontStyle={contentCell.fontStyle}
+                                textDecoration={contentCell.textDecoration}
+                                onClick={onSelect}
+                                onTap={onSelect}
+                                onDblClick={() => setEditing(true)}
+                                onDblTap={() => setEditing(true)}
+                                align={horizontalAlign}
+                                verticalAlign={verticalAlign}
+                                draggable={false}
+                                minWidth={10}
+                            />
+                        </>
+                    ) : (
+                        <Html>
+                            <textarea
+                                ref={textAreaRef}
+                                onChange={onChange}
+                                style={style}
+                                id={contentCell.id}
+                                value={contentCell.value}
+                                autoFocus
+                                onFocus={moveCaretToEnd}
+                            />
+                        </Html>
+                    )}
+                </Group>
             </Group>
             {isSelected && (
                 <>

@@ -72,8 +72,18 @@ export const getInputXAlignment = (text: InputObj): number => {
     return getXAlignment(textWidth, text.horizontalAlign, text.width);
 }
 
+export const getInputCellXAlignment = (text: TextObj, cellWidth:number, horizontalAlign: string): number => {
+    const [textWidth,] = getTextWidthAndHeight(text);
+    return getXAlignment(textWidth, horizontalAlign, cellWidth);
+}
+
 export const getInputYAlignment = (text: InputObj, verticalAlign: string): number => {
     const [, textHeight] = getTextWidthAndHeight(text);
     return getYAlignment(textHeight, verticalAlign, text.height);
+}
+
+export const getInputCellYAlignment = (text: TextObj, cellHeight:number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text);
+    return getYAlignment(textHeight, verticalAlign, cellHeight);
 }
 

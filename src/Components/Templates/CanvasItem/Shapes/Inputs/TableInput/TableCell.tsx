@@ -30,8 +30,8 @@ const TableCell = ({ cell, row, rowIndex, cellIndex, tableInputObj }: CellProps)
         <>
             <InputCell
                 contentCell={contentCellObj}
-                containerWidth={cell.width}
-                containerHeight={cell.height}
+                cellWidth={cell.width}
+                cellHeight={cell.height}
                 horizontalAlign={cell.horizontalAlign}
                 verticalAlign={cell.verticalAlign}
             />
