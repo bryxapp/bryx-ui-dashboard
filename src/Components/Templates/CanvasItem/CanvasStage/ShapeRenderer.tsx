@@ -1,4 +1,4 @@
-import { RectangleObj, ShapeObj, EllipseObj, ImageObj,  HeadingObj, ParagraphObj, DateInputObj, TableInputObj, InputObj } from "../../../../utils/types/CanvasInterfaces";
+import { RectangleObj, ShapeObj, EllipseObj, ImageObj, HeadingObj, ParagraphObj, DateInputObj, TableInputObj, InputObj, LongTextInputObj } from "../../../../utils/types/CanvasInterfaces";
 import RectangleShape from '../Shapes/SolidShapes/RectangleShape';
 import EllipseShape from '../Shapes/SolidShapes/EllipseShape';
 import ImageShape from '../Shapes/SolidShapes/ImageShape';
@@ -62,10 +62,18 @@ const ShapeRenderer = () => {
                                 inputObj={dateInputObj}
                             />
                         );
+                    case 'LongTextInput':
+                        const longTextInputObj = shape as LongTextInputObj;
+                        return (
+                            <InputContent
+                                key={shape.id}
+                                inputObj={longTextInputObj}
+                                verticalAlign={longTextInputObj.verticalAlign}
+                            />
+                        );
                     case 'PhoneInput':
                     case 'EmailInput':
                     case 'ShortTextInput':
-                    case 'LongTextInput':
                         const inputObj = shape as InputObj;
                         return (
                             <InputContent
