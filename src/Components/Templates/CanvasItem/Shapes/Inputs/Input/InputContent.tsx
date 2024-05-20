@@ -1,12 +1,13 @@
 import { Group, Rect, Text } from 'react-konva';
-import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from './InputHelper'
-import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { useEffect, useRef, useState } from 'react';
 import { Html } from 'react-konva-utils';
+import { useEffect, useRef, useState } from 'react';
+import Konva from 'konva';
+
+import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from './InputHelper';
+import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
 import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
-import Konva from 'konva';
 import useShapeMove from '../../../useShapeMove';
 
 interface InputContentProps {
@@ -15,7 +16,7 @@ interface InputContentProps {
 }
 
 const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
-    const yalign = verticalAlign ? getInputYAlignment(inputObj, verticalAlign) : 0;
+    const yAlign = verticalAlign ? getInputYAlignment(inputObj, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign, setSelectedId, selectedId } = useCanvasDesignContext();
@@ -28,36 +29,34 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     const [inputHeight, setInputHeight] = useState(inputObj.height);
 
     useEffect(() => {
-        if (isSelected && shapeRef?.current) {
-            // we need to attach transformer manually
+        if (isSelected && shapeRef.current) {
             trRef.current?.nodes([shapeRef.current]);
             trRef.current?.getLayer()?.batchDraw();
         }
-    }, [isSelected]);
 
-    useEffect(() => {
-        // This effect will re-run whenever shortTextInputObj changes.
-        // This is necessary to update the transformer's nodes when the shape is selected.
-        if (shapeRef?.current && trRef.current && isSelected) {
-            const shapeRefCurrent = shapeRef.current;
-            trRef.current.nodes([shapeRefCurrent]);
-            trRef.current.getLayer()?.batchDraw();
-        }
-    }, [inputObj, isSelected]);
+        const handleClickOutside = (event: MouseEvent) => {
+            if (textAreaRef.current && !textAreaRef.current.contains(event.target as Node)) {
+                setEditing(false);
+            }
+        };
+
+        window.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            window.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isSelected, inputObj]);
 
     const onSelect = () => {
         setSelectedId(inputObj.id);
-    }
+    };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
         const { target } = event;
-        const { value } = target;
-        target.setSelectionRange(value.length, value.length);
+        target.setSelectionRange(target.value.length, target.value.length);
     };
 
     const handleDoubleClick = () => {
-        if (inputObj.type !== 'DateInput')
-            setEditing(true); // Enable editing mode
+        if (inputObj.type !== 'DateInput') setEditing(true);
     };
 
     const style: React.CSSProperties = {
@@ -84,41 +83,24 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
         whiteSpace: 'nowrap',
     };
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (textAreaRef.current && !textAreaRef.current.contains(event.target as Node)) {
-                setEditing(false);
-            }
-        };
-
-        window.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            window.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-    const onChange = (event: any) => {
+    const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, inputObj.id);
     };
 
-    const handleTransform = (event: any) => {
+    const handleTransform = (event: Konva.KonvaEventObject<Event>) => {
         const node = event.target;
-        if (node) {
-            const scaleX = node.scaleX();
-            const scaleY = node.scaleY();
-            node.scaleX(1);
-            node.scaleY(1);
+        const scaleX = node.scaleX();
+        const scaleY = node.scaleY();
+        node.scaleX(1);
+        node.scaleY(1);
 
-            // Update the inputObj dimensions based on the scaling factors
-            const newWidth = inputWidth * scaleX;
-            const newHeight = inputHeight * scaleY;
-            setInputWidth(newWidth);
-            setInputHeight(newHeight);
+        const newWidth = inputWidth * scaleX;
+        const newHeight = inputHeight * scaleY;
+        setInputWidth(newWidth);
+        setInputHeight(newHeight);
 
-            // Apply the new dimensions to the node
-            node.width(newWidth);
-            node.height(newHeight);
-        }
+        node.width(newWidth);
+        node.height(newHeight);
     };
 
     return (
@@ -126,10 +108,9 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
             <Group
                 key={inputObj.id}
                 id={inputObj.id}
-                displayName={inputObj.value}
                 x={inputObj.x}
                 y={inputObj.y}
-                draggable={true}
+                draggable
                 onDragMove={handleDragMove}
                 onDragEnd={handleDragEnd}
                 rotation={inputObj.rotation}
@@ -150,13 +131,10 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                     onDoubleClick={handleDoubleClick}
                     onDblTap={handleDoubleClick}
                 />
-                <Group
-                    x={getInputXAlignment(inputObj)}
-                    y={yalign}
-                >
-                    {!editing && (
+                <Group x={getInputXAlignment(inputObj)} y={yAlign}>
+                    {!editing ? (
                         <Text
-                            text={`${inputObj.value}`}
+                            text={inputObj.value}
                             fontSize={inputObj.fontSize}
                             fill={inputObj.fill}
                             fontFamily={inputObj.fontFamily}
@@ -167,9 +145,8 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                             minWidth={10}
                             width={inputWidth}
                             height={inputHeight}
-                        />)
-                    }
-                    {editing && (
+                        />
+                    ) : (
                         <Html>
                             <textarea
                                 ref={textAreaRef}
@@ -193,7 +170,6 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                 />
             )}
         </>
-
     );
 };
 
