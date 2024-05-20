@@ -3,7 +3,7 @@ import { Card, Input, Typography } from 'antd';
 import { DateInputObj, InputObj, LongTextInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import DateInputContentProperties from './DateInputContentProperties';
 import TextAlignmentPicker from '../TextProperties/TextAlignmentPicker';
 import TextVerticalAlignmentPicker from '../TextProperties/TextVerticalAlignmentPicker';
@@ -18,11 +18,11 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
     };
 
     const handleNameValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'name', event.target.value, selectedId);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'name', event.target.value, selectedId);
     };
 
     let verticalAlign = '';

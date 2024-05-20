@@ -5,7 +5,7 @@ import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasD
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import { FILL_COLOR } from '../Input/InputHelper';
 import { CellInputObj, HorizontalAlign, TextCellObj, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { Html } from 'react-konva-utils';
 
 interface ContentCellProps {
@@ -95,7 +95,7 @@ const ContentCell = ({ contentCell, containerWidth, containerHeight, horizontalA
     }, []);
 
     const onChange = (event: any) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, contentCell.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, contentCell.id);
     };
 
     return (

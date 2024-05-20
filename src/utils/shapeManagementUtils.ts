@@ -1,5 +1,5 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj, LongTextInputObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, LongTextInputObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
 import { createTempTextKonvaShape, getInputXAlignment, getInputYAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
@@ -191,14 +191,22 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
 };
 
 export const getTextWidthAndHeight = (textObj: TextObj): [number, number] => {
-    const PHONE_NUMBER_LENGTH = 10;
-    const EMAIL_LENGTH = 20;
-    let value = textObj.value;
-    if (textObj.type === "PhoneInput") value = 'X'.repeat(PHONE_NUMBER_LENGTH);
-    if (textObj.type === "EmailInput") value = 'X'.repeat(EMAIL_LENGTH);
-    const tempTextShape = createTempTextKonvaShape(textObj, value);
+    const tempTextShape = createTempTextKonvaShape(textObj, textObj.value);
     return [tempTextShape.width(), tempTextShape.height()];
 };
+
+export const getPhoneInputWidthandHeight = (textObj: TextObj): [number, number] => {
+    const PHONE_NUMBER_LENGTH = 12;
+    const tempTextShape = createTempTextKonvaShape(textObj, 'X'.repeat(PHONE_NUMBER_LENGTH));
+    return [tempTextShape.width(), tempTextShape.height()];
+}
+
+export const getEmailInputWidthandHeight = (textObj: TextObj): [number, number] => {
+    const EMAIL_LENGTH = 25;
+    const tempTextShape = createTempTextKonvaShape(textObj, 'X'.repeat(EMAIL_LENGTH));
+    return [tempTextShape.width(), tempTextShape.height()];
+}
+
 
 export const getTransformerProperties = (shape: ShapeObj): [boolean, boolean, boolean] => {
     //[rotationEnabled,horizontalResizeEnabled,verticalResizeEnabled]
@@ -278,12 +286,29 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
             if (isInputObject(shape)) {
                 //Need to update width and height
                 const inputObj = { ...shape, [propertyName]: value } as InputObj;
-                if (inputObj.type !== 'LongTextInput') {
-                    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputObj);
-                    inputObj.height = contentShapeHeight;
-                    if (inputObj.type !== 'ShortTextInput') {
-                        inputObj.width = contentShapeWidth;
-                    }
+                switch (inputObj.type) {
+                    case 'PhoneInput':
+                        const [phoneWidth, phoneHeight] = getPhoneInputWidthandHeight(inputObj);
+                        inputObj.height = phoneHeight;
+                        inputObj.width = phoneWidth;
+                        break;
+                    case 'EmailInput':
+                        const [emailWidth, emailHeight] = getEmailInputWidthandHeight(inputObj);
+                        inputObj.height = emailHeight;
+                        inputObj.width = emailWidth;
+                        break;
+                    case 'ShortTextInput':
+                        const [, contentHeight] = getTextWidthAndHeight(inputObj);
+                        inputObj.height = contentHeight;
+                        break;
+                    case 'DateInput':
+                        const [dateWidth, dateHeight] = getTextWidthAndHeight(inputObj);
+                        inputObj.height = dateHeight;
+                        inputObj.width = dateWidth;
+                        break;
+                    case 'LongTextInput':
+                    default:
+                        break;
                 }
                 return inputObj;
             }
@@ -313,54 +338,6 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
         setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
     }
 };
-
-export const updateInputProperty = (
-    canvasDesign: CanvasDesignData,
-    setCanvasDesign: Function,
-    propertyName: string,
-    value: any,
-    id: string | null
-) => {
-    let foundAndUpdated = false;
-
-    const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
-        // Skip any further updates after the first match is found and updated
-        if (foundAndUpdated) return shape;
-
-        if (shape.id === id) {
-            foundAndUpdated = true;
-            let inputObj = shape as InputObj;
-            // Correct way to dynamically update nested properties
-            const updatedItem = { ...inputObj, [propertyName]: value };
-            return updatedItem;
-        }
-
-        if (shape.type === 'TableInput') {
-            const tableInputObj = shape as TableInputObj;
-            const updatedRows = tableInputObj.rows.map((row) => {
-                return row.map((cell) => {
-                    if (cell.id === id) {
-                        foundAndUpdated = true;
-                        let inputObj = cell as TableCellObj;
-                        const updatedItem = { ...inputObj, [propertyName]: value };
-                        return updatedItem;
-                    }
-                    return cell;
-                });
-            });
-            return { ...tableInputObj, rows: updatedRows };
-        }
-
-        // Return the shape unchanged if no conditions are met
-        return shape;
-    });
-
-    // Update the canvasDesign only if an update was made
-    if (foundAndUpdated) {
-        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
-    }
-};
-
 
 export const deleteShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, selectedId: string | null, setSelectedId: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };

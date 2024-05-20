@@ -5,7 +5,7 @@ import Konva from 'konva';
 
 import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from './InputHelper';
 import { InputObj } from '../../../../../../utils/types/CanvasInterfaces';
-import { updateInputProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasDesignContext';
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import useShapeMove from '../../../useShapeMove';
@@ -84,7 +84,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     };
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, inputObj.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, inputObj.id);
     };
 
     const handleTransform = (event: Konva.KonvaEventObject<Event>) => {

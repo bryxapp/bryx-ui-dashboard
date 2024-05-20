@@ -3,7 +3,7 @@ import { Card, Input, Typography } from 'antd';
 import { TableCellObj } from '../../../../../utils/types/CanvasInterfaces';
 import TextProperties from '../TextProperties/TextProperties';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateInputProperty } from '../../../../../utils/shapeManagementUtils';
+import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import TextAlignmentPicker from '../TextProperties/TextAlignmentPicker';
 import TextVerticalAlignmentPicker from '../TextProperties/TextVerticalAlignmentPicker';
 import CellTypeSelector from './CellTypeSelector';
@@ -22,7 +22,7 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
 
     const selectedIsInput = tableCellObj.content.type === 'CellInput'
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateInputProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
     };
 
     return (
