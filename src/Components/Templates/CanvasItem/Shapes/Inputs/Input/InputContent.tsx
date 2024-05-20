@@ -143,8 +143,6 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                             onDblClick={handleDoubleClick}
                             onDblTap={handleDoubleClick}
                             minWidth={10}
-                            width={inputWidth}
-                            height={inputHeight}
                         />
                     ) : (
                         <Html>

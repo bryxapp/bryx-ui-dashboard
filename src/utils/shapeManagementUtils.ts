@@ -261,9 +261,13 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
             if(isInputObject(shape)){
                 //Need to update width and height
                 const inputObj = { ...shape, [propertyName]: value } as InputObj;
-                const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputObj);
-                inputObj.width = contentShapeWidth;
-                inputObj.height = contentShapeHeight;
+                if(inputObj.type !== 'LongTextInput'){
+                    const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputObj);
+                    inputObj.height = contentShapeHeight;
+                    if(inputObj.type !== 'ShortTextInput'){
+                        inputObj.width = contentShapeWidth;
+                    }
+                }
                 return inputObj;
             }
             else return { ...shape, [propertyName]: value };
