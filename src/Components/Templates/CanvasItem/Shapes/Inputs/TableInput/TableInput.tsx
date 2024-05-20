@@ -29,7 +29,7 @@ const TableInput = ({ tableInputObj }: EmailInputProps) => {
         }
         onSelect(id);
     };
-    const shapeRef = useRef<Konva.Rect>(null);
+    const shapeRef = useRef<Konva.Group>(null);
     const trRef = useRef<Konva.Transformer>(null);
     const { handleDragEnd, onTransformEnd, handleDragMove } = useShapeMove(setCanvasDesign, canvasDesign);
 
@@ -190,12 +190,13 @@ const TableInput = ({ tableInputObj }: EmailInputProps) => {
                 draggable
                 onDragMove={handleDragMove}
                 onDragEnd={handleDragEnd}
+                rotation={tableInputObj.rotation}
+                ref={shapeRef}
             >
                 <Rect
                     width={tableWidth}
                     height={tableHeight}
                     fill="transparent"
-                    ref={shapeRef}
                     onClick={(e: any) => handleSelect(tableInputObj.id, 'table', e)}
                     onTap={(e: any) => handleSelect(tableInputObj.id, 'table', e)}
                 />
