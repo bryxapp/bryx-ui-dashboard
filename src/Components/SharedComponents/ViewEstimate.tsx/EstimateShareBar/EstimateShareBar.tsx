@@ -23,7 +23,9 @@ const EstimateShareBar = ({ estimate }: any) => {
                 const res = await createEstimatePDF(estimate);
                 if (res.estimatePdfUrl) {
                     setPdfUrl(res.estimatePdfUrl);
-                    window.open(res.estimatePdfUrl, '_blank');
+                    setTimeout(() => {
+                        window.open(res.estimatePdfUrl, '_blank');
+                    }, 2000);
                 }
             } catch (error) {
                 console.log('Error creating PDF', error);
@@ -44,7 +46,7 @@ const EstimateShareBar = ({ estimate }: any) => {
     }, [pdfUrl]);
 
     return (
-        <div style = {{display: 'flex', justifyContent: 'space-between', width: '7rem'}}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', width: '7rem' }}>
             <Tooltip title="Share Link" placement='bottom'>
                 <Button onClick={handleOpenShareDialog} size='large'>
                     <LinkOutlined />

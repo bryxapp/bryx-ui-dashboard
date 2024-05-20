@@ -1,8 +1,8 @@
 import Konva from "konva";
-import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj } from "./types/CanvasInterfaces";
+import { CanvasDesignData, EllipseObj, ImageObj, InputObj, RectangleObj, ShapeObj, InputType, InputTypes, TextObj, TextTypes, TextType, SolidShapeType, SolidShapeTypes, ImageTypes, ImageType, SolidShapeObj, HeadingObj, ParagraphObj, TableInputObj, TableTypes, TableType, CellTypes, CellType, TableCellObj, LongTextInputObj } from "./types/CanvasInterfaces";
 import { EstimateFormFields } from "./types/EstimateInterfaces";
 import { loadImage } from "./canvasUtils";
-import { createTempTextKonvaShape, getInputXAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
+import { createTempTextKonvaShape, getInputXAlignment, getInputYAlignment } from "../Components/Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 
 export function generateShapeId(): string {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -75,7 +75,6 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
             case 'PhoneInput':
             case 'EmailInput':
             case 'ShortTextInput':
-            case 'LongTextInput':
             case 'DateInput':
                 const inputObj = shape as InputObj;
                 //Create Group
@@ -84,23 +83,41 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     y: inputObj.y,
                     rotation: inputObj.rotation,
                 });
-                // Create Content Text Shape for measurements
-                const inputContent = inputObj;
-                inputContent.value = formInputs[inputObj.id].value;
-                //Add Content
-                const value = formInputs[inputObj.id].value;
+                inputObj.value = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
-                    x: getInputXAlignment(inputContent),
+                    x: getInputXAlignment(inputObj),
                     y: 0,
-                    text: value,
-                    fontSize: inputContent.fontSize,
-                    fill: inputContent.fill,
-                    fontFamily: inputContent.fontFamily,
-                    fontStyle: inputContent.fontStyle,
-                    textDecoration: inputContent.textDecoration,
-                    horizontalAlign: inputContent.horizontalAlign
+                    text: inputObj.value,
+                    fontSize: inputObj.fontSize,
+                    fill: inputObj.fill,
+                    fontFamily: inputObj.fontFamily,
+                    fontStyle: inputObj.fontStyle,
+                    textDecoration: inputObj.textDecoration,
+                    horizontalAlign: inputObj.horizontalAlign
                 }))
                 layer.add(group);
+                break;
+            case 'LongTextInput':
+                const longTextInput = shape as LongTextInputObj;
+                //Create Group
+                const longTextInputgroup = new Konva.Group({
+                    x: longTextInput.x,
+                    y: longTextInput.y,
+                    rotation: longTextInput.rotation,
+                });
+                longTextInput.value = formInputs[longTextInput.id].value;
+                longTextInputgroup.add(new Konva.Text({
+                    x: getInputXAlignment(longTextInput),
+                    y: getInputYAlignment(longTextInput, longTextInput.verticalAlign),
+                    text: longTextInput.value,
+                    fontSize: longTextInput.fontSize,
+                    fill: longTextInput.fill,
+                    fontFamily: longTextInput.fontFamily,
+                    fontStyle: longTextInput.fontStyle,
+                    textDecoration: longTextInput.textDecoration,
+                    horizontalAlign: longTextInput.horizontalAlign,
+                }))
+                layer.add(longTextInputgroup);
                 break;
             case 'Heading':
                 const headingObj = shape as HeadingObj;
@@ -258,13 +275,13 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
         // Update the matching shape directly
         if (shape.id === id) {
             foundAndUpdated = true;
-            if(isInputObject(shape)){
+            if (isInputObject(shape)) {
                 //Need to update width and height
                 const inputObj = { ...shape, [propertyName]: value } as InputObj;
-                if(inputObj.type !== 'LongTextInput'){
+                if (inputObj.type !== 'LongTextInput') {
                     const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(inputObj);
                     inputObj.height = contentShapeHeight;
-                    if(inputObj.type !== 'ShortTextInput'){
+                    if (inputObj.type !== 'ShortTextInput') {
                         inputObj.width = contentShapeWidth;
                     }
                 }
