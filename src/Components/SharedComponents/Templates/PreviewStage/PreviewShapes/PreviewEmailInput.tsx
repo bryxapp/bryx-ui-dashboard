@@ -33,6 +33,8 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs, showInputFillColor }: Pr
                 text={value}
                 fontSize={EmailInputObj.fontSize}
                 fontFamily={EmailInputObj.fontFamily}
+                fontStyle={EmailInputObj.fontStyle}
+                textDecoration={EmailInputObj.textDecoration}
                 fill={EmailInputObj.fill}
                 align={EmailInputObj.horizontalAlign}
             />

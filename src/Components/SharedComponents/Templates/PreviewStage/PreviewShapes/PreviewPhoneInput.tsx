@@ -33,6 +33,8 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs, showInputFillColor }: Pr
                 text={value}
                 fontSize={PhoneInputObj.fontSize}
                 fontFamily={PhoneInputObj.fontFamily}
+                fontStyle={PhoneInputObj.fontStyle}
+                textDecoration={PhoneInputObj.textDecoration}
                 fill={PhoneInputObj.fill}
                 align={PhoneInputObj.horizontalAlign}
             />

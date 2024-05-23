@@ -15,6 +15,8 @@ const PreviewParagraph= ({ ParagraphObj }: PreviewParagraphProps) => {
             text={ParagraphObj.value}
             fontSize={ParagraphObj.fontSize}
             fontFamily={ParagraphObj.fontFamily}
+            fontStyle={ParagraphObj.fontStyle}
+            textDecoration={ParagraphObj.textDecoration}
             fill={ParagraphObj.fill}
             rotation={ParagraphObj.rotation}
             align={ParagraphObj.horizontalAlign}

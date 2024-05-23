@@ -15,6 +15,8 @@ const PreviewHeading = ({ HeadingObj }: PreviewHeadingProps) => {
             text={HeadingObj.value}
             fontSize={HeadingObj.fontSize}
             fontFamily={HeadingObj.fontFamily}
+            fontStyle={HeadingObj.fontStyle}
+            textDecoration={HeadingObj.textDecoration}
             fill={HeadingObj.fill}
             rotation={HeadingObj.rotation}
         />

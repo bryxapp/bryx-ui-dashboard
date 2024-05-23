@@ -14,6 +14,8 @@ const EstimateFormLongTextField = ({
     handleChange,
     disabled
 }: EstimateFormLongTextFieldProps) => {
+    //Calculate number of rows 
+    const numRows = Math.round(longTextInputObj.height / (longTextInputObj.fontSize));
 
     return (
         <Form.Item
@@ -25,6 +27,7 @@ const EstimateFormLongTextField = ({
                 value={fieldValue}
                 onChange={(event) => handleChange(event, longTextInputObj.id)}
                 placeholder={longTextInputObj.value}
+                rows={numRows}
                 disabled={disabled}
             />
         </Form.Item>

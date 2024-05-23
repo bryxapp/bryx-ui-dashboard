@@ -35,6 +35,8 @@ const PreviewDateInput = ({ DateInputObj, formInputs, showInputFillColor }: Prev
                 text={val}
                 fontSize={DateInputObj.fontSize}
                 fontFamily={DateInputObj.fontFamily}
+                fontStyle={DateInputObj.fontStyle}
+                textDecoration={DateInputObj.textDecoration}
                 fill={DateInputObj.fill}
                 align={DateInputObj.horizontalAlign}
             />

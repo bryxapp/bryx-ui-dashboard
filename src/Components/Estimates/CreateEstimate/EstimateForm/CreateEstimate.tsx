@@ -8,13 +8,13 @@ import { TemplateData } from '../../../../utils/types/TemplateInterfaces';
 import { EstimateFormField, EstimateFormFields } from '../../../../utils/types/EstimateInterfaces';
 import Creating from '../../../SharedComponents/Creating/Creating';
 import Loading from '../../../SharedComponents/Loading/Loading';
-import PreviewStage from './TemplatePreview/TemplatePreview';
 import Saving from '../../../SharedComponents/Saving/Saving';
 import { useAuth0User } from '../../../../utils/customHooks/useAuth0User';
 import logger from '../../../../logging/logger';
 import ErrorMessage from '../../../SharedComponents/ErrorMessage/ErrorMessage';
 import { useCanvasDesignContext } from '../../../../utils/contexts/canvasDesignContext';
 import { findShape, isInputObject, isTableObject } from '../../../../utils/shapeManagementUtils';
+import PreviewStage from "../../../SharedComponents/Templates/PreviewStage/PreviewStage";
 import EstimateForm from './EstimateForm';
 
 const { Title } = Typography;
@@ -151,7 +151,7 @@ const CreateEstimate = () => {
                     />
                 </div>
                 <div style={{ flex: 2 }}>
-                    <PreviewStage canvasDesign={templateData.canvasDesign} formInputs={formInputs} />
+                    <PreviewStage canvasDesign={templateData.canvasDesign} scale={.75} formInputs={formInputs} showInputFillColor={false} />
                 </div>
             </div>
         </>

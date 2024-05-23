@@ -5,7 +5,7 @@ import { updateCellContentProperty, updateShapeProperty } from '../../../../../u
 
 const { Option } = Select;
 
-const FONT_SIZES = [12, 16, 20, 24, 28, 32, 48, 64, 72];
+const FONT_SIZES = [12, 16, 18, 20, 24, 28, 32, 48, 64, 72];
 
 interface FontSizePickerProps {
     textObj: TextBase;

@@ -26,6 +26,8 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
                 text={value}
                 fontSize={ShortTextInputObj.fontSize}
                 fontFamily={ShortTextInputObj.fontFamily}
+                fontStyle={ShortTextInputObj.fontStyle}
+                textDecoration={ShortTextInputObj.textDecoration}
                 fill={ShortTextInputObj.fill}
                 align={ShortTextInputObj.horizontalAlign}
             />
