@@ -45,7 +45,6 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
         textDecoration: contentCell.textDecoration,
         width: cellWidth - 4,
         height: cellHeight - 4,
-        alignContent: horizontalAlign,
         color: contentCell.fill,
         padding: '0px',
         margin: '0px',
