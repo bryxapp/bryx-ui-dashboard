@@ -5,8 +5,8 @@ import { EstimateFormFields } from '../../../../../utils/types/EstimateInterface
 
 interface EstimateFormTableProps {
     tableInputObj: TableInputObj;
-    formInputs: EstimateFormFields;
     handleChange: (event: any, inputObjId: string) => void;
+    formInputs: EstimateFormFields|null;
     disabled?: boolean;
 }
 
@@ -18,9 +18,9 @@ const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
 }) => {
 
     return (
-        <Form.Item 
-        style={{ marginBottom: '5px' }}
-        label = {tableInputObj.name}
+        <Form.Item
+            style={{ marginBottom: '5px' }}
+            label={tableInputObj.name}
         >
             <Card bordered style={{ padding: '0', margin: '0' }}>
                 <Row gutter={[16, 16]}>
@@ -30,7 +30,7 @@ const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
                                 {row.map((cell, cellIndex) => {
                                     if (!cell.content) return null;
                                     if (cell.content.type === "CellInput") {
-                                        const fieldValue = formInputs[cell.id].value;
+                                        const fieldValue = formInputs ? formInputs[cell.id].value : '';
                                         return (
                                             <Col span={24 / row.length} key={cellIndex}>
                                                 <Input.TextArea

@@ -14,8 +14,9 @@ import EstimateFormEmailField from '../EstimateFormTextFields/EstimateFormEmailF
 import EstimateFormLongTextField from '../EstimateFormTextFields/EstimateFormLongTextField';
 import EstimateFormPhoneField from '../EstimateFormTextFields/EstimateFormPhoneField';
 import EstimateFormTextField from '../EstimateFormTextFields/EstimateFormShortTextField';
-import { DateInputObj, EmailInputObj, InputObj, LongTextInputObj, PhoneInputObj, ShortTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
+import { DateInputObj, EmailInputObj, LongTextInputObj, PhoneInputObj, ShapeObj, ShortTextInputObj, TableInputObj } from "../../../../../utils/types/CanvasInterfaces";
 import { Button, Card, Tooltip } from "antd";
+import EstimateFormTable from "../EstimateFormTextFields/EstimateFormTable";
 
 interface Props {
     id: UniqueIdentifier;
@@ -63,19 +64,21 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
     };
 
     const { canvasDesign } = useCanvasDesignContext();
-    const inputObj = findShape(canvasDesign, id.toString()) as InputObj;
+    const shape = findShape(canvasDesign, id.toString()) as ShapeObj;
     const renderInputField = () => {
-        switch (inputObj.type) {
+        switch (shape.type) {
             case "ShortTextInput":
-                return (<EstimateFormTextField shortTextInputObj={inputObj as ShortTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />);
+                return (<EstimateFormTextField shortTextInputObj={shape as ShortTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
             case "EmailInput":
-                return (<EstimateFormEmailField emailInputObj={inputObj as EmailInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />);
+                return (<EstimateFormEmailField emailInputObj={shape as EmailInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
             case "LongTextInput":
-                return (<EstimateFormLongTextField longTextInputObj={inputObj as LongTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />);
+                return (<EstimateFormLongTextField longTextInputObj={shape as LongTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
             case "PhoneInput":
-                return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />);
+                return (<EstimateFormPhoneField phoneInputObj={shape as PhoneInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
             case "DateInput":
-                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} formInputs={null} setFormInputs={() => { }} fieldValue={''} key={"parent" + inputObj.id} disabled={true} />)
+                return (<EstimateFormDateField dateInputObj={shape as DateInputObj} formInputs={null} setFormInputs={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />)
+            case "TableInput":
+                return (<EstimateFormTable tableInputObj={shape as TableInputObj} formInputs={null} key={"parent" + shape.id} handleChange={() => { }} disabled={true} />)
             default:
                 return null;
         }
