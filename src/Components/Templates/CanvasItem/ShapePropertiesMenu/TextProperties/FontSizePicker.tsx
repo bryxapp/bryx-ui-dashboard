@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { updateCellContentProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 const { Option } = Select;
 
@@ -16,6 +16,10 @@ export default function FontSizePicker({ textObj, disabled }: FontSizePickerProp
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const handleFontSizeChange = (value: string | number) => {
         if (value === null) return;
+        if (textObj.type === 'CellInput' || textObj.type === 'TextCell') {
+            updateCellContentProperty(canvasDesign, setCanvasDesign, 'fontSize', value, selectedId);
+            return;
+        }
         updateShapeProperty(canvasDesign, setCanvasDesign, 'fontSize', value, selectedId);
     };
 

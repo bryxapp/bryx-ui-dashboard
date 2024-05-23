@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
+import { updateCellContentProperty, updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 
 const { Option } = Select;
 
@@ -33,6 +33,10 @@ export default function FontFamilyPicker({ textObj, disabled }: FontFamilyPicker
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
 
     const handleFontFamilyChange = (value: string) => {
+        if (value === null) return;
+        if (textObj.type === 'CellInput' || textObj.type === 'TextCell') {
+            updateCellContentProperty(canvasDesign, setCanvasDesign, 'fontFamily', value, selectedId);
+        }
         updateShapeProperty(canvasDesign, setCanvasDesign, 'fontFamily', value, selectedId);
 
     };

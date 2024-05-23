@@ -339,6 +339,35 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
     }
 };
 
+export const updateCellContentProperty = (canvasDesign: CanvasDesignData, setCanvasDesign: Function, propertyName: string, value: any, id: string | null) => {
+    let foundAndUpdated = false;
+
+    const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+        // Skip any further updates after the first match is found and updated
+        if (foundAndUpdated || shape.type !== 'TableInput') return shape;
+
+        const tableInputObj = shape as TableInputObj;
+        const updatedRows = tableInputObj.rows.map((row) => {
+            return row.map((cell) => {
+                if (cell.id === id) {
+                    foundAndUpdated = true;
+                    const updatedContent = { ...cell.content, [propertyName]: value };
+                    return { ...cell, content: updatedContent };
+                }
+                return cell;
+            });
+        });
+        return { ...tableInputObj, rows: updatedRows };
+    });
+
+    // Update the canvasDesign only if an update was made
+    if (foundAndUpdated) {
+        setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+    }
+};
+
+
+
 export const deleteShape = (canvasDesign: CanvasDesignData, setCanvasDesign: any, selectedId: string | null, setSelectedId: any) => {
     const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
     canvasDesign.Shapes.forEach((shape: ShapeObj) => {
@@ -416,4 +445,46 @@ export const toggleTextStyle = (
         Shapes: updatedShapes,
     });
 };
+
+
+export const toggleCellTextStyle = (
+    canvasDesign: CanvasDesignData,
+    setCanvasDesign: (newDesign: CanvasDesignData) => void,
+    selectedId: string | null,
+    style: 'bold' | 'italic' | 'underline' | 'line-through'
+) => {
+    const styleProperty = style === 'underline' || style === 'line-through' ? 'textDecoration' : 'fontStyle';
+    let foundAndUpdated = false;
+
+    const updatedShapes = canvasDesign.Shapes.map((shape) => {
+        if (foundAndUpdated || shape.type !== 'TableInput') return shape;
+
+        const tableInputObj = shape as TableInputObj;
+        const updatedRows = tableInputObj.rows.map((row) => {
+            return row.map((cell) => {
+                if (cell.id === selectedId) {
+                    foundAndUpdated = true;
+                    const textObj = { ...cell.content } as TextObj;
+                    const currentStyle = textObj[styleProperty] || '';
+                    const isStyleApplied = currentStyle.includes(style);
+                    const value = isStyleApplied
+                        ? currentStyle.replace(style, '').trim()
+                        : `${currentStyle} ${style}`.trim();
+                        const updatedContent = { ...cell.content, [styleProperty]: value };
+                        return { ...cell, content: updatedContent };
+                }
+                return cell;
+            });
+        });
+        return { ...tableInputObj, rows: updatedRows };
+    });
+
+    if (foundAndUpdated) {
+        setCanvasDesign({
+            ...canvasDesign,
+            Shapes: updatedShapes,
+        });
+    }
+};
+
 

@@ -5,12 +5,16 @@ export interface CanvasDesignData {
     pageWidth: number;
 }
 
-export interface ShapeObj {
-    id: string;
-    type: ShapeType;
+export interface ShapeObj extends BaseObj {
+
     x: number;
     y: number;
     rotation: number;
+}
+
+export interface BaseObj{
+    id: string;
+    type: ShapeType;
 }
 
 // Solid Shapes
@@ -88,7 +92,7 @@ export interface ParagraphObj extends TextObj {
 export interface TextObj extends TextValueObj, ShapeObj {
 }
 
-export interface TextBase {
+export interface TextBase extends BaseObj {
     fontSize: number;
     fill: string;
     fontFamily: string;

@@ -5,7 +5,7 @@ import { useCanvasDesignContext } from '../../../../../../utils/contexts/canvasD
 import ShapeTransformer from '../../SharedShapeComponents/ShapeTransformer';
 import { FILL_COLOR, getInputCellXAlignment, getInputCellYAlignment } from '../Input/InputHelper';
 import { CellInputObj, HorizontalAlign, TextCellObj, VerticalAlign } from '../../../../../../utils/types/CanvasInterfaces';
-import { updateShapeProperty } from '../../../../../../utils/shapeManagementUtils';
+import { updateCellContentProperty } from '../../../../../../utils/shapeManagementUtils';
 import { Html } from 'react-konva-utils';
 
 interface ContentCellProps {
@@ -93,7 +93,7 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
     }, []);
 
     const onChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, contentCell.id);
+        updateCellContentProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, contentCell.id);
     };
 
     return (
@@ -124,20 +124,20 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
                     y={getInputCellYAlignment(contentCell, cellHeight, verticalAlign.toString())}
                 >
                     {!editing ? (
-                            <Text
-                                text={contentCell.value}
-                                fontSize={contentCell.fontSize}
-                                fill={contentCell.fill}
-                                fontFamily={contentCell.fontFamily}
-                                fontStyle={contentCell.fontStyle}
-                                textDecoration={contentCell.textDecoration}
-                                onClick={onSelect}
-                                onTap={onSelect}
-                                onDblClick={() => setEditing(true)}
-                                onDblTap={() => setEditing(true)}
-                                draggable={false}
-                                minWidth={10}
-                            />
+                        <Text
+                            text={contentCell.value}
+                            fontSize={contentCell.fontSize}
+                            fill={contentCell.fill}
+                            fontFamily={contentCell.fontFamily}
+                            fontStyle={contentCell.fontStyle}
+                            textDecoration={contentCell.textDecoration}
+                            onClick={onSelect}
+                            onTap={onSelect}
+                            onDblClick={() => setEditing(true)}
+                            onDblTap={() => setEditing(true)}
+                            draggable={false}
+                            minWidth={10}
+                        />
                     ) : (
                         <Html>
                             <textarea

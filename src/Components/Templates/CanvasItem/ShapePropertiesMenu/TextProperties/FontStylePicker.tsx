@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import { ItalicOutlined, BoldOutlined } from '@ant-design/icons';
 import { TextBase } from '../../../../../utils/types/CanvasInterfaces';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
-import { toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
+import { toggleCellTextStyle, toggleTextStyle } from '../../../../../utils/shapeManagementUtils';
 
 interface FontStylePickerProps {
     textObj: TextBase;
@@ -13,7 +13,6 @@ interface FontStylePickerProps {
 const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, disabled }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
     const selectedTextItemFontStyle = textObj.fontStyle;
-    if (!selectedTextItemFontStyle) return null;
 
     const selectedFontStyles = [];
     if (selectedTextItemFontStyle?.includes('italic')) {
@@ -23,19 +22,28 @@ const FontStylePicker: React.FC<FontStylePickerProps> = ({ textObj, disabled }) 
         selectedFontStyles.push('bold');
     }
 
+    const handleClick = (property: 'bold' | 'italic' | 'underline' | 'line-through') => {
+        if (property === null) return;
+        if (textObj.type === 'CellInput' || textObj.type === 'TextCell') {
+            toggleCellTextStyle(canvasDesign, setCanvasDesign, selectedId, property)
+            return;
+        }
+        toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, property)
+    };
+
     return (
         <>
             <Button
                 type={selectedFontStyles.includes('italic') ? 'primary' : 'default'}
                 icon={<ItalicOutlined />}
-                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, 'italic')}
+                onClick={() => handleClick('italic')}
                 size="small"
                 disabled={disabled}
             />
             <Button
                 type={selectedFontStyles.includes('bold') ? 'primary' : 'default'}
                 icon={<BoldOutlined />}
-                onClick={() => toggleTextStyle(canvasDesign, setCanvasDesign, selectedId, 'bold')}
+                onClick={() => handleClick('bold')}
                 size="small"
                 disabled={disabled}
             />
