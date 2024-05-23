@@ -45,7 +45,7 @@ const TemplateItem = ({ template, handleTemplateDelete, handleTemplateCopy, base
         cover={
           <div style={{ paddingTop: "1rem" }}>
             <Link to={baseUrl + template.id}>
-              <PreviewStage canvasDesign={template.canvasDesign} scale={0.25} />
+              <PreviewStage canvasDesign={template.canvasDesign} scale={0.25} showInputFillColor={true}/>
             </Link>
           </div>
         }

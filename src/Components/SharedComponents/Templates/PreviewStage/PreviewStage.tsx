@@ -18,10 +18,11 @@ import PreviewTableInput from "./PreviewShapes/PreviewTableInput";
 interface PreviewStageProps {
   canvasDesign: CanvasDesignData;
   scale: number;
+  showInputFillColor: boolean;
   formInputs?: EstimateFormFields;
 }
 
-const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) => {
+const PreviewStage = ({ canvasDesign, scale, formInputs, showInputFillColor }: PreviewStageProps) => {
   //Page width and height is the same as the paper size. 8.5in x 11in
   const [pageWidth, pageHeight] = getWebCanvasDimensions(canvasDesign, scale);
 
@@ -51,16 +52,16 @@ const PreviewStage = ({ canvasDesign, scale, formInputs }: PreviewStageProps) =>
               case 'Paragraph':
                 return <PreviewParagraph ParagraphObj={shape as ParagraphObj} />
               case 'PhoneInput':
-                return <PreviewPhoneInput PhoneInputObj={shape as PhoneInputObj} formInputs={formInputs} />
+                return <PreviewPhoneInput PhoneInputObj={shape as PhoneInputObj} formInputs={formInputs} showInputFillColor={showInputFillColor}/>
               case 'EmailInput':
-                return <PreviewEmailInput EmailInputObj={shape as EmailInputObj} formInputs={formInputs} />
+                return <PreviewEmailInput EmailInputObj={shape as EmailInputObj} formInputs={formInputs} showInputFillColor={showInputFillColor}/>
               case 'ShortTextInput':
               case 'LongTextInput':
-                return <PreviewLongTextInput LongTextInputObj={shape as LongTextInputObj} formInputs={formInputs} />
+                return <PreviewLongTextInput LongTextInputObj={shape as LongTextInputObj} formInputs={formInputs} showInputFillColor={showInputFillColor}/>
               case 'DateInput':
-                return <PreviewDateInput DateInputObj={shape as DateInputObj} formInputs={formInputs} />
+                return <PreviewDateInput DateInputObj={shape as DateInputObj} formInputs={formInputs} showInputFillColor={showInputFillColor} />
               case 'TableInput':
-                return <PreviewTableInput tableInputObj={shape as TableInputObj} formInputs={formInputs} />
+                return <PreviewTableInput tableInputObj={shape as TableInputObj} formInputs={formInputs} showInputFillColor={showInputFillColor} />
               default:
                 return null;
             }

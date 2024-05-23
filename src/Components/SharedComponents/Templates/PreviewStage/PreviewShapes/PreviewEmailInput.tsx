@@ -1,14 +1,15 @@
-import { Group, Text } from "react-konva";
+import { Group, Rect, Text } from "react-konva";
 import { EmailInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
+import { FILL_COLOR, getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewEmailInputProps {
     EmailInputObj: EmailInputObj;
+    showInputFillColor: boolean;
     formInputs?: EstimateFormFields;
 }
 
-const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps) => {
+const PreviewEmailInput = ({ EmailInputObj, formInputs, showInputFillColor }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
     EmailInputObj.value = value;
     return (
@@ -19,6 +20,13 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs }: PreviewEmailInputProps
             y={EmailInputObj.y}
             rotation={EmailInputObj.rotation}
         >
+            {showInputFillColor && (
+                <Rect
+                    width={EmailInputObj.width}
+                    height={EmailInputObj.height}
+                    fill={FILL_COLOR}
+                />
+            )}
             <Text
                 x={getInputXAlignment(EmailInputObj)}
                 y={0}

@@ -1,14 +1,15 @@
-import { Group, Text } from "react-konva";
+import { Group, Rect, Text } from "react-konva";
 import { LongTextInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getInputXAlignment, getInputYAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
+import { FILL_COLOR, getInputXAlignment, getInputYAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 
 interface PreviewLongTextInputProps {
     LongTextInputObj: LongTextInputObj;
+    showInputFillColor: boolean;
     formInputs?: EstimateFormFields;
 }
 
-const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextInputProps) => {
+const PreviewLongTextInput = ({ LongTextInputObj, formInputs, showInputFillColor }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id].value : '';
     LongTextInputObj.value = value;
     const yalign = getInputYAlignment(LongTextInputObj, LongTextInputObj.verticalAlign);
@@ -21,6 +22,13 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs }: PreviewLongTextI
             y={LongTextInputObj.y}
             rotation={LongTextInputObj.rotation}
         >
+            {showInputFillColor && (
+                <Rect
+                    width={LongTextInputObj.width}
+                    height={LongTextInputObj.height}
+                    fill={FILL_COLOR}
+                />
+            )}
             <Text
                 x={getInputXAlignment(LongTextInputObj)}
                 y={yalign}

@@ -1,15 +1,16 @@
-import { Group, Text } from "react-konva";
+import { Group, Rect, Text } from "react-konva";
 import { DateInputObj } from "../../../../../utils/types/CanvasInterfaces";
-import { getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
+import { FILL_COLOR, getInputXAlignment } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input/InputHelper";
 import { EstimateFormFields } from "../../../../../utils/types/EstimateInterfaces";
 import { format } from "date-fns";
 
 interface PreviewDateInputProps {
     DateInputObj: DateInputObj;
     formInputs?: EstimateFormFields;
+    showInputFillColor: boolean;
 }
 
-const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) => {
+const PreviewDateInput = ({ DateInputObj, formInputs, showInputFillColor }: PreviewDateInputProps) => {
     const dateString = formInputs ? formInputs[DateInputObj.id].value : '';
     const val = dateString ? format(new Date(dateString), DateInputObj.dateFormat) : '';
     DateInputObj.value = val;
@@ -21,6 +22,13 @@ const PreviewDateInput = ({ DateInputObj, formInputs }: PreviewDateInputProps) =
             y={DateInputObj.y}
             rotation={DateInputObj.rotation}
         >
+            {showInputFillColor && (
+                <Rect
+                    width={DateInputObj.width}
+                    height={DateInputObj.height}
+                    fill={FILL_COLOR}
+                />
+            )}
             <Text
                 x={getInputXAlignment(DateInputObj)}
                 y={0}

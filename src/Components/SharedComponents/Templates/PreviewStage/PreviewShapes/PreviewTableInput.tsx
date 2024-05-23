@@ -7,10 +7,12 @@ import { FILL_COLOR } from "../../../../Templates/CanvasItem/Shapes/Inputs/Input
 
 interface PreviewTableInputProps {
     tableInputObj: TableInputObj;
+    showInputFillColor: boolean;
     formInputs?: EstimateFormFields;
+
 }
 
-const PreviewTableInput = ({ tableInputObj, formInputs }: PreviewTableInputProps) => {
+const PreviewTableInput = ({ tableInputObj, formInputs, showInputFillColor }: PreviewTableInputProps) => {
     return (
         <Group
             key={tableInputObj.id}
@@ -36,7 +38,7 @@ const PreviewTableInput = ({ tableInputObj, formInputs }: PreviewTableInputProps
                             y={cellYPosition + 2}
                             draggable={false}
                         >
-                            {isInputCell && (
+                            {isInputCell && showInputFillColor && (
                                 <Rect
                                     width={cell.width - 4}
                                     height={cell.height - 4}

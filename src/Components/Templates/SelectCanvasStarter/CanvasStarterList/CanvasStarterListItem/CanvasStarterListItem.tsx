@@ -16,7 +16,7 @@ const CanvasStarterListItem = ({ canvasStarter }: CanvasStarterListItemProps) =>
         {canvasStarter.name}
       </Title>
       <Link to={`/create-template?canvasStarterName=${canvasStarter.name}`}>
-        <PreviewStage canvasDesign={canvasStarter.canvasDesign} scale={0.33} />
+        <PreviewStage canvasDesign={canvasStarter.canvasDesign} scale={0.33} showInputFillColor={true}/>
       </Link>
     </div>
   );

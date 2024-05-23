@@ -13,11 +13,11 @@ const TemplatePreview = ({ canvasDesign, formInputs }: TemplatePreviewProps) => 
 
   return (
     <>
-      <Typography.Title level={4} style={{margin:0}}>
+      <Typography.Title level={4} style={{ margin: 0 }}>
         Template Snapshot
       </Typography.Title>
       <div style={{ height: 20 }}></div>
-      <PreviewStage canvasDesign={canvasDesign} scale={.7} formInputs={formInputs}/>
+      <PreviewStage canvasDesign={canvasDesign} scale={.7} formInputs={formInputs} showInputFillColor={false} />
     </>
   );
 };
