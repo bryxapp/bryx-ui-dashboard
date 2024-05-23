@@ -110,22 +110,20 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
                 onDblTap={() => setEditing(true)}
                 ref={shapeRef}
             >
-                {isInputCell && (
-                    <Rect
-                        width={cellWidth - 4}
-                        height={cellHeight - 4}
-                        fill={FILL_COLOR}
-                        onClick={onSelect}
-                        onTap={onSelect}
-                        onDblClick={() => setEditing(true)}
-                        onDblTap={() => setEditing(true)}
-                    />)}
+                <Rect
+                    width={cellWidth - 4}
+                    height={cellHeight - 4}
+                    fill={isInputCell ? FILL_COLOR : 'transparent'}
+                    onClick={onSelect}
+                    onTap={onSelect}
+                    onDblClick={() => setEditing(true)}
+                    onDblTap={() => setEditing(true)}
+                />
                 <Group
                     x={getInputCellXAlignment(contentCell, cellWidth, horizontalAlign.toString())}
                     y={getInputCellYAlignment(contentCell, cellHeight, verticalAlign.toString())}
                 >
                     {!editing ? (
-                        <>
                             <Text
                                 text={contentCell.value}
                                 fontSize={contentCell.fontSize}
@@ -137,12 +135,9 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
                                 onTap={onSelect}
                                 onDblClick={() => setEditing(true)}
                                 onDblTap={() => setEditing(true)}
-                                align={horizontalAlign}
-                                verticalAlign={verticalAlign}
                                 draggable={false}
                                 minWidth={10}
                             />
-                        </>
                     ) : (
                         <Html>
                             <textarea
