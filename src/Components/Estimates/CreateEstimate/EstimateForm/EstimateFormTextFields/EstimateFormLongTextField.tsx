@@ -22,8 +22,8 @@ const EstimateFormLongTextField = ({
         updateShapeProperty(canvasDesign, setCanvasDesign, 'name', event.target.value, longTextInputObj.id);
     };
     //Calculate number of rows 
-    const numRows = Math.round(longTextInputObj.height / (longTextInputObj.fontSize));
-     
+    const numRows = Math.min(5, Math.round(longTextInputObj.height / (longTextInputObj.fontSize)));
+
     return (
         <Form.Item
             key={longTextInputObj.id}
