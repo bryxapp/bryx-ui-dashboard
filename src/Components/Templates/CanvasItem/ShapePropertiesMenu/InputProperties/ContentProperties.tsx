@@ -18,7 +18,7 @@ const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputOb
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, selectedId);
     };
 
     const handleNameValueChange = (event: React.ChangeEvent<any>) => {

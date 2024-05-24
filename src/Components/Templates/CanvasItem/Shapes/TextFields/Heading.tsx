@@ -99,7 +99,7 @@ const Heading = ({
 
 
     const onChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, headingObj.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, headingObj.id);
     };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {

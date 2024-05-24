@@ -85,7 +85,7 @@ const Paragraph = ({
 
 
     const onChange = (event: any) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, paragraphObj.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, paragraphObj.id);
     };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {

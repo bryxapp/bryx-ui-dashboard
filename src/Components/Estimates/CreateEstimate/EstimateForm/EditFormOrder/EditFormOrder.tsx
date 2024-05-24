@@ -1,45 +1,21 @@
-import { Button, message } from "antd";
 import { useCanvasDesignContext } from "../../../../../utils/contexts/canvasDesignContext";
 import { useState } from "react";
 import { SortableList } from "./SortableList";
-import { useAuth0User } from "../../../../../utils/customHooks/useAuth0User";
-import { updateTemplate } from "../../../../../utils/api/templates-api";
 import { SortableItem } from "./SortableItem";
+import EstimateName from "../EstimateName/EstimateName";
 
 interface IEstimateFormProps {
-    setEditing: any;
     templateId: string;
-    friendlyName: string;
+    templateFriendlyName: string;
+    editing: boolean;
+    setEditing: any;
+    estimateName: string;
+    setEstimateName: any;
 }
 
-const EditFormOrder = ({ setEditing, templateId, friendlyName }: IEstimateFormProps) => {
+const EditFormOrder = ({ setEditing, templateId, templateFriendlyName, editing, estimateName, setEstimateName }: IEstimateFormProps) => {
     const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
     const [items, setItems] = useState(canvasDesign.inputOrder.map((id) => ({ id })));
-    const [loading, setLoading] = useState(false);
-    const { getAccessToken } = useAuth0User();
-
-    const handeSaveOrder = async () => {
-        try {
-            setLoading(true);
-            const token = await getAccessToken()
-            if (!token) return;
-            await updateTemplate(templateId, canvasDesign, friendlyName, token);
-            message.success({
-                content: "Form order saved",
-                duration: 3, // Duration in seconds
-            });
-        } catch (error) {
-            message.error({
-                content: "Error saving form order",
-                duration: 3, // Duration in seconds
-            });
-        }
-        finally {
-            setEditing(false);
-            setLoading(false);
-        }
-    }
-
     const handleOrderChange = (newItems: any) => {
         setItems(newItems);
         setCanvasDesign({
@@ -50,22 +26,20 @@ const EditFormOrder = ({ setEditing, templateId, friendlyName }: IEstimateFormPr
 
     return (
         <div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button type="primary" onClick={handeSaveOrder} disabled={loading}>Save</Button>
-                <div style={{ width: '5px' }} />
-                <Button type="primary" danger onClick={() => setEditing(false)} disabled={loading}>Cancel</Button>
-            </div>
-            <div style={{ height: '10px' }} />
-            <div>
-                <SortableList
-                    items={items}
-                    onChange={handleOrderChange}
-                    renderItem={(item: { id: any; }) => (
-                        <SortableItem id={item.id} />
-                    )}
-                />
-                <div style={{ height: '10px' }} />
-            </div>
+            <EstimateName
+                estimateName={estimateName}
+                setEstimateName={setEstimateName}
+                editing={editing}
+                setEditing={setEditing}
+                templateId={templateId}
+                templateFriendlyName={templateFriendlyName} />
+            <SortableList
+                items={items}
+                onChange={handleOrderChange}
+                renderItem={(item: { id: any; }) => (
+                    <SortableItem id={item.id} />
+                )}
+            />
         </div>
     );
 };

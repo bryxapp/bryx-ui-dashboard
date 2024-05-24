@@ -22,7 +22,7 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
 
     const selectedIsInput = tableCellObj.content.type === 'CellInput'
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {
-        updateCellContentProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, selectedId);
+        updateCellContentProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, selectedId);
     };
 
     return (

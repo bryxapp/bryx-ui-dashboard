@@ -9,15 +9,28 @@ import EstimateFormTextField from './EstimateFormShortTextField';
 import { findShape, isInputObject, isTableObject } from '../../../../../utils/shapeManagementUtils';
 import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
 import EstimateFormTable from './EstimateFormTable';
+import EstimateName from '../EstimateName/EstimateName';
 
 interface EstimateFormTextFieldsListProps {
     formInputs: EstimateFormFields;
     setFormInputs: React.Dispatch<React.SetStateAction<EstimateFormFields>>;
+    templateFriendlyName: string;
+    templateId: string;
+    editing: boolean;
+    setEditing: any;
+    estimateName: string;
+    setEstimateName: any;
 }
 
 const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
     formInputs,
     setFormInputs,
+    templateFriendlyName,
+    templateId,
+    editing,
+    setEditing,
+    estimateName,
+    setEstimateName,
 }) => {
     const { canvasDesign } = useCanvasDesignContext();
     const handleFieldChange = (event: any, inputObjId: string) => {
@@ -38,13 +51,13 @@ const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
             case "ShortTextInput":
                 return (<EstimateFormTextField shortTextInputObj={inputObj as ShortTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false} />);
             case "EmailInput":
-                return (<EstimateFormEmailField emailInputObj={inputObj as EmailInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>);
+                return (<EstimateFormEmailField emailInputObj={inputObj as EmailInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false} />);
             case "LongTextInput":
-                return (<EstimateFormLongTextField longTextInputObj={inputObj as LongTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>);
+                return (<EstimateFormLongTextField longTextInputObj={inputObj as LongTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false} />);
             case "PhoneInput":
-                return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>);
+                return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false} />);
             case "DateInput":
-                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} setFormInputs={setFormInputs} formInputs={formInputs} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>)
+                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} setFormInputs={setFormInputs} formInputs={formInputs} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false} />)
             default:
                 return null;
         }
@@ -54,6 +67,14 @@ const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
     if (!formInputs) return null;
     return (
         <>
+            <EstimateName
+                estimateName={estimateName}
+                setEstimateName={setEstimateName}
+                editing={editing}
+                setEditing={setEditing}
+                templateFriendlyName={templateFriendlyName}
+                templateId={templateId}
+            />
             {canvasDesign.inputOrder.map((inputObjId: string) => {
                 const shapeObj = findShape(canvasDesign, inputObjId);
                 if (!shapeObj) return null;

@@ -92,7 +92,7 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
     }, []);
 
     const onChange = (event: any) => {
-        updateCellContentProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, contentCell.id);
+        updateCellContentProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, contentCell.id);
     };
 
     return (

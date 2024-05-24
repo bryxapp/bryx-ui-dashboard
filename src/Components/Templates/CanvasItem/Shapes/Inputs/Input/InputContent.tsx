@@ -84,7 +84,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
     };
 
     const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        updateShapeProperty(canvasDesign, setCanvasDesign, 'value', event.target.value, inputObj.id);
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, inputObj.id);
     };
 
     const handleTransform = (event: Konva.KonvaEventObject<Event>) => {
