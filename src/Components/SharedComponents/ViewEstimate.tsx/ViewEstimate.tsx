@@ -44,7 +44,7 @@ const ViewEstimate = () => {
             setLoading(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [search, estimate]);
+    }, [search, estimate, auth0User?.sub]);
 
     if (loading) return <Loading />;
     if (estimateError) return <Title level={3}>Error loading estimate</Title>;

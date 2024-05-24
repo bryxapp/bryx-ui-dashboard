@@ -21,7 +21,7 @@ const PastEstimatesSearch = ({
     setMaxEstimatesReached,
     setEstimateRequestCompleted
 }: PastEstimatesSearchProps) => {
-    const { getAccessToken } = useAuth0User();
+    const { getAccessToken, auth0User } = useAuth0User();
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [selectedTemplateId, setSelectedTemplateId] = useState<string>('');
     const [dateRange, setDateRange] = useState<[Dayjs | null, Dayjs | null]>([null, null]);
@@ -83,7 +83,7 @@ const PastEstimatesSearch = ({
         }
         fetchData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [getAccessToken, pageSize, pageNumber]);
+    }, [pageSize, pageNumber, auth0User?.sub]);
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
