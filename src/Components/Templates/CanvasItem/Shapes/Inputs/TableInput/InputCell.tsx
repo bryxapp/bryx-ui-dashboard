@@ -119,8 +119,8 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
                     onDblTap={() => setEditing(true)}
                 />
                 <Group
-                    x={getInputCellXAlignment(contentCell, cellWidth, horizontalAlign.toString())}
-                    y={getInputCellYAlignment(contentCell, cellHeight, verticalAlign.toString())}
+                    x={getInputCellXAlignment(contentCell,contentCell.textValue, cellWidth, horizontalAlign.toString())}
+                    y={getInputCellYAlignment(contentCell,contentCell.textValue, cellHeight, verticalAlign.toString())}
                 >
                     {!editing ? (
                         <Text

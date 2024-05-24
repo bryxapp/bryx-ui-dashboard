@@ -11,7 +11,6 @@ interface PreviewPhoneInputProps {
 
 const PreviewPhoneInput = ({ PhoneInputObj, formInputs, showInputFillColor }: PreviewPhoneInputProps) => {
     const value = formInputs ? formInputs[PhoneInputObj.id].value : '';
-    PhoneInputObj.textValue = value;
     return (
         <Group
             key={PhoneInputObj.id}
@@ -28,7 +27,7 @@ const PreviewPhoneInput = ({ PhoneInputObj, formInputs, showInputFillColor }: Pr
                 />
             )}
             <Text
-                x={getInputXAlignment(PhoneInputObj)}
+                x={getInputXAlignment(PhoneInputObj,value)}
                 y={0}
                 text={value}
                 fontSize={PhoneInputObj.fontSize}

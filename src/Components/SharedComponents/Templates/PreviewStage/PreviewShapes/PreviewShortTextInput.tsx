@@ -10,7 +10,6 @@ interface PreviewShortTextInputProps {
 
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
-    ShortTextInputObj.textValue = value;
 
     return (
         <Group
@@ -21,7 +20,7 @@ const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTe
             rotation={ShortTextInputObj.rotation}
         >
             <Text
-                x={getInputXAlignment(ShortTextInputObj)}
+                x={getInputXAlignment(ShortTextInputObj, value)}
                 y={0}
                 text={value}
                 fontSize={ShortTextInputObj.fontSize}

@@ -13,7 +13,6 @@ interface PreviewDateInputProps {
 const PreviewDateInput = ({ DateInputObj, formInputs, showInputFillColor }: PreviewDateInputProps) => {
     const dateString = formInputs ? formInputs[DateInputObj.id].value : '';
     const val = dateString ? format(new Date(dateString), DateInputObj.dateFormat) : '';
-    DateInputObj.textValue = val;
     return (
         <Group
             key={DateInputObj.id}
@@ -30,7 +29,7 @@ const PreviewDateInput = ({ DateInputObj, formInputs, showInputFillColor }: Prev
                 />
             )}
             <Text
-                x={getInputXAlignment(DateInputObj)}
+                x={getInputXAlignment(DateInputObj, val)}
                 y={0}
                 text={val}
                 fontSize={DateInputObj.fontSize}

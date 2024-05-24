@@ -57,33 +57,33 @@ export const getXAlignment = (textWidth: number, horizontalAlign: string, contai
     }
 }
 
-export const getTextXAlignment = (text: TextObj, containerWidth: number, horizontalAlign: string): number => {
-    const [textWidth,] = getTextWidthAndHeight(text);
+export const getTextXAlignment = (text: TextObj, textValue: string, containerWidth: number, horizontalAlign: string): number => {
+    const [textWidth,] = getTextWidthAndHeight(text, textValue);
     return getXAlignment(textWidth, horizontalAlign, containerWidth);
 };
 
-export const getTextYAlignment = (text: TextObj, containerHeight: number, verticalAlign: string): number => {
-    const [, textHeight] = getTextWidthAndHeight(text);
+export const getTextYAlignment = (text: TextObj, textValue: string, containerHeight: number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text, textValue);
     return getYAlignment(textHeight, verticalAlign, containerHeight);
 }
 
-export const getInputXAlignment = (text: InputObj): number => {
-    const [textWidth,] = getTextWidthAndHeight(text);
+export const getInputXAlignment = (text: InputObj, textValue: string): number => {
+    const [textWidth,] = getTextWidthAndHeight(text, textValue);
     return getXAlignment(textWidth, text.horizontalAlign, text.width);
 }
 
-export const getInputCellXAlignment = (text: TextObj, cellWidth:number, horizontalAlign: string): number => {
-    const [textWidth,] = getTextWidthAndHeight(text);
+export const getInputCellXAlignment = (text: TextObj, textValue: string, cellWidth: number, horizontalAlign: string): number => {
+    const [textWidth,] = getTextWidthAndHeight(text, textValue);
     return getXAlignment(textWidth, horizontalAlign, cellWidth);
 }
 
-export const getInputYAlignment = (text: InputObj, verticalAlign: string): number => {
-    const [, textHeight] = getTextWidthAndHeight(text);
+export const getInputYAlignment = (text: InputObj, textValue: string, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text, textValue);
     return getYAlignment(textHeight, verticalAlign, text.height);
 }
 
-export const getInputCellYAlignment = (text: TextObj, cellHeight:number, verticalAlign: string): number => {
-    const [, textHeight] = getTextWidthAndHeight(text);
+export const getInputCellYAlignment = (text: TextObj, textValue: string, cellHeight: number, verticalAlign: string): number => {
+    const [, textHeight] = getTextWidthAndHeight(text, textValue);
     return getYAlignment(textHeight, verticalAlign, cellHeight);
 }
 

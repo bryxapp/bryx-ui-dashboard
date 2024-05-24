@@ -52,8 +52,8 @@ const ShapeRenderer = () => {
                         );
                     case 'DateInput':
                         const dateInputObj = shape as DateInputObj;
-                        dateInputObj.textValue = format(new Date(), dateInputObj.dateFormat);
-                        const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj);
+                        const value = format(new Date(), dateInputObj.dateFormat);
+                        const [contentShapeWidth, contentShapeHeight] = getTextWidthAndHeight(dateInputObj,value);
                         dateInputObj.width = contentShapeWidth;
                         dateInputObj.height = contentShapeHeight;
                         return (

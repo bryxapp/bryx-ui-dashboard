@@ -11,7 +11,6 @@ interface PreviewEmailInputProps {
 
 const PreviewEmailInput = ({ EmailInputObj, formInputs, showInputFillColor }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
-    EmailInputObj.textValue = value;
     return (
         <Group
             key={EmailInputObj.id}
@@ -28,7 +27,7 @@ const PreviewEmailInput = ({ EmailInputObj, formInputs, showInputFillColor }: Pr
                 />
             )}
             <Text
-                x={getInputXAlignment(EmailInputObj)}
+                x={getInputXAlignment(EmailInputObj,value)}
                 y={0}
                 text={value}
                 fontSize={EmailInputObj.fontSize}

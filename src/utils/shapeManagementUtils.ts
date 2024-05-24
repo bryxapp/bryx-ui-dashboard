@@ -83,11 +83,10 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     y: inputObj.y,
                     rotation: inputObj.rotation,
                 });
-                inputObj.textValue = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
-                    x: getInputXAlignment(inputObj),
+                    x: getInputXAlignment(inputObj, formInputs[inputObj.id].value),
                     y: 0,
-                    text: inputObj.textValue,
+                    text: formInputs[inputObj.id].value,
                     fontSize: inputObj.fontSize,
                     fill: inputObj.fill,
                     fontFamily: inputObj.fontFamily,
@@ -105,11 +104,10 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     y: longTextInput.y,
                     rotation: longTextInput.rotation,
                 });
-                longTextInput.textValue = formInputs[longTextInput.id].value;
                 longTextInputgroup.add(new Konva.Text({
-                    x: getInputXAlignment(longTextInput),
-                    y: getInputYAlignment(longTextInput, longTextInput.verticalAlign),
-                    text: longTextInput.textValue,
+                    x: getInputXAlignment(longTextInput, formInputs[longTextInput.id].value),
+                    y: getInputYAlignment(longTextInput,formInputs[longTextInput.id].value, longTextInput.verticalAlign),
+                    text: formInputs[longTextInput.id].value,
                     fontSize: longTextInput.fontSize,
                     fill: longTextInput.fill,
                     fontFamily: longTextInput.fontFamily,
@@ -190,8 +188,8 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
     }
 };
 
-export const getTextWidthAndHeight = (textObj: TextObj): [number, number] => {
-    const tempTextShape = createTempTextKonvaShape(textObj, textObj.textValue);
+export const getTextWidthAndHeight = (textObj: TextObj, textValue:string): [number, number] => {
+    const tempTextShape = createTempTextKonvaShape(textObj, textValue);
     return [tempTextShape.width(), tempTextShape.height()];
 };
 
@@ -298,11 +296,11 @@ export const updateShapeProperty = (canvasDesign: CanvasDesignData, setCanvasDes
                         inputObj.width = emailWidth;
                         break;
                     case 'ShortTextInput':
-                        const [, contentHeight] = getTextWidthAndHeight(inputObj);
+                        const [, contentHeight] = getTextWidthAndHeight(inputObj,inputObj.textValue);
                         inputObj.height = contentHeight;
                         break;
                     case 'DateInput':
-                        const [dateWidth, dateHeight] = getTextWidthAndHeight(inputObj);
+                        const [dateWidth, dateHeight] = getTextWidthAndHeight(inputObj,inputObj.textValue);
                         inputObj.height = dateHeight;
                         inputObj.width = dateWidth;
                         break;

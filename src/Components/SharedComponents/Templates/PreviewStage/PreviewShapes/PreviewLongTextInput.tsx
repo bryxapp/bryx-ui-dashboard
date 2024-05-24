@@ -11,8 +11,7 @@ interface PreviewLongTextInputProps {
 
 const PreviewLongTextInput = ({ LongTextInputObj, formInputs, showInputFillColor }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id]?.value : '';
-    LongTextInputObj.textValue = value;
-    const yalign = getInputYAlignment(LongTextInputObj, LongTextInputObj.verticalAlign);
+    const yalign = getInputYAlignment(LongTextInputObj, value, LongTextInputObj.verticalAlign);
 
     return (
         <Group
@@ -30,7 +29,7 @@ const PreviewLongTextInput = ({ LongTextInputObj, formInputs, showInputFillColor
                 />
             )}
             <Text
-                x={getInputXAlignment(LongTextInputObj)}
+                x={getInputXAlignment(LongTextInputObj, value)}
                 y={yalign}
                 text={value}
                 fontSize={LongTextInputObj.fontSize}

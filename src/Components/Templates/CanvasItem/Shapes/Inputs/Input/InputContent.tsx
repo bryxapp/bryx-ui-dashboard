@@ -16,7 +16,7 @@ interface InputContentProps {
 }
 
 const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
-    const yAlign = verticalAlign ? getInputYAlignment(inputObj, verticalAlign) : 0;
+    const yAlign = verticalAlign ? getInputYAlignment(inputObj, inputObj.textValue, verticalAlign) : 0;
     const [editing, setEditing] = useState(false);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
     const { canvasDesign, setCanvasDesign, setSelectedId, selectedId } = useCanvasDesignContext();
@@ -131,7 +131,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                     onDoubleClick={handleDoubleClick}
                     onDblTap={handleDoubleClick}
                 />
-                <Group x={getInputXAlignment(inputObj)} y={yAlign}>
+                <Group x={getInputXAlignment(inputObj, inputObj.textValue)} y={yAlign}>
                     {!editing ? (
                         <Text
                             text={inputObj.textValue}
