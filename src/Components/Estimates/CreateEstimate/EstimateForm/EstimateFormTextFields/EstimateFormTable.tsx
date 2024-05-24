@@ -7,14 +7,14 @@ interface EstimateFormTableProps {
     tableInputObj: TableInputObj;
     handleChange: (event: any, inputObjId: string) => void;
     formInputs: EstimateFormFields|null;
-    disabled?: boolean;
+    sorting?: boolean;
 }
 
 const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
     tableInputObj,
     formInputs,
     handleChange,
-    disabled
+    sorting
 }) => {
 
     return (
@@ -37,7 +37,7 @@ const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
                                                     value={fieldValue}
                                                     onChange={(event) => handleChange(event, cell.id)}
                                                     placeholder={cell.content.value}
-                                                    disabled={disabled}
+                                                    disabled={sorting}
                                                 />
                                             </Col>
                                         );

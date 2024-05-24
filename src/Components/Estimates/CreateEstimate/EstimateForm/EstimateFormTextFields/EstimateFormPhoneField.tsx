@@ -1,3 +1,5 @@
+import { useCanvasDesignContext } from '../../../../../utils/contexts/canvasDesignContext';
+import { updateShapeProperty } from '../../../../../utils/shapeManagementUtils';
 import { PhoneInputObj } from '../../../../../utils/types/CanvasInterfaces';
 import { Form, Input } from 'antd';
 
@@ -5,28 +7,39 @@ interface EstimateFormPhoneFieldProps {
     phoneInputObj: PhoneInputObj;
     fieldValue: string;
     handleChange: (event: any, inputObjId: string) => void;
-    disabled?: boolean;
+    sorting: boolean;
 }
 
 const EstimateFormPhoneField = ({
     phoneInputObj,
     fieldValue,
     handleChange,
-    disabled
+    sorting
 }: EstimateFormPhoneFieldProps) => {
+    const { canvasDesign, setCanvasDesign } = useCanvasDesignContext();
+
+    const handleInputNameValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        updateShapeProperty(canvasDesign, setCanvasDesign, 'name', event.target.value, phoneInputObj.id);
+    };
 
     return (
         <Form.Item
             key={phoneInputObj.id}
-            label={phoneInputObj.name}
-            rules={[{ pattern: /^(\(\d{3}\) \d{3}-\d{4})$/, message: 'Please enter a valid phone number' }]}
+            label={sorting ? (
+                <Input
+                    value={phoneInputObj.name}
+                    onChange={handleInputNameValueChange}
+                />
+            ) : (
+                phoneInputObj.name
+            )}
             style={{ marginBottom: '5px' }}
         >
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, phoneInputObj.id)}
                 placeholder={phoneInputObj.value}
-                disabled={disabled}
+                disabled={sorting}
             />
         </Form.Item>
     );

@@ -68,17 +68,17 @@ export function SortableItem({ id }: PropsWithChildren<Props>) {
     const renderInputField = () => {
         switch (shape.type) {
             case "ShortTextInput":
-                return (<EstimateFormTextField shortTextInputObj={shape as ShortTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
+                return (<EstimateFormTextField shortTextInputObj={shape as ShortTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} sorting={true} />);
             case "EmailInput":
-                return (<EstimateFormEmailField emailInputObj={shape as EmailInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
+                return (<EstimateFormEmailField emailInputObj={shape as EmailInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} sorting={true} />);
             case "LongTextInput":
-                return (<EstimateFormLongTextField longTextInputObj={shape as LongTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
+                return (<EstimateFormLongTextField longTextInputObj={shape as LongTextInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} sorting={true} />);
             case "PhoneInput":
-                return (<EstimateFormPhoneField phoneInputObj={shape as PhoneInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />);
+                return (<EstimateFormPhoneField phoneInputObj={shape as PhoneInputObj} handleChange={() => { }} fieldValue={''} key={"parent" + shape.id} sorting={true} />);
             case "DateInput":
-                return (<EstimateFormDateField dateInputObj={shape as DateInputObj} formInputs={null} setFormInputs={() => { }} fieldValue={''} key={"parent" + shape.id} disabled={true} />)
+                return (<EstimateFormDateField dateInputObj={shape as DateInputObj} formInputs={null} setFormInputs={() => { }} fieldValue={''} key={"parent" + shape.id} sorting={true} />)
             case "TableInput":
-                return (<EstimateFormTable tableInputObj={shape as TableInputObj} formInputs={null} key={"parent" + shape.id} handleChange={() => { }} disabled={true} />)
+                return (<EstimateFormTable tableInputObj={shape as TableInputObj} formInputs={null} key={"parent" + shape.id} handleChange={() => { }} sorting={true} />)
             default:
                 return null;
         }

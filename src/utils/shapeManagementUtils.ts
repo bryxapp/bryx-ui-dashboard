@@ -417,6 +417,9 @@ export const pasteObject = (canvasDesign: CanvasDesignData, setCanvasDesign: (ne
 
     updatedCanvasDesign.Shapes.push(pastedObject);
     selectedId = pastedObject.id; // Select the pasted object
+    if (isInputObject(pastedObject)) {
+        updatedCanvasDesign.inputOrder.push(pastedObject.id);
+    }
 
     setCanvasDesign(updatedCanvasDesign); // Update the canvasDesign state with the pasted object
 };
