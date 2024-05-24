@@ -4,7 +4,6 @@ import { createEstimatePDF } from '../../../../utils/api/estimates-api';
 import ShareLinkDialog from './ShareLinkDialog/ShareLinkDialog';
 import { useState } from 'react';
 import { Spin } from 'antd';
-import { useEffect } from 'react';
 
 const EstimateShareBar = ({ estimate }: any) => {
     const [shareDialogOpen, setShareDialogOpen] = useState(false);
@@ -25,12 +24,12 @@ const EstimateShareBar = ({ estimate }: any) => {
                     setPdfUrl(res.estimatePdfUrl);
                     setTimeout(() => {
                         window.open(res.estimatePdfUrl, '_blank');
-                    }, 2000);
+                        setPdfLoading(false);
+                    }, 1500);
                 }
             } catch (error) {
-                console.log('Error creating PDF', error);
-            } finally {
                 setPdfLoading(false);
+                console.log('Error creating PDF', error);
             }
         }
     };
@@ -38,12 +37,6 @@ const EstimateShareBar = ({ estimate }: any) => {
     const handleOpenShareDialog = () => {
         setShareDialogOpen(true);
     };
-
-    useEffect(() => {
-        if (pdfUrl) {
-            window.open(pdfUrl, '_blank');
-        }
-    }, [pdfUrl]);
 
     return (
         <div style={{ display: 'flex', justifyContent: 'space-between', width: '7rem' }}>

@@ -146,6 +146,45 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     horizontalAlign: paragraphObj.horizontalAlign
                 }))
                 break;
+            case 'TableInput':
+                const tableInputObj = shape as TableInputObj;
+                const tableInputObjGroup = new Konva.Group({
+                    x: tableInputObj.x,
+                    y: tableInputObj.y,
+                    rotation: tableInputObj.rotation,
+                });
+                tableInputObj.rows.forEach((row, rowIndex) => {
+                    row.forEach((cell, cellIndex) => {
+                        if (!cell.content) return;
+                        const isInputCell = cell.content.type === 'CellInput';
+                        const cellXPosition = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
+                        const cellYPosition = tableInputObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
+                        let value = cell.content.textValue;
+                        if (isInputCell && formInputs) {
+                            value = formInputs[cell.id].value || '';
+                        }
+                        const cellGroup = new Konva.Group({
+                            x: cellXPosition + 2,
+                            y: cellYPosition + 2,
+                        });
+                        const text = new Konva.Text({
+                            text: value,
+                            fontSize: cell.content.fontSize,
+                            fill: cell.content.fill,
+                            width: cell.width - 4,
+                            height: cell.height - 4,
+                            fontFamily: cell.content.fontFamily,
+                            fontStyle: cell.content.fontStyle,
+                            textDecoration: cell.content.textDecoration,
+                            align: cell.horizontalAlign,
+                            verticalAlign: cell.verticalAlign,
+                        });
+                        cellGroup.add(text);
+                        tableInputObjGroup.add(cellGroup);
+                    });
+                    layer.add(tableInputObjGroup);
+                });
+                break;
             default:
                 break;
         }
