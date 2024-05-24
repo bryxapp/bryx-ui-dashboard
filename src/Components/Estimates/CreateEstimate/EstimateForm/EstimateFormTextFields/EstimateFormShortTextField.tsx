@@ -39,7 +39,7 @@ const EstimateFormShortTextField: React.FC<EstimateFormShortTextFieldProps> = ({
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, shortTextInputObj.id)}
-                placeholder={shortTextInputObj.value}
+                placeholder={shortTextInputObj.textValue}
                 disabled={sorting}
             />
         </Form.Item>

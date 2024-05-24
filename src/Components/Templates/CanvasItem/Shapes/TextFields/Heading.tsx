@@ -86,8 +86,8 @@ const Heading = ({
         fontStyle: headingObj.fontStyle,
         textDecoration: headingObj.textDecoration,
         whiteSpace: 'pre-wrap',
-        width: `${measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
-        height: `${measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
+        width: `${measureWidth(headingObj.textValue, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
+        height: `${measureHeight(headingObj.textValue, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
         color: headingObj.fill,
         border: 'none',
         padding: '0px',
@@ -107,8 +107,8 @@ const Heading = ({
         const { value } = target;
         target.setSelectionRange(value.length, value.length);
     };
-    const rectWidth = measureWidth(headingObj.value, headingObj.fontSize, headingObj.fontFamily);
-    const rectHeight = measureHeight(headingObj.value, headingObj.fontSize, headingObj.fontFamily);
+    const rectWidth = measureWidth(headingObj.textValue, headingObj.fontSize, headingObj.fontFamily);
+    const rectHeight = measureHeight(headingObj.textValue, headingObj.fontSize, headingObj.fontFamily);
 
     return (
         <>
@@ -128,7 +128,7 @@ const Heading = ({
                 />
                 {!editing && (
                     <Text
-                        text={headingObj.value}
+                        text={headingObj.textValue}
                         fontSize={headingObj.fontSize}
                         fill={headingObj.fill}
                         onClick={onSelect}
@@ -149,7 +149,7 @@ const Heading = ({
                             onChange={onChange}
                             style={style}
                             id={headingObj.id}
-                            value={headingObj.value}
+                            value={headingObj.textValue}
                             autoFocus
                             onFocus={moveCaretToEnd}
                         />

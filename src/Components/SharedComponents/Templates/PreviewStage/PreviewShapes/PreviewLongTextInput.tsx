@@ -11,7 +11,7 @@ interface PreviewLongTextInputProps {
 
 const PreviewLongTextInput = ({ LongTextInputObj, formInputs, showInputFillColor }: PreviewLongTextInputProps) => {
     const value = formInputs ? formInputs[LongTextInputObj.id]?.value : '';
-    LongTextInputObj.value = value;
+    LongTextInputObj.textValue = value;
     const yalign = getInputYAlignment(LongTextInputObj, LongTextInputObj.verticalAlign);
 
     return (

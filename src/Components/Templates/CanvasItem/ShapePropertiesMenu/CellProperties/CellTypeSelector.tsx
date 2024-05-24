@@ -32,7 +32,7 @@ export default function CellTypeSelector({ tableCellObj }: CellTypeSelectorProps
             case "Input":
                 {
                     const textCellObj = shape as TextCellObj;
-                    let { id, x, y, value, fontSize, fontFamily, fontStyle, textDecoration, rotation, fill } = textCellObj;
+                    let { id, x, y, textValue: value, fontSize, fontFamily, fontStyle, textDecoration, rotation, fill } = textCellObj;
                     return {
                         id,
                         x,
@@ -45,13 +45,13 @@ export default function CellTypeSelector({ tableCellObj }: CellTypeSelectorProps
                         displayName: value,
                         rotation,
                         fill,
-                        value,
+                        textValue: value,
                     } as CellInputObj;
                 }
             case "Text":
                 {
                     const TextInputObj = shape as CellInputObj;
-                    const { id, x, y, value, fontSize, fontFamily, fontStyle, textDecoration, rotation, fill } = TextInputObj;
+                    const { id, x, y, textValue: value, fontSize, fontFamily, fontStyle, textDecoration, rotation, fill } = TextInputObj;
                     return {
                         id,
                         x,
@@ -61,7 +61,7 @@ export default function CellTypeSelector({ tableCellObj }: CellTypeSelectorProps
                         fontStyle,
                         textDecoration,
                         type: "TextCell",
-                        value,
+                        textValue: value,
                         rotation,
                         fill
                     } as TextCellObj;

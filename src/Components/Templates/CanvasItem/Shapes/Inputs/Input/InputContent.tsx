@@ -134,7 +134,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                 <Group x={getInputXAlignment(inputObj)} y={yAlign}>
                     {!editing ? (
                         <Text
-                            text={inputObj.value}
+                            text={inputObj.textValue}
                             fontSize={inputObj.fontSize}
                             fill={inputObj.fill}
                             fontFamily={inputObj.fontFamily}
@@ -151,7 +151,7 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
                                 onChange={onChange}
                                 style={style}
                                 id={inputObj.id}
-                                value={inputObj.value}
+                                value={inputObj.textValue}
                                 autoFocus
                                 onFocus={moveCaretToEnd}
                             />

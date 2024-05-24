@@ -33,7 +33,7 @@ const CellProperties: React.FC<CellPropertiesProps> = ({ tableCellObj }) => {
                     <Typography.Text>Place Holder</Typography.Text>
                     <Input.TextArea
                         id="contentValueEditor"
-                        value={tableCellObj.content?.value}
+                        value={tableCellObj.content?.textValue}
                         onChange={handleContentValueChange}
                         size="small"
                         placeholder="Optional"

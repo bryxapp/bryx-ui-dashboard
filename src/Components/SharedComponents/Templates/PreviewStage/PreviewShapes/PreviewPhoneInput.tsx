@@ -11,7 +11,7 @@ interface PreviewPhoneInputProps {
 
 const PreviewPhoneInput = ({ PhoneInputObj, formInputs, showInputFillColor }: PreviewPhoneInputProps) => {
     const value = formInputs ? formInputs[PhoneInputObj.id].value : '';
-    PhoneInputObj.value = value;
+    PhoneInputObj.textValue = value;
     return (
         <Group
             key={PhoneInputObj.id}

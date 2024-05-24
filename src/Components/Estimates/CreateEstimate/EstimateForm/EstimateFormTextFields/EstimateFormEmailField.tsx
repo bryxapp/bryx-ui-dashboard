@@ -38,7 +38,7 @@ const EstimateFormEmailField = ({
             <Input
                 value={fieldValue}
                 onChange={(event) => handleChange(event, emailInputObj.id)}
-                placeholder={emailInputObj.value}
+                placeholder={emailInputObj.textValue}
                 disabled={sorting}
             />
         </Form.Item>

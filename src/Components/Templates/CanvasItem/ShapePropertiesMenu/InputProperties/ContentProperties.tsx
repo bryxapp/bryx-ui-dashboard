@@ -14,7 +14,7 @@ interface InputContentPropertiesProps {
 
 const InputContentProperties: React.FC<InputContentPropertiesProps> = ({ inputObj }) => {
     const { canvasDesign, setCanvasDesign, selectedId } = useCanvasDesignContext();
-    const selectedInputContent = inputObj.value ?? '';
+    const selectedInputContent = inputObj.textValue ?? '';
     const isLongTextInput = inputObj.type === 'LongTextInput';
 
     const handleContentValueChange = (event: React.ChangeEvent<any>) => {

@@ -101,7 +101,7 @@ export interface TextBase extends BaseObj {
 }
 
 export interface TextValueObj extends TextBase {
-    value: string;
+    textValue: string;
 }
 
 export interface InputObj extends ShapeObj, TextValueObj {

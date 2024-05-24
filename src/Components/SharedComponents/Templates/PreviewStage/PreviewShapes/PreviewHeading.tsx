@@ -12,7 +12,7 @@ const PreviewHeading = ({ HeadingObj }: PreviewHeadingProps) => {
             id={HeadingObj.id}
             x={HeadingObj.x}
             y={HeadingObj.y}
-            text={HeadingObj.value}
+            text={HeadingObj.textValue}
             fontSize={HeadingObj.fontSize}
             fontFamily={HeadingObj.fontFamily}
             fontStyle={HeadingObj.fontStyle}

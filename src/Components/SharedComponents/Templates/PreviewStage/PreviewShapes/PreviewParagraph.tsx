@@ -12,7 +12,7 @@ const PreviewParagraph= ({ ParagraphObj }: PreviewParagraphProps) => {
             id={ParagraphObj.id}
             x={ParagraphObj.x}
             y={ParagraphObj.y}
-            text={ParagraphObj.value}
+            text={ParagraphObj.textValue}
             fontSize={ParagraphObj.fontSize}
             fontFamily={ParagraphObj.fontFamily}
             fontStyle={ParagraphObj.fontStyle}

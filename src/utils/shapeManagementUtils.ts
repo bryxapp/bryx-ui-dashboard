@@ -83,11 +83,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     y: inputObj.y,
                     rotation: inputObj.rotation,
                 });
-                inputObj.value = formInputs[inputObj.id].value;
+                inputObj.textValue = formInputs[inputObj.id].value;
                 group.add(new Konva.Text({
                     x: getInputXAlignment(inputObj),
                     y: 0,
-                    text: inputObj.value,
+                    text: inputObj.textValue,
                     fontSize: inputObj.fontSize,
                     fill: inputObj.fill,
                     fontFamily: inputObj.fontFamily,
@@ -105,11 +105,11 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     y: longTextInput.y,
                     rotation: longTextInput.rotation,
                 });
-                longTextInput.value = formInputs[longTextInput.id].value;
+                longTextInput.textValue = formInputs[longTextInput.id].value;
                 longTextInputgroup.add(new Konva.Text({
                     x: getInputXAlignment(longTextInput),
                     y: getInputYAlignment(longTextInput, longTextInput.verticalAlign),
-                    text: longTextInput.value,
+                    text: longTextInput.textValue,
                     fontSize: longTextInput.fontSize,
                     fill: longTextInput.fill,
                     fontFamily: longTextInput.fontFamily,
@@ -124,7 +124,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 layer.add(new Konva.Text({
                     x: headingObj.x,
                     y: headingObj.y,
-                    text: headingObj.value,
+                    text: headingObj.textValue,
                     fontSize: headingObj.fontSize,
                     fill: headingObj.fill,
                     rotation: headingObj.rotation,
@@ -138,7 +138,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                 layer.add(new Konva.Text({
                     x: paragraphObj.x,
                     y: paragraphObj.y,
-                    text: paragraphObj.value,
+                    text: paragraphObj.textValue,
                     fontSize: paragraphObj.fontSize,
                     fill: paragraphObj.fill,
                     rotation: paragraphObj.rotation,
@@ -191,7 +191,7 @@ export const getShapeWidth = (shape: SolidShapeObj | ImageObj): number => {
 };
 
 export const getTextWidthAndHeight = (textObj: TextObj): [number, number] => {
-    const tempTextShape = createTempTextKonvaShape(textObj, textObj.value);
+    const tempTextShape = createTempTextKonvaShape(textObj, textObj.textValue);
     return [tempTextShape.width(), tempTextShape.height()];
 };
 

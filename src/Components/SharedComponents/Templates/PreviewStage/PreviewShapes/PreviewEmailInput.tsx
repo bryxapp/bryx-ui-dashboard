@@ -11,7 +11,7 @@ interface PreviewEmailInputProps {
 
 const PreviewEmailInput = ({ EmailInputObj, formInputs, showInputFillColor }: PreviewEmailInputProps) => {
     const value = formInputs ? formInputs[EmailInputObj.id].value : '';
-    EmailInputObj.value = value;
+    EmailInputObj.textValue = value;
     return (
         <Group
             key={EmailInputObj.id}

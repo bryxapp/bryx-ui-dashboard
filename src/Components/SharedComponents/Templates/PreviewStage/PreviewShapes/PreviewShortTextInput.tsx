@@ -10,7 +10,7 @@ interface PreviewShortTextInputProps {
 
 const PreviewShortTextInput = ({ ShortTextInputObj, formInputs }: PreviewShortTextInputProps) => {
     const value = formInputs ? formInputs[ShortTextInputObj.id].value : '';
-    ShortTextInputObj.value = value;
+    ShortTextInputObj.textValue = value;
 
     return (
         <Group

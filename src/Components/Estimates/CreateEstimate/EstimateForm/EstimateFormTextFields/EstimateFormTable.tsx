@@ -36,7 +36,7 @@ const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
                                                 <Input.TextArea
                                                     value={fieldValue}
                                                     onChange={(event) => handleChange(event, cell.id)}
-                                                    placeholder={cell.content.value}
+                                                    placeholder={cell.content.textValue}
                                                     disabled={sorting}
                                                 />
                                             </Col>
@@ -44,7 +44,7 @@ const EstimateFormTable: React.FC<EstimateFormTableProps> = ({
                                     } else if (cell.content.type === "TextCell") {
                                         return (
                                             <Col span={24 / row.length} key={cellIndex}>
-                                                <Typography.Text>{cell.content.value}</Typography.Text>
+                                                <Typography.Text>{cell.content.textValue}</Typography.Text>
                                             </Col>
                                         );
                                     }

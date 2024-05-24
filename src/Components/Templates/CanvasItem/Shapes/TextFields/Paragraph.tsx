@@ -105,7 +105,7 @@ const Paragraph = ({
                 ref={shapeRef} rotation={paragraphObj.rotation}>
                 {!editing && (
                     <Text
-                        text={paragraphObj.value}
+                        text={paragraphObj.textValue}
                         fontSize={paragraphObj.fontSize}
                         fill={paragraphObj.fill}
                         onClick={onSelect}
@@ -127,7 +127,7 @@ const Paragraph = ({
                             onChange={onChange}
                             style={style}
                             id={paragraphObj.id}
-                            value={paragraphObj.value}
+                            value={paragraphObj.textValue}
                             autoFocus
                             onFocus={moveCaretToEnd}
                             key="paragraphTextArea"

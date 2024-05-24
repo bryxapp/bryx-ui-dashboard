@@ -124,7 +124,7 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
                 >
                     {!editing ? (
                         <Text
-                            text={contentCell.value}
+                            text={contentCell.textValue}
                             fontSize={contentCell.fontSize}
                             fill={contentCell.fill}
                             fontFamily={contentCell.fontFamily}
@@ -144,7 +144,7 @@ const ContentCell = ({ contentCell, cellWidth, cellHeight, horizontalAlign, vert
                                 onChange={onChange}
                                 style={style}
                                 id={contentCell.id}
-                                value={contentCell.value}
+                                value={contentCell.textValue}
                                 autoFocus
                                 onFocus={moveCaretToEnd}
                             />

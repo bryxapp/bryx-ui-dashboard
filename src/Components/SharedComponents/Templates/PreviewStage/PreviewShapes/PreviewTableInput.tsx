@@ -26,7 +26,7 @@ const PreviewTableInput = ({ tableInputObj, formInputs, showInputFillColor }: Pr
                     const isInputCell = cell.content.type === 'CellInput';
                     const cellXPosition = row.slice(0, cellIndex).reduce((acc, prevCell) => acc + prevCell.width, 0);
                     const cellYPosition = tableInputObj.rows.slice(0, rowIndex).reduce((acc, prevRow) => acc + prevRow[0].height, 0);
-                    let value = cell.content.value;
+                    let value = cell.content.textValue;
                     if (isInputCell && formInputs) {
                         value = formInputs[cell.id].value || '';
                     }
