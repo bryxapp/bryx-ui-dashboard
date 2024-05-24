@@ -36,15 +36,15 @@ const EstimateFormTextFieldsList: React.FC<EstimateFormTextFieldsListProps> = ({
         const fieldValue = formInputs[inputObj.id].value;
         switch (inputObj.type) {
             case "ShortTextInput":
-                return (<EstimateFormTextField shortTextInputObj={inputObj as ShortTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} />);
+                return (<EstimateFormTextField shortTextInputObj={inputObj as ShortTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false} />);
             case "EmailInput":
-                return (<EstimateFormEmailField emailInputObj={inputObj as EmailInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} />);
+                return (<EstimateFormEmailField emailInputObj={inputObj as EmailInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>);
             case "LongTextInput":
-                return (<EstimateFormLongTextField longTextInputObj={inputObj as LongTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} />);
+                return (<EstimateFormLongTextField longTextInputObj={inputObj as LongTextInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>);
             case "PhoneInput":
-                return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} />);
+                return (<EstimateFormPhoneField phoneInputObj={inputObj as PhoneInputObj} handleChange={handleFieldChange} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>);
             case "DateInput":
-                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} setFormInputs={setFormInputs} formInputs={formInputs} fieldValue={fieldValue} key={"parent" + inputObj.id} />)
+                return (<EstimateFormDateField dateInputObj={inputObj as DateInputObj} setFormInputs={setFormInputs} formInputs={formInputs} fieldValue={fieldValue} key={"parent" + inputObj.id} sorting={false}/>)
             default:
                 return null;
         }
