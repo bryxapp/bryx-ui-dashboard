@@ -15,20 +15,20 @@ const useShapeMove = (
     const { getLineGuideStops, getGuides, getObjectSnappingEdges, drawGuides } = useCanvasGuides(pageWidth, pageHeight);
 
     const handleDragEnd = (e: any) => {
-        // clear all guide lines on the screen
+        // Clear all guide lines on the screen
         const layer = e.target.getLayer();
         layer.find(".guid-line").forEach((l: Konva.Shape) => l.destroy());
-
-        //Update shape
+    
+        // Update shape
         const id = e.target.id();
         const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-
+    
         canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
             if (shape.id === id) {
                 updatedCanvasDesign.Shapes[index] = {
                     ...shape,
-                    x: e.target.x(),
-                    y: e.target.y(),
+                    x: Math.round(e.target.x()),
+                    y: Math.round(e.target.y()),
                 };
             } else {
                 updatedCanvasDesign.Shapes[index] = {
@@ -38,6 +38,7 @@ const useShapeMove = (
         });
         setCanvasDesign(updatedCanvasDesign);
     };
+    
 
     const onTransformEnd = (event: any) => {
         const node = event.target;
@@ -45,32 +46,32 @@ const useShapeMove = (
         const scaleY = node.scaleY();
         node.scaleX(1);
         node.scaleY(1);
-
+    
         const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-
+    
         canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
             if (shape.id === node.id()) {
                 if (shape.type === "Ellipse") {
                     const ellipseObj = shape as EllipseObj;
-                    ellipseObj.x = node.x();
-                    ellipseObj.y = node.y();
-                    ellipseObj.radiusX = Math.max(5, node.radiusX() * scaleX);
-                    ellipseObj.radiusY = Math.max(5, node.radiusY() * scaleY);
-                    ellipseObj.rotation = node.rotation();
+                    ellipseObj.x = Math.round(node.x());
+                    ellipseObj.y = Math.round(node.y());
+                    ellipseObj.radiusX = Math.max(5, Math.round(node.radiusX() * scaleX));
+                    ellipseObj.radiusY = Math.max(5, Math.round(node.radiusY() * scaleY));
+                    ellipseObj.rotation = Math.round(node.rotation());
                     updatedCanvasDesign.Shapes[index] = ellipseObj;
-                } else if (isSolidShapeObj(shape) || isTextObject(shape) ||isInputObject(shape)|| isImageObject(shape)) {
+                } else if (isSolidShapeObj(shape) || isTextObject(shape) || isInputObject(shape) || isImageObject(shape)) {
                     const rectObj = shape as RectangleObj;
-                    rectObj.x = node.x();
-                    rectObj.y = node.y();
-                    rectObj.width = Math.max(5, node.width() * scaleX);
-                    rectObj.height = Math.max(5, node.height() * scaleY);
-                    rectObj.rotation = node.rotation();
+                    rectObj.x = Math.round(node.x());
+                    rectObj.y = Math.round(node.y());
+                    rectObj.width = Math.max(5, Math.round(node.width() * scaleX));
+                    rectObj.height = Math.max(5, Math.round(node.height() * scaleY));
+                    rectObj.rotation = Math.round(node.rotation());
                     updatedCanvasDesign.Shapes[index] = rectObj;
                 }
             }
         });
         setCanvasDesign(updatedCanvasDesign);
-    };
+    };    
 
     const handleDragMove = React.useCallback(
         (e: Konva.KonvaEventObject<DragEvent>) => {
