@@ -41,7 +41,7 @@ const EstimateForm = ({
             <div style={{ flex: 2, display: "flex", justifyContent: "space-between" }}>
                 <EstimateName estimateName={estimateName} setEstimateName={setEstimateName} disabled={editing} />
                 {!editing && (
-                    <Tooltip title="Edit Order">
+                    <Tooltip title="Edit Form">
                         <Button size="large" type="link" onClick={handleEnableOrderEditing}><TbEdit /></Button>
                     </Tooltip>
                 )}
