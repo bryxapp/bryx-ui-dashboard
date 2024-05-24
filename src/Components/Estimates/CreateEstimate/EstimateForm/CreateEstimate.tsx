@@ -33,7 +33,7 @@ const CreateEstimate = () => {
     const [formInputs, setFormInputs] = useState<EstimateFormFields>({});
     const { setCanvasDesign } = useCanvasDesignContext();
     const [error, setError] = useState(false); // Error state
-    const { getAccessToken } = useAuth0User();
+    const { getAccessToken, auth0User } = useAuth0User();
 
     useEffect(() => {
         const fetchTemplate = async () => {
@@ -122,7 +122,7 @@ const CreateEstimate = () => {
 
         fetchTemplate();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [draftId, templateId]);
+    }, [draftId, templateId, auth0User?.sub]);
 
     if (loading) return <Loading />;
 
@@ -132,7 +132,7 @@ const CreateEstimate = () => {
 
     if (error) return <ErrorMessage dataName="Template" />;
 
-    if (!templateData) return <div>Template not found</div>;
+    if (!templateData) return null;
 
     return (
         <>
