@@ -6,18 +6,22 @@ interface CanvasDesignContextProps {
     canvasDesign: CanvasDesignData;
     setCanvasDesign: (newDesign: CanvasDesignData) => void;
     undoLastChange: () => void;
+    redoLastChange: () => void;
     selectedId: string | null;
     setSelectedId: (id: string | null) => void;
 }
 
 const defaultContextValue: CanvasDesignContextProps = {
-    canvasDesign: createEmptyCanvasDesign(8.5, 11), // Providing a default canvas design.
+    canvasDesign: createEmptyCanvasDesign(8.5, 11),
     selectedId: '',
     setCanvasDesign: () => {
         throw new Error('setCanvasDesign function cannot be used outside of CanvasDesignProvider');
     },
     undoLastChange: () => {
         throw new Error('undoLastChange function cannot be used outside of CanvasDesignProvider');
+    },
+    redoLastChange: () => {
+        throw new Error('redoLastChange function cannot be used outside of CanvasDesignProvider');
     },
     setSelectedId: () => {
         throw new Error('setSelectedId function cannot be used outside of CanvasDesignProvider');
@@ -42,23 +46,41 @@ export const CanvasDesignProvider: React.FC<Props> = ({ children }) => {
     const [canvasDesign, setCanvasDesign] = useState<CanvasDesignData>(createEmptyCanvasDesign(8.5, 11));
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [history, setHistory] = useState<CanvasDesignData[]>([]);
+    const [historyStep, setHistoryStep] = useState<number>(0);
 
     const handleSetCanvasDesign = (newDesign: CanvasDesignData) => {
-        const pastCanvasDesign = JSON.stringify(canvasDesign);
-        setHistory(prevHistory => [...prevHistory, JSON.parse(pastCanvasDesign)]);
+        const newHistory = history.slice(0, historyStep + 1);
+        newHistory.push(newDesign);
+        setHistory(newHistory);
+        setHistoryStep(newHistory.length - 1);
         setCanvasDesign(newDesign);
     };
 
     const handleUndoLastChange = () => {
-        if (history.length > 0) {
-            const lastDesign = history.pop(); // Remove the last element from the history
-            setCanvasDesign(lastDesign!); // Set the popped state as the current state
-            setHistory([...history]); // Update the history state
+        if (historyStep > 0) {
+            const newStep = historyStep - 1;
+            setCanvasDesign(history[newStep]);
+            setHistoryStep(newStep);
+        }
+    };
+
+    const handleRedoLastChange = () => {
+        if (historyStep < history.length - 1) {
+            const newStep = historyStep + 1;
+            setCanvasDesign(history[newStep]);
+            setHistoryStep(newStep);
         }
     };
 
     return (
-        <CanvasDesignContext.Provider value={{ canvasDesign, setCanvasDesign: handleSetCanvasDesign, undoLastChange: handleUndoLastChange, selectedId, setSelectedId }}>
+        <CanvasDesignContext.Provider value={{
+            canvasDesign,
+            setCanvasDesign: handleSetCanvasDesign,
+            undoLastChange: handleUndoLastChange,
+            redoLastChange: handleRedoLastChange,
+            selectedId,
+            setSelectedId
+        }}>
             {children}
         </CanvasDesignContext.Provider>
     );
