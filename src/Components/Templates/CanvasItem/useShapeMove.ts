@@ -1,6 +1,6 @@
 import React from 'react';
 import Konva from 'konva';
-import { CanvasDesignData, EllipseObj, RectangleObj, ShapeObj } from '../../../utils/types/CanvasInterfaces';
+import { CanvasDesignData, ShapeObj } from '../../../utils/types/CanvasInterfaces';
 import useCanvasGuides from './useCanvasGuides';
 import { isImageObject, isInputObject, isSolidShapeObj, isTextObject } from '../../../utils/shapeManagementUtils';
 import { getWebCanvasDimensions } from '../../../utils/canvasUtils';
@@ -18,25 +18,28 @@ const useShapeMove = (
         // Clear all guide lines on the screen
         const layer = e.target.getLayer();
         layer.find(".guid-line").forEach((l: Konva.Shape) => l.destroy());
-    
+
         // Update shape
         const id = e.target.id();
-        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-    
-        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
+        let foundAndUpdated = false;
+        const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+            // Skip any further updates after the first match is found and updated
+            if (foundAndUpdated) return shape;
             if (shape.id === id) {
-                updatedCanvasDesign.Shapes[index] = {
+                foundAndUpdated = true;
+                return {
                     ...shape,
                     x: Math.round(e.target.x()),
                     y: Math.round(e.target.y()),
                 };
-            } else {
-                updatedCanvasDesign.Shapes[index] = {
-                    ...shape,
-                };
             }
+            return shape;
         });
-        setCanvasDesign(updatedCanvasDesign);
+
+        // Update the canvasDesign only if an update was made
+        if (foundAndUpdated) {
+            setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+        }
     };
     
 
@@ -47,31 +50,39 @@ const useShapeMove = (
         node.scaleX(1);
         node.scaleY(1);
     
-        const updatedCanvasDesign: CanvasDesignData = { ...canvasDesign };
-    
-        canvasDesign.Shapes.forEach((shape: ShapeObj, index: number) => {
-            if (shape.id === node.id()) {
+        const id = node.id();
+        let foundAndUpdated = false;
+        const updatedShapes = canvasDesign.Shapes.map((shape: ShapeObj) => {
+            if (foundAndUpdated) return shape;
+            if (shape.id === id) {
+                foundAndUpdated = true;
                 if (shape.type === "Ellipse") {
-                    const ellipseObj = shape as EllipseObj;
-                    ellipseObj.x = Math.round(node.x());
-                    ellipseObj.y = Math.round(node.y());
-                    ellipseObj.radiusX = Math.max(5, Math.round(node.radiusX() * scaleX));
-                    ellipseObj.radiusY = Math.max(5, Math.round(node.radiusY() * scaleY));
-                    ellipseObj.rotation = Math.round(node.rotation());
-                    updatedCanvasDesign.Shapes[index] = ellipseObj;
+                    return {
+                        ...shape,
+                        x: Math.round(node.x()),
+                        y: Math.round(node.y()),
+                        radiusX: Math.max(5, Math.round(node.radiusX() * scaleX)),
+                        radiusY: Math.max(5, Math.round(node.radiusY() * scaleY)),
+                        rotation: Math.round(node.rotation())
+                    };
                 } else if (isSolidShapeObj(shape) || isTextObject(shape) || isInputObject(shape) || isImageObject(shape)) {
-                    const rectObj = shape as RectangleObj;
-                    rectObj.x = Math.round(node.x());
-                    rectObj.y = Math.round(node.y());
-                    rectObj.width = Math.max(5, Math.round(node.width() * scaleX));
-                    rectObj.height = Math.max(5, Math.round(node.height() * scaleY));
-                    rectObj.rotation = Math.round(node.rotation());
-                    updatedCanvasDesign.Shapes[index] = rectObj;
+                    return {
+                        ...shape,
+                        x: Math.round(node.x()),
+                        y: Math.round(node.y()),
+                        width: Math.max(5, Math.round(node.width() * scaleX)),
+                        height: Math.max(5, Math.round(node.height() * scaleY)),
+                        rotation: Math.round(node.rotation())
+                    };
                 }
             }
+            return shape;
         });
-        setCanvasDesign(updatedCanvasDesign);
-    };    
+    
+        if (foundAndUpdated) {
+            setCanvasDesign({ ...canvasDesign, Shapes: updatedShapes });
+        }
+    }; 
 
     const handleDragMove = React.useCallback(
         (e: Konva.KonvaEventObject<DragEvent>) => {
