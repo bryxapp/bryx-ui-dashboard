@@ -46,6 +46,12 @@ const InputContent = ({ inputObj, verticalAlign }: InputContentProps) => {
         };
     }, [isSelected, inputObj]);
 
+    useEffect(() => {
+        setInputWidth(inputObj.width);
+        setInputHeight(inputObj.height);
+    }
+        , [inputObj.width, inputObj.height]);
+
     const onSelect = () => {
         setSelectedId(inputObj.id);
     };
