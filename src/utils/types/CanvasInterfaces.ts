@@ -1,18 +1,17 @@
 export interface CanvasDesignData {
-    Shapes: (ShapeObj)[];
+    Shapes: ShapeObj[];
     inputOrder: string[];
     pageHeight: number;
     pageWidth: number;
 }
 
 export interface ShapeObj extends BaseObj {
-
     x: number;
     y: number;
     rotation: number;
 }
 
-export interface BaseObj{
+export interface BaseObj {
     id: string;
     type: ShapeType;
 }
@@ -48,7 +47,6 @@ export interface SolidShapeObj extends ShapeObj {
 }
 
 // Input Shapes
-
 export interface PhoneInputObj extends InputObj {
     type: 'PhoneInput';
 }
@@ -76,7 +74,7 @@ export interface EmailInputObj extends InputObj {
 
 export interface DateInputObj extends InputObj {
     type: 'DateInput';
-    dateFormat: DateFormatOption
+    dateFormat: DateFormatOption;
 }
 
 // Text Shapes
@@ -85,12 +83,11 @@ export interface HeadingObj extends TextObj {
 }
 
 export interface ParagraphObj extends TextObj {
-    horizontalAlign: HorizontalAlign
+    horizontalAlign: HorizontalAlign;
     type: 'Paragraph';
 }
 
-export interface TextObj extends TextValueObj, ShapeObj {
-}
+export interface TextObj extends TextValueObj, ShapeObj {}
 
 export interface TextBase extends BaseObj {
     fontSize: number;
@@ -112,9 +109,9 @@ export interface InputObj extends ShapeObj, TextValueObj {
 }
 
 export interface TableInputObj extends ShapeObj {
-    name:string
+    name: string;
     rows: TableCellObj[][];
-    border?: { width: number, color: string };
+    border?: { width: number; color: string };
     type: 'TableInput';
 }
 
@@ -129,8 +126,15 @@ export interface TableCellObj extends ShapeObj {
 
 export interface CanvasStarterData {
     name: string;
-    canvasDesign: CanvasDesignData;
+    canvasDesign: {
+        Shapes: AllShapes[];
+        inputOrder: string[];
+        pageHeight: number;
+        pageWidth: number;
+    };
 }
+
+type AllShapes = RectangleObj | EllipseObj | UserImageObj | ShortTextInputObj | LongTextInputObj | CellInputObj | TextCellObj | EmailInputObj | DateInputObj | HeadingObj | ParagraphObj | TableInputObj | TableCellObj | PhoneInputObj;
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 export type VerticalAlign = 'top' | 'middle' | 'bottom';
@@ -152,11 +156,6 @@ export const TextTypes: TextType[] = ['Heading', 'Paragraph'];
 export type TextInputFormat = 'text' | 'number' | 'date' | 'email' | 'phone' | 'paragraph' | 'currency';
 export type ShapeType = SolidShapeType | InputType | TextType | ImageType | TableType | CellType;
 
-export type DateFormatOption =
-    'MM/dd/yy' |
-    'MM/dd/yyyy' |
-    'MMMM d, yyyy' |
-    'MMM d, yyyy';
+export type DateFormatOption = 'MM/dd/yy' | 'MM/dd/yyyy' | 'MMMM d, yyyy' | 'MMM d, yyyy';
 
 export const DateFormatOptions: DateFormatOption[] = ['MM/dd/yy', 'MM/dd/yyyy', 'MMMM d, yyyy', 'MMM d, yyyy'];
-

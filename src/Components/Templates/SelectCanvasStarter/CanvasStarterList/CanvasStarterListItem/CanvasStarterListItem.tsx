@@ -12,7 +12,7 @@ interface CanvasStarterListItemProps {
 const CanvasStarterListItem = ({ canvasStarter }: CanvasStarterListItemProps) => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Title level={4} style={{ color: 'gray' }}>
+      <Title level={4} style={{ color: 'gray', marginTop:0, marginBottom:5 }}>
         {canvasStarter.name}
       </Title>
       <Link to={`/create-template?canvasStarterName=${canvasStarter.name}`}>
