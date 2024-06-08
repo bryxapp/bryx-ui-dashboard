@@ -68,7 +68,8 @@ const Paragraph = ({
         fontSize: paragraphObj.fontSize,
         fill: paragraphObj.fill,
         fontFamily: paragraphObj.fontFamily,
-        fontStyle: paragraphObj.fontStyle,
+        fontStyle: paragraphObj.fontStyle.includes('italic') ? 'italic' : 'normal',
+        fontWeight: paragraphObj.fontStyle.includes('bold') ? 'bold' : 'normal',
         textDecoration: paragraphObj.textDecoration,
         whiteSpace: 'pre-wrap',
         width: paragraphWidth,
@@ -80,7 +81,7 @@ const Paragraph = ({
         margin: '0px',
         overflow: 'hidden',
         outline: 'none',
-        lineHeight: 'normal',
+        lineHeight: '1',
     };
 
 

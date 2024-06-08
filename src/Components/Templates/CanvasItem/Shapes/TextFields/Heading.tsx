@@ -83,7 +83,8 @@ const Heading = ({
         fontSize: `${headingObj.fontSize / 16}em`,
         fill: headingObj.fill,
         fontFamily: headingObj.fontFamily,
-        fontStyle: headingObj.fontStyle,
+        fontStyle: headingObj.fontStyle.includes('italic') ? 'italic' : 'normal',
+        fontWeight: headingObj.fontStyle.includes('bold') ? 'bold' : 'normal',
         textDecoration: headingObj.textDecoration,
         whiteSpace: 'pre-wrap',
         width: `${measureWidth(headingObj.textValue, headingObj.fontSize, headingObj.fontFamily) + 20}px`,
@@ -94,12 +95,19 @@ const Heading = ({
         margin: '0px',
         overflow: 'hidden',
         outline: 'none',
-        lineHeight: 'normal',
+        lineHeight: '1',
     };
 
 
     const onChange = (event: any) => {
         updateShapeProperty(canvasDesign, setCanvasDesign, 'textValue', event.target.value, headingObj.id);
+    };
+
+    const onInput = (event: any) => {
+        const value = event.target.value;
+        if (value.includes('\n')) {
+            event.target.value = value.replace(/\n/g, '');
+        }
     };
 
     const moveCaretToEnd = (event: React.FocusEvent<HTMLTextAreaElement>) => {
@@ -147,6 +155,7 @@ const Heading = ({
                         <textarea
                             ref={textAreaRef}
                             onChange={onChange}
+                            onInput={onInput}
                             style={style}
                             id={headingObj.id}
                             value={headingObj.textValue}
@@ -170,4 +179,3 @@ const Heading = ({
 };
 
 export default Heading;
-
