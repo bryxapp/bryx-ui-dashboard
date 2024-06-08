@@ -1,5 +1,4 @@
 import { Avatar, Typography } from 'antd';
-import { Link } from "react-router-dom"; // Correct import statement
 import logoSvg from "../../../bryx_logo.svg"
 import { useBrandingContext } from '../../../utils/contexts/BrandingContext';
 import { useOrganizationContext } from '../../../utils/contexts/OrganizationContext';
@@ -9,19 +8,14 @@ const Logo = () => {
 
     let logo = logoSvg;
     if (branding?.logoUrl) {
+        console.log('branding', branding)
         logo = branding.logoUrl;
     }
-    else if (organization?.bryxOrg?.branding.logoUrl) {
-        logo = organization?.bryxOrg?.branding.logoUrl
+    else if (organization?.bryxOrg?.branding?.logoUrl) {
+        logo = organization?.bryxOrg?.branding?.logoUrl
     }
 
-    const handleLogoClick = (event: any) => {
-        event.preventDefault(); // Prevent default link behavior
-        window.location.href = 'https://www.bryxbids.com/'; // Navigate to Home Site
-    };
-
     return (
-        <Link to="/" onClick={handleLogoClick}>
             <div style={{ display: "flex" }}>
                 <Avatar shape='square' src={logo} size="large" />
                 <Typography.Title
@@ -37,7 +31,6 @@ const Logo = () => {
                     {displayName}
                 </Typography.Title>
             </div>
-        </Link>
     );
 };
 
