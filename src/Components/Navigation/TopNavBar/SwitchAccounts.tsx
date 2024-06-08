@@ -8,7 +8,7 @@ import { SwapOutlined } from '@ant-design/icons';
 
 const SwitchAccounts = () => {
     const [showButton, setShowButton] = useState(false);
-    const { getAccessToken } = useAuth0User();
+    const { auth0User, getAccessToken } = useAuth0User();
     const { loginWithRedirect, logout } = useAuth0();
     const [popoverOpen, setPopoverOpen] = useState(false);
     const location = useLocation();
@@ -24,7 +24,7 @@ const SwitchAccounts = () => {
                 const token = await getAccessToken();
                 if (!token) return;  // Exit if there's no token
                 const retrievedOrganizations = await getOrganizationsForUser(token);
-                setShowButton(retrievedOrganizations?.length > 1); // Show button if there are multiple organizations
+                setShowButton(retrievedOrganizations?.data.length > 1); // Show button if there are multiple organizations
             } catch (error) {
                 console.error('Failed to fetch organizations:', error);
                 setShowButton(false);
@@ -33,7 +33,8 @@ const SwitchAccounts = () => {
 
         fetchOrganizations();
 
-    }, [getAccessToken]); // Added dependency to re-fetch when getAccessToken changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [auth0User?.sub]); // Added dependency to re-fetch when getAccessToken changes
 
     useEffect(() => {
         if (location.pathname === "/team-checkout" && location.search.includes("?success=true")) {
