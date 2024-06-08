@@ -20,7 +20,7 @@ const TextColorPicker: React.FC<ColorPickerProps> = ({ textObj, disabled }) => {
     };
 
     return (
-        <ColorPicker defaultValue={textObj.fill} onChangeComplete={(color) => { onColorChange(color.toHexString()) }} disabled={disabled} />
+        <ColorPicker defaultValue={textObj.fill} onChangeComplete={(color) => { onColorChange(color.toHexString()) }} disabled={disabled} disabledAlpha />
     );
 };
 
