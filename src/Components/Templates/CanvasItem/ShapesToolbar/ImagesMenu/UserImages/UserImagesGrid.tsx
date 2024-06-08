@@ -1,8 +1,8 @@
 import React from 'react';
-import { Row, Col } from 'antd';
 import { CanvasDesignData } from '../../../../../../utils/types/CanvasInterfaces';
 import UserImageCard from './UserImageCard';
 import ErrorMessage from '../../../../../SharedComponents/ErrorMessage/ErrorMessage';
+import { Row, Col } from 'antd';
 
 interface UserImagesMenuProps {
     setCanvasDesign: (newDesign: CanvasDesignData) => void;
@@ -15,23 +15,24 @@ interface UserImagesMenuProps {
 const UserImagesGrid: React.FC<UserImagesMenuProps> = ({ setCanvasDesign, userImages, setUserImages, setOpen, error }) => {
     if (error) return <ErrorMessage dataName='user images' />;
 
-    // Calculate the height based on the item's height, assuming each row height is 150px and there's a 16px gap.
-    // Adjust the height accordingly if your items have different heights or if you have more/less padding.
-    const containerHeight = 3 * (150 + 16) - 16 + 'px'; // for 3 rows, adjust '150' based on your actual item height
-
     return (
-        <div style={{ height: containerHeight, overflowY: 'auto', padding: '16px' }}>
-            <Row gutter={[16, 16]}>
-                {userImages.map((imageData) => (
-                    <Col key={imageData.url} span={8}> {/* Assuming each Col spans 8 units for 3 items per row */}
-                        <UserImageCard
-                            imageData={imageData}
-                            userImages={userImages}
-                            setUserImages={setUserImages}
-                            setOpen={setOpen}
-                        />
-                    </Col>
-                ))}
+        <div style={{ padding: '16px', overflowY: 'auto' }}>
+            <Row>
+                {userImages.map((imageData) => {
+                    const width = (imageData.width / imageData.height) * 100;
+                    return (
+                        <Col key={imageData.url}>
+                            <div style={{ width: `${width}px`, height: '100px', marginBottom: '16px' }}>
+                                <UserImageCard
+                                    imageData={imageData}
+                                    userImages={userImages}
+                                    setUserImages={setUserImages}
+                                    setOpen={setOpen}
+                                />
+                            </div>
+                        </Col>
+                    );
+                })}
             </Row>
         </div>
     );

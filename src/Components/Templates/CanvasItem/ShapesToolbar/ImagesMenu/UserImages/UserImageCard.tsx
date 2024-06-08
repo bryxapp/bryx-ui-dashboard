@@ -25,16 +25,16 @@ export default function UserImageCard({ imageData, setOpen, userImages, setUserI
     const { setCanvasDesign, canvasDesign } = useCanvasDesignContext();
     const { getAccessToken } = useAuth0User();
     const { url, width, height } = imageData;
-    const imgheight = height / width * 300;
+    const imgWidth = width * 200 / height;
 
     const handleImageClick = useCallback(() => {
-        const newCanvasImage: ImageObj = createUserImageObj(url, 300, imgheight);
+        const newCanvasImage: ImageObj = createUserImageObj(url, imgWidth, 200);
         setCanvasDesign({
             ...canvasDesign,
             Shapes: [...canvasDesign.Shapes, newCanvasImage]
         });
         setOpen(false);
-    }, [url, imgheight, setCanvasDesign, canvasDesign, setOpen]);
+    }, [url, imgWidth, setCanvasDesign, canvasDesign, setOpen]);
 
 
     const handleImageDelete = useCallback(async () => {
@@ -62,7 +62,6 @@ export default function UserImageCard({ imageData, setOpen, userImages, setUserI
     return (
         <div>
             <Image
-                width={200}
                 src={imageData.url}
                 alt="Image thumbnail"
                 onClick={handleImageClick}
