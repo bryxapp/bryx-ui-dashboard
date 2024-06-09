@@ -815,7 +815,7 @@ export const CanvasStarters: CanvasStarterData[] = [
                     "x": 34,
                     "y": 282,
                     "rotation": 0,
-                    "textValue": "SITE PREPARATION - Base of area and workspaces are cleared of all debris & obstacles\nCLEAN - Work area is cleaned to ensure a safe and efficient work environment.\nPROTECTION - Mask & tape all areas not to be affected including windows and fixtures. \nREPAIR - Minor repairs within scope of work. \nWORK AREA - Ensure proper preparation of work area. \nMATERIALS - Use of high-quality materials and tools. \nPERMITS - Expedite necessary permits if applicable.\nWARRANTY - 2 Year Limited Warranty",
+                    "textValue": "SITE PREPARATION - Base of area and workspaces are cleared of all debris\nCLEAN - Work area is cleaned to ensure a safe and efficient work environment.\nPROTECTION - Mask & tape all areas not to be affected, windows + fixtures. \nREPAIR - Minor repairs within scope of work. \nWORK AREA - Ensure proper preparation of work area. \nMATERIALS - Use of high-quality materials and tools. \nPERMITS - Expedite necessary permits if applicable.\nWARRANTY - 2 Year Limited Warranty",
                     "fontSize": 18,
                     "fill": "black",
                     "fontFamily": "Arial",
