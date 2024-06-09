@@ -143,7 +143,7 @@ export async function AddShapesToLayer(canvasDesign: CanvasDesignData, formInput
                     fontFamily: paragraphObj.fontFamily,
                     fontStyle: paragraphObj.fontStyle,
                     textDecoration: paragraphObj.textDecoration,
-                    horizontalAlign: paragraphObj.horizontalAlign
+                    align: paragraphObj.horizontalAlign
                 }))
                 break;
             case 'TableInput':
